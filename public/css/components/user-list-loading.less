@@ -1,0 +1,43 @@
+.user-grid {
+  .list-section {
+    > div {
+      .list.loading {
+        .channel {
+          .avatar {
+            animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+            animation-delay: .5s;
+          }
+
+          .details {
+            animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+
+            [class^="loader-item-"] {
+              height: 2rem;
+              background-color: var(--color-background-light);
+              border-radius: ~"calc(var(--radius) * 2)";
+            }
+
+            .loader-item-1 {
+              width: 18rem;
+              max-width: 90%;
+            }
+
+            .badges {
+              margin-top: var(--space-xxs);
+
+              .loader-item-2 {
+                width: 2rem;
+              }
+            }
+          }
+
+          @keyframes pulse {
+            50% {
+              opacity: 0.5
+            }
+          }
+        }
+      }
+    }
+  }
+}

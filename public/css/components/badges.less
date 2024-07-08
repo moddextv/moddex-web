@@ -1,0 +1,16 @@
+.badges {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  img {
+    width: 25px;
+    height: 25px;
+    margin-top: var(--space-xxs);
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: var(--space-xxs);
+    }
+  }
+}

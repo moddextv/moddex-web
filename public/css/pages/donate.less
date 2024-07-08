@@ -1,0 +1,66 @@
+.donate {
+  max-width: 80rem;
+  margin: 0 auto;
+  flex: 1;
+  align-content: center;
+
+  .notice {
+    margin: var(--space-m) 0 var(--space-s);
+  }
+
+  .notice-small {
+    text-align: center;
+    font-size: 1.6rem;
+    color: var(--color-error-light);
+    margin-top: var(--space-xs);
+  }
+
+  img {
+    display: inline;
+    vertical-align: bottom;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    text-align: center;
+
+    img {
+      width: 64px;
+      margin-right: var(--space-m);
+    }
+  }
+
+  h2 {
+    margin-top: var(--space-l);
+  }
+
+  .text {
+    margin-top: var(--space-xs);
+
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  .paypal-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--space-m);
+    padding: var(--space-xs) var(--space-s);
+    color: var(--color-success);
+    border: 1px solid var(--color-success-dark);
+    border-radius: var(--radius);
+
+    &:hover {
+      color: var(--color-success-light);
+    }
+
+    img {
+      width: 25px;
+      height: 25px;
+      margin-right: var(--space-xs);
+    }
+  }
+}

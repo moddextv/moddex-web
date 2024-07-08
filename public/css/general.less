@@ -1,0 +1,137 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  &:focus-visible {
+    outline: 1px solid var(--color-font-medium);
+  }
+}
+
+html {
+  font-size: 62.5%;
+  color-scheme: dark;
+}
+
+body {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-font);
+  background: var(--color-background);
+  font-family: "Lato", "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 1.8rem;
+  hyphens: auto;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+h1, h2 {
+  font-family: "Retroica", "Trebuchet MS", Helvetica, sans-serif;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  &.wrapper {
+    margin-top: var(--space-l);
+  }
+}
+
+.wrapper {
+  position: relative;
+  padding: var(--space-m);
+  width: 100%;
+  max-width: 120rem;
+  margin: 0 auto;
+
+  @media @min-mobile-small {
+    padding: var(--space-m) var(--space-l);
+  }
+}
+
+p:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+
+ul {
+  margin-left: 2rem;
+}
+
+img {
+  display: block;
+  width: 100%;
+  user-select: none;
+  pointer-events: none;
+
+  &.emote {
+    width: 2rem;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-font);
+  transition-duration: var(--animation-duration);
+
+  &.border {
+    border-bottom: 1px solid var(--color-font-medium);
+  }
+
+  &:hover {
+    color: var(--color-font-medium);
+  }
+}
+
+.popup {
+  position: fixed;
+  bottom: 5dvh;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: .8rem 1.6rem;
+  text-align: center;
+  background: var(--color-success-dark);
+  border-radius: var(--radius);
+  z-index: 99;
+}
+
+.smol {
+  color: var(--color-font-medium);
+  font-size: 1.6rem;
+}
+
+.hidden {
+  display: none!important;
+}
+
+.success {
+  color: var(--color-success);
+}
+.error {
+  color: var(--color-error);
+}
+
+::-webkit-scrollbar {
+  border-radius: var(--radius);
+  width: var(--radius);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: var(--radius);
+  background-color: var(--color-font-medium);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--radius);
+  background-color: var(--color-font-dark);
+}
+
+::selection {
+  background: var(--color-font-medium);
+  color: var(--color-background);
+}

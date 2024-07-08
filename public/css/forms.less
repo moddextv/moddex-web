@@ -1,0 +1,37 @@
+form {
+  position: relative;
+  width: 100%;
+  margin-top: 1.6rem;
+
+  [data-error] {
+    text-align: center;
+    margin: var(--space-xs) 0 0;
+  }
+
+  .field-wrapper {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      right: var(--space-xs);
+      top: 50%;
+      transform: translateY(-50%);
+      fill: var(--color-font-dark);
+
+      svg {
+        display: block;
+      }
+    }
+  }
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: var(--space-xs) 3.2rem;
+  text-align: center;
+  font-family: "Retroica", "Trebuchet MS", Helvetica, sans-serif;
+  color: var(--color-font);
+  background: transparent;
+  border: 1px solid var(--color-font-dark);
+  border-radius: var(--radius);
+}
