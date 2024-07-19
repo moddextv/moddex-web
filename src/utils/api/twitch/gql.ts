@@ -1,15 +1,20 @@
 import { User } from '@/misc/Interfaces';
 
-const gqlQuery = async (operationName: string, variables: any, extensions: any): Promise<any> => {
+const gqlQuery = async (
+  operationName: string,
+  variables: any,
+  extensions: any
+): Promise<any> => {
   try {
     const response = await fetch('https://gql.twitch.tv/gql', {
       method: 'POST',
       headers: {
         'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
         'Content-Type': 'application/json',
-        'Origin': 'https://www.twitch.tv/',
-        'Referer': 'https://gql.twitch.tv/',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0'
+        Origin: 'https://www.twitch.tv/',
+        Referer: 'https://gql.twitch.tv/',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0'
       },
       body: JSON.stringify([
         {
@@ -38,22 +43,32 @@ export const fetchMods = async (channelId: string): Promise<User[]> => {
   const extensions = {
     persistedQuery: {
       version: 1,
-      sha256Hash: 'dfe01a8ac494183d85cc9dbde2d808c35f7ffcfd2b3c12db4c7d2a57c2712121'
+      sha256Hash:
+        'dfe01a8ac494183d85cc9dbde2d808c35f7ffcfd2b3c12db4c7d2a57c2712121'
     }
   };
 
-  const response: GqlRoleData[] = await gqlQuery('UserRolesCacheQuery', variables, extensions);
+  const response: GqlRoleData[] = await gqlQuery(
+    'UserRolesCacheQuery',
+    variables,
+    extensions
+  );
   const edges: GqlRoleDataEdge[] = response?.[0]?.data?.user?.mods?.edges || [];
   if (!edges) return [];
 
-  return edges.map(edge => edge.node && {
-    id: edge.node.id,
-    login: edge.node.login,
-    name: edge.node.displayName,
-    avatar: edge.node.profileImageURL,
-    granted: edge.grantedAt,
-    badges: []
-  }).filter(Boolean);
+  return edges
+    .map(
+      (edge) =>
+        edge.node && {
+          id: edge.node.id,
+          login: edge.node.login,
+          name: edge.node.displayName,
+          avatar: edge.node.profileImageURL,
+          granted: edge.grantedAt,
+          badges: []
+        }
+    )
+    .filter(Boolean);
 };
 
 export const fetchVips = async (channelId: string): Promise<User[]> => {
@@ -68,24 +83,33 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
   const extensions = {
     persistedQuery: {
       version: 1,
-      sha256Hash: 'dfe01a8ac494183d85cc9dbde2d808c35f7ffcfd2b3c12db4c7d2a57c2712121'
+      sha256Hash:
+        'dfe01a8ac494183d85cc9dbde2d808c35f7ffcfd2b3c12db4c7d2a57c2712121'
     }
   };
 
-  const response: GqlRoleData[] = await gqlQuery('UserRolesCacheQuery', variables, extensions);
+  const response: GqlRoleData[] = await gqlQuery(
+    'UserRolesCacheQuery',
+    variables,
+    extensions
+  );
   const edges: GqlRoleDataEdge[] = response?.[0]?.data?.user?.vips?.edges || [];
   if (!edges) return [];
 
-  return edges.map(edge => edge.node && {
-    id: edge.node.id,
-    login: edge.node.login,
-    name: edge.node.displayName,
-    avatar: edge.node.profileImageURL,
-    granted: edge.grantedAt,
-    badges: []
-  }).filter(Boolean);
+  return edges
+    .map(
+      (edge) =>
+        edge.node && {
+          id: edge.node.id,
+          login: edge.node.login,
+          name: edge.node.displayName,
+          avatar: edge.node.profileImageURL,
+          granted: edge.grantedAt,
+          badges: []
+        }
+    )
+    .filter(Boolean);
 };
-
 
 interface GqlRoleDataEdge {
   cursor: string;

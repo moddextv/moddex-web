@@ -1,20 +1,57 @@
 import { db } from '@/misc/Database';
 import { TwitchUser, User, UserBadgeRow } from '@/misc/Interfaces';
-import { addBadgeByNameToUser, getUserBadges, removeBadgeByNameFromUser } from '@/utils/badges';
 import { getUsersFromHelix } from '@/utils/api/twitch/helix';
+import {
+  addBadgeByNameToUser,
+  getUserBadges,
+  removeBadgeByNameFromUser
+} from '@/utils/badges';
+
+export const getUserPermission = async (
+  userId: string = ''
+): Promise<number> => {
+  if (!userId) return 0;
+
+  const user = await db.queryOne(
+    `
+    SELECT 
+      b.permission
+    FROM 
+      user_badges ub
+    JOIN 
+      badges b ON ub.badge_id = b.id
+    WHERE 
+      ub.user_id=?
+    ORDER BY 
+      b.permission DESC
+  `,
+    [userId]
+  );
+  return user?.permission || 0;
+};
 
 export const getUser = async (username: string = ''): Promise<User | false> => {
   const users: User[] = await getUsers([username]);
-  return users.length ? users[0] : false;
+
+  if (users.length === 0 || users[0].ignored) {
+    return false;
+  }
+
+  return users[0];
 };
 
-export const getUsers = async (usernames: string[] = [], forceReload: boolean = false): Promise<User[]> => {
+export const getUsers = async (
+  usernames: string[] = [],
+  forceReload: boolean = false
+): Promise<User[]> => {
   let usersFromDB: User[] = [];
 
   if (!forceReload) {
     usersFromDB = await getUsersFromDB(usernames);
   }
-  const newUsernames: string[] = usernames.filter(username => !usersFromDB.find(u => u.login === username));
+  const newUsernames: string[] = usernames.filter(
+    (username) => !usersFromDB.find((u) => u.login === username)
+  );
 
   if (!newUsernames.length) {
     for (const user of usersFromDB) {
@@ -30,22 +67,28 @@ export const getUsers = async (usernames: string[] = [], forceReload: boolean = 
 };
 
 const updateUserInDb = async (user: TwitchUser): Promise<User> => {
-  await db.query('INSERT INTO users (id, login, name, avatar, bio, created, partner, affiliate) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id)', [
-    user.id,
-    user.login,
-    user.display_name,
-    user.profile_image_url,
-    user.description,
-    new Date(user.created_at).toISOString().slice(0, 19).replace('T', ' '),
-    user.broadcaster_type === 'partner',
-    user.broadcaster_type === 'affiliate'
-  ]);
+  await db.query(
+    'INSERT INTO users (id, login, name, avatar, bio, created) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id)',
+    [
+      user.id,
+      user.login,
+      user.display_name,
+      user.profile_image_url,
+      user.description,
+      new Date(user.created_at).toISOString().slice(0, 19).replace('T', ' ')
+    ]
+  );
 
   if (user.broadcaster_type === 'partner') {
-    await addBadgeByNameToUser(user.id, 'partner');
-    await removeBadgeByNameFromUser(user.id, 'affiliate');
+    await Promise.all([
+      addBadgeByNameToUser(user.id, 'partner'),
+      removeBadgeByNameFromUser(user.id, 'affiliate')
+    ]);
   } else if (user.broadcaster_type === 'affiliate') {
-    await addBadgeByNameToUser(user.id, 'affiliate');
+    await Promise.all([
+      addBadgeByNameToUser(user.id, 'affiliate'),
+      removeBadgeByNameFromUser(user.id, 'partner')
+    ]);
   }
 
   if (user.type === 'staff') {
@@ -71,9 +114,10 @@ const updateUserInDb = async (user: TwitchUser): Promise<User> => {
 };
 
 const getUsersFromDB = async (usernames: string[]): Promise<User[]> => {
-  const userList: UserBadgeRow[] = await db.query(`
+  const userList: UserBadgeRow[] = await db.query(
+    `
       SELECT 
-        u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated,
+        u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
         b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
       FROM users u 
       LEFT JOIN user_badges ub
@@ -82,17 +126,24 @@ const getUsersFromDB = async (usernames: string[]): Promise<User[]> => {
         ON ub.badge_id = b.id 
       WHERE u.login
         IN (${new Array(usernames.length).fill('?').join(',')})
-    `, [...usernames]
+    `,
+    [...usernames]
   );
 
   return formatUsers(userList);
 };
 
-
-export const formatUsers = (entities: UserBadgeRow[], isRole: boolean = false): User[] => {
+export const formatUsers = (
+  entities: UserBadgeRow[],
+  isRole: boolean = false
+): User[] => {
   const results = new Map();
 
   entities.forEach((entity) => {
+    if (entity.ignored) {
+      return;
+    }
+
     if (!results.get(entity.id)) {
       const newUser: User = {
         id: entity.id,

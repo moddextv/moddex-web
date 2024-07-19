@@ -1,0 +1,71 @@
+'use client';
+
+import { Input } from '@nextui-org/react';
+import { LoadingIcon, SearchIcon } from '@/components/Icons';
+import { useRouter } from 'next/navigation';
+import { FC, useState } from 'react';
+import { regex } from '@/utils/regex';
+import { validateUsername } from '@/utils/validation';
+
+interface SearchUserProps {
+  type: 'channel' | 'user';
+}
+
+export const SearchUser: FC<SearchUserProps> = ({ type }) => {
+  const router = useRouter();
+
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInput = (event: any) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+
+    if (!regex.username.test(inputValue)) {
+      setError(
+        'Invalid username. It can only contain 2-25 characters, including only alphanumeric and underscore.'
+      );
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const isValid = await validateUsername(inputValue);
+      if (isValid) {
+        router.push(`/${type}/${inputValue}`);
+      } else {
+        setIsLoading(false);
+        setError('No user found.');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setError('There was an error, please try again later!');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input
+        name="username"
+        placeholder={`enter a ${type}`}
+        size="lg"
+        minLength={2}
+        maxLength={25}
+        autoComplete="off"
+        onChange={handleInput}
+        variant="bordered"
+        className="max-w-xs mx-auto"
+        endContent={
+          isLoading ? <LoadingIcon size={20} /> : <SearchIcon size={20} />
+        }
+        isInvalid={!!error}
+        errorMessage={error}
+      />
+    </form>
+  );
+};

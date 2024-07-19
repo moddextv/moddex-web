@@ -1,3 +1,5 @@
+import { DefaultSession } from 'next-auth';
+
 export type UserType = 'channel' | 'user';
 
 export type UserRoleType = 'modding' | 'viping';
@@ -9,6 +11,7 @@ export interface UserListProps {
   type: UserType;
   role: RoleType;
   user: User;
+  forceRefresh: boolean;
 }
 
 export interface User {
@@ -21,6 +24,7 @@ export interface User {
   created?: string | null;
   updated?: string | null;
   granted?: string | null;
+  ignored?: boolean;
   badges: Badge[];
 }
 
@@ -33,6 +37,7 @@ export interface UserBadgeRow {
   bio?: string | null;
   created?: string | null;
   updated?: string | null;
+  ignored?: boolean;
   badge_id: number;
   badge_name: string;
   badge_path: string;
@@ -94,7 +99,7 @@ export interface IVRUser {
   stream: null;
   lastBroadcast: {
     startedAt: string;
-    title: string
+    title: string;
   };
   panels: {
     id: string;
@@ -110,4 +115,16 @@ export interface Badge {
 export interface BadgeComponent {
   badges?: Badge[];
   size?: number;
+}
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      perms: number;
+    } & DefaultSession['user'];
+  }
+
+  interface User {
+    perms: number;
+  }
 }

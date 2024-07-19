@@ -1,29 +1,42 @@
-import type { Metadata } from 'next';
+import '@/styles/globals.css';
+import { Header } from '@/components/Header/Header';
+import { cn } from '@/utils/utils';
+import { Cairo, Lato } from 'next/font/google'; // Outfit ??
 import React from 'react';
-import '../../public/css/main.css';
+import { Providers } from './providers';
 
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
+const lato = Lato({
+  weight: ['300', '400', '700'],
+  subsets: ['latin'],
+  preload: true,
+  variable: '--font-lato'
+});
 
-export const metadata: Metadata = {
-    title: 'modchecker',
-    description: 'lookup mods stuff'
-};
+const cairo = Cairo({
+  weight: ['700'],
+  subsets: ['latin'],
+  variable: '--font-cairo'
+});
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-    return (
-        <html lang="en">
-        <head>
-            <meta name="author" content="maersux"/>
-            <link rel="icon" sizes="64x64" href="/img/favicon.ico"/>
-        </head>
-        <body>
-        <Header/>
-        <main className="wrapper">
+export default function RootLayout({
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html
+      lang="en"
+      className={cn(cairo.variable, lato.variable)}
+      suppressHydrationWarning
+    >
+      <body className="min-h-screen antialiased">
+        <Providers>
+          <Header />
+          <main className="container mx-auto max-w-5xl pt-16 px-6 flex-grow">
             {children}
-        </main>
-        <Footer/>
-        </body>
-        </html>
-    );
+          </main>
+        </Providers>
+      </body>
+    </html>
+  );
 }

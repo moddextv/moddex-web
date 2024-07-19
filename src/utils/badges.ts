@@ -9,28 +9,48 @@ export const getBadgeById = async (id: number): Promise<Badge | false> => {
   return await db.queryOne('SELECT * FROM badges WHERE id=?', [id]);
 };
 
-export const getBadgeByName = async (badgeName: string): Promise<Badge | false> => {
+export const getBadgeByName = async (
+  badgeName: string
+): Promise<Badge | false> => {
   return await db.queryOne('SELECT * FROM badges WHERE name=?', [badgeName]);
 };
 
-export const addBadgeByIdToUser = async (userId: string, badgeId: number): Promise<boolean> => {
-  await db.query('INSERT IGNORE INTO user_badges(user_id, badge_id) VALUES (?, ?)', [userId, badgeId]);
+export const addBadgeByIdToUser = async (
+  userId: string,
+  badgeId: number
+): Promise<boolean> => {
+  await db.query(
+    'INSERT IGNORE INTO user_badges(user_id, badge_id) VALUES (?, ?)',
+    [userId, badgeId]
+  );
   return true;
 };
 
-export const removeBadgeByIdFromUser = async (userId: string, badgeId: number): Promise<boolean> => {
-  await db.query('DELETE FROM user_badges WHERE user_id=? AND badge_id=?', [userId, badgeId]);
+export const removeBadgeByIdFromUser = async (
+  userId: string,
+  badgeId: number
+): Promise<boolean> => {
+  await db.query('DELETE FROM user_badges WHERE user_id=? AND badge_id=?', [
+    userId,
+    badgeId
+  ]);
   return true;
 };
 
-export const addBadgeByNameToUser = async (userId: string, badgeName: string): Promise<boolean> => {
+export const addBadgeByNameToUser = async (
+  userId: string,
+  badgeName: string
+): Promise<boolean> => {
   const badge: Badge | false = await getBadgeByName(badgeName);
   if (!badge) return false;
 
   return addBadgeByIdToUser(userId, badge.id);
 };
 
-export const removeBadgeByNameFromUser = async (userId: string, badgeName: string): Promise<boolean> => {
+export const removeBadgeByNameFromUser = async (
+  userId: string,
+  badgeName: string
+): Promise<boolean> => {
   const badge: Badge | false = await getBadgeByName(badgeName);
   if (!badge) return false;
 
@@ -38,7 +58,9 @@ export const removeBadgeByNameFromUser = async (userId: string, badgeName: strin
   return true;
 };
 
-const fetchUserBadgesFromDB = async (userIds: string[] = []): Promise<Badge[]> => {
+const fetchUserBadgesFromDB = async (
+  userIds: string[] = []
+): Promise<Badge[]> => {
   if (!userIds.length) {
     return await db.query(`
         SELECT 
@@ -52,7 +74,8 @@ const fetchUserBadgesFromDB = async (userIds: string[] = []): Promise<Badge[]> =
     `);
   }
 
-  return await db.query(`
+  return await db.query(
+    `
       SELECT 
         b.name, b.path
       FROM users u
@@ -63,7 +86,9 @@ const fetchUserBadgesFromDB = async (userIds: string[] = []): Promise<Badge[]> =
       WHERE u.id
         IN (${new Array(userIds.length).fill('?').join(',')})
       ORDER BY b.order
-    `, [...userIds]);
+    `,
+    [...userIds]
+  );
 };
 
 export const getUserBadges = async (userId: string = ''): Promise<Badge[]> => {

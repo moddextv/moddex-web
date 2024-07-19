@@ -1,73 +1,81 @@
-import { logger } from '@/misc/Logger';
-import { TwitchUser } from '@/misc/Interfaces';
 import { db } from '@/misc/Database';
+import { TwitchUser } from '@/misc/Interfaces';
+import { logger } from '@/misc/Logger';
 import { config } from '../../../../config';
 
-export const helix = async (endpoint: string, method: string = 'GET', body?: object): Promise<[]> => {
-    const url: string = `https://api.twitch.tv/helix/${endpoint}`;
+export const helix = async (
+  endpoint: string,
+  method: string = 'GET',
+  body?: object
+): Promise<[]> => {
+  const url: string = `https://api.twitch.tv/helix/${endpoint}`;
 
-    const auth: string = await getAppAuthToken();
+  const auth: string = await getAppAuthToken();
 
-    const headers = {
-        'Client-Id': config.twitch.clientId,
-        'Authorization': `Bearer ${auth}`,
-        'Content-Type': 'application/json'
-    };
+  const headers = {
+    'Client-Id': config.twitch.clientId,
+    Authorization: `Bearer ${auth}`,
+    'Content-Type': 'application/json'
+  };
 
-    const options = {
-        method,
-        headers,
-        ...(body ? { body: JSON.stringify(body) } : null)
+  const options = {
+    method,
+    headers,
+    ...(body ? { body: JSON.stringify(body) } : null)
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      logger.error(
+        `Error in ${method} ${url}: ${response.statusText} : ${JSON.stringify(response)}`
+      );
+      return [];
     }
 
-    try {
-        const response = await fetch(url, options);
-
-        if (!response.ok) {
-            logger.error(`Error in ${method} ${url}: ${response.statusText} : ${JSON.stringify(response)}`);
-            return [];
-        }
-
-        const json = await response.json();
-        return json.data;
-    } catch (error) {
-        logger.error(`Network Error in ${method} ${url}: ${error}`);
-        return [];
-    }
+    const json = await response.json();
+    return json.data;
+  } catch (error) {
+    logger.error(`Network Error in ${method} ${url}: ${error}`);
+    return [];
+  }
 };
 
 export const getAppAuthToken = async () => {
-    const tokenData = await db.queryOne(
-        'SELECT access_token, expires_at FROM tokens WHERE name = ?',
-        ['app-token']
-    );
+  const tokenData = await db.queryOne(
+    'SELECT access_token, expires_at FROM tokens WHERE name = ?',
+    ['app-token']
+  );
 
-    if (tokenData && Number(tokenData.expires_at) > Date.now()) {
-        return tokenData.access_token;
-    }
+  if (tokenData && Number(tokenData.expires_at) > Date.now()) {
+    return tokenData.access_token;
+  }
 
-    const url = new URL('https://id.twitch.tv/oauth2/token');
-    url.search = new URLSearchParams({
-        client_id: config.twitch.clientId,
-        client_secret: config.twitch.clientSecret,
-        grant_type: 'client_credentials'
-    }).toString();
+  const url = new URL('https://id.twitch.tv/oauth2/token');
+  url.search = new URLSearchParams({
+    client_id: config.twitch.clientId,
+    client_secret: config.twitch.clientSecret,
+    grant_type: 'client_credentials'
+  }).toString();
 
-    const authResponse = await fetch(url, {
-        method: 'POST'
-    });
+  const authResponse = await fetch(url, {
+    method: 'POST'
+  });
 
-    const newTokenData = await authResponse.json();
-    const expires_at = Date.now() + (newTokenData.expires_in * 1000);
+  const newTokenData = await authResponse.json();
+  const expires_at = Date.now() + newTokenData.expires_in * 1000;
 
-    await db.query(
-        'REPLACE INTO tokens (name, access_token, expires_at) VALUES (?, ?, ?)',
-        ['app-token', newTokenData.access_token, expires_at]
-    );
-    return newTokenData.access_token;
+  await db.query(
+    'REPLACE INTO tokens (name, access_token, expires_at) VALUES (?, ?, ?)',
+    ['app-token', newTokenData.access_token, expires_at]
+  );
+  return newTokenData.access_token;
 };
 
-export const getUsersFromHelix = async (usernames: string[]): Promise<TwitchUser[]> => {
-    const endpoint = `users?${usernames.map(username => `login=${username}`).join('&')}`;
-    return await helix(endpoint);
+export const getUsersFromHelix = async (
+  usernames: string[]
+): Promise<TwitchUser[]> => {
+  const endpoint = `users?${usernames.map((username) => `login=${username}`).join('&')}`;
+  return await helix(endpoint);
 };

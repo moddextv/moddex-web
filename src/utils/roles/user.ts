@@ -1,9 +1,10 @@
-import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { db } from '@/misc/Database';
+import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { formatUsers } from '@/utils/user';
 
 export async function getUserMods(user: User): Promise<User[]> {
-  const moddingChannels: UserBadgeRow[] = await db.query(`
+  const moddingChannels: UserBadgeRow[] = await db.query(
+    `
 			SELECT 
 				u.id, u.name, u.login, u.avatar,
 				m.granted, 
@@ -23,7 +24,8 @@ export async function getUserMods(user: User): Promise<User[]> {
 }
 
 export async function getUserVips(user: User): Promise<User[]> {
-  const vipedChannels: UserBadgeRow[] = await db.query(`
+  const vipedChannels: UserBadgeRow[] = await db.query(
+    `
 			SELECT 
 				u.id, u.name, u.login, u.avatar,
 				v.granted, 
