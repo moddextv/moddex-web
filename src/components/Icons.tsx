@@ -20,22 +20,6 @@ export const AvatarIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   </svg>
 );
 
-export const CheckIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={color}
-    width={size}
-    height={size}
-    fill="none"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    viewBox="0 0 24 24"
-  >
-    <path stroke="currentColor" d="M20 6 9 17l-5-5" />
-  </svg>
-);
-
 export const ClockIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -51,23 +35,6 @@ export const ClockIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   >
     <circle cx="12" cy="12" r="10" />
     <polyline points="12 6 12 12 9.5 16" />
-  </svg>
-);
-
-export const CloseIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={color}
-    width={size}
-    height={size}
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    viewBox="0 0 24 24"
-  >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
   </svg>
 );
 
@@ -180,19 +147,21 @@ export const MenuIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   </svg>
 );
 
-export const MoonIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+export const ReloadIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={color}
     width={size}
     height={size}
     viewBox="0 0 24 24"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
     fill="none"
   >
-    <path stroke="currentColor" d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    <g stroke="currentColor">
+      <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5" />
+      <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+      <path d="M16 16h5v5" />
+    </g>
   </svg>
 );
 
@@ -208,29 +177,6 @@ export const SearchIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
     <g stroke="currentColor">
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
-    </g>
-  </svg>
-);
-
-export const SunIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={color}
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-  >
-    <g stroke="currentColor">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2" />
-      <path d="M12 20v2" />
-      <path d="m4.93 4.93 1.41 1.41" />
-      <path d="m17.66 17.66 1.41 1.41" />
-      <path d="M2 12h2" />
-      <path d="M20 12h2" />
-      <path d="m6.34 17.66-1.41 1.41" />
-      <path d="m19.07 4.93-1.41 1.41" />
     </g>
   </svg>
 );

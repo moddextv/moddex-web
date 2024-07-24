@@ -12,8 +12,6 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
-    /* eslint-disable no-console */
     console.error(error);
   }, [error]);
 
@@ -22,13 +20,7 @@ export default function Error({
       <Title level={1} size="lg" mb="md">
         oops, something went wrong!
       </Title>
-      <Button
-        variant="solid"
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
+      <Button variant="solid" onClick={() => reset()}>
         try again
       </Button>
     </div>

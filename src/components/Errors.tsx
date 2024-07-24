@@ -9,8 +9,8 @@ type ErrorProps = {
 
 const ErrorComponent: FC<ErrorProps> = ({ statusCode, message, error }) => (
   <div className="text-center">
-    <Title className="text-danger-200">{statusCode}</Title>
-    <Title mb="md" level={2}>
+    <Title className="text-red-500">{statusCode}</Title>
+    <Title level={2} size="lg" mb="md">
       {error}
     </Title>
     {message && <h3>{message}</h3>}

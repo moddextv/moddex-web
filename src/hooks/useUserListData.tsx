@@ -1,20 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchUserListData } from '@/actions/fetchUserListData';
 import { RoleType, User, UserType } from '@/misc/Interfaces';
 
-export const useUserListData = (
-  user: User,
-  type: UserType,
-  role: RoleType,
-  forceRefresh: boolean,
-  setForceRefresh: (value: boolean) => void
-) => {
+export const useUserListData = (user: User, type: UserType, role: RoleType) => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [forceRefresh, setForceRefresh] = useState<boolean>(false);
 
-  const fetchData = useCallback(
-    async (forceRefresh: boolean) => {
+  useEffect(() => {
+    const fetchData = async () => {
       setIsLoading(true);
       setError(null);
       try {
@@ -26,13 +21,14 @@ export const useUserListData = (
         setIsLoading(false);
         setForceRefresh(false);
       }
-    },
-    [user, type, role, setForceRefresh]
-  );
+    };
 
-  useEffect(() => {
-    fetchData(forceRefresh);
-  }, [fetchData, forceRefresh]);
+    fetchData();
+  }, [user, type, role, forceRefresh]);
 
-  return { users, isLoading, error };
+  const reload = () => {
+    setForceRefresh(true);
+  };
+
+  return { users, isLoading, error, reload };
 };

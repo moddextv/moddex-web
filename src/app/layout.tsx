@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
+import { Footer } from '@/components/Footer/Footer';
 import { Header } from '@/components/Header/Header';
-import { cn } from '@/utils/utils';
 import { Cairo, Lato } from 'next/font/google'; // Outfit ??
 import React from 'react';
 import { Providers } from './providers';
@@ -26,15 +26,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(cairo.variable, lato.variable)}
+      className={`${cairo.variable} ${lato.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen antialiased">
+      <body className="min-h-screen antialiased flex flex-col">
         <Providers>
           <Header />
-          <main className="container mx-auto max-w-5xl pt-16 px-6 flex-grow">
+          <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow">
             {children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>

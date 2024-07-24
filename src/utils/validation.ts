@@ -2,9 +2,9 @@ import { IVRUser } from '@/misc/Interfaces';
 import { ivr } from '@/utils/api/ivr';
 import { regex } from '@/utils/regex';
 
-export async function validateUsername(
+export const validateUsername = async (
   username: string = ''
-): Promise<boolean> {
+): Promise<boolean> => {
   if (!regex.username.test(username)) {
     return false;
   }
@@ -15,4 +15,9 @@ export async function validateUsername(
   }
 
   return !users[0].banned;
-}
+};
+
+export const isInteger = (value: any): boolean => {
+  const numberValue = Number(value);
+  return Number.isInteger(numberValue);
+};

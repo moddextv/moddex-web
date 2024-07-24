@@ -11,7 +11,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider>
-      <NextUIProvider navigate={router.push}>
+      <NextUIProvider navigate={router.push} className="flex-1 flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           {children}
         </ThemeProvider>

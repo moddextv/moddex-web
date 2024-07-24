@@ -32,12 +32,7 @@ export const getUserPermission = async (
 
 export const getUser = async (username: string = ''): Promise<User | false> => {
   const users: User[] = await getUsers([username]);
-
-  if (users.length === 0 || users[0].ignored) {
-    return false;
-  }
-
-  return users[0];
+  return users.length ? users[0] : false;
 };
 
 export const getUsers = async (
@@ -47,7 +42,7 @@ export const getUsers = async (
   let usersFromDB: User[] = [];
 
   if (!forceReload) {
-    usersFromDB = await getUsersFromDB(usernames);
+    usersFromDB = await getUsersFromDb(usernames);
   }
   const newUsernames: string[] = usernames.filter(
     (username) => !usersFromDB.find((u) => u.login === username)
@@ -113,7 +108,7 @@ const updateUserInDb = async (user: TwitchUser): Promise<User> => {
   };
 };
 
-const getUsersFromDB = async (usernames: string[]): Promise<User[]> => {
+export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
   const userList: UserBadgeRow[] = await db.query(
     `
       SELECT 
@@ -126,8 +121,76 @@ const getUsersFromDB = async (usernames: string[]): Promise<User[]> => {
         ON ub.badge_id = b.id 
       WHERE u.login
         IN (${new Array(usernames.length).fill('?').join(',')})
+      ORDER BY
+        b.order ASC
     `,
     [...usernames]
+  );
+
+  return formatUsers(userList);
+};
+
+export const getUsersFromDbById = async (ids: string[]): Promise<User[]> => {
+  const userList: UserBadgeRow[] = await db.query(
+    `
+      SELECT 
+        u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+      FROM users u 
+      LEFT JOIN user_badges ub
+        ON u.id = ub.user_id 
+      LEFT JOIN badges b 
+        ON ub.badge_id = b.id 
+      WHERE u.id
+        IN (${new Array(ids.length).fill('?').join(',')})
+      ORDER BY
+        b.order ASC
+    `,
+    [...ids]
+  );
+
+  return formatUsers(userList);
+};
+
+export const getUsersByBadgeId = async (badgeId: string): Promise<User[]> => {
+  const userList: UserBadgeRow[] = await db.query(
+    `
+      SELECT 
+        u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+      FROM users u
+      LEFT JOIN user_badges ub
+        ON u.id = ub.user_id
+      LEFT JOIN badges b 
+        ON ub.badge_id = b.id 
+      WHERE b.id = ?
+      ORDER BY
+        b.order ASC
+    `,
+    [badgeId]
+  );
+
+  return formatUsers(userList);
+};
+
+export const getUsersByBadgeName = async (
+  badgeName: string
+): Promise<User[]> => {
+  const userList: UserBadgeRow[] = await db.query(
+    `
+      SELECT 
+        u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+      FROM users u
+      LEFT JOIN user_badges ub
+        ON u.id = ub.user_id
+      LEFT JOIN badges b 
+        ON ub.badge_id = b.id 
+      WHERE b.name = ?
+      ORDER BY
+        b.order ASC
+    `,
+    [badgeName]
   );
 
   return formatUsers(userList);
@@ -140,16 +203,13 @@ export const formatUsers = (
   const results = new Map();
 
   entities.forEach((entity) => {
-    if (entity.ignored) {
-      return;
-    }
-
     if (!results.get(entity.id)) {
       const newUser: User = {
         id: entity.id,
         login: entity.login,
         name: entity.name,
         avatar: entity.avatar,
+        ignored: entity.ignored,
         badges: []
       };
 
@@ -174,4 +234,13 @@ export const formatUsers = (
   });
 
   return Array.from(results.values()) as User[];
+};
+
+export const filterUsers = (users: User[]): User[] => {
+  const filteredUsers = users.filter((user) => !user.ignored);
+
+  return filteredUsers.map((user) => {
+    const { ignored, ...rest } = user;
+    return rest;
+  });
 };

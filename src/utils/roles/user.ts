@@ -6,7 +6,7 @@ export async function getUserMods(user: User): Promise<User[]> {
   const moddingChannels: UserBadgeRow[] = await db.query(
     `
 			SELECT 
-				u.id, u.name, u.login, u.avatar,
+				u.id, u.name, u.login, u.avatar, u.ignored,
 				m.granted, 
 				b.id as badge_id, 
 				b.name as badge_name, 
@@ -27,7 +27,7 @@ export async function getUserVips(user: User): Promise<User[]> {
   const vipedChannels: UserBadgeRow[] = await db.query(
     `
 			SELECT 
-				u.id, u.name, u.login, u.avatar,
+				u.id, u.name, u.login, u.avatar, u.ignored,
 				v.granted, 
 				b.id as badge_id, 
 				b.name as badge_name, 

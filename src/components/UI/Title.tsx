@@ -28,15 +28,15 @@ const mbClasses = {
 export const Title: FC<TitleProps> = ({
   children,
   level = 1,
-  className,
   size = 'xl',
-  mb = 'none'
+  mb = 'none',
+  className
 }) => {
   const classes = clsx(
     'font-cairo',
-    className,
+    sizeClasses[size],
     mbClasses[mb],
-    sizeClasses[size]
+    className
   );
 
   return createElement(`h${level}`, { className: classes }, children);

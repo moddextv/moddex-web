@@ -3,7 +3,7 @@
 import { Title } from '@/components/UI/Title';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
-import { cn, formatDate } from '@/utils/utils';
+import { formatDate } from '@/utils/utils';
 import { Image, Snippet } from '@nextui-org/react';
 import { FC } from 'react';
 import { DiscordIcon, TwitchIcon } from '@/components/Icons';
@@ -13,7 +13,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
   isUser
 }) => {
   return (
-    <div className="max-w-lg mx-auto mb-12 flex flex-col gap-4 md:gap-8 md:flex-row justify-between">
+    <div className="mb-12 flex flex-col gap-4 md:gap-8 md:flex-row justify-between overflow-hidden">
       <div className="flex flex-row md:flex-col items-center gap-6">
         <Image
           className="w-16 h-16"
@@ -40,36 +40,42 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
         />
       </div>
 
-      <div className="flex-1">
-        <Title className="flex flex-row items-center overflow-hidden text-ellipsis">
-          <span>{user.name}</span>
-          <a
-            href={`https://twitch.tv/${user.login}`}
-            title={`view ${user.login} on twitch`}
-            target="_blank"
-            className="ml-2"
-          >
-            <TwitchIcon size={24} />
-          </a>
-          {user.discord && (
+      <div className="flex-1 min-w-0">
+        <Title className="flex flex-row items-center overflow-hidden">
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+            {user.name}
+          </span>
+          <div className="flex-shrink-0 ml-2 flex items-center">
             <a
-              href={`https://discord.com/users/${user.discord}`}
-              title={`view ${user.login} on discord`}
+              href={`https://twitch.tv/${user.login}`}
+              title={`view ${user.login} on twitch`}
               target="_blank"
               className="ml-2"
             >
-              <DiscordIcon size={24} />
+              <TwitchIcon size={24} />
             </a>
-          )}
+            {user.discord && (
+              <a
+                href={`https://discord.com/users/${user.discord}`}
+                title={`view ${user.login} on discord`}
+                target="_blank"
+                className="ml-2"
+              >
+                <DiscordIcon size={24} />
+              </a>
+            )}
+          </div>
         </Title>
         <Title
           level={3}
-          className="overflow-hidden text-ellipsis text-large mb-2"
+          className="overflow-hidden text-ellipsis whitespace-nowrap text-large mb-2"
         >
           @{user.login}
         </Title>
         <Badges badges={user.badges} />
-        <div className="overflow-hidden text-ellipsis mt-2">{user.bio}</div>
+        <div className="overflow-hidden text-ellipsis mt-2 break-all hyphens-auto">
+          {user.bio}
+        </div>
         <p className="text-sm text-primary-500">
           created on {formatDate(user.created)}
         </p>

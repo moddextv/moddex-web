@@ -1,27 +1,16 @@
 'use client';
 
+import { ReloadIcon } from '@/components/Icons';
 import { Title } from '@/components/UI/Title';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
 import { useUserListData } from '@/hooks/useUserListData';
 import { UserListProps } from '@/misc/Interfaces';
-import { Divider } from '@nextui-org/react';
+import { Button, Divider } from '@nextui-org/react';
 import { FC } from 'react';
 
-export const UserList: FC<UserListProps> = ({
-  type,
-  role,
-  user,
-  forceRefresh,
-  setForceRefresh
-}) => {
-  const { users, isLoading, error } = useUserListData(
-    user,
-    type,
-    role,
-    forceRefresh,
-    setForceRefresh
-  );
+export const UserList: FC<UserListProps> = ({ type, role, user }) => {
+  const { users, isLoading, error, reload } = useUserListData(user, type, role);
 
   return (
     <div className="p-4 pr-2 border-1 border-primary-700 rounded-lg">
@@ -30,7 +19,7 @@ export const UserList: FC<UserListProps> = ({
       </Title>
       <Divider className="w-1/2 mx-auto my-2" />
       {error && (
-        <p className="text-center mt-1 mb-2 text-large text-danger">{error}</p>
+        <p className="text-center mt-1 mb-2 text-large text-red-500">{error}</p>
       )}
       {isLoading && <UserListLoading />}
       {!isLoading && !error && (
@@ -39,9 +28,23 @@ export const UserList: FC<UserListProps> = ({
             {users.length} {role}
           </p>
           <div className="max-h-[32rem] overflow-y-auto flex flex-col gap-4">
-            {users.map((user, index) => (
-              <UserListItem key={index} user={user} />
-            ))}
+            {users.map((user, index) => {
+              if (user.ignored) return;
+              return <UserListItem key={index} user={user} />;
+            })}
+
+            {type === 'channel' && (
+              <div className="text-center">
+                <Button
+                  variant="faded"
+                  className="mt-8 mx-auto"
+                  onClick={reload}
+                  startContent={<ReloadIcon size={18} />}
+                >
+                  refresh {role}
+                </Button>
+              </div>
+            )}
           </div>
         </>
       )}

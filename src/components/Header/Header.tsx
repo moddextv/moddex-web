@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import { Navigation } from '@/components/Header/Navigation';
-import { UserButton } from '@/components/Header/UserButton';
-import { Image, Link, Navbar } from '@nextui-org/react';
+import { ProfileDropdown } from '@/components/Header/ProfileDropdown';
+import { Link, Navbar } from '@nextui-org/react';
 
 export const Header = async () => {
   const session = await auth();
@@ -49,7 +49,7 @@ export const Header = async () => {
 
       <div className="flex gap-4 justify-end">
         <Navigation />
-        <UserButton session={session} />
+        <ProfileDropdown session={session} />
       </div>
     </Navbar>
   );

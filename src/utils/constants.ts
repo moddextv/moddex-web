@@ -1,7 +1,9 @@
 export const constants = {
+  maxItemsPerRequest: 10,
+
   permissions: {
     default: 0,
-    staff: 1,
-    team: 2
+    team: 1,
+    admin: 2
   }
 };

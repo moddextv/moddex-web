@@ -70,7 +70,7 @@ export default async function DonatePage() {
           as={Link}
           href="https://paypal.me/modchecker"
           target="_blank"
-          className="text-lg hover:bg-green hover:text-white"
+          className="text-lg hover:bg-green-700 hover:text-white"
           variant="bordered"
           color="success"
           radius="sm"
@@ -81,7 +81,7 @@ export default async function DonatePage() {
         >
           Donate with PayPal
         </Button>
-        <div className="mt-2 text-center text-sm text-danger-100">
+        <div className="mt-2 text-center text-sm text-red-500">
           Donations are non-refundable.
         </div>
       </div>

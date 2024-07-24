@@ -1,7 +1,7 @@
 import { NotFound } from '@/components/Errors';
+import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
-import { UserLists } from '@/components/User/UserLists';
 
 interface PageProps {
   params: { username: string };
@@ -11,7 +11,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
 
   const user = await getUser(username);
-  if (!user) {
+  if (!user || user.ignored) {
     return (
       <NotFound
         error={`user «${username}» not found`}
@@ -23,7 +23,10 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   return (
     <>
       <UserProfile user={user} />
-      <UserLists user={user} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <UserList type="channel" role="mods" user={user} />
+        <UserList type="channel" role="vips" user={user} />
+      </div>
     </>
   );
 }

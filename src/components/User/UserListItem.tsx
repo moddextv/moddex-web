@@ -4,7 +4,7 @@ import { ClockIcon } from '@/components/Icons';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
 import { formatDate } from '@/utils/utils';
-import { Image } from '@nextui-org/react';
+import { Image, Link } from '@nextui-org/react';
 
 interface UserListItemProps {
   user: User;
@@ -13,19 +13,24 @@ interface UserListItemProps {
 export const UserListItem: FC<UserListItemProps> = ({ user }) => {
   return (
     <div className="flex gap-4 pr-4 pl-2 items-center">
-      <Image
-        src={user.avatar}
-        alt={`${user.login}'s avatar`}
-        width={48}
-        height={48}
-        radius="full"
-        className="w-12 h-12"
-      />
+      <Link href={`./${user.login}`}>
+        <Image
+          src={user.avatar}
+          alt={`${user.login}'s avatar`}
+          width={48}
+          height={48}
+          radius="full"
+          className="w-12 h-12"
+        />
+      </Link>
       <div className="flex flex-row items-center flex-1 overflow-hidden">
         <div className="flex-1 overflow-hidden text-ellipsis hyphens-none">
-          <a href={`./${user.login}`} className="font-medium text-lg">
+          <Link
+            href={`./${user.login}`}
+            className="font-medium text-lg text-primary-300"
+          >
             {user.name}
-          </a>
+          </Link>
           <Badges badges={user.badges} size={25} />
         </div>
         <Tooltip content={`since ${formatDate(user.granted)}`}>

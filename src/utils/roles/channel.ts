@@ -2,7 +2,6 @@ import { db } from '@/misc/Database';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { fetchMods, fetchVips } from '@/utils/api/twitch/gql';
 import { formatUsers, getUsers } from '@/utils/user';
-import { logger } from '@/misc/Logger';
 
 type Role = 'mods' | 'vips';
 
@@ -25,8 +24,6 @@ const getUsersByRole = async (
   role: Role,
   forceRefresh: boolean
 ): Promise<User[]> => {
-  logger.info(forceRefresh);
-
   if (forceRefresh || !user.updated) {
     return await getAndStoreUsers(user.id, role);
   }
@@ -51,7 +48,7 @@ const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
   const usersFromDb: UserBadgeRow[] = await db.query(
     `
       SELECT 
-        u.id, u.login, u.name, u.avatar, 
+        u.id, u.login, u.name, u.avatar, u.ignored,
         r.granted, 
         b.id AS badge_id, b.name AS badge_name, b.path AS badge_path 
       FROM 
@@ -65,7 +62,7 @@ const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
       WHERE 
         r.channel_id = ? 
       ORDER BY 
-        r.granted DESC
+        r.granted DESC, b.order ASC
     `,
     [id]
   );

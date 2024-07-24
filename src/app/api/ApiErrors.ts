@@ -1,16 +1,17 @@
 import { NextResponse } from 'next/server';
 
 type ResponsePayload = {
-  error?: string;
+  status: number;
+  error: string;
   message?: string;
 };
 
 const sendResponse = (
   status: number,
-  error: string = '',
+  error: string,
   message?: string
 ): NextResponse => {
-  const responsePayload: ResponsePayload = { error };
+  const responsePayload: ResponsePayload = { error, status };
 
   if (message) {
     responsePayload.message = message;
@@ -20,13 +21,10 @@ const sendResponse = (
 };
 
 export const BadRequest = (message: string = '', error: string = '') =>
-  sendResponse(400, error || 'Bad Request', message);
-
-export const Forbidden = (message: string = '', error: string = '') =>
-  sendResponse(403, error || 'Forbidden', message);
+  sendResponse(400, error || 'bad request', message);
 
 export const NotFound = (message: string = '', error: string = '') =>
-  sendResponse(404, error || 'Not Found', message);
+  sendResponse(404, error || 'not found', message);
 
 export const InternalServerError = (message: string = '', error: string = '') =>
-  sendResponse(500, error || 'Internal Server Error', message);
+  sendResponse(500, error || 'internal server error', message);

@@ -1,7 +1,7 @@
 'use client';
 
-import { AvatarIcon, TwitchIcon } from '@/components/Icons';
-import { IgnoredSwitch } from '@/components/Switches/IgnoredSwitch';
+import { ItemElement } from '@react-types/shared';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Button,
@@ -9,33 +9,47 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownSection,
-  DropdownTrigger
+  DropdownTrigger,
+  Link,
+  Checkbox
 } from '@nextui-org/react';
-import { Session } from 'next-auth';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { getUserIgnoreState } from '@/actions/userIgnoreState';
-import { Link } from '@nextui-org/react';
+import { signIn, signOut } from 'next-auth/react';
+import { getUserIgnoreState, setIgnoredUser } from '@/actions/userIgnoreState';
+import { AvatarIcon, TwitchIcon } from '@/components/Icons';
 import { constants } from '@/utils/constants';
+import { Session } from 'next-auth';
 
-export const UserButton = ({ session }: { session: Session | null }) => {
-  const { data: sessionData } = useSession();
-  const userId = sessionData?.user?.id;
+interface ProfileDropdownProps {
+  session: Session | null;
+}
 
-  const [initialIgnoreState, setInitialIgnoreState] = useState(false);
+export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
+  session
+}) => {
+  const userId = session?.user?.id;
+  const [isSelected, setIsSelected] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchInitialState = async () => {
       if (userId) {
         const ignoreState = await getUserIgnoreState(userId);
-        setInitialIgnoreState(ignoreState);
+        setIsSelected(ignoreState);
         setLoading(false);
       }
     };
 
     fetchInitialState();
   }, [userId]);
+
+  const handleIgnoreToggle = async () => {
+    if (!userId) return;
+
+    setLoading(true);
+    await setIgnoredUser(userId, !isSelected);
+    setIsSelected(!isSelected);
+    setLoading(false);
+  };
 
   if (!session?.user) {
     return (
@@ -51,8 +65,8 @@ export const UserButton = ({ session }: { session: Session | null }) => {
 
   return (
     <Dropdown
-      showArrow={true}
-      classNames={{ content: 'py-1 px-1 border border-default-200' }}
+      showArrow
+      className="py-1 px-1 border border-default-200"
       placement="bottom-end"
       backdrop="opaque"
     >
@@ -70,33 +84,39 @@ export const UserButton = ({ session }: { session: Session | null }) => {
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownSection showDivider>
           <DropdownItem
-            isReadOnly
-            key="ignored"
-            className="cursor-default"
-            description="opt-out of being tracked"
-            endContent={
-              !loading && <IgnoredSwitch initialState={initialIgnoreState} />
-            }
+            textValue="opt-out"
+            onClick={handleIgnoreToggle}
+            closeOnSelect={false}
+            onAction={() => {}}
           >
-            opt-out
+            <div className="flex items-center justify-between w-full">
+              <div>
+                <p className="text-medium">opt-out</p>
+                <p className="text-primary-500">from being tracked</p>
+              </div>
+              <Checkbox
+                size="lg"
+                isSelected={isSelected}
+                isDisabled={loading}
+                onChange={handleIgnoreToggle}
+              />
+            </div>
           </DropdownItem>
         </DropdownSection>
-
         <DropdownSection>
-          {(session?.user?.perms ?? 0) >= constants.permissions.staff ? (
-            <DropdownItem key="dashboard">
+          {(session?.user?.perms ?? 0) >= constants.permissions.team ? (
+            <DropdownItem textValue="dashboard">
               <Link className="text-primary-200" href={'/dashboard'}>
                 dashboard
               </Link>
             </DropdownItem>
           ) : (
-            <></>
+            (null as unknown as ItemElement<object>)
           )}
-
           <DropdownItem
-            key="logout"
-            className="text-danger"
+            className="text-red-500"
             color="danger"
+            textValue="sign out"
             onClick={() => signOut()}
           >
             logout

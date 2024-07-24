@@ -28,8 +28,9 @@ export const helix = async (
     const response = await fetch(url, options);
 
     if (!response.ok) {
+      const errorDetails = await response.json();
       logger.error(
-        `Error in ${method} ${url}: ${response.statusText} : ${JSON.stringify(response)}`
+        `Error in ${method} ${url}: ${response.status} ${response.statusText} - ${errorDetails.message || 'No detailed message'}`
       );
       return [];
     }

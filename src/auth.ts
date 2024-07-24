@@ -3,7 +3,7 @@ import Twitch from '@auth/core/providers/twitch';
 import NextAuth from 'next-auth';
 import { config } from '../config';
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn } = NextAuth({
   debug: config.dev,
   secret: config.authSecret,
   providers: [Twitch],

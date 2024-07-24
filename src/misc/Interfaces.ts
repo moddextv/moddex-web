@@ -11,7 +11,6 @@ export interface UserListProps {
   type: UserType;
   role: RoleType;
   user: User;
-  forceRefresh: boolean;
 }
 
 export interface User {
