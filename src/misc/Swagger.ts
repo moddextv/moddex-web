@@ -24,7 +24,7 @@ export const getApiDocs = async () => {
           description: 'fetch one or multiple tracked users'
         },
         {
-          name: 'role',
+          name: 'roles',
           description: 'all about tracked mods/vips'
         }
       ],

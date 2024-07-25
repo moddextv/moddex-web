@@ -106,7 +106,7 @@ export const GET = async (request: NextRequest, context: any) => {
  * /api/v1/mods:
  *  get:
  *    tags:
- *      - role
+ *      - roles
  *    description: |
  *      returns tracked mods of a given channel or a list of channels a given user has mod privileges
  *    parameters:
