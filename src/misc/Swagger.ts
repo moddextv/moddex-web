@@ -77,6 +77,10 @@ export const getApiDocs = async () => {
                 example:
                   'https://static-cdn.jtvnw.net/jtv_user_pictures/4058d275-ca87-4cf3-b736-c0392b81b6ed-profile_image-300x300.png'
               },
+              discord: {
+                type: 'string',
+                example: '780910551286546493'
+              },
               badges: {
                 type: 'array',
                 items: {

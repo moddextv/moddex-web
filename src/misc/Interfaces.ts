@@ -34,6 +34,7 @@ export interface UserBadgeRow {
   avatar: string;
   granted?: string | null;
   bio?: string | null;
+  discord?: string | null;
   created?: string | null;
   updated?: string | null;
   ignored?: boolean;

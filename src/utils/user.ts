@@ -113,12 +113,15 @@ export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
     `
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        dc.discord_user_id AS discord
       FROM users u 
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id 
       LEFT JOIN badges b 
-        ON ub.badge_id = b.id 
+        ON ub.badge_id = b.id
+      LEFT JOIN dctwitchusers dc
+        ON dc.twitch_id = u.id
       WHERE u.login
         IN (${new Array(usernames.length).fill('?').join(',')})
       ORDER BY
@@ -135,12 +138,15 @@ export const getUsersFromDbById = async (ids: string[]): Promise<User[]> => {
     `
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        dc.discord_user_id AS discord
       FROM users u 
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id 
       LEFT JOIN badges b 
         ON ub.badge_id = b.id 
+      LEFT JOIN dctwitchusers dc
+        ON dc.twitch_id = u.id
       WHERE u.id
         IN (${new Array(ids.length).fill('?').join(',')})
       ORDER BY
@@ -157,12 +163,15 @@ export const getUsersByBadgeId = async (badgeId: string): Promise<User[]> => {
     `
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        dc.discord_user_id AS discord
       FROM users u
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id
       LEFT JOIN badges b 
         ON ub.badge_id = b.id 
+      LEFT JOIN dctwitchusers dc
+        ON dc.twitch_id = u.id
       WHERE b.id = ?
       ORDER BY
         b.order ASC
@@ -180,12 +189,15 @@ export const getUsersByBadgeName = async (
     `
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path
+        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        dc.discord_user_id AS discord
       FROM users u
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id
       LEFT JOIN badges b 
         ON ub.badge_id = b.id 
+      LEFT JOIN dctwitchusers dc
+        ON dc.twitch_id = u.id
       WHERE b.name = ?
       ORDER BY
         b.order ASC
@@ -209,6 +221,7 @@ export const formatUsers = (
         login: entity.login,
         name: entity.name,
         avatar: entity.avatar,
+        discord: entity.discord,
         ignored: entity.ignored,
         badges: []
       };
