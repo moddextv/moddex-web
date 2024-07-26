@@ -10,7 +10,7 @@ interface PageProps {
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   return {
-    title: `channel ${params.username}`
+    title: `user ${params.username}`
   }
 }
 
@@ -18,7 +18,7 @@ export default async function UserUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
 
   const user = await getUser(username);
-  if (!user) {
+  if (!user || user.ignored) {
     return (
       <NotFound
         error={`user «${username}» not found`}

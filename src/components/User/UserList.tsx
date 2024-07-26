@@ -13,7 +13,12 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
   const { users, isLoading, error, reload } = useUserListData(user, type, role);
 
   return (
-    <div className="p-4 pr-2 border-1 border-primary-700 rounded-lg">
+    <div className="relative p-4 pr-2 border-1 border-primary-700 rounded-lg">
+      {!isLoading && !error && (
+        <div className="absolute top-[1.4rem] right-[1.4rem] cursor-pointer" onClick={reload}>
+          <ReloadIcon size={24} />
+        </div>
+      )}
       <Title level={2} size="lg" className="text-center uppercase">
         {role}
       </Title>
@@ -32,19 +37,6 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
               if (user.ignored) return;
               return <UserListItem key={index} user={user} />;
             })}
-
-            {type === 'channel' && (
-              <div className="text-center">
-                <Button
-                  variant="faded"
-                  className="mt-8 mx-auto"
-                  onClick={reload}
-                  startContent={<ReloadIcon size={18} />}
-                >
-                  refresh {role}
-                </Button>
-              </div>
-            )}
           </div>
         </>
       )}
