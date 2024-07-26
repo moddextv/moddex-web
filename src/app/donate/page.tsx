@@ -1,6 +1,12 @@
 import { Title } from '@/components/UI/Title';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { Button, Image, Link } from '@nextui-org/react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'donate',
+  description: 'help support our project and maintain server cost by donating. receive exclusive badges in return'
+}
 
 export default async function DonatePage() {
   return (

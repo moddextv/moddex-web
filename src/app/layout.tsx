@@ -4,6 +4,7 @@ import { Header } from '@/components/Header/Header';
 import { Cairo, Lato } from 'next/font/google'; // Outfit ??
 import React from 'react';
 import { Providers } from './providers';
+import { Metadata } from 'next';
 
 const lato = Lato({
   weight: ['300', '400', '700'],
@@ -17,6 +18,18 @@ const cairo = Cairo({
   subsets: ['latin'],
   variable: '--font-cairo'
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: 'modchecker',
+    template: '%s | modchecker'
+  },
+  description: 'modchecker.com - see tracked mods/vips of a twitch channel or see a list of channels a user has mod/vip privileges in',
+  authors: {
+    name: 'maersux',
+    url: 'https://github.com/maersux'
+  }
+}
 
 export default function RootLayout({
   children

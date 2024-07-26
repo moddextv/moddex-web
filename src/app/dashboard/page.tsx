@@ -1,5 +1,10 @@
 import { NotFound } from '@/components/Errors';
 import { auth } from '@/auth';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'dashboard'
+}
 
 export default async function DashboardPage() {
   const session = await auth();

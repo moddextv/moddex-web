@@ -50,15 +50,17 @@ const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
       SELECT 
         u.id, u.login, u.name, u.avatar, u.ignored,
         r.granted, 
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path 
+        b.id AS badge_id,
+        b.name AS badge_name,
+        b.path AS badge_path 
       FROM 
         users u 
       JOIN ${role} r 
         ON u.id = r.user_id 
       LEFT JOIN user_badges ub 
-        on u.id = ub.user_id 
+        ON u.id = ub.user_id 
       LEFT JOIN badges b 
-        on ub.badge_id = b.id 
+        ON ub.badge_id = b.id 
       WHERE 
         r.channel_id = ? 
       ORDER BY 

@@ -2,9 +2,16 @@ import { NotFound } from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
+import { Metadata } from 'next';
 
 interface PageProps {
   params: { username: string };
+}
+
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
+  return {
+    title: `channel ${params.username}`
+  }
 }
 
 export default async function ChannelUsernamePage({ params }: PageProps) {

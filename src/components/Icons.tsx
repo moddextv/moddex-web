@@ -62,7 +62,7 @@ export const ExternalLinkIcon: FC<SvgIconProps> = ({
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className={`${color} ml-1 scale-80`}
+    className={`${color} ml-1 scale-50 md:scale-80`}
     width={size}
     height={size}
     fill="none"

@@ -27,7 +27,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
           <p className="text-center mt-1 mb-2 text-large">
             {users.length} {role}
           </p>
-          <div className="max-h-[32rem] overflow-y-auto flex flex-col gap-4">
+          <div className="md:max-h-[32rem] overflow-y-auto flex flex-col gap-4">
             {users.map((user, index) => {
               if (user.ignored) return;
               return <UserListItem key={index} user={user} />;
