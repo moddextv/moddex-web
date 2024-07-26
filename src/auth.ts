@@ -4,9 +4,11 @@ import NextAuth from 'next-auth';
 import { config } from '../config';
 
 export const { handlers, auth, signIn } = NextAuth({
-  debug: config.dev,
   secret: config.authSecret,
-  providers: [Twitch],
+  providers: [Twitch({
+    clientId: config.twitch.clientId,
+    clientSecret: config.twitch.clientSecret,
+  })],
   callbacks: {
     async jwt({ token, user, account }) {
       if (user && account) {

@@ -11,7 +11,6 @@ export const getApiDocs = async () => {
         version: '1.0'
       },
       servers: [
-        { url: 'http://localhost:3000/' },
         { url: 'https://modchecker.com/' }
       ],
       tags: [
