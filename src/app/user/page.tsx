@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function UserPage() {
   return (
-    <>
+    <div className="flex-grow content-around">
       <Title mb="lg" className="text-center">
         modchecker
       </Title>
       <SearchUser type="user" />
-    </>
+    </div>
   );
 }

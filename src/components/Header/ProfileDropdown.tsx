@@ -105,10 +105,8 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
         </DropdownSection>
         <DropdownSection>
           {(session?.user?.perms ?? 0) >= constants.permissions.team ? (
-            <DropdownItem textValue="dashboard">
-              <Link className="text-primary-200" href={'/dashboard'}>
+            <DropdownItem textValue="dashboard" href={'/dashboard'}>
                 dashboard
-              </Link>
             </DropdownItem>
           ) : (
             (null as unknown as ItemElement<object>)
