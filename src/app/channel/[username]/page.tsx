@@ -3,7 +3,6 @@ import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
 import { Metadata } from 'next';
-import { logger } from '@/misc/Logger';
 
 interface PageProps {
   params: { username: string };
@@ -12,16 +11,14 @@ interface PageProps {
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   return {
     title: `channel ${params.username}`
-  }
-}
+  };
+};
 
 export default async function ChannelUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
 
   const user = await getUser(username);
   if (!user || user.ignored) {
-    await logger.db('channel-detail-fail', JSON.stringify(user));
-
     return (
       <NotFound
         error={`channel «${username}» not found`}
@@ -29,8 +26,6 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
       />
     );
   }
-
-  await logger.db('channel-detail-success', JSON.stringify(user));
 
   return (
     <>

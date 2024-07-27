@@ -2,7 +2,6 @@ import { db } from '@/misc/Database';
 import { TwitchUser, User, UserBadgeRow } from '@/misc/Interfaces';
 import { getUsersFromHelix } from '@/utils/api/twitch/helix';
 import { addBadgeByNameToUser, getUserBadges, removeBadgeByNameFromUser } from '@/utils/badges';
-import { logger } from '@/misc/Logger';
 
 export const getUserPermission = async (
   userId: string = ''
@@ -41,10 +40,8 @@ export const getUsers = async (
   if (!forceReload) {
     usersFromDB = await getUsersFromDb(usernames);
   }
+
   const newUsernames: string[] = usernames.filter(username => !usersFromDB.find(u => u.login === username));
-
-  await logger.db('user-helper-newUsernames', JSON.stringify(newUsernames));
-
   if (!newUsernames.length) {
     for (const user of usersFromDB) {
       user.badges = await getUserBadges(user.id);
@@ -127,11 +124,7 @@ export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
     [...usernames]
   );
 
-  const formattedUsers = formatUsers(userList);
-
-  await logger.db('getusersfromdb', JSON.stringify(formattedUsers));
-
-  return formattedUsers;
+  return formatUsers(userList);
 };
 
 export const getUsersFromDbById = async (ids: string[]): Promise<User[]> => {

@@ -58,7 +58,7 @@ export const fetchMods = async (channelId: string): Promise<User[]> => {
   const edges: GqlRoleDataEdge[] = response?.[0]?.data?.user?.mods?.edges || [];
   if (!edges) return [];
 
-  const mods = edges
+  return edges
     .map(
       (edge) =>
         edge.node && {
@@ -71,10 +71,6 @@ export const fetchMods = async (channelId: string): Promise<User[]> => {
         }
     )
     .filter(Boolean);
-
-  await logger.db('gql-mods', JSON.stringify(mods));
-
-  return mods;
 };
 
 export const fetchVips = async (channelId: string): Promise<User[]> => {
