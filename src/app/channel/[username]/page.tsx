@@ -3,6 +3,7 @@ import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
 import { Metadata } from 'next';
+import { logger } from '@/misc/Logger';
 
 interface PageProps {
   params: { username: string };
@@ -19,13 +20,17 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
 
   const user = await getUser(username);
   if (!user || user.ignored) {
+    await logger.db('channel-detail-fail', JSON.stringify(user));
+
     return (
       <NotFound
-        error={`user «${username}» not found`}
-        message={`this could also mean, that the user has opted-out from being tracked.`}
+        error={`channel «${username}» not found`}
+        message={`this could also mean, that the channel owner has opted-out from being tracked.`}
       />
     );
   }
+
+  await logger.db('channel-detail-success', JSON.stringify(user));
 
   return (
     <>

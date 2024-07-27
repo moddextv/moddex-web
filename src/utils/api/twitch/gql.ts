@@ -1,4 +1,5 @@
 import { User } from '@/misc/Interfaces';
+import { logger } from '@/misc/Logger';
 
 const gqlQuery = async (
   operationName: string,
@@ -27,6 +28,7 @@ const gqlQuery = async (
 
     return await response.json();
   } catch (e) {
+    await logger.db('gql-error', JSON.stringify(e));
     return [];
   }
 };
@@ -56,7 +58,7 @@ export const fetchMods = async (channelId: string): Promise<User[]> => {
   const edges: GqlRoleDataEdge[] = response?.[0]?.data?.user?.mods?.edges || [];
   if (!edges) return [];
 
-  return edges
+  const mods = edges
     .map(
       (edge) =>
         edge.node && {
@@ -69,6 +71,10 @@ export const fetchMods = async (channelId: string): Promise<User[]> => {
         }
     )
     .filter(Boolean);
+
+  await logger.db('gql-mods', JSON.stringify(mods));
+
+  return mods;
 };
 
 export const fetchVips = async (channelId: string): Promise<User[]> => {

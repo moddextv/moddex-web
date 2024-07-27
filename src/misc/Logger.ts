@@ -1,3 +1,5 @@
+import { db as database } from '@/misc/Database';
+
 const logMessage = (type: string, color: string, ...args: any[]) => {
   const options = { timeZone: 'Europe/Berlin' };
   const date = new Date().toLocaleString('de-DE', options);
@@ -29,5 +31,9 @@ export const logger = {
 
   web(...args: any[]): void {
     logMessage('WEB', '95', ...args);
+  },
+
+  async db(type: string, message: string) {
+    return database.query('INSERT INTO audit (type, message) VALUES (?, ?)', [type, message]);
   }
 };

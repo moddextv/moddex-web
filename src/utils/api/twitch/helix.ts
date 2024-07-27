@@ -29,7 +29,7 @@ export const helix = async (
 
     if (!response.ok) {
       const errorDetails = await response.json();
-      logger.error(
+      await logger.db('helix-error',
         `Error in ${method} ${url}: ${response.status} ${response.statusText} - ${errorDetails.message || 'No detailed message'}`
       );
       return [];
@@ -38,7 +38,7 @@ export const helix = async (
     const json = await response.json();
     return json.data;
   } catch (error) {
-    logger.error(`Network Error in ${method} ${url}: ${error}`);
+    await logger.db('helix-error', `Network Error in ${method} ${url}: ${error}`);
     return [];
   }
 };
