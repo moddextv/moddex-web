@@ -101,7 +101,7 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
     }));
 
     const edges: GqlRoleDataEdge[] = response?.data?.user?.vips?.edges || [];
-    const hasNextPage = response?.data?.user?.vips?.pageInfo?.hasNextPage || false;
+    hasNextPage = response?.data?.user?.vips?.pageInfo?.hasNextPage || false;
     cursor = hasNextPage ? edges[edges.length - 1]?.cursor : '';
 
     edges.forEach(edge => {
