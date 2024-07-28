@@ -14,7 +14,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
 
   return (
     <div className="relative p-4 pr-2 border-1 border-primary-700 rounded-lg">
-      {!isLoading && !error && (
+      {!isLoading && !error && type === 'channel' && (
         <div className="absolute top-[1.4rem] right-[1.4rem] cursor-pointer" onClick={reload}>
           <ReloadIcon size={24} />
         </div>
