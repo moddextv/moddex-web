@@ -36,6 +36,8 @@ const getAndStoreUsers = async (id: string, role: Role): Promise<User[]> => {
     role === 'mods' ? await fetchMods(id) : await fetchVips(id);
   const userLogins = usersFromApi.map((user) => user.login);
 
+  if (!userLogins.length) return [];
+
   await getUsers(userLogins);
   await storeUsers(id, usersFromApi, role);
 

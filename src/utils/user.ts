@@ -103,6 +103,10 @@ const updateUserInDb = async (user: TwitchUser): Promise<User> => {
 };
 
 export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
+  if (!usernames.length) {
+    return [];
+  }
+
   const userList: UserBadgeRow[] = await db.query(
     `
       SELECT 
@@ -128,6 +132,10 @@ export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
 };
 
 export const getUsersFromDbById = async (ids: string[]): Promise<User[]> => {
+  if (!ids.length) {
+    return [];
+  }
+
   const userList: UserBadgeRow[] = await db.query(
     `
       SELECT 
