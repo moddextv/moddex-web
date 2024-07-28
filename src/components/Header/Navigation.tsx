@@ -1,15 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownSection,
-  DropdownTrigger,
-  Link
-} from '@nextui-org/react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Link } from '@nextui-org/react';
 import { useState } from 'react';
 import { ExternalLinkIcon, MenuIcon } from '@/components/Icons';
 
@@ -96,17 +88,16 @@ export const Navigation = () => {
                 {menuItems.map((item, index) => {
                   const isActivePage = isActive(item.href);
                   return (
-                    <DropdownItem key={index} textValue={item.label}>
-                      <Link
-                        className={`text-xl font-cairo ${isActivePage ? 'text-primary-200' : 'text-primary-500'}`}
-                        href={item.href}
-                        isExternal={item.newTab}
-                        showAnchorIcon={item.newTab}
-                        anchorIcon={<ExternalLinkIcon />}
-                        size="lg"
-                      >
+                    <DropdownItem
+                      key={index}
+                      textValue={item.label}
+                      href={item.href}
+                      target={item.newTab ? '_blank' : '_self'}
+                      endContent={item.newTab ? <ExternalLinkIcon /> : ''}
+                    >
+                      <span className={`text-xl font-cairo ${isActivePage ? 'text-primary-200' : 'text-primary-500'}`}>
                         {item.label}
-                      </Link>
+                      </span>
                     </DropdownItem>
                   );
                 })}
