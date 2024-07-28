@@ -57,7 +57,7 @@ export const getUsers = async (
 
 const updateUserInDb = async (user: TwitchUser): Promise<User> => {
   await db.query(
-    'INSERT INTO users (id, login, name, avatar, bio, created) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id)',
+    'INSERT INTO users (id, login, name, avatar, bio, created) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE login = VALUES(login), name = VALUES(name), avatar = VALUES(avatar), bio = VALUES(bio)',
     [
       user.id,
       user.login,
