@@ -48,6 +48,11 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
     }
   };
 
+  const handleSubmitClick = async (event: any) => {
+    event.preventDefault();
+    await handleSubmit(event);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Input
@@ -62,7 +67,13 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
         className="max-w-sm mx-auto"
         startContent={<span className="text-primary-400">twitch.tv/</span>}
         endContent={
-          isLoading ? <LoadingIcon size={20} /> : <SearchIcon size={20} />
+          isLoading ? (
+            <LoadingIcon size={20} />
+          ) : (
+            <div className="cursor-pointer" onClick={handleSubmitClick}>
+              <SearchIcon size={20} />
+            </div>
+          )
         }
         isInvalid={!!error}
         errorMessage={error}

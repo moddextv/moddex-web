@@ -1,32 +1,22 @@
 import { User } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
+import { config } from '../../../../config';
 
-const gqlQuery = async (
-  operationName: string,
-  variables: any,
-  extensions: any
-): Promise<any> => {
+const gqlQuery = async (body: string): Promise<any> => {
   try {
-    const response = await fetch('https://gql.twitch.tv/gql', {
+    return fetch('https://gql.twitch.tv/gql', {
       method: 'POST',
       headers: {
-        'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-        'Content-Type': 'application/json',
-        Origin: 'https://www.twitch.tv/',
-        Referer: 'https://gql.twitch.tv/',
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0'
+        'Accept': '*/*',
+        'Accept-Language': 'en-US',
+        'Client-ID': config.twitchClientId,
+        'Client-Version': '7f3e84e3-9bb1-4c29-aab5-c83c4a3f8995',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+        'Referer': 'https://www.twitch.tv/',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify([
-        {
-          operationName: operationName,
-          variables: variables,
-          extensions: extensions
-        }
-      ])
-    });
-
-    return await response.json();
+      body
+    }).then(res => res.json());
   } catch (e) {
     await logger.db('gql-error', JSON.stringify(e));
     return [];
@@ -34,83 +24,101 @@ const gqlQuery = async (
 };
 
 export const fetchMods = async (channelId: string): Promise<User[]> => {
-  const variables = {
-    channelID: channelId,
-    includeEditors: false,
-    includeArtists: false,
-    includeMods: true,
-    includeVIPs: false
-  };
+  const mods: User[] = [];
+  let cursor = '';
+  let hasNextPage = true;
 
-  const extensions = {
-    persistedQuery: {
-      version: 1,
-      sha256Hash:
-        'dfe01a8ac494183d85cc9dbde2d808c35f7ffcfd2b3c12db4c7d2a57c2712121'
-    }
-  };
+  while (hasNextPage) {
+    const response: GqlRoleData = await gqlQuery(JSON.stringify({
+      query: `query {
+        user(id: "${channelId}") {
+          mods(first: 100, after: "${cursor}") {
+            edges {
+              grantedAt,
+              cursor,
+              node {
+                login,
+                displayName,
+                id,
+                profileImageURL(width: 300)
+              }
+            },
+            pageInfo {
+              hasNextPage
+            }
+          }
+        }
+      }`
+    }));
 
-  const response: GqlRoleData[] = await gqlQuery(
-    'UserRolesCacheQuery',
-    variables,
-    extensions
-  );
-  const edges: GqlRoleDataEdge[] = response?.[0]?.data?.user?.mods?.edges || [];
-  if (!edges) return [];
+    const edges: GqlRoleDataEdge[] = response?.data?.user?.mods?.edges || [];
+    hasNextPage = response?.data?.user?.mods?.pageInfo?.hasNextPage || false;
+    cursor = hasNextPage ? edges[edges.length - 1]?.cursor : '';
 
-  return edges
-    .map(
-      (edge) =>
-        edge.node && {
+    edges.forEach(edge => {
+      if (edge.node) {
+        mods.push({
           id: edge.node.id,
           login: edge.node.login,
           name: edge.node.displayName,
           avatar: edge.node.profileImageURL,
           granted: edge.grantedAt,
           badges: []
-        }
-    )
-    .filter(Boolean);
+        });
+      }
+    });
+  }
+
+  return mods;
 };
 
 export const fetchVips = async (channelId: string): Promise<User[]> => {
-  const variables = {
-    channelID: channelId,
-    includeEditors: false,
-    includeArtists: false,
-    includeMods: false,
-    includeVIPs: true
-  };
+  const vips: User[] = [];
+  let cursor = '';
+  let hasNextPage = true;
 
-  const extensions = {
-    persistedQuery: {
-      version: 1,
-      sha256Hash:
-        'dfe01a8ac494183d85cc9dbde2d808c35f7ffcfd2b3c12db4c7d2a57c2712121'
-    }
-  };
+  while (hasNextPage) {
+    const response: GqlRoleData = await gqlQuery(JSON.stringify({
+      query: `query {
+        user(id: "${channelId}") {
+          vips(first: 100, after: "${cursor}") {
+            edges {
+              grantedAt,
+              cursor,
+              node {
+                login,
+                displayName,
+                id,
+                profileImageURL(width: 300)
+              }
+            },
+            pageInfo {
+              hasNextPage
+            }
+          }
+        }
+      }`
+    }));
 
-  const response: GqlRoleData[] = await gqlQuery(
-    'UserRolesCacheQuery',
-    variables,
-    extensions
-  );
-  const edges: GqlRoleDataEdge[] = response?.[0]?.data?.user?.vips?.edges || [];
-  if (!edges) return [];
+    const edges: GqlRoleDataEdge[] = response?.data?.user?.vips?.edges || [];
+    const hasNextPage = response?.data?.user?.vips?.pageInfo?.hasNextPage || false;
+    cursor = hasNextPage ? edges[edges.length - 1]?.cursor : '';
 
-  return edges
-    .map(
-      (edge) =>
-        edge.node && {
+    edges.forEach(edge => {
+      if (edge.node) {
+        vips.push({
           id: edge.node.id,
           login: edge.node.login,
           name: edge.node.displayName,
           avatar: edge.node.profileImageURL,
           granted: edge.grantedAt,
           badges: []
-        }
-    )
-    .filter(Boolean);
+        });
+      }
+    });
+  }
+
+  return vips;
 };
 
 interface GqlRoleDataEdge {
