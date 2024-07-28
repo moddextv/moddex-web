@@ -3,6 +3,7 @@ import 'dotenv/config';
 export const config = {
   dev: true,
   authSecret: process.env.AUTH_SECRET as string,
+  twitchClientId: process.env.AUTH_TWITCH_CLIENT_ID as string,
   twitch: {
     clientId: process.env.AUTH_TWITCH_ID as string,
     clientSecret: process.env.AUTH_TWITCH_SECRET as string
