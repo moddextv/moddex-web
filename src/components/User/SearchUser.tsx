@@ -52,14 +52,15 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
     <form onSubmit={handleSubmit}>
       <Input
         name="username"
-        placeholder={`enter a ${type}`}
+        placeholder={type}
         size="lg"
         minLength={2}
         maxLength={25}
         autoComplete="off"
         onChange={handleInput}
         variant="bordered"
-        className="max-w-xs mx-auto"
+        className="max-w-sm mx-auto"
+        startContent={<span className="text-primary-400">twitch.tv/</span>}
         endContent={
           isLoading ? <LoadingIcon size={20} /> : <SearchIcon size={20} />
         }

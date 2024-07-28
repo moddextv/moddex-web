@@ -11,8 +11,8 @@ interface PageProps {
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   return {
     title: `user ${params.username}`
-  }
-}
+  };
+};
 
 export default async function UserUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
@@ -35,6 +35,9 @@ export default async function UserUsernamePage({ params }: PageProps) {
         <UserList type="user" role="modding" user={user} />
         <UserList type="user" role="viping" user={user} />
       </div>
+
+      <p className="mt-4 text-lg">can't find a mod/vip in the list? You can index a channel by looking one up <a
+        className="underline" href={'/channel'}>here</a>.</p>
     </>
   );
 }
