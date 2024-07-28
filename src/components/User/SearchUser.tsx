@@ -27,7 +27,7 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
 
     if (!regex.username.test(inputValue)) {
       setError(
-        'Invalid username. It can only contain 2-25 characters, including only alphanumeric and underscore.'
+        'Invalid username. It can only contain 1-25 characters, including only alphanumeric and underscore.'
       );
       return;
     }
@@ -54,7 +54,7 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
         name="username"
         placeholder={type}
         size="lg"
-        minLength={2}
+        minLength={1}
         maxLength={25}
         autoComplete="off"
         onChange={handleInput}
