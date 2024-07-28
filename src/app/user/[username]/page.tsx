@@ -36,7 +36,7 @@ export default async function UserUsernamePage({ params }: PageProps) {
         <UserList type="user" role="viping" user={user} />
       </div>
 
-      <p className="mt-4 text-lg">can't find a mod/vip in the list? You can index a channel by looking one up <a
+      <p className="mt-4 text-lg">can&apos;t find a mod/vip in the list? You can index a channel by looking one up <a
         className="underline" href={'/channel'}>here</a>.</p>
     </>
   );
