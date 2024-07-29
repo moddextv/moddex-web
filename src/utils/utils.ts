@@ -10,3 +10,11 @@ export const formatDate = (dateStr?: string | null): string => {
 
   return date.toLocaleDateString('en-US', options);
 };
+
+export const splitArray = <T>(array: T[], chunkSize: number): T[][] => {
+  const results = [];
+  while (array.length) {
+    results.push(array.splice(0, chunkSize));
+  }
+  return results;
+};
