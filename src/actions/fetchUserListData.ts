@@ -3,6 +3,7 @@
 import { RoleType, User, UserType } from '@/misc/Interfaces';
 import { getChannelMods, getChannelVips } from '@/utils/roles/channel';
 import { getUserMods, getUserVips } from '@/utils/roles/user';
+import { filterUsers } from '@/utils/user';
 
 type UserRolesFunctions = {
   channel: {
@@ -38,5 +39,6 @@ export async function fetchUserListData(
     return [];
   }
 
-  return fetchFunction(user, forceRefresh);
+  const users = await fetchFunction(user, forceRefresh);
+  return filterUsers(users);
 }

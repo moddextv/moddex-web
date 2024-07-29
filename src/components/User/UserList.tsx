@@ -8,6 +8,7 @@ import { useUserListData } from '@/hooks/useUserListData';
 import { UserListProps } from '@/misc/Interfaces';
 import { Button, Divider } from '@nextui-org/react';
 import { FC } from 'react';
+import { filterUsers } from '@/utils/user';
 
 export const UserList: FC<UserListProps> = ({ type, role, user }) => {
   const { users, isLoading, error, reload } = useUserListData(user, type, role);
@@ -33,10 +34,9 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
             {users.length} {role}
           </p>
           <div className="md:max-h-[32rem] overflow-y-auto flex flex-col gap-4">
-            {users.map((user, index) => {
-              if (user.ignored) return;
-              return <UserListItem key={index} user={user} />;
-            })}
+            {users.map((user, index) => (
+              <UserListItem key={index} user={user} />
+            ))}
           </div>
         </>
       )}
