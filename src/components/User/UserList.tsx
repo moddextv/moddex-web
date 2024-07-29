@@ -13,8 +13,6 @@ import { filterUsers } from '@/utils/user';
 export const UserList: FC<UserListProps> = ({ type, role, user }) => {
   const { users, isLoading, error, reload } = useUserListData(user, type, role);
 
-  const filteredUsers = filterUsers(users);
-
   return (
     <div className="relative p-4 pr-2 border-1 border-primary-700 rounded-lg">
       {!isLoading && !error && type === 'channel' && (
@@ -33,10 +31,10 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
       {!isLoading && !error && (
         <>
           <p className="text-center mt-1 mb-2 text-large">
-            {filteredUsers.length} {role}
+            {users.length} {role}
           </p>
           <div className="md:max-h-[32rem] overflow-y-auto flex flex-col gap-4">
-            {filteredUsers.map((user, index) => (
+            {users.map((user, index) => (
               <UserListItem key={index} user={user} />
             ))}
           </div>
