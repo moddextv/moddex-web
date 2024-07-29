@@ -2,6 +2,7 @@ import { db } from '@/misc/Database';
 import { TwitchUser } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
 import { config } from '../../../../config';
+import { splitArray } from '@/utils/utils';
 
 export const helix = async (
   endpoint: string,
@@ -74,9 +75,15 @@ export const getAppAuthToken = async () => {
   return newTokenData.access_token;
 };
 
-export const getUsersFromHelix = async (
-  usernames: string[]
-): Promise<TwitchUser[]> => {
-  const endpoint = `users?${usernames.map((username) => `login=${username}`).join('&')}`;
-  return await helix(endpoint);
+export const getUsersFromHelix = async (usernames: string[]): Promise<TwitchUser[]> => {
+  const usernameChunks = splitArray([...usernames], 100);
+
+  const userArrays = await Promise.all(
+    usernameChunks.map(async (userChunk) => {
+      const endpoint = `users?${userChunk.map((username) => `login=${username}`).join('&')}`;
+      return await helix(endpoint);
+    })
+  );
+
+  return userArrays.flat();
 };

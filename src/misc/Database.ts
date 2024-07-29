@@ -13,7 +13,8 @@ export const db = {
       database: config.db.name,
       user: config.db.user,
       password: config.db.pass,
-      charset: 'utf8mb4'
+      charset: 'utf8mb4',
+      timezone: 'Z'
     });
   },
 
