@@ -1,6 +1,7 @@
 import { User } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
 import { config } from '../../../../config';
+import { splitArray } from '@/utils/utils';
 
 const gqlQuery = async (body: string): Promise<any> => {
   try {
@@ -22,6 +23,48 @@ const gqlQuery = async (body: string): Promise<any> => {
     return [];
   }
 };
+
+export const fetchUsers = async (userIds: string[]): Promise<(User | false)[]> => {
+  const chunkedUserIds = splitArray(userIds, 35);
+
+  const users = await Promise.all(chunkedUserIds.map(async chunk => {
+    const operations = chunk.map(id => `
+      user_${id}: user(id: "${id}") {
+        createdAt
+        id
+        login
+        displayName
+        description
+        profileImageURL(width: 150)
+        followers(first: 25) {
+          totalCount
+        }
+      }
+    `).join('\n');
+
+    const response = await gqlQuery(JSON.stringify({
+      query: `query { ${operations} }`
+    }));
+
+    if (!response?.data) return [];
+
+    return Object.values(response.data).map((user: any) => {
+      if (!user) return false;
+
+      return {
+        id: user.id,
+        login: user.login,
+        name: user.displayName,
+        avatar: user.profileImageURL,
+        bio: user.description,
+        follower: user.followers?.totalCount || 0,
+        badges: []
+      };
+    });
+  }));
+
+  return users.flat();
+}
 
 export const fetchMods = async (channelId: string): Promise<User[]> => {
   const mods: User[] = [];
@@ -62,6 +105,7 @@ export const fetchMods = async (channelId: string): Promise<User[]> => {
           login: edge.node.login,
           name: edge.node.displayName,
           avatar: edge.node.profileImageURL,
+          follower: edge.node.followers?.totalCount || 0,
           granted: edge.grantedAt,
           badges: []
         });
@@ -111,6 +155,7 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
           login: edge.node.login,
           name: edge.node.displayName,
           avatar: edge.node.profileImageURL,
+          follower: edge.node.followers?.totalCount || 0,
           granted: edge.grantedAt,
           badges: []
         });
@@ -129,6 +174,9 @@ interface GqlRoleDataEdge {
     displayName: string;
     login: string;
     profileImageURL: string;
+    followers: {
+      totalCount: number;
+    };
     __typename: string;
   };
   __typename: string;

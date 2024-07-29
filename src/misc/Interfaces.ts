@@ -18,6 +18,7 @@ export interface User {
   login: string;
   name: string;
   avatar: string;
+  follower: number;
   bio?: string | null;
   discord?: string | null;
   created?: string | null;
