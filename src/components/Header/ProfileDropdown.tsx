@@ -82,12 +82,14 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
+
         <DropdownSection showDivider>
           <DropdownItem
             textValue="opt-out"
             onClick={handleIgnoreToggle}
             closeOnSelect={false}
-            onAction={() => {}}
+            onAction={() => {
+            }}
           >
             <div className="flex items-center justify-between w-full">
               <div>
@@ -103,14 +105,27 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             </div>
           </DropdownItem>
         </DropdownSection>
-        <DropdownSection>
-          {(session?.user?.perms ?? 0) >= constants.permissions.team ? (
+
+        {(session?.user?.perms ?? 0) >= constants.permissions.team ? (
+          <DropdownSection showDivider>
             <DropdownItem textValue="dashboard" href={'/dashboard'}>
-                dashboard
+              dashboard
             </DropdownItem>
-          ) : (
-            (null as unknown as ItemElement<object>)
-          )}
+          </DropdownSection>
+        ) : (
+          (null as unknown as ItemElement<object>)
+        )}
+
+        <DropdownSection>
+          <DropdownItem textValue="your channel" href={`/channel/${session.user.name}`}>
+            your channel
+          </DropdownItem>
+          <DropdownItem textValue="your user" href={`/user/${session.user.name}`}>
+            your user
+          </DropdownItem>
+        </DropdownSection>
+
+        <DropdownSection>
           <DropdownItem
             className="text-red-500"
             color="danger"
