@@ -58,6 +58,11 @@ export default async function TosPage() {
       <div className="mt-2 mb-8">
         <p>Any claim related to modchecker&apos;s Website shall be governed by the laws of us without regards to its conflict of law provisions.</p>
       </div>
+
+      <Title level={2} size="md">9. Contact</Title>
+      <div className="mt-2 mb-8">
+        <p>If you have any questions related to modchecker, feel free to write us an email to <a href="mailto:info@relaxo.dev">info@relaxo.dev</a>.</p>
+      </div>
     </>
   );
 }
