@@ -116,7 +116,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           (null as unknown as ItemElement<object>)
         )}
 
-        <DropdownSection>
+        <DropdownSection showDivider>
           <DropdownItem textValue="your channel" href={`/channel/${session.user.name}`}>
             your channel
           </DropdownItem>
