@@ -6,7 +6,8 @@ import { User } from '@/misc/Interfaces';
 import { formatDate } from '@/utils/utils';
 import { Image, Snippet } from '@nextui-org/react';
 import { FC } from 'react';
-import { DiscordIcon, TwitchIcon } from '@/components/Icons';
+import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
+import { Tooltip } from '@/components/UI/Tooltip';
 
 export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
   user,
@@ -14,7 +15,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
 }) => {
   return (
     <div className="mb-12 flex flex-col gap-4 md:gap-8 md:flex-row justify-between overflow-hidden">
-      <div className="flex flex-row md:flex-col items-center gap-6">
+      <div className="flex flex-row md:flex-col items-center gap-4">
         <Image
           className="w-16 h-16"
           radius="full"
@@ -38,6 +39,11 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
           }}
           codeString={`https://mdc.lol/${isUser ? 'u' : 'c'}/${user.login}`}
         />
+        <Tooltip content="reload profile details">
+          <span className="cursor-pointer">
+            <ReloadIcon size={20} />
+          </span>
+        </Tooltip>
       </div>
 
       <div className="flex-1 min-w-0">

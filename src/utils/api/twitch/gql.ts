@@ -25,7 +25,7 @@ const gqlQuery = async (body: string): Promise<any> => {
 };
 
 export const fetchUsers = async (userIds: string[]): Promise<(User | false)[]> => {
-  const chunkedUserIds = splitArray(userIds, 35);
+  const chunkedUserIds = splitArray(userIds, 50);
 
   const users = await Promise.all(chunkedUserIds.map(async chunk => {
     const operations = chunk.map(id => `
