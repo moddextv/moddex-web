@@ -29,7 +29,7 @@ const getUsersByRole = async (
   return getStoredUsers(user.id, role);
 };
 
-const getAndStoreUsers = async (id: string, role: ChannelRoleType): Promise<User[]> => {
+const getAndStoreUsers = async (channelId: string, role: ChannelRoleType): Promise<User[]> => {
   const usersFromApi =
     role === 'mods' ? await fetchMods(channelId) : await fetchVips(channelId);
   const userLogins = usersFromApi.map((user) => user.login);
