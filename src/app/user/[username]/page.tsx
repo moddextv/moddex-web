@@ -3,6 +3,9 @@ import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
 import { Metadata } from 'next';
+import { getUserId } from '@/utils/api/twitch/helix';
+import { db } from '@/misc/Database';
+import { redirect } from 'next/navigation';
 
 interface PageProps {
   params: { username: string };
@@ -16,8 +19,9 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
 export default async function UserUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
+  const userId = await getUserId(username);
 
-  const user = await getUser(username);
+  const user = await getUser(userId);
   if (!user || user.ignored) {
     return (
       <NotFound
@@ -25,6 +29,11 @@ export default async function UserUsernamePage({ params }: PageProps) {
         message={`this could also mean, that the user has opted-out from being tracked.`}
       />
     );
+  }
+
+  if (user.login !== username) {
+    await db.query('UPDATE user SET login=?, name=? WHERE id=?', [user.login, user.name, user.id]);
+    redirect(`/user/${user.login}`);
   }
 
   return (

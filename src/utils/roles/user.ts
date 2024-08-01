@@ -2,15 +2,15 @@ import { db } from '@/misc/Database';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { formatUsers } from '@/utils/user';
 
-export async function getUserMods(user: User): Promise<User[]> {
+export const getUserMods = async (user: User): Promise<User[]> => {
   return getUserRoles(user.id, 'mods');
 }
 
-export async function getUserVips(user: User): Promise<User[]> {
+export const getUserVips = async (user: User): Promise<User[]> => {
   return getUserRoles(user.id, 'vips');
 }
 
-export async function getUserRoles(userId: string, role: string): Promise<User[]> {
+export const getUserRoles = async (userId: string, role: string): Promise<User[]> => {
   const channels: UserBadgeRow[] = await db.query(
       `
       SELECT 
@@ -34,5 +34,5 @@ export async function getUserRoles(userId: string, role: string): Promise<User[]
       [userId]
   );
 
-  return formatUsers(channels, true) ?? [];
+  return formatUsers(channels, true);
 }

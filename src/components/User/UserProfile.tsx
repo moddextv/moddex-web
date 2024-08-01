@@ -63,48 +63,46 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="mb-2">
-              <Title className="flex flex-row items-center overflow-hidden">
+            <Title className="flex flex-row items-center overflow-hidden">
               <span className="overflow-hidden text-ellipsis whitespace-nowrap">
                 {currentUser?.name}
               </span>
-                <div className="flex-shrink-0 ml-2 flex items-center">
+              <div className="flex-shrink-0 ml-2 flex items-center">
+                <a
+                  href={`https://twitch.tv/${currentUser?.login}`}
+                  title={`view ${currentUser?.login} on twitch`}
+                  target="_blank"
+                  className="ml-2"
+                >
+                  <TwitchIcon size={24} />
+                </a>
+                {currentUser?.discord ? (
                   <a
-                    href={`https://twitch.tv/${currentUser?.login}`}
-                    title={`view ${currentUser?.login} on twitch`}
+                    href={`https://discord.com/users/${currentUser.discord}`}
+                    title={`view ${currentUser.login} on discord`}
                     target="_blank"
                     className="ml-2"
                   >
-                    <TwitchIcon size={24} />
+                    <DiscordIcon size={24} />
                   </a>
-                  {currentUser?.discord ? (
-                    <a
-                      href={`https://discord.com/users/${currentUser.discord}`}
-                      title={`view ${currentUser.login} on discord`}
-                      target="_blank"
-                      className="ml-2"
-                    >
-                      <DiscordIcon size={24} />
-                    </a>
-                  ) : <Null />}
-                </div>
-              </Title>
-              <Title
-                level={3}
-                className="overflow-hidden text-ellipsis whitespace-nowrap text-large"
-              >
-                @{currentUser?.login}
-              </Title>
-              {currentUser?.follower ? (
-                <p className="text-sm text-primary-500">
-                  {formatNumber(currentUser.follower)} follower
-                </p>
-              ) : <Null />}
-            </div>
-            <Badges badges={currentUser?.badges || []} size={24} />
+                ) : <Null />}
+              </div>
+            </Title>
+            <Title
+              level={3}
+              className="overflow-hidden text-ellipsis whitespace-nowrap text-large mb-2"
+            >
+              @{currentUser?.login}
+            </Title>
+            <Badges badges={currentUser?.badges || []} size={28} />
             <div className="overflow-hidden text-ellipsis mt-2 break-all hyphens-auto">
               {currentUser?.bio}
             </div>
+            {currentUser?.follower ? (
+              <p className="text-primary-500">
+                {formatNumber(currentUser.follower)} follower
+              </p>
+            ) : <Null />}
             {currentUser?.created ? (
               <p className="text-sm text-primary-500">
                 created on {formatDate(currentUser?.created)}

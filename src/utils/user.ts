@@ -4,6 +4,7 @@ import { db } from '@/misc/Database';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { addBadgeByNameToUser, getUserBadges, removeBadgeByNameFromUser } from '@/utils/badges';
 import { fetchUsersById } from '@/utils/api/twitch/gql';
+import { logger } from '@/misc/Logger';
 
 export const getUserPermission = async (
   userId: string = ''
@@ -107,8 +108,8 @@ const updateUserInDb = async (user: User): Promise<User> => {
   };
 };
 
-export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
-  if (!usernames.length) {
+export const getUsersFromDb = async (userIds: string[]): Promise<User[]> => {
+  if (!userIds.length) {
     return [];
   }
 
@@ -125,12 +126,12 @@ export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
         ON ub.badge_id = b.id
       LEFT JOIN dctwitchusers dc
         ON dc.twitch_id = u.id
-      WHERE u.login
-        IN (${new Array(usernames.length).fill('?').join(',')})
+      WHERE u.id
+        IN (${new Array(userIds.length).fill('?').join(',')})
       ORDER BY
         b.order ASC
     `,
-    [...usernames]
+    [...userIds]
   );
 
   return formatUsers(userList);

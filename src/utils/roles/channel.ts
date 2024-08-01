@@ -32,16 +32,16 @@ const getUsersByRole = async (
 const getAndStoreUsers = async (channelId: string, role: ChannelRoleType): Promise<User[]> => {
   const usersFromApi =
     role === 'mods' ? await fetchMods(channelId) : await fetchVips(channelId);
-  const userLogins = usersFromApi.map((user) => user.login);
+  const userIds = usersFromApi.map((user) => user.id);
 
-  if (!userLogins.length) {
+  if (!userIds.length) {
     return Promise.all([
       db.query(`UPDATE users SET updated=CURRENT_TIMESTAMP WHERE id=?`, [channelId]),
       db.query(`DELETE FROM ${role} WHERE channel_id=?`, [channelId])
     ]);
   }
 
-  await getUsers(userLogins);
+  await getUsers(userIds);
   await storeUsers(channelId, usersFromApi, role);
 
   await db.query(`UPDATE users SET updated=CURRENT_TIMESTAMP WHERE id=?`, [channelId]);
