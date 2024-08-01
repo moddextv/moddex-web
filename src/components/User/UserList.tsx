@@ -6,9 +6,8 @@ import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
 import { useUserListData } from '@/hooks/useUserListData';
 import { UserListProps } from '@/misc/Interfaces';
-import { Button, Divider } from '@nextui-org/react';
+import { Divider } from '@nextui-org/react';
 import { FC } from 'react';
-import { filterUsers } from '@/utils/user';
 
 export const UserList: FC<UserListProps> = ({ type, role, user }) => {
   const { users, isLoading, error, reload } = useUserListData(user, type, role);

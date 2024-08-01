@@ -62,8 +62,8 @@ export const GET = async (request: Request, context: any) => {
   }
 };
 
-const filterResults = (users: User[], paramName: string, param: string) => {
-  const filteredUsers = filterUsers(users);
+const filterResults = async (users: User[], paramName: string, param: string) => {
+  const filteredUsers = await filterUsers(users);
 
   if (!filteredUsers.length) {
     return NotFound(`no user found with ${paramName} ${param}`);

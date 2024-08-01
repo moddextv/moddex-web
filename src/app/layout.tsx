@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://modchecker.com'),
   title: {
     default: 'modchecker',
-    template: '%s - modchecker'
+    template: '%s | modchecker'
   },
   description: 'modchecker.com - see tracked mods/vips of a twitch channel or see a list of channels a user has mod/vip privileges in',
   authors: {
