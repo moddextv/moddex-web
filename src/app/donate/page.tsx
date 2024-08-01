@@ -41,7 +41,7 @@ export default async function DonatePage() {
                 alt="Donator Badge"
                 width={25}
                 height={25}
-                className="inline cursor-pointer"
+                className="inline cursor-help"
               />
             </Tooltip>
           </span>
@@ -57,7 +57,7 @@ export default async function DonatePage() {
                 alt="Top Donator Badge"
                 width={25}
                 height={25}
-                className="inline cursor-pointer"
+                className="inline cursor-help"
               />
             </Tooltip>
           </span>

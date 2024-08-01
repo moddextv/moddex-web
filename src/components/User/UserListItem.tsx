@@ -36,13 +36,13 @@ export const UserListItem: FC<UserListItemProps> = ({ user }) => {
         </div>
         {user.follower ? (
           <Tooltip content={`${formatNumber(user.follower)} follower`}>
-            <span className="cursor-pointer">
+            <span className="cursor-help">
               <UsersIcon size={20} />
             </span>
           </Tooltip>
         ) : <Null />}
         <Tooltip content={`since ${formatDate(user.granted)}`}>
-          <span className="cursor-pointer">
+          <span className="cursor-help">
             <ClockIcon size={20} />
           </span>
         </Tooltip>
