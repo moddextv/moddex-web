@@ -1,9 +1,7 @@
 import { db } from '@/misc/Database';
-import { User, UserBadgeRow } from '@/misc/Interfaces';
+import { ChannelRoleType, User, UserBadgeRow } from '@/misc/Interfaces';
 import { fetchMods, fetchVips } from '@/utils/api/twitch/gql';
 import { formatUsers, getUsers } from '@/utils/user';
-
-type Role = 'mods' | 'vips';
 
 export const getChannelMods = async (
   user: User,
@@ -21,7 +19,7 @@ export const getChannelVips = async (
 
 const getUsersByRole = async (
   user: User,
-  role: Role,
+  role: ChannelRoleType,
   forceRefresh: boolean
 ): Promise<User[]> => {
   if (forceRefresh || !user.updated) {
@@ -31,7 +29,7 @@ const getUsersByRole = async (
   return getStoredUsers(user.id, role);
 };
 
-const getAndStoreUsers = async (id: string, role: Role): Promise<User[]> => {
+const getAndStoreUsers = async (id: string, role: ChannelRoleType): Promise<User[]> => {
   const usersFromApi =
     role === 'mods' ? await fetchMods(id) : await fetchVips(id);
   const userLogins = usersFromApi.map((user) => user.login);
@@ -46,11 +44,11 @@ const getAndStoreUsers = async (id: string, role: Role): Promise<User[]> => {
   return getStoredUsers(id, role);
 };
 
-const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
+const getStoredUsers = async (id: string, role: ChannelRoleType): Promise<User[]> => {
   const usersFromDb: UserBadgeRow[] = await db.query(
     `
       SELECT 
-        u.id, u.login, u.name, u.avatar, u.ignored,
+        u.id, u.login, u.name, u.avatar, u.follower, u.ignored,
         r.granted, 
         b.id AS badge_id,
         b.name AS badge_name,
@@ -74,7 +72,7 @@ const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
   return formatUsers(usersFromDb, true);
 };
 
-const storeUsers = async (id: string, users: User[], role: Role) => {
+const storeUsers = async (id: string, users: User[], role: ChannelRoleType) => {
   await db.query(`DELETE FROM ${role} WHERE channel_id=?`, [id]);
 
   for (const user of users) {

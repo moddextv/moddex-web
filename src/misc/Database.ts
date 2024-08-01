@@ -1,6 +1,6 @@
 import { logger } from '@/misc/Logger';
 import mariadb from 'mariadb';
-import { config } from '../../config';
+import { config } from '@/config';
 
 export const db = {
   pool: null as any,

@@ -18,8 +18,13 @@ export interface User {
   login: string;
   name: string;
   avatar: string;
-  follower: number;
+  follower: number | null;
   bio?: string | null;
+  roles?: null | {
+    isAffiliate: boolean;
+    isPartner: boolean;
+    isStaff?: boolean;
+  };
   discord?: string | null;
   created?: string | null;
   updated?: string | null;
@@ -33,8 +38,14 @@ export interface UserBadgeRow {
   login: string;
   name: string;
   avatar: string;
+  follower: number;
   granted?: string | null;
   bio?: string | null;
+  roles?: null | {
+    isAffiliate: boolean;
+    isPartner: boolean;
+    isStaff?: boolean;
+  };
   discord?: string | null;
   created?: string | null;
   updated?: string | null;
@@ -44,16 +55,21 @@ export interface UserBadgeRow {
   badge_path: string;
 }
 
-export interface TwitchUser {
+export interface GqlUser {
   id: string;
   login: string;
-  display_name: string;
-  type: 'admin' | 'global_mod' | 'staff' | '';
-  broadcaster_type: 'affiliate' | 'partner' | '';
+  displayName: string;
   description: string;
-  profile_image_url: string;
-  offline_image_url: string;
-  created_at: string;
+  createdAt: string;
+  profileImageURL: string;
+  roles: {
+    isAffiliate: boolean;
+    isPartner: boolean;
+    isStaff: boolean;
+  };
+  followers: {
+    totalCount: number;
+  };
 }
 
 export interface IVRUser {

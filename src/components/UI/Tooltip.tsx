@@ -39,6 +39,7 @@ export const Tooltip = (props: ComponentProps<typeof NextUiTooltip>) => {
         closeDelay={200}
         className="font-medium"
         isOpen={isOpen}
+        offset={8}
         placement={isMobile ? 'left' : 'top'}
       />
     </div>
