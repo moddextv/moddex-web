@@ -60,8 +60,9 @@ export const fetchUsers = async (identifiers: string[], type: string = 'id'): Pr
         id: user.id,
         login: user.login,
         name: user.displayName,
-        avatar: user.profileImageURL,
         bio: user.description,
+        avatar: user.profileImageURL,
+        roles: user.roles,
         follower: user.followers?.totalCount || 0,
         created: user.createdAt,
         badges: []

@@ -15,7 +15,7 @@ export const helix = async (
 
   const headers = {
     'Client-Id': config.twitch.clientId,
-    Authorization: `Bearer ${auth}`,
+    'Authorization': `Bearer ${auth}`,
     'Content-Type': 'application/json'
   };
 
@@ -76,7 +76,7 @@ export const getAppAuthToken = async () => {
 };
 
 export const getUserId = async (username: string): Promise<string> => {
-  const user: IVRUser[] = await helix(`users?login=${username}`);
+  const user: any[] = await helix(`users?login=${username}`);
   return user[0]?.id || '';
 }
 

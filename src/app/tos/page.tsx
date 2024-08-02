@@ -61,7 +61,7 @@ export default async function TosPage() {
 
       <Title level={2} size="md">9. Contact</Title>
       <div className="mt-2 mb-8">
-        <p>If you have any questions related to modchecker, feel free to write us an email to <a href="mailto:info@relaxo.dev">info@relaxo.dev</a>.</p>
+        <p>If you have any questions related to modchecker, feel free to write us an email to <a className="underline" href="mailto:info@relaxo.dev">info@relaxo.dev</a>.</p>
       </div>
     </>
   );

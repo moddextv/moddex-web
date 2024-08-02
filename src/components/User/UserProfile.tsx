@@ -5,18 +5,26 @@ import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
 import { formatDate, formatNumber } from '@/utils/utils';
 import { Button, Image, Snippet } from '@nextui-org/react';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { UserProfileLoading } from '@/components/User/UserProfileLoading';
 import { useUserProfileData } from '@/hooks/useUserProfileData';
 import { Null } from '@/components/UI/Null';
+import { redirect } from 'next/navigation';
 
 export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
   user,
   isUser
 }) => {
   const { currentUser, loading, reloadUserProfile } = useUserProfileData(user);
+  const [initialLogin, setInitialLogin] = useState(user.login);
+
+  useEffect(() => {
+    if (currentUser?.login && currentUser.login !== initialLogin) {
+      return redirect(currentUser.login);
+    }
+  }, [currentUser, initialLogin]);
 
   return (
     <>

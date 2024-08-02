@@ -4,7 +4,7 @@ import { db } from '@/misc/Database';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { addBadgeByNameToUser, getUserBadges, removeBadgeByNameFromUser } from '@/utils/badges';
 import { fetchUsersById } from '@/utils/api/twitch/gql';
-import { logger } from '@/misc/Logger';
+import { getUserId as getUserIdFromIvr } from '@/utils/api/twitch/helix';
 
 export const getUserPermission = async (
   userId: string = ''
@@ -107,6 +107,13 @@ const updateUserInDb = async (user: User): Promise<User> => {
     badges: badgesForUser
   };
 };
+
+export const getUserId = async (login: string): Promise<string> => {
+  const user = await db.queryOne(`SELECT id FROM users WHERE login=?`, [login]);
+  if (user?.id) return user.id;
+
+  return getUserIdFromIvr(login);
+}
 
 export const getUsersFromDb = async (userIds: string[]): Promise<User[]> => {
   if (!userIds.length) {

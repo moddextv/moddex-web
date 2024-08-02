@@ -8,9 +8,9 @@ export const Footer = () => {
         <span> | </span>
         <span>not affiliated with twitch interactive</span>
         <span> | </span>
-        <a className="underline" href={'/api/docs'}>api docs</a>
-        <span> | </span>
         <a className="underline" href={'/tos'}>tos</a>
+        <span> | </span>
+        <a className="underline" href={'/api/docs'}>api docs</a>
         <span> | </span>
         <a className="underline" href={'https://status.modchecker.com'} target="_blank">status</a>
       </p>
