@@ -14,7 +14,7 @@ export const getUserRoles = async (userId: string, role: string): Promise<User[]
   const channels: UserBadgeRow[] = await db.query(
       `
       SELECT 
-        u.id, u.name, u.login, u.avatar, u.ignored,
+        u.id, u.name, u.login, u.avatar, u.follower, u.ignored,
         r.granted, 
         b.id AS badge_id, 
         b.name AS badge_name, 

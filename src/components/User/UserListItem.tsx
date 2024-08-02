@@ -34,8 +34,8 @@ export const UserListItem: FC<UserListItemProps> = ({ user }) => {
           </Link>
           <Badges badges={user.badges} size={25} />
         </div>
-        {user.follower ? (
-          <Tooltip content={`${formatNumber(user.follower)} follower`}>
+        {user?.follower !== null ? (
+          <Tooltip content={`${formatNumber(user.follower)} follower${user.follower !== 1 ? 's' : ''}`}>
             <span className="cursor-help">
               <UsersIcon size={20} />
             </span>
