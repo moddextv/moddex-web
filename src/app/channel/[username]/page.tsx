@@ -1,8 +1,10 @@
 import { NotFound } from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
-import { getUser } from '@/utils/user';
+import { getUser, getUserId } from '@/utils/user';
 import { Metadata } from 'next';
+import { db } from '@/misc/Database';
+import { redirect } from 'next/navigation';
 
 interface PageProps {
   params: { username: string };
@@ -14,17 +16,29 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
+const handleNotFound = (username: string) => (
+  <NotFound
+    error={`user «${username}» not found`}
+    message={`this could also mean, that the channel owner has opted-out from being tracked.`}
+  />
+);
+
 export default async function ChannelUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
+  const userId = await getUserId(username);
 
-  const user = await getUser(username);
+  if (!userId) {
+    return handleNotFound(username);
+  }
+
+  const user = await getUser(userId);
   if (!user || user.ignored) {
-    return (
-      <NotFound
-        error={`channel «${username}» not found`}
-        message={`this could also mean, that the channel owner has opted-out from being tracked.`}
-      />
-    );
+    return handleNotFound(username);
+  }
+
+  if (user.login !== username) {
+    await db.query('UPDATE users SET login=?, name=? WHERE id=?', [user.login, user.name, user.id]);
+    return redirect(`/channel/${user.login}`);
   }
 
   return (

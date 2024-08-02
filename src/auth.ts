@@ -1,7 +1,7 @@
 import { getUserPermission } from '@/utils/user';
 import Twitch from '@auth/core/providers/twitch';
 import NextAuth from 'next-auth';
-import { config } from '../config';
+import { config } from '@/config';
 
 export const { handlers, auth, signIn } = NextAuth({
   secret: config.authSecret,

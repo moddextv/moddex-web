@@ -1,6 +1,7 @@
-import { User } from '@/misc/Interfaces';
+import { ChannelRoleType, User } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
-import { config } from '../../../../config';
+import { config } from '@/config';
+import { splitArray } from '@/utils/utils';
 
 const gqlQuery = async (body: string): Promise<any> => {
   try {
@@ -23,57 +24,74 @@ const gqlQuery = async (body: string): Promise<any> => {
   }
 };
 
-export const fetchMods = async (channelId: string): Promise<User[]> => {
-  const mods: User[] = [];
-  let cursor = '';
-  let hasNextPage = true;
+export const fetchUsers = async (identifiers: string[], type: string = 'id'): Promise<User[]> => {
+  const chunkedIds = splitArray(identifiers, 50);
 
-  while (hasNextPage) {
-    const response: GqlRoleData = await gqlQuery(JSON.stringify({
-      query: `query {
-        user(id: "${channelId}") {
-          mods(first: 100, after: "${cursor}") {
-            edges {
-              grantedAt,
-              cursor,
-              node {
-                login,
-                displayName,
-                id,
-                profileImageURL(width: 300)
-              }
-            },
-            pageInfo {
-              hasNextPage
-            }
-          }
+  const users = await Promise.all(chunkedIds.map(async chunk => {
+    const operations = chunk.map(identifier => `
+      user_${identifier}: user(${type}: "${identifier}") {
+        id
+        login
+        displayName
+        description
+        createdAt
+        profileImageURL(width: 150)
+        roles {
+          isAffiliate,
+          isPartner,
+          isStaff
         }
-      }`
+        followers(first: 1) {
+          totalCount
+        }
+      }
+    `).join('\n');
+
+    const response = await gqlQuery(JSON.stringify({
+      query: `query { ${operations} }`
     }));
 
-    const edges: GqlRoleDataEdge[] = response?.data?.user?.mods?.edges || [];
-    hasNextPage = response?.data?.user?.mods?.pageInfo?.hasNextPage || false;
-    cursor = hasNextPage ? edges[edges.length - 1]?.cursor : '';
+    if (!response?.data) return [];
 
-    edges.forEach(edge => {
-      if (edge.node) {
-        mods.push({
-          id: edge.node.id,
-          login: edge.node.login,
-          name: edge.node.displayName,
-          avatar: edge.node.profileImageURL,
-          granted: edge.grantedAt,
-          badges: []
-        });
-      }
-    });
-  }
+    return Object.values(response.data).map((user: any) => {
+      if (!user) return [];
 
-  return mods;
+      return {
+        id: user.id,
+        login: user.login,
+        name: user.displayName,
+        bio: user.description,
+        avatar: user.profileImageURL,
+        roles: user.roles,
+        follower: user.followers?.totalCount || 0,
+        created: user.createdAt,
+        badges: []
+      } as User;
+    }).filter(Boolean);
+  }));
+
+  return users.flat() as User[];
+};
+
+export const fetchUsersById = async (userIds: string[]): Promise<User[]> => {
+  return await fetchUsers(userIds);
+};
+
+export const fetchUsersByLogin = async (usernames: string[]): Promise<User[]> => {
+  return await fetchUsers(usernames, 'login');
+};
+
+
+export const fetchMods = async (channelId: string): Promise<User[]> => {
+  return fetchRoles(channelId, 'mods');
 };
 
 export const fetchVips = async (channelId: string): Promise<User[]> => {
-  const vips: User[] = [];
+  return fetchRoles(channelId, 'vips');
+};
+
+const fetchRoles = async (channelId: string, role: ChannelRoleType): Promise<User[]> => {
+  const users: User[] = [];
   let cursor = '';
   let hasNextPage = true;
 
@@ -81,15 +99,25 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
     const response: GqlRoleData = await gqlQuery(JSON.stringify({
       query: `query {
         user(id: "${channelId}") {
-          vips(first: 100, after: "${cursor}") {
+          ${role}(first: 100, after: "${cursor}") {
             edges {
               grantedAt,
               cursor,
               node {
-                login,
-                displayName,
-                id,
-                profileImageURL(width: 300)
+                id
+                login
+                displayName
+                description
+                createdAt
+                profileImageURL(width: 150)
+                roles {
+                  isAffiliate,
+                  isPartner,
+                  isStaff
+                }
+                followers(first: 1) {
+                  totalCount
+                }
               }
             },
             pageInfo {
@@ -100,17 +128,21 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
       }`
     }));
 
-    const edges: GqlRoleDataEdge[] = response?.data?.user?.vips?.edges || [];
-    hasNextPage = response?.data?.user?.vips?.pageInfo?.hasNextPage || false;
+    const edges: GqlRoleDataEdge[] = response?.data?.user?.[role]?.edges || [];
+    hasNextPage = response?.data?.user?.[role]?.pageInfo?.hasNextPage || false;
     cursor = hasNextPage ? edges[edges.length - 1]?.cursor : '';
 
     edges.forEach(edge => {
       if (edge.node) {
-        vips.push({
+        users.push({
           id: edge.node.id,
           login: edge.node.login,
           name: edge.node.displayName,
+          bio: edge.node.description,
           avatar: edge.node.profileImageURL,
+          roles: edge.node.roles,
+          follower: edge.node.followers?.totalCount || 0,
+          created: edge.node.createdAt,
           granted: edge.grantedAt,
           badges: []
         });
@@ -118,7 +150,7 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
     });
   }
 
-  return vips;
+  return users;
 };
 
 interface GqlRoleDataEdge {
@@ -126,9 +158,19 @@ interface GqlRoleDataEdge {
   grantedAt: string;
   node: {
     id: string;
-    displayName: string;
     login: string;
+    displayName: string;
+    description: string | null;
+    createdAt: string;
     profileImageURL: string;
+    roles: {
+      isAffiliate: boolean;
+      isPartner: boolean;
+      isStaff: boolean;
+    };
+    followers: {
+      totalCount: number;
+    };
     __typename: string;
   };
   __typename: string;

@@ -1,7 +1,7 @@
 import { db } from '@/misc/Database';
-import { TwitchUser } from '@/misc/Interfaces';
+import { GqlUser, IVRUser } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
-import { config } from '../../../../config';
+import { config } from '@/config';
 import { splitArray } from '@/utils/utils';
 
 export const helix = async (
@@ -15,7 +15,7 @@ export const helix = async (
 
   const headers = {
     'Client-Id': config.twitch.clientId,
-    Authorization: `Bearer ${auth}`,
+    'Authorization': `Bearer ${auth}`,
     'Content-Type': 'application/json'
   };
 
@@ -75,7 +75,12 @@ export const getAppAuthToken = async () => {
   return newTokenData.access_token;
 };
 
-export const getUsersFromHelix = async (usernames: string[]): Promise<TwitchUser[]> => {
+export const getUserId = async (username: string): Promise<string> => {
+  const user: any[] = await helix(`users?login=${username}`);
+  return user[0]?.id || '';
+}
+
+export const getUsersFromHelix = async (usernames: string[]): Promise<GqlUser[]> => {
   const usernameChunks = splitArray([...usernames], 100);
 
   const userArrays = await Promise.all(

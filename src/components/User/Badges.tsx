@@ -17,7 +17,7 @@ export const Badges: FC<BadgeComponent> = ({ badges, size = 32 }) => {
             alt={badge.name}
             width={size}
             height={size}
-            className="cursor-pointer"
+            className="cursor-help"
           />
         </Tooltip>
       ))}

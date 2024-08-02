@@ -1,9 +1,7 @@
 import { db } from '@/misc/Database';
-import { User, UserBadgeRow } from '@/misc/Interfaces';
+import { ChannelRoleType, User, UserBadgeRow } from '@/misc/Interfaces';
 import { fetchMods, fetchVips } from '@/utils/api/twitch/gql';
 import { formatUsers, getUsers } from '@/utils/user';
-
-type Role = 'mods' | 'vips';
 
 export const getChannelMods = async (
   user: User,
@@ -21,7 +19,7 @@ export const getChannelVips = async (
 
 const getUsersByRole = async (
   user: User,
-  role: Role,
+  role: ChannelRoleType,
   forceRefresh: boolean
 ): Promise<User[]> => {
   if (forceRefresh || !user.updated) {
@@ -31,19 +29,19 @@ const getUsersByRole = async (
   return getStoredUsers(user.id, role);
 };
 
-const getAndStoreUsers = async (channelId: string, role: Role): Promise<User[]> => {
+const getAndStoreUsers = async (channelId: string, role: ChannelRoleType): Promise<User[]> => {
   const usersFromApi =
     role === 'mods' ? await fetchMods(channelId) : await fetchVips(channelId);
-  const userLogins = usersFromApi.map((user) => user.login);
+  const userIds = usersFromApi.map((user) => user.id);
 
-  if (!userLogins.length) {
+  if (!userIds.length) {
     return Promise.all([
       db.query(`UPDATE users SET updated=CURRENT_TIMESTAMP WHERE id=?`, [channelId]),
       db.query(`DELETE FROM ${role} WHERE channel_id=?`, [channelId])
     ]);
   }
 
-  await getUsers(userLogins);
+  await getUsers(userIds);
   await storeUsers(channelId, usersFromApi, role);
 
   await db.query(`UPDATE users SET updated=CURRENT_TIMESTAMP WHERE id=?`, [channelId]);
@@ -51,11 +49,11 @@ const getAndStoreUsers = async (channelId: string, role: Role): Promise<User[]> 
   return getStoredUsers(channelId, role);
 };
 
-const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
+const getStoredUsers = async (id: string, role: ChannelRoleType): Promise<User[]> => {
   const usersFromDb: UserBadgeRow[] = await db.query(
     `
       SELECT 
-        u.id, u.login, u.name, u.avatar, u.ignored,
+        u.id, u.login, u.name, u.avatar, u.follower, u.ignored,
         r.granted, 
         b.id AS badge_id,
         b.name AS badge_name,
@@ -79,7 +77,7 @@ const getStoredUsers = async (id: string, role: Role): Promise<User[]> => {
   return formatUsers(usersFromDb, true);
 };
 
-const storeUsers = async (id: string, users: User[], role: Role) => {
+const storeUsers = async (id: string, users: User[], role: ChannelRoleType) => {
   await db.query(`DELETE FROM ${role} WHERE channel_id=?`, [id]);
 
   for (const user of users) {

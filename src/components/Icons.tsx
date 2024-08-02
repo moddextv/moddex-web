@@ -28,7 +28,7 @@ export const ClockIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
     height={size}
     fill="none"
     stroke="currentColor"
-    strokeWidth="2"
+    strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     viewBox="0 0 24 24"
@@ -135,7 +135,7 @@ export const MenuIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
     height={size}
     viewBox="0 0 24 24"
     fill="none"
-    strokeWidth="1"
+    strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
@@ -155,6 +155,7 @@ export const ReloadIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
     height={size}
     viewBox="0 0 24 24"
     fill="none"
+    strokeWidth="1.5"
   >
     <g stroke="currentColor">
       <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
@@ -200,3 +201,27 @@ export const TwitchIcon: FC<SvgIconProps> = ({
     />
   </svg>
 );
+
+export const UsersIcon: FC<SvgIconProps> = ({
+  size = 32,
+  color = ''
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <g stroke="currentColor">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </g>
+  </svg>
+)
