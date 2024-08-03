@@ -106,9 +106,9 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
             <div className="overflow-hidden text-ellipsis mt-2 break-all hyphens-auto">
               {currentUser?.bio}
             </div>
-            {currentUser?.follower ? (
+            {currentUser?.follower !== null ? (
               <p className="text-primary-500">
-                {formatNumber(currentUser.follower)} follower
+                {formatNumber(currentUser?.follower || 0)} follower
               </p>
             ) : <Null />}
             {currentUser?.created ? (

@@ -23,7 +23,7 @@ const getUsersByRole = async (
   forceRefresh: boolean
 ): Promise<User[]> => {
   if (forceRefresh || !user.updated) {
-    return await getAndStoreUsers(user.id, role);
+    return getAndStoreUsers(user.id, role);
   }
 
   return getStoredUsers(user.id, role);
@@ -35,10 +35,12 @@ const getAndStoreUsers = async (channelId: string, role: ChannelRoleType): Promi
   const userIds = usersFromApi.map((user) => user.id);
 
   if (!userIds.length) {
-    return Promise.all([
+    await Promise.all([
       db.query(`UPDATE users SET updated=CURRENT_TIMESTAMP WHERE id=?`, [channelId]),
       db.query(`DELETE FROM ${role} WHERE channel_id=?`, [channelId])
     ]);
+
+    return [];
   }
 
   await getUsers(userIds);

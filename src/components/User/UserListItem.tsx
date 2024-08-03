@@ -13,7 +13,7 @@ interface UserListItemProps {
 
 export const UserListItem: FC<UserListItemProps> = ({ user }) => {
   return (
-    <div className="flex gap-4 pr-4 pl-2 items-center">
+    <div className="flex items-center gap-4 min-h-14 pr-4 pl-2">
       <Link href={`./${user.login}`}>
         <Image
           src={user.avatar}
@@ -35,7 +35,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user }) => {
           <Badges badges={user.badges} size={25} />
         </div>
         {user?.follower !== null ? (
-          <Tooltip content={`${formatNumber(user.follower)} follower${user.follower !== 1 ? 's' : ''}`}>
+          <Tooltip content={`${formatNumber(user.follower || 0)} follower`}>
             <span className="cursor-help">
               <UsersIcon size={20} />
             </span>
