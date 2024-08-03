@@ -10,8 +10,8 @@ import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { UserProfileLoading } from '@/components/User/UserProfileLoading';
 import { useUserProfileData } from '@/hooks/useUserProfileData';
-import { Null } from '@/components/UI/Null';
 import { redirect } from 'next/navigation';
+import { ItemElement } from '@react-types/shared';
 
 export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
   user,
@@ -93,7 +93,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
                   >
                     <DiscordIcon size={24} />
                   </a>
-                ) : <Null />}
+                ) : null as unknown as ItemElement<object>}
               </div>
             </Title>
             <Title
@@ -110,12 +110,12 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
               <p className="text-primary-500">
                 {formatNumber(currentUser?.follower || 0)} follower
               </p>
-            ) : <Null />}
+            ) : null as unknown as ItemElement<object>}
             {currentUser?.created ? (
               <p className="text-sm text-primary-500">
                 created on {formatDate(currentUser?.created)}
               </p>
-            ) : <Null />}
+            ) : null as unknown as ItemElement<object>}
           </div>
         </div>
       )}

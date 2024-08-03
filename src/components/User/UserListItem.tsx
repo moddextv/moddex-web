@@ -5,7 +5,7 @@ import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
 import { formatDate, formatNumber } from '@/utils/utils';
 import { Image, Link } from '@nextui-org/react';
-import { Null } from '@/components/UI/Null';
+import { ItemElement } from '@react-types/shared';
 
 interface UserListItemProps {
   user: User;
@@ -40,7 +40,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user }) => {
               <UsersIcon size={20} />
             </span>
           </Tooltip>
-        ) : <Null />}
+        ) : null as unknown as ItemElement<object>}
         <Tooltip content={`since ${formatDate(user.granted)}`}>
           <span className="cursor-help">
             <ClockIcon size={20} />
