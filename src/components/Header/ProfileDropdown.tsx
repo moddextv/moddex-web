@@ -10,7 +10,6 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-  Link,
   Checkbox
 } from '@nextui-org/react';
 import { signIn, signOut } from 'next-auth/react';
@@ -18,7 +17,6 @@ import { getUserIgnoreState, setIgnoredUser } from '@/actions/userIgnoreState';
 import { AvatarIcon, TwitchIcon } from '@/components/Icons';
 import { constants } from '@/utils/constants';
 import { Session } from 'next-auth';
-import { Null } from '@/components/UI/Null';
 
 interface ProfileDropdownProps {
   session: Session | null;
@@ -113,7 +111,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               dashboard
             </DropdownItem>
           </DropdownSection>
-        ) : <Null />}
+        ) : null as unknown as ItemElement<object>}
 
         <DropdownSection showDivider>
           <DropdownItem textValue="your channel" href={`/channel/${session.user.name}`}>
