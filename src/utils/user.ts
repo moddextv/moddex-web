@@ -41,7 +41,7 @@ export const getUsers = async (
   let usersFromDB: User[] = [];
 
   if (!forceReload) {
-    usersFromDB = await getUsersFromDb(userIds);
+    usersFromDB = await getUsersFromDbById(userIds);
   }
 
   const newUsers: string[] = userIds.filter(userId => !usersFromDB.find(u => u.id === userId));
@@ -115,8 +115,8 @@ export const getUserId = async (login: string): Promise<string> => {
   return getUserIdFromIvr(login);
 }
 
-export const getUsersFromDb = async (userIds: string[]): Promise<User[]> => {
-  if (!userIds.length) {
+export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
+  if (!usernames.length) {
     return [];
   }
 
@@ -133,12 +133,12 @@ export const getUsersFromDb = async (userIds: string[]): Promise<User[]> => {
         ON ub.badge_id = b.id
       LEFT JOIN dctwitchusers dc
         ON dc.twitch_id = u.id
-      WHERE u.id
-        IN (${new Array(userIds.length).fill('?').join(',')})
+      WHERE u.login
+        IN (${new Array(usernames.length).fill('?').join(',')})
       ORDER BY
         b.order ASC
     `,
-    [...userIds]
+    [...usernames]
   );
 
   return formatUsers(userList);
