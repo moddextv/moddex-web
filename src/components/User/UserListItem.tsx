@@ -4,8 +4,9 @@ import { ClockIcon, UsersIcon } from '@/components/Icons';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
 import { formatDate, formatNumber } from '@/utils/utils';
-import { Image, Link } from '@nextui-org/react';
+import { Link } from '@nextui-org/react';
 import { ItemElement } from '@react-types/shared';
+import { Image } from '@/components/UI/Image';
 
 interface UserListItemProps {
   user: User;
@@ -13,7 +14,7 @@ interface UserListItemProps {
 
 export const UserListItem: FC<UserListItemProps> = ({ user }) => {
   return (
-    <div className="flex items-center gap-4 min-h-14 pr-4 pl-2">
+    <div className="flex items-center gap-4 min-h-14 p-2 pr-4">
       <Link href={`./${user.login}`}>
         <Image
           src={user.avatar}
