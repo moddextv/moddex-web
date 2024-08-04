@@ -1,6 +1,7 @@
 import { Title } from '@/components/UI/Title';
 import { Tooltip } from '@/components/UI/Tooltip';
-import { Button, Image, Link } from '@nextui-org/react';
+import { Button, Link } from '@nextui-org/react';
+import { Image } from '@/components/UI/Image';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
