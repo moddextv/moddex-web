@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <footer className="bg-primary-800 py-4 text-center">
       <p>
-        <span>&copy; {year} modcheckerf</span>
+        <span>&copy; {year} modchecker</span>
         <span> | </span>
         <span>not affiliated with twitch interactive</span>
         <span> | </span>
