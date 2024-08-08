@@ -5,7 +5,6 @@ import { Cairo, Lato } from 'next/font/google'; // Outfit ??
 import React from 'react';
 import { Providers } from './providers';
 import { Metadata } from 'next';
-import Tracking from '@/components/Tracking';
 
 const lato = Lato({
   weight: ['300', '400', '700'],
@@ -58,7 +57,6 @@ export default function RootLayout({
     >
     <body className="min-h-screen antialiased flex flex-col">
     <Providers>
-      <Tracking />
       <Header />
       <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col">
         {children}
