@@ -9,8 +9,8 @@ import { ChatBadge } from '@/components/Settings/ChatBadge';
 import { UserChatBadges } from '@/misc/Interfaces';
 
 export const metadata: Metadata = {
-  title: 'Profile Settings',
-  description: 'Update your settings for modchecker.com. Opt-out from being tracked or select a badge to display in chats.',
+  title: 'profile settings',
+  description: 'update your settings for modchecker.com. Opt-out from being tracked or select a badge to display in chats.',
 };
 
 export default async function SettingsPage() {

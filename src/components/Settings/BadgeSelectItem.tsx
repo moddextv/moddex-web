@@ -14,9 +14,9 @@ export const BadgeSelectItem: FC<BadgeSelectItemProps> = ({ name, path, size}) =
         src={path}
         width={size}
         height={size}
-        alt={name}
+        alt={name.toLowerCase()}
       />
     ) : null}
-    <span className="text-medium">{name}</span>
+    <span className="text-medium">{name.toLowerCase()}</span>
   </div>
 )
