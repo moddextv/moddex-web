@@ -7,23 +7,21 @@ let isScheduled = false;
 const captureSnapshot = async (): Promise<void> => {
   try {
     const [channels, users, mods, vips] = await Promise.all([
-      db.query(`SELECT COUNT(*) AS count FROM users WHERE updated IS NOT NULL`),
-      db.query(`SELECT COUNT(*) AS count FROM users`),
-      db.query(`SELECT COUNT(*) AS count FROM mods`),
-      db.query(`SELECT COUNT(*) AS count FROM vips`),
+      db.queryOne(`SELECT COUNT(*) AS count FROM users WHERE updated IS NOT NULL`),
+      db.queryOne(`SELECT COUNT(*) AS count FROM users`),
+      db.queryOne(`SELECT COUNT(*) AS count FROM mods`),
+      db.queryOne(`SELECT COUNT(*) AS count FROM vips`),
     ]);
 
     await db.query(
       `INSERT INTO snapshots (channels, users, mods, vips) VALUES (?, ?, ?, ?)`,
       [
-        channels[0].count,
-        users[0].count,
-        mods[0].count,
-        vips[0].count
+        channels.count,
+        users.count,
+        mods.count,
+        vips.count
       ]
     );
-
-    console.log("Snapshot captured successfully.");
   } catch (error) {
     await logger.db('cronjob', `Error capturing snapshot: ${error}`);
   }
@@ -31,7 +29,7 @@ const captureSnapshot = async (): Promise<void> => {
 
 export const scheduleTask = (): void => {
   if (!isScheduled) {
-    schedule.scheduleJob('0 * * * *', captureSnapshot);
+    schedule.scheduleJob('* * * * *', captureSnapshot);
     isScheduled = true;
   }
 };
