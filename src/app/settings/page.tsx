@@ -21,7 +21,6 @@ export default async function SettingsPage() {
   }
 
   const userId = session.user.id;
-  await logger.db('settings-page',`userId: ${userId}`);
 
   const userChatBadges: UserChatBadges = {
     available: [],
@@ -33,9 +32,6 @@ export default async function SettingsPage() {
     getUserChatBadges(userId)
   ]);
 
-  await logger.db('settings-page',`isIgnored: ${isIgnored}`);
-  await logger.db('settings-page',`availableUserChatBadges: ${availableUserChatBadges}`);
-
   if (availableUserChatBadges.length) {
     userChatBadges.selected = await getSelectedUserChatBadge(userId);
     userChatBadges.available = [
@@ -44,7 +40,7 @@ export default async function SettingsPage() {
     ];
   }
 
-  await logger.db('settings-page',`userChatBadges: ${userId}`);
+  await logger.db('settings-page',`userChatBadges: ${userChatBadges}`);
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -57,7 +53,7 @@ export default async function SettingsPage() {
           privacy
         </Title>
         <div className="mb-4">
-          {/*<OptOut userId={userId} initialIsIgnored={isIgnored} />*/}
+          <OptOut userId={userId} initialIsIgnored={isIgnored} />
           <p>
             you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in any mod- and vip-lists.
           </p>
