@@ -61,7 +61,7 @@ export default async function SettingsPage() {
           <Title level={2} mb="sm" size="md">
             cosmetics
           </Title>
-          <p className="text-lg mb-2">Chat Badge</p>
+          <p className="text-lg mb-2">chat badge</p>
           <ChatBadge userId={userId} userChatBadges={userChatBadges} />
           <p className="text-sm mt-1">
             <span className="text-red-500">

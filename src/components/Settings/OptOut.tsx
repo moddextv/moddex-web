@@ -27,7 +27,7 @@ export const OptOut: FC<OptOutProps> = ({ userId, initialIsIgnored }) => {
       isDisabled={loading}
       onChange={handleIgnoreToggle}
     >
-      Opt-out
+      opt-out
     </Checkbox>
   );
 };

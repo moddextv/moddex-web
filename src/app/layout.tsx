@@ -60,7 +60,7 @@ export default function RootLayout({
     <Providers>
       <Tracking />
       <Header />
-      <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col">
+      <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
         {children}
       </main>
       <Footer />

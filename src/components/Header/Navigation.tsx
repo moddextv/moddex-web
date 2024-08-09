@@ -11,19 +11,10 @@ interface MenuItemProps {
   newTab?: boolean;
 }
 
-const getMenuItems = (pathname: string): MenuItemProps[] => {
-  const segments = pathname.split('/');
-  const username = segments[2] || '';
-
+const getMenuItems = (): MenuItemProps[] => {
   return [
-    {
-      label: 'channel',
-      href: segments[1] === 'user' ? `/channel/${username}` : '/channel'
-    },
-    {
-      label: 'user',
-      href: segments[1] === 'channel' ? `/user/${username}` : '/user'
-    },
+    { label: 'channel', href: '/channel' },
+    { label: 'user', href: '/user' },
     { label: 'donate', href: '/donate' },
     {
       label: 'discord',
@@ -39,7 +30,7 @@ export const Navigation = () => {
   const currentPath = usePathname() || '';
   const basePath = currentPath.split('/')[1];
 
-  const menuItems = getMenuItems(currentPath);
+  const menuItems = getMenuItems();
 
   const isActive = (href: string) => {
     if (currentPath === '/') return false;
