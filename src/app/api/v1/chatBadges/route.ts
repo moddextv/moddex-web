@@ -2,6 +2,7 @@ import { InternalServerError } from '@/app/api/ApiErrors';
 import { db } from '@/misc/Database';
 import { logger } from '@/misc/Logger';
 import { NextResponse } from 'next/server';
+import { constants } from '@/utils/constants';
 
 export const GET = async () => {
   try {
@@ -20,7 +21,7 @@ export const GET = async () => {
       return InternalServerError('something went wrong while fetching badges');
     }
 
-    const badgesByUser: Record<string, { name: string, url: string, users: string[] }> = {};
+    const badgesByUser: Record<string, { ffzSlot: number, name: string, url: string, users: string[] }> = {};
 
     badges.forEach((badge: any) => {
       const badgeName = badge.name;
@@ -28,6 +29,7 @@ export const GET = async () => {
 
       if (!badgesByUser[badgeName]) {
         badgesByUser[badgeName] = {
+          ffzSlot: constants.ffzSlot,
           name: badgeName,
           url: `https://modchecker.com${badge.path}`,
           users: [userId],
