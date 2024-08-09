@@ -23,13 +23,13 @@ const captureSnapshot = async (): Promise<void> => {
       ]
     );
   } catch (error) {
-    await logger.db('cronjob', `Error capturing snapshot: ${error}`);
+    await logger.db('cronjob', `error capturing snapshot: ${error}`);
   }
 };
 
 export const scheduleTask = (): void => {
   if (!isScheduled) {
-    schedule.scheduleJob('0 * * * *', captureSnapshot);
     isScheduled = true;
+    schedule.scheduleJob('0 * * * *', captureSnapshot);
   }
 };
