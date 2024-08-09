@@ -35,6 +35,16 @@ CREATE TABLE `mods` (
   PRIMARY KEY (`user_id`,`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
+CREATE TABLE `snapshots` (
+  `id` int AUTO_INCREMENT,
+  `channels` int NOT NULL,
+  `users` int NOT NULL,
+  `mods` int NOT NULL,
+  `vips` int NOT NULL,
+  `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
 CREATE TABLE `tokens` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL PRIMARY KEY,
   `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
