@@ -44,7 +44,7 @@ export const GET = async () => {
     return NextResponse.json(result);
 
   } catch (error) {
-    logger.error('error on /api/v1/chat-badges', error);
+    logger.error('error on /api/v1/chatBadges', error);
     return InternalServerError('something went wrong while fetching badge');
   }
 };
