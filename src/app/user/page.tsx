@@ -5,14 +5,12 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'user',
   description: 'search for tracked channels where a twitch user has mod/vip privileges in'
-}
+};
 
 export default function UserPage() {
   return (
-    <div className="flex-grow content-around text-center">
-      <Title mb="lg">
-        modchecker
-      </Title>
+    <div className="flex-grow text-center">
+      <Title mb="lg">modchecker</Title>
       <SearchUser type="user" />
     </div>
   );

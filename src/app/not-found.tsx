@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function NotFoundPage() {
-  return <NotFound error="This page does not exist anymore/yet" />;
+  return <NotFound message="this page does not exist anymore/yet" />;
 }

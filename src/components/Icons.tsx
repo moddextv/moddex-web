@@ -276,86 +276,86 @@ export const Sort10Icon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   </svg>
 );
 
-      export const SortOldNewIcon: FC<SvgIconProps> = ({size = 32, color = ''}) => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className={color}
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-      >
-        <g stroke="currentColor">
-          <path d="m14 18 4-4 4 4" />
-          <path d="M16 2v4" />
-          <path d="M18 22v-8" />
-          <path d="M21 11.343V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9" />
-          <path d="M3 10h18" />
-          <path d="M8 2v4" />
-        </g>
-      </svg>
-      );
+export const SortOldNewIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <g stroke="currentColor">
+      <path d="m14 18 4-4 4 4" />
+      <path d="M16 2v4" />
+      <path d="M18 22v-8" />
+      <path d="M21 11.343V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9" />
+      <path d="M3 10h18" />
+      <path d="M8 2v4" />
+    </g>
+  </svg>
+);
 
-      export const SortNewOldIcon: FC<SvgIconProps> = ({size = 32, color = ''}) => (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={color}
-          width={size}
-          height={size}
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <g stroke="currentColor">
-            <path d="m14 18 4 4 4-4" />
-            <path d="M16 2v4" />
-            <path d="M18 14v8" />
-            <path d="M21 11.354V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7.343" />
-            <path d="M3 10h18" />
-            <path d="M8 2v4" />
-          </g>
-        </svg>
-        );
+export const SortNewOldIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <g stroke="currentColor">
+      <path d="m14 18 4 4 4-4" />
+      <path d="M16 2v4" />
+      <path d="M18 14v8" />
+      <path d="M21 11.354V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7.343" />
+      <path d="M3 10h18" />
+      <path d="M8 2v4" />
+    </g>
+  </svg>
+);
 
-        export const TwitchIcon: FC<SvgIconProps> = ({
-          size = 32,
-          color = 'text-twitch'
-        }) => (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className={color}
-            width={size}
-            height={size}
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"
-              fillRule="evenodd"
-              clipRule="evenodd"
-            />
-          </svg>
-          );
+export const TwitchIcon: FC<SvgIconProps> = ({
+  size = 32,
+  color = 'text-twitch'
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"
+      fillRule="evenodd"
+      clipRule="evenodd"
+    />
+  </svg>
+);
 
-          export const UsersIcon: FC<SvgIconProps> = ({
-            size = 32,
-            color = ''
-          }) => (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={color}
-              width={size}
-              height={size}
-              viewBox="0 0 24 24"
-              fill="none"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <g stroke="currentColor">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </g>
-            </svg>
-            );
+export const UsersIcon: FC<SvgIconProps> = ({
+  size = 32,
+  color = ''
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <g stroke="currentColor">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </g>
+  </svg>
+);

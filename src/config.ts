@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 export const config = {
   dev: true,
+  baseUrl: 'https://modchecker.com',
   authSecret: process.env.AUTH_SECRET as string,
   twitchClientId: process.env.AUTH_TWITCH_CLIENT_ID as string,
   twitch: {

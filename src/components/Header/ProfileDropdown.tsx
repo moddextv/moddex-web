@@ -1,7 +1,7 @@
 'use client';
 
 import { ItemElement } from '@react-types/shared';
-import React, { useEffect, useState } from 'react';
+import { FC } from 'react';
 import {
   Avatar,
   Button,
@@ -9,11 +9,9 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownSection,
-  DropdownTrigger,
-  Checkbox
+  DropdownTrigger
 } from '@nextui-org/react';
 import { signIn, signOut } from 'next-auth/react';
-import { getUserIgnoreState, setIgnoredUser } from '@/actions/userIgnoreState';
 import { AvatarIcon, TwitchIcon } from '@/components/Icons';
 import { constants } from '@/utils/constants';
 import { Session } from 'next-auth';
@@ -22,34 +20,9 @@ interface ProfileDropdownProps {
   session: Session | null;
 }
 
-export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
+export const ProfileDropdown: FC<ProfileDropdownProps> = ({
   session
 }) => {
-  const userId = session?.user?.id;
-  const [isSelected, setIsSelected] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchInitialState = async () => {
-      if (userId) {
-        const ignoreState = await getUserIgnoreState(userId);
-        setIsSelected(ignoreState);
-        setLoading(false);
-      }
-    };
-
-    fetchInitialState();
-  }, [userId]);
-
-  const handleIgnoreToggle = async () => {
-    if (!userId) return;
-
-    setLoading(true);
-    await setIgnoredUser(userId, !isSelected);
-    setIsSelected(!isSelected);
-    setLoading(false);
-  };
-
   if (!session?.user) {
     return (
       <Button
@@ -80,38 +53,18 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           fallback={<AvatarIcon size={40} />}
         />
       </DropdownTrigger>
-      <DropdownMenu aria-label="Profile Actions" variant="flat">
-
+      <DropdownMenu aria-label="Links" variant="flat">
         <DropdownSection showDivider>
-          <DropdownItem
-            textValue="opt-out"
-            onClick={handleIgnoreToggle}
-            closeOnSelect={false}
-            onAction={() => {
-            }}
-          >
-            <div className="flex items-center justify-between w-full">
-              <div>
-                <p className="text-medium">opt-out</p>
-                <p className="text-primary-500">from being tracked</p>
-              </div>
-              <Checkbox
-                size="lg"
-                isSelected={isSelected}
-                isDisabled={loading}
-                onChange={handleIgnoreToggle}
-              />
-            </div>
+          <DropdownItem textValue="settings" href={'/settings'}>
+            settings
           </DropdownItem>
-        </DropdownSection>
 
         {(session?.user?.perms ?? 0) >= constants.permissions.team ? (
-          <DropdownSection showDivider>
             <DropdownItem textValue="dashboard" href={'/dashboard'}>
               dashboard
-            </DropdownItem>
-          </DropdownSection>
-        ) : null as unknown as ItemElement<object>}
+          </DropdownItem>
+          ) : null as unknown as ItemElement<object>}
+      </DropdownSection>
 
         <DropdownSection showDivider>
           <DropdownItem textValue="your channel" href={`/channel/${session.user.name}`}>

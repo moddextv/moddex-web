@@ -9,10 +9,8 @@ export const metadata: Metadata = {
 
 export default function ChannelPage() {
   return (
-    <div className="flex-grow content-around text-center">
-      <Title mb="lg">
-        modchecker
-      </Title>
+    <div className="flex-grow text-center">
+      <Title mb="lg">modchecker</Title>
       <SearchUser type="channel" />
     </div>
   );

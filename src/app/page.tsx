@@ -1,5 +1,9 @@
-import { redirect } from 'next/navigation';
+import { Title } from '@/components/UI/Title';
 
 export default function Home() {
-  redirect('/channel');
+  return (
+    <>
+      <Title>moin</Title>
+    </>
+  );
 }

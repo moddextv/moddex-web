@@ -31,6 +31,7 @@ export interface User {
   granted?: string | null;
   ignored?: boolean;
   badges: Badge[];
+  chatBadge: ChatBadge | null;
 }
 
 export interface UserBadgeRow {
@@ -53,6 +54,8 @@ export interface UserBadgeRow {
   badge_id: number;
   badge_name: string;
   badge_path: string;
+  chat_badge_name: string;
+  chat_badge_path: string;
 }
 
 export interface GqlUser {
@@ -132,6 +135,17 @@ export interface Badge {
 export interface BadgeComponent {
   badges?: Badge[];
   size?: number;
+}
+
+export interface ChatBadge {
+  id?: number;
+  name: string;
+  path: string;
+}
+
+export interface UserChatBadges {
+  available: ChatBadge[],
+  selected: string
 }
 
 declare module 'next-auth' {

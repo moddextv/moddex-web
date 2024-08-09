@@ -65,7 +65,8 @@ export const fetchUsers = async (identifiers: string[], type: string = 'id'): Pr
         roles: user.roles,
         follower: user.followers?.totalCount || 0,
         created: user.createdAt,
-        badges: []
+        badges: [],
+        chatBadge: null
       } as User;
     }).filter(Boolean);
   }));
@@ -144,7 +145,8 @@ const fetchRoles = async (channelId: string, role: ChannelRoleType): Promise<Use
           follower: edge.node.followers?.totalCount || 0,
           created: edge.node.createdAt,
           granted: edge.grantedAt,
-          badges: []
+          badges: [],
+          chatBadge: null
         });
       }
     });
