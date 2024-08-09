@@ -29,7 +29,7 @@ const captureSnapshot = async (): Promise<void> => {
 
 export const scheduleTask = (): void => {
   if (!isScheduled) {
-    schedule.scheduleJob('* * * * *', captureSnapshot);
+    schedule.scheduleJob('0 * * * *', captureSnapshot);
     isScheduled = true;
   }
 };
