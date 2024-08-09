@@ -7,10 +7,11 @@ import { getSelectedUserChatBadge, getUserChatBadges } from '@/utils/badges';
 import { getUserIgnoreState } from '@/actions/userIgnoreState';
 import { ChatBadge } from '@/components/Settings/ChatBadge';
 import { UserChatBadges } from '@/misc/Interfaces';
+import { logger } from '@/misc/Logger';
 
 export const metadata: Metadata = {
   title: 'profile settings',
-  description: 'update your settings for modchecker.com. Opt-out from being tracked or select a badge to display in chats.',
+  description: 'update your settings for modchecker.com. opt-out from being tracked or select a badge to display in chats.',
 };
 
 export default async function SettingsPage() {
@@ -20,6 +21,8 @@ export default async function SettingsPage() {
   }
 
   const userId = session.user.id;
+  await logger.db('settings-page',`userId: ${userId}`);
+
   const userChatBadges: UserChatBadges = {
     available: [],
     selected: '',
@@ -30,6 +33,9 @@ export default async function SettingsPage() {
     getUserChatBadges(userId)
   ]);
 
+  await logger.db('settings-page',`isIgnored: ${isIgnored}`);
+  await logger.db('settings-page',`availableUserChatBadges: ${availableUserChatBadges}`);
+
   if (availableUserChatBadges.length) {
     userChatBadges.selected = await getSelectedUserChatBadge(userId);
     userChatBadges.available = [
@@ -37,6 +43,8 @@ export default async function SettingsPage() {
       ...availableUserChatBadges,
     ];
   }
+
+  await logger.db('settings-page',`userChatBadges: ${userId}`);
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -49,7 +57,7 @@ export default async function SettingsPage() {
           privacy
         </Title>
         <div className="mb-4">
-          <OptOut userId={userId} initialIsIgnored={isIgnored} />
+          {/*<OptOut userId={userId} initialIsIgnored={isIgnored} />*/}
           <p>
             you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in any mod- and vip-lists.
           </p>
@@ -62,7 +70,7 @@ export default async function SettingsPage() {
             cosmetics
           </Title>
           <p className="text-lg mb-2">chat badge</p>
-          <ChatBadge userId={userId} userChatBadges={userChatBadges} />
+          {/*<ChatBadge userId={userId} userChatBadges={userChatBadges} />*/}
           <p className="text-sm mt-1">
             <span className="text-red-500">
               we&apos;re currently working on chat integrations.
