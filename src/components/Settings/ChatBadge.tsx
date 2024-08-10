@@ -31,7 +31,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userId, userChatBadges 
 
   return (
     <Select
-      aria-label="Select Badge"
+      aria-label="select badge"
       variant="bordered"
       size="md"
       className="max-w-xs"

@@ -7,7 +7,6 @@ import { getSelectedUserChatBadge, getUserChatBadges } from '@/utils/badges';
 import { getUserIgnoreState } from '@/actions/userIgnoreState';
 import { ChatBadge } from '@/components/Settings/ChatBadge';
 import { UserChatBadges } from '@/misc/Interfaces';
-import { logger } from '@/misc/Logger';
 
 export const metadata: Metadata = {
   title: 'profile settings',
@@ -40,8 +39,6 @@ export default async function SettingsPage() {
     ];
   }
 
-  await logger.db('settings-page',`userChatBadges: ${JSON.stringify(userChatBadges)}`);
-
   return (
     <div className="max-w-3xl mx-auto">
       <Title mb="md" className="uppercase">
@@ -53,7 +50,7 @@ export default async function SettingsPage() {
           privacy
         </Title>
         <div className="mb-4">
-          {/*<OptOut userId={userId} initialIsIgnored={isIgnored} />*/}
+          <OptOut userId={userId} initialIsIgnored={isIgnored} />
           <p>
             you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in any mod- and vip-lists.
           </p>
