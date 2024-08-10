@@ -43,7 +43,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
       <UserProfile user={user} />
 
       <Button
@@ -60,6 +60,6 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
         <UserList type="channel" role="mods" user={user} />
         <UserList type="channel" role="vips" user={user} />
       </div>
-    </>
+    </main>
   );
 }

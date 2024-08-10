@@ -43,7 +43,7 @@ export default async function UserUsernamePage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
       <UserProfile user={user} isUser={true} />
 
       <Button
@@ -63,6 +63,6 @@ export default async function UserUsernamePage({ params }: PageProps) {
 
       <p className="text-lg">can&apos;t find a mod/vip in the list? You can index a channel by looking one up <a
         className="underline" href={'/channel'}>here</a>.</p>
-    </>
+    </main>
   );
 }

@@ -18,5 +18,9 @@ export default async function DashboardPage() {
     return <Forbidden message="You do not have the permission to access this page." />
   }
 
-  return <h1>Willkommen im Dashboard, {session.user.name}</h1>;
+  return (
+    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
+      <h1>Willkommen im Dashboard, {session.user.name}</h1>
+    </main>
+  )
 }

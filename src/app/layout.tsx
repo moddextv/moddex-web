@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import { Footer } from '@/components/Footer/Footer';
 import { Header } from '@/components/Header/Header';
-import { Cairo, Lato } from 'next/font/google'; // Outfit ??
+import { Cairo, Lato } from 'next/font/google';
 import React from 'react';
 import { Providers } from './providers';
 import { Metadata } from 'next';
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     default: 'modchecker',
     template: '%s | modchecker'
   },
-  description: 'modchecker.com - see tracked mods/vips of a twitch channel or see a list of channels a user has mod/vip privileges in',
+  description: 'modchecker.com - the ultimate tool for exploring twitch mods and vips. discover information about moderators, vips, and user roles across twitch channels.',
   authors: {
     name: 'maersux',
     url: 'https://github.com/maersux'
@@ -56,13 +56,11 @@ export default function RootLayout({
       className={`${cairo.variable} ${lato.variable}`}
       suppressHydrationWarning
     >
-    <body className="min-h-screen antialiased flex flex-col">
+    <body className="min-h-screen antialiased flex flex-col bg-primary-900">
     <Providers>
       <Tracking />
       <Header />
-      <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
-        {children}
-      </main>
+      {children}
       <Footer />
     </Providers>
     </body>

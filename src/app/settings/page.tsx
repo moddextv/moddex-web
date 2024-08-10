@@ -40,7 +40,7 @@ export default async function SettingsPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <main className="container mx-auto max-w-3xl py-16 px-6 flex-grow flex flex-col gap-8">
       <Title mb="md" className="uppercase">
         settings
       </Title>
@@ -52,7 +52,8 @@ export default async function SettingsPage() {
         <div className="mb-4">
           <OptOut userId={userId} initialIsIgnored={isIgnored} />
           <p>
-            you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in any mod- and vip-lists.
+            you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in
+            any mod- and vip-lists.
           </p>
         </div>
       </div>
@@ -75,6 +76,6 @@ export default async function SettingsPage() {
           </p>
         </div>
       )}
-    </div>
+    </main>
   );
 }
