@@ -40,7 +40,7 @@ export default async function SettingsPage() {
     ];
   }
 
-  await logger.db('settings-page',`userChatBadges: ${userChatBadges}`);
+  await logger.db('settings-page',`userChatBadges: ${JSON.stringify(userChatBadges)}`);
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -53,7 +53,7 @@ export default async function SettingsPage() {
           privacy
         </Title>
         <div className="mb-4">
-          <OptOut userId={userId} initialIsIgnored={isIgnored} />
+          {/*<OptOut userId={userId} initialIsIgnored={isIgnored} />*/}
           <p>
             you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in any mod- and vip-lists.
           </p>
@@ -66,7 +66,7 @@ export default async function SettingsPage() {
             cosmetics
           </Title>
           <p className="text-lg mb-2">chat badge</p>
-          {/*<ChatBadge userId={userId} userChatBadges={userChatBadges} />*/}
+          <ChatBadge userId={userId} userChatBadges={userChatBadges} />
           <p className="text-sm mt-1">
             <span className="text-red-500">
               we&apos;re currently working on chat integrations.
