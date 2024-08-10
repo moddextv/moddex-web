@@ -3,7 +3,6 @@
 import { Checkbox } from '@nextui-org/react';
 import { FC, useState } from 'react';
 import { setIgnoredUser } from '@/actions/userIgnoreState';
-import { logger } from '@/misc/Logger';
 
 interface OptOutProps {
   userId: string;
