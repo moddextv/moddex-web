@@ -21,7 +21,7 @@ export const GET = async () => {
       return InternalServerError('something went wrong while fetching badges');
     }
 
-    const badgesByUser: Record<string, { ffzSlot: number, name: string, url: string, users: string[] }> = {};
+    const badgesByUser: Record<string, { ffzSlot: number, name: string, path: string, users: string[] }> = {};
 
     badges.forEach((badge: any) => {
       const badgeName = badge.name;
@@ -31,7 +31,7 @@ export const GET = async () => {
         badgesByUser[badgeName] = {
           ffzSlot: constants.ffzSlot,
           name: badgeName,
-          url: `https://modchecker.com${badge.path}`,
+          path: `https://modchecker.com${badge.path}`,
           users: [userId],
         };
       } else {
@@ -48,3 +48,20 @@ export const GET = async () => {
     return InternalServerError('something went wrong while fetching badge');
   }
 };
+
+/**
+ * @swagger
+ * /api/v1/chatBadges:
+ *  get:
+ *    tags:
+ *      - badges
+ *    description: |
+ *      returns chat badges along with the ids of users who have selected them.
+ *    responses:
+ *      '200':
+ *        description: successful operation
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ChatBadge'
+ */

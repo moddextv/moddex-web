@@ -6,7 +6,7 @@ import { createSwaggerSpec } from 'next-swagger-doc';
 
 export const metadata: Metadata = {
   title: 'api docs'
-}
+};
 
 export default async function SwaggerDocsPage() {
   const spec = await getApiDocs();
@@ -64,6 +64,31 @@ const getApiDocs = async () => {
               }
             }
           },
+          ChatBadge: {
+            type: 'object',
+            required: ['name', 'path'],
+            properties: {
+              ffzSlot: {
+                type: 'integer',
+                example: 120
+              },
+              name: {
+                type: 'string',
+                example: 'modchecker early checker'
+              },
+              path: {
+                type: 'string',
+                example: '/badges/early_checker.png'
+              },
+              users: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                },
+                example: ['217986157', '676966284']
+              }
+            }
+          },
           User: {
             type: 'object',
             required: [
@@ -94,9 +119,19 @@ const getApiDocs = async () => {
                 example:
                   'https://static-cdn.jtvnw.net/jtv_user_pictures/4058d275-ca87-4cf3-b736-c0392b81b6ed-profile_image-300x300.png'
               },
+              follower: {
+                type: 'integer',
+                example: '317'
+              },
               discord: {
                 type: 'string',
                 example: '780910551286546493'
+              },
+              chatBadge: {
+                oneOf: [
+                  { $ref: '#/components/schemas/ChatBadge' },
+                  { type: 'null' }
+                ]
               },
               badges: {
                 type: 'array',
@@ -176,4 +211,4 @@ const getApiDocs = async () => {
       }
     }
   });
-}
+};
