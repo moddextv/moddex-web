@@ -20,8 +20,6 @@ export const OptOut: FC<OptOutProps> = ({ userId, initialIsIgnored }) => {
     try {
       await setIgnoredUser(userId, !isIgnored);
       setIsIgnored(!isIgnored);
-    } catch(e) {
-      await logger.db('opt-out', JSON.stringify(e));
     } finally {
       setLoading(false);
     }
