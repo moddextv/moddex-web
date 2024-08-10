@@ -5,6 +5,7 @@ import { getUser, getUserId } from '@/utils/user';
 import { Metadata } from 'next';
 import { db } from '@/misc/Database';
 import { redirect } from 'next/navigation';
+import { Button, Link } from '@nextui-org/react';
 
 interface PageProps {
   params: { username: string };
@@ -42,16 +43,26 @@ export default async function UserUsernamePage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
       <UserProfile user={user} isUser={true} />
+
+      <Button
+        as={Link}
+        size="md"
+        radius="sm"
+        className="w-fit"
+        href={`/channel/${user.login}`}
+      >
+        view channel
+      </Button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <UserList type="user" role="modding" user={user} />
         <UserList type="user" role="viping" user={user} />
       </div>
 
-      <p className="mt-4 text-lg">can&apos;t find a mod/vip in the list? You can index a channel by looking one up <a
+      <p className="text-lg">can&apos;t find a mod/vip in the list? You can index a channel by looking one up <a
         className="underline" href={'/channel'}>here</a>.</p>
-    </>
+    </main>
   );
 }

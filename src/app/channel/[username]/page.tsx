@@ -5,6 +5,7 @@ import { getUser, getUserId } from '@/utils/user';
 import { Metadata } from 'next';
 import { db } from '@/misc/Database';
 import { redirect } from 'next/navigation';
+import { Button, Link } from '@nextui-org/react';
 
 interface PageProps {
   params: { username: string };
@@ -42,12 +43,23 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
       <UserProfile user={user} />
+
+      <Button
+        as={Link}
+        size="md"
+        radius="sm"
+        className="w-fit"
+        href={`/user/${user.login}`}
+      >
+        view user
+      </Button>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <UserList type="channel" role="mods" user={user} />
         <UserList type="channel" role="vips" user={user} />
       </div>
-    </>
+    </main>
   );
 }

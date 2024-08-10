@@ -2,7 +2,7 @@
 
 import { db } from '@/misc/Database';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
-import { addBadgeByNameToUser, getUserBadges, removeBadgeByNameFromUser } from '@/utils/badges';
+import { addBadgeByNameToUser, getUserBadges, getUserChatBadge, removeBadgeByNameFromUser } from '@/utils/badges';
 import { fetchUsersById } from '@/utils/api/twitch/gql';
 import { getUserId as getUserIdFromIvr } from '@/utils/api/twitch/helix';
 
@@ -88,10 +88,11 @@ const updateUserInDb = async (user: User): Promise<User> => {
     await addBadgeByNameToUser(user.id, 'staff');
   }
 
-  const [storedUser, discordUser, badgesForUser] = await Promise.all([
+  const [storedUser, discordUser, badgesForUser, chatBadge] = await Promise.all([
     db.queryOne('SELECT updated FROM users WHERE id=?', [user.id]),
     db.queryOne('SELECT discord_user_id FROM dctwitchusers WHERE twitch_id=?', [user.id]),
-    getUserBadges(user.id)
+    getUserBadges(user.id),
+    getUserChatBadge(user.id)
   ]);
 
   return {
@@ -104,7 +105,8 @@ const updateUserInDb = async (user: User): Promise<User> => {
     created: user.created,
     updated: storedUser.updated,
     discord: discordUser?.discord_user_id || null,
-    badges: badgesForUser
+    badges: badgesForUser,
+    chatBadge: chatBadge
   };
 };
 
@@ -125,6 +127,7 @@ export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
         b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        cb.name as chat_badge_name, cb.path as chat_badge_path,
         dc.discord_user_id AS discord
       FROM users u 
       LEFT JOIN user_badges ub
@@ -133,6 +136,10 @@ export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
         ON ub.badge_id = b.id
       LEFT JOIN dctwitchusers dc
         ON dc.twitch_id = u.id
+      LEFT JOIN user_chat_badges ucb
+        ON u.id = ucb.user_id 
+      LEFT JOIN chat_badges cb 
+        ON ucb.chat_badge_id = cb.id
       WHERE u.login
         IN (${new Array(usernames.length).fill('?').join(',')})
       ORDER BY
@@ -154,12 +161,17 @@ export const getUsersFromDbById = async (ids: string[]): Promise<User[]> => {
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
         b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        cb.name as chat_badge_name, cb.path as chat_badge_path,
         dc.discord_user_id AS discord
       FROM users u 
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id 
       LEFT JOIN badges b 
         ON ub.badge_id = b.id 
+      LEFT JOIN user_chat_badges ucb
+        ON u.id = ucb.user_id 
+      LEFT JOIN chat_badges cb 
+        ON ucb.chat_badge_id = cb.id
       LEFT JOIN dctwitchusers dc
         ON dc.twitch_id = u.id
       WHERE u.id
@@ -179,12 +191,17 @@ export const getUsersByBadgeId = async (badgeId: string): Promise<User[]> => {
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
         b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        cb.name as chat_badge_name, cb.path as chat_badge_path,
         dc.discord_user_id AS discord
       FROM users u
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id
       LEFT JOIN badges b 
         ON ub.badge_id = b.id 
+      LEFT JOIN user_chat_badges ucb
+        ON u.id = ucb.user_id 
+      LEFT JOIN chat_badges cb 
+        ON ucb.chat_badge_id = cb.id
       LEFT JOIN dctwitchusers dc
         ON dc.twitch_id = u.id
       WHERE b.id = ?
@@ -205,12 +222,17 @@ export const getUsersByBadgeName = async (
       SELECT 
         u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
         b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
+        cb.name as chat_badge_name, cb.path as chat_badge_path,
         dc.discord_user_id AS discord
       FROM users u
       LEFT JOIN user_badges ub
         ON u.id = ub.user_id
       LEFT JOIN badges b 
-        ON ub.badge_id = b.id 
+        ON ub.badge_id = b.id
+      LEFT JOIN user_chat_badges ucb
+        ON u.id = ucb.user_id 
+      LEFT JOIN chat_badges cb 
+        ON ucb.chat_badge_id = cb.id
       LEFT JOIN dctwitchusers dc
         ON dc.twitch_id = u.id
       WHERE b.name = ?
@@ -239,7 +261,8 @@ export const formatUsers = async (
         follower: entity.follower,
         discord: entity.discord,
         ignored: entity.ignored,
-        badges: []
+        badges: [],
+        chatBadge: null
       };
 
       if (isRole) {
@@ -248,6 +271,13 @@ export const formatUsers = async (
         newUser.bio = entity.bio;
         newUser.created = entity.created;
         newUser.updated = entity.updated;
+      }
+
+      if (entity.chat_badge_name) {
+        newUser.chatBadge = {
+          name: entity.chat_badge_name,
+          path: entity.chat_badge_path
+        }
       }
 
       results.set(entity.id, newUser);

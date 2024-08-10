@@ -1,5 +1,6 @@
 import { db } from '@/misc/Database';
-import { Badge } from '@/misc/Interfaces';
+import { Badge, ChatBadge } from '@/misc/Interfaces';
+import { config } from '@/config';
 
 export const getAllBadges = async (): Promise<Badge[]> => {
   return await db.query('SELECT * FROM badges ORDER BY `order`');
@@ -100,3 +101,63 @@ export const getUserBadges = async (userId: string = ''): Promise<Badge[]> => {
 
   return await fetchUserBadgesFromDB(userIds);
 };
+
+export const getUserChatBadge = async (userId: string = ''): Promise<ChatBadge | null> => {
+  const chatBadge = await db.queryOne(`
+    SELECT
+      cb.name, cb.path
+    FROM
+      user_chat_badges ucb
+    INNER JOIN
+      chat_badges cb
+      ON ucb.chat_badge_id = cb.id
+    WHERE
+      ucb.user_id = ?;
+  `, [userId]);
+
+  if (!chatBadge) return null;
+
+  return {
+    name: chatBadge.name,
+    path: `${config.baseUrl}${chatBadge.path}`
+  }
+}
+
+export const getUserChatBadges = async (userId: string = ''): Promise<ChatBadge[]> => {
+  const chatBadges = await db.query(`
+    SELECT
+      cb.name, cb.path
+    FROM
+      chat_badges cb 
+    INNER JOIN
+      user_badges ub 
+    ON
+      cb.badge_id = ub.badge_id 
+    WHERE
+      ub.user_id = ?;
+  `, [userId]);
+
+  if (!chatBadges) return [];
+
+  return chatBadges.map((badge: any) => ({
+    name: badge.name,
+    path: badge.path
+  }));
+}
+
+export const getSelectedUserChatBadge = async (userId: string = ''): Promise<string> => {
+  const badge = await db.queryOne(`
+    SELECT
+      cb.name as badge_name
+    FROM
+      user_chat_badges ucb 
+    JOIN
+      chat_badges cb
+    ON
+      ucb.chat_badge_id = cb.id
+    WHERE
+      ucb.user_id = ?
+  `, [userId]);
+
+  return badge?.badge_name || 'none';
+}
