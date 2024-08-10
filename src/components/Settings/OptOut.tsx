@@ -3,6 +3,7 @@
 import { Checkbox } from '@nextui-org/react';
 import { FC, useState } from 'react';
 import { setIgnoredUser } from '@/actions/userIgnoreState';
+import { logger } from '@/misc/Logger';
 
 interface OptOutProps {
   userId: string;
@@ -13,11 +14,25 @@ export const OptOut: FC<OptOutProps> = ({ userId, initialIsIgnored }) => {
   const [isIgnored, setIsIgnored] = useState(initialIsIgnored);
   const [loading, setLoading] = useState(false);
 
+  const handleIgnoreToggle = async () => {
+    setLoading(true);
+
+    try {
+      await setIgnoredUser(userId, !isIgnored);
+      setIsIgnored(!isIgnored);
+    } catch(e) {
+      await logger.db('opt-out', JSON.stringify(e));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Checkbox
       size="lg"
       isSelected={isIgnored}
       isDisabled={loading}
+      onChange={handleIgnoreToggle}
     >
       opt-out
     </Checkbox>
