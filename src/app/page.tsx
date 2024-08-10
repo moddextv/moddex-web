@@ -1,12 +1,15 @@
 import { Title } from '@/components/UI/Title';
 import { Button, Link, Snippet } from '@nextui-org/react';
 import { auth } from '@/auth';
+import { getStats } from '@/utils/stats';
 
 export default async function Home() {
   const session = await auth();
 
   const username = session?.user?.name || 'forsen';
   const channel = session?.user?.name || 'kaicenat';
+
+  const stats = await getStats();
 
   return (
     <main className="flex-grow flex flex-col">
@@ -109,19 +112,19 @@ export default async function Home() {
           </Title>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">68k+</p>
+              <p className="text-5xl font-bold text-primary-100">{`${stats.channels.formatted}+`}</p>
               <p className="text-primary-300">channels tracked</p>
             </div>
             <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">530k+</p>
+              <p className="text-5xl font-bold text-primary-100">{`${stats.users.formatted}+`}</p>
               <p className="text-primary-300">users tracked</p>
             </div>
             <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">498k+</p>
+              <p className="text-5xl font-bold text-primary-100">{`${stats.mods.formatted}+`}</p>
               <p className="text-primary-300">mods tracked</p>
             </div>
             <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">301k+</p>
+              <p className="text-5xl font-bold text-primary-100">{`${stats.vips.formatted}+`}</p>
               <p className="text-primary-300">vips tracked</p>
             </div>
           </div>
