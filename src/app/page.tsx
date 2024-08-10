@@ -1,7 +1,13 @@
 import { Title } from '@/components/UI/Title';
 import { Button, Link, Snippet } from '@nextui-org/react';
+import { auth } from '@/auth';
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  const username = session?.user?.name || 'forsen';
+  const channel = session?.user?.name || 'kaicenat';
+
   return (
     <main className="flex-grow flex flex-col">
       <header
@@ -60,18 +66,36 @@ export default function Home() {
                 size="sm"
                 variant="flat"
                 hideSymbol={true}
-                className="bg-primary-600 text-xs sm:text-sm mt-2 break-all"
+                classNames={{
+                  base: 'w-full mt-2 bg-primary-600 text-xs sm:text-sm',
+                  pre: 'overflow-x-hidden text-ellipsis',
+                }}
+                tooltipProps={{
+                  delay: 200,
+                  offset: 8,
+                  color: 'foreground',
+                  className: 'font-medium'
+                }}
               >
-                https://mdc.lol/u/forsen
+                {`https://mdc.lol/c/${username}`}
               </Snippet>
               <br />
               <Snippet
                 size="sm"
                 variant="flat"
                 hideSymbol={true}
-                className="bg-primary-600 text-xs sm:text-sm mt-2 break-all"
+                classNames={{
+                  base: 'w-full mt-2 bg-primary-600 text-xs sm:text-sm',
+                  pre: 'overflow-x-hidden text-ellipsis',
+                }}
+                tooltipProps={{
+                  delay: 200,
+                  offset: 8,
+                  color: 'foreground',
+                  className: 'font-medium'
+                }}
               >
-                https://mdc.lol/c/kaicenat
+                {`https://mdc.lol/u/${channel}`}
               </Snippet>
             </div>
           </div>
