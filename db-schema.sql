@@ -28,6 +28,19 @@ CREATE TABLE `dctwitchusers` (
   `is_boosting` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
+CREATE TABLE donations (
+    `id` SERIAL PRIMARY KEY,
+    `payment_id` varchar(255) UNIQUE NOT NULL,
+    `user_id` varchar(255),
+    `amount` int NOT NULL,
+    `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `email` varchar(255),
+    `name` varchar(255),
+    `payment_intent_id` varchar(255) NOT NULL,
+    `payment_status` varchar(50) NOT NULL,
+    `charge_id` varchar(255)
+);
+
 CREATE TABLE `mods` (
   `user_id` varchar(20) NOT NULL,
   `channel_id` varchar(20) NOT NULL,

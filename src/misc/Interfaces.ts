@@ -152,6 +152,7 @@ declare module 'next-auth' {
   interface Session {
     user: {
       perms: number;
+      login: string;
     } & DefaultSession['user'];
   }
 

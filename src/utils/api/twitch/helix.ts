@@ -30,16 +30,14 @@ export const helix = async (
 
     if (!response.ok) {
       const errorDetails = await response.json();
-      await logger.db('helix-error',
-        `Error in ${method} ${url}: ${response.status} ${response.statusText} - ${errorDetails.message || 'No detailed message'}`
-      );
+      logger.error(`helix error in ${method} ${url}: ${response.status} ${response.statusText} - ${errorDetails.message || 'No detailed message'}`);
       return [];
     }
 
     const json = await response.json();
     return json.data;
   } catch (error) {
-    await logger.db('helix-error', `Network Error in ${method} ${url}: ${error}`);
+    logger.error(`helix network error in ${method} ${url}: ${error}`);
     return [];
   }
 };

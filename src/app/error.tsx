@@ -16,13 +16,16 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="text-center">
+    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col items-center">
       <Title level={1} size="lg" mb="md">
         oops, something went wrong!
       </Title>
-      <Button variant="solid" onClick={() => reset()}>
+      <Button
+        variant="solid"
+        onClick={() => reset()}
+      >
         try again
       </Button>
-    </div>
+    </main>
   );
 }
