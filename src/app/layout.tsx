@@ -6,7 +6,6 @@ import React from 'react';
 import { Providers } from './providers';
 import { Metadata } from 'next';
 import Tracking from '@/components/Tracking';
-import { scheduleTask } from '@/misc/Cronjobs';
 
 const lato = Lato({
   weight: ['300', '400', '700'],
@@ -51,8 +50,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  scheduleTask();
-
   return (
     <html
       lang="en"
