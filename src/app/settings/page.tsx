@@ -10,7 +10,7 @@ import { UserChatBadges } from '@/misc/Interfaces';
 
 export const metadata: Metadata = {
   title: 'profile settings',
-  description: 'update your settings for modchecker.com. opt-out from being tracked or select a badge to display in chats.',
+  description: 'update your settings for modchecker.com. opt-out from being tracked or select a badge to display in chats.'
 };
 
 export default async function SettingsPage() {
@@ -23,7 +23,7 @@ export default async function SettingsPage() {
 
   const userChatBadges: UserChatBadges = {
     available: [],
-    selected: '',
+    selected: ''
   };
 
   const [isIgnored, availableUserChatBadges] = await Promise.all([
@@ -35,7 +35,7 @@ export default async function SettingsPage() {
     userChatBadges.selected = await getSelectedUserChatBadge(userId);
     userChatBadges.available = [
       { name: 'none', path: '' },
-      ...availableUserChatBadges,
+      ...availableUserChatBadges
     ];
   }
 
@@ -45,21 +45,19 @@ export default async function SettingsPage() {
         settings
       </Title>
 
-      <div className="mb-8">
-        <Title level={2} mb="sm" size="md">
-          privacy
-        </Title>
-        <div className="mb-4">
-          <OptOut userId={userId} initialIsIgnored={isIgnored} />
-          <p>
-            you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in
-            any mod- and vip-lists.
-          </p>
-        </div>
+      <Title level={2} mb="sm" size="md">
+        privacy
+      </Title>
+      <div className="mb-4">
+        <OptOut userId={userId} initialIsIgnored={isIgnored} />
+        <p>
+          you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in
+          any mod- and vip-lists.
+        </p>
       </div>
 
       {userChatBadges.available.length > 0 && (
-        <div className="mb-8">
+        <>
           <Title level={2} mb="sm" size="md">
             cosmetics
           </Title>
@@ -74,7 +72,7 @@ export default async function SettingsPage() {
               you can already choose a display badge so you&apos;re ready to go once it&apos;s live.
             </span>
           </p>
-        </div>
+        </>
       )}
     </main>
   );
