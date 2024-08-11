@@ -45,19 +45,21 @@ export default async function SettingsPage() {
         settings
       </Title>
 
-      <Title level={2} mb="sm" size="md">
-        privacy
-      </Title>
-      <div className="mb-4">
-        <OptOut userId={userId} initialIsIgnored={isIgnored} />
-        <p>
-          you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in
-          any mod- and vip-lists.
-        </p>
+      <div>
+        <Title level={2} mb="sm" size="md">
+          privacy
+        </Title>
+        <div className="mb-4">
+          <OptOut userId={userId} initialIsIgnored={isIgnored} />
+          <p>
+            you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in
+            any mod- and vip-lists.
+          </p>
+        </div>
       </div>
 
       {userChatBadges.available.length > 0 && (
-        <>
+        <div>
           <Title level={2} mb="sm" size="md">
             cosmetics
           </Title>
@@ -72,7 +74,7 @@ export default async function SettingsPage() {
               you can already choose a display badge so you&apos;re ready to go once it&apos;s live.
             </span>
           </p>
-        </>
+        </div>
       )}
     </main>
   );
