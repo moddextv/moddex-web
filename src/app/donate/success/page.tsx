@@ -9,7 +9,7 @@ import { getUser } from '@/utils/api/ivr';
 import { storeDonation, donationExists } from '@/utils/donation';
 
 export const metadata: Metadata = {
-  title: 'Donation Success',
+  title: 'donation successful',
 };
 
 const stripe = new Stripe(config.stripe.secretKey);
@@ -18,7 +18,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
   const sessionId = searchParams.session_id;
 
   if (!sessionId) {
-    return <NotFound message="No payment ID found" />;
+    return <NotFound message="no payment id found" />;
   }
 
   let session;
@@ -48,8 +48,8 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
     });
 
   } catch (error) {
-    logger.error('Error fetching session:', error);
-    return <BadRequest message="Failed to retrieve session details" />;
+    logger.error('error fetching session:', error);
+    return <BadRequest message="failed to retrieve session details" />;
   }
 
   const paymentIntentId = session.payment_intent?.toString();
@@ -69,7 +69,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
         <Title className="uppercase">thank you!</Title>
       </div>
       <p className="text-lg">
-        your donation{amountText} has been successfully processed. you've earned the donator badge, proudly displayed next to your name!
+        your donation{amountText} has been successfully processed. you&apos;ve earned the donator badge, proudly displayed next to your name!
       </p>
 
       {user?.login ? (
