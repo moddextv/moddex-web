@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5002",
+    "dev": "next dev -p 4999",
     "build": "next build",
-    "start": "next start -p 5002",
+    "start": "next start -p 4999",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
