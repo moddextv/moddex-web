@@ -1,6 +1,5 @@
 import { db } from '@/misc/Database';
 import { formatNumberShort } from '@/utils/utils';
-import { logger } from '@/misc/Logger';
 
 interface StatsEntry {
   raw: number,

@@ -6,8 +6,8 @@ import { getStats } from '@/utils/stats';
 export default async function Home() {
   const session = await auth();
 
-  const username = session?.user?.name || 'forsen';
-  const channel = session?.user?.name || 'kaicenat';
+  const username = session?.user?.login || 'forsen';
+  const channel = session?.user?.login || 'kaicenat';
 
   const stats = await getStats();
 

@@ -19,7 +19,7 @@ const gqlQuery = async (body: string): Promise<any> => {
       body
     }).then(res => res.json());
   } catch (e) {
-    await logger.db('gql-error', JSON.stringify(e));
+    logger.error(`gql-error: ${e}`);
     return [];
   }
 };

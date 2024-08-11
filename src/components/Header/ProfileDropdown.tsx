@@ -47,7 +47,7 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
           isBordered
           as="button"
           className="transition-transform"
-          name={session.user.name ?? 'Profile'}
+          name={session.user.login ?? 'Profile'}
           size="md"
           src={session.user.image ?? ''}
           fallback={<AvatarIcon size={40} />}
@@ -67,10 +67,10 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
       </DropdownSection>
 
         <DropdownSection showDivider>
-          <DropdownItem textValue="your channel" href={`/channel/${session.user.name}`}>
+          <DropdownItem textValue="your channel" href={`/channel/${session.user.login}`}>
             your channel
           </DropdownItem>
-          <DropdownItem textValue="your user" href={`/user/${session.user.name}`}>
+          <DropdownItem textValue="your user" href={`/user/${session.user.login}`}>
             your user
           </DropdownItem>
         </DropdownSection>
