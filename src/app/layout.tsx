@@ -59,7 +59,7 @@ export default function RootLayout({
       className={`${cairo.variable} ${lato.variable}`}
       suppressHydrationWarning
     >
-    <body className="min-h-screen antialiased flex flex-col bg-primary-900">
+    <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900">
     <Providers>
       <Tracking />
       <Header />

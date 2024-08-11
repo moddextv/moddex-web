@@ -8,12 +8,12 @@ type ErrorProps = {
 };
 
 const ErrorComponent: FC<ErrorProps> = ({ statusCode, message, error }) => (
-  <div className="text-center">
+  <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col text-center">
     <Title mb="md">
       <span className="text-red-500">{statusCode}</span> <span>{error}</span>
     </Title>
     {message && <Title level={2} size="sm" className="font-lato">{message}</Title>}
-  </div>
+  </main>
 );
 
 export const BadRequest: FC<ErrorProps> = ({

@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev -p 5002",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5002",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-window": "^1.8.10",
+    "sharp": "^0.33.4",
     "swagger-ui-react": "^5.17.14"
   },
   "devDependencies": {

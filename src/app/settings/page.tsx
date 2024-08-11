@@ -10,7 +10,7 @@ import { UserChatBadges } from '@/misc/Interfaces';
 
 export const metadata: Metadata = {
   title: 'profile settings',
-  description: 'update your settings for modchecker.com. opt-out from being tracked or select a badge to display in chats.',
+  description: 'update your settings for modchecker.com. opt-out from being tracked or select a badge to display in chats.'
 };
 
 export default async function SettingsPage() {
@@ -23,7 +23,7 @@ export default async function SettingsPage() {
 
   const userChatBadges: UserChatBadges = {
     available: [],
-    selected: '',
+    selected: ''
   };
 
   const [isIgnored, availableUserChatBadges] = await Promise.all([
@@ -35,7 +35,7 @@ export default async function SettingsPage() {
     userChatBadges.selected = await getSelectedUserChatBadge(userId);
     userChatBadges.available = [
       { name: 'none', path: '' },
-      ...availableUserChatBadges,
+      ...availableUserChatBadges
     ];
   }
 
@@ -45,7 +45,7 @@ export default async function SettingsPage() {
         settings
       </Title>
 
-      <div className="mb-8">
+      <div>
         <Title level={2} mb="sm" size="md">
           privacy
         </Title>
@@ -59,7 +59,7 @@ export default async function SettingsPage() {
       </div>
 
       {userChatBadges.available.length > 0 && (
-        <div className="mb-8">
+        <div>
           <Title level={2} mb="sm" size="md">
             cosmetics
           </Title>
