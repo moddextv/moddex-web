@@ -30,7 +30,7 @@ export const { handlers, auth, signIn } = NextAuth({
     session({ session, token }) {
       session.user.perms = token.perms as number;
       session.user.id = token.id as string;
-      session.user.login = token.id as string;
+      session.user.login = token.login as string;
 
       return session;
     }
