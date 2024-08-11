@@ -112,7 +112,7 @@ export const getUserChatBadge = async (userId: string = ''): Promise<ChatBadge |
       chat_badges cb
       ON ucb.chat_badge_id = cb.id
     WHERE
-      ucb.user_id = ?;
+      ucb.user_id = ?
   `, [userId]);
 
   if (!chatBadge) return null;
@@ -134,7 +134,7 @@ export const getUserChatBadges = async (userId: string = ''): Promise<ChatBadge[
     ON
       cb.badge_id = ub.badge_id 
     WHERE
-      ub.user_id = ?;
+      ub.user_id = ?
   `, [userId]);
 
   if (!chatBadges) return [];
