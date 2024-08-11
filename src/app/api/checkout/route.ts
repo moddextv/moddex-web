@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price: 'price_1PmcThP72WL1q5FjHGRRGdty',
+          price: config.stripe.donation.price,
           quantity: 1,
         },
       ],

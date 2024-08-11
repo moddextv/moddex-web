@@ -14,6 +14,7 @@ export const config = {
     publishableSecretKey: process.env.NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
 
     donation: {
+      price: process.env.STRIPE_DONATION_PRICE as string,
       default: 5
     }
   },
