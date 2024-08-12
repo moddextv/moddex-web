@@ -23,6 +23,8 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
 
   let session;
   let user;
+  let paymentIntent;
+
   try {
     session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['payment_intent'],
@@ -33,7 +35,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
       return <BadRequest message="this donation has already been processed. thank you for your support!" />;
     }
 
-    const paymentIntent = session.payment_intent as Stripe.PaymentIntent;
+    paymentIntent = session.payment_intent as Stripe.PaymentIntent;
     user = await getUser(session?.metadata?.twitchUsername || '');
 
     await storeDonation({
@@ -52,7 +54,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
     return <BadRequest message="failed to retrieve session details" />;
   }
 
-  const paymentIntentId = session.payment_intent?.toString();
+  const paymentIntentId = paymentIntent.id || 0;
   const amount = session.amount_total ?? null;
   const amountText = amount ? ` of $${(amount / 100).toFixed(2)}` : '';
 
@@ -77,8 +79,18 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
       ) : (
         <div className="text-lg">
           <p>we could not determine your twitch username.</p>
-          <p className="mt-2">please join our <a href="https://discord.gg/modchecker" className="underline" target="_blank" rel="noopener noreferrer">discord</a> and open a support ticket. provide the following payment id and your twitch username to help us resolve this issue and assign the donator badge to you:</p>
-          <p className="mt-2 font-bold">payment id: <code>{paymentIntentId}</code></p>
+          {paymentIntentId ? (
+            <>
+              <p className="mt-2">please join our <a href="https://discord.gg/modchecker" className="underline" target="_blank" rel="noopener noreferrer">discord</a> and open a support ticket.</p>
+              <p>
+                <span>provide the following payment id and your twitch username to help us resolve this issue and assign the donator badge to you:</span><br />
+                <span className="mt-2 font-bold">payment id: <code>{paymentIntentId}</code></span>
+              </p>
+            </>
+          ) : (
+            <p className="mt-2">please join our <a href="https://discord.gg/modchecker" className="underline" target="_blank" rel="noopener noreferrer">discord</a> and open a
+              support ticket.</p>
+          )}
         </div>
       )}
 
