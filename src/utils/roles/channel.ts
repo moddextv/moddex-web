@@ -2,6 +2,7 @@ import { db } from '@/misc/Database';
 import { ChannelRoleType, User, UserBadgeRow } from '@/misc/Interfaces';
 import { fetchMods, fetchVips } from '@/utils/api/twitch/gql';
 import { formatUsers, getUsers } from '@/utils/user';
+import { logger } from '@/misc/Logger';
 
 export const getChannelMods = async (
   user: User,
@@ -83,13 +84,17 @@ const storeUsers = async (id: string, users: User[], role: ChannelRoleType) => {
   await db.query(`DELETE FROM ${role} WHERE channel_id=?`, [id]);
 
   for (const user of users) {
-    const grantedDateString = new Date(user.granted as string)
-      .toISOString()
-      .slice(0, 19)
-      .replace('T', ' ');
-    await db.query(
-      `INSERT INTO ${role} (user_id, channel_id, granted) VALUES (?, ?, ?)`,
-      [user.id, id, grantedDateString]
-    );
+    try {
+      const grantedDateString = new Date(user.granted as string)
+        .toISOString()
+        .slice(0, 19)
+        .replace('T', ' ');
+      await db.query(
+        `INSERT INTO ${role} (user_id, channel_id, granted) VALUES (?, ?, ?)`,
+        [user.id, id, grantedDateString]
+      );
+    } catch (e) {
+      logger.error(`error in storeUsers - channelId: ${id}, userId: ${user.id}, role: ${role}, granted: ${user.granted} - `, e)
+    }
   }
 };

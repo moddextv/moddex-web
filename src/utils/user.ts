@@ -5,6 +5,7 @@ import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { addBadgeByNameToUser, getUserBadges, getUserChatBadge, removeBadgeByNameFromUser } from '@/utils/badges';
 import { fetchUsersById } from '@/utils/api/twitch/gql';
 import { getUserId as getUserIdFromIvr } from '@/utils/api/twitch/helix';
+import { logger } from '@/misc/Logger';
 
 export const getUserPermission = async (
   userId: string = ''
@@ -59,18 +60,22 @@ export const getUsers = async (
 };
 
 const updateUserInDb = async (user: User): Promise<User> => {
-  await db.query(
-    'INSERT INTO users (id, login, name, avatar, bio, follower, created) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE login = VALUES(login), name = VALUES(name), avatar = VALUES(avatar), bio = VALUES(bio), follower = VALUES(follower)',
-    [
-      user.id,
-      user.login,
-      user.name,
-      user.avatar,
-      user.bio,
-      user.follower,
-      new Date(user.created as string).toISOString().slice(0, 19).replace('T', ' ')
-    ]
-  );
+  try {
+    await db.query(
+      'INSERT INTO users (id, login, name, avatar, bio, follower, created) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE login = VALUES(login), name = VALUES(name), avatar = VALUES(avatar), bio = VALUES(bio), follower = VALUES(follower)',
+      [
+        user.id,
+        user.login,
+        user.name,
+        user.avatar,
+        user.bio,
+        user.follower,
+        new Date(user.created as string).toISOString().slice(0, 19).replace('T', ' ')
+      ]
+    );
+  } catch (e) {
+    logger.error(`error in storeUsers - userId: ${user.id}, created: ${user.created} - `, e)
+  }
 
   if (user.roles?.isPartner) {
     await Promise.all([
