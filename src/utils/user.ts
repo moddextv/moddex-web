@@ -53,10 +53,9 @@ export const getUsers = async (
     return usersFromDB;
   }
 
-  logger.log(newUsers);
-
   const users: User[] = await fetchUsersById(newUsers);
-  const updatedUsers: User[] = await Promise.all(users.map(updateUserInDb));
+  const validUsers = users.filter(user => user.id && user.created);
+  const updatedUsers: User[] = await Promise.all(validUsers.map(updateUserInDb));
 
   return [...usersFromDB, ...updatedUsers];
 };
@@ -76,7 +75,7 @@ const updateUserInDb = async (user: User): Promise<User> => {
       ]
     );
   } catch (e) {
-    logger.error(`error in storeUsers - userId: ${user.id}, created: ${user.created} - `, e)
+    logger.error(`Error in storeUsers - userId: ${user.id}, created: ${user.created} - `, e);
   }
 
   if (user.roles?.isPartner) {
