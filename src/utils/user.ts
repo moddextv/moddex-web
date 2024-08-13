@@ -53,6 +53,8 @@ export const getUsers = async (
     return usersFromDB;
   }
 
+  logger.log(newUsers);
+
   const users: User[] = await fetchUsersById(newUsers);
   const updatedUsers: User[] = await Promise.all(users.map(updateUserInDb));
 
