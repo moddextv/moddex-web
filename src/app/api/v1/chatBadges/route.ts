@@ -1,42 +1,43 @@
-import { BadRequest, InternalServerError, NotFound } from '@/app/api/ApiErrors';
+import { InternalServerError } from '@/app/api/ApiErrors';
 import { db } from '@/misc/Database';
-import { Badge } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
-import { isInteger } from '@/utils/validation';
 import { NextRequest, NextResponse } from 'next/server';
 import { constants } from '@/utils/constants';
 
 export const GET = async (request: NextRequest, context: any) => {
-  const { id, name } = Object.fromEntries(new URL(request.url).searchParams);
-
   try {
-    const badges2 = await db.query(`
+    const badgesResults = await db.query(`
       SELECT 
         cb.name, cb.path,
         u.id
-      FROM users u
-        JOIN user_chat_badges ucb
-          ON u.id = ucb.user_id
-        JOIN chat_badges cb
-          ON ucb.chat_badge_id = cb.id
+      FROM chat_badges cb
+      LEFT JOIN user_chat_badges ucb 
+        ON cb.id = ucb.chat_badge_id
+      LEFT JOIN users u 
+        ON ucb.user_id = u.id
     `);
-    if (!badges2.length) {
+
+    if (!badgesResults.length) {
       return InternalServerError('something went wrong while fetching badges');
     }
+
     const badgesByUser: Record<string, { ffzSlot: number, name: string, path: string, users: string[] }> = {};
 
-    badges2.forEach((badge: any) => {
+    badgesResults.forEach((badge: any) => {
       const badgeName = badge.name;
+      const badgePath = badge.path;
       const userId = badge.id;
 
       if (!badgesByUser[badgeName]) {
         badgesByUser[badgeName] = {
           ffzSlot: constants.ffzSlot,
           name: badgeName,
-          path: `https://modchecker.com${badge.path}`,
-          users: [userId],
+          path: `https://modchecker.com${badgePath}`,
+          users: []
         };
-      } else {
+      }
+
+      if (userId) {
         badgesByUser[badgeName].users.push(userId);
       }
     });
@@ -45,6 +46,6 @@ export const GET = async (request: NextRequest, context: any) => {
     return NextResponse.json(result);
   } catch (error) {
     logger.error('error on /api/v1/chatBadges', error);
-    return InternalServerError('something went wrong while fetching badge');
+    return InternalServerError('something went wrong while fetching badges');
   }
 };
