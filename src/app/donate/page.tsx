@@ -35,7 +35,7 @@ export default async function DonatePage() {
           benefits:
         </Title>
         <div className="text-lg">
-          donating a minimum of 5€ or more qualifies you to receive a special
+          donating 5$ or more qualifies you to receive a special
           donator badge displayed next to your name on our website{' '}
           <span className="inline-flex">
             <Tooltip content="donator">
