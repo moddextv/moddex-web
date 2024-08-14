@@ -32,7 +32,13 @@ export const GET = async (request: NextRequest, context: any) => {
     if (!badges.length) {
       return InternalServerError('something went wrong while fetching badges');
     }
-    return NextResponse.json(badges);
+    return NextResponse.json(badges, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   } catch (error) {
     logger.error('error on /api/v1/badges', error);
     return InternalServerError('something went wrong while fetching badge');
