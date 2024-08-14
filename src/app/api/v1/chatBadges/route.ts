@@ -43,7 +43,13 @@ export const GET = async (request: NextRequest, context: any) => {
     });
 
     const result = Object.values(badgesByUser);
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   } catch (error) {
     logger.error('error on /api/v1/chatBadges', error);
     return InternalServerError('something went wrong while fetching badges');
