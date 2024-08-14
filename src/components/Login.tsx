@@ -6,7 +6,7 @@ import { TwitchIcon } from '@/components/Icons';
 export const Login = () => {
 
   return (
-    <div className="flex flex-col text-center">
+    <main className="container mx-auto max-w-3xl py-16 px-6 flex-grow flex flex-col">
       <Title size="lg" mb="md">You need to login to access this page</Title>
       <form
         action={async () => {
@@ -22,6 +22,6 @@ export const Login = () => {
           login
         </Button>
       </form>
-    </div>
+    </main>
   );
 }
