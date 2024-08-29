@@ -25,7 +25,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   if (banReason) {
     let errorMessage;
 
-    switch (banReason) {
+    switch (banReason?.toLowerCase()) {
       case 'tos_banned':
         errorMessage = `user «${username}» is banned.`;
         break;
