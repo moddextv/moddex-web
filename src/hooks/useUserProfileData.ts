@@ -1,17 +1,19 @@
 import { useState, useCallback } from 'react';
 import { User } from '@/misc/Interfaces';
-import { getUsers } from '@/utils/user';
+import { getUser } from '@/utils/user';
 
 export const useUserProfileData = (initialUser: User) => {
   const [currentUser, setCurrentUser] = useState<User | null>(initialUser);
   const [loading, setLoading] = useState<boolean>(false);
+  const [banReason, setBanReason] = useState<string | undefined>(undefined);
 
-  const reloadUserProfile = useCallback(async (userId: string, forceRefresh: boolean = false) => {
+  const reloadUserProfile = useCallback(async (username: string, forceRefresh: boolean = false) => {
     setLoading(true);
-    const updatedUser = await getUsers([userId], forceRefresh);
-    setCurrentUser(updatedUser?.[0] || null);
+    const { user, banReason } = await getUser(username, forceRefresh);
+    setCurrentUser(user);
+    setBanReason(banReason);
     setLoading(false);
   }, []);
 
-  return { currentUser, loading, reloadUserProfile };
+  return { currentUser, loading, banReason, reloadUserProfile };
 };

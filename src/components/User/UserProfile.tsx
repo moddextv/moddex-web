@@ -18,14 +18,16 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
   user,
   isUser
 }) => {
-  const { currentUser, loading, reloadUserProfile } = useUserProfileData(user);
+  const { currentUser, loading, banReason, reloadUserProfile } = useUserProfileData(user);
   const [initialLogin, setInitialLogin] = useState(user.login);
 
   useEffect(() => {
-    if (currentUser?.login && currentUser.login !== initialLogin) {
-      return redirect(currentUser.login);
+    if (banReason) {
+      window.location.reload();
+    } else if (currentUser?.login && currentUser.login !== initialLogin) {
+      redirect(currentUser.login);
     }
-  }, [currentUser, initialLogin]);
+  }, [currentUser, initialLogin, banReason]);
 
   return (
     <>
@@ -65,7 +67,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
                   radius="md"
                   isIconOnly={true}
                   startContent={<ReloadIcon size={18} />}
-                  onClick={() => reloadUserProfile(currentUser?.id || '', true)}
+                  onClick={() => reloadUserProfile(currentUser?.login || '', true)}
                 />
               </Tooltip>
             </div>

@@ -37,6 +37,7 @@ export const getUser = async (username: string, forceRefresh: boolean = false): 
     let fetchedUserOrReason = await fetchUserOrBanned(username);
 
     if (typeof fetchedUserOrReason === 'string') {
+      await db.query('UPDATE users SET banned=? WHERE login=?', [fetchedUserOrReason, username]);
       return { user: null, banReason: fetchedUserOrReason };
     }
 
