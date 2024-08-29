@@ -16,23 +16,25 @@ export interface UserListProps {
 export interface User {
   id: string;
   login: string;
-  name: string;
-  avatar: string;
+  name: string | null;
+  avatar: string | null;
   follower: number | null;
   bio?: string | null;
-  roles?: null | {
+  roles?: {
     isAffiliate: boolean;
     isPartner: boolean;
     isStaff?: boolean;
-  };
+  } | null;
   discord?: string | null;
   created?: string | null;
   updated?: string | null;
   granted?: string | null;
+  banned?: string | null;
   ignored?: boolean;
   badges: Badge[];
   chatBadge: ChatBadge | null;
 }
+
 
 export interface UserBadgeRow {
   id: string;
@@ -50,6 +52,7 @@ export interface UserBadgeRow {
   discord?: string | null;
   created?: string | null;
   updated?: string | null;
+  banned: string | null;
   ignored?: boolean;
   badge_id: number;
   badge_name: string;

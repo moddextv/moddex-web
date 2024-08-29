@@ -19,7 +19,7 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
   const [error, setError] = useState('');
 
   const handleInput = (event: any) => {
-    setInputValue(event.target.value);
+    setInputValue(event.target.value.trim());
   };
 
   const handleSubmit = async (event: any) => {

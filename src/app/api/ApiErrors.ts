@@ -23,6 +23,9 @@ const sendResponse = (
 export const BadRequest = (message: string = '', error: string = '') =>
   sendResponse(400, error || 'bad request', message);
 
+export const Forbidden = (message: string = '', error: string = '') =>
+  sendResponse(403, error || 'forbidden', message);
+
 export const NotFound = (message: string = '', error: string = '') =>
   sendResponse(404, error || 'not found', message);
 

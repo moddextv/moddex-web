@@ -14,8 +14,7 @@ export const db = {
       user: config.db.user,
       password: config.db.pass,
       charset: 'utf8mb4',
-      timezone: 'Z',
-      connectionLimit: 100
+      timezone: 'Z'
     });
   },
 
@@ -29,7 +28,7 @@ export const db = {
     } catch (e) {
       logger.error(e);
     } finally {
-      connection.release();
+      connection.end();
     }
 
     return result || [];

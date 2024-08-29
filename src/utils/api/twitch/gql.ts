@@ -2,6 +2,8 @@ import { ChannelRoleType, User } from '@/misc/Interfaces';
 import { logger } from '@/misc/Logger';
 import { config } from '@/config';
 import { splitArray } from '@/utils/utils';
+import { db } from '@/misc/Database';
+import { updateUserInDb } from '@/utils/user';
 
 const gqlQuery = async (body: string): Promise<any> => {
   try {
@@ -24,7 +26,7 @@ const gqlQuery = async (body: string): Promise<any> => {
   }
 };
 
-export const fetchUsers = async (identifiers: string[], type: string = 'id'): Promise<User[]> => {
+export const fetchUsers = async (identifiers: string[], type: 'id' | 'login' = 'login'): Promise<User[]> => {
   const chunkedIds = splitArray(identifiers, 50);
 
   const users = await Promise.all(chunkedIds.map(async chunk => {
@@ -82,6 +84,54 @@ export const fetchUsersByLogin = async (usernames: string[]): Promise<User[]> =>
   return await fetchUsers(usernames, 'login');
 };
 
+export const fetchUserOrBanned = async (username: string): Promise<User | string> => {
+  const response = await gqlQuery(JSON.stringify({
+    query: `query {
+      user: userResultByLogin(login: "${username}") {
+        ... on User {
+          createdAt
+          id
+          login
+          displayName
+          description
+          profileImageURL(width: 150)
+          deletedAt
+          followers {
+            totalCount
+          }
+        }
+        ... on UserDoesNotExist {
+          reason
+        }
+      }
+    }`
+  }));
+
+  const rawUser = response?.data?.user;
+
+  if (rawUser?.reason) {
+    if (rawUser.reason === 'UNKNOWN') return '';
+    await db.query(`UPDATE users SET banned=1 WHERE login=?`, [username]);
+    return rawUser.reason;
+  }
+
+  const user = {
+    id: rawUser.id,
+    login: rawUser.login,
+    name: rawUser.displayName,
+    bio: rawUser.description,
+    avatar: rawUser.profileImageURL,
+    roles: rawUser.roles,
+    follower: rawUser.followers?.totalCount ?? 0,
+    created: rawUser.createdAt,
+    badges: [],
+    chatBadge: null
+  } as User;
+
+  await updateUserInDb(user);
+
+  return user;
+};
 
 export const fetchMods = async (channelId: string): Promise<User[]> => {
   return fetchRoles(channelId, 'mods');
@@ -143,6 +193,7 @@ const fetchRoles = async (channelId: string, role: ChannelRoleType): Promise<Use
           avatar: edge.node.profileImageURL,
           roles: edge.node.roles,
           follower: edge.node.followers?.totalCount || 0,
+          banned: '',
           created: edge.node.createdAt,
           granted: edge.grantedAt,
           badges: [],

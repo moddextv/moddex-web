@@ -37,7 +37,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({
             <Image
               className="w-16 h-16"
               radius="full"
-              src={currentUser?.avatar}
+              src={currentUser?.avatar ?? ''}
               alt={`${currentUser?.login}'s avatar`}
               width={64}
               height={64}
