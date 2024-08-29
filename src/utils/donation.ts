@@ -1,6 +1,6 @@
 import { db } from '@/misc/Database';
 import { logger } from '@/misc/Logger';
-import { addBadgeByNameToUser, removeBadgeByNameFromUser } from '@/utils/badges';
+import { addBadgeByNameToUser, removeBadgeByNameFromUser, removeTopDonatorChatBadge } from '@/utils/badges';
 import { config } from '@/config';
 
 export async function storeDonation(donation: Donation) {
@@ -34,7 +34,10 @@ export async function storeDonation(donation: Donation) {
       ]);
 
       if (topDonator && userTotalAmount > topDonator.total) {
-        await updateTopDonatorBadge(donation.userId, topDonator.user_id);
+        await Promise.all([
+          db.query('INSERT INTO audit (type, message) VALUES (?, ?)', ['donation', `donator ${donation.userId}: ${userTotalAmount} - top-donator ${topDonator.user_id}: ${topDonator.total}`]),
+          updateTopDonatorBadge(donation.userId, topDonator.user_id)
+        ]);
       }
     }
 
@@ -49,7 +52,7 @@ const getTotalDonationsForUser = async (userId: string) => {
     SELECT SUM(amount) as total
     FROM donations
     WHERE user_id = ?
-  `, [userId], false);
+  `, [userId]);
 
   return userDonations?.total || 0;
 };
@@ -67,6 +70,7 @@ const getTopDonator = async () => {
 const updateTopDonatorBadge = async (newTopUserId: string, currentTopUserId: string) => {
   if (newTopUserId !== currentTopUserId) {
     await Promise.all([
+      removeTopDonatorChatBadge(currentTopUserId),
       removeBadgeByNameFromUser(currentTopUserId, 'top donator'),
       addBadgeByNameToUser(newTopUserId, 'top donator')
     ]);

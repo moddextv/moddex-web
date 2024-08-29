@@ -145,6 +145,10 @@ export const getUserChatBadges = async (userId: string = ''): Promise<ChatBadge[
   }));
 }
 
+export const removeTopDonatorChatBadge = async (userId: string = ''): Promise<void> => {
+  await db.query('DELETE FROM user_chat_badges WHERE user_id=?', [userId]);
+}
+
 export const getSelectedUserChatBadge = async (userId: string = ''): Promise<string> => {
   const badge = await db.queryOne(`
     SELECT

@@ -1,7 +1,7 @@
-import { NotFound } from '@/components/Errors';
+import { BannedUser, Forbidden, NotFound } from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
-import { getUser, getUserId } from '@/utils/user';
+import { getUser } from '@/utils/user';
 import { Metadata } from 'next';
 import { db } from '@/misc/Database';
 import { redirect } from 'next/navigation';
@@ -17,24 +17,47 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
-const handleNotFound = (username: string) => (
-  <NotFound
-    error={`user «${username}» not found`}
-    message={`this could also mean, that the channel owner has opted-out from being tracked.`}
-  />
-);
-
 export default async function ChannelUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
-  const userId = await getUserId(username);
 
-  if (!userId) {
-    return handleNotFound(username);
+  const { user, banReason } = await getUser(username);
+
+  if (banReason) {
+    let errorMessage;
+
+    switch (banReason) {
+      case 'tos_banned':
+        errorMessage = `user «${username}» is banned.`;
+        break;
+      case 'deactivated':
+        errorMessage = `user «${username}» has deactivated their account.`;
+        break;
+      default:
+        errorMessage = `user «${username}» is unavailable.`;
+        break;
+    }
+
+    return (
+      <BannedUser
+        error={errorMessage}
+        message={`reason: ${banReason}`}
+        showReloadButton={true}
+      />
+    );
   }
 
-  const user = await getUser(userId);
-  if (!user || user.ignored) {
-    return handleNotFound(username);
+  if (!user) {
+    return <NotFound
+      error={`user «${username}» not found`}
+      message={`this user does not exist`}
+    />;
+  }
+
+  if (user.ignored) {
+    return <Forbidden
+      error={`access forbidden`}
+      message={`user «${username}» has opted-out of being tracked`}
+    />;
   }
 
   if (user.login !== username) {

@@ -17,7 +17,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user }) => {
     <div className="flex items-center gap-4 min-h-14 p-2 pr-4">
       <Link href={`./${user.login}`}>
         <Image
-          src={user.avatar}
+          src={user.avatar ?? ''}
           alt={`${user.login}'s avatar`}
           width={48}
           height={48}
