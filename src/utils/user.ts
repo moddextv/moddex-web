@@ -31,7 +31,7 @@ export const getUserPermission = async (
 };
 
 export const getUser = async (username: string, forceRefresh: boolean = false): Promise<{ user: User | null, banReason?: string }> => {
-  let user = await db.queryOne('SELECT * FROM users WHERE login=?', [username]);
+  const user = await db.queryOne('SELECT * FROM users WHERE login=?', [username]);
 
   if (forceRefresh || !user || user.banned !== '') {
     let fetchedUserOrReason = await fetchUserOrBanned(username);
@@ -42,10 +42,11 @@ export const getUser = async (username: string, forceRefresh: boolean = false): 
     }
 
     await db.query('UPDATE users SET banned="" WHERE login=?', [username]);
-    user = fetchedUserOrReason;
+    return { user: fetchedUserOrReason };
   }
 
-  return { user };
+  const formattedUser = await getUsers([user.id]);
+  return { user: formattedUser[0] };
 };
 
 export const getUsers = async (
