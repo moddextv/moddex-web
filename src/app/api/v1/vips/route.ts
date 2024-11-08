@@ -23,7 +23,7 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const channels: User[] = await getUsersFromDbById([channelId]);
       const channelFromDb = channels[0];
-      if (!channelFromDb) {
+      if (!channelFromDb || channelFromDb.ignored) {
         return NotFound(`no tracked channel found with id ${channelId}`);
       }
 
@@ -41,7 +41,7 @@ export const GET = async (request: NextRequest, context: any) => {
     if (channel) {
       const channels: User[] = await getUsersFromDb([channel.toLowerCase()]);
       const channelFromDb = channels[0];
-      if (!channelFromDb) {
+      if (!channelFromDb || channelFromDb.ignored) {
         return NotFound(`no tracked channel found with login ${channel}`);
       }
 
@@ -63,7 +63,7 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const users: User[] = await getUsersFromDbById([userId]);
       const userFromDb = users[0];
-      if (!userFromDb) {
+      if (!userFromDb || userFromDb.ignored) {
         return NotFound(`no tracked user found with id ${userId}`);
       }
 
@@ -79,7 +79,7 @@ export const GET = async (request: NextRequest, context: any) => {
     if (user) {
       const users: User[] = await getUsersFromDb([user.toLowerCase()]);
       const userFromDb = users[0];
-      if (!userFromDb) {
+      if (!userFromDb || userFromDb.ignored) {
         return NotFound(`no tracked user found with login ${user}`);
       }
 
