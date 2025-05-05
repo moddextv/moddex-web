@@ -5,7 +5,7 @@ import { getUser } from '@/utils/user';
 import { Metadata } from 'next';
 import { db } from '@/misc/Database';
 import { redirect } from 'next/navigation';
-import { Button, Link } from '@nextui-org/react';
+import { Button, Link } from '@heroui/react';
 
 interface PageProps {
   params: { username: string };

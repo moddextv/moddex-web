@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { getStripe } from '@/utils/stripe';
-import { Button } from '@nextui-org/react';
+import { Button } from '@heroui/react';
 import { HeartIcon } from '@/components/Icons';
 import { logger } from '@/misc/Logger';
 

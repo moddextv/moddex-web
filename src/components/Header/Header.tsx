@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import { Navigation } from '@/components/Header/Navigation';
 import { ProfileDropdown } from '@/components/Header/ProfileDropdown';
-import { Link, Navbar } from '@nextui-org/react';
+import { Link, Navbar } from '@heroui/react';
 
 export const Header = async () => {
   const session = await auth();

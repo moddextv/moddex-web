@@ -7,7 +7,7 @@ import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
 import { useUserListData } from '@/hooks/useUserListData';
 import { User, UserListProps } from '@/misc/Interfaces';
-import { Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { FixedSizeList as List } from 'react-window';
 
 const sortAZ = (users: User[]): User[] => [...users].sort((a, b) => a.login.localeCompare(b.login));

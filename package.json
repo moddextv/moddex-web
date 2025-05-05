@@ -9,14 +9,14 @@
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.4.6",
+    "@heroui/react": "^2.7.8",
     "@react-aria/ssr": "3.9.4",
     "@react-aria/visually-hidden": "3.8.12",
     "@stripe/stripe-js": "^4.2.0",
     "clsx": "2.1.1",
     "cssnano": "^7.0.4",
     "dotenv": "^16.4.5",
-    "framer-motion": "~11.3.6",
+    "framer-motion": "^11.18.2",
     "intl-messageformat": "^10.5.14",
     "mariadb": "^3.3.1",
     "next": "^14.2.5",

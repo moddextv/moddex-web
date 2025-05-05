@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@nextui-org/react';
+import { Input } from '@heroui/react';
 import { LoadingIcon, SearchIcon } from '@/components/Icons';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';

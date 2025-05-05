@@ -1,5 +1,5 @@
 import { Title } from '@/components/UI/Title';
-import { Button, Link, Snippet } from '@nextui-org/react';
+import { Button, Link, Snippet } from '@heroui/react';
 import { auth } from '@/auth';
 import { getStats } from '@/utils/stats';
 

@@ -1,4 +1,4 @@
-import { Skeleton } from '@nextui-org/react';
+import { Skeleton } from '@heroui/react';
 import { FC } from 'react';
 
 export const UserListLoading: FC = () => {

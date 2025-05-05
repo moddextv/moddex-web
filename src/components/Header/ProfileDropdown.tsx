@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { signIn, signOut } from 'next-auth/react';
 import { AvatarIcon, TwitchIcon } from '@/components/Icons';
 import { constants } from '@/utils/constants';
@@ -55,28 +55,29 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
       </DropdownTrigger>
       <DropdownMenu aria-label="Links" variant="flat">
         <DropdownSection showDivider>
-          <DropdownItem textValue="settings" href={'/settings'}>
+          <DropdownItem key="settings" textValue="settings" href={'/settings'}>
             settings
           </DropdownItem>
 
         {(session?.user?.perms ?? 0) >= constants.permissions.team ? (
-            <DropdownItem textValue="dashboard" href={'/dashboard'}>
+            <DropdownItem key="dashboard" textValue="dashboard" href={'/dashboard'}>
               dashboard
           </DropdownItem>
           ) : null as unknown as ItemElement<object>}
       </DropdownSection>
 
         <DropdownSection showDivider>
-          <DropdownItem textValue="your channel" href={`/channel/${session.user.login}`}>
+          <DropdownItem key="channel" textValue="your channel" href={`/channel/${session.user.login}`}>
             your channel
           </DropdownItem>
-          <DropdownItem textValue="your user" href={`/user/${session.user.login}`}>
+          <DropdownItem key="user" textValue="your user" href={`/user/${session.user.login}`}>
             your user
           </DropdownItem>
         </DropdownSection>
 
         <DropdownSection>
           <DropdownItem
+            key="signout"
             className="text-red-500"
             color="danger"
             textValue="sign out"

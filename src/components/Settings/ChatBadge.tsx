@@ -1,6 +1,6 @@
 'use client';
 
-import { Select, SelectedItemProps, SelectedItems, SelectItem } from '@nextui-org/react';
+import { Select, SelectedItemProps, SelectedItems, SelectItem } from '@heroui/react';
 import { FC, Key, useState } from 'react';
 import { BadgeSelectItem } from '@/components/Settings/BadgeSelectItem';
 import { UserChatBadges, ChatBadge as ChatBadgeProps } from '@/misc/Interfaces';

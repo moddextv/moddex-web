@@ -4,7 +4,7 @@ import { Title } from '@/components/UI/Title';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
 import { formatDate, formatNumber } from '@/utils/utils';
-import { Button, Snippet } from '@nextui-org/react';
+import { Button, Snippet } from '@heroui/react';
 import { Image } from '@/components/UI/Image';
 import { FC, useEffect, useState } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';

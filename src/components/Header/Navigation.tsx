@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Link } from '@nextui-org/react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Link } from '@heroui/react';
 import { useState } from 'react';
 import { ExternalLinkIcon, MenuIcon } from '@/components/Icons';
 

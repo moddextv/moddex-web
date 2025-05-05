@@ -1,6 +1,6 @@
 import { Title } from '@/components/UI/Title';
 import { signIn } from '@/auth';
-import { Button } from '@nextui-org/react';
+import { Button } from '@heroui/react';
 import { TwitchIcon } from '@/components/Icons';
 
 export const Login = () => {

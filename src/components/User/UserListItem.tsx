@@ -4,7 +4,7 @@ import { ClockIcon, UsersIcon } from '@/components/Icons';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
 import { formatDate, formatNumber } from '@/utils/utils';
-import { Link } from '@nextui-org/react';
+import { Link } from '@heroui/react';
 import { ItemElement } from '@react-types/shared';
 import { Image } from '@/components/UI/Image';
 

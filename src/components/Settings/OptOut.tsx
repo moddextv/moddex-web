@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox } from '@nextui-org/react';
+import { Checkbox } from '@heroui/react';
 import { FC, useState } from 'react';
 import { setIgnoredUser } from '@/actions/userIgnoreState';
 

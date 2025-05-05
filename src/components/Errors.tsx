@@ -2,7 +2,7 @@
 
 import { Title } from '@/components/UI/Title';
 import { FC } from 'react';
-import { Button } from '@nextui-org/react';
+import { Button } from '@heroui/react';
 
 type ErrorProps = {
   error?: string;
