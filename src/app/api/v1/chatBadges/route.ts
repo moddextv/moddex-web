@@ -3,6 +3,12 @@ import { db } from '@/misc/Database';
 import { logger } from '@/misc/Logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { constants } from '@/utils/constants';
+import { config } from '@/config';
+
+// unlike the other v1 routes this one takes no query parameters, so next probes
+// it for static rendering at build time and logs a database connection failure.
+// the response is live data; say so explicitly.
+export const dynamic = 'force-dynamic';
 
 export const GET = async (request: NextRequest, context: any) => {
   try {
@@ -32,7 +38,8 @@ export const GET = async (request: NextRequest, context: any) => {
         badgesByUser[badgeName] = {
           ffzSlot: constants.ffzSlot,
           name: badgeName,
-          path: `https://modchecker.com${badgePath}`,
+          // load-bearing: the ffz add-on resolves badge images from this url
+          path: `${config.baseUrl}${badgePath}`,
           users: []
         };
       }

@@ -1,107 +1,143 @@
 import { Title } from '@/components/UI/Title';
+import { config } from '@/config';
 import { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'tos',
-  description: 'find modcheckers terms of service here'
+  title: 'terms of service',
+  description: `find ${config.brand.name}s terms of service and privacy information here`
 };
 
+const Section = ({
+  title,
+  children
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <div>
+    <Title level={2} size="md">
+      {title}
+    </Title>
+    <div className="mt-2 mb-8 flex flex-col gap-2">{children}</div>
+  </div>
+);
+
 export default async function TosPage() {
+  const { name, url, domain, email } = config.brand;
+
   return (
     <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
-      <Title mb="lg">Website Terms of Service</Title>
-      <div>
-        <Title level={2} size="md">1. Terms</Title>
-        <div className="mt-2 mb-8">
-          <p>By accessing this Website, accessible from https://modchecker.com/, you are agreeing to be bound by these
-            Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable
-            local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The
-            materials contained in this Website are protected by copyright and trade mark law.</p>
-        </div>
-      </div>
+      <Title mb="lg">Terms of Service</Title>
 
-      <div>
-        <Title level={2} size="md">2. Use License</Title>
-        <div className="mt-2 mb-8">
-          <p>Permission is granted to temporarily download one copy of the materials on modchecker&apos;s Website for
-            personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and
-            under this license you may not:</p>
+      <p className="text-primary-300">
+        Last updated: {new Date().getFullYear()}. {name} is not affiliated with,
+        endorsed by, or sponsored by Twitch Interactive, Inc.
+      </p>
 
-          <ul className="list-disc list-inside my-2">
-            <li>modify or copy the materials</li>
-            <li>use the materials for any commercial purpose or for any public display</li>
-            <li>attempt to reverse engineer any software contained on modchecker&apos;s Website</li>
-            <li>remove any copyright or other proprietary notations from the materials or</li>
-            <li>transferring the materials to another person or &quot;mirror&quot; the materials on any other server</li>
-          </ul>
-          <p>This will let modchecker to terminate upon violations of any of these restrictions. Upon termination, your
-            viewing right will also be terminated and you should destroy any downloaded materials in your possession
-            whether it is printed or electronic format. These Terms of Service has been created with the help of the Terms
-            Of Service Generator.</p>
-        </div>
-      </div>
+      <Section title="1. Acceptance">
+        <p>
+          By accessing <a className="underline" href={url}>{domain}</a> you agree
+          to these terms. If you disagree with any part of them, please do not
+          use the site.
+        </p>
+      </Section>
 
-      <div>
-        <Title level={2} size="md">3. Disclaimer</Title>
-        <div className="mt-2 mb-8">
-          <p>All the materials on modchecker&apos;s Website are provided &quot;as is&quot;. Modchecker makes no
-            warranties, may it be expressed or implied, therefore negates all other warranties. Furthermore, modchecker
-            does not make any representations concerning the accuracy or reliability of the use of the materials on its
-            Website or otherwise relating to such materials or any sites linked to this Website.</p>
-        </div>
+      <Section title="2. What this service does">
+        <p>
+          {name} records which Twitch accounts hold moderator or VIP status in
+          which Twitch channels, and when that status was granted. This
+          information is retrieved from Twitch&apos;s own interfaces and is
+          visible to anyone who can view the channel in question.
+        </p>
+        <p>
+          A channel is only indexed once somebody looks it up. We do not read
+          chat messages, private messages, email addresses, or anything that is
+          not publicly visible on Twitch.
+        </p>
+      </Section>
 
-        <Title level={2} size="md">4. Limitations</Title>
-        <div className="mt-2 mb-8">
-          <p>Modchecker or its suppliers will not be hold accountable for any damages that will arise with the use or
-            inability to use the materials on modchecker&apos;s Website, even if modchecker or an authorize representative
-            of this Website has been notified, orally or written, of the possibility of such damage. Some jurisdiction
-            does not allow limitations on implied warranties or limitations of liability for incidental damages, these
-            limitations may not apply to you.</p>
-        </div>
-      </div>
+      <Section title="3. Your data and how to opt out">
+        <p>
+          If you are listed on {name}, we hold your Twitch user id, login name,
+          display name, avatar url, profile description, follower count, account
+          creation date, and the mod/VIP roles described above.
+        </p>
+        <p>
+          <strong>You can opt out at any time.</strong> Sign in with Twitch and
+          enable the opt-out in{' '}
+          <a className="underline" href="/settings">
+            your settings
+          </a>
+          . Your profile then stops being served and you are removed from every
+          mod and VIP list and from the public API. To have your records deleted
+          outright rather than hidden, email{' '}
+          <a className="underline" href={`mailto:${email}`}>
+            {email}
+          </a>
+          .
+        </p>
+        <p>
+          Accounts that Twitch reports as banned or deactivated are marked as
+          such and are not displayed.
+        </p>
+      </Section>
 
-      <div>
-        <Title level={2} size="md">5. Revisions and Errata</Title>
-        <div className="mt-2 mb-8">
-          <p>The materials appearing on modchecker&apos;s Website may include technical, typographical, or photographic
-            errors. Modchecker will not promise that any of the materials in this Website are accurate, complete, or
-            current. Modchecker may change the materials contained on its Website at any time without notice. Modchecker
-            does not make any commitment to update the materials.</p>
-        </div>
-      </div>
+      <Section title="4. Accounts and donations">
+        <p>
+          Signing in uses Twitch OAuth; we never see your Twitch password.
+          Donations are processed by Stripe, and card details are handled
+          entirely by Stripe — we store only the payment reference, the amount,
+          and the name and email Stripe returns to us.
+        </p>
+        <p>
+          Donations are voluntary contributions towards running costs, not
+          purchases. Cosmetic badges granted alongside a donation carry no
+          monetary value and may change or be withdrawn. Donations are generally
+          non-refundable; if something went wrong, contact us and we will sort it
+          out.
+        </p>
+      </Section>
 
-      <div>
-        <Title level={2} size="md">6. Links</Title>
-        <div className="mt-2 mb-8">
-          <p>Modchecker has not reviewed all of the sites linked to its Website and is not responsible for the contents of
-            any such linked site. The presence of any link does not imply endorsement by modchecker of the site. The use
-            of any linked website is at the user&apos;s own risk.</p>
-        </div>
-      </div>
+      <Section title="5. Acceptable use">
+        <p>
+          Do not use {name} to harass, dox, or target anyone, and do not attempt
+          to disrupt the service or scrape it in a way that degrades it for
+          others. The public API is provided as-is and rate limits may be applied
+          or changed without notice.
+        </p>
+      </Section>
 
-      <div>
-        <Title level={2} size="md">7. Site Terms of Use Modifications</Title>
-        <div className="mt-2 mb-8">
-          <p>Modchecker may revise these Terms of Use for its Website at any time without prior notice. By using this
-            Website, you are agreeing to be bound by the current version of these Terms and Conditions of Use.</p>
-        </div>
-      </div>
+      <Section title="6. Disclaimer and liability">
+        <p>
+          {name} is provided &quot;as is&quot;, without warranty of any kind. The
+          data is gathered automatically and may be incomplete, stale, or wrong —
+          it should not be relied upon for any decision that matters.
+        </p>
+        <p>
+          To the extent permitted by law, we are not liable for any damages
+          arising from the use of, or inability to use, this site. Some
+          jurisdictions do not allow such limitations, in which case they may not
+          apply to you.
+        </p>
+      </Section>
 
-      <div>
-        <Title level={2} size="md">8. Governing Law</Title>
-        <div className="mt-2 mb-8">
-          <p>Any claim related to modchecker&apos;s Website shall be governed by the laws of us without regards to its
-            conflict of law provisions.</p>
-        </div>
-      </div>
+      <Section title="7. Changes">
+        <p>
+          We may revise these terms at any time. Continuing to use the site means
+          you accept the current version.
+        </p>
+      </Section>
 
-      <div>
-        <Title level={2} size="md">9. Contact</Title>
-        <div className="mt-2 mb-8">
-          <p>If you have any questions related to modchecker, feel free to write us an email to <a className="underline" href="mailto:info@relaxo.dev">info@relaxo.dev</a>.
-          </p>
-        </div>
-      </div>
+      <Section title="8. Contact">
+        <p>
+          Questions about these terms, your data, or anything else:{' '}
+          <a className="underline" href={`mailto:${email}`}>
+            {email}
+          </a>
+          .
+        </p>
+      </Section>
     </main>
   );
 }

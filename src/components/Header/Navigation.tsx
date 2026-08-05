@@ -1,9 +1,11 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Link } from '@heroui/react';
-import { useState } from 'react';
+import Link from 'next/link';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@heroui/react';
 import { ExternalLinkIcon, MenuIcon } from '@/components/Icons';
+import { config } from '@/config';
+import clsx from 'clsx';
 
 interface MenuItemProps {
   label: string;
@@ -11,91 +13,77 @@ interface MenuItemProps {
   newTab?: boolean;
 }
 
-const getMenuItems = (): MenuItemProps[] => {
-  return [
-    { label: 'channel', href: '/channel' },
-    { label: 'user', href: '/user' },
-    { label: 'donate', href: '/donate' },
-    {
-      label: 'discord',
-      href: 'https://discord.com/invite/modchecker',
-      newTab: true
-    }
-  ];
-};
+const menuItems: MenuItemProps[] = [
+  { label: 'channel', href: '/channel' },
+  { label: 'user', href: '/user' },
+  { label: 'api', href: '/api/docs' },
+  { label: 'donate', href: '/donate' }
+];
 
 export const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const currentPath = usePathname() || '';
-  const basePath = currentPath.split('/')[1];
 
-  const menuItems = getMenuItems();
-
+  // the old version compared only the first path segment, so any route sharing
+  // a prefix lit up the wrong item. compare whole segments instead.
   const isActive = (href: string) => {
-    if (currentPath === '/') return false;
-    const baseHref = href.split('/')[1];
-    return baseHref === basePath;
+    if (href.startsWith('http') || currentPath === '/') return false;
+    return currentPath === href || currentPath.startsWith(`${href}/`);
   };
 
   return (
     <>
-      <ul className="hidden md:flex gap-4 items-center">
-        {menuItems.map((item, index) => {
-          const isActivePage = isActive(item.href);
+      <nav className="hidden md:flex items-center gap-1" aria-label="Main">
+        {menuItems.map((item) => {
+          const active = isActive(item.href);
+
           return (
-            <li key={index} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              <Link
-                className={`text-2xl font-cairo ${isActivePage ? 'text-primary-200' : 'text-primary-400'}`}
-                href={item.href}
-                isExternal={item.newTab}
-                showAnchorIcon={item.newTab}
-                anchorIcon={<ExternalLinkIcon size={24} />}
-                underline="hover"
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </li>
+            <Link
+              key={item.href}
+              href={item.href}
+              target={item.newTab ? '_blank' : undefined}
+              rel={item.newTab ? 'noopener noreferrer' : undefined}
+              aria-current={active ? 'page' : undefined}
+              className={clsx(
+                // the active marker is a corner tick — a single bracket from
+                // the mark — rather than the usual underline
+                'relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150',
+                active ? 'tick text-primary-100' : 'text-primary-400 hover:text-primary-200'
+              )}
+            >
+              {item.label}
+              {item.newTab && <ExternalLinkIcon size={13} />}
+            </Link>
           );
         })}
-      </ul>
+      </nav>
 
-      <div className="flex justify-end">
-        <div className="md:hidden">
-          <Dropdown showArrow={true} placement="bottom-end" backdrop="opaque">
-            <DropdownTrigger>
-              <Button
-                aria-label="open navigation menu"
-                className="flex items-center justify-center"
-                isIconOnly={true}
-                variant="light"
-              >
-                <MenuIcon size={22} />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Navigation" variant="flat">
-              <DropdownSection>
-                {menuItems.map((item, index) => {
-                  const isActivePage = isActive(item.href);
-                  return (
-                    <DropdownItem
-                      key={index}
-                      textValue={item.label}
-                      href={item.href}
-                      target={item.newTab ? '_blank' : '_self'}
-                      endContent={item.newTab ? <ExternalLinkIcon /> : ''}
-                    >
-                      <span className={`text-xl font-cairo ${isActivePage ? 'text-primary-200' : 'text-primary-500'}`}>
-                        {item.label}
-                      </span>
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownSection>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
+      <div className="md:hidden ml-auto">
+        <Dropdown showArrow placement="bottom-end">
+          <DropdownTrigger>
+            <button
+              aria-label="open navigation menu"
+              className="flex items-center justify-center w-8 h-8 text-primary-300 pressable"
+            >
+              <MenuIcon size={20} />
+            </button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Navigation" variant="flat">
+            <DropdownSection>
+              {menuItems.map((item) => (
+                <DropdownItem
+                  key={item.href}
+                  textValue={item.label}
+                  href={item.href}
+                  target={item.newTab ? '_blank' : '_self'}
+                  endContent={item.newTab ? <ExternalLinkIcon size={14} /> : null}
+                  className={isActive(item.href) ? 'text-primary-100' : 'text-primary-300'}
+                >
+                  {item.label}
+                </DropdownItem>
+              ))}
+            </DropdownSection>
+          </DropdownMenu>
+        </Dropdown>
       </div>
     </>
   );
