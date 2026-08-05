@@ -57,15 +57,20 @@ export const SearchUser: FC<SearchUserProps> = ({ type }) => {
     <form onSubmit={handleSubmit}>
       <Input
         name="username"
-        placeholder={type}
+        placeholder={type === 'channel' ? 'forsen' : 'nymn'}
         size="lg"
         minLength={1}
         maxLength={25}
         autoComplete="off"
         onChange={handleInput}
         variant="bordered"
-        className="max-w-sm mx-auto"
-        startContent={<span className="text-primary-400">twitch.tv/</span>}
+        radius="none"
+        classNames={{
+          inputWrapper:
+            'bg-primary-800 border-primary-700 data-[hover=true]:border-primary-600 group-data-[focus=true]:border-mod',
+          input: 'mono'
+        }}
+        startContent={<span className="text-primary-500 shrink-0 mono text-sm">twitch.tv/</span>}
         endContent={
           isLoading ? (
             <LoadingIcon size={20} />

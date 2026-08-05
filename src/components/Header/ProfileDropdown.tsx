@@ -25,10 +25,15 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
 }) => {
   if (!session?.user) {
     return (
+      // the chrome stays colourless — mod green and vip pink are the only two
+      // hues the ui spends, and a bright purple button competes with them.
+      // the twitch mark carries the meaning instead.
       <Button
         onClick={() => signIn('twitch')}
-        startContent={<TwitchIcon size={20} color="text-primary-300" />}
-        className="font-cairo text-medium bg-twitch"
+        size="sm"
+        radius="sm"
+        startContent={<TwitchIcon size={16} />}
+        className="pressable bg-primary-800 border border-primary-700 text-primary-200 data-[hover=true]:text-primary-100"
       >
         login
       </Button>

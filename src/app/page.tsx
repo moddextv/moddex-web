@@ -1,135 +1,113 @@
-import { Title } from '@/components/UI/Title';
-import { Button, Link, Snippet } from '@heroui/react';
 import { auth } from '@/auth';
+import { Bracket } from '@/components/UI/Bracket';
+import { Container } from '@/components/UI/Container';
+import { Mark } from '@/components/UI/Mark';
+import { SearchUser } from '@/components/User/SearchUser';
+import { config } from '@/config';
 import { getStats } from '@/utils/stats';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const session = await auth();
-
   const username = session?.user?.login || 'forsen';
-  const channel = session?.user?.login || 'kaicenat';
 
   const stats = await getStats();
 
+  const counts = [
+    { value: stats.channels.formatted, label: 'channels' },
+    { value: stats.users.formatted, label: 'users' },
+    { value: stats.mods.formatted, label: 'mods' },
+    { value: stats.vips.formatted, label: 'vips' }
+  ];
+
   return (
-    <main className="flex-grow flex flex-col">
-      <header
-        className="flex flex-col items-center justify-center h-96 bg-gradient-to-br from-primary-800 to-primary-900 text-center text-white px-6">
-        <div className="max-w-6xl w-full">
-          <Title level={1} mb="md" className="font-extrabold">
-            explore twitch mods and vips
-          </Title>
-          <p className="text-lg sm:text-2xl mb-8 text-primary-300">
-            welcome to modchecker, the ultimate tool for tracking twitch mods and vips.
-          </p>
-          <div>
-            <Button
-              as={Link}
-              size="lg"
-              radius="md"
-              className="w-fit bg-primary-700 text-primary-100 hover:bg-primary-800 hover:text-white"
-              href={`/channel`}
+    <main className="flex-grow">
+      <Container className="py-20 sm:py-28">
+        {/* the mark, read out loud: one relationship, two ends */}
+        <div className="flex items-center gap-3 mb-8 text-sm text-primary-400">
+          <Mark size={18} split />
+          <span>
+            <span className="text-mod">mods</span>
+            <span className="text-primary-600"> / </span>
+            <span className="text-vip">vips</span>
+            <span className="text-primary-500"> — both directions</span>
+          </span>
+        </div>
+
+        <h1 className="font-cairo text-4xl sm:text-5xl leading-[1.05] tracking-tight max-w-xl mb-5">
+          Every mod list on twitch, read backwards.
+        </h1>
+
+        <p className="text-lg text-primary-300 max-w-xl leading-relaxed mb-12">
+          Twitch shows a broadcaster their own moderators. {config.brand.name} keeps
+          the other half — every channel a person holds mod or vip in, and the day
+          they were given it.
+        </p>
+
+        {/* brackets close around the search on load: the mark assembling */}
+        <Bracket animate className="max-w-md p-3">
+          <SearchUser type="channel" />
+        </Bracket>
+
+        <dl className="flex flex-wrap gap-x-8 gap-y-2 mt-12 text-sm mono">
+          {counts.map((count, index) => (
+            <div
+              key={count.label}
+              className="enter-item flex flex-col"
+              style={{ '--i': index } as React.CSSProperties}
             >
-              find channels
-            </Button>
-          </div>
-        </div>
-      </header>
+              <dd className="text-2xl text-primary-100">{count.value}</dd>
+              <dt className="text-primary-500 text-xs uppercase tracking-widest">
+                {count.label}
+              </dt>
+            </div>
+          ))}
+        </dl>
+      </Container>
 
-      <section id="features" className="py-16 px-6 bg-primary-800 text-primary-100">
-        <div className="max-w-6xl mx-auto">
-          <Title level={2} size="xl" mb="lg" className="text-center text-primary-100">
-            discover our features
-          </Title>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-8 bg-primary-700 shadow-lg rounded-lg">
-              <Title level={3} size="lg" mb="sm" className="text-primary-100">
-                lookup mods & vips
-              </Title>
-              <p className="text-primary-200">
-                view detailed information about any twitch channel, including its moderators and vips.
-              </p>
+      {/* the two halves of the mark, at page scale: mod-green anchored top-left,
+          vip-pink anchored bottom-right, 180° apart */}
+      <div className="border-t border-primary-700">
+        <Container className="py-20 grid gap-16 sm:grid-cols-2">
+          <section className="sm:pr-8">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="w-3 h-3 border-2 border-b-0 border-r-0 border-mod" />
+              <h2 className="font-cairo text-xl tracking-tight">
+                Built by looking things up
+              </h2>
             </div>
-            <div className="p-8 bg-primary-700 shadow-lg rounded-lg">
-              <Title level={3} size="lg" mb="sm" className="text-primary-100">
-                explore user roles
-              </Title>
-              <p className="text-primary-200">
-                find out where specific users hold moderator or vip roles across twitch.
-              </p>
-            </div>
-            <div className="p-8 bg-primary-700 shadow-lg rounded-lg sm:col-span-2 lg:col-span-1">
-              <Title level={3} size="lg" mb="sm" className="text-primary-100">
-                share your stats
-              </Title>
-              <p className="text-primary-200">
-                easily share your stats with our short url feature:
-              </p>
-              <Snippet
-                size="sm"
-                variant="flat"
-                hideSymbol={true}
-                classNames={{
-                  base: 'w-full mt-2 bg-primary-600 text-xs sm:text-sm',
-                  pre: 'overflow-x-hidden text-ellipsis',
-                }}
-                tooltipProps={{
-                  delay: 200,
-                  offset: 8,
-                  color: 'foreground',
-                  className: 'font-medium'
-                }}
-              >
-                {`https://mdc.lol/c/${username}`}
-              </Snippet>
-              <br />
-              <Snippet
-                size="sm"
-                variant="flat"
-                hideSymbol={true}
-                classNames={{
-                  base: 'w-full mt-2 bg-primary-600 text-xs sm:text-sm',
-                  pre: 'overflow-x-hidden text-ellipsis',
-                }}
-                tooltipProps={{
-                  delay: 200,
-                  offset: 8,
-                  color: 'foreground',
-                  className: 'font-medium'
-                }}
-              >
-                {`https://mdc.lol/u/${channel}`}
-              </Snippet>
-            </div>
-          </div>
-        </div>
-      </section>
+            <p className="text-primary-400 leading-relaxed">
+              A channel enters the index the first time somebody searches for it —
+              that read pulls its mod and vip lists in and keeps them. If a
+              moderator you expect is missing, look up the channel they mod in,
+              once.
+            </p>
+          </section>
 
-      <section className="py-16 text-center bg-primary-900 px-6">
-        <div className="max-w-6xl mx-auto">
-          <Title level={2} size="xl" mb="lg" className="text-primary-100">
-            stats overview
-          </Title>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">{`${stats.channels.formatted}+`}</p>
-              <p className="text-primary-300">channels tracked</p>
+          <section className="sm:pl-8 sm:text-right">
+            <div className="flex items-center gap-2 mb-4 sm:justify-end">
+              <h2 className="font-cairo text-xl tracking-tight">
+                Two urls, one per direction
+              </h2>
+              <span className="w-3 h-3 border-2 border-t-0 border-l-0 border-vip" />
             </div>
-            <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">{`${stats.users.formatted}+`}</p>
-              <p className="text-primary-300">users tracked</p>
+            <p className="text-primary-400 leading-relaxed mb-5">
+              Who mods <em>for</em> a channel, and where a person mods.
+            </p>
+            <div className="flex flex-col gap-2 mono text-sm">
+              {(['c', 'u'] as const).map((prefix) => (
+                <code
+                  key={prefix}
+                  className="px-3 py-2 bg-primary-800 border border-primary-700 text-primary-300"
+                >
+                  {config.brand.domain}/{prefix}/{username}
+                </code>
+              ))}
             </div>
-            <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">{`${stats.mods.formatted}+`}</p>
-              <p className="text-primary-300">mods tracked</p>
-            </div>
-            <div className="p-8 bg-primary-800 rounded-lg shadow-lg">
-              <p className="text-5xl font-bold text-primary-100">{`${stats.vips.formatted}+`}</p>
-              <p className="text-primary-300">vips tracked</p>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        </Container>
+      </div>
     </main>
   );
 }

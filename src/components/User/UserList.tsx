@@ -2,13 +2,13 @@
 
 import { FC, useCallback, useEffect, useState } from 'react';
 import { FilterIcon, ReloadIcon, Sort01Icon, Sort10Icon, SortAZIcon, SortNewOldIcon, SortOldNewIcon, SortZAIcon } from '@/components/Icons';
-import { Title } from '@/components/UI/Title';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
 import { useUserListData } from '@/hooks/useUserListData';
 import { User, UserListProps } from '@/misc/Interfaces';
-import { Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { FixedSizeList as List } from 'react-window';
+import clsx from 'clsx';
 
 const sortAZ = (users: User[]): User[] => [...users].sort((a, b) => a.login.localeCompare(b.login));
 const sortZA = (users: User[]): User[] => [...users].sort((a, b) => b.login.localeCompare(a.login));
@@ -34,7 +34,13 @@ const UserDropdown: FC<UserDropdownProps> = ({ onSort }) => {
   return (
     <Dropdown type="listbox">
       <DropdownTrigger>
-        <div className="cursor-pointer"><FilterIcon size={24} /></div>
+        <button
+          type="button"
+          aria-label="sort list"
+          className="flex items-center justify-center w-7 h-7 rounded-md hover:text-primary-200 transition-colors duration-150 pressable"
+        >
+          <FilterIcon size={18} />
+        </button>
       </DropdownTrigger>
       <DropdownMenu>
         {dropdownItems.map((item, index) => (
@@ -59,45 +65,81 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
     setUsers((prevUsers) => sortFn(prevUsers));
   }, []);
 
+  // the rows are virtualized, so they mount and unmount constantly while
+  // scrolling — animating them individually would re-fire on every scroll.
+  // the list arrives as one surface instead.
+  const listKey = `${role}-${users.length}`;
+
+  const isMod = role === 'mods' || role === 'modding';
+
   return (
-    <div className="relative p-4 pr-2 border-1 border-primary-700 rounded-lg">
-      {!isLoading && !error && !!users.length && (
-        <div className="absolute top-[1.4rem] left-[1.4rem]">
-          <UserDropdown onSort={handleSort} />
+    <section>
+      {/* heading row carries the count and the controls, so the list itself
+          can be pure data with nothing floating over it */}
+      <div className="flex items-center gap-3 h-8 mb-1">
+        {/* a single corner from the mark, oriented per role: mods take the
+            top-left bracket, vips the bottom-right — 180° apart, so a channel
+            page renders the logo at page scale */}
+        <span
+          aria-hidden="true"
+          className={clsx(
+            'w-3 h-3 border-2',
+            isMod ? 'border-b-0 border-r-0 border-mod' : 'border-t-0 border-l-0 border-vip'
+          )}
+        />
+        <h2
+          className={clsx(
+            'text-sm uppercase tracking-wider',
+            isMod ? 'text-mod' : 'text-vip'
+          )}
+        >
+          {role}
+        </h2>
+
+        {!isLoading && !error && (
+          <span className="text-sm text-primary-500 mono">{users.length}</span>
+        )}
+
+        <div className="ml-auto flex items-center gap-1 text-primary-400">
+          {!isLoading && !error && !!users.length && <UserDropdown onSort={handleSort} />}
+          {!isLoading && !error && type === 'channel' && (
+            <button
+              type="button"
+              aria-label={`reload ${role}`}
+              className="flex items-center justify-center w-7 h-7 rounded-md hover:text-primary-200 transition-colors duration-150 pressable"
+              onClick={reload}
+            >
+              <ReloadIcon size={18} />
+            </button>
+          )}
         </div>
-      )}
-      {!isLoading && !error && type === 'channel' && (
-        <div className="absolute top-[1.4rem] right-[1.4rem] cursor-pointer" onClick={reload}>
-          <ReloadIcon size={24} />
-        </div>
-      )}
-      <Title level={2} size="lg" className="text-center uppercase">
-        {role}
-      </Title>
-      <Divider className="w-1/2 mx-auto my-2" />
-      {error && (
-        <p className="text-center mt-1 mb-2 text-large text-red-500">{error}</p>
-      )}
+      </div>
+
+      {error && <p className="py-3 text-red-400">{error}</p>}
       {isLoading && <UserListLoading />}
+
       {!isLoading && !error && (
-        <>
-          <p className="text-center mt-1 mb-2 text-large">
-            {users.length} {role}
-          </p>
-          <List
-            height={users.length ? Math.min(users.length * 72, 512) : 0}
-            itemCount={users.length}
-            itemSize={72}
-            width="100%"
-          >
-            {({ index, style }) => (
-              <div style={style}>
-                <UserListItem user={users[index]} />
-              </div>
-            )}
-          </List>
-        </>
+        <div key={listKey} className="enter-item border-t border-primary-700">
+          {users.length === 0 ? (
+            <p className="py-6 text-sm text-primary-500 mono">
+              none tracked yet
+            </p>
+          ) : (
+            <List
+              height={Math.min(users.length * 72, 512)}
+              itemCount={users.length}
+              itemSize={72}
+              width="100%"
+            >
+              {({ index, style }) => (
+                <div style={style}>
+                  <UserListItem user={users[index]} role={role} />
+                </div>
+              )}
+            </List>
+          )}
+        </div>
       )}
-    </div>
+    </section>
   );
 };
