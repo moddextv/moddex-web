@@ -1,0 +1,74 @@
+# local development stack
+#
+#   docker compose up
+#
+# app      http://localhost:4999
+# adminer  http://localhost:8080   (server: db, user: moddex, db: moddex)
+#
+# the database is seeded from db/init/*.sql on first boot. to re-seed after
+# changing those files: docker compose down -v && docker compose up
+
+name: moddex
+
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-moddex}
+      DB_USER: ${DB_USER:-moddex}
+      DB_PASS: ${DB_PASS:-moddex}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:4999}
+      WATCHPACK_POLLING: 'true'
+    ports:
+      # host port is configurable so it does not collide with a dev server
+      # already running outside docker
+      - '${APP_PORT:-4999}:4999'
+    volumes:
+      - .:/app
+      # keep the image's node_modules and .next rather than letting the bind
+      # mount shadow them with the host's (host is windows, container is alpine)
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:-root}
+      MARIADB_DATABASE: ${DB_NAME:-moddex}
+      MARIADB_USER: ${DB_USER:-moddex}
+      MARIADB_PASSWORD: ${DB_PASS:-moddex}
+    ports:
+      # exposed so you can point a local client at it; harmless on a laptop
+      - '${DB_PORT_HOST:-3306}:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - '8080:8080'
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db-data:

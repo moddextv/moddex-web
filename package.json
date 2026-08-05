@@ -1,5 +1,5 @@
 {
-  "name": "next-app-template",
+  "name": "moddex",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -27,6 +27,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-window": "^1.8.10",
+    "server-only": "^0.0.1",
     "sharp": "^0.33.4",
     "stripe": "^16.7.0",
     "swagger-ui-react": "^5.17.14"
@@ -51,7 +52,7 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^3.2.0",
-    "postcss": "8.4.39",
+    "postcss": "^8.5.13",
     "tailwind-variants": "0.2.1",
     "tailwindcss": "3.4.6",
     "typescript": "5.5.3"

@@ -1,0 +1,77 @@
+# production stack
+#
+#   docker compose -f compose.prod.yaml pull
+#   docker compose -f compose.prod.yaml up -d
+#
+# assumes a reverse proxy (caddy / traefik / nginx) terminates TLS and forwards
+# to app:4999 on the `web` network. the app publishes no host port itself.
+#
+# rollback: set IMAGE_TAG to a previous sha in .env, then pull && up -d again.
+
+name: moddex
+
+services:
+  app:
+    image: ${IMAGE:-ghcr.io/OWNER/REPO}:${IMAGE_TAG:-latest}
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        ['CMD', 'node', '-e', "fetch('http://127.0.0.1:4999/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks:
+      - web
+      - internal
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:?DB_ROOT_PASS is required}
+      MARIADB_DATABASE: ${DB_NAME:?DB_NAME is required}
+      MARIADB_USER: ${DB_USER:?DB_USER is required}
+      MARIADB_PASSWORD: ${DB_PASS:?DB_PASS is required}
+    volumes:
+      - db-data:/var/lib/mysql
+      # only applied to an EMPTY volume — existing data is never touched
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+    networks:
+      - internal
+    restart: unless-stopped
+
+  # nightly dump to ./backups on the host, 14 days retained.
+  backup:
+    image: mariadb:11
+    env_file: .env
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
+    entrypoint: ['/bin/sh', '/usr/local/bin/backup.sh']
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true
+  internal:
+
+volumes:
+  db-data:
