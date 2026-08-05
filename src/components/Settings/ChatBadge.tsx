@@ -7,11 +7,10 @@ import { UserChatBadges, ChatBadge as ChatBadgeProps } from '@/misc/Interfaces';
 import { setSelectedUserChatBadge } from '@/actions/userChatBadgeState';
 
 interface ChatBadgeComponentProps {
-  userId: string;
   userChatBadges: UserChatBadges;
 }
 
-export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userId, userChatBadges }) => {
+export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges }) => {
   const [selectedBadge, setSelectedBadge] = useState(userChatBadges.selected);
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +21,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userId, userChatBadges 
     setLoading(true);
 
     try {
-      await setSelectedUserChatBadge(userId, newSelectedBadge);
+      await setSelectedUserChatBadge(newSelectedBadge);
       setSelectedBadge(newSelectedBadge);
     } finally {
       setLoading(false);

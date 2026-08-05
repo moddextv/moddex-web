@@ -5,11 +5,10 @@ import { FC, useState } from 'react';
 import { setIgnoredUser } from '@/actions/userIgnoreState';
 
 interface OptOutProps {
-  userId: string;
   initialIsIgnored: boolean;
 }
 
-export const OptOut: FC<OptOutProps> = ({ userId, initialIsIgnored }) => {
+export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
   const [isIgnored, setIsIgnored] = useState(initialIsIgnored);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +16,7 @@ export const OptOut: FC<OptOutProps> = ({ userId, initialIsIgnored }) => {
     setLoading(true);
 
     try {
-      await setIgnoredUser(userId, !isIgnored);
+      await setIgnoredUser(!isIgnored);
       setIsIgnored(!isIgnored);
     } finally {
       setLoading(false);

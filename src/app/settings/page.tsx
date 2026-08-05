@@ -4,13 +4,14 @@ import { OptOut } from '@/components/Settings/OptOut';
 import { auth } from '@/auth';
 import { Login } from '@/components/Login';
 import { getSelectedUserChatBadge, getUserChatBadges } from '@/utils/badges';
-import { getUserIgnoreState } from '@/actions/userIgnoreState';
+import { getUserIgnoreState } from '@/utils/user';
 import { ChatBadge } from '@/components/Settings/ChatBadge';
 import { UserChatBadges } from '@/misc/Interfaces';
+import { config } from '@/config';
 
 export const metadata: Metadata = {
   title: 'profile settings',
-  description: 'update your settings for modchecker.com. opt-out from being tracked or select a badge to display in chats.'
+  description: `update your settings for ${config.brand.domain}. opt-out from being tracked or select a badge to display in chats.`
 };
 
 export default async function SettingsPage() {
@@ -50,7 +51,7 @@ export default async function SettingsPage() {
           privacy
         </Title>
         <div className="mb-4">
-          <OptOut userId={userId} initialIsIgnored={isIgnored} />
+          <OptOut initialIsIgnored={isIgnored} />
           <p>
             you can opt-out of being tracked, meaning your profile will not be displayed and you will not be listed in
             any mod- and vip-lists.
@@ -64,7 +65,7 @@ export default async function SettingsPage() {
             cosmetics
           </Title>
           <p className="text-lg mb-2">chat badge</p>
-          <ChatBadge userId={userId} userChatBadges={userChatBadges} />
+          <ChatBadge userChatBadges={userChatBadges} />
           <p className="text-sm mt-1">
             <span className="text-red-500">
               we&apos;re currently working on chat integrations.
