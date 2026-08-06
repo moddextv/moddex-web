@@ -97,6 +97,20 @@ CREATE TABLE `vips` (
   CONSTRAINT `vips_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `vips_ibfk_2` FOREIGN KEY (`channel_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+-- founders. deliberately NOT `ON UPDATE current_timestamp()` like mods/vips
+-- above: that clause rewrites the historical date on any UPDATE, and the date
+-- a founder was granted is the entire point of the role. `granted` comes from
+-- twitch's `entitlementStart` and is nullable because a founder row is only as
+-- good as what the api returned.
+CREATE TABLE `founders` (
+  `user_id` varchar(20) NOT NULL,
+  `channel_id` varchar(20) NOT NULL,
+  `granted` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`channel_id`),
+  KEY `idx_founders_channel_granted` (`channel_id`,`granted`),
+  CONSTRAINT `founders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `founders_ibfk_2` FOREIGN KEY (`channel_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 CREATE TABLE `dctwitchusers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -165,7 +165,28 @@ Both entries below were **backwards**. Verified against `gql.twitch.tv`
 on 2026-08-06 with the app's own client-id; `user.mods` was used as a control
 and returned data, so the probe is sound.
 
-- [ ] **Founder — confirmed available.** This is the one that is buildable.
+- [x] **Founder — BUILT.** Verified end to end against a live channel: 24 rows
+      fetched, stored and served with real `entitlementStart` dates.
+
+      `fetchFounders(login)` in `utils/api/twitch/gql.ts` (its own path, not
+      `fetchRoles`), `getChannelFounders`/`getUserFounders`, a `founders` table
+      via `006`, `GET /api/v1/founders`, and a third `UserList` on the channel
+      page. `002` extended so it folds into `roles` as role 4 when applied.
+
+      `isSubscribed` is deliberately **not** stored: what is recorded is when
+      the role was granted, which is permanent, not whether the badge is
+      currently displayed.
+
+      `founders.granted` has no `ON UPDATE current_timestamp()`, unlike
+      `mods`/`vips` — that clause rewrites the historical date on any UPDATE,
+      which would destroy the only thing this role is for.
+
+      `fetchRoles` is now typed `PaginatedChannelRole` (`'mods' | 'vips'`), so
+      routing a non-connection role through it is a compile error rather than a
+      silently empty list.
+
+      Note twitch returned 25 entries and 24 were stored: one has `user: null`,
+      a deleted account, which is filtered.
 
       ```graphql
       query { channel(name: "<login>") {
@@ -174,15 +195,6 @@ and returned data, so the probe is sound.
                    user { id login displayName chatColor
                           profileImageURL(width: 600) } } } }
       ```
-
-      It cannot reuse `fetchRoles`: rooted at `channel(name:)` not `user(id:)`,
-      a plain list rather than an `edges`/`node` connection, **no pagination**,
-      and the timestamp is `entitlementStart` not `grantedAt`. Needs its own
-      fetch path and a `granted` mapping.
-
-      Two extra fields worth keeping: `isSubscribed` (a lapsed founder keeps
-      the entitlement but loses the badge — different questions) and
-      `founderBadgeAvailability` (unclaimed slots remaining).
 
 - [ ] **Artist — NOT available.** `Cannot query field "artists" on type "User"`,
       and the same on `Channel`. `channelArtists`, `artistBadge` and
@@ -225,6 +237,15 @@ and returned data, so the probe is sound.
       **Fixed** — the type is now `string | Date | null` on both `User` and
       `UserBadgeRow`, which is what the mariadb driver and the gql path
       actually produce between them.
+
+- [x] **`fetchUsersById` looked users up by login.** `fetchUsers` defaults to
+      `type: 'login'` and `fetchUsersById` never passed `'id'`, so it queried
+      `user(login: "28005230")` and matched nothing. `getUsers()` therefore
+      never created users it had not already seen, and `storeUsers()` then died
+      on the foreign key. Invisible in production — `users` already holds 2.75M
+      rows, so nearly every mod or vip is already present — but every genuinely
+      new user was dropped, and on a fresh database nothing stored at all.
+      Found while testing founders on a seeded database, where it failed 100%.
 
 ## 6. Performance — app-side, not database-side
 

@@ -2,8 +2,8 @@ import { DefaultSession } from 'next-auth';
 
 export type UserType = 'channel' | 'user';
 
-export type UserRoleType = 'modding' | 'viping';
-export type ChannelRoleType = 'mods' | 'vips';
+export type UserRoleType = 'modding' | 'viping' | 'founding';
+export type ChannelRoleType = 'mods' | 'vips' | 'founders';
 
 export type RoleType = UserRoleType | ChannelRoleType;
 

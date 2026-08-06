@@ -58,6 +58,23 @@ INSERT INTO `roles` (`user_id`, `channel_id`, `role`, `granted`)
 SELECT CAST(`user_id` AS UNSIGNED), CAST(`channel_id` AS UNSIGNED), 2, `granted`
 FROM `vips`;
 
+-- founders (role 4), added by 006. guarded because a database that has not had
+-- 006 applied has no such table, and because founder support may simply never
+-- have been used -- the table fills lazily, one channel refresh at a time.
+-- unlike mods/vips this is tens of rows per channel, so it costs nothing.
+SET @has_founders = (
+  SELECT COUNT(*) FROM information_schema.tables
+  WHERE table_schema = DATABASE() AND table_name = 'founders'
+);
+SET @sql = IF(@has_founders > 0,
+  'INSERT INTO `roles` (`user_id`, `channel_id`, `role`, `granted`)
+   SELECT CAST(`user_id` AS UNSIGNED), CAST(`channel_id` AS UNSIGNED), 4, `granted`
+   FROM `founders`',
+  'DO 0');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
 -- ------------------------------------------------------------- verify me ---
 -- these must match before you go any further:
 --   SELECT (SELECT COUNT(*) FROM mods) + (SELECT COUNT(*) FROM vips) AS expected,

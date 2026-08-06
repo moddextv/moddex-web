@@ -1,29 +1,33 @@
 'use server';
 
 import { RoleType, User, UserType } from '@/misc/Interfaces';
-import { getChannelMods, getChannelVips } from '@/utils/roles/channel';
-import { getUserMods, getUserVips } from '@/utils/roles/user';
+import { getChannelFounders, getChannelMods, getChannelVips } from '@/utils/roles/channel';
+import { getUserFounders, getUserMods, getUserVips } from '@/utils/roles/user';
 import { filterUsers, getUsersFromDbById } from '@/utils/user';
 
 type UserRolesFunctions = {
   channel: {
     mods: (user: User, forceRefresh: boolean) => Promise<User[]>;
     vips: (user: User, forceRefresh: boolean) => Promise<User[]>;
+    founders: (user: User, forceRefresh: boolean) => Promise<User[]>;
   };
   user: {
     modding: (user: User) => Promise<User[]>;
     viping: (user: User) => Promise<User[]>;
+    founding: (user: User) => Promise<User[]>;
   };
 };
 
 const functionMap: UserRolesFunctions = {
   channel: {
     mods: getChannelMods,
-    vips: getChannelVips
+    vips: getChannelVips,
+    founders: getChannelFounders
   },
   user: {
     modding: getUserMods,
-    viping: getUserVips
+    viping: getUserVips,
+    founding: getUserFounders
   }
 };
 

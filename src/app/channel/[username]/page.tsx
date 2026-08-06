@@ -81,6 +81,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
           <UserList type="channel" role="mods" user={user} />
           <UserList type="channel" role="vips" user={user} />
+          <UserList type="channel" role="founders" user={user} />
         </div>
       </Container>
     </main>

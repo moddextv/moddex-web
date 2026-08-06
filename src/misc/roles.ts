@@ -90,7 +90,7 @@ export type RoleId = (typeof ROLES)[RoleKey]['id'];
 export const ROLE_KEYS = Object.keys(ROLES) as RoleKey[];
 
 /** roles that are actually fetchable today — drives what the ui offers */
-export const ACTIVE_ROLE_KEYS: RoleKey[] = ['mod', 'vip'];
+export const ACTIVE_ROLE_KEYS: RoleKey[] = ['mod', 'vip', 'founder'];
 
 export const roleById = (id: number): RoleKey | undefined =>
   ROLE_KEYS.find((key) => ROLES[key].id === id);

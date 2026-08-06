@@ -10,6 +10,16 @@ export const getUserVips = async (user: User): Promise<User[]> => {
   return getUserRoles(user.id, 'vips');
 }
 
+/**
+ * which channels this person founded. reads only what we already stored --
+ * twitch exposes founders per *channel*, so there is no "founded by user"
+ * query to fall back on. a channel this user founded appears here once that
+ * channel has been refreshed at least once.
+ */
+export const getUserFounders = async (user: User): Promise<User[]> => {
+  return getUserRoles(user.id, 'founders');
+}
+
 export const getUserRoles = async (userId: string, role: string): Promise<User[]> => {
   const channels: UserBadgeRow[] = await db.query(
       `

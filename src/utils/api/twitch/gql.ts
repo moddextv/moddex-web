@@ -95,7 +95,13 @@ export const fetchUsers = async (identifiers: string[], type: 'id' | 'login' = '
 };
 
 export const fetchUsersById = async (userIds: string[]): Promise<User[]> => {
-  return await fetchUsers(userIds);
+  // fetchUsers defaults to type 'login'. omitting 'id' here meant this looked
+  // up `user(login: "28005230")` and found nothing, so getUsers() never created
+  // users it had not seen and storeUsers() then failed the foreign key. in
+  // production that is invisible -- `users` already holds millions of rows, so
+  // almost every mod or vip is already present -- but any genuinely new user
+  // was silently dropped, and on a fresh database nothing stored at all.
+  return await fetchUsers(userIds, 'id');
 };
 
 export const fetchUsersByLogin = async (usernames: string[]): Promise<User[]> => {
@@ -165,7 +171,99 @@ export const fetchVips = async (channelId: string): Promise<User[]> => {
   return fetchRoles(channelId, 'vips');
 };
 
-const fetchRoles = async (channelId: string, role: ChannelRoleType): Promise<User[]> => {
+/**
+ * founders do not go through fetchRoles. the connection is shaped differently
+ * in four ways, all verified against gql.twitch.tv on 2026-08-06:
+ *
+ *   1. rooted at `channel(name:)`, so this takes a LOGIN, not an id
+ *   2. a plain list, not an edges/node connection
+ *   3. no pagination -- no first/after/cursor/pageInfo. twitch caps the badge
+ *      per channel, so the whole set arrives in one response
+ *   4. the timestamp is `entitlementStart`, not `grantedAt`
+ *
+ * `isSubscribed` is deliberately not requested. a founder who lets their sub
+ * lapse keeps the entitlement but loses the badge, and what this product
+ * records is *when the role was granted* -- a permanent fact -- not whether it
+ * is currently displayed.
+ */
+export const fetchFounders = async (channelLogin: string): Promise<User[]> => {
+  const response = await gqlQuery(
+    `query ChannelFounders($name: String!) {
+      channel(name: $name) {
+        founders {
+          entitlementStart
+          user {
+            id
+            login
+            displayName
+            description
+            createdAt
+            profileImageURL(width: 150)
+            roles {
+              isAffiliate,
+              isPartner,
+              isStaff
+            }
+            followers(first: 1) {
+              totalCount
+            }
+          }
+        }
+      }
+    }`,
+    { name: channelLogin }
+  );
+
+  const founders = response?.data?.channel?.founders || [];
+
+  return founders
+    .filter((founder: GqlFounder) => founder?.user)
+    .map((founder: GqlFounder) => ({
+      id: founder.user.id,
+      login: founder.user.login,
+      name: founder.user.displayName,
+      bio: founder.user.description,
+      avatar: founder.user.profileImageURL,
+      roles: founder.user.roles,
+      follower: founder.user.followers?.totalCount || 0,
+      banned: '',
+      created: founder.user.createdAt,
+      granted: founder.entitlementStart,
+      badges: [],
+      chatBadge: null
+    })) as User[];
+};
+
+interface GqlFounder {
+  entitlementStart: string;
+  user: {
+    id: string;
+    login: string;
+    displayName: string;
+    description: string | null;
+    createdAt: string;
+    profileImageURL: string;
+    roles: {
+      isAffiliate: boolean;
+      isPartner: boolean;
+      isStaff: boolean;
+    };
+    followers: {
+      totalCount: number;
+    };
+  };
+}
+
+/**
+ * only the roles twitch exposes as a paginated connection on the `user` type.
+ * `founders` is deliberately excluded -- it is a plain list under
+ * `channel(name:)` and has its own fetcher. keeping this narrower than
+ * ChannelRoleType means routing a non-connection role through here is a
+ * compile error rather than a silently empty result.
+ */
+type PaginatedChannelRole = Extract<ChannelRoleType, 'mods' | 'vips'>;
+
+const fetchRoles = async (channelId: string, role: PaginatedChannelRole): Promise<User[]> => {
   const users: User[] = [];
   let cursor = '';
   let hasNextPage = true;

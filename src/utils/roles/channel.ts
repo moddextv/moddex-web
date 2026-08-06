@@ -1,6 +1,6 @@
 import { db } from '@/misc/Database';
 import { ChannelRoleType, User, UserBadgeRow } from '@/misc/Interfaces';
-import { fetchMods, fetchVips } from '@/utils/api/twitch/gql';
+import { fetchFounders, fetchMods, fetchVips } from '@/utils/api/twitch/gql';
 import { formatUsers, getUsers } from '@/utils/user';
 import { logger } from '@/misc/Logger';
 
@@ -18,21 +18,38 @@ export const getChannelVips = async (
   return getUsersByRole(user, 'vips', forceRefresh);
 };
 
+export const getChannelFounders = async (
+  user: User,
+  forceRefresh: boolean = false
+): Promise<User[]> => {
+  return getUsersByRole(user, 'founders', forceRefresh);
+};
+
 const getUsersByRole = async (
   user: User,
   role: ChannelRoleType,
   forceRefresh: boolean
 ): Promise<User[]> => {
   if (forceRefresh || !user.updated) {
-    return getAndStoreUsers(user.id, role);
+    return getAndStoreUsers(user, role);
   }
 
   return getStoredUsers(user.id, role);
 };
 
-const getAndStoreUsers = async (channelId: string, role: ChannelRoleType): Promise<User[]> => {
+// takes the whole user rather than an id: founders are fetched via
+// `channel(name:)`, which is keyed on the login, while mods and vips are
+// fetched via `user(id:)`.
+const getAndStoreUsers = async (channel: User, role: ChannelRoleType): Promise<User[]> => {
+  const channelId = channel.id;
+
   const usersFromApi =
-    role === 'mods' ? await fetchMods(channelId) : await fetchVips(channelId);
+    role === 'mods'
+      ? await fetchMods(channelId)
+      : role === 'vips'
+        ? await fetchVips(channelId)
+        : await fetchFounders(channel.login);
+
   const userIds = usersFromApi.map((user) => user.id);
 
   if (!userIds.length) {
