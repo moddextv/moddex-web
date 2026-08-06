@@ -108,8 +108,27 @@ Because the migrations are already baked into the dump, the sequence in
 Do **not** also apply `001` or `005` — they are already in this dump. Both are
 rerun-safe, so doing it anyway is harmless, just pointless.
 
-`002`, `003` and `004` are **not** applied and remain outstanding. See
-`NEXT-STEPS.md` §3.
+**Outstanding after this restore** (updated 2026-08-06, when the restore was
+actually performed — this list was written before `006`–`012` existed):
+
+```
+002-unified-roles                     007-reconcile-donator-badges
+004-rebrand-chat-badge-labels         008-revoke-unearned-donator-badges
+006-founders-table                    009-revoke-staff-access
+                                      010-reset-staff-to-admins-only
+                                      011-strip-departed-vanity-badges
+                                      012-known-bots
+```
+
+Nine, not three. `007`–`011` **mutate live rows** — they revoke badges and
+staff access from real accounts — so they want reviewing individually rather
+than running as a batch.
+
+`006` is a special case: `db/init/01-schema.sql` already creates the `founders`
+table, so a fresh stack has it and only the restored production data does not.
+
+There is no `003`. It is an unwritten to-do (`NEXT-STEPS.md` §3: convert
+`users.id` to `BIGINT UNSIGNED`, add the foreign keys), not a missing file.
 
 ## If you restore the original dump instead
 

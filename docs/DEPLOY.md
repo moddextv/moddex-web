@@ -103,7 +103,17 @@ Three traps:
 
 - **Do not copy `.env.local` to the server.** Next.js loads it at *higher*
   precedence than `.env`, and the copy in this repo still points
-  `NEXTAUTH_URL` at `https://modchecker.com`. Delete it.
+  `NEXTAUTH_URL` at `https://modchecker.com`. Delete it — but delete only the
+  copy you are about to deploy from.
+
+  **Not** the one in `/home/dev/modchecker.com/` on the host. That directory is
+  a checkout of this repo *and* the currently live app (nginx proxies
+  `modchecker.com` to a bare `next-server` on `127.0.0.1:4999` out of it), and
+  its `.env.local` is what pins live production to `https://modchecker.com` and
+  `DB_NAME=modchecker_web`. The `.env` beside it points at `localhost:5099` and
+  a compose service named `db` that does not exist on the host, so removing
+  `.env.local` there breaks Twitch login and repoints the database. Verified
+  2026-08-06.
 - `NEXTAUTH_URL` must match a redirect URL registered in the Twitch console
   character for character, or login fails.
 - `APP_PORT` / `DB_PORT_HOST` are local-development only. `compose.prod.yaml`

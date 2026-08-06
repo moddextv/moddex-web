@@ -21,7 +21,15 @@ These are yours, not code. The rebrand is inert without them.
       `http://localhost:5099/api/auth/callback/twitch`. The local one matches
       `APP_PORT=5099`; if that port ever changes, the redirect must change with
       it or local login breaks.
-- [x] **Rotate every secret.** Done.
+- [ ] **Rotate every secret.** *Partially* done — the "Done." here was wrong.
+      Checked on the server 2026-08-06 by diffing
+      `/home/dev/modchecker.com/.env` (Aug 2026) against `.env.local` (May 2025):
+      `AUTH_SECRET`, `DB_USER` and `DB_PASS` were rotated, but
+      `AUTH_TWITCH_ID`, `AUTH_TWITCH_SECRET`, `AUTH_TWITCH_CLIENT_ID`,
+      `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY` and
+      `STRIPE_DONATION_PRICE` are byte-identical across both — never rotated.
+      `STRIPE_SECRET_KEY` is an `sk_live_` key. Rotating it touches live
+      payments and must be coordinated with the Stripe dashboard.
 - [x] **Set repo/CI values:** `IMAGE=ghcr.io/<owner>/<repo>` in the server
       `.env`, and a `NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY` repo secret — without
       it the CI build ships an undefined Stripe key to the browser.
@@ -30,8 +38,14 @@ These are yours, not code. The rebrand is inert without them.
       in the *server* `.env` is still outstanding — that one is not a repo
       secret and cannot be checked from here.
 - [ ] **Confirm the reverse proxy.** `compose.prod.yaml` assumes one already
-      terminates TLS on an external Docker network named `web`. If there isn't
-      one, Caddy needs to join the compose file.
+      terminates TLS on an external Docker network named `web`.
+      **Answered 2026-08-06: there isn't one.** On the host, TLS is terminated
+      by **host nginx** (`/etc/nginx/sites-enabled/`, ~14 sites) proxying to
+      bare Node processes; `docker ps` is empty, the `web` network does not
+      exist, and `/srv/` is empty. So Caddy (or an nginx container) does have to
+      join the compose file — and note this makes the split a *two-part*
+      migration: five repos **and** nginx+bare-Node+host-MySQL → Compose. The
+      second part is not otherwise written down anywhere.
 - [ ] Repoint DNS, the status page and the FrankerFaceZ add-on at the new
       domain. Keep `modchecker.com` redirecting if it is still yours.
 
