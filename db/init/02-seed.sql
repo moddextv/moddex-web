@@ -30,9 +30,13 @@ INSERT INTO `badges` (`name`, `path`, `permission`, `order`) VALUES
 -- the join chat_badges.badge_id -> user_badges.badge_id, so a chat badge is
 -- only offered to someone who holds the parent badge.
 
--- `name` is the branded display label and `slug` the stable key -- production
--- stores e.g. ('Modchecker Top Donator', 'top-donator'). the seed mirrors that
--- split so anything reading one instead of the other fails here, not in prod.
+-- `name` is the branded display label and `slug` the stable key, e.g.
+-- ('moddex top donator', 'top-donator'). the seed mirrors that split so
+-- anything reading one instead of the other fails here, not in production.
+--
+-- production stored these as 'Modchecker Top Donator' until migration 004
+-- renamed them; the slug was never touched, because it is what the app and the
+-- ffz add-on match on.
 INSERT INTO `chat_badges` (`badge_id`, `name`, `slug`, `path`)
 SELECT `id`, CONCAT('moddex ', `name`), REPLACE(`name`, ' ', '-'), REPLACE(`path`, '.png', '.webp')
 FROM `badges`
