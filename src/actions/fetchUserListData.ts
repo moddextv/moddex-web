@@ -3,12 +3,12 @@
 import { RoleType, User, UserType } from '@/misc/Interfaces';
 import { getChannelMods, getChannelVips } from '@/utils/roles/channel';
 import { getUserMods, getUserVips } from '@/utils/roles/user';
-import { filterUsers } from '@/utils/user';
+import { filterUsers, getUsersFromDbById } from '@/utils/user';
 
 type UserRolesFunctions = {
   channel: {
-    mods: (user: User) => Promise<User[]>;
-    vips: (user: User) => Promise<User[]>;
+    mods: (user: User, forceRefresh: boolean) => Promise<User[]>;
+    vips: (user: User, forceRefresh: boolean) => Promise<User[]>;
   };
   user: {
     modding: (user: User) => Promise<User[]>;
@@ -27,8 +27,13 @@ const functionMap: UserRolesFunctions = {
   }
 };
 
+/**
+ * takes an id rather than a User object: the caller is a browser, and
+ * `user.updated` is what decides whether this triggers an outbound twitch
+ * scrape. the record is re-read server-side so a forged payload cannot force one.
+ */
 export async function fetchUserListData(
-  user: User,
+  userId: string,
   type: UserType,
   role: RoleType,
   forceRefresh: boolean = false
@@ -36,6 +41,11 @@ export async function fetchUserListData(
   const fetchFunction = (functionMap[type] as any)[role];
 
   if (typeof fetchFunction !== 'function') {
+    return [];
+  }
+
+  const [user] = await getUsersFromDbById([userId]);
+  if (!user || user.ignored) {
     return [];
   }
 

@@ -1,4 +1,4 @@
-'use server';
+import 'server-only';
 
 import { db } from '@/misc/Database';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
@@ -28,6 +28,13 @@ export const getUserPermission = async (
     [userId]
   );
   return user?.permission || 0;
+};
+
+export const getUserIgnoreState = async (userId: string): Promise<boolean> => {
+  const user = await db.queryOne('SELECT ignored FROM users WHERE id=?', [
+    userId
+  ]);
+  return !!user?.ignored;
 };
 
 export const getUser = async (username: string, forceRefresh: boolean = false): Promise<{ user: User | null, banReason?: string }> => {

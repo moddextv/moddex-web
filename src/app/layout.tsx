@@ -6,6 +6,7 @@ import React from 'react';
 import { Providers } from './providers';
 import { Metadata } from 'next';
 import Tracking from '@/components/Tracking';
+import { config } from '@/config';
 
 const lato = Lato({
   weight: ['300', '400', '700'],
@@ -21,23 +22,25 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://modchecker.com'),
+  metadataBase: new URL(config.brand.url),
   title: {
-    default: 'modchecker',
-    template: '%s | modchecker'
+    default: config.brand.name,
+    template: `%s | ${config.brand.name}`
   },
-  description: 'modchecker.com - the ultimate tool for exploring twitch mods and vips. discover information about moderators, vips, and user roles across twitch channels.',
+  description: `${config.brand.domain} - the ultimate tool for exploring twitch mods and vips. discover information about moderators, vips, and user roles across twitch channels.`,
   authors: {
     name: 'maersux',
     url: 'https://github.com/maersux'
   },
-  keywords: ['modchecker', 'twitch', 'mods', 'vips', 'modlookup', 'viplookup', 'modscanner', 'twitch lookup tool', 'twitch user search', 'twitch channel search', 'Find twitch users', 'Find twitch channels', 'twitch user lookup', 'twitch channel lookup', 'twitch profile search', 'twitch profile lookup', 'discover twitch users', 'discover twitch channels', 'twitch username search', 'twitch username lookup', 'twitch streamer search', 'twitch streamer lookup'],
+  // 'modchecker' stays in the keyword list on purpose: it is the term the
+  // existing audience will search for after the rename.
+  keywords: [config.brand.name, 'modchecker', 'twitch', 'mods', 'vips', 'modlookup', 'viplookup', 'modscanner', 'twitch lookup tool', 'twitch user search', 'twitch channel search', 'Find twitch users', 'Find twitch channels', 'twitch user lookup', 'twitch channel lookup', 'twitch profile search', 'twitch profile lookup', 'discover twitch users', 'discover twitch channels', 'twitch username search', 'twitch username lookup', 'twitch streamer search', 'twitch streamer lookup'],
   openGraph: {
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: 'https://modchecker.com/modchecker.png',
+        url: `${config.brand.url}/${config.brand.name}.png`,
         height: 128,
         width: 128
       }

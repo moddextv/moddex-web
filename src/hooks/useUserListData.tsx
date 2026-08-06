@@ -13,7 +13,7 @@ export const useUserListData = (user: User, type: UserType, role: RoleType) => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await fetchUserListData(user, type, role, forceRefresh);
+        const data = await fetchUserListData(user.id, type, role, forceRefresh);
         setUsers(data);
       } catch (err) {
         setError('Something went wrong with this request');
@@ -24,7 +24,7 @@ export const useUserListData = (user: User, type: UserType, role: RoleType) => {
     };
 
     fetchData();
-  }, [user, type, role, forceRefresh]);
+  }, [user.id, type, role, forceRefresh]);
 
   const reload = () => {
     setForceRefresh(true);

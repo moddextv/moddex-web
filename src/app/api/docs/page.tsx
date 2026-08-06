@@ -3,6 +3,7 @@ import './docs.css';
 import SwaggerUI from 'swagger-ui-react';
 import { Metadata } from 'next';
 import { createSwaggerSpec } from 'next-swagger-doc';
+import { config } from '@/config';
 
 export const metadata: Metadata = {
   title: 'api docs'
@@ -23,12 +24,12 @@ const getApiDocs = async () => {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'modchecker api',
-        description: `<p>this is a simple api to get information from <a href="https://modchecker.com" target="_blank">modchecker.com</a>.<br />get mods and vips from tracked channels or get the channels where a user is modded / viped in. we also provide an api endpoint to our badges.</p>`,
+        title: `${config.brand.name} api`,
+        description: `<p>this is a simple api to get information from <a href="${config.brand.url}" target="_blank">${config.brand.domain}</a>.<br />get mods and vips from tracked channels or get the channels where a user is modded / viped in. we also provide an api endpoint to our badges.</p>`,
         version: '1.0'
       },
       servers: [
-        { url: 'https://modchecker.com/' }
+        { url: `${config.brand.url}/` }
       ],
       tags: [
         {
@@ -74,7 +75,7 @@ const getApiDocs = async () => {
               },
               name: {
                 type: 'string',
-                example: 'modchecker early checker'
+                example: `${config.brand.name} early checker`
               },
               path: {
                 type: 'string',

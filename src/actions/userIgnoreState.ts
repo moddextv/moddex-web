@@ -1,17 +1,19 @@
 'use server';
 
 import { db } from '@/misc/Database';
+import { auth } from '@/auth';
 
-export async function getUserIgnoreState(userId: string): Promise<boolean> {
-  const user = await db.queryOne('SELECT ignored FROM users WHERE id=?', [
-    userId
-  ]);
-  return !!user.ignored;
-}
+/**
+ * every export of a 'use server' file is a publicly callable endpoint, so the
+ * acting user is derived from the session here and never taken from an argument.
+ */
+export async function setIgnoredUser(ignoreUser: boolean): Promise<void> {
+  const session = await auth();
+  const userId = session?.user?.id;
 
-export async function setIgnoredUser(
-  userId: string,
-  ignoreUser: boolean
-): Promise<void> {
+  if (!userId) {
+    throw new Error('not authenticated');
+  }
+
   await db.query('UPDATE users SET ignored=? WHERE id=?', [ignoreUser, userId]);
 }

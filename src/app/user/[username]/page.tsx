@@ -2,10 +2,11 @@ import { Forbidden, NotFound, BannedUser } from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
+import { regex } from '@/utils/regex';
 import { Metadata } from 'next';
 import { db } from '@/misc/Database';
 import { redirect } from 'next/navigation';
-import { Button, Link } from '@heroui/react';
+import { Container } from '@/components/UI/Container';
 
 interface PageProps {
   params: { username: string };
@@ -19,6 +20,13 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
 export default async function ChannelUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
+
+  if (!regex.username.test(username)) {
+    return <NotFound
+      error={`invalid username`}
+      message={`«${username}» is not a valid twitch username`}
+    />;
+  }
 
   const { user, banReason } = await getUser(username);
 
@@ -66,26 +74,23 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   return (
-    <main className="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
-      <UserProfile user={user} isUser={true} />
+    <main className="flex-grow">
+      <Container className="py-12 flex flex-col gap-10">
+        <UserProfile user={user} isUser={true} />
 
-      <Button
-        as={Link}
-        size="md"
-        radius="sm"
-        className="w-fit"
-        href={`/channel/${user.login}`}
-      >
-        view channel
-      </Button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
+          <UserList type="user" role="modding" user={user} />
+          <UserList type="user" role="viping" user={user} />
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <UserList type="user" role="modding" user={user} />
-        <UserList type="user" role="viping" user={user} />
-      </div>
-
-      <p className="text-lg">can&apos;t find a mod/vip in the list? You can index a channel by looking one up <a
-        className="underline" href={'/channel'}>here</a>.</p>
+        <p className="text-sm text-primary-400 border-t border-primary-700 pt-6">
+          Missing a channel? It only appears here once somebody has looked it up —{' '}
+          <a className="text-primary-200 underline underline-offset-2" href="/channel">
+            search for it once
+          </a>{' '}
+          and it stays indexed.
+        </p>
+      </Container>
     </main>
   );
 }

@@ -5,7 +5,12 @@ import { splitArray } from '@/utils/utils';
 import { db } from '@/misc/Database';
 import { updateUserInDb } from '@/utils/user';
 
-const gqlQuery = async (body: string): Promise<any> => {
+const gqlQuery = async (
+  query: string,
+  variables: Record<string, unknown> = {}
+): Promise<any> => {
+  const body = JSON.stringify({ query, variables });
+
   try {
     return fetch('https://gql.twitch.tv/gql', {
       method: 'POST',
@@ -29,9 +34,17 @@ const gqlQuery = async (body: string): Promise<any> => {
 export const fetchUsers = async (identifiers: string[], type: 'id' | 'login' = 'login'): Promise<User[]> => {
   const chunkedIds = splitArray(identifiers, 50);
 
+  const gqlType = type === 'id' ? 'ID' : 'String';
+
   const users = await Promise.all(chunkedIds.map(async chunk => {
-    const operations = chunk.map(identifier => `
-      user_${identifier}: user(${type}: "${identifier}") {
+    // aliases and variable names are positional, so no caller-controlled value
+    // is ever interpolated into the query document itself.
+    const variableDefinitions = chunk
+      .map((_, index) => `$v${index}: ${gqlType}`)
+      .join(', ');
+
+    const operations = chunk.map((_, index) => `
+      user_${index}: user(${type}: $v${index}) {
         id
         login
         displayName
@@ -49,9 +62,14 @@ export const fetchUsers = async (identifiers: string[], type: 'id' | 'login' = '
       }
     `).join('\n');
 
-    const response = await gqlQuery(JSON.stringify({
-      query: `query { ${operations} }`
-    }));
+    const variables = Object.fromEntries(
+      chunk.map((identifier, index) => [`v${index}`, identifier])
+    );
+
+    const response = await gqlQuery(
+      `query BulkUsers(${variableDefinitions}) { ${operations} }`,
+      variables
+    );
 
     if (!response?.data) return [];
 
@@ -85,9 +103,9 @@ export const fetchUsersByLogin = async (usernames: string[]): Promise<User[]> =>
 };
 
 export const fetchUserOrBanned = async (username: string): Promise<User | string> => {
-  const response = await gqlQuery(JSON.stringify({
-    query: `query {
-      user: userResultByLogin(login: "${username}") {
+  const response = await gqlQuery(
+    `query UserOrBanned($login: String!) {
+      user: userResultByLogin(login: $login) {
         ... on User {
           createdAt
           id
@@ -104,14 +122,20 @@ export const fetchUserOrBanned = async (username: string): Promise<User | string
           reason
         }
       }
-    }`
-  }));
+    }`,
+    { login: username }
+  );
 
   const rawUser = response?.data?.user;
 
-  if (rawUser?.reason) {
+  if (!rawUser) return '';
+
+  if (rawUser.reason) {
     if (rawUser.reason === 'UNKNOWN') return '';
-    await db.query(`UPDATE users SET banned=1 WHERE login=?`, [username]);
+    await db.query(`UPDATE users SET banned=? WHERE login=?`, [
+      rawUser.reason,
+      username
+    ]);
     return rawUser.reason;
   }
 
@@ -147,10 +171,12 @@ const fetchRoles = async (channelId: string, role: ChannelRoleType): Promise<Use
   let hasNextPage = true;
 
   while (hasNextPage) {
-    const response: GqlRoleData = await gqlQuery(JSON.stringify({
-      query: `query {
-        user(id: "${channelId}") {
-          ${role}(first: 100, after: "${cursor}") {
+    // `role` is a ChannelRoleType union, never caller-supplied; the id and
+    // cursor are values and go through variables.
+    const response: GqlRoleData = await gqlQuery(
+      `query ChannelRoles($channelId: ID!, $cursor: Cursor) {
+        user(id: $channelId) {
+          ${role}(first: 100, after: $cursor) {
             edges {
               grantedAt,
               cursor,
@@ -176,8 +202,9 @@ const fetchRoles = async (channelId: string, role: ChannelRoleType): Promise<Use
             }
           }
         }
-      }`
-    }));
+      }`,
+      { channelId, cursor: cursor || null }
+    );
 
     const edges: GqlRoleDataEdge[] = response?.data?.user?.[role]?.edges || [];
     hasNextPage = response?.data?.user?.[role]?.pageInfo?.hasNextPage || false;

@@ -2,22 +2,197 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================================================================ tokens ==
+ * the design system is derived from the logo rather than invented around it.
+ *
+ * the mark is two corner brackets in 180° rotational symmetry on a 32-unit
+ * grid: stroke 6, inner channel 4. three consequences run through everything
+ * below —
+ *
+ *   1. corners, not boxes. content is framed by two opposing corner brackets,
+ *      never by a full border. a full box is a card, and a card is the generic
+ *      shape this design exists to avoid.
+ *   2. hard orthogonal geometry. no border radius anywhere. the mark has no
+ *      curves, so neither does the interface.
+ *   3. a 4px module. every spacing, size and offset is a multiple of the
+ *      mark's own grid unit.
+ */
+:root {
+    /* motion */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+    --duration-press: 140ms;
+    --duration-hover: 160ms;
+    --duration-bracket: 220ms;
+
+    /* the mark's geometry, reused as layout constants */
+    --bracket-size: 14px;
+    --bracket-weight: 2px;
+}
+
+/* ============================================================ typography == */
+@layer base {
+    h1, h2, h3 {
+        letter-spacing: -0.02em;
+    }
+
+    h1 { line-height: 1.05; }
+    h2, h3 { line-height: 1.15; }
+
+    /* the interface is square-cornered top to bottom, including form controls
+       and anything heroui renders */
+    input, button, select, textarea {
+        border-radius: 0;
+    }
+}
+
+@layer components {
+    /* --------------------------------------------------------- brackets --
+     * two corners, 180° apart — the mark at frame scale.
+     */
+    .bracket::before,
+    .bracket::after {
+        content: '';
+        position: absolute;
+        width: var(--bracket-size);
+        height: var(--bracket-size);
+        border: var(--bracket-weight) solid currentColor;
+        pointer-events: none;
+    }
+
+    .bracket::before {
+        top: 0;
+        left: 0;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    .bracket::after {
+        bottom: 0;
+        right: 0;
+        border-left: 0;
+        border-top: 0;
+    }
+
+    /* the signature entrance: the two corners converge on the content from
+       opposite directions, which is the mark assembling itself. */
+    .bracket-in::before {
+        animation: bracket-tl var(--duration-bracket) var(--ease-out) backwards;
+        animation-delay: var(--d, 0ms);
+    }
+
+    .bracket-in::after {
+        animation: bracket-br var(--duration-bracket) var(--ease-out) backwards;
+        animation-delay: calc(var(--d, 0ms) + 40ms);
+    }
+
+    @keyframes bracket-tl {
+        from { opacity: 0; transform: translate(-6px, -6px); }
+        to { opacity: 1; transform: none; }
+    }
+
+    @keyframes bracket-br {
+        from { opacity: 0; transform: translate(6px, 6px); }
+        to { opacity: 1; transform: none; }
+    }
+
+    /* a single corner tick, used to mark the active row/nav item */
+    .tick {
+        position: relative;
+    }
+
+    .tick::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border: var(--bracket-weight) solid currentColor;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    /* ------------------------------------------------------ interaction -- */
+    .pressable {
+        transition: transform var(--duration-press) var(--ease-out);
+    }
+
+    .pressable:active {
+        transform: scale(0.97);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .row-hover {
+            transition: background-color var(--duration-hover) ease;
+        }
+    }
+
+    .tabular {
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum';
+    }
+
+    /* data and numerals sit in mono — the mark is drawn on a fixed grid and
+       the product is mostly counts and dates */
+    .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .enter-item {
+        opacity: 0;
+        animation: enter-item 240ms var(--ease-out) forwards;
+        animation-delay: min(calc(var(--i, 0) * 40ms), 320ms);
+    }
+
+    @keyframes enter-item {
+        to { opacity: 1; }
+    }
+}
+
+/* ================================================================= a11y == */
+:where(a, button, input, select, [tabindex]):focus-visible {
+    outline: var(--bracket-weight) solid currentColor;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pressable,
+    .pressable:active {
+        transform: none;
+    }
+
+    .bracket-in::before,
+    .bracket-in::after {
+        animation: bracket-fade 160ms ease backwards;
+    }
+
+    @keyframes bracket-fade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .enter-item {
+        animation-delay: 0ms;
+    }
+}
+
+/* =============================================================== chrome == */
 ::-webkit-scrollbar {
-    border-radius: 5px;
-    width: 5px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-    border-radius: 5px;
-    background-color: #71717A;
+    background-color: #111113;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #3F3F46;
+    background-color: #232326;
 }
 
 ::selection {
-    background: #D4D4D8;
-    color: #111111;
+    background: #4ADE80;
+    color: #0B0B0C;
 }
