@@ -5,7 +5,14 @@ module.exports = {
   content: [
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}'
+    // npm nests this at @heroui/react/node_modules/@heroui/theme rather than
+    // hoisting it, and the classes live in .mjs chunks -- the previous glob
+    // ('@heroui/theme/dist/**/*.{js,ts,jsx,tsx}') matched no files at all, so
+    // tailwind emitted none of heroui's classes. that is why every heroui
+    // component rendered structurally correct but unstyled: the avatar kept
+    // its opacity-0 because data-[loaded=true]:opacity-100 was never generated,
+    // and the switch had no width because w-14 was never generated.
+    './node_modules/**/@heroui/theme/dist/**/*.{js,mjs,ts,mts}'
   ],
   theme: {
     extend: {

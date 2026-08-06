@@ -54,11 +54,14 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
         <Avatar
           isBordered
           as="button"
-          className="transition-transform"
+          className="transition-transform bg-primary-700 text-primary-200"
           name={session.user.login ?? 'Profile'}
           size="md"
           src={session.user.image ?? ''}
-          fallback={<AvatarIcon size={40} />}
+          // the icon draws with fill="currentColor" and no class of its own, so
+          // without an explicit colour it inherited whatever was ambient and
+          // vanished against the header.
+          fallback={<AvatarIcon size={28} color="text-primary-200" />}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Links" variant="flat">
