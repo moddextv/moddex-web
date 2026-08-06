@@ -134,7 +134,32 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
       The channel page's real cost is the join fan-out, not the role index:
       role lookup alone is ~4-12 ms, adding the `users` join takes it to
       **1.83 s**, and the badge join to **2.20 s**. That is §6 territory.
-- [ ] **Apply `002-unified-roles.sql`** in a maintenance window. **~13 minutes**
+- [ ] **Apply `002-unified-roles.sql`** in a maintenance window.
+
+      **Rehearsal 2026-08-06 — the ~13 minute estimate did not hold.** On the
+      production copy the `mods` pass alone (8.1M rows) took over 20 minutes,
+      and the run then died part-way through `vips`:
+
+          ERROR 2026 (HY000): TLS/SSL error: unexpected eof while reading
+
+      The client connection was dropped, not the server. The `mods` INSERT had
+      committed; the `vips` INSERT rolled back whole, leaving `roles` with
+      role 1 populated and role 2 empty — a partial state that looks plausible
+      until you count per role.
+
+      Two things follow. **Run it on a connection that cannot be interrupted**
+      — detached inside the container, or under screen/tmux on the server, not
+      over an ssh session or a backgrounded exec. And **verify per role, not in
+      total**, because `COUNT(*)` on a half-migrated table still returns a big
+      believable number:
+
+          SELECT role, COUNT(*) FROM roles GROUP BY role;
+
+      It is NOT rerunnable after a partial failure: the primary key is
+      (user_id, channel_id, role), so repeating a committed pass fails on
+      duplicates. Resume by running only the statements that did not complete.
+
+      Budget well over 30 minutes. Original note follows: ~13 minutes
       on 13.7M rows. Take a backup first. It is additive — `mods` and `vips`
       stay until the app is switched over.
 - [ ] **Switch the data layer to `roles`** (~6 files: `utils/roles/*`,
@@ -263,15 +288,25 @@ The database is fine (see `DATABASE.md`). These are the real bottlenecks.
       RSC and stream with `<Suspense>`; keep an action only for explicit reload.
       Biggest perceived-speed win available.
 
-## 7. Tests — none exist
+## 7. Tests
 
-The disposable seeded database from phase 1 is what makes these cheap.
+**Started 2026-08-06.** 25 tests: 15 unit (`npm test`) and 10 integration
+(`npm run test:integration`, needs a running stack).
 
-- [ ] Vitest + a `compose.test.yaml` database.
-- [ ] Unit: `formatUsers` (subtle and central), `formatNumberShort`,
-      `splitArray`, badge permission resolution.
-- [ ] Integration against the seed: the `/api/v1` routes, opt-out filtering,
-      and the 404-vs-empty contract once it is decided.
+- [x] Vitest. Two configs: `vitest.config.ts` (unit, node only, runnable in CI
+      with no stack) and `vitest.integration.config.ts` (hits a running app over
+      http). A dedicated `compose.test.yaml` database is still outstanding —
+      integration currently runs against the dev stack.
+- [x] Unit: `splitArray` (no-mutation + the chunkSize<=0 hang),
+      `formatNumberShort`, `formatNumber`, `formatDate`, `isInteger`.
+      Writing them found a bug: `isInteger(null)` was `true`, because
+      `Number(null)` is 0. `formatUsers` and badge permission resolution are
+      still uncovered — both need a database, so they belong with the
+      integration set.
+- [x] Integration against the seed: the `/api/v1` routes, opt-out filtering,
+      and the 200-[]-vs-404 contract — now pinned down by a test rather than
+      left as an open question. `ignored` is asserted never to appear in an api
+      response, since leaking it would expose who has opted out.
 - [ ] Regression tests for the server-action authorisation fixes.
 - [ ] Mock the Twitch/ivr clients at the module boundary; never hit them in CI.
 - [ ] **Guard the lockfile.** `npm install` on Windows silently drops
