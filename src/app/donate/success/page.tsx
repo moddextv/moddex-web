@@ -6,7 +6,6 @@ import { Title } from '@/components/UI/Title';
 import { logger } from '@/misc/Logger';
 import { Image } from '@/components/UI/Image';
 import { getUser } from '@/utils/api/ivr';
-import { storeDonation, donationExists } from '@/utils/donation';
 
 export const metadata: Metadata = {
   title: 'donation successful',
@@ -30,24 +29,13 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
       expand: ['payment_intent'],
     });
 
-    const existingDonation = await donationExists(session.id);
-    if (existingDonation) {
-      return <BadRequest message="this donation has already been processed. thank you for your support!" />;
-    }
-
     paymentIntent = session.payment_intent as Stripe.PaymentIntent;
     user = await getUser(session?.metadata?.twitchUsername || '');
 
-    await storeDonation({
-      paymentId: session.id,
-      userId: user?.id || '',
-      amount: session.amount_total || 0,
-      email: session.customer_details?.email || '',
-      name: session.customer_details?.name || '',
-      paymentIntentId: paymentIntent.id || '',
-      paymentStatus: session.payment_status,
-      chargeId: paymentIntent.latest_charge?.toString() || '',
-    });
+    // deliberately read-only. the donation is recorded by
+    // /api/stripe/webhook, which fires whether or not the donor ever lands
+    // here -- writing on render meant a closed tab lost the row and the badge,
+    // and stripe's redirect can arrive before, after, or never.
 
   } catch (error) {
     logger.error('error fetching session:', error);

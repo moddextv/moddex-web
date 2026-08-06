@@ -20,26 +20,77 @@ These are yours, not code. The rebrand is inert without them.
       `APP_PORT=5099`; if that port ever changes, the redirect must change with
       it or local login breaks.
 - [x] **Rotate every secret.** Done.
-- [ ] **Set repo/CI values:** `IMAGE=ghcr.io/<owner>/<repo>` in the server
+- [x] **Set repo/CI values:** `IMAGE=ghcr.io/<owner>/<repo>` in the server
       `.env`, and a `NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY` repo secret — without
       it the CI build ships an undefined Stripe key to the browser.
-      **Verified still outstanding on 2026-08-06:** the repo has *zero* Actions
-      secrets, so the `build-args` line in `.github/workflows/build.yml:61`
-      currently expands to an empty string. Runtime Stripe is fine; it is only
-      the build-time publishable key that is missing.
+      **`NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY` confirmed set on 2026-08-06**
+      (`gh api .../actions/secrets` reports 1 secret). `IMAGE=ghcr.io/<owner>/<repo>`
+      in the *server* `.env` is still outstanding — that one is not a repo
+      secret and cannot be checked from here.
 - [ ] **Confirm the reverse proxy.** `compose.prod.yaml` assumes one already
       terminates TLS on an external Docker network named `web`. If there isn't
       one, Caddy needs to join the compose file.
 - [ ] Repoint DNS, the status page and the FrankerFaceZ add-on at the new
       domain. Keep `modchecker.com` redirecting if it is still yours.
 
+## 1b. Deployment ordering — read before shipping
+
+**Apply `001` to production *before* deploying the current code.** They are
+coupled, and getting the order wrong breaks donations:
+
+`audit`.`id` has no `AUTO_INCREMENT` in production, so
+`INSERT INTO audit (type, message)` fails. Under the *old* `db.query` that
+error was swallowed and returned `[]`, which is why the table sat at 0 rows
+silently. `db.query` now throws, so that same failure propagates out of
+`storeDonation`, the webhook returns 500, and stripe retries. The donation row
+itself is already committed by then, so a retry hits the idempotency check and
+resolves — but the badge and audit write are skipped, and it is noise you do
+not want on live payments.
+
+`001` gives `audit`.`id` its `AUTO_INCREMENT` and the problem disappears.
+Fresh installs are unaffected: `db/init/01-schema.sql` already has it.
+
+Order: **apply 001 → deploy code → set `STRIPE_WEBHOOK_SECRET` → apply 005.**
+(005 last so the corrected code is what handles the next donation; applying it
+earlier works but the next donation would re-corrupt it.)
+
 ## 2. Security — small, isolated, should not wait
 
-- [ ] **Stripe webhook.** Donations are only recorded if the browser reaches
-      `/donate/success`. Close the tab after paying and the money arrives with
-      no row and no badge. A page *render* also performs the write, which is the
-      wrong place for it. `POST /api/stripe/webhook` with signature verification
-      becomes the source of truth; the success page goes read-only.
+- [x] **Stripe webhook.** **Done** — `POST /api/stripe/webhook` verifies the
+      signature and is now the source of truth; `/donate/success` is read-only.
+      Handles `checkout.session.completed` and
+      `checkout.session.async_payment_succeeded`, ignores anything not `paid`,
+      and is idempotent on `payment_id`. Status codes are deliberate, because
+      stripe retries any non-2xx for ~3 days: 400 for a bad signature (never
+      retry), 500 when we fail to record a real payment (please retry), 200
+      for handled *and* for deliberately ignored events.
+      `donationExists` no longer swallows database errors — it used to return
+      "no such donation" when the *check* failed, which under retries is how
+      one payment becomes two rows and two badges.
+      **Still needs you:** add the endpoint in the Stripe dashboard and set
+      `STRIPE_WEBHOOK_SECRET`. Until it is set the route refuses with a 500 and
+      logs why, rather than trusting unsigned traffic.
+
+- [x] **The top donator badge has never worked.** Confirmed on the
+      2026-08-06 dump: **26 accounts held a badge the donate page calls
+      "one-of-a-kind"**, and the actual top donor ($25.00) held nothing.
+
+      Cause: the mariadb driver returns `SUM()` as a DECIMAL *string*, so
+      `userTotalAmount > topDonator.total` compared strings —
+      `"500" > "2500"` is `true` because `'5' > '2'`. Every $5 donor "beat" the
+      real top. The revoke step then removed the badge from whoever was top
+      *by total*, who for the same reason never held it, so the revoke was a
+      no-op and holders accumulated.
+
+      A second bug sat underneath: the donation is inserted before the check,
+      so a genuine new top donor's total *equals* the max and `>` could never
+      fire even with correct numeric types.
+
+      Fixed in `src/utils/donation.ts` (numeric coercion, identity test against
+      the recomputed top, and a sweep that revokes from *all* other holders so
+      it is self-healing). `db/migrations/005-repair-top-donator-badge.sql`
+      redistributes the existing data — rehearsed on the production copy:
+      26 holders → 1, the correct $25.00 donor. Rerun-safe.
 - [ ] **Rate limiting.** The public API is unauthenticated and some paths
       trigger outbound Twitch scraping. One client can drive your GQL volume up
       and get the app's client-ID throttled.

@@ -53,6 +53,11 @@ export const config = {
     publishableSecretKey: process.env
       .NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
 
+    // deliberately not required(): a missing webhook secret must not take the
+    // whole app down at import. /api/stripe/webhook checks it per request and
+    // refuses to process anything unsigned.
+    webhookSecret: optional('STRIPE_WEBHOOK_SECRET', ''),
+
     donation: {
       price: required('STRIPE_DONATION_PRICE'),
       default: 5
