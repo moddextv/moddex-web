@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/misc/Database';
-import { auth } from '@/auth';
+import { requireUserId } from '@/utils/authz';
 
 /**
  * every export of a 'use server' file is a publicly callable endpoint, so the
@@ -13,12 +13,7 @@ import { auth } from '@/auth';
 export async function setSelectedUserChatBadge(
   newSelectedBadge: string
 ): Promise<void> {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    throw new Error('not authenticated');
-  }
+  const userId = await requireUserId();
 
   if (newSelectedBadge === 'none') {
     await db.query(`DELETE FROM user_chat_badges WHERE user_id = ?`, [userId]);

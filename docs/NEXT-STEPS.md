@@ -43,17 +43,46 @@ These are yours, not code. The rebrand is inert without them.
 - [ ] **Rate limiting.** The public API is unauthenticated and some paths
       trigger outbound Twitch scraping. One client can drive your GQL volume up
       and get the app's client-ID throttled.
-- [ ] **An authorisation helper**, so the next server action added does not have
-      to remember the `auth()` dance by hand.
+- [x] **An authorisation helper**, so the next server action added does not have
+      to remember the `auth()` dance by hand. **Done** — `src/utils/authz.ts`
+      exports `requireUserId()` and `requirePermission(level)`. Both throw
+      (`NotAuthenticatedError` / `NotAuthorisedError`) rather than returning
+      null, because an action that ignores a returned value still runs its
+      mutation. `setIgnoredUser` and `setSelectedUserChatBadge` now use it.
+      The dashboard page deliberately still calls `auth()` directly: it renders
+      `<Login/>`/`<Forbidden/>`, and a page should render, not throw.
+      Caveat recorded in the helper: `perms` comes from the jwt token, so it is
+      only as fresh as the session — do not gate instant-revocation on it.
 
 ## 3. Database — the migration path
 
 Detail and measurements in [`DATABASE.md`](DATABASE.md).
 
-- [ ] **Apply `001-indexes-and-audit-fix.sql`** to production. Low risk, ~10s
-      per table, `INPLACE`. Fixes the audit table (0 rows in production — the
-      donation trail has never recorded anything) and takes the channel query
-      from **1253 ms to 22 ms** while shrinking the database 340 MB.
+- [ ] **Apply `001-indexes-and-audit-fix.sql`** to production. Low risk,
+      `INPLACE`. **Rehearsed 2026-08-06** on a full restore of the
+      2026-08-06 dump (8.1M mods, 5.6M vips, 2.75M users) in the dev container:
+      applied clean in **47 s** total.
+
+      Verified:
+      - **Database 2202 MB → 1796 MB, i.e. 406 MB saved** — beats the 340 MB
+        estimate. Index bytes: mods 472→231, vips 327→162, user_badges 26→14.
+      - **The audit fix works.** Two inserts before it collided on id=0; after
+        it they get ids 1 and 2. That is the donation trail unblocked.
+
+      Not reproduced — **the "1253 ms → 22 ms" claim.** Measured on the isolated
+      role lookup with a warm buffer pool, the old narrow `(channel_id)` index
+      and the new covering `(channel_id, granted)` index are indistinguishable:
+      **10.9 ms vs 12.0 ms**. The query the application actually runs
+      (`getStoredUsers`, with the users and user_badges joins) went **3.48 s →
+      2.82 s, about 19 %**. Caveats: this is a Docker Desktop VM on an Intel
+      iMac, not production's aarch64 Debian, and 1253 ms is consistent with a
+      cold-cache measurement where the covering index avoids disk. Treat 001 as
+      worth applying for the disk, the write cost and the audit fix — but do
+      not expect the channel page to get 57x faster.
+
+      The channel page's real cost is the join fan-out, not the role index:
+      role lookup alone is ~4-12 ms, adding the `users` join takes it to
+      **1.83 s**, and the badge join to **2.20 s**. That is §6 territory.
 - [ ] **Apply `002-unified-roles.sql`** in a maintenance window. **~13 minutes**
       on 13.7M rows. Take a backup first. It is additive — `mods` and `vips`
       stay until the app is switched over.
