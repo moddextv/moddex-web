@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState, useMemo } from 'react';
 import { FilterIcon, ReloadIcon, Sort01Icon, Sort10Icon, SortAZIcon, SortNewOldIcon, SortOldNewIcon, SortZAIcon } from '@/components/Icons';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
@@ -65,10 +65,19 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
     setUsers((prevUsers) => sortFn(prevUsers));
   }, []);
 
+  // filtered rather than removed from state, so toggling back does not need a
+  // refetch and sorting still applies to the full set.
+  const [hideBots, setHideBots] = useState(false);
+  const botCount = useMemo(() => users.filter((u) => u.bot).length, [users]);
+  const visibleUsers = useMemo(
+    () => (hideBots ? users.filter((u) => !u.bot) : users),
+    [users, hideBots]
+  );
+
   // the rows are virtualized, so they mount and unmount constantly while
   // scrolling — animating them individually would re-fire on every scroll.
   // the list arrives as one surface instead.
-  const listKey = `${role}-${users.length}`;
+  const listKey = `${role}-${visibleUsers.length}-${hideBots}`;
 
   const isMod = role === 'mods' || role === 'modding';
 
@@ -97,10 +106,34 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
         </h2>
 
         {!isLoading && !error && (
-          <span className="text-sm text-primary-500 mono">{users.length}</span>
+          <span className="text-sm text-primary-500 mono">
+            {visibleUsers.length}
+            {hideBots && botCount > 0 && (
+              <span className="text-primary-600"> / {users.length}</span>
+            )}
+          </span>
         )}
 
         <div className="ml-auto flex items-center gap-1 text-primary-400">
+          {/* only offered when it would do something -- a dead toggle on a
+              list with no bots is noise */}
+          {!isLoading && !error && botCount > 0 && (
+            <button
+              type="button"
+              aria-label={hideBots ? `show ${botCount} bots` : `hide ${botCount} bots`}
+              aria-pressed={hideBots}
+              title={hideBots ? `show ${botCount} bots` : `hide ${botCount} bots`}
+              className={clsx(
+                'flex items-center h-7 px-2 rounded-md text-xs mono transition-colors duration-150 pressable',
+                hideBots
+                  ? 'bg-primary-700 text-primary-100'
+                  : 'hover:text-primary-200'
+              )}
+              onClick={() => setHideBots((v) => !v)}
+            >
+              bots
+            </button>
+          )}
           {!isLoading && !error && !!users.length && <UserDropdown onSort={handleSort} />}
           {!isLoading && !error && type === 'channel' && (
             <button
@@ -120,20 +153,20 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
 
       {!isLoading && !error && (
         <div key={listKey} className="enter-item border-t border-primary-700">
-          {users.length === 0 ? (
+          {visibleUsers.length === 0 ? (
             <p className="py-6 text-sm text-primary-500 mono">
-              none tracked yet
+              {users.length === 0 ? 'none tracked yet' : 'only bots here'}
             </p>
           ) : (
             <List
-              height={Math.min(users.length * 72, 512)}
-              itemCount={users.length}
+              height={Math.min(visibleUsers.length * 72, 512)}
+              itemCount={visibleUsers.length}
               itemSize={72}
               width="100%"
             >
               {({ index, style }) => (
                 <div style={style}>
-                  <UserListItem user={users[index]} role={role} />
+                  <UserListItem user={visibleUsers[index]} role={role} />
                 </div>
               )}
             </List>

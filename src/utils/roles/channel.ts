@@ -73,7 +73,7 @@ const getStoredUsers = async (id: string, role: ChannelRoleType): Promise<User[]
   const usersFromDb: UserBadgeRow[] = await db.query(
     `
       SELECT 
-        u.id, u.login, u.name, u.avatar, u.follower, u.ignored,
+        u.id, u.login, u.name, u.avatar, u.follower, u.ignored, u.bot,
         r.granted, 
         b.id AS badge_id,
         b.name AS badge_name,

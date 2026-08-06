@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { db } from '@/misc/Database';
+import { isKnownBot } from '@/misc/bots';
 import { User, UserBadgeRow } from '@/misc/Interfaces';
 import { addBadgeByNameToUser, getUserBadges, getUserChatBadge, removeBadgeByNameFromUser } from '@/utils/badges';
 import { fetchUserOrBanned, fetchUsersById } from '@/utils/api/twitch/gql';
@@ -84,15 +85,16 @@ export const getUsers = async (
 export const updateUserInDb = async (user: User): Promise<User> => {
   try {
     await db.query(`
-        INSERT INTO users (id, login, name, avatar, bio, follower, banned, created)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users (id, login, name, avatar, bio, follower, banned, bot, created)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE
         login = VALUES(login),
         name = VALUES(name),
         avatar = VALUES(avatar),
         bio = VALUES(bio),
         banned = VALUES(banned),
-        follower = VALUES(follower)
+        follower = VALUES(follower),
+        bot = VALUES(bot)
       `, [
         user.id,
         user.login,
@@ -101,6 +103,9 @@ export const updateUserInDb = async (user: User): Promise<User> => {
         user.bio,
         user.follower,
         user.banned || '',
+        // curated list, see misc/bots.ts. re-evaluated on every write so adding
+        // a name there takes effect as users refresh, without a migration.
+        isKnownBot(user.login) ? 1 : 0,
         new Date(user.created as string).toISOString().slice(0, 19).replace('T', ' ')
       ]
     );
@@ -301,6 +306,7 @@ export const formatUsers = async (
         discord: entity.discord,
         banned: entity.banned,
         ignored: entity.ignored,
+        bot: !!entity.bot,
         badges: [],
         chatBadge: null
       };

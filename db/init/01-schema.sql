@@ -22,6 +22,11 @@ CREATE TABLE `users` (
   -- stores a reason string ('TOS_BANNED', 'DEACTIVATED'), '' when not banned
   `banned` varchar(255) NOT NULL DEFAULT '',
   `ignored` tinyint(1) NOT NULL DEFAULT 0,
+  -- manually curated, see src/misc/bots.ts. twitch's own verifiedBot flag came
+  -- back null for nightbot/fossabot/streamelements via ivr, so it cannot seed
+  -- this. drives the "hide bots" filter on role lists, where bots otherwise
+  -- crowd out the humans.
+  `bot` tinyint(1) NOT NULL DEFAULT 0,
   `created` timestamp NULL DEFAULT NULL,
   `updated` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),

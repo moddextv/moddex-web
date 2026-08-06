@@ -33,6 +33,8 @@ export interface User {
   granted?: string | Date | null;
   banned?: string | null;
   ignored?: boolean;
+  /** curated flag, see misc/bots.ts — drives the "hide bots" filter */
+  bot?: boolean;
   badges: Badge[];
   chatBadge: ChatBadge | null;
 }
@@ -58,6 +60,8 @@ export interface UserBadgeRow {
   updated?: string | null;
   banned: string | null;
   ignored?: boolean;
+  // tinyint(1) from mariadb, so it arrives as 0/1 rather than a boolean
+  bot?: boolean | number;
   badge_id: number;
   badge_name: string;
   badge_path: string;
