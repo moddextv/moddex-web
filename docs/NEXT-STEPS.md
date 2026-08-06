@@ -3,6 +3,8 @@
 What is outstanding, in the order I would do it. Companion to
 [`REBUILD-PLAN.md`](REBUILD-PLAN.md) (the roadmap and its reasoning) and
 [`DATABASE.md`](DATABASE.md) (the measured schema analysis).
+Deployment is in [`DEPLOY.md`](DEPLOY.md), database transfer in
+[`RESTORE.md`](RESTORE.md).
 
 Everything below is *not done*. What is already done and verified is in the
 other two documents.
