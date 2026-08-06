@@ -223,7 +223,12 @@ and returned data, so the probe is sound.
                           profileImageURL(width: 600) } } } }
       ```
 
-- [ ] **Artist — NOT available.** `Cannot query field "artists" on type "User"`,
+- [ ] **Artist — not on the public surface, but obtainable.** roles.tv publishes
+      **2,197,197 artists**, so a source exists; the finding below is about the
+      endpoint tried, not about twitch. The cheap move is to ask them. Failing
+      that, capture the Roles Manager request from a broadcaster session.
+
+      `Cannot query field "artists" on type "User"`,
       and the same on `Channel`. `channelArtists`, `artistBadge` and
       `artistUsers` are all rejected; introspection is disabled so the real
       name cannot be enumerated from outside.
@@ -238,6 +243,32 @@ and returned data, so the probe is sound.
       Manager, so expect an authenticated, probably persisted/hashed operation
       rather than a public connection. Do not build it until someone captures
       that request.
+
+## 4b. Ideas from roles.tv (scanned 2026-08-06)
+
+Their `/stats` page tracks ten categories; moddex tracks two. What is worth
+taking, cheapest first:
+
+- [ ] **Persist `isPartner` / `isAffiliate` / `isStaff`.** Every gql role query
+      already fetches these for every user, `utils/user.ts` reads them to award
+      badges, and then they are thrown away — the `users` table has no column
+      for them. Storing three booleans unlocks global counts and "partners only"
+      filters on a list, with no new api calls at all. Cheapest win available.
+- [ ] **A `/stats` page.** The homepage shows four numbers from `snapshots`;
+      roles.tv gives ten their own page. `snapshots` already has 2,014 rows of
+      history, so a chart over time is available for free and is something they
+      do *not* appear to do.
+- [ ] **Flag known bots.** They curate 19. Bots dominate large mod lists
+      (`fossabot` and `susgeebot` are already in our data), so a flag — or a
+      "hide bots" toggle — makes a 14,000-entry mod list considerably more
+      readable.
+- [ ] **Subscribers** — they track 32M. Note this is *not* public data the way
+      mods and vips are, so work out where it can legitimately come from before
+      designing anything around it.
+
+Not worth copying: their site is a client-rendered SPA with an empty document,
+so it has no SEO surface at all. moddex renders on the server, which is the more
+valuable position for a lookup tool people find by searching a username.
 
 ## 5. Correctness — carried over, still true
 

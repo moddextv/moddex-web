@@ -34,7 +34,12 @@ export const ROLES = {
   },
   artist: {
     id: 3,
-    // NOT FETCHABLE. verified against gql.twitch.tv on 2026-08-06:
+    // NOT fetchable *through the public unauthenticated surface* -- but it is
+    // obtainable. roles.tv publishes 2,197,197 artists, so a source exists and
+    // the note below is a statement about the endpoint tried, not about twitch.
+    // Ask them, or capture the Roles Manager request from a broadcaster session.
+    //
+    // verified against gql.twitch.tv on 2026-08-06:
     //   user(login:)    -> Cannot query field "artists" on type "User".
     //   channel(name:)  -> Cannot query field "artists" on type "Channel".
     // channelArtists / artistBadge / artistUsers are rejected too, and
