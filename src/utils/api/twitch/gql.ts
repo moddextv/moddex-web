@@ -291,14 +291,12 @@ interface GqlRoleData {
       isInCommunityMomentsExperiment: boolean;
       __typename: string;
     };
-    artists?: {
-      edges: GqlRoleDataEdge[];
-      pageInfo: {
-        hasNextPage: boolean;
-        __typename: string;
-      };
-      __typename: string;
-    };
+    // there was an `artists` connection declared here, as a sibling of `user`
+    // rather than a field on it. twitch rejects `artists` on both User and
+    // Channel (verified 2026-08-06), so it described nothing real, and its
+    // placement meant fetchRoles' `data.user[role]` lookup would have read
+    // undefined and reported an empty role rather than an error. see the
+    // artist entry in misc/roles.ts.
   };
   extensions: {
     durationMilliseconds: number;

@@ -161,15 +161,44 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
 
 ## 4. The new roles
 
-- [ ] **Artist** is buildable now — `GqlRoleData` already declares an `artists`
-      connection next to `mods`/`vips`, so it fetches through the same paginated
-      path. Colour `#60A5FA`, top-right corner of the mark.
-- [ ] **Founder — verify the source first.** No `founders` connection appears in
-      the GraphQL shape the code models, and on Twitch a founder is a
-      *subscriber* badge (one of a channel's first subscribers) rather than a
-      channel role. It may not exist on the user type at all. The schema does
-      not care — it is id 4 whenever a source is confirmed. **Do not build the
-      fetch path until someone has run the query.**
+Both entries below were **backwards**. Verified against `gql.twitch.tv`
+on 2026-08-06 with the app's own client-id; `user.mods` was used as a control
+and returned data, so the probe is sound.
+
+- [ ] **Founder — confirmed available.** This is the one that is buildable.
+
+      ```graphql
+      query { channel(name: "<login>") {
+        founderBadgeAvailability
+        founders { entitlementStart isSubscribed
+                   user { id login displayName chatColor
+                          profileImageURL(width: 600) } } } }
+      ```
+
+      It cannot reuse `fetchRoles`: rooted at `channel(name:)` not `user(id:)`,
+      a plain list rather than an `edges`/`node` connection, **no pagination**,
+      and the timestamp is `entitlementStart` not `grantedAt`. Needs its own
+      fetch path and a `granted` mapping.
+
+      Two extra fields worth keeping: `isSubscribed` (a lapsed founder keeps
+      the entitlement but loses the badge — different questions) and
+      `founderBadgeAvailability` (unclaimed slots remaining).
+
+- [ ] **Artist — NOT available.** `Cannot query field "artists" on type "User"`,
+      and the same on `Channel`. `channelArtists`, `artistBadge` and
+      `artistUsers` are all rejected; introspection is disabled so the real
+      name cannot be enumerated from outside.
+
+      The previous claim that `GqlRoleData` "already declares an `artists`
+      connection next to `mods`/`vips`" was false. It declared one as a
+      **sibling of `user`**, not a field on it — `fetchRoles` reads
+      `data.user[role]`, so building on that would have produced a role that is
+      permanently empty with no error raised. That declaration is now removed.
+
+      Twitch's artist badge is assigned through the broadcaster's Roles
+      Manager, so expect an authenticated, probably persisted/hashed operation
+      rather than a public connection. Do not build it until someone captures
+      that request.
 
 ## 5. Correctness — carried over, still true
 

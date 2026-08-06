@@ -34,8 +34,21 @@ export const ROLES = {
   },
   artist: {
     id: 3,
-    // the GqlRoleData interface in utils/api/twitch/gql.ts already declares an
-    // `artists` connection alongside mods/vips, so this fetches the same way.
+    // NOT FETCHABLE. verified against gql.twitch.tv on 2026-08-06:
+    //   user(login:)    -> Cannot query field "artists" on type "User".
+    //   channel(name:)  -> Cannot query field "artists" on type "Channel".
+    // channelArtists / artistBadge / artistUsers are rejected too, and
+    // introspection is disabled so the real name cannot be enumerated.
+    //
+    // the earlier note here claimed GqlRoleData already declared an `artists`
+    // connection alongside mods/vips. it declared one as a sibling of `user`,
+    // not a field on it, so fetchRoles' `data.user[role]` lookup would have
+    // returned undefined -- an always-empty role with no error. that
+    // declaration has been removed.
+    //
+    // twitch's artist badge is assigned in the Roles Manager, which is a
+    // broadcaster-authenticated surface; expect a different (probably
+    // persisted//hashed) operation rather than a public connection.
     gqlField: 'artists',
     channelLabel: 'artists',
     userLabel: 'arting',
@@ -45,12 +58,23 @@ export const ROLES = {
   },
   founder: {
     id: 4,
-    // UNVERIFIED: unlike artists, no `founders` connection appears in the gql
-    // response shape the code already models. on twitch a founder is a
-    // *subscriber* badge (one of a channel's first subscribers), not a
-    // moderation role, so it may not be exposed on the user type at all.
-    // confirm before building the fetch path — the schema does not care either
-    // way, this is purely about where the data comes from.
+    // VERIFIED WORKING against gql.twitch.tv on 2026-08-06, but it does NOT
+    // go through fetchRoles -- the shape is different in four ways:
+    //
+    //   query { channel(name: "<login>") {
+    //     founderBadgeAvailability
+    //     founders { entitlementStart isSubscribed
+    //                user { id login displayName chatColor
+    //                       profileImageURL(width: 600) } } } }
+    //
+    //   1. rooted at channel(name:), not user(id:)
+    //   2. a plain list, not an edges/node connection
+    //   3. no pagination at all -- no first/after/pageInfo/cursor
+    //   4. the timestamp is `entitlementStart`, not `grantedAt`
+    //
+    // `isSubscribed` matters: a founder who lapses keeps the entitlement but
+    // loses the badge, so the two are not the same question.
+    // `founderBadgeAvailability` is the number of unclaimed slots left.
     gqlField: 'founders',
     channelLabel: 'founders',
     userLabel: 'founding',
