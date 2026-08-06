@@ -33,11 +33,18 @@ export const Tooltip = (props: ComponentProps<typeof HeroUiTooltip>) => {
       onMouseEnter={!isMobile ? () => setIsOpen(true) : undefined}
       onMouseLeave={!isMobile ? () => setIsOpen(false) : undefined}
     >
+      {/*
+        color="foreground" meant bg-foreground/text-background -- #E7E7EA with
+        #0B0B0C text, a white box with dark text floating over a near-black ui.
+        it now sits on content1 like every other raised surface.
+      */}
       <HeroUiTooltip
         {...props}
-        color="foreground"
         closeDelay={200}
-        className="font-medium"
+        classNames={{
+          content:
+            'bg-content1 text-primary-100 border border-primary-700 shadow-lg font-medium text-sm px-3 py-1.5'
+        }}
         isOpen={isOpen}
         offset={8}
         placement={isMobile ? 'left' : 'top'}

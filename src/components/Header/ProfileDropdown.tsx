@@ -63,6 +63,14 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
       </DropdownTrigger>
       <DropdownMenu aria-label="Links" variant="flat">
         <DropdownSection showDivider>
+          <DropdownItem
+            key="profile"
+            textValue="my profile"
+            href={`/user/${session.user.login}`}
+          >
+            my profile
+          </DropdownItem>
+
           <DropdownItem key="settings" textValue="settings" href={'/settings'}>
             settings
           </DropdownItem>
