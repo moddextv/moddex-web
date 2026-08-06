@@ -60,13 +60,23 @@ Everything in the 2026-08-06 production data, plus:
 - **`005-repair-top-donator-badge.sql`** — the top donator badge redistributed
   from 26 incorrect holders to the single correct one (`lenaslayy`, $25.00).
 
-Row counts, unchanged by either migration:
+Row counts. **Two of these are pre-migration figures** — the "unchanged by
+either migration" claim that used to be here was wrong, and `005` changes both.
+Measured against the actual restore on 2026-08-06:
 
 ```
-mods 8,131,260   vips 5,611,594   users 2,751,685   user_badges 656,741
-snapshots 2,014  donations 64     dctwitchusers 42  user_chat_badges 59
-badges 11        chat_badges 7    tokens 1          audit 0
+mods 8,131,260   vips 5,611,594   users 2,751,685   snapshots 2,014
+donations 64     dctwitchusers 42 badges 11         chat_badges 7
+tokens 1         audit 0
+
+user_badges       656,716   (656,741 before 005)
+user_chat_badges       45   (59 before 005)
 ```
+
+`005` redistributes the top donator badge from 26 holders to one, which is the
+−25 in `user_badges`, and sweeps the matching chat badges, which is the −14 in
+`user_chat_badges`. If you restore and see the larger numbers, `005` did **not**
+apply — that is the signal to check, not a reason to re-run it.
 
 The dump is portable: it contains no `CREATE DATABASE` or `USE`, so it restores
 into whichever database you point it at. It does contain
