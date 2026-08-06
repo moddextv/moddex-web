@@ -8,7 +8,8 @@
     "start": "next start -p 4999",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
     "@heroui/react": "^2.7.8",
