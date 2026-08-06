@@ -12,7 +12,14 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <SessionProvider>
       <HeroUIProvider navigate={router.push} className="flex-1 flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        {/*
+          forcedTheme rather than defaultTheme + enableSystem: with enableSystem
+          a light-mode OS resolved to `light`, and heroui's light palette on a
+          hardcoded `bg-primary-900` body gave white dropdowns and inputs on a
+          near-black page. the theme switch was removed from the ui, so there is
+          nothing for next-themes to vary.
+        */}
+        <ThemeProvider attribute="class" forcedTheme="dark">
           {children}
         </ThemeProvider>
       </HeroUIProvider>

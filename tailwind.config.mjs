@@ -40,6 +40,34 @@ module.exports = {
               800: '#111113',
               900: '#0B0B0C'
             },
+            // heroui's own semantic tokens. without these its components fall
+            // back to stock greys that belong to no palette -- and `content1`
+            // is the surface behind every dropdown, tooltip and popover, so
+            // leaving it unset is what made those read as foreign.
+            // the ramp is lifted from `primary` above so a heroui surface sits
+            // one step above the canvas rather than on it.
+            default: {
+              50: '#F5F5F7',
+              100: '#E7E7EA',
+              200: '#D2D2D8',
+              300: '#B4B4BC',
+              400: '#8A8A93',
+              500: '#55555F',
+              600: '#33333A',
+              700: '#232326',
+              800: '#111113',
+              900: '#0B0B0C',
+              DEFAULT: '#232326',
+              foreground: '#E7E7EA'
+            },
+            // elevation: canvas -> raised surface -> hover -> pressed
+            content1: '#111113',
+            content2: '#232326',
+            content3: '#33333A',
+            content4: '#55555F',
+            divider: '#232326',
+            overlay: '#000000',
+
             // semantic role colours: the twitch mod sword is green, the vip
             // gem is pink. these are the only two hues the ui spends.
             mod: '#4ADE80',

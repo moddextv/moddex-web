@@ -54,9 +54,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    // `dark` is set here, server-side, on purpose. heroui emits its light
+    // palette under `:root`, so an html element with no theme class renders
+    // every heroui surface -- dropdown, tooltip, input, checkbox -- white on
+    // this near-black page. next-themes only adds the class after hydration,
+    // which made that the first paint for everyone and the permanent state for
+    // anyone whose OS prefers light. the design is dark-only; there is no
+    // toggle left to honour.
     <html
       lang="en"
-      className={`${cairo.variable} ${lato.variable}`}
+      className={`dark ${cairo.variable} ${lato.variable}`}
       suppressHydrationWarning
     >
     <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900">
