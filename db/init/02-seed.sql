@@ -30,8 +30,11 @@ INSERT INTO `badges` (`name`, `path`, `permission`, `order`) VALUES
 -- the join chat_badges.badge_id -> user_badges.badge_id, so a chat badge is
 -- only offered to someone who holds the parent badge.
 
-INSERT INTO `chat_badges` (`badge_id`, `name`, `path`)
-SELECT `id`, `name`, REPLACE(`path`, '.png', '.webp')
+-- `name` is the branded display label and `slug` the stable key -- production
+-- stores e.g. ('Modchecker Top Donator', 'top-donator'). the seed mirrors that
+-- split so anything reading one instead of the other fails here, not in prod.
+INSERT INTO `chat_badges` (`badge_id`, `name`, `slug`, `path`)
+SELECT `id`, CONCAT('moddex ', `name`), REPLACE(`name`, ' ', '-'), REPLACE(`path`, '.png', '.webp')
 FROM `badges`
 WHERE `name` IN ('admin', 'team', 'contributor', 'painter', 'top donator', 'donator', 'booster', 'early checker');
 

@@ -13,21 +13,25 @@ other two documents.
 
 These are yours, not code. The rebrand is inert without them.
 
-- [ ] **Register `moddex.tv`.** Verified unregistered at the registry on
-      2026-08-05, but confirm the price — `.tv` has premium tiers.
-- [ ] **Add the OAuth redirect URL** in the Twitch developer console.
-      **Login is dead until this is done.**
-- [ ] **Rotate every secret.** `AUTH_SECRET`, the Twitch client secret and the
-      Stripe key have all sat in a plaintext `.env.local` through a domain
-      change.
+- [x] **Register `moddex.tv`.** Done.
+- [x] **Add the OAuth redirect URL** in the Twitch developer console. Done —
+      `https://moddex.tv/api/auth/callback/twitch` and
+      `http://localhost:5099/api/auth/callback/twitch`. The local one matches
+      `APP_PORT=5099`; if that port ever changes, the redirect must change with
+      it or local login breaks.
+- [x] **Rotate every secret.** Done.
 - [ ] **Set repo/CI values:** `IMAGE=ghcr.io/<owner>/<repo>` in the server
       `.env`, and a `NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY` repo secret — without
       it the CI build ships an undefined Stripe key to the browser.
+      **Verified still outstanding on 2026-08-06:** the repo has *zero* Actions
+      secrets, so the `build-args` line in `.github/workflows/build.yml:61`
+      currently expands to an empty string. Runtime Stripe is fine; it is only
+      the build-time publishable key that is missing.
 - [ ] **Confirm the reverse proxy.** `compose.prod.yaml` assumes one already
       terminates TLS on an external Docker network named `web`. If there isn't
       one, Caddy needs to join the compose file.
-- [ ] Repoint DNS, the status page, the FrankerFaceZ add-on and the Discord bot
-      at the new domain. Keep `modchecker.com` redirecting if it is still yours.
+- [ ] Repoint DNS, the status page and the FrankerFaceZ add-on at the new
+      domain. Keep `modchecker.com` redirecting if it is still yours.
 
 ## 2. Security — small, isolated, should not wait
 
@@ -61,9 +65,19 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
 - [ ] **Write `003`**: convert `users.id` to `BIGINT UNSIGNED`, add the foreign
       keys 002 had to defer, drop `mods`/`vips`. Only after the app is live on
       `roles`.
+- [ ] **Apply `004-rebrand-chat-badge-labels.sql`.** Instant, 7 rows. All seven
+      production `chat_badges.name` values still read `"Modchecker ..."` — they
+      are *data*, so the code rebrand does not touch them and the old brand is
+      still rendered next to users' names. `slug` is deliberately left alone: it
+      is the key the app and the FFZ add-on match on.
 - [ ] **Migrate production data into the container volume**, now that the DB is
       containerised in production too. Dump → restore → verify row counts → cut
       over.
+- [ ] **Restore the missing companion docs.** `REBUILD-PLAN.md` and
+      `DATABASE.md` are linked from the top of this file and from §3, but
+      neither exists in `docs/` or anywhere in git history. The §3 measurements
+      (1253 ms → 22 ms, −340 MB, ~13 min on 13.7M rows) currently have no
+      backing document in the repo.
 
 ## 4. The new roles
 

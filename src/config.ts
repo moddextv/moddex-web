@@ -35,10 +35,7 @@ export const config = {
     domain: 'moddex.tv',
     url: 'https://moddex.tv',
     statusUrl: 'https://status.moddex.tv',
-    email: 'info@relaxo.dev',
-    // discord vanity urls belong to the server, not the domain, so this keeps
-    // working until the invite is changed in discord's server settings.
-    discord: 'https://discord.gg/modchecker'
+    email: 'info@relaxo.dev'
   },
 
   baseUrl: required('NEXTAUTH_URL'),

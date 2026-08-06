@@ -81,15 +81,15 @@ export default async function SuccessPage({ searchParams }: { searchParams: { se
           <p>we could not determine your twitch username.</p>
           {paymentIntentId ? (
             <>
-              <p className="mt-2">please join our <a href={config.brand.discord} className="underline" target="_blank" rel="noopener noreferrer">discord</a> and open a support ticket.</p>
+              <p className="mt-2">please email <a href={`mailto:${config.brand.email}`} className="underline">{config.brand.email}</a> so we can sort it out.</p>
               <p>
                 <span>provide the following payment id and your twitch username to help us resolve this issue and assign the donator badge to you:</span><br />
                 <span className="mt-2 font-bold">payment id: <code>{paymentIntentId}</code></span>
               </p>
             </>
           ) : (
-            <p className="mt-2">please join our <a href={config.brand.discord} className="underline" target="_blank" rel="noopener noreferrer">discord</a> and open a
-              support ticket.</p>
+            <p className="mt-2">please email <a href={`mailto:${config.brand.email}`} className="underline">{config.brand.email}</a> so we can
+              sort it out.</p>
           )}
         </div>
       )}
