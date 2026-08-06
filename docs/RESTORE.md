@@ -1,5 +1,29 @@
 # Transfer and restore
 
+## Naming (renamed 2026-08-06)
+
+| thing | name |
+|---|---|
+| github repo | `moddextv/moddex-web` (was `modchecker-web`) |
+| database | `moddex_web` (was `modchecker_web`) |
+| deploy directory | `/srv/moddex.tv` — or wherever, but name it after the domain |
+| compose project | `moddex` (the `name:` in both compose files) |
+| ci image | `ghcr.io/moddextv/moddex-web` — follows the repo name automatically |
+
+Github keeps a redirect from the old repo path, so existing clones and remotes
+keep working; update them anyway (`git remote set-url`). Images published under
+the old `ghcr.io/moddextv/modchecker-web` path are **not** renamed — the next CI
+run publishes under the new name, and `IMAGE` in the server `.env` has to match.
+
+The compose project name is deliberately left as `moddex`: it prefixes the
+volumes (`moddex_db-data`) and containers, so changing it would orphan the
+database volume on an existing deploy.
+
+Two places still say "modchecker" on purpose: the SEO keyword list in
+`src/app/layout.tsx` (people still search for it) and the descriptive text in
+`docs/` and `db/migrations/` explaining what was renamed.
+
+
 Written 2026-08-06, when the project went on hold. The data is frozen as of
 that date.
 
@@ -55,7 +79,7 @@ into whichever database you point it at. It does contain
 # into a running compose.prod.yaml stack
 gzcat moddex-prod-migrated-2026-08-06.sql.gz \
   | docker compose -f compose.prod.yaml exec -T db \
-      mariadb -u root -p"$DB_ROOT_PASS" "$DB_NAME"
+      mariadb -u root -p"$DB_ROOT_PASS" moddex_web
 ```
 
 Then verify — the row counts above, and:

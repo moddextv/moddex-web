@@ -19,7 +19,7 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${DB_NAME:-moddex}
+      DB_NAME: ${DB_NAME:-moddex_web}
       DB_USER: ${DB_USER:-moddex}
       DB_PASS: ${DB_PASS:-moddex}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:4999}
@@ -43,7 +43,7 @@ services:
     image: mariadb:11
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:-root}
-      MARIADB_DATABASE: ${DB_NAME:-moddex}
+      MARIADB_DATABASE: ${DB_NAME:-moddex_web}
       MARIADB_USER: ${DB_USER:-moddex}
       MARIADB_PASSWORD: ${DB_PASS:-moddex}
     ports:
