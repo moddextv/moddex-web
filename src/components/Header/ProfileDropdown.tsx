@@ -25,15 +25,18 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
 }) => {
   if (!session?.user) {
     return (
-      // the chrome stays colourless — mod green and vip pink are the only two
-      // hues the ui spends, and a bright purple button competes with them.
-      // the twitch mark carries the meaning instead.
+      // this used to be bg-primary-800 on a primary-900 header -- #111113 on
+      // #0B0B0C, six RGB values apart -- on the reasoning that a purple button
+      // competes with mod green and vip pink. it did not compete with anything,
+      // because it was invisible: no button shape, just a faint word in the
+      // corner. signing in is the one action the header exists to offer, so it
+      // gets the brand colour. 6.2:1 for the label, 3.1:1 against the header.
       <Button
         onClick={() => signIn('twitch')}
         size="sm"
         radius="sm"
         startContent={<TwitchIcon size={16} />}
-        className="pressable bg-primary-800 border border-primary-700 text-primary-200 data-[hover=true]:text-primary-100"
+        className="pressable bg-twitch text-white font-medium data-[hover=true]:bg-twitch data-[hover=true]:brightness-110"
       >
         login
       </Button>
