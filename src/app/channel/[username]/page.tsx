@@ -4,7 +4,6 @@ import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
 import { regex } from '@/utils/regex';
 import { Metadata } from 'next';
-import { db } from '@/misc/Database';
 import { redirect } from 'next/navigation';
 import { Container } from '@/components/UI/Container';
 
@@ -69,7 +68,8 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   if (user.login !== username) {
-    await db.query('UPDATE users SET login=?, name=? WHERE id=?', [user.login, user.name, user.id]);
+    // no write here: moddex-api upserts login and name on every lookup, so
+    // `user` above is already current and this only has to redirect.
     return redirect(`/channel/${user.login}`);
   }
 

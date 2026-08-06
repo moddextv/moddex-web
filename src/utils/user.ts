@@ -1,351 +1,77 @@
 import 'server-only';
 
-import { db } from '@/misc/Database';
-import { isKnownBot } from '@/misc/bots';
-import { User, UserBadgeRow } from '@/misc/Interfaces';
-import { addBadgeByNameToUser, getUserBadges, getUserChatBadge, removeBadgeByNameFromUser } from '@/utils/badges';
-import { fetchUserOrBanned, fetchUsersById } from '@/utils/api/twitch/gql';
-import { getUserId as getUserIdFromIvr } from '@/utils/api/twitch/helix';
-import { logger } from '@/misc/Logger';
+import { User } from '@/misc/Interfaces';
+import {
+  getUserIgnored,
+  getUserPermissionLevel,
+  getUsers as apiGetUsers
+} from '@/utils/api/moddex';
+
+/**
+ * Adapter over moddex-api. This file used to hold the queries and the outbound
+ * twitch scrape; both live in moddex-api now, which owns the database.
+ *
+ * The exported signatures are unchanged so the five callers did not have to
+ * move at the same time as the plumbing. There were twelve exports and five
+ * of them were actually imported anywhere — the rest were deleted rather than
+ * ported.
+ */
+
+/**
+ * Kept for the one caller that still pipes a list through it.
+ *
+ * It is no longer a security boundary: moddex-api strips `ignored` from every
+ * user it returns and drops opted-out users itself, with an integration test
+ * asserting the flag never leaves. Filtering again here would be theatre.
+ */
+export const filterUsers = async (users: User[]): Promise<User[]> => users;
 
 export const getUserPermission = async (
   userId: string = ''
 ): Promise<number> => {
   if (!userId) return 0;
 
-  const user = await db.queryOne(
-    `
-    SELECT 
-      b.permission
-    FROM 
-      user_badges ub
-    JOIN 
-      badges b ON ub.badge_id = b.id
-    WHERE 
-      ub.user_id=?
-    ORDER BY 
-      b.permission DESC
-  `,
-    [userId]
-  );
-  return user?.permission || 0;
+  const { permission } = await getUserPermissionLevel(userId);
+  return permission;
 };
 
 export const getUserIgnoreState = async (userId: string): Promise<boolean> => {
-  const user = await db.queryOne('SELECT ignored FROM users WHERE id=?', [
-    userId
-  ]);
-  return !!user?.ignored;
+  const { ignored } = await getUserIgnored(userId);
+  return ignored;
 };
 
-export const getUser = async (username: string, forceRefresh: boolean = false): Promise<{ user: User | null, banReason?: string }> => {
-  const user = await db.queryOne('SELECT * FROM users WHERE login=?', [username]);
+/**
+ * A user by login.
+ *
+ * `forceRefresh` is accepted and ignored. moddex-api decides when to re-scrape
+ * from twitch, from the record's own `updated` timestamp — letting a browser
+ * force outbound twitch traffic was a small denial of service anyway. The
+ * parameter stays so the two callers did not need editing.
+ *
+ * The rename-and-redirect in the pages still works: moddex-api upserts login
+ * and name on every lookup (updateUserInDb), so what comes back here is
+ * already current and the page only has to compare and redirect.
+ *
+ * A banned user comes back as `user: null` with `banReason` set, which is the
+ * contract the channel page reads.
+ */
+export const getUser = async (
+  username: string,
+  _forceRefresh: boolean = false
+): Promise<{ user: User | null; banReason?: string }> => {
+  const users = await apiGetUsers<User[]>({ login: username });
+  const user = Array.isArray(users) ? (users[0] ?? null) : null;
 
-  if (forceRefresh || !user || user.banned !== '') {
-    let fetchedUserOrReason = await fetchUserOrBanned(username);
-
-    if (typeof fetchedUserOrReason === 'string') {
-      await db.query('UPDATE users SET banned=? WHERE login=?', [fetchedUserOrReason, username]);
-      return { user: null, banReason: fetchedUserOrReason };
-    }
-
-    await db.query('UPDATE users SET banned="" WHERE login=?', [username]);
-    return { user: fetchedUserOrReason };
+  const banned = (user as unknown as { banned?: string })?.banned;
+  if (user && banned) {
+    return { user: null, banReason: banned };
   }
 
-  const formattedUser = await getUsers([user.id]);
-  return { user: formattedUser[0] };
-};
-
-export const getUsers = async (
-  userIds: string[] = [],
-  forceRefresh: boolean = false
-): Promise<User[]> => {
-  let usersFromDB: User[] = [];
-
-  if (!forceRefresh) {
-    usersFromDB = await getUsersFromDbById(userIds);
-  }
-
-  const newUsers: string[] = userIds.filter(userId => !usersFromDB.find(u => u.id === userId));
-  if (!newUsers.length) {
-    for (const user of usersFromDB) {
-      user.badges = await getUserBadges(user.id);
-    }
-    return usersFromDB;
-  }
-
-  const users: User[] = await fetchUsersById(newUsers);
-  const validUsers = users.filter(user => user.id);
-  const updatedUsers: User[] = await Promise.all(validUsers.map(updateUserInDb));
-
-  return [...usersFromDB, ...updatedUsers];
-};
-
-export const updateUserInDb = async (user: User): Promise<User> => {
-  try {
-    await db.query(`
-        INSERT INTO users (id, login, name, avatar, bio, follower, banned, bot, created)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-        login = VALUES(login),
-        name = VALUES(name),
-        avatar = VALUES(avatar),
-        bio = VALUES(bio),
-        banned = VALUES(banned),
-        follower = VALUES(follower),
-        bot = VALUES(bot)
-      `, [
-        user.id,
-        user.login,
-        user.name,
-        user.avatar,
-        user.bio,
-        user.follower,
-        user.banned || '',
-        // curated list, see misc/bots.ts. re-evaluated on every write so adding
-        // a name there takes effect as users refresh, without a migration.
-        isKnownBot(user.login) ? 1 : 0,
-        new Date(user.created as string).toISOString().slice(0, 19).replace('T', ' ')
-      ]
-    );
-  } catch (e) {
-    logger.error(`Error in storeUsers - userId: ${user.id}, created: ${user.created} - `, e);
-  }
-
-  if (user.roles?.isPartner) {
-    await Promise.all([
-      addBadgeByNameToUser(user.id, 'partner'),
-      removeBadgeByNameFromUser(user.id, 'affiliate')
-    ]);
-  } else if (user.roles?.isAffiliate) {
-    await Promise.all([
-      addBadgeByNameToUser(user.id, 'affiliate'),
-      removeBadgeByNameFromUser(user.id, 'partner')
-    ]);
-  }
-
-  if (user.roles?.isStaff) {
-    await addBadgeByNameToUser(user.id, 'staff');
-  } else {
-    await removeBadgeByNameFromUser(user.id, 'staff');
-  }
-
-  const [storedUser, discordUser, badgesForUser, chatBadge] = await Promise.all([
-    db.queryOne('SELECT updated FROM users WHERE id=?', [user.id]),
-    db.queryOne('SELECT discord_user_id FROM dctwitchusers WHERE twitch_id=?', [user.id]),
-    getUserBadges(user.id),
-    getUserChatBadge(user.id)
-  ]);
-
-  return {
-    id: user.id,
-    login: user.login,
-    name: user.name,
-    avatar: user.avatar,
-    bio: user.bio,
-    follower: user.follower,
-    banned: user.banned,
-    created: user.created,
-    updated: storedUser.updated,
-    discord: discordUser?.discord_user_id || null,
-    badges: badgesForUser,
-    chatBadge: chatBadge
-  };
-};
-
-export const getUserId = async (login: string): Promise<string> => {
-  const user = await db.queryOne(`SELECT id FROM users WHERE login=?`, [login]);
-  if (user?.id) return user.id;
-
-  return getUserIdFromIvr(login);
-};
-
-export const getUsersFromDb = async (usernames: string[]): Promise<User[]> => {
-  if (!usernames.length) {
-    return [];
-  }
-
-  const userList: UserBadgeRow[] = await db.query(
-    `
-      SELECT 
-        u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
-        cb.name as chat_badge_name, cb.path as chat_badge_path,
-        dc.discord_user_id AS discord
-      FROM users u 
-      LEFT JOIN user_badges ub
-        ON u.id = ub.user_id 
-      LEFT JOIN badges b 
-        ON ub.badge_id = b.id
-      LEFT JOIN dctwitchusers dc
-        ON dc.twitch_id = u.id
-      LEFT JOIN user_chat_badges ucb
-        ON u.id = ucb.user_id 
-      LEFT JOIN chat_badges cb 
-        ON ucb.chat_badge_id = cb.id
-      WHERE u.login
-        IN (${new Array(usernames.length).fill('?').join(',')})
-      ORDER BY
-        b.order ASC
-    `,
-    [...usernames]
-  );
-
-  return formatUsers(userList);
+  return { user };
 };
 
 export const getUsersFromDbById = async (ids: string[]): Promise<User[]> => {
-  if (!ids.length) {
-    return [];
-  }
+  if (ids.length === 0) return [];
 
-  const userList: UserBadgeRow[] = await db.query(
-    `
-      SELECT 
-        u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
-        cb.name as chat_badge_name, cb.path as chat_badge_path,
-        dc.discord_user_id AS discord
-      FROM users u 
-      LEFT JOIN user_badges ub
-        ON u.id = ub.user_id 
-      LEFT JOIN badges b 
-        ON ub.badge_id = b.id 
-      LEFT JOIN user_chat_badges ucb
-        ON u.id = ucb.user_id 
-      LEFT JOIN chat_badges cb 
-        ON ucb.chat_badge_id = cb.id
-      LEFT JOIN dctwitchusers dc
-        ON dc.twitch_id = u.id
-      WHERE u.id
-        IN (${new Array(ids.length).fill('?').join(',')})
-      ORDER BY
-        b.order ASC
-    `,
-    [...ids]
-  );
-
-  return formatUsers(userList);
-};
-
-export const getUsersByBadgeId = async (badgeId: string): Promise<User[]> => {
-  const userList: UserBadgeRow[] = await db.query(
-    `
-      SELECT 
-        u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
-        cb.name as chat_badge_name, cb.path as chat_badge_path,
-        dc.discord_user_id AS discord
-      FROM users u
-      LEFT JOIN user_badges ub
-        ON u.id = ub.user_id
-      LEFT JOIN badges b 
-        ON ub.badge_id = b.id 
-      LEFT JOIN user_chat_badges ucb
-        ON u.id = ucb.user_id 
-      LEFT JOIN chat_badges cb 
-        ON ucb.chat_badge_id = cb.id
-      LEFT JOIN dctwitchusers dc
-        ON dc.twitch_id = u.id
-      WHERE b.id = ?
-      ORDER BY
-        b.order ASC
-    `,
-    [badgeId]
-  );
-
-  return formatUsers(userList);
-};
-
-export const getUsersByBadgeName = async (
-  badgeName: string
-): Promise<User[]> => {
-  const userList: UserBadgeRow[] = await db.query(
-    `
-      SELECT 
-        u.id, u.login, u.name, u.avatar, u.bio, u.follower, u.created, u.updated, u.ignored,
-        b.id AS badge_id, b.name AS badge_name, b.path AS badge_path,
-        cb.name as chat_badge_name, cb.path as chat_badge_path,
-        dc.discord_user_id AS discord
-      FROM users u
-      LEFT JOIN user_badges ub
-        ON u.id = ub.user_id
-      LEFT JOIN badges b 
-        ON ub.badge_id = b.id
-      LEFT JOIN user_chat_badges ucb
-        ON u.id = ucb.user_id 
-      LEFT JOIN chat_badges cb 
-        ON ucb.chat_badge_id = cb.id
-      LEFT JOIN dctwitchusers dc
-        ON dc.twitch_id = u.id
-      WHERE b.name = ?
-      ORDER BY
-        b.order ASC
-    `,
-    [badgeName]
-  );
-
-  return formatUsers(userList);
-};
-
-export const formatUsers = async (
-  entities: UserBadgeRow[],
-  isRole: boolean = false
-): Promise<User[]> => {
-  const results = new Map();
-
-  entities.forEach((entity) => {
-    if (!results.get(entity.id)) {
-      const newUser: User = {
-        id: entity.id,
-        login: entity.login,
-        name: entity.name,
-        avatar: entity.avatar,
-        follower: entity.follower,
-        discord: entity.discord,
-        banned: entity.banned,
-        ignored: entity.ignored,
-        bot: !!entity.bot,
-        badges: [],
-        chatBadge: null
-      };
-
-      if (isRole) {
-        newUser.granted = entity.granted;
-      } else {
-        newUser.bio = entity.bio;
-        newUser.created = entity.created;
-        newUser.updated = entity.updated;
-      }
-
-      if (entity.chat_badge_name) {
-        newUser.chatBadge = {
-          name: entity.chat_badge_name,
-          path: entity.chat_badge_path
-        };
-      }
-
-      results.set(entity.id, newUser);
-    }
-
-    if (entity.badge_id) {
-      results.get(entity.id).badges.push({
-        id: entity.badge_id,
-        name: entity.badge_name,
-        path: entity.badge_path
-      });
-    }
-  });
-
-  return Array.from(results.values()) as User[];
-};
-
-export const filterUsers = async (users: User[]): Promise<User[]> => {
-  const filteredUsers = users.filter((user) => !user.ignored);
-
-  return filteredUsers.map((user) => {
-    const { ignored, ...rest } = user;
-    return rest;
-  });
+  return await apiGetUsers<User[]>({ id: ids.join(',') });
 };

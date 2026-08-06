@@ -95,8 +95,27 @@ export const getRole = <T>(
   params: Record<string, string | undefined>
 ) => call<T>(`/v1/${role}${query(params)}`);
 
+/** `login=` and `id=` both accept a comma-separated list. */
 export const getUsers = <T>(params: Record<string, string | undefined>) =>
   call<T>(`/v1/users${query(params)}`);
+
+/**
+ * Whether a user has opted out. Guarded, and for the same reason the flag is
+ * stripped from every public role list: who has opted out is exactly what the
+ * setting exists to keep private.
+ */
+export const getUserIgnored = (userId: string) =>
+  call<{ userId: string; ignored: boolean }>(
+    `/v1/users/${encodeURIComponent(userId)}/ignored`,
+    { authenticated: true }
+  );
+
+/** Staff level, for the session. Guarded — open, it would be a staff list. */
+export const getUserPermissionLevel = (userId: string) =>
+  call<{ userId: string; permission: number }>(
+    `/v1/users/${encodeURIComponent(userId)}/permission`,
+    { authenticated: true }
+  );
 
 export const getBadges = <T>(params: Record<string, string | undefined> = {}) =>
   call<T>(`/v1/badges${query(params)}`);
@@ -118,6 +137,27 @@ export const getUserDonationTotal = (userId: string) =>
     payments: number;
     latest: string | null;
   }>(`/v1/donations${query({ userId })}`, { authenticated: true });
+
+/** Homepage counters. Public, and raw — formatting is this app's job. */
+export const getStats = () =>
+  call<{
+    channels: number;
+    users: number;
+    mods: number;
+    vips: number;
+    takenAt: string | null;
+  }>('/v1/stats');
+
+/**
+ * What this user may wear in chat, and what they currently wear. Guarded: it
+ * is the answer to "what has this person earned", which for the staff and
+ * top-donator badges is a fact about them rather than about the site.
+ */
+export const getUserChatBadges = <T>(userId: string) =>
+  call<{ userId: string; available: T; selected: string | null }>(
+    `/v1/users/${encodeURIComponent(userId)}/chat-badges`,
+    { authenticated: true }
+  );
 
 /* ----------------------------------------------------------------- writes */
 

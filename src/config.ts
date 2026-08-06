@@ -46,6 +46,14 @@ export const config = {
     clientSecret: required('AUTH_TWITCH_SECRET')
   },
 
+  /**
+   * moddex-api. This app holds no database connection; everything it needs is
+   * served by that service. The internal token deliberately does NOT live here
+   * -- this module is bundled for the browser (see the note at the top), so it
+   * is read in utils/api/moddex.ts, which is marked server-only.
+   */
+  apiUrl: optional('MODDEX_API_URL', 'https://api.moddex.tv'),
+
   stripe: {
     secretKey: required('STRIPE_SECRET_KEY'),
     // inlined at build time by next, so it must be present as a --build-arg,
@@ -64,12 +72,4 @@ export const config = {
     }
   },
 
-  db: {
-    host: required('DB_HOST'),
-    port: Number(optional('DB_PORT', '3306')),
-    name: required('DB_NAME'),
-    user: required('DB_USER'),
-    pass: required('DB_PASS'),
-    connectionLimit: Number(optional('DB_CONNECTION_LIMIT', '10'))
-  }
 };

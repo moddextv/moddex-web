@@ -1,167 +1,50 @@
-import { db } from '@/misc/Database';
-import { Badge, ChatBadge } from '@/misc/Interfaces';
-import { config } from '@/config';
+import 'server-only';
 
-export const getAllBadges = async (): Promise<Badge[]> => {
-  return await db.query('SELECT * FROM badges ORDER BY `order`');
-};
+import { ChatBadge } from '@/misc/Interfaces';
+import { getUserChatBadges as apiGetUserChatBadges } from '@/utils/api/moddex';
 
-export const getBadgeById = async (id: number): Promise<Badge | false> => {
-  return await db.queryOne('SELECT * FROM badges WHERE id=?', [id]);
-};
+/**
+ * Adapter over moddex-api. This file used to hold every badge query and the
+ * grant/revoke writes; those moved with the donation logic, which is the only
+ * thing that called them.
+ *
+ * Two exports remain because two are imported: the settings page renders a
+ * picker. Both come from one api call now, so they share a cached promise per
+ * request rather than making the round trip twice.
+ */
 
-export const getBadgeByName = async (
-  badgeName: string
-): Promise<Badge | false> => {
-  return await db.queryOne('SELECT * FROM badges WHERE name=?', [badgeName]);
-};
+const perRequest = new Map<string, Promise<{ available: ChatBadge[]; selected: string | null }>>();
 
-export const addBadgeByIdToUser = async (
-  userId: string,
-  badgeId: number
-): Promise<boolean> => {
-  await db.query(
-    'INSERT IGNORE INTO user_badges(user_id, badge_id) VALUES (?, ?)',
-    [userId, badgeId]
-  );
-  return true;
-};
+const load = (userId: string) => {
+  let pending = perRequest.get(userId);
 
-export const removeBadgeByIdFromUser = async (
-  userId: string,
-  badgeId: number
-): Promise<boolean> => {
-  await db.query('DELETE FROM user_badges WHERE user_id=? AND badge_id=?', [
-    userId,
-    badgeId
-  ]);
-  return true;
-};
+  if (!pending) {
+    pending = apiGetUserChatBadges<ChatBadge[]>(userId)
+      .then(({ available, selected }) => ({ available, selected }))
+      .finally(() => {
+        // a server component render is short-lived; holding this past the
+        // request would serve one user's badges to the next
+        perRequest.delete(userId);
+      });
 
-export const addBadgeByNameToUser = async (
-  userId: string,
-  badgeName: string
-): Promise<boolean> => {
-  const badge: Badge | false = await getBadgeByName(badgeName);
-  if (!badge) return false;
-
-  return addBadgeByIdToUser(userId, badge.id);
-};
-
-export const removeBadgeByNameFromUser = async (
-  userId: string,
-  badgeName: string
-): Promise<boolean> => {
-  const badge: Badge | false = await getBadgeByName(badgeName);
-  if (!badge) return false;
-
-  await removeBadgeByIdFromUser(userId, badge.id);
-  return true;
-};
-
-const fetchUserBadgesFromDB = async (
-  userIds: string[] = []
-): Promise<Badge[]> => {
-  if (!userIds.length) {
-    return await db.query(`
-        SELECT 
-          b.name, b.path
-        FROM users u
-          JOIN user_badges ub
-            ON u.id = ub.user_id
-          JOIN badges b
-            ON ub.badge_id = b.id
-        ORDER BY b.order
-    `);
+    perRequest.set(userId, pending);
   }
 
-  return await db.query(
-    `
-      SELECT 
-        b.name, b.path
-      FROM users u
-        JOIN user_badges ub
-          ON u.id = ub.user_id
-        JOIN badges b
-          ON ub.badge_id = b.id
-      WHERE u.id
-        IN (${new Array(userIds.length).fill('?').join(',')})
-      ORDER BY b.order
-    `,
-    [...userIds]
-  );
+  return pending;
 };
 
-export const getUserBadges = async (userId: string = ''): Promise<Badge[]> => {
-  let userIds: string[] = [];
+export const getUserChatBadges = async (
+  userId: string = ''
+): Promise<ChatBadge[]> => {
+  if (!userId) return [];
 
-  if (userId) {
-    userIds = userId.split(',');
-  }
-
-  return await fetchUserBadgesFromDB(userIds);
+  return (await load(userId)).available;
 };
 
-export const getUserChatBadge = async (userId: string = ''): Promise<ChatBadge | null> => {
-  const chatBadge = await db.queryOne(`
-    SELECT
-      cb.name, cb.path
-    FROM
-      user_chat_badges ucb
-    INNER JOIN
-      chat_badges cb
-      ON ucb.chat_badge_id = cb.id
-    WHERE
-      ucb.user_id = ?
-  `, [userId]);
+export const getSelectedUserChatBadge = async (
+  userId: string = ''
+): Promise<string> => {
+  if (!userId) return '';
 
-  if (!chatBadge) return null;
-
-  return {
-    name: chatBadge.name,
-    path: `${config.baseUrl}${chatBadge.path}`
-  }
-}
-
-export const getUserChatBadges = async (userId: string = ''): Promise<ChatBadge[]> => {
-  const chatBadges = await db.query(`
-    SELECT
-      cb.name, cb.path
-    FROM
-      chat_badges cb 
-    INNER JOIN
-      user_badges ub 
-    ON
-      cb.badge_id = ub.badge_id 
-    WHERE
-      ub.user_id = ?
-  `, [userId]);
-
-  if (!chatBadges) return [];
-
-  return chatBadges.map((badge: any) => ({
-    name: badge.name,
-    path: badge.path
-  }));
-}
-
-export const removeTopDonatorChatBadge = async (userId: string = ''): Promise<void> => {
-  await db.query('DELETE FROM user_chat_badges WHERE user_id=?', [userId]);
-}
-
-export const getSelectedUserChatBadge = async (userId: string = ''): Promise<string> => {
-  const badge = await db.queryOne(`
-    SELECT
-      cb.name as badge_name
-    FROM
-      user_chat_badges ucb 
-    JOIN
-      chat_badges cb
-    ON
-      ucb.chat_badge_id = cb.id
-    WHERE
-      ucb.user_id = ?
-  `, [userId]);
-
-  return badge?.badge_name || 'none';
-}
+  return (await load(userId)).selected ?? '';
+};

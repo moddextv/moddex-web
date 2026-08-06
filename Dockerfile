@@ -42,11 +42,7 @@ ENV NEXTAUTH_URL=http://localhost:4999 \
     AUTH_TWITCH_SECRET=build \
     AUTH_TWITCH_CLIENT_ID=build \
     STRIPE_SECRET_KEY=sk_test_build \
-    STRIPE_DONATION_PRICE=price_build \
-    DB_HOST=localhost \
-    DB_NAME=build \
-    DB_USER=build \
-    DB_PASS=build
+    STRIPE_DONATION_PRICE=price_build
 
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
