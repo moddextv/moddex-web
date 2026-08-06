@@ -35,7 +35,7 @@ export const config = {
     domain: 'moddex.tv',
     url: 'https://moddex.tv',
     statusUrl: 'https://status.moddex.tv',
-    email: 'info@relaxo.dev'
+    email: 'marcel@doubt.ch'
   },
 
   baseUrl: required('NEXTAUTH_URL'),
