@@ -158,6 +158,17 @@
     outline-offset: 3px;
 }
 
+/* heroui already shows focus on the input *wrapper* -- its border turns mod
+   green -- and marks the inner input outline-transparent on purpose. the rule
+   above matched that inner input too, so a focused field drew two rings: the
+   wrapper border and an outline around the field inside it. these selectors
+   carry real specificity, unlike the :where() above, so they win. */
+[data-slot='input-wrapper'] input:focus-visible,
+[data-slot='input-wrapper'] textarea:focus-visible,
+[data-slot='input']:focus-visible {
+    outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .pressable,
     .pressable:active {

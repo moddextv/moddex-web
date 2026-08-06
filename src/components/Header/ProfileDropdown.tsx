@@ -85,15 +85,6 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({
           ) : null as unknown as ItemElement<object>}
       </DropdownSection>
 
-        <DropdownSection showDivider>
-          <DropdownItem key="channel" textValue="your channel" href={`/channel/${session.user.login}`}>
-            your channel
-          </DropdownItem>
-          <DropdownItem key="user" textValue="your user" href={`/user/${session.user.login}`}>
-            your user
-          </DropdownItem>
-        </DropdownSection>
-
         <DropdownSection>
           <DropdownItem
             key="signout"
