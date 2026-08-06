@@ -6,7 +6,9 @@
     "dev": "next dev -p 4999",
     "build": "next build",
     "start": "next start -p 4999",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
+    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@heroui/react": "^2.7.8",
@@ -55,6 +57,7 @@
     "postcss": "^8.5.13",
     "tailwind-variants": "0.2.1",
     "tailwindcss": "3.4.6",
-    "typescript": "5.5.3"
+    "typescript": "5.5.3",
+    "vitest": "^2.1.9"
   }
 }
