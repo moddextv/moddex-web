@@ -37,22 +37,31 @@ export const db = {
     });
   },
 
+  /**
+   * throws on failure. it used to log and return [], which made "the database
+   * is unreachable" and "there are no rows" the same value to every caller --
+   * an outage rendered as an empty channel list and a homepage of zeroes
+   * rather than an error. callers that genuinely want the lenient behaviour
+   * should catch and say so at the call site.
+   */
   query: async function (queryParam: string, params: any[] = []) {
     await this.createPoolIfNotExists();
     const connection = await this.pool!.getConnection();
 
-    let result;
     try {
-      result = await connection.query(queryParam, params);
+      return await connection.query(queryParam, params);
     } catch (e) {
       logger.error(e);
+      throw e;
     } finally {
       connection.end();
     }
-
-    return result || [];
   },
 
+  /**
+   * `false` now means "no such row" and nothing else -- a failed query throws
+   * rather than arriving here as an empty result set.
+   */
   queryOne: async function (
     queryStr: string,
     params: any[] = [],

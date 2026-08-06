@@ -29,12 +29,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const mods = await getChannelMods(channelFromDb);
       const filteredMods = await filterUsers(mods);
-      if (!filteredMods) {
-        return NotFound(
-          `no tracked mods found for channel with id ${channelId}`
-        );
-      }
-
       return NextResponse.json(filteredMods);
     }
 
@@ -47,12 +41,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const mods = await getChannelMods(channelFromDb);
       const filteredMods = await filterUsers(mods);
-      if (!filteredMods) {
-        return NotFound(
-          `no tracked mods found for channel with login ${channel}`
-        );
-      }
-
       return NextResponse.json(filteredMods);
     }
 
@@ -69,10 +57,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const mods = await getUserMods(userFromDb);
       const filteredMods = await filterUsers(mods);
-      if (!filteredMods) {
-        return NotFound(`no tracked mods found for user with id ${userId}`);
-      }
-
       return NextResponse.json(filteredMods);
     }
 
@@ -85,10 +69,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const mods = await getUserMods(userFromDb);
       const filteredMods = await filterUsers(mods);
-      if (!filteredMods) {
-        return NotFound(`no tracked mods found for user with login ${user}`);
-      }
-
       return NextResponse.json(filteredMods);
     }
 

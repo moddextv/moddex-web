@@ -14,7 +14,11 @@ interface Stats {
 }
 
 export const getStats = async (): Promise<Stats> => {
-  const stats = await db.queryOne('SELECT * FROM snapshots ORDER BY id DESC');
+  // `false` when the table is empty -- a fresh install has no snapshot row yet,
+  // and the homepage should render zeroes rather than throw. a database that is
+  // actually down now throws out of queryOne instead of arriving here as false.
+  const snapshot = await db.queryOne('SELECT * FROM snapshots ORDER BY id DESC');
+  const stats = snapshot || {};
 
   const channels = Number(stats.channels || 0);
   const users = Number(stats.users || 0);

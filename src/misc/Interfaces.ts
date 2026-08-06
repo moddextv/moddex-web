@@ -28,7 +28,9 @@ export interface User {
   discord?: string | null;
   created?: string | null;
   updated?: string | null;
-  granted?: string | null;
+  // the mariadb driver hands back a Date for DATETIME columns, while the gql
+  // path supplies the same field as an ISO string. both reach the components.
+  granted?: string | Date | null;
   banned?: string | null;
   ignored?: boolean;
   badges: Badge[];
@@ -42,7 +44,9 @@ export interface UserBadgeRow {
   name: string;
   avatar: string;
   follower: number;
-  granted?: string | null;
+  // the mariadb driver hands back a Date for DATETIME columns, while the gql
+  // path supplies the same field as an ISO string. both reach the components.
+  granted?: string | Date | null;
   bio?: string | null;
   roles?: null | {
     isAffiliate: boolean;

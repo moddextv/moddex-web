@@ -85,7 +85,7 @@ const storeUsers = async (id: string, users: User[], role: ChannelRoleType) => {
 
   for (const user of users) {
     try {
-      const grantedDateString = new Date(user.granted as string)
+      const grantedDateString = new Date(user.granted as string | Date)
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ');

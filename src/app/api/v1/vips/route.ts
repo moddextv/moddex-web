@@ -29,12 +29,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const vips = await getChannelVips(channelFromDb);
       const filteredVips = await filterUsers(vips);
-      if (!filteredVips) {
-        return NotFound(
-          `no tracked vips found for channel with id ${channelId}`
-        );
-      }
-
       return NextResponse.json(filteredVips);
     }
 
@@ -47,12 +41,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const vips = await getChannelVips(channelFromDb);
       const filteredVips = await filterUsers(vips);
-      if (!filteredVips) {
-        return NotFound(
-          `no tracked vips found for channel with login ${channel}`
-        );
-      }
-
       return NextResponse.json(filteredVips);
     }
 
@@ -69,10 +57,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const vips = await getUserVips(userFromDb);
       const filteredVips = await filterUsers(vips);
-      if (!filteredVips) {
-        return NotFound(`no tracked vips found for user with id ${userId}`);
-      }
-
       return NextResponse.json(filteredVips);
     }
 
@@ -85,10 +69,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
       const vips = await getUserVips(userFromDb);
       const filteredVips = await filterUsers(vips);
-      if (!filteredVips) {
-        return NotFound(`no tracked vips found for user with login ${user}`);
-      }
-
       return NextResponse.json(filteredVips);
     }
 

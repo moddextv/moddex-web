@@ -93,17 +93,29 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
 
 ## 5. Correctness — carried over, still true
 
-- [ ] `db.query` swallows every error, so callers cannot tell failure from an
-      empty result. This is the root cause of the next item.
-- [ ] `getStats` dereferences a possible `false`; same in a few other readers.
-- [ ] Dead 404 branches in `/api/v1/mods` and `/api/v1/vips` — `filterUsers`
+- [x] `db.query` swallows every error, so callers cannot tell failure from an
+      empty result. **Fixed** — it logs and rethrows. `queryOne` returning
+      `false` now means "no such row" and nothing else. Note this is a
+      behaviour change: a database outage that used to render as an empty list
+      or a homepage of zeroes now surfaces as an error.
+- [x] `getStats` dereferences a possible `false`. **Fixed.** The "same in a few
+      other readers" part turned out not to hold: every other `queryOne` caller
+      already guards (`if (!badge)`, `tokenData && …`, `?.total || 0`,
+      `?.badge_name || 'none'`). `getStats` was the only unguarded one.
+- [x] Dead 404 branches in `/api/v1/mods` and `/api/v1/vips` — `filterUsers`
       always returns an array, so the intended empty-result 404 never fires and
-      those paths return `200 []`.
-- [ ] `splitArray` mutates its input (`splice` in a loop).
-- [ ] **`User.granted` is typed `string | null` but carries a `Date`.** This bit
-      once already: a formatter called `.slice()` on it and took the channel
-      page down. The old code hid it by funnelling everything through
-      `new Date()`.
+      those paths return `200 []`. **Removed, 8 branches across the two files.**
+      Behaviour deliberately unchanged: `200 []` has always been the de facto
+      contract, and switching to 404 would break the FFZ add-on and any
+      existing api consumer. See the open contract question in §7.
+- [x] `splitArray` mutates its input (`splice` in a loop). **Fixed** with
+      `slice`. `getUsersFromHelix` was already working around it by passing
+      `[...usernames]`; that copy is now redundant but harmless. The old
+      version also looped forever on `chunkSize <= 0`, which now throws.
+- [x] **`User.granted` is typed `string | null` but carries a `Date`.**
+      **Fixed** — the type is now `string | Date | null` on both `User` and
+      `UserBadgeRow`, which is what the mariadb driver and the gql path
+      actually produce between them.
 
 ## 6. Performance — app-side, not database-side
 
