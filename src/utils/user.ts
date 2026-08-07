@@ -2,6 +2,7 @@ import 'server-only';
 
 import { User } from '@/misc/Interfaces';
 import {
+  ModdexApiError,
   getUserIgnored,
   getUserPermissionLevel,
   getUsers as apiGetUsers
@@ -59,7 +60,24 @@ export const getUser = async (
   username: string,
   _forceRefresh: boolean = false
 ): Promise<{ user: User | null; banReason?: string }> => {
-  const users = await apiGetUsers<User[]>({ login: username });
+  let users: User[];
+
+  try {
+    users = await apiGetUsers<User[]>({ login: username });
+  } catch (error) {
+    // /v1/users deliberately 404s on an empty result: a lookup by login is a
+    // question about one specific account, so "no such user" is the honest
+    // answer there. for this caller it is not an error at all, it is `null` --
+    // and until this catch existed, every lookup of a name twitch does not have
+    // threw straight past the page's `if (!user)` branch and into the error
+    // boundary, so a typo rendered "that page did not finish loading".
+    if (error instanceof ModdexApiError && error.status === 404) {
+      return { user: null };
+    }
+
+    throw error;
+  }
+
   const user = Array.isArray(users) ? (users[0] ?? null) : null;
 
   const banned = (user as unknown as { banned?: string })?.banned;
