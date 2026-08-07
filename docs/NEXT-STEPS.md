@@ -206,9 +206,39 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
       The channel page's real cost is the join fan-out, not the role index:
       role lookup alone is ~4-12 ms, adding the `users` join takes it to
       **1.83 s**, and the badge join to **2.20 s**. That is §6 territory.
-- [ ] **Apply `002-unified-roles.sql`** in a maintenance window — **but not on
-      its own, and not yet.** This is why it is still open, and it is a
-      dependency rather than procrastination:
+- [x] **Apply `002-unified-roles.sql`** — **done 2026-08-07**, together with the
+      data-layer switch, which is the only order that works. Ran detached under
+      `nohup` on the host (not over ssh, which is how the rehearsal died):
+      **10:31:47 → 11:24:09 UTC, 52m22s, exit 0.**
+
+      Verified **per role**, which is the check that catches a half-migration:
+
+      | role | rows | source |
+      |---|---|---|
+      | 1 (mod) | 8,131,260 | `mods` 8,131,260 ✅ |
+      | 2 (vip) | 5,611,594 | `vips` 5,611,594 ✅ |
+      | 4 (founder) | — | `founders` was empty ✅ |
+
+      The site stayed up throughout — `002` is additive and the running code
+      still read `mods`/`vips`, so all endpoints answered 200 the whole time.
+
+      Two notes for whoever does `003`. The `vips` pass took **longer than the
+      larger `mods` pass** (34 min against 18) because the primary key is
+      `(user_id, channel_id, role)`, so inserts land at random points in a
+      B-tree that keeps growing — expect the same shape again. And do **not**
+      run `COUNT(*)` on `roles` for progress while it is inserting; it is an
+      InnoDB full scan against a table under bulk write and it simply hangs.
+      Read `information_schema.PROCESSLIST` instead.
+
+      The window between the migration finishing and the new code deploying
+      would have left any channel scraped in between missing from `roles`.
+      Checked afterwards: **zero channels were scraped in that window**, so no
+      reconciliation was needed. Worth re-checking if this is ever repeated.
+
+      `DROP TABLE mods` / `DROP TABLE vips` are still commented out in `002`, on
+      purpose — leave them until this has been watched for a while.
+
+      The original reasoning, kept because it is why this waited:
 
       `002` is a **one-shot backfill**. It copies `mods` and `vips` into
       `roles` and installs no dual-write and no trigger. The application keeps
@@ -251,11 +281,25 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
       Budget well over 30 minutes. Original note follows: ~13 minutes
       on 13.7M rows. Take a backup first. It is additive — `mods` and `vips`
       stay until the app is switched over.
-- [ ] **Switch the data layer to `roles`** (~6 files: `utils/roles/*`,
-      `actions/fetchUserListData.ts`, the `/api/v1` role routes,
-      `misc/Interfaces.ts`). Drive everything from `src/misc/roles.ts` so the
-      role name stops being hardcoded in 15 places and stops being interpolated
-      into SQL.
+- [x] **Switch the data layer to `roles`** — **done 2026-08-07**, deployed as
+      `moddex-api` rev `5216cf4`. It was 4 files, not 6, and the registry work
+      was already done: `src/misc/roles.ts` carried the ids `002` keys on.
+
+      The role name no longer reaches the query text. It was interpolated as a
+      table name (`JOIN ${role}`) in five statements; it resolves through
+      `roleIdByLabel()` to an integer and travels as a bound parameter.
+
+      Reads gained `revoked IS NULL` — load-bearing now that rows are stamped
+      rather than deleted, or every channel someone was *ever* modded in comes
+      back as current.
+
+      `storeUsers` became a diff instead of a rewrite, which also closes the
+      "row-at-a-time inserts" item in §6 below: it was `DELETE FROM <role>` plus
+      one INSERT per user in a loop, 14,001 sequential round trips on the
+      largest channel. It now stamps the set revoked and re-inserts current
+      holders, chunked 500 rows per statement, inside a transaction — which
+      needed a new `db.transaction()`, since `query()` takes a fresh connection
+      per call and the revoke/reinstate pair could not otherwise be atomic.
 - [ ] **Write `003`**: convert `users.id` to `BIGINT UNSIGNED`, add the foreign
       keys 002 had to defer, drop `mods`/`vips`. Only after the app is live on
       `roles`.
@@ -422,10 +466,10 @@ The database is fine (see `DATABASE.md`). These are the real bottlenecks.
       results too. On a channel whose 14,000 mods are all new that is ~56,000
       queries computing a value nobody reads. That is the "row-at-a-time
       inserts" item below.
-- [ ] **Row-at-a-time inserts in `storeUsers`** — one round trip per mod, on
-      channels with tens of thousands of them. Batch it and wrap it in a
-      transaction. The `revoked` column from 002 turns this into a small diff
-      instead of a full rewrite.
+- [x] **Row-at-a-time inserts in `storeUsers`** — **done 2026-08-07**, as part
+      of the `roles` switch in §3. Batched 500 rows per statement, wrapped in a
+      transaction, and using `revoked` so a refresh is a diff rather than a full
+      rewrite — exactly as this entry predicted.
 - [ ] **No cache TTL.** A channel scraped once is frozen forever unless someone
       clicks reload.
 - [ ] **Server Actions used as a data-fetching layer.** Every profile page

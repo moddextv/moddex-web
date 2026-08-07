@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>routes with no ui | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/design.css">
+</head>
+
+<!-- reference sheet, not a comp. every route in src/app that renders nothing,
+     so the page inventory is complete rather than merely visual. -->
+<body class="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 text-primary-100">
+
+<header class="sticky top-0 z-40 border-b border-primary-700 bg-primary-900/85 backdrop-blur-md">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex items-center h-16 gap-8">
+    <a href="index.html" class="flex items-center gap-3 shrink-0 text-primary-100 pressable" aria-label="moddex design">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="moddex" class="shrink-0">
+        <path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/>
+      </svg>
+      <span class="font-cairo text-xl leading-none tracking-tight">moddex</span>
+    </a>
+    <span class="text-sm text-primary-500 mono">design / routes with no ui</span>
+    <a href="index.html" class="ml-auto text-sm text-primary-400 hover:text-primary-200 transition-colors duration-150">all pages</a>
+  </div>
+</header>
+
+<main class="flex-grow">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 py-16 flex flex-col gap-14">
+
+    <section>
+      <h1 class="font-cairo text-3xl tracking-tight mb-2">Routes with no ui</h1>
+      <p class="text-primary-400 max-w-xl leading-relaxed">
+        Eight of the app&apos;s routes never paint anything. They are listed here
+        so the inventory beside them is honest — a page that is missing from
+        <a class="text-primary-200 underline underline-offset-2" href="index.html">the index</a>
+        should mean it does not exist, not that nobody drew it.
+      </p>
+    </section>
+
+    <!-- ------------------------------------------------------ redirects -- -->
+    <section>
+      <div class="flex items-center gap-3 h-8 mb-1">
+        <span aria-hidden="true" class="w-3 h-3 border-2 border-b-0 border-r-0 border-mod"></span>
+        <h2 class="text-sm uppercase tracking-wider text-mod">redirects</h2>
+        <span class="text-sm text-primary-500 mono">4</span>
+      </div>
+
+      <div class="border-t border-primary-700 mono text-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="text-primary-100 sm:w-64 shrink-0">/c/[username]</code>
+          <span class="text-primary-600 shrink-0">308 →</span>
+          <span class="text-primary-400">/channel/[username]</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="text-primary-100 sm:w-64 shrink-0">/u/[username]</code>
+          <span class="text-primary-600 shrink-0">308 →</span>
+          <span class="text-primary-400">/user/[username]</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="text-primary-100 sm:w-64 shrink-0">/api/docs</code>
+          <span class="text-primary-600 shrink-0">308 →</span>
+          <span class="text-primary-400">api.moddex.tv/docs</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="text-primary-100 sm:w-64 shrink-0">/docs</code>
+          <span class="text-primary-600 shrink-0">308 →</span>
+          <span class="text-primary-400">api.moddex.tv/docs</span>
+        </div>
+      </div>
+
+      <div class="mt-6 grid gap-8 sm:grid-cols-2 text-primary-400 leading-relaxed">
+        <p>
+          <span class="text-primary-200">The short urls are the design.</span>
+          <code class="mono text-primary-300">moddex.tv/c/forsen</code> and
+          <code class="mono text-primary-300">moddex.tv/u/forsen</code> are the
+          pair the home page prints, one per direction — they used to need a
+          second domain, and on a .tv domain they no longer do. The copy button
+          on every profile writes the short form, never the canonical one.
+        </p>
+        <p>
+          <span class="text-primary-200">The docs left the building.</span> They
+          are generated from annotations that sit beside the routes they
+          describe, and those routes moved to <code class="mono text-primary-300">moddex-api</code>.
+          Both spellings redirect permanently: <code class="mono text-primary-300">/api/docs</code>
+          is what was linked publicly, <code class="mono text-primary-300">/docs</code>
+          is what people guess. The header&apos;s <em>api</em> item points at the
+          internal path on purpose, so the redirect stays the single place that
+          knows where the docs live.
+        </p>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------- handlers -- -->
+    <section>
+      <div class="flex items-center gap-3 h-8 mb-1">
+        <span aria-hidden="true" class="w-3 h-3 border-2 border-t-0 border-l-0 border-vip"></span>
+        <h2 class="text-sm uppercase tracking-wider text-vip">route handlers</h2>
+        <span class="text-sm text-primary-500 mono">4</span>
+      </div>
+
+      <div class="border-t border-primary-700 text-sm">
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="mono text-primary-100 sm:w-64 shrink-0">/health</code>
+          <span class="text-primary-400">
+            the docker healthcheck and status.moddex.tv both depend on it. do not
+            remove or rename.
+          </span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="mono text-primary-100 sm:w-64 shrink-0">/api/auth/[...nextauth]</code>
+          <span class="text-primary-400">
+            twitch oauth. the only thing a reader sees of it is twitch&apos;s own
+            consent screen, which is why there is no comp for signing in beyond
+            <a class="text-primary-200 underline underline-offset-2" href="login.html">the gate</a>.
+          </span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="mono text-primary-100 sm:w-64 shrink-0">/api/checkout</code>
+          <span class="text-primary-400">
+            creates the stripe session that
+            <a class="text-primary-200 underline underline-offset-2" href="donate.html">/donate</a>
+            hands off to. the webhook that records the payment lives on
+            api.moddex.tv, not here.
+          </span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 py-4 px-3 border-b border-primary-800">
+          <code class="mono text-primary-100 sm:w-64 shrink-0">/api/[...slug]</code>
+          <span class="text-primary-400">
+            catch-all. returns a json 404 rather than the html one, so a wrong
+            api path never answers with a page.
+          </span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="mt-auto border-t border-primary-700 py-5 text-sm text-primary-400">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex flex-col sm:flex-row gap-x-6 gap-y-2 sm:items-center">
+    <span>&copy; 2026 moddex</span>
+    <span class="text-primary-500">design comps — not the running site</span>
+    <nav class="flex gap-4 sm:ml-auto" aria-label="Footer">
+      <a class="hover:text-primary-200 transition-colors duration-150" href="index.html">index</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="components.html">components</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/pages.js"></script>
+</body>
+</html>

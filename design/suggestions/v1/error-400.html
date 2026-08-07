@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>checkout not readable | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / 400 and 404 on /donate/success.
+     Both mean the same thing to the donor: stripe took the money but this page
+     cannot confirm it. The one sentence that matters is that the payment is
+     unaffected, because the webhook on api.moddex.tv records it independently
+     of whether anybody ever loads this page. The shipped version says "failed
+     to retrieve session details" in red under a red 400, which reads as "your
+     payment failed" to anyone who is not an engineer. -->
+<body data-nav="donate" data-auth="out"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-20 sm:py-28">
+
+    <div class="max-w-2xl">
+      <p class="enter mono text-micro uppercase text-primary-400 mb-6" style="--i: 0">HTTP 400</p>
+
+      <h1 class="enter font-cairo text-h1 mb-5" style="--i: 1">
+        Your payment is fine. This page is not.
+      </h1>
+
+      <p class="enter text-lead text-primary-300 max-w-prose mb-8" style="--i: 2">
+        moddex could not read the checkout session back from Stripe, so it cannot
+        show you a summary. That has no effect on the donation itself.
+      </p>
+
+      <div class="enter border border-primary-700 divide-y divide-primary-700 mb-10 max-w-xl" style="--i: 3">
+        <p class="flex items-start gap-3 p-5 text-meta text-primary-300">
+          <span aria-hidden="true" class="corner corner-tl text-mod mt-1.5" style="width:9px;height:9px"></span>
+          Stripe has your payment and will email the receipt.
+        </p>
+        <p class="flex items-start gap-3 p-5 text-meta text-primary-300">
+          <span aria-hidden="true" class="corner corner-tl text-mod mt-1.5" style="width:9px;height:9px"></span>
+          The donator badge is granted by a webhook that runs whether or not this
+          page loads. Give it a minute, then check your profile.
+        </p>
+        <p class="flex items-start gap-3 p-5 text-meta text-primary-300">
+          <span aria-hidden="true" class="corner corner-tl text-primary-500 mt-1.5" style="width:9px;height:9px"></span>
+          If the badge is still missing an hour later, email the Stripe receipt
+          to <a class="text-primary-100 underline underline-offset-4 decoration-primary-600 hover:decoration-primary-300 transition-colors duration-200" href="mailto:marcel@doubt.ch">marcel@doubt.ch</a>.
+        </p>
+      </div>
+
+      <a href="user-detail.html"
+         class="enter pressable inline-flex items-center h-11 px-5 bg-primary-100 text-primary-900 text-meta font-bold hover:bg-white transition-colors duration-200" style="--i: 4">
+        Check your profile
+      </a>
+    </div>
+
+    <!-- landing on /donate/success with no session_id at all, usually a
+         bookmark or a shared link -->
+    <div class="enter mt-20 pt-12 border-t border-primary-800 max-w-2xl" style="--i: 5">
+      <p class="mono text-micro uppercase text-primary-500 mb-5">No session_id in the url</p>
+      <p class="mono text-micro uppercase text-primary-400 mb-3">HTTP 404</p>
+      <h2 class="font-cairo text-h2 mb-4">There is no checkout to show.</h2>
+      <p class="text-primary-400 max-w-prose mb-6">
+        This address only means something directly after a Stripe checkout. You
+        have probably arrived from a bookmark.
+      </p>
+      <a href="donate.html"
+         class="pressable inline-flex items-center h-11 px-5 border border-primary-600 text-primary-100 text-meta hover:bg-primary-800 hover:border-primary-500 transition-colors duration-200">
+        Go to the donate page
+      </a>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

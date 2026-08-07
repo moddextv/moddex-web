@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dashboard | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / GET /dashboard
+     Three outcomes behind one route: signed out goes to login.html, perms below
+     `team` goes to error-403.html, otherwise this.
+
+     The shipped page is one line, "Willkommen im Dashboard, {name}", and the
+     rest of the file is empty. Everything below the profile line is therefore a
+     PROPOSAL, not a redraw. It is here because a stub is the cheapest place to
+     set a direction: no left sidebar (the whole app is four routes wide), the
+     same tables as the public pages, and mod green and vip pink still reserved
+     for role data rather than being spent on chart decoration. -->
+<body data-auth="in"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-16">
+
+    <header class="enter flex flex-wrap items-end justify-between gap-6 mb-12" style="--i: 0">
+      <div>
+        <h1 class="font-cairo text-h1 mb-2">Dashboard</h1>
+        <p class="text-primary-400">
+          Signed in as <span class="mono text-primary-200">@nymn</span>, team access.
+        </p>
+      </div>
+      <p class="mono text-meta text-primary-500">
+        counters refresh every 60s
+      </p>
+    </header>
+
+    <!-- =========================================================== counts -->
+    <section class="enter mb-16" style="--i: 1" aria-label="Index totals">
+      <dl class="grid grid-cols-2 lg:grid-cols-4 border border-primary-700 divide-x divide-y lg:divide-y-0 divide-primary-700">
+        <div class="p-6">
+          <dt class="mono text-micro uppercase text-primary-400 mb-3">channels</dt>
+          <dd class="mono tabular text-[1.75rem] leading-none text-primary-100">412,847</dd>
+          <p class="mono text-meta text-primary-500 mt-2">+1,204 today</p>
+        </div>
+        <div class="p-6">
+          <dt class="mono text-micro uppercase text-primary-400 mb-3">accounts</dt>
+          <dd class="mono tabular text-[1.75rem] leading-none text-primary-100">2,714,096</dd>
+          <p class="mono text-meta text-primary-500 mt-2">+8,331 today</p>
+        </div>
+        <div class="p-6">
+          <dt class="mono text-micro uppercase text-primary-400 mb-3">mod records</dt>
+          <dd class="mono tabular text-[1.75rem] leading-none text-mod">8,143,522</dd>
+          <p class="mono text-meta text-primary-500 mt-2">+22,470 today</p>
+        </div>
+        <div class="p-6">
+          <dt class="mono text-micro uppercase text-primary-400 mb-3">vip records</dt>
+          <dd class="mono tabular text-[1.75rem] leading-none text-vip">5,602,388</dd>
+          <p class="mono text-meta text-primary-500 mt-2">+9,118 today</p>
+        </div>
+      </dl>
+    </section>
+
+    <div class="grid gap-x-14 gap-y-16 lg:grid-cols-2">
+
+      <!-- ==================================================== recent reads -->
+      <section class="enter" style="--i: 2" aria-labelledby="d-reads">
+        <div class="flex items-center gap-3 mb-4">
+          <span aria-hidden="true" class="corner corner-tl text-primary-400"></span>
+          <h2 id="d-reads" class="mono text-micro uppercase tracking-widest text-primary-300">recent lookups</h2>
+        </div>
+
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th scope="col">time</th>
+              <th scope="col">channel</th>
+              <th scope="col" class="text-right">result</th>
+            </tr>
+          </thead>
+          <tbody class="text-primary-400">
+            <tr>
+              <td class="mono text-meta text-primary-500 tabular">12:04:31</td>
+              <td><a href="channel-detail.html" class="text-primary-100 hover:underline underline-offset-4">forsen</a></td>
+              <td class="mono text-meta text-mod text-right">indexed</td>
+            </tr>
+            <tr>
+              <td class="mono text-meta text-primary-500 tabular">12:04:02</td>
+              <td><a href="channel-detail.html" class="text-primary-100 hover:underline underline-offset-4">nymn</a></td>
+              <td class="mono text-meta text-primary-500 text-right">cached</td>
+            </tr>
+            <tr>
+              <td class="mono text-meta text-primary-500 tabular">12:03:47</td>
+              <td><span class="text-primary-300">someonewhoquit</span></td>
+              <td class="mono text-meta text-red-400 text-right">tos_banned</td>
+            </tr>
+            <tr>
+              <td class="mono text-meta text-primary-500 tabular">12:03:19</td>
+              <td><a href="channel-detail.html" class="text-primary-100 hover:underline underline-offset-4">pajlada</a></td>
+              <td class="mono text-meta text-primary-500 text-right">cached</td>
+            </tr>
+            <tr>
+              <td class="mono text-meta text-primary-500 tabular">12:02:58</td>
+              <td><span class="text-primary-300">hiddenaccount</span></td>
+              <td class="mono text-meta text-primary-500 text-right">opted out</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ==================================================== queue health -->
+      <section class="enter" style="--i: 3" aria-labelledby="d-health">
+        <div class="flex items-center gap-3 mb-4">
+          <span aria-hidden="true" class="corner corner-br text-primary-400"></span>
+          <h2 id="d-health" class="mono text-micro uppercase tracking-widest text-primary-300">services</h2>
+        </div>
+
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th scope="col">service</th>
+              <th scope="col" class="text-right">/health</th>
+              <th scope="col" class="text-right">p95</th>
+            </tr>
+          </thead>
+          <tbody class="text-primary-400">
+            <tr>
+              <td><span class="mono text-primary-100">api.moddex.tv</span></td>
+              <td class="mono text-meta text-mod text-right">200</td>
+              <td class="mono text-meta text-primary-400 text-right tabular">84ms</td>
+            </tr>
+            <tr>
+              <td><span class="mono text-primary-100">moddex.tv</span></td>
+              <td class="mono text-meta text-mod text-right">200</td>
+              <td class="mono text-meta text-primary-400 text-right tabular">112ms</td>
+            </tr>
+            <tr>
+              <td><span class="mono text-primary-100">status.moddex.tv</span></td>
+              <td class="mono text-meta text-mod text-right">200</td>
+              <td class="mono text-meta text-primary-400 text-right tabular">31ms</td>
+            </tr>
+            <tr>
+              <td><span class="mono text-primary-300">ws.moddex.tv</span></td>
+              <td class="mono text-meta text-primary-500 text-right">not deployed</td>
+              <td class="mono text-meta text-primary-600 text-right tabular">-</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mt-6 text-meta text-primary-500 max-w-prose">
+          Every service answers <code class="mono text-primary-300">/health</code>.
+          The docker healthcheck and status.moddex.tv both read it.
+        </p>
+      </section>
+
+      <!-- ======================================================== opt-outs -->
+      <section class="enter lg:col-span-2" style="--i: 4" aria-labelledby="d-optouts">
+        <div class="flex items-center gap-3 mb-4">
+          <span aria-hidden="true" class="corner corner-bl text-primary-400"></span>
+          <h2 id="d-optouts" class="mono text-micro uppercase tracking-widest text-primary-300">opt-outs this month</h2>
+          <span class="mono text-meta text-primary-400 tabular">17</span>
+        </div>
+
+        <div class="border-t border-primary-700 pt-8">
+          <p class="text-primary-400 max-w-prose">
+            17 accounts switched the opt-out on and 2 switched it back off. No
+            deletion requests are outstanding. Opted-out accounts are hidden from
+            this table too; the number is all this page shows.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

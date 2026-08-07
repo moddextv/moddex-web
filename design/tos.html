@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>terms of service | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/design.css">
+</head>
+
+<!-- src/app/tos/page.tsx — GET /tos
+     the only long-prose page on the site, and the one place the opt-out is
+     explained rather than just offered. numbered sections, no ornament: it is
+     a document, so it is set as one. -->
+<body class="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 text-primary-100">
+
+<header class="sticky top-0 z-40 border-b border-primary-700 bg-primary-900/85 backdrop-blur-md">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex items-center h-16 gap-8">
+    <a href="home.html" class="flex items-center gap-3 shrink-0 text-primary-100 pressable" aria-label="moddex home">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="moddex" class="shrink-0">
+        <path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/>
+      </svg>
+      <span class="font-cairo text-xl leading-none tracking-tight">moddex</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1" aria-label="Main">
+      <a href="channel.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">channel</a>
+      <a href="user.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">user</a>
+      <a href="donate.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">donate</a>
+      <a href="no-ui.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">api</a>
+    </nav>
+
+    <div class="ml-auto hidden md:flex items-center">
+      <a href="login.html" class="pressable inline-flex items-center gap-2 h-8 px-3 rounded-sm bg-twitch text-white text-sm font-medium hover:brightness-110">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/>
+        </svg>
+        login
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
+  <h1 class="font-cairo text-4xl mb-6">Terms of Service</h1>
+
+  <p class="text-primary-300">
+    Last updated: 2026. moddex is not affiliated with, endorsed by, or sponsored
+    by Twitch Interactive, Inc.
+  </p>
+
+  <div>
+    <h2 class="font-cairo text-2xl">1. Acceptance</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        By accessing <a class="underline" href="home.html">moddex.tv</a> you
+        agree to these terms. If you disagree with any part of them, please do
+        not use the site.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">2. What this service does</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        moddex records which Twitch accounts hold moderator or VIP status in
+        which Twitch channels, and when that status was granted. This
+        information is retrieved from Twitch&apos;s own interfaces and is
+        visible to anyone who can view the channel in question.
+      </p>
+      <p>
+        A channel is only indexed once somebody looks it up. We do not read chat
+        messages, private messages, email addresses, or anything that is not
+        publicly visible on Twitch.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">3. Your data and how to opt out</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        If you are listed on moddex, we hold your Twitch user id, login name,
+        display name, avatar url, profile description, follower count, account
+        creation date, and the mod/VIP roles described above.
+      </p>
+      <p>
+        <strong>You can opt out at any time.</strong> Sign in with Twitch and
+        enable the opt-out in <a class="underline" href="settings.html">your settings</a>.
+        Your profile then stops being served and you are removed from every mod
+        and VIP list and from the public API. To have your records deleted
+        outright rather than hidden, email
+        <a class="underline" href="mailto:marcel@doubt.ch">marcel@doubt.ch</a>.
+      </p>
+      <p>
+        Accounts that Twitch reports as banned or deactivated are marked as such
+        and are not displayed.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">4. Accounts and donations</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        Signing in uses Twitch OAuth; we never see your Twitch password.
+        Donations are processed by Stripe, and card details are handled entirely
+        by Stripe — we store only the payment reference, the amount, and the
+        name and email Stripe returns to us.
+      </p>
+      <p>
+        Donations are voluntary contributions towards running costs, not
+        purchases. Cosmetic badges granted alongside a donation carry no
+        monetary value and may change or be withdrawn. Donations are generally
+        non-refundable; if something went wrong, contact us and we will sort it
+        out.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">5. Acceptable use</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        Do not use moddex to harass, dox, or target anyone, and do not attempt
+        to disrupt the service or scrape it in a way that degrades it for
+        others. The public API is provided as-is and rate limits may be applied
+        or changed without notice.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">6. Disclaimer and liability</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        moddex is provided &quot;as is&quot;, without warranty of any kind. The
+        data is gathered automatically and may be incomplete, stale, or wrong —
+        it should not be relied upon for any decision that matters.
+      </p>
+      <p>
+        To the extent permitted by law, we are not liable for any damages
+        arising from the use of, or inability to use, this site. Some
+        jurisdictions do not allow such limitations, in which case they may not
+        apply to you.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">7. Changes</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        We may revise these terms at any time. Continuing to use the site means
+        you accept the current version.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-cairo text-2xl">8. Contact</h2>
+    <div class="mt-2 mb-8 flex flex-col gap-2">
+      <p>
+        Questions about these terms, your data, or anything else:
+        <a class="underline" href="mailto:marcel@doubt.ch">marcel@doubt.ch</a>.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="mt-auto border-t border-primary-700 py-5 text-sm text-primary-400">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex flex-col sm:flex-row gap-x-6 gap-y-2 sm:items-center">
+    <span>&copy; 2026 moddex</span>
+    <span class="text-primary-500">not affiliated with twitch interactive</span>
+    <nav class="flex gap-4 sm:ml-auto" aria-label="Footer">
+      <a class="hover:text-primary-200 transition-colors duration-150" href="tos.html">tos</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">api</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">status</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/pages.js"></script>
+</body>
+</html>

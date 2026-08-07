@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>user | moddex</title>
+  <meta name="description" content="Search for the channels where a twitch account holds mod or vip.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / GET /user
+     The mirror of channel.html. Same control, opposite direction, and the
+     switch above the field is what makes the pairing legible instead of the
+     reader having to notice that the heading changed. The sidebar shows the
+     other half of the index: accounts holding the most roles. -->
+<body data-nav="user" data-auth="out"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-16 sm:py-20">
+
+    <div class="grid gap-16 lg:grid-cols-12">
+
+      <!-- ========================================================= search -->
+      <div class="lg:col-span-7">
+        <h1 class="enter font-cairo text-h1 mb-4" style="--i: 0">Look up a person</h1>
+        <p class="enter text-primary-400 max-w-prose mb-10" style="--i: 1">
+          Every indexed channel where they hold mod or vip. This is the direction
+          twitch itself will not show you.
+        </p>
+
+        <div class="enter inline-flex border border-primary-700 mb-6" style="--i: 2" role="tablist" aria-label="Lookup direction">
+          <a href="channel.html" role="tab" aria-selected="false"
+             class="flex items-center gap-2 h-10 px-4 text-primary-500 hover:text-primary-200 text-meta transition-colors duration-200">
+            <span class="corner corner-tl text-primary-600" style="width:9px;height:9px"></span>
+            by channel
+          </a>
+          <span role="tab" aria-selected="true"
+                class="flex items-center gap-2 h-10 px-4 bg-primary-700 text-primary-100 text-meta">
+            <span class="corner corner-br text-vip" style="width:9px;height:9px"></span>
+            by person
+          </span>
+        </div>
+
+        <form class="enter bracket bracket-in text-primary-600 max-w-xl p-3" style="--i: 3"
+              onsubmit="event.preventDefault(); location.href='user-detail.html';">
+          <label class="flex items-center h-16 pl-5 pr-3 gap-3 bg-primary-800 border border-primary-700 hover:border-primary-600 focus-within:border-primary-400 transition-colors duration-200">
+            <span class="mono text-meta text-primary-500 shrink-0">twitch.tv/</span>
+            <input name="username" placeholder="nymn" maxlength="25" autocomplete="off" aria-label="twitch account name"
+                   class="mono flex-1 min-w-0 bg-transparent text-primary-100 text-lead placeholder:text-primary-600 outline-none">
+            <button type="submit"
+                    class="pressable flex items-center gap-2 h-10 px-4 bg-primary-100 text-primary-900 text-meta font-bold hover:bg-white transition-colors duration-200">
+              look up
+            </button>
+          </label>
+        </form>
+
+        <!-- the in-flight state. the submit button holds the spinner rather
+             than the field swapping its trailing icon, so the control that was
+             pressed is the control that reports progress. -->
+        <div class="enter mt-14 pt-10 border-t border-primary-800" style="--i: 4">
+          <p class="mono text-micro uppercase text-primary-500 mb-5">Checking with twitch</p>
+          <div class="max-w-xl">
+            <label class="flex items-center h-16 pl-5 pr-3 gap-3 bg-primary-800 border border-primary-400">
+              <span class="mono text-meta text-primary-500 shrink-0">twitch.tv/</span>
+              <input name="username-loading" value="nymn" readonly
+                     class="mono flex-1 min-w-0 bg-transparent text-primary-100 text-lead outline-none">
+              <span class="flex items-center gap-2 h-10 px-4 bg-primary-100 text-primary-900 text-meta font-bold">
+                <svg width="14" height="14" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+                  <circle r="18" cx="30" cy="100"><animate attributeName="opacity" dur="1.4s" values="1;0.2;1" repeatCount="indefinite" begin="-.32s"/></circle>
+                  <circle r="18" cx="100" cy="100"><animate attributeName="opacity" dur="1.4s" values="1;0.2;1" repeatCount="indefinite" begin="-.16s"/></circle>
+                  <circle r="18" cx="170" cy="100"><animate attributeName="opacity" dur="1.4s" values="1;0.2;1" repeatCount="indefinite" begin="0s"/></circle>
+                </svg>
+                checking
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================== most roles -->
+      <aside class="enter lg:col-span-5" style="--i: 5" aria-labelledby="most">
+        <h2 id="most" class="mono text-micro uppercase text-primary-400 mb-4">Most roles in the index</h2>
+
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th scope="col">account</th>
+              <th scope="col" class="text-right">modding</th>
+              <th scope="col" class="text-right">viping</th>
+            </tr>
+          </thead>
+          <tbody class="text-primary-400">
+            <tr>
+              <td>
+                <a href="user-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 320">s</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">supibot</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular text-mod">1,204</td>
+              <td class="mono text-meta text-right tabular text-primary-600">0</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="user-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 96">p</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">pajlada</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular text-mod">412</td>
+              <td class="mono text-meta text-right tabular text-vip">37</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="user-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 200">n</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">nymn</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular text-mod">88</td>
+              <td class="mono text-meta text-right tabular text-vip">14</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="user-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 270">k</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">kkona</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular text-mod">61</td>
+              <td class="mono text-meta text-right tabular text-vip">29</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="user-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 40">e</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">elis</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular text-mod">47</td>
+              <td class="mono text-meta text-right tabular text-vip">8</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mt-6 text-meta text-primary-500 max-w-prose">
+          Counts only cover channels somebody has already indexed, so they are a
+          floor, never a total.
+        </p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

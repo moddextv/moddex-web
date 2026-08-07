@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>donate | moddex</title>
+  <meta name="description" content="Help cover the server and database cost of running moddex. Donors get a badge next to their name.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / GET /donate
+     The shipped page opens with a 64px reaction image and the headline "THANK
+     YOU FOR YOUR SUPPORT!" before the reader has done anything, then explains
+     the badges in one long run of prose. Here the page asks first and thanks
+     afterwards, on /donate/success where the thanks is earned.
+
+     It also wraps in the same measure as every other page. The shipped one uses
+     max-w-3xl px-6, which is why its left edge misses the wordmark above it. -->
+<body data-nav="donate" data-auth="out"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-16 sm:py-20">
+
+    <div class="grid gap-16 lg:grid-cols-12 lg:gap-20">
+
+      <!-- =========================================================== ask -->
+      <div class="lg:col-span-7">
+        <h1 class="enter font-cairo text-h1 mb-5 max-w-[20ch]" style="--i: 0">
+          moddex runs on one server and no advertising.
+        </h1>
+
+        <div class="enter flex flex-col gap-4 text-primary-300 max-w-prose mb-10" style="--i: 1">
+          <p>
+            The index is 2.7 million accounts and close to 14 million role
+            records, and it grows every time somebody looks a channel up. That
+            costs a fixed amount every month whether or not anyone donates.
+          </p>
+          <p>
+            There is no paid tier, nothing is behind a login, and the api is
+            open. Donations are the only thing keeping it that way.
+          </p>
+        </div>
+
+        <!-- one price, because STRIPE_DONATION_PRICE is fixed. no amount field
+             pretending to offer a choice the checkout does not have. -->
+        <form class="enter bracket bracket-in text-primary-600 max-w-lg p-4" style="--i: 2"
+              onsubmit="event.preventDefault(); location.href='donate-success.html';">
+          <div class="bg-primary-800 border border-primary-700 p-6">
+            <div class="flex items-baseline gap-3 mb-1">
+              <span class="mono tabular text-[2.5rem] leading-none text-primary-100">$5.00</span>
+              <span class="text-meta text-primary-400">one time, in USD</span>
+            </div>
+            <p class="text-meta text-primary-500 mb-6">
+              Card details are handled entirely by Stripe. moddex stores the
+              payment reference and the amount, nothing else.
+            </p>
+            <button type="submit"
+                    class="pressable w-full flex items-center justify-center gap-2.5 h-13 py-3.5 bg-primary-100 text-primary-900 font-bold hover:bg-white transition-colors duration-200">
+              Continue to Stripe
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <p class="enter mt-4 text-meta text-primary-500 max-w-lg" style="--i: 3">
+          Sign in with twitch before donating and the badge lands on your account
+          automatically. Donating signed out works too, it just needs an email to
+          sort out afterwards.
+        </p>
+
+        <!-- the in-flight state of the same control -->
+        <div class="enter mt-14 pt-10 border-t border-primary-800 max-w-lg" style="--i: 4">
+          <p class="mono text-micro uppercase text-primary-500 mb-5">Creating the checkout session</p>
+          <button type="button" disabled
+                  class="w-full flex items-center justify-center gap-2.5 py-3.5 bg-primary-700 text-primary-400 font-bold cursor-not-allowed">
+            <svg width="16" height="16" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+              <circle r="18" cx="30" cy="100"><animate attributeName="opacity" dur="1.4s" values="1;0.2;1" repeatCount="indefinite" begin="-.32s"/></circle>
+              <circle r="18" cx="100" cy="100"><animate attributeName="opacity" dur="1.4s" values="1;0.2;1" repeatCount="indefinite" begin="-.16s"/></circle>
+              <circle r="18" cx="170" cy="100"><animate attributeName="opacity" dur="1.4s" values="1;0.2;1" repeatCount="indefinite" begin="0s"/></circle>
+            </svg>
+            Opening Stripe
+          </button>
+        </div>
+      </div>
+
+      <!-- ======================================================== badges -->
+      <aside class="enter lg:col-span-5" style="--i: 5" aria-labelledby="what">
+        <h2 id="what" class="mono text-micro uppercase text-primary-400 mb-5">What you get</h2>
+
+        <div class="border border-primary-700 divide-y divide-primary-700">
+          <div class="flex items-start gap-4 p-6">
+            <img src="../../badges/donator.svg" alt="The donator badge, a moddex mark on amber" width="44" height="44" class="shrink-0">
+            <div>
+              <h3 class="font-cairo text-h3 mb-1.5">donator</h3>
+              <p class="text-meta text-primary-400">
+                Sits beside your name everywhere moddex shows it. Any donation of
+                $5 or more, permanently.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-6">
+            <img src="../../badges/top_donator.svg" alt="The top donator badge, a moddex mark on a light field" width="44" height="44" class="shrink-0">
+            <div>
+              <h3 class="font-cairo text-h3 mb-1.5">top donator</h3>
+              <p class="text-meta text-primary-400">
+                Held by exactly one account at a time, whoever has given the most.
+                It moves when somebody passes you.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 border-t border-primary-800 pt-6">
+          <h3 class="mono text-micro uppercase text-primary-400 mb-4">Being straight about it</h3>
+          <ul class="flex flex-col gap-3 text-meta text-primary-400">
+            <li class="flex gap-3">
+              <span aria-hidden="true" class="corner corner-tl text-primary-600 mt-1.5" style="width:8px;height:8px"></span>
+              A donation is a contribution to running costs, not a purchase.
+            </li>
+            <li class="flex gap-3">
+              <span aria-hidden="true" class="corner corner-tl text-primary-600 mt-1.5" style="width:8px;height:8px"></span>
+              The badges are cosmetic. They unlock nothing and carry no monetary
+              value.
+            </li>
+            <li class="flex gap-3">
+              <span aria-hidden="true" class="corner corner-tl text-primary-600 mt-1.5" style="width:8px;height:8px"></span>
+              Donations are generally non-refundable. If something went wrong,
+              write and it gets sorted out.
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

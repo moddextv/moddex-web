@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1 Index | moddex design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<body data-chrome="bare"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-16 sm:py-20">
+
+    <p class="mono text-micro uppercase text-primary-400 mb-6">Suggestion v1</p>
+    <h1 class="font-cairo text-display max-w-[16ch] mb-6">The same site, with its own rules enforced.</h1>
+    <p class="text-lead text-primary-300 max-w-prose mb-4">
+      v1 is the evolution. Same brand, same routes, same dark canvas, same two
+      hues. Nothing here asks you to relearn the product.
+    </p>
+    <p class="text-primary-400 max-w-prose mb-14">
+      What changed is that the design system the shipped site describes in its
+      own comments is now actually applied everywhere, and the four things it
+      was missing are in place. If you want a different visual language rather
+      than a better version of this one, that is
+      <a href="../v2/index.html" class="text-primary-100 underline underline-offset-4 decoration-primary-600 hover:decoration-primary-300 transition-colors duration-200">v2</a>.
+    </p>
+
+    <!-- =============================================================== what -->
+    <section class="mb-16">
+      <h2 class="mono text-micro uppercase text-primary-400 mb-5">The four changes that carry it</h2>
+
+      <div class="border-t border-primary-700">
+        <div class="grid gap-6 md:grid-cols-12 py-7 border-b border-primary-800">
+          <h3 class="md:col-span-4 font-cairo text-h3">A body typeface</h3>
+          <p class="md:col-span-8 text-primary-400 max-w-prose">
+            Lato is self-hosted in <code class="mono text-primary-300">src/app/fonts</code>
+            and loaded by <code class="mono text-primary-300">layout.tsx</code>, but no
+            element carries <code class="mono text-primary-300">font-lato</code>, so every
+            paragraph on the live site renders in the browser default sans. This
+            is the single largest visual change in v1 and it costs one class.
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-12 py-7 border-b border-primary-800">
+          <h3 class="md:col-span-4 font-cairo text-h3">One measure</h3>
+          <p class="md:col-span-8 text-primary-400 max-w-prose">
+            <code class="mono text-primary-300">/donate</code>,
+            <code class="mono text-primary-300">/donate/success</code>,
+            <code class="mono text-primary-300">/settings</code>,
+            <code class="mono text-primary-300">/tos</code> and
+            <code class="mono text-primary-300">/dashboard</code> wrap in
+            <code class="mono text-primary-300">max-w-3xl px-6</code> while everything else
+            uses the 5xl Container, so those five pages sit on a different left
+            edge than the wordmark above them. One container, everywhere.
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-12 py-7 border-b border-primary-800">
+          <h3 class="md:col-span-4 font-cairo text-h3">Data set as data</h3>
+          <p class="md:col-span-8 text-primary-400 max-w-prose">
+            Role lists become tables with column heads, so the two numbers on the
+            right of every row stop being a mystery until hovered. One rule under
+            the head instead of a hairline under all 24 rows.
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-12 py-7 border-b border-primary-800">
+          <h3 class="md:col-span-4 font-cairo text-h3">A colour lock</h3>
+          <p class="md:col-span-8 text-primary-400 max-w-prose">
+            Mod green and vip pink appear only on role data. Never a button,
+            a link, a border or a focus ring. The shipped site follows this
+            loosely; making it absolute is what lets the two hues mean something
+            when they do appear.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== pages -->
+    <section class="mb-16">
+      <h2 class="mono text-micro uppercase text-primary-400 mb-5">Every page</h2>
+      <div id="page-index"></div>
+    </section>
+
+    <!-- ============================================================== notes -->
+    <section class="border-t border-primary-700 pt-12 grid gap-14 lg:grid-cols-2">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="corner corner-tl text-mod"></span>
+          <h2 class="font-cairo text-h2">Kept, deliberately</h2>
+        </div>
+        <ul class="flex flex-col gap-3 text-primary-400 max-w-prose">
+          <li>The mark, unchanged, including the two-corner bracket vocabulary.</li>
+          <li>Every colour value in the palette.</li>
+          <li>Every route, slug, anchor id and nav label.</li>
+          <li>Cairo for display and the square-cornered geometry.</li>
+          <li>The dark canvas. There is no light mode to honour and no toggle.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="corner corner-br text-vip"></span>
+          <h2 class="font-cairo text-h2">Worth arguing about</h2>
+        </div>
+        <ul class="flex flex-col gap-3 text-primary-400 max-w-prose">
+          <li>
+            Copy is rewritten to carry no em-dashes, which the taste skill bans
+            outright. That is a voice change, not just a visual one, so it is
+            your call whether it comes back with the rest.
+          </li>
+          <li>
+            The dashboard below its first line is a proposal, not a redraw. The
+            shipped page is a stub.
+          </li>
+          <li>
+            The 403 for an opted-out account no longer reads as an error. It is
+            the privacy promise working.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+<script>
+  document.getElementById('page-index').innerHTML = PAGES.map(
+    (section) => `
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="corner ${
+            { 'public': 'corner-tl text-mod', 'authenticated': 'corner-br text-vip',
+              'error states': 'corner-bl text-founder', 'reference': 'corner-tr text-artist' }[section.group]
+          }"></span>
+          <h3 class="mono text-micro uppercase tracking-widest text-primary-300">${section.group}</h3>
+          <span class="mono text-meta text-primary-500 tabular">${section.items.length}</span>
+        </div>
+        <table class="index-table">
+          <thead><tr><th scope="col">page</th><th scope="col">route</th><th scope="col" class="text-right">compare</th></tr></thead>
+          <tbody class="text-primary-400">
+            ${section.items.map((page) => `
+              <tr>
+                <td><a href="${page.file}" class="text-primary-100 font-bold hover:underline underline-offset-4">${page.title}</a></td>
+                <td class="mono text-meta text-primary-500">${page.route}</td>
+                <td class="text-right">
+                  <a href="../../${page.file}" class="mono text-meta text-primary-500 hover:text-primary-200 transition-colors duration-200">shipped</a>
+                  <span class="text-primary-700 px-2">/</span>
+                  <a href="../v2/${page.file}" class="mono text-meta text-primary-500 hover:text-primary-200 transition-colors duration-200">v2</a>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`
+  ).join('');
+</script>
+</body>
+</html>

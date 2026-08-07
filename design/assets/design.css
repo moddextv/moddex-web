@@ -1,0 +1,381 @@
+/* ==========================================================================
+ * design.css — the non-utility half of the design system, copied from
+ * src/styles/globals.css so these static comps render exactly like the app.
+ *
+ * the design is derived from the logo rather than invented around it. the mark
+ * is two corner brackets in 180° rotational symmetry on a 32-unit grid: stroke
+ * 6, inner channel 4. three consequences run through everything below —
+ *
+ *   1. corners, not boxes. content is framed by two opposing corner brackets,
+ *      never by a full border. a full box is a card, and a card is the generic
+ *      shape this design exists to avoid.
+ *   2. hard orthogonal geometry. no border radius anywhere. the mark has no
+ *      curves, so neither does the interface.
+ *   3. a 4px module. every spacing, size and offset is a multiple of the
+ *      mark's own grid unit.
+ *
+ * everything below the `comp-only helpers` rule does NOT exist in the app —
+ * it stands in for react components (heroui skeletons, next/image avatars) that
+ * a plain html file has no way to render.
+ * ========================================================================== */
+
+/* the same woff2 files the app self-hosts, read straight out of src/app/fonts
+   so these comps need no network for type. */
+@font-face {
+    font-family: 'Lato';
+    src: url('../../src/app/fonts/lato-300.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../../src/app/fonts/lato-400.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../../src/app/fonts/lato-700.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('../../src/app/fonts/cairo-700.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+/* ================================================================ tokens == */
+:root {
+    /* motion */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+    --duration-press: 140ms;
+    --duration-hover: 160ms;
+    --duration-bracket: 220ms;
+
+    /* the mark's geometry, reused as layout constants */
+    --bracket-size: 14px;
+    --bracket-weight: 2px;
+}
+
+/* ============================================================ typography == */
+h1, h2, h3 {
+    letter-spacing: -0.02em;
+}
+
+h1 { line-height: 1.05; }
+h2, h3 { line-height: 1.15; }
+
+/* the interface is square-cornered top to bottom, including form controls */
+input, button, select, textarea {
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------- brackets --
+ * two corners, 180° apart — the mark at frame scale.
+ */
+.bracket::before,
+.bracket::after {
+    content: '';
+    position: absolute;
+    width: var(--bracket-size);
+    height: var(--bracket-size);
+    border: var(--bracket-weight) solid currentColor;
+    pointer-events: none;
+}
+
+.bracket::before {
+    top: 0;
+    left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.bracket::after {
+    bottom: 0;
+    right: 0;
+    border-left: 0;
+    border-top: 0;
+}
+
+/* the signature entrance: the two corners converge on the content from
+   opposite directions, which is the mark assembling itself. */
+.bracket-in::before {
+    animation: bracket-tl var(--duration-bracket) var(--ease-out) backwards;
+    animation-delay: var(--d, 0ms);
+}
+
+.bracket-in::after {
+    animation: bracket-br var(--duration-bracket) var(--ease-out) backwards;
+    animation-delay: calc(var(--d, 0ms) + 40ms);
+}
+
+@keyframes bracket-tl {
+    from { opacity: 0; transform: translate(-6px, -6px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes bracket-br {
+    from { opacity: 0; transform: translate(6px, 6px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* a single corner tick, used to mark the active row/nav item */
+.tick {
+    position: relative;
+}
+
+.tick::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border: var(--bracket-weight) solid currentColor;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+/* ---------------------------------------------------------- interaction -- */
+.pressable {
+    transition: transform var(--duration-press) var(--ease-out);
+}
+
+.pressable:active {
+    transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .row-hover {
+        transition: background-color var(--duration-hover) ease;
+    }
+}
+
+.tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+}
+
+/* data and numerals sit in mono — the mark is drawn on a fixed grid and the
+   product is mostly counts and dates */
+.mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+.enter-item {
+    opacity: 0;
+    animation: enter-item 240ms var(--ease-out) forwards;
+    animation-delay: min(calc(var(--i, 0) * 40ms), 320ms);
+}
+
+@keyframes enter-item {
+    to { opacity: 1; }
+}
+
+/* ================================================================= a11y == */
+:where(a, button, input, select, [tabindex]):focus-visible {
+    outline: var(--bracket-weight) solid currentColor;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pressable,
+    .pressable:active {
+        transform: none;
+    }
+
+    .bracket-in::before,
+    .bracket-in::after {
+        animation: bracket-fade 160ms ease backwards;
+    }
+
+    @keyframes bracket-fade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .enter-item {
+        animation-delay: 0ms;
+    }
+}
+
+/* =============================================================== chrome == */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #111113;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #232326;
+}
+
+::selection {
+    background: #4ADE80;
+    color: #0B0B0C;
+}
+
+/* ====================================================== comp-only helpers ==
+ * nothing below this line exists in src/. these stand in for react components
+ * a static file cannot render, and should not be ported back.
+ */
+
+/* stands in for next/image avatars — a flat block with the account's initial,
+   tinted from --hue so a list reads as distinct people rather than one repeated
+   placeholder. */
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: hsl(var(--hue, 250) 12% 16%);
+    color: hsl(var(--hue, 250) 20% 68%);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+/* heroui's <Skeleton>, which is a pulsing surface between the two lowest
+   elevations */
+.skeleton {
+    background: #111113;
+    animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { background-color: #111113; }
+    50% { background-color: #1b1b1f; }
+}
+
+/* heroui's <Switch> at size="lg", checked in mod green (see Settings/OptOut) */
+.switch {
+    display: inline-flex;
+    align-items: center;
+    width: 56px;
+    height: 32px;
+    padding: 4px;
+    background: #232326;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    transition: background-color var(--duration-hover) ease;
+}
+
+.switch > span {
+    width: 24px;
+    height: 24px;
+    background: #E7E7EA;
+    border-radius: 9999px;
+    transition: transform var(--duration-hover) var(--ease-out);
+}
+
+.switch[data-selected='true'] {
+    background: #4ADE80;
+}
+
+.switch[data-selected='true'] > span {
+    transform: translateX(24px);
+}
+
+/* the design-comp page switcher injected by pages.js */
+#comp-switcher {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 90;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+}
+
+#comp-switcher > button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 12px;
+    margin-left: auto;
+    background: #111113;
+    border: 1px solid #232326;
+    color: #8A8A93;
+    cursor: pointer;
+}
+
+#comp-switcher > button:hover {
+    color: #E7E7EA;
+}
+
+#comp-switcher nav {
+    display: none;
+    width: 236px;
+    max-height: 70vh;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    padding: 8px 0;
+    background: #111113;
+    border: 1px solid #232326;
+}
+
+#comp-switcher[data-open='true'] nav {
+    display: block;
+}
+
+#comp-switcher h3 {
+    padding: 8px 12px 4px;
+    color: #55555F;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+#comp-switcher a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 12px;
+    color: #8A8A93;
+    text-decoration: none;
+}
+
+#comp-switcher a:hover {
+    background: #232326;
+    color: #E7E7EA;
+}
+
+#comp-switcher a[aria-current='page'] {
+    color: #4ADE80;
+}
+
+#comp-switcher a span {
+    color: #33333A;
+}
+
+/* jump to the same page in either redesign direction */
+#comp-switcher .cross {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 8px 12px 4px;
+    border-top: 1px solid #232326;
+}
+
+#comp-switcher .cross a {
+    flex: 1;
+    justify-content: center;
+    padding: 6px 4px;
+    border: 1px solid #232326;
+    color: #8A8A93;
+}
+
+#comp-switcher .cross a:hover {
+    border-color: #55555F;
+    color: #E7E7EA;
+}

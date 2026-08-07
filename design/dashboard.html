@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dashboard | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/design.css">
+</head>
+
+<!-- src/app/dashboard/page.tsx — GET /dashboard
+     three outcomes behind one route: signed out -> login.html, perms < team ->
+     error-403.html, otherwise this. and "this" is currently a single greeting
+     line, which is the honest state of the page — it is a placeholder waiting
+     for something to put in it, not a screen someone designed. -->
+<body class="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 text-primary-100">
+
+<header class="sticky top-0 z-40 border-b border-primary-700 bg-primary-900/85 backdrop-blur-md">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex items-center h-16 gap-8">
+    <a href="home.html" class="flex items-center gap-3 shrink-0 text-primary-100 pressable" aria-label="moddex home">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="moddex" class="shrink-0">
+        <path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/>
+      </svg>
+      <span class="font-cairo text-xl leading-none tracking-tight">moddex</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1" aria-label="Main">
+      <a href="channel.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">channel</a>
+      <a href="user.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">user</a>
+      <a href="donate.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">donate</a>
+      <a href="no-ui.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">api</a>
+    </nav>
+
+    <div class="ml-auto flex items-center">
+      <button type="button" class="pressable" aria-label="open profile menu">
+        <span class="avatar w-10 h-10 rounded-full ring-2 ring-primary-600 text-sm" style="--hue: 200">n</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col gap-8">
+  <h1 class="font-cairo text-4xl">Willkommen im Dashboard, NymN</h1>
+
+  <!-- not in src/. sketched here because the page is a stub and the next thing
+       added to it should follow the vocabulary the rest of the site already
+       uses: brackets, corner ticks, mono numerals, no cards. -->
+  <div class="pt-8 border-t border-primary-800">
+    <p class="text-xs uppercase tracking-widest text-primary-600 mb-6">not built — indicative only</p>
+
+    <dl class="flex flex-wrap gap-x-8 gap-y-2 text-sm mono mb-10">
+      <div class="flex flex-col">
+        <dd class="text-2xl text-primary-100">412K</dd>
+        <dt class="text-primary-500 text-xs uppercase tracking-widest">channels</dt>
+      </div>
+      <div class="flex flex-col">
+        <dd class="text-2xl text-primary-100">2.7M</dd>
+        <dt class="text-primary-500 text-xs uppercase tracking-widest">users</dt>
+      </div>
+      <div class="flex flex-col">
+        <dd class="text-2xl text-primary-100">1,204</dd>
+        <dt class="text-primary-500 text-xs uppercase tracking-widest">lookups today</dt>
+      </div>
+      <div class="flex flex-col">
+        <dd class="text-2xl text-primary-100">17</dd>
+        <dt class="text-primary-500 text-xs uppercase tracking-widest">opt-outs</dt>
+      </div>
+    </dl>
+
+    <section>
+      <div class="flex items-center gap-3 h-8 mb-1">
+        <span aria-hidden="true" class="w-3 h-3 border-2 border-b-0 border-r-0 border-primary-400"></span>
+        <h2 class="text-sm uppercase tracking-wider text-primary-300">recent lookups</h2>
+        <span class="text-sm text-primary-500 mono">3</span>
+      </div>
+
+      <div class="border-t border-primary-700">
+        <div class="flex items-center gap-4 h-12 px-3 border-b border-primary-800 text-sm">
+          <span class="mono text-xs text-primary-500 w-24 shrink-0">12:04:31</span>
+          <span class="flex-1 truncate">forsen</span>
+          <span class="mono text-xs text-mod shrink-0">indexed</span>
+        </div>
+        <div class="flex items-center gap-4 h-12 px-3 border-b border-primary-800 text-sm">
+          <span class="mono text-xs text-primary-500 w-24 shrink-0">12:04:02</span>
+          <span class="flex-1 truncate">nymn</span>
+          <span class="mono text-xs text-primary-500 shrink-0">cached</span>
+        </div>
+        <div class="flex items-center gap-4 h-12 px-3 border-b border-primary-800 text-sm">
+          <span class="mono text-xs text-primary-500 w-24 shrink-0">12:03:47</span>
+          <span class="flex-1 truncate">someonewhoquit</span>
+          <span class="mono text-xs text-red-400 shrink-0">tos_banned</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="mt-auto border-t border-primary-700 py-5 text-sm text-primary-400">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex flex-col sm:flex-row gap-x-6 gap-y-2 sm:items-center">
+    <span>&copy; 2026 moddex</span>
+    <span class="text-primary-500">not affiliated with twitch interactive</span>
+    <nav class="flex gap-4 sm:ml-auto" aria-label="Footer">
+      <a class="hover:text-primary-200 transition-colors duration-150" href="tos.html">tos</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">api</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">status</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/pages.js"></script>
+</body>
+</html>

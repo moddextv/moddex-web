@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>account unavailable | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / <BannedUser>, the one state in the family with no status code.
+     Nothing failed: twitch reports the account as banned or deactivated, the
+     profile is withheld, and the reason is passed through as twitch worded it
+     rather than translated into a number.
+
+     It is also the only error whose cause can change while the reader is
+     looking at it, which is why it is the only one with "check again". -->
+<body data-nav="channel" data-auth="out"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-20 sm:py-28">
+
+    <div class="max-w-2xl">
+      <p class="enter mono text-micro uppercase text-primary-400 mb-6" style="--i: 0">Reported by twitch</p>
+
+      <h1 class="enter font-cairo text-h1 mb-5" style="--i: 1">
+        <span class="mono text-primary-400">@someonewhoquit</span> is banned on twitch.
+      </h1>
+
+      <p class="enter text-lead text-primary-300 max-w-prose mb-8" style="--i: 2">
+        Twitch is not serving this account, so moddex will not serve a profile
+        for it either. Any roles it held stay in the index but are hidden while
+        the ban is in place.
+      </p>
+
+      <dl class="enter border-y border-primary-700 divide-y divide-primary-700 mb-10 max-w-md" style="--i: 3">
+        <div class="flex items-center justify-between gap-6 py-4">
+          <dt class="mono text-micro uppercase text-primary-400">reason from twitch</dt>
+          <dd class="mono text-meta text-primary-200">TOS_BANNED</dd>
+        </div>
+        <div class="flex items-center justify-between gap-6 py-4">
+          <dt class="mono text-micro uppercase text-primary-400">last seen indexed</dt>
+          <dd class="mono tabular text-meta text-primary-200">2025.11.02</dd>
+        </div>
+      </dl>
+
+      <div class="enter flex flex-wrap items-center gap-3" style="--i: 4">
+        <button type="button"
+                class="pressable inline-flex items-center gap-2.5 h-11 px-5 bg-primary-100 text-primary-900 text-meta font-bold hover:bg-white transition-colors duration-200">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+          </svg>
+          Check again
+        </button>
+        <a href="channel.html"
+           class="pressable inline-flex items-center h-11 px-5 border border-primary-600 text-primary-100 text-meta hover:bg-primary-800 hover:border-primary-500 transition-colors duration-200">
+          Look up someone else
+        </a>
+      </div>
+    </div>
+
+    <!-- the account is gone by the owner's choice rather than twitch's, so the
+         wording softens and "check again" goes away -->
+    <div class="enter mt-20 pt-12 border-t border-primary-800 grid gap-12 lg:grid-cols-2 max-w-4xl" style="--i: 5">
+      <div>
+        <p class="mono text-micro uppercase text-primary-500 mb-5">Deactivated</p>
+        <h2 class="font-cairo text-h2 mb-4">
+          <span class="mono text-primary-400">@someonewhoquit</span> deleted their twitch account.
+        </h2>
+        <p class="text-primary-400 max-w-prose">
+          Reason from twitch: <span class="mono text-primary-300">DEACTIVATED</span>.
+          This one does not usually reverse.
+        </p>
+      </div>
+
+      <div>
+        <p class="mono text-micro uppercase text-primary-500 mb-5">Any other reason twitch returns</p>
+        <h2 class="font-cairo text-h2 mb-4">
+          <span class="mono text-primary-400">@someonewhoquit</span> is unavailable.
+        </h2>
+        <p class="text-primary-400 max-w-prose">
+          Reason from twitch: <span class="mono text-primary-300">SUSPENDED</span>.
+          Unrecognised reasons are passed through rather than guessed at.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

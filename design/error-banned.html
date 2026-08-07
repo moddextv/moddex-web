@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>user is banned | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/design.css">
+</head>
+
+<!-- src/components/Errors.tsx <BannedUser> — the one error state with no status
+     code, on purpose: nothing failed. twitch reports the account as banned or
+     deactivated, the profile is withheld, and the reason is passed through
+     verbatim rather than translated into a number.
+
+     it is also the only one that offers "check again", because this is the only
+     error whose cause can change while the reader is looking at it. -->
+<body class="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 text-primary-100">
+
+<header class="sticky top-0 z-40 border-b border-primary-700 bg-primary-900/85 backdrop-blur-md">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex items-center h-16 gap-8">
+    <a href="home.html" class="flex items-center gap-3 shrink-0 text-primary-100 pressable" aria-label="moddex home">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="moddex" class="shrink-0">
+        <path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/>
+      </svg>
+      <span class="font-cairo text-xl leading-none tracking-tight">moddex</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1" aria-label="Main">
+      <a href="channel.html" aria-current="page" class="tick relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-100">channel</a>
+      <a href="user.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">user</a>
+      <a href="donate.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">donate</a>
+      <a href="no-ui.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">api</a>
+    </nav>
+
+    <div class="ml-auto hidden md:flex items-center">
+      <a href="login.html" class="pressable inline-flex items-center gap-2 h-8 px-3 rounded-sm bg-twitch text-white text-sm font-medium hover:brightness-110">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/>
+        </svg>
+        login
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="container mx-auto max-w-5xl py-16 px-6 flex-grow flex flex-col text-center">
+  <h1 class="font-cairo text-4xl mb-4">user «someonewhoquit» is banned.</h1>
+  <h2 class="font-lato text-xl">reason: TOS_BANNED</h2>
+  <button type="button"
+          class="pressable inline-flex items-center h-10 px-4 mt-4 mx-auto rounded-sm bg-primary-700 text-primary-100 hover:bg-primary-600 transition-colors duration-150">
+    check again
+  </button>
+
+  <!-- the account is gone by the owner's choice, not twitch's -->
+  <div class="mt-16 pt-8 border-t border-primary-800">
+    <p class="text-xs uppercase tracking-widest text-primary-600 mb-6">deactivated</p>
+    <h1 class="font-cairo text-4xl mb-4">user «someonewhoquit» has deactivated their account.</h1>
+    <h2 class="font-lato text-xl">reason: DEACTIVATED</h2>
+    <button type="button"
+            class="pressable inline-flex items-center h-10 px-4 mt-4 mx-auto rounded-sm bg-primary-700 text-primary-100 hover:bg-primary-600 transition-colors duration-150">
+      check again
+    </button>
+  </div>
+
+  <!-- anything else twitch returns falls through to this wording -->
+  <div class="mt-16 pt-8 border-t border-primary-800">
+    <p class="text-xs uppercase tracking-widest text-primary-600 mb-6">unrecognised reason</p>
+    <h1 class="font-cairo text-4xl mb-4">user «someonewhoquit» is unavailable.</h1>
+    <h2 class="font-lato text-xl">reason: SUSPENDED</h2>
+  </div>
+</main>
+
+<footer class="mt-auto border-t border-primary-700 py-5 text-sm text-primary-400">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex flex-col sm:flex-row gap-x-6 gap-y-2 sm:items-center">
+    <span>&copy; 2026 moddex</span>
+    <span class="text-primary-500">not affiliated with twitch interactive</span>
+    <nav class="flex gap-4 sm:ml-auto" aria-label="Footer">
+      <a class="hover:text-primary-200 transition-colors duration-150" href="tos.html">tos</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">api</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">status</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/pages.js"></script>
+</body>
+</html>

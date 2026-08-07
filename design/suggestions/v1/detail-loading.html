@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>forsen, mods and vips | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / the first paint of a detail page.
+     The skeletons mirror the real geometry exactly, so nothing shifts when the
+     data lands. Two rules the shipped version does not follow:
+
+     1. The column heads are NOT skeletons. "account / granted / followers" is
+        known before the response arrives, so printing it immediately tells the
+        reader what is coming instead of making them wait to find out.
+     2. The role name and its corner are painted too. Only the rows are unknown.
+
+     The founders column shows the per-list failure state: one list failing does
+     not take the page down, and the message says which list and what to do. -->
+<body data-nav="channel" data-auth="out"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow" aria-busy="true">
+
+  <!-- ============================================================= profile -->
+  <section class="border-b border-primary-700 bg-primary-800/40">
+    <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-10">
+      <div class="flex flex-col lg:flex-row lg:items-start gap-8">
+        <div class="flex items-start gap-5 flex-1 min-w-0">
+          <div class="skeleton w-20 h-20 shrink-0"></div>
+          <div class="min-w-0 flex-1">
+            <div class="skeleton h-9 w-56 mb-3"></div>
+            <div class="skeleton h-4 w-24 mb-5"></div>
+            <div class="skeleton h-4 w-full max-w-md mb-2"></div>
+            <div class="skeleton h-4 w-2/3 max-w-sm mb-5"></div>
+            <div class="skeleton h-3.5 w-72 max-w-full"></div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="skeleton h-10 w-56"></div>
+          <div class="skeleton h-10 w-10"></div>
+          <div class="skeleton h-10 w-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================================== roles -->
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-12">
+    <div class="grid gap-x-14 gap-y-16 lg:grid-cols-2">
+
+      <section aria-labelledby="l-mods">
+        <div class="flex items-center gap-3 mb-4">
+          <span aria-hidden="true" class="corner corner-tl text-mod"></span>
+          <h2 id="l-mods" class="mono text-micro uppercase tracking-widest text-mod">mods</h2>
+          <span class="skeleton h-3.5 w-6"></span>
+        </div>
+
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th scope="col">account</th>
+              <th scope="col" class="text-right">granted</th>
+              <th scope="col" class="text-right">followers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-28"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-36"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-24"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-16 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-32"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-20"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-16 ml-auto"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="l-vips">
+        <div class="flex items-center gap-3 mb-4">
+          <span aria-hidden="true" class="corner corner-br text-vip"></span>
+          <h2 id="l-vips" class="mono text-micro uppercase tracking-widest text-vip">vips</h2>
+          <span class="skeleton h-3.5 w-5"></span>
+        </div>
+
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th scope="col">account</th>
+              <th scope="col" class="text-right">granted</th>
+              <th scope="col" class="text-right">followers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-24"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-36"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-10 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="flex items-center gap-3">
+                  <span class="skeleton w-9 h-9 shrink-0"></span>
+                  <span class="skeleton h-4 w-28"></span>
+                </span>
+              </td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- per-list failure. named list, plain cause, one action. -->
+      <section class="lg:col-span-2" aria-labelledby="l-founders">
+        <div class="flex items-center gap-3 mb-4">
+          <span aria-hidden="true" class="corner corner-bl text-founder"></span>
+          <h2 id="l-founders" class="mono text-micro uppercase tracking-widest text-founder">founders</h2>
+        </div>
+
+        <div class="border-t border-primary-700 pt-8 flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
+          <p class="text-red-400 max-w-prose">
+            The founders list did not come back. Twitch returned an error for
+            this query; the other lists on this page are unaffected.
+          </p>
+          <button type="button"
+                  class="pressable shrink-0 inline-flex items-center h-11 px-5 border border-primary-600 text-primary-100 text-meta hover:bg-primary-800 hover:border-primary-500 transition-colors duration-200">
+            Try that list again
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

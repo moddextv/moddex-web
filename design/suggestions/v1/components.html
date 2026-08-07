@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1 components | moddex design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<body data-chrome="bare"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-16 flex flex-col gap-20">
+
+    <header>
+      <p class="mono text-micro uppercase text-primary-400 mb-6">Suggestion v1</p>
+      <h1 class="font-cairo text-h1 mb-4">Components</h1>
+      <p class="text-primary-400 max-w-prose">
+        Every primitive v1 is built from, with the rule that produced it beside
+        it. Check a new component against this page before adding it.
+      </p>
+    </header>
+
+    <!-- ============================================================== type -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Type scale</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Cairo for display, Lato for everything you read, mono for everything you
+        compare. The shipped site loads Lato and never applies it.
+      </p>
+
+      <div class="border-t border-primary-700">
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">display / cairo</code>
+          <p class="md:col-span-9 font-cairo text-display">Read backwards</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">h1 / cairo</code>
+          <p class="md:col-span-9 font-cairo text-h1">Look up a channel</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">h2 / cairo</code>
+          <p class="md:col-span-9 font-cairo text-h2">The index fills up by being used</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">lead / lato</code>
+          <p class="md:col-span-9 text-lead text-primary-300">Twitch shows a broadcaster their own moderators.</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">body / lato</code>
+          <p class="md:col-span-9 max-w-prose">
+            A channel enters the index the first time somebody searches for it.
+            That read pulls its mod and vip lists in and keeps them.
+          </p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">meta / lato</code>
+          <p class="md:col-span-9 text-meta text-primary-400">3 bots hidden. Show them.</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">mono / tabular</code>
+          <p class="md:col-span-9 mono tabular">2016.04.11 &nbsp; 1,730,412 &nbsp; moddex.tv/c/forsen</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-12 items-baseline py-6 border-b border-primary-800">
+          <code class="md:col-span-3 mono text-micro uppercase text-primary-400">micro / labels</code>
+          <p class="md:col-span-9 mono text-micro uppercase text-primary-400">channels indexed</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== palette -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Palette</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Unchanged from <code class="mono text-primary-300">tailwind.config.mjs</code>. What
+        changed is the job each colour does: the neutral ramp carries the entire
+        interface, and the two hues are reserved for role data.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-px bg-primary-700 border border-primary-700 mb-8">
+        <div class="bg-primary-900 p-4"><div class="h-12"></div><p class="mono text-micro text-primary-200">900</p><p class="mono text-micro text-primary-400">#0B0B0C</p></div>
+        <div class="bg-primary-800 p-4"><div class="h-12"></div><p class="mono text-micro text-primary-200">800</p><p class="mono text-micro text-primary-400">#111113</p></div>
+        <div class="bg-primary-700 p-4"><div class="h-12"></div><p class="mono text-micro text-primary-200">700</p><p class="mono text-micro text-primary-400">#232326</p></div>
+        <div class="bg-primary-600 p-4"><div class="h-12"></div><p class="mono text-micro text-primary-200">600</p><p class="mono text-micro text-primary-400">#33333A</p></div>
+        <div class="bg-primary-500 p-4"><div class="h-12"></div><p class="mono text-micro text-primary-100">500</p><p class="mono text-micro text-primary-300">#55555F</p></div>
+        <div class="bg-primary-400 p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">400</p><p class="mono text-micro">#8A8A93</p></div>
+        <div class="bg-primary-300 p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">300</p><p class="mono text-micro">#B4B4BC</p></div>
+        <div class="bg-primary-200 p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">200</p><p class="mono text-micro">#D2D2D8</p></div>
+        <div class="bg-primary-100 p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">100</p><p class="mono text-micro">#E7E7EA</p></div>
+        <div class="bg-primary-50 p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">50</p><p class="mono text-micro">#F5F5F7</p></div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-primary-700 border border-primary-700">
+        <div class="bg-mod p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">mod</p><p class="mono text-micro">#4ADE80</p></div>
+        <div class="bg-vip p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">vip</p><p class="mono text-micro">#F472B6</p></div>
+        <div class="bg-founder p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">founder</p><p class="mono text-micro">#FBBF24</p></div>
+        <div class="bg-artist p-4 text-primary-900"><div class="h-12"></div><p class="mono text-micro">artist</p><p class="mono text-micro">#60A5FA</p></div>
+        <div class="bg-twitch p-4 text-white"><div class="h-12"></div><p class="mono text-micro">twitch</p><p class="mono text-micro">#714AB8</p></div>
+        <div class="bg-discord p-4 text-white"><div class="h-12"></div><p class="mono text-micro">discord</p><p class="mono text-micro">#7289DA</p></div>
+      </div>
+    </section>
+
+    <!-- ========================================================== brackets -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Brackets and corners</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Two corners imply a frame without drawing one. A full border would be a
+        card, and a card is the generic shape this design avoids. A single corner
+        marks state, oriented by role: the four orientations are the four corners
+        of the mark, and <code class="mono text-primary-300">misc/roles.ts</code> already
+        assigns one to each role.
+      </p>
+
+      <div class="flex flex-wrap gap-10 mb-10">
+        <div class="flex flex-col gap-3">
+          <div class="bracket text-primary-600 w-60 p-6"><p class="text-meta text-primary-300">neutral frame</p></div>
+          <code class="mono text-micro uppercase text-primary-400">.bracket</code>
+        </div>
+        <div class="flex flex-col gap-3">
+          <div class="bracket bracket-in text-mod w-60 p-6"><p class="text-meta text-primary-300">animated in</p></div>
+          <code class="mono text-micro uppercase text-primary-400">.bracket.bracket-in</code>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-10 gap-y-4">
+        <div class="flex items-center gap-3"><span class="corner corner-tl text-mod"></span><code class="mono text-micro uppercase text-primary-400">tl / mod</code></div>
+        <div class="flex items-center gap-3"><span class="corner corner-br text-vip"></span><code class="mono text-micro uppercase text-primary-400">br / vip</code></div>
+        <div class="flex items-center gap-3"><span class="corner corner-bl text-founder"></span><code class="mono text-micro uppercase text-primary-400">bl / founder</code></div>
+        <div class="flex items-center gap-3"><span class="corner corner-tr text-artist"></span><code class="mono text-micro uppercase text-primary-400">tr / artist</code></div>
+        <div class="flex items-center gap-3"><span class="tick relative px-3 h-8 flex items-center text-meta text-primary-100">active nav</span><code class="mono text-micro uppercase text-primary-400">.tick</code></div>
+      </div>
+    </section>
+
+    <!-- ========================================================== controls -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Controls</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Primary action is white on near-black, because the accents are spoken
+        for. Twitch purple appears on exactly one control: the one that talks to
+        twitch.
+      </p>
+
+      <div class="flex flex-wrap items-start gap-8 mb-12">
+        <div class="flex flex-col gap-3">
+          <button class="pressable inline-flex items-center h-11 px-5 bg-primary-100 text-primary-900 text-meta font-bold hover:bg-white transition-colors duration-200">Primary</button>
+          <code class="mono text-micro uppercase text-primary-400">primary</code>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="pressable inline-flex items-center h-11 px-5 border border-primary-600 text-primary-100 text-meta hover:bg-primary-800 hover:border-primary-500 transition-colors duration-200">Secondary</button>
+          <code class="mono text-micro uppercase text-primary-400">secondary</code>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="pressable inline-flex items-center gap-2 h-11 px-5 bg-twitch text-white text-meta font-bold hover:brightness-110 transition-[filter] duration-200">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/></svg>
+            Sign in
+          </button>
+          <code class="mono text-micro uppercase text-primary-400">twitch only</code>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="pressable inline-flex items-center h-11 px-5 border border-primary-700 text-red-400 text-meta hover:border-red-500/60 hover:bg-red-500/5 transition-colors duration-200">Sign out</button>
+          <code class="mono text-micro uppercase text-primary-400">destructive</code>
+        </div>
+        <div class="flex flex-col gap-3">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <span class="switch" data-on="true"><span></span></span>
+            <span class="mono text-micro uppercase text-primary-200">hidden</span>
+          </label>
+          <code class="mono text-micro uppercase text-primary-400">switch, mod green when on</code>
+        </div>
+      </div>
+
+      <div class="max-w-xl flex flex-col gap-3">
+        <div class="bracket text-primary-600 p-3">
+          <label class="flex items-center h-16 pl-5 pr-3 gap-3 bg-primary-800 border border-primary-700 focus-within:border-primary-400 transition-colors duration-200">
+            <span class="mono text-meta text-primary-500 shrink-0">twitch.tv/</span>
+            <input placeholder="forsen" class="mono flex-1 min-w-0 bg-transparent text-primary-100 text-lead placeholder:text-primary-600 outline-none">
+            <button class="pressable flex items-center h-10 px-4 bg-primary-100 text-primary-900 text-meta font-bold">look up</button>
+          </label>
+        </div>
+        <code class="mono text-micro uppercase text-primary-400">search, with the prefix inside the field</code>
+      </div>
+    </section>
+
+    <!-- ============================================================ tables -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Tables</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Column heads, one rule under the head, hover fill plus the role corner.
+        The shipped list draws a hairline under every one of its 24 rows, which
+        reads as a fence rather than a table.
+      </p>
+
+      <div class="max-w-2xl">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="corner corner-tl text-mod"></span>
+          <h3 class="mono text-micro uppercase tracking-widest text-mod">mods</h3>
+          <span class="mono text-meta text-primary-400 tabular">24</span>
+        </div>
+        <table class="index-table">
+          <thead><tr><th scope="col">account</th><th scope="col" class="text-right">granted</th><th scope="col" class="text-right">followers</th></tr></thead>
+          <tbody class="text-mod">
+            <tr>
+              <td><span class="flex items-center gap-3"><span class="avatar w-9 h-9 text-xs" style="--hue: 200">n</span><span class="text-primary-100 font-bold">nymn</span></span></td>
+              <td class="mono text-meta text-primary-300 text-right tabular">2016.04.11</td>
+              <td class="mono text-meta text-primary-400 text-right tabular">614,201</td>
+            </tr>
+            <tr>
+              <td><span class="flex items-center gap-3"><span class="avatar w-9 h-9 text-xs" style="--hue: 320">s</span><span class="flex items-center gap-2"><span class="text-primary-100 font-bold">supibot</span><span class="mono text-[10px] uppercase tracking-wider text-primary-500 border border-primary-700 px-1.5 py-0.5">bot</span></span></span></td>
+              <td class="mono text-meta text-primary-300 text-right tabular">2019.11.23</td>
+              <td class="mono text-meta text-primary-400 text-right tabular">1,204</td>
+            </tr>
+            <tr>
+              <td><span class="flex items-center gap-3"><span class="skeleton w-9 h-9"></span><span class="skeleton h-4 w-28"></span></span></td>
+              <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+              <td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ badges -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Badges</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Awarded, not decorative. 14px in a table row, 20px on a profile, 44px
+        where the badge itself is the subject. Every one carries its name.
+      </p>
+      <div class="flex flex-wrap items-center gap-6">
+        <img src="../../badges/admin.svg" alt="admin" width="36" height="36" title="admin">
+        <img src="../../badges/staff.svg" alt="staff" width="36" height="36" title="staff">
+        <img src="../../badges/team.svg" alt="team" width="36" height="36" title="team">
+        <img src="../../badges/partner.svg" alt="partner" width="36" height="36" title="partner">
+        <img src="../../badges/affiliate.svg" alt="affiliate" width="36" height="36" title="affiliate">
+        <img src="../../badges/donator.svg" alt="donator" width="36" height="36" title="donator">
+        <img src="../../badges/top_donator.svg" alt="top donator" width="36" height="36" title="top donator">
+      </div>
+    </section>
+
+    <!-- ============================================================ motion -->
+    <section>
+      <h2 class="font-cairo text-h2 mb-2">Motion</h2>
+      <p class="text-primary-400 max-w-prose mb-8">
+        Four durations, two curves, transform and opacity only. Motion here
+        confirms an action or assembles the mark. It never decorates, and it all
+        collapses to a fade under
+        <code class="mono text-primary-300">prefers-reduced-motion</code>.
+      </p>
+
+      <div class="border-t border-primary-700 max-w-2xl">
+        <div class="flex items-baseline justify-between gap-6 py-4 border-b border-primary-800">
+          <code class="mono text-meta text-primary-100">--duration-press</code>
+          <span class="text-meta text-primary-400">140ms, scale(0.97) on :active</span>
+        </div>
+        <div class="flex items-baseline justify-between gap-6 py-4 border-b border-primary-800">
+          <code class="mono text-meta text-primary-100">--duration-hover</code>
+          <span class="text-meta text-primary-400">180ms, colour and background</span>
+        </div>
+        <div class="flex items-baseline justify-between gap-6 py-4 border-b border-primary-800">
+          <code class="mono text-meta text-primary-100">--duration-bracket</code>
+          <span class="text-meta text-primary-400">260ms, corners converging, +60ms on the second</span>
+        </div>
+        <div class="flex items-baseline justify-between gap-6 py-4 border-b border-primary-800">
+          <code class="mono text-meta text-primary-100">--duration-enter</code>
+          <span class="text-meta text-primary-400">520ms, staggered 70ms, capped at 480ms</span>
+        </div>
+        <div class="flex items-baseline justify-between gap-6 py-4 border-b border-primary-800">
+          <code class="mono text-meta text-primary-100">--ease-spring</code>
+          <span class="text-meta text-primary-400">cubic-bezier(0.32, 0.72, 0, 1)</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

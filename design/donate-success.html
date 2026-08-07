@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>donation successful | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/design.css">
+</head>
+
+<!-- src/app/donate/success/page.tsx — GET /donate/success?session_id=…
+     where stripe sends the donor back. deliberately read-only: the donation is
+     recorded by api.moddex.tv/v1/stripe/webhook, which fires whether or not
+     anyone ever lands here.
+
+     that split is why this page has two states. the happy one resolves the
+     twitch login out of the checkout metadata; the fallback cannot, and its
+     job is to hand over a payment id the support mail can be keyed on. -->
+<body class="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 text-primary-100">
+
+<header class="sticky top-0 z-40 border-b border-primary-700 bg-primary-900/85 backdrop-blur-md">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex items-center h-16 gap-8">
+    <a href="home.html" class="flex items-center gap-3 shrink-0 text-primary-100 pressable" aria-label="moddex home">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="moddex" class="shrink-0">
+        <path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/>
+      </svg>
+      <span class="font-cairo text-xl leading-none tracking-tight">moddex</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1" aria-label="Main">
+      <a href="channel.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">channel</a>
+      <a href="user.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">user</a>
+      <a href="donate.html" aria-current="page" class="tick relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-100">donate</a>
+      <a href="no-ui.html" class="relative flex items-center gap-1 px-3 h-8 text-sm transition-colors duration-150 text-primary-400 hover:text-primary-200">api</a>
+    </nav>
+
+    <div class="ml-auto hidden md:flex items-center">
+      <button type="button" class="pressable" aria-label="open profile menu">
+        <span class="avatar w-10 h-10 rounded-full ring-2 ring-primary-600 text-sm" style="--hue: 200">n</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="container mx-auto max-w-3xl py-16 px-6 flex-grow flex flex-col gap-8">
+  <div class="flex flex-col-reverse md:flex-row gap-4 items-center">
+    <img src="../public/peepoLove.png" alt="Thanks!" width="64" height="42">
+    <h1 class="font-cairo text-4xl uppercase">thank you!</h1>
+  </div>
+
+  <p class="text-lg">
+    your donation of $5.00 has been successfully processed. you&apos;ve earned
+    the donator badge, proudly displayed next to your name!
+  </p>
+
+  <p class="text-lg">
+    the badge has been added to your account with twitch username:
+    <span class="font-bold">nymn</span>.
+  </p>
+
+  <div class="text-lg">
+    want to stand out even more? the top contributor receives an exclusive,
+    one-of-a-kind badge that only the most generous supporter can hold.
+    <span class="inline-flex">
+      <img src="badges/top_donator.svg" alt="top donator badge" width="25" height="25" title="top donator" class="inline cursor-help">
+    </span>
+  </div>
+
+  <!-- the fallback: stripe redirected, but the checkout metadata carried no
+       resolvable twitch login. the badge cannot be assigned automatically, so
+       the page surfaces the one identifier support can act on. -->
+  <div class="pt-8 border-t border-primary-800">
+    <p class="text-xs uppercase tracking-widest text-primary-600 mb-3">username could not be resolved</p>
+    <div class="text-lg">
+      <p>we could not determine your twitch username.</p>
+      <p class="mt-2">
+        please email
+        <a href="mailto:marcel@doubt.ch" class="underline">marcel@doubt.ch</a>
+        so we can sort it out.
+      </p>
+      <p>
+        <span>provide the following payment id and your twitch username to help us resolve this issue and assign the donator badge to you:</span><br>
+        <span class="mt-2 font-bold">payment id: <code class="mono">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</code></span>
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="mt-auto border-t border-primary-700 py-5 text-sm text-primary-400">
+  <div class="mx-auto w-full max-w-5xl px-5 sm:px-8 flex flex-col sm:flex-row gap-x-6 gap-y-2 sm:items-center">
+    <span>&copy; 2026 moddex</span>
+    <span class="text-primary-500">not affiliated with twitch interactive</span>
+    <nav class="flex gap-4 sm:ml-auto" aria-label="Footer">
+      <a class="hover:text-primary-200 transition-colors duration-150" href="tos.html">tos</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">api</a>
+      <a class="hover:text-primary-200 transition-colors duration-150" href="no-ui.html">status</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>channel | moddex</title>
+  <meta name="description" content="Search for twitch channels to look up their mods and vips.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="stylesheet" href="assets/v1.css">
+</head>
+
+<!-- v1 / GET /channel
+     The shipped version is a heading, a sentence and a 400px field on an
+     otherwise empty page. A search page with nothing on it is a dead end, so
+     this one carries the direction switch (the product's central idea, and the
+     thing that tells you you are on the right one of the two pages) and the
+     last channels anyone indexed, which doubles as proof the index is live. -->
+<body data-nav="channel" data-auth="out"
+      class="grain min-h-screen antialiased flex flex-col bg-primary-900 text-primary-100 font-sans text-body">
+
+<main id="main" class="flex-grow">
+  <div class="mx-auto w-full max-w-measure px-6 sm:px-10 py-16 sm:py-20">
+
+    <div class="grid gap-16 lg:grid-cols-12">
+
+      <!-- ========================================================= search -->
+      <div class="lg:col-span-7">
+        <h1 class="enter font-cairo text-h1 mb-4" style="--i: 0">Look up a channel</h1>
+        <p class="enter text-primary-400 max-w-prose mb-10" style="--i: 1">
+          Who holds mod and vip in a channel, and since when. Searching a channel
+          for the first time is what adds it to the index.
+        </p>
+
+        <!-- the direction switch. two routes, two ends of one relationship, so
+             it gets the mark's own colour split. -->
+        <div class="enter inline-flex border border-primary-700 mb-6" style="--i: 2" role="tablist" aria-label="Lookup direction">
+          <span role="tab" aria-selected="true"
+                class="flex items-center gap-2 h-10 px-4 bg-primary-700 text-primary-100 text-meta">
+            <span class="corner corner-tl text-mod" style="width:9px;height:9px"></span>
+            by channel
+          </span>
+          <a href="user.html" role="tab" aria-selected="false"
+             class="flex items-center gap-2 h-10 px-4 text-primary-500 hover:text-primary-200 text-meta transition-colors duration-200">
+            <span class="corner corner-br text-primary-600" style="width:9px;height:9px"></span>
+            by person
+          </a>
+        </div>
+
+        <form class="enter bracket bracket-in text-primary-600 max-w-xl p-3" style="--i: 3"
+              onsubmit="event.preventDefault(); location.href='channel-detail.html';">
+          <label class="flex items-center h-16 pl-5 pr-3 gap-3 bg-primary-800 border border-primary-700 hover:border-primary-600 focus-within:border-primary-400 transition-colors duration-200">
+            <span class="mono text-meta text-primary-500 shrink-0">twitch.tv/</span>
+            <input name="username" placeholder="forsen" maxlength="25" autocomplete="off" aria-label="twitch channel name"
+                   class="mono flex-1 min-w-0 bg-transparent text-primary-100 text-lead placeholder:text-primary-600 outline-none">
+            <button type="submit"
+                    class="pressable flex items-center gap-2 h-10 px-4 bg-primary-100 text-primary-900 text-meta font-bold hover:bg-white transition-colors duration-200">
+              look up
+            </button>
+          </label>
+        </form>
+
+        <!-- the invalid state. inline, under the field, never a window.alert.
+             the border goes red and the message names the actual rule. -->
+        <div class="enter mt-14 pt-10 border-t border-primary-800" style="--i: 4">
+          <p class="mono text-micro uppercase text-primary-500 mb-5">Invalid input state</p>
+          <div class="max-w-xl">
+            <label class="flex items-center h-16 pl-5 pr-3 gap-3 bg-primary-800 border border-red-500/70">
+              <span class="mono text-meta text-primary-500 shrink-0">twitch.tv/</span>
+              <input name="username-invalid" value="not a name!" aria-invalid="true" aria-describedby="err"
+                     class="mono flex-1 min-w-0 bg-transparent text-primary-100 text-lead outline-none">
+              <button type="button" class="flex items-center h-10 px-4 bg-primary-700 text-primary-400 text-meta font-bold" disabled>
+                look up
+              </button>
+            </label>
+            <p id="err" class="flex items-start gap-2 mt-3 text-meta text-red-400">
+              <span aria-hidden="true" class="corner corner-tl text-red-400 mt-1" style="width:8px;height:8px"></span>
+              Twitch names are 1 to 25 characters, letters, numbers and
+              underscores only.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================ recently indexed -->
+      <aside class="enter lg:col-span-5" style="--i: 5" aria-labelledby="recent">
+        <h2 id="recent" class="mono text-micro uppercase text-primary-400 mb-4">Last channels indexed</h2>
+
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th scope="col">channel</th>
+              <th scope="col" class="text-right">roles held</th>
+              <th scope="col" class="text-right">indexed</th>
+            </tr>
+          </thead>
+          <tbody class="text-primary-400">
+            <tr>
+              <td>
+                <a href="channel-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 12">f</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">forsen</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular">26</td>
+              <td class="mono text-meta text-right text-primary-500">4m ago</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="channel-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 200">n</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">nymn</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular">41</td>
+              <td class="mono text-meta text-right text-primary-500">12m ago</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="channel-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 340">x</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">xqc</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular">88</td>
+              <td class="mono text-meta text-right text-primary-500">31m ago</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="channel-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 96">p</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">pajlada</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular">19</td>
+              <td class="mono text-meta text-right text-primary-500">1h ago</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="channel-detail.html" class="flex items-center gap-3 group">
+                  <span class="avatar w-8 h-8 text-[11px]" style="--hue: 55">k</span>
+                  <span class="text-primary-100 font-bold group-hover:underline underline-offset-4">knut</span>
+                </a>
+              </td>
+              <td class="mono text-meta text-right tabular">33</td>
+              <td class="mono text-meta text-right text-primary-500">2h ago</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mt-6 text-meta text-primary-500 max-w-prose">
+          Anyone can index a channel and nobody needs an account to do it.
+          Accounts that opted out never appear.
+        </p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>
