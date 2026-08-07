@@ -40,6 +40,34 @@ export interface User {
 }
 
 
+/**
+ * the browse surfaces, /v1/channels and /v1/accounts.
+ *
+ * `counts` means different things per direction and that is the whole point of
+ * the pair: on a channel it is the roles that channel has handed out, on an
+ * account it is the roles that account holds. moddex-api reads both off one
+ * rollup table because the same twitch id is usually both.
+ */
+export interface BrowseCounts {
+  mod: number;
+  vip: number;
+  total: number;
+}
+
+export interface BrowseEntry extends User {
+  counts: BrowseCounts;
+}
+
+export interface BrowsePage {
+  items: BrowseEntry[];
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+}
+
+export type ChannelSort = 'read' | 'roles' | 'followers';
+export type AccountSort = 'roles' | 'followers';
+
 export interface UserBadgeRow {
   id: string;
   login: string;
