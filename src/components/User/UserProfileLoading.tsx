@@ -1,25 +1,24 @@
-import { Skeleton } from '@heroui/react';
-
-/** matches the real profile geometry so nothing shifts when the data lands */
+/**
+ * matches the real profile geometry — 88px avatar, three text lines, three
+ * controls — so nothing moves when the data lands. the tabs are not in here on
+ * purpose: they are already known before the fetch, so UserProfile keeps
+ * drawing the real ones around this.
+ */
 export const UserProfileLoading = () => (
-  <div className="flex flex-col gap-5">
-    <div className="flex items-start gap-4">
-      <Skeleton className="rounded-full w-16 h-16 shrink-0" />
+  <div className="flex flex-wrap items-start gap-6">
+    <span className="skeleton w-[88px] h-[88px] rounded-pill" />
 
-      <div className="flex-1 min-w-0">
-        <Skeleton className="h-8 w-56 rounded-lg mb-2" />
-        <Skeleton className="h-5 w-24 rounded-md mb-3" />
-
-        <div className="flex flex-row gap-1 mb-3">
-          <Skeleton className="h-[22px] w-[22px] rounded-md" />
-          <Skeleton className="h-[22px] w-[22px] rounded-md" />
-        </div>
-
-        <Skeleton className="h-4 w-72 max-w-full rounded-md mb-2" />
-        <Skeleton className="h-3 w-40 rounded-md" />
-      </div>
+    <div className="min-w-0 flex-1">
+      <span className="skeleton block h-7 w-44 mb-3" />
+      <span className="skeleton block h-4 w-full max-w-md mb-2" />
+      <span className="skeleton block h-4 w-2/3 max-w-sm mb-4" />
+      <span className="skeleton block h-3.5 w-80 max-w-full" />
     </div>
 
-    <Skeleton className="h-8 w-52 rounded-lg" />
+    <div className="flex items-center gap-2 shrink-0">
+      <span className="skeleton h-10 w-[150px]" />
+      <span className="skeleton h-10 w-10" />
+      <span className="skeleton h-10 w-10" />
+    </div>
   </div>
 );

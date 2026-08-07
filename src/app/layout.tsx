@@ -12,23 +12,20 @@ import { config } from '@/config';
 // the woff2 from fonts.gstatic.com during `next build`, which put a network
 // call inside the docker build — and inside the emulated arm64 half of the
 // cross-build it ran for 503 s and then died with a FetchError. that is the
-// reason no arm64 image ever came out of CI and moddex.tv is running a
-// hand-built local one. the files in ./fonts are the exact latin-subset woff2
-// google was serving, so this is a like-for-like swap, not a redesign.
-const lato = localFont({
-  src: [
-    { path: './fonts/lato-300.woff2', weight: '300', style: 'normal' },
-    { path: './fonts/lato-400.woff2', weight: '400', style: 'normal' },
-    { path: './fonts/lato-700.woff2', weight: '700', style: 'normal' }
-  ],
+// reason no arm64 image ever came out of CI.
+//
+// one file for the whole 400-800 range: manrope ships as a variable font and
+// google serves the same latin woff2 for every weight in the request, so five
+// weights are one 24 KB download. the range below is the font's real `wght`
+// axis — naming a single weight would leave the browser to fake the other four.
+//
+// this is the only typeface. lato and cairo were removed once the port was
+// complete: lato was loaded and applied to nothing, and cairo set headings in a
+// face the v3 direction does not use.
+const manrope = localFont({
+  src: [{ path: './fonts/manrope-latin.woff2', weight: '200 800', style: 'normal' }],
   display: 'swap',
-  variable: '--font-lato'
-});
-
-const cairo = localFont({
-  src: [{ path: './fonts/cairo-700.woff2', weight: '700', style: 'normal' }],
-  display: 'swap',
-  variable: '--font-cairo'
+  variable: '--font-manrope'
 });
 
 export const metadata: Metadata = {
@@ -74,10 +71,15 @@ export default function RootLayout({
     // toggle left to honour.
     <html
       lang="en"
-      className={`dark ${cairo.variable} ${lato.variable}`}
+      className={`dark ${manrope.variable}`}
       suppressHydrationWarning
     >
-    <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900">
+    {/* `font-sans` is the fix for the site having had no body typeface at all:
+        lato was loaded and never applied, so every paragraph rendered in the
+        browser default. `sans` now resolves to manrope in tailwind.config.mjs,
+        and tailwind's preflight already puts it on <html>, so this is belt and
+        braces rather than the only thing holding it up. */}
+    <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 font-sans text-base text-primary-100">
     <Providers>
       <Tracking />
       <Header />

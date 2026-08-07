@@ -3,130 +3,465 @@
 @tailwind utilities;
 
 /* ================================================================ tokens ==
- * the design system is derived from the logo rather than invented around it.
+ * the v3 direction, ported from design/suggestions/v3/assets/v3.css.
  *
- * the mark is two corner brackets in 180° rotational symmetry on a 32-unit
- * grid: stroke 6, inner channel 4. three consequences run through everything
- * below —
+ * it exists to answer five verdicts rather than to express a concept, and the
+ * three that shape everything below are:
  *
- *   1. corners, not boxes. content is framed by two opposing corner brackets,
- *      never by a full border. a full box is a card, and a card is the generic
- *      shape this design exists to avoid.
- *   2. hard orthogonal geometry. no border radius anywhere. the mark has no
- *      curves, so neither does the interface.
- *   3. a 4px module. every spacing, size and offset is a multiple of the
- *      mark's own grid unit.
+ *   "table-like"    -> there is not one <table> here. a list of people is a
+ *                      grid of rows on a shared column template, with hover and
+ *                      nothing between rows but air.
+ *   "clamped"       -> 52px rows, 15px base, a 1440px page, 24px panel padding,
+ *                      32px gutters. every one of those is roughly double what
+ *                      the rejected attempt used. do not shrink them back.
+ *   "old-fashioned" -> geometric sans, 8px radius, no hard chrome.
+ *
+ * every value here comes from the palette in tailwind.config.mjs. nothing in
+ * this file introduces a colour that is not already a token.
  */
 :root {
-    /* motion */
-    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --base: #0B0B0C;
+    --raised: #111113;
+    --line: #232326;
+    --line-strong: #33333A;
+    --line-soft: rgba(35, 35, 38, 0.7);
+    --hover: #17171A;
+    --text: #E7E7EA;
+    --text-alt: #8A8A93;
+    --text-dim: #55555F;
+    /* primary-100 at 45%, for the underline a row grows on hover */
+    --text-faint: rgba(231, 231, 234, 0.45);
 
-    --duration-press: 140ms;
-    --duration-hover: 160ms;
-    --duration-bracket: 220ms;
+    --mod: #4ADE80;
+    --vip: #F472B6;
+    --twitch: #714ab8;
+    /* derived, not invented: the palette holds one purple, and a filled purple
+       control still needs a hover state and a glyph that reads on --line. */
+    --twitch-lift: color-mix(in srgb, var(--twitch), #FFFFFF 25%);
 
-    /* the mark's geometry, reused as layout constants */
-    --bracket-size: 14px;
-    --bracket-weight: 2px;
+    --nav-h: 60px;
+    --row-h: 52px;
+
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+    --dur: 150ms;
+
+    --z-nav: 40;
+    --z-overlay: 60;
 }
 
 /* ============================================================ typography == */
 @layer base {
-    h1, h2, h3 {
-        letter-spacing: -0.02em;
+    html {
+        scroll-behavior: smooth;
     }
 
-    h1 { line-height: 1.05; }
-    h2, h3 { line-height: 1.15; }
+    h1, h2, h3 {
+        font-weight: 700;
+    }
 
-    /* the interface is square-cornered top to bottom, including form controls
-       and anything heroui renders */
+    /* form controls inherit the page typeface. without this they render in the
+       browser's own ui font, which was the second half of the "no body
+       typeface" bug: even after fixing <body>, every input stayed on Arial. */
     input, button, select, textarea {
-        border-radius: 0;
+        font: inherit;
     }
 }
 
 @layer components {
-    /* --------------------------------------------------------- brackets --
-     * two corners, 180° apart — the mark at frame scale.
+    /* --------------------------------------------------------- the corner --
+     * the mark's own notation at ui scale, and the thing that replaced purple
+     * as the identity. mod takes the top-left corner, vip the bottom-right,
+     * 180° apart — one relationship read from two ends.
+     *
+     * all four orientations are defined even though `artist` is not in
+     * ACTIVE_ROLE_KEYS, because a role that exists in misc/roles.ts should not
+     * be missing from the design system the day twitch makes it fetchable.
      */
-    .bracket::before,
-    .bracket::after {
-        content: '';
-        position: absolute;
-        width: var(--bracket-size);
-        height: var(--bracket-size);
-        border: var(--bracket-weight) solid currentColor;
-        pointer-events: none;
+    .corner {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border: 2px solid currentColor;
+        flex-shrink: 0;
     }
 
-    .bracket::before {
+    .corner-tl { border-right: 0; border-bottom: 0; }
+    .corner-br { border-left: 0; border-top: 0; }
+    .corner-bl { border-right: 0; border-top: 0; }
+    .corner-tr { border-left: 0; border-bottom: 0; }
+
+    /* ---------------------------------------------------------------- nav --
+     * 60px, and the search is the widest thing in it. that search is on every
+     * page, which is the one move that means no page needs a hero.
+     */
+    .nav {
+        position: sticky;
         top: 0;
-        left: 0;
-        border-right: 0;
-        border-bottom: 0;
+        z-index: var(--z-nav);
+        height: var(--nav-h);
+        background: rgba(11, 11, 12, 0.82);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--line-soft);
     }
 
-    .bracket::after {
-        bottom: 0;
-        right: 0;
-        border-left: 0;
-        border-top: 0;
+    .nav-inner {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 100%;
     }
 
-    /* the signature entrance: the two corners converge on the content from
-       opposite directions, which is the mark assembling itself. */
-    .bracket-in::before {
-        animation: bracket-tl var(--duration-bracket) var(--ease-out) backwards;
-        animation-delay: var(--d, 0ms);
+    .search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 40px;
+        padding: 0 6px 0 14px;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
     }
 
-    .bracket-in::after {
-        animation: bracket-br var(--duration-bracket) var(--ease-out) backwards;
-        animation-delay: calc(var(--d, 0ms) + 40ms);
+    .search:focus-within {
+        border-color: var(--line-strong);
+        background: var(--hover);
     }
 
-    @keyframes bracket-tl {
-        from { opacity: 0; transform: translate(-6px, -6px); }
-        to { opacity: 1; transform: none; }
+    .search input {
+        flex: 1;
+        min-width: 0;
+        background: transparent;
+        border: 0;
+        color: var(--text);
+        outline: none;
     }
 
-    @keyframes bracket-br {
-        from { opacity: 0; transform: translate(6px, 6px); }
-        to { opacity: 1; transform: none; }
+    .search input::placeholder {
+        color: var(--text-dim);
     }
 
-    /* a single corner tick, used to mark the active row/nav item */
-    .tick {
-        position: relative;
+    /* two corners of the mark, so which direction you are searching is stated
+       in the brand's own notation rather than in a word. */
+    .scope {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 3px;
+        background: var(--base);
+        border-radius: 6px;
+        flex-shrink: 0;
     }
 
-    .tick::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 8px;
-        height: 8px;
-        border: var(--bracket-weight) solid currentColor;
-        border-right: 0;
-        border-bottom: 0;
+    .scope button {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        height: 28px;
+        padding: 0 11px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        color: var(--text-alt);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
     }
 
-    /* ------------------------------------------------------ interaction -- */
-    .pressable {
-        transition: transform var(--duration-press) var(--ease-out);
+    .scope button:hover {
+        color: var(--text);
     }
 
-    .pressable:active {
-        transform: scale(0.97);
+    .scope button[aria-pressed='true'] {
+        background: var(--line);
+        color: var(--text);
     }
 
-    @media (hover: hover) and (pointer: fine) {
-        .row-hover {
-            transition: background-color var(--duration-hover) ease;
+    /* --------------------------------------------------------------- rows --
+     * NOT a table. a grid on a shared column template, hover, and nothing
+     * between rows but air. no borders between cells, no zebra, no boxed
+     * column-header bar.
+     */
+    .rows {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: grid;
+        align-items: center;
+        gap: 20px;
+        min-height: var(--row-h);
+        padding: 0 16px;
+        border-radius: 8px;
+        transition: background-color var(--dur) var(--ease);
+    }
+
+    .row:hover {
+        background: var(--hover);
+    }
+
+    /* the row is a link, so the name behaves like one on hover. changing only
+       the row background reads as selection rather than as "this goes
+       somewhere". */
+    .row:hover .row-name {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+        text-decoration-color: var(--text-faint);
+    }
+
+    /* the column labels. they exist because the shipped design showed a date
+       and a number with nothing saying what either was — but they sit light and
+       unboxed, so they do not read as a spreadsheet header. */
+    .row-head {
+        display: grid;
+        align-items: center;
+        gap: 20px;
+        padding: 0 16px 10px;
+        font-size: 0.8125rem;
+        /* primary-400, not primary-500: at 13px, #55555F on the raised surface
+           is about 3.9:1 and fails AA. these labels stay recessive through size
+           and weight rather than through being hard to read. */
+        color: var(--text-alt);
+        border-bottom: 1px solid var(--line-soft);
+        margin-bottom: 6px;
+    }
+
+    .cols-people {
+        grid-template-columns: minmax(0, 1fr) 110px 110px;
+    }
+
+    .cols-channels {
+        grid-template-columns: minmax(0, 1fr) 90px 90px 110px;
+    }
+
+    @media (max-width: 640px) {
+        .cols-people,
+        .cols-channels {
+            grid-template-columns: minmax(0, 1fr) auto;
         }
+
+        .cols-people > :nth-child(n + 3),
+        .cols-channels > :nth-child(n + 3) {
+            display: none;
+        }
+    }
+
+    /* ------------------------------------------------------------ surface --
+     * one raised surface, generously padded. not a card grid.
+     */
+    .panel {
+        background: var(--raised);
+        border-radius: 12px;
+        padding: 24px;
+    }
+
+    /* for a panel whose content is rows: the rows carry their own 16px of
+       padding and their own hover background, so the panel gives them less. */
+    .panel-flush {
+        background: var(--raised);
+        border-radius: 12px;
+        padding: 24px 8px 8px;
+    }
+
+    /* ------------------------------------------------------------- avatar --
+     * the initial-letter fallback, for accounts twitch gives us no image for.
+     */
+    .avatar {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        background: var(--line);
+        color: var(--text-alt);
+        font-weight: 700;
+        text-transform: uppercase;
+        user-select: none;
+    }
+
+    /* --------------------------------------------------------------- tabs --
+     * the two lookup directions, underlined in the role's own colour rather
+     * than in purple. this is the identity change in miniature.
+     */
+    .tabs {
+        display: flex;
+        gap: 4px;
+        border-bottom: 1px solid var(--line-soft);
+    }
+
+    /* the labels are sentences, and at 380px they wrapped to three lines inside
+       a rigid 48px tab — the underline cut straight through the third. they do
+       not wrap now; the components shorten the sentence below `sm` instead. */
+    .tab {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 48px;
+        padding: 0 18px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        color: var(--text-alt);
+        font-size: 0.9375rem;
+        font-weight: 600;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        transition: color var(--dur) var(--ease);
+    }
+
+    .tab:hover { color: var(--text); }
+
+    .tab[aria-current='page'] { color: var(--text); }
+    .tab-mod[aria-current='page'] { border-bottom-color: var(--mod); }
+    .tab-vip[aria-current='page'] { border-bottom-color: var(--vip); }
+
+    /* ----------------------------------------------------------- controls -- */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--text);
+        color: var(--base);
+        font-size: 0.9375rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+
+    .btn:hover { background: #FFFFFF; }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-soft {
+        background: var(--line);
+        color: var(--text);
+    }
+
+    .btn-soft:hover { background: var(--line-strong); }
+
+    .btn-ghost {
+        background: transparent;
+        color: var(--text-alt);
+    }
+
+    .btn-ghost:hover { background: var(--line); color: var(--text); }
+
+    /* purple appears in exactly two forms, and only ever on something that
+       talks to twitch.
+
+       filled, at most once per page: the sign-in control in the nav, which is
+       the one thing a signed-out reader might need to do.
+
+       everything else that links to twitch uses the glyph alone on a neutral
+       surface. "Open on Twitch" as a solid purple button was the brightest
+       thing on a profile page and it pulled focus off the account name, which
+       is the actual subject. the glyph carries the recognition on its own. */
+    .btn-twitch {
+        background: var(--twitch);
+        color: #FFFFFF;
+    }
+
+    .btn-twitch:hover { background: var(--twitch-lift); }
+
+    .btn-twitch-quiet {
+        background: var(--line);
+        color: var(--text);
+    }
+
+    .btn-twitch-quiet svg { color: var(--twitch-lift); }
+
+    .btn-twitch-quiet:hover { background: var(--line-strong); }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 32px;
+        padding: 0 12px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--text-alt);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+    }
+
+    .chip:hover { color: var(--text); border-color: var(--line-strong); }
+
+    .chip[aria-pressed='true'] {
+        background: var(--line);
+        border-color: var(--line);
+        color: var(--text);
+    }
+
+    /* the opt-out switch. mod green when on, because green is this design's
+       affirmative and purple is reserved for twitch. */
+    .toggle {
+        display: inline-flex;
+        align-items: center;
+        width: 48px;
+        height: 28px;
+        padding: 3px;
+        background: var(--line);
+        border-radius: 9999px;
+        flex-shrink: 0;
+        transition: background-color var(--dur) var(--ease);
+    }
+
+    .toggle > span {
+        width: 22px;
+        height: 22px;
+        background: var(--text-alt);
+        border-radius: 9999px;
+        transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
+    }
+
+    .toggle[data-on='true'] { background: rgba(74, 222, 128, 0.22); }
+
+    .toggle[data-on='true'] > span {
+        transform: translateX(20px);
+        background: var(--mod);
+    }
+
+    /* -------------------------------------------------------------- state -- */
+    .skeleton {
+        display: inline-block;
+        background: var(--line);
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .skeleton::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        animation: sweep 1.3s var(--ease) infinite;
+    }
+
+    @keyframes sweep {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(100%); }
+    }
+
+    .enter {
+        opacity: 0;
+        animation: enter 320ms var(--ease) forwards;
+        animation-delay: min(calc(var(--i, 0) * 50ms), 250ms);
+    }
+
+    @keyframes enter {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: none; }
     }
 
     .tabular {
@@ -134,27 +469,25 @@
         font-feature-settings: 'tnum';
     }
 
-    /* data and numerals sit in mono — the mark is drawn on a fixed grid and
-       the product is mostly counts and dates */
-    .mono {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-variant-numeric: tabular-nums;
+    .skip-link {
+        position: absolute;
+        left: 16px;
+        top: -60px;
+        z-index: var(--z-overlay);
+        padding: 10px 16px;
+        background: var(--text);
+        color: var(--base);
+        border-radius: 8px;
+        font-weight: 700;
+        transition: top var(--dur) var(--ease);
     }
 
-    .enter-item {
-        opacity: 0;
-        animation: enter-item 240ms var(--ease-out) forwards;
-        animation-delay: min(calc(var(--i, 0) * 40ms), 320ms);
-    }
-
-    @keyframes enter-item {
-        to { opacity: 1; }
-    }
+    .skip-link:focus { top: 12px; }
 }
 
 /* ================================================================= a11y == */
 :where(a, button, input, select, [tabindex]):focus-visible {
-    outline: var(--bracket-weight) solid currentColor;
+    outline: 2px solid var(--text);
     outline-offset: 3px;
 }
 
@@ -170,37 +503,59 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .pressable,
-    .pressable:active {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .enter {
+        opacity: 1;
+        animation: none;
+    }
+
+    .skeleton::after {
+        animation: none;
+    }
+
+    .btn:active {
         transform: none;
     }
 
-    .bracket-in::before,
-    .bracket-in::after {
-        animation: bracket-fade 160ms ease backwards;
+    .row:hover {
+        transition: none;
     }
 
-    @keyframes bracket-fade {
-        from { opacity: 0; }
-        to { opacity: 1; }
+    .search,
+    .scope button,
+    .tab,
+    .chip,
+    .toggle,
+    .toggle > span {
+        transition: none;
     }
 
-    .enter-item {
-        animation-delay: 0ms;
+    /* tailwind's own utility, used on the mark while stripe checkout opens. it
+       is not reduced-motion aware on its own. */
+    .animate-pulse {
+        animation: none;
     }
 }
 
 /* =============================================================== chrome == */
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #111113;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #232326;
+    background: var(--line-strong);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-dim);
 }
 
 ::selection {

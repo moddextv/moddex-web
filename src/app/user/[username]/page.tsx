@@ -1,4 +1,9 @@
-import { Forbidden, NotFound, BannedUser } from '@/components/Errors';
+import {
+  BannedUser,
+  InvalidUsername,
+  NotFoundUser,
+  OptedOut
+} from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
@@ -6,65 +11,43 @@ import { regex } from '@/utils/regex';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Container } from '@/components/UI/Container';
+import Link from 'next/link';
+import { CSSProperties } from 'react';
 
 interface PageProps {
   params: { username: string };
 }
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
+  const username = decodeURI(params.username);
+
   return {
-    title: `user ${params.username}`
+    title: username,
+    description: `Every indexed twitch channel where ${username} holds mod or vip, and the date each role was granted.`
   };
 };
 
-export default async function ChannelUsernamePage({ params }: PageProps) {
+export default async function UserUsernamePage({ params }: PageProps) {
   const username = decodeURI(params.username);
 
   if (!regex.username.test(username)) {
-    return <NotFound
-      error={`invalid username`}
-      message={`«${username}» is not a valid twitch username`}
-    />;
+    return <InvalidUsername username={username} />;
   }
 
   const { user, banReason } = await getUser(username);
 
+  // the reason is passed through rather than translated here: the component
+  // knows which reasons reverse and therefore which one gets a retry.
   if (banReason) {
-    let errorMessage;
-
-    switch (banReason?.toLowerCase()) {
-      case 'tos_banned':
-        errorMessage = `user «${username}» is banned.`;
-        break;
-      case 'deactivated':
-        errorMessage = `user «${username}» has deactivated their account.`;
-        break;
-      default:
-        errorMessage = `user «${username}» is unavailable.`;
-        break;
-    }
-
-    return (
-      <BannedUser
-        error={errorMessage}
-        message={`reason: ${banReason}`}
-        showReloadButton={true}
-      />
-    );
+    return <BannedUser username={username} reason={banReason} />;
   }
 
   if (!user) {
-    return <NotFound
-      error={`user «${username}» not found`}
-      message={`this user does not exist`}
-    />;
+    return <NotFoundUser username={username} />;
   }
 
   if (user.ignored) {
-    return <Forbidden
-      error={`access forbidden`}
-      message={`user «${username}» has opted-out of being tracked`}
-    />;
+    return <OptedOut username={username} />;
   }
 
   if (user.login !== username) {
@@ -74,22 +57,36 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   return (
-    <main className="flex-grow">
-      <Container className="py-12 flex flex-col gap-10">
+    <main id="main" className="flex-grow">
+      <Container>
         <UserProfile user={user} isUser={true} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
+        {/* two lists, not three. a person's founder entitlements are not
+            reachable through the user root of twitch's api, only through the
+            channel root, so there is no founders list to render on this side. */}
+        <section
+          className="enter grid items-start gap-6 lg:grid-cols-2 pb-6"
+          style={{ '--i': 1 } as CSSProperties}
+        >
           <UserList type="user" role="modding" user={user} />
-          <UserList type="user" role="viping" user={user} />
-        </div>
 
-        <p className="text-sm text-primary-400 border-t border-primary-700 pt-6">
-          Missing a channel? It only appears here once somebody has looked it up —{' '}
-          <a className="text-primary-200 underline underline-offset-2" href="/channel">
-            search for it once
-          </a>{' '}
-          and it stays indexed.
-        </p>
+          <div className="flex flex-col gap-6">
+            <UserList type="user" role="viping" user={user} />
+
+            {/* the index is demand driven, so a gap names the action that
+                closes it rather than leaving the reader to assume the record
+                is wrong. */}
+            <div className="panel flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
+              <p className="text-read text-primary-300 max-w-[46ch]">
+                Missing a channel? It only appears here once somebody has looked
+                that channel up. Search for it once and it stays indexed.
+              </p>
+              <Link href="/channel" className="btn btn-soft shrink-0">
+                Index a channel
+              </Link>
+            </div>
+          </div>
+        </section>
       </Container>
     </main>
   );

@@ -2,12 +2,11 @@
 
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/Interfaces';
-import { formatDate, formatNumber } from '@/utils/utils';
-import { Snippet } from '@heroui/react';
+import { formatMonthYearLong, formatNumber, formatRelative } from '@/utils/utils';
 import { Image } from '@/components/UI/Image';
 import { FC, useEffect, useState } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
-import { Tooltip } from '@/components/UI/Tooltip';
+import { CopyButton } from '@/components/UI/CopyButton';
 import { UserProfileLoading } from '@/components/User/UserProfileLoading';
 import { useUserProfileData } from '@/hooks/useUserProfileData';
 import { redirect } from 'next/navigation';
@@ -16,49 +15,62 @@ import { config } from '@/config';
 import clsx from 'clsx';
 
 /**
- * the direction toggle replaces the old "view user" / "view channel" button
- * that sat below the profile. the product answers the same question in two
- * directions, so making that a persistent two-state control — rather than a
- * button that navigates away — is what makes the pairing legible.
+ * the two lookup directions, as tabs.
+ *
+ * this replaces the "as channel / as person" segmented control that used to sit
+ * below the profile. the underline is the role's own colour — green reading
+ * into the channel, pink reading out of the person — which is the identity
+ * argument in one detail: the thing telling you which way round you are reading
+ * is the mark's colour pair, not a borrowed purple.
  */
-const DirectionToggle: FC<{ login: string; isUser: boolean }> = ({ login, isUser }) => (
-  // the mark is one relationship read from two ends; this control is the
-  // literal version of that, so it gets the mark's own colour split
-  <div className="inline-flex bg-primary-800 border border-primary-700 text-sm mono">
-    {[
-      { label: 'as channel', href: `/channel/${login}`, active: !isUser, tone: 'mod' },
-      { label: 'as person', href: `/user/${login}`, active: isUser, tone: 'vip' }
-    ].map((option) => (
-      <Link
-        key={option.href}
-        href={option.href}
-        aria-current={option.active ? 'page' : undefined}
-        className={clsx(
-          'px-3 h-8 flex items-center gap-2 transition-colors duration-150',
-          option.active ? 'bg-primary-700 text-primary-100' : 'text-primary-500 hover:text-primary-300'
-        )}
-      >
-        <span
-          aria-hidden="true"
-          className={clsx(
-            'w-2 h-2 border-2',
-            option.tone === 'mod' ? 'border-b-0 border-r-0' : 'border-t-0 border-l-0',
-            option.active
-              ? option.tone === 'mod'
-                ? 'border-mod'
-                : 'border-vip'
-              : 'border-primary-600'
-          )}
-        />
-        {option.label}
-      </Link>
-    ))}
-  </div>
+const DirectionTabs: FC<{ login: string; name: string; isUser: boolean }> = ({
+  login,
+  name,
+  isUser
+}) => (
+  // the labels are full sentences because the two directions are genuinely easy
+  // to confuse, but they do not fit side by side on a phone. the short forms
+  // below `sm` say the same thing with the tab position carrying the rest.
+  <nav className="tabs mt-8" aria-label="Which direction to read this account">
+    <Link
+      href={`/channel/${login}`}
+      className="tab tab-mod"
+      aria-current={isUser ? undefined : 'page'}
+    >
+      <span
+        aria-hidden="true"
+        className={clsx('corner corner-tl', isUser ? 'text-primary-600' : 'text-mod')}
+      />
+      <span className="sm:hidden">In this channel</span>
+      <span className="hidden sm:inline">Holds roles in this channel</span>
+    </Link>
+
+    <Link
+      href={`/user/${login}`}
+      className="tab tab-vip"
+      aria-current={isUser ? 'page' : undefined}
+    >
+      <span
+        aria-hidden="true"
+        className={clsx('corner corner-br', isUser ? 'text-vip' : 'text-primary-600')}
+      />
+      <span className="sm:hidden">Elsewhere</span>
+      <span className="hidden sm:inline">Roles {name} holds elsewhere</span>
+    </Link>
+  </nav>
 );
 
 export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser }) => {
   const { currentUser, loading, banReason, reloadUserProfile } = useUserProfileData(user);
   const [initialLogin] = useState(user.login);
+
+  // read from the clock, so it cannot be part of the server render without
+  // producing a hydration mismatch. it arrives on the first client pass instead.
+  const [lastRead, setLastRead] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLastRead(formatRelative(currentUser?.updated));
+  }, [currentUser?.updated]);
 
   useEffect(() => {
     if (banReason) {
@@ -68,92 +80,120 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
     }
   }, [currentUser, initialLogin, banReason]);
 
-  if (loading) return <UserProfileLoading />;
+  const login = currentUser?.login ?? user.login;
+  const name = currentUser?.name ?? login;
+
+  // the tabs are already known before the refetch answers, so they keep being
+  // drawn around the skeleton rather than disappearing with it.
+  if (loading) {
+    return (
+      <section className="pt-10 pb-8" aria-busy="true">
+        <UserProfileLoading />
+        <DirectionTabs login={user.login} name={user.name ?? user.login} isUser={!!isUser} />
+      </section>
+    );
+  }
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex items-start gap-4">
+    <section className="enter pt-10 pb-8">
+      <div className="flex flex-wrap items-start gap-6">
         <Image
-          className="w-16 h-16 shrink-0 bg-primary-800"
           src={currentUser?.avatar ?? ''}
           alt=""
-          width={64}
-          height={64}
+          width={88}
+          height={88}
+          radius="full"
+          className="w-[88px] h-[88px] shrink-0 bg-primary-800"
         />
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="font-cairo text-3xl tracking-tight leading-none">
-              {currentUser?.name}
-            </h1>
-            <a
-              href={`https://twitch.tv/${currentUser?.login}`}
-              title={`view ${currentUser?.login} on twitch`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-400 hover:text-twitch transition-colors duration-150"
-            >
-              <TwitchIcon size={20} />
-            </a>
-            {currentUser?.discord && (
-              <a
-                href={`https://discord.com/users/${currentUser.discord}`}
-                title={`view ${currentUser.login} on discord`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-400 hover:text-discord transition-colors duration-150"
-              >
-                <DiscordIcon size={20} />
-              </a>
-            )}
+          <div className="flex items-center gap-3 flex-wrap mb-2">
+            <h1 className="text-h1">{name}</h1>
+            <Badges badges={currentUser?.badges || []} size={20} />
           </div>
 
-          <p className="text-primary-400 mb-2">@{currentUser?.login}</p>
-
-          <Badges badges={currentUser?.badges || []} size={22} />
-
           {currentUser?.bio && (
-            <p className="mt-3 max-w-xl text-primary-300 break-words">{currentUser.bio}</p>
+            <p className="text-read text-primary-300 max-w-prose mb-4 break-words">
+              {currentUser.bio}
+            </p>
           )}
 
-          <p className="mt-2 text-sm text-primary-500 tabular">
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-2 text-ui text-primary-400">
             {currentUser?.follower !== null && (
-              <span>{formatNumber(currentUser?.follower || 0)} follower</span>
+              <span>
+                <span className="tabular text-primary-100 font-bold">
+                  {formatNumber(currentUser?.follower || 0)}
+                </span>{' '}
+                followers
+              </span>
             )}
-            {currentUser?.created && <span> · joined {formatDate(currentUser.created)}</span>}
-          </p>
+
+            {currentUser?.created && (
+              <span>
+                joined{' '}
+                <span className="tabular text-primary-200">
+                  {formatMonthYearLong(currentUser.created)}
+                </span>
+              </span>
+            )}
+
+            {lastRead && (
+              <span>
+                last read <span className="text-primary-200">{lastRead}</span>
+              </span>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="flex items-center gap-2 flex-wrap">
-        <DirectionToggle login={currentUser?.login || ''} isUser={!!isUser} />
+        <div className="flex items-center gap-2 shrink-0">
+          {/* the glyph on a neutral button, not a filled purple one. as a solid
+              purple button this was the brightest thing on the page and it
+              pulled focus off the account name, which is the actual subject. */}
+          <a
+            href={`https://twitch.tv/${login}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-twitch-quiet"
+          >
+            <TwitchIcon size={15} />
+            Open on Twitch
+          </a>
 
-        <Snippet
-          size="sm"
-          variant="flat"
-          hideSymbol
-          className="p-0 gap-0 w-8 h-8 min-w-8 bg-primary-800 border border-primary-700 rounded-none"
-          tooltipProps={{
-            delay: 200,
-            offset: 8,
-            content: 'copy short url',
-            color: 'foreground',
-            className: 'font-medium'
-          }}
-          codeString={`${config.brand.url}/${isUser ? 'u' : 'c'}/${currentUser?.login}`}
-        />
+          {currentUser?.discord && (
+            <a
+              href={`https://discord.com/users/${currentUser.discord}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Open ${login} on discord`}
+              aria-label="Open on Discord"
+              className="btn btn-soft w-10 p-0"
+            >
+              <DiscordIcon size={16} />
+            </a>
+          )}
 
-        <Tooltip content="reload profile details">
+          <CopyButton
+            label="Copy short url"
+            value={`${config.brand.url}/${isUser ? 'u' : 'c'}/${login}`}
+          />
+
           <button
             type="button"
-            aria-label="reload profile details"
-            className="flex items-center justify-center w-8 h-8 bg-primary-800 border border-primary-700 text-primary-300 hover:text-primary-100 transition-colors duration-150 pressable"
-            onClick={() => reloadUserProfile(currentUser?.login || '', true)}
+            title={
+              isUser
+                ? 'Read this profile again from twitch'
+                : 'Read this channel again from twitch'
+            }
+            aria-label="Refresh"
+            className="btn btn-soft w-10 p-0"
+            onClick={() => reloadUserProfile(login, true)}
           >
             <ReloadIcon size={16} />
           </button>
-        </Tooltip>
+        </div>
       </div>
-    </div>
+
+      <DirectionTabs login={login} name={name} isUser={!!isUser} />
+    </section>
   );
 };

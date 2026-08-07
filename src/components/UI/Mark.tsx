@@ -7,9 +7,13 @@ import clsx from 'clsx';
  * changes, change it there and re-copy rather than editing these paths.
  *
  * `split` paints bracket A mod-green and bracket B vip-pink, which is the
- * whole idea of the mark: one relationship, two ends. monochrome everywhere
- * the mark is small (header, favicon, chat badge) because colour is never
- * load-bearing.
+ * whole idea of the mark: one relationship, two ends.
+ *
+ * the header and footer use `split` now. they used to be monochrome on the
+ * reasoning that colour is never load-bearing at small sizes — still true, and
+ * still why the favicon and the chat badge are monochrome — but the green/pink
+ * pair is what took over from twitch purple as the site's accent, so the one
+ * place the pair is stated outright had better be the wordmark.
  */
 export const Mark: FC<{ size?: number; split?: boolean; className?: string }> = ({
   size = 22,

@@ -1,23 +1,40 @@
-import { Skeleton } from '@heroui/react';
+import { UserType } from '@/misc/Interfaces';
 import { FC } from 'react';
 
 /**
- * mirrors the real row geometry (72px, rail + avatar + two text lines) so the
- * list does not reflow when the data lands.
+ * everything already known is already drawn: the column labels stay, only the
+ * values are blank. that is the whole point of the state — the row template and
+ * the 52px height are identical to the real thing, so nothing shifts when the
+ * response lands.
+ *
+ * the widths vary per row on purpose. six identical bars read as a progress
+ * indicator; uneven ones read as text that has not arrived.
  */
-export const UserListLoading: FC = () => (
-  <div className="border-t border-primary-700">
-    {[0, 1, 2].map((row) => (
-      <div
-        key={row}
-        className="flex items-center gap-3 h-[72px] px-2 border-b border-primary-800"
-      >
-        <Skeleton className="w-[3px] h-9 rounded-full" />
-        <Skeleton className="w-10 h-10 rounded-full shrink-0" />
-        <div className="flex-1 flex flex-col gap-2">
-          <Skeleton className="h-4 w-2/5 rounded" />
-          <Skeleton className="h-3 w-1/4 rounded" />
-        </div>
+const ROWS = [
+  ['w-24', 'w-16', 'w-14'],
+  ['w-32', 'w-16', 'w-12'],
+  ['w-20', 'w-16', 'w-16'],
+  ['w-28', 'w-16', 'w-12'],
+  ['w-36', 'w-16', 'w-14'],
+  ['w-24', 'w-16', 'w-16']
+];
+
+export const UserListLoading: FC<{ type: UserType }> = ({ type }) => (
+  <div className="rows">
+    <div className="row-head cols-people">
+      <span>{type === 'channel' ? 'Account' : 'Channel'}</span>
+      <span className="text-right">Granted</span>
+      <span className="text-right">Followers</span>
+    </div>
+
+    {ROWS.map(([name, granted, followers], index) => (
+      <div key={index} className="row cols-people">
+        <span className="flex items-center gap-3.5 min-w-0">
+          <span className="skeleton w-9 h-9 rounded-pill" />
+          <span className={`skeleton h-4 ${name}`} />
+        </span>
+        <span className={`skeleton h-3.5 ${granted} justify-self-end`} />
+        <span className={`skeleton h-3.5 ${followers} justify-self-end`} />
       </div>
     ))}
   </div>

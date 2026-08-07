@@ -1,113 +1,224 @@
-import { auth } from '@/auth';
-import { Bracket } from '@/components/UI/Bracket';
+import { ArrowRightIcon } from '@/components/Icons';
+import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
-import { SearchUser } from '@/components/User/SearchUser';
 import { config } from '@/config';
+import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { getStats } from '@/utils/stats';
+import { formatNumber } from '@/utils/utils';
+import Link from 'next/link';
+import { CSSProperties, FC, ReactNode } from 'react';
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * one of the two entry points, as a panel you can click rather than a link in a
+ * paragraph. the example url is the affordance: the shape of the address is the
+ * quickest way to say what the direction means.
+ */
+const Direction: FC<{
+  href: string;
+  corner: string;
+  tone: string;
+  hover: string;
+  title: string;
+  example: string;
+  children: string;
+}> = ({ href, corner, tone, hover, title, example, children }) => (
+  <Link href={href} className="panel group hover:bg-primary-700/25 transition-colors">
+    <div className="flex items-center gap-3 mb-3">
+      <span aria-hidden="true" className={`corner ${corner} ${tone}`} />
+      <h2 className="text-h2">{title}</h2>
+    </div>
+    <p className="text-read text-primary-300 max-w-[42ch] mb-5">{children}</p>
+    <span
+      className={`inline-flex items-center gap-2 text-ui font-semibold text-primary-200 transition-colors ${hover}`}
+    >
+      {example}
+      <ArrowRightIcon size={14} />
+    </span>
+  </Link>
+);
+
+/** a live list with a way through to the full one. no chips: this is a taste. */
+const Live: FC<{ title: string; href: string; link: string; children: ReactNode }> = ({
+  title,
+  href,
+  link,
+  children
+}) => (
+  <div className="panel-flush">
+    <div className="flex items-baseline gap-3 px-4 pb-5">
+      <h2 className="text-h2">{title}</h2>
+      <Link
+        href={href}
+        className="ml-auto text-ui font-semibold text-primary-300 hover:text-primary-100 transition-colors"
+      >
+        {link}
+      </Link>
+    </div>
+    {children}
+  </div>
+);
+
 export default async function Home() {
-  const session = await auth();
-  const username = session?.user?.login || 'forsen';
-
-  const stats = await getStats();
-
-  const counts = [
-    { value: stats.channels.formatted, label: 'channels' },
-    { value: stats.users.formatted, label: 'users' },
-    { value: stats.mods.formatted, label: 'mods' },
-    { value: stats.vips.formatted, label: 'vips' }
-  ];
+  // the two lists are what makes this page current rather than a brochure, and
+  // "recently indexed" in particular is the one thing on the site that shows it
+  // is being used right now. recently-looked-up used to be v2's left rail; it
+  // is a destination here instead of 240px of permanent furniture.
+  const [stats, recent, holders] = await Promise.all([
+    getStats(),
+    fetchChannels('read', 5, 0),
+    fetchAccounts('roles', 5, 0, true)
+  ]);
 
   return (
-    <main className="flex-grow">
-      <Container className="py-20 sm:py-28">
-        {/* the mark, read out loud: one relationship, two ends */}
-        <div className="flex items-center gap-3 mb-8 text-sm text-primary-400">
-          <Mark size={18} split />
-          <span>
-            <span className="text-mod">mods</span>
-            <span className="text-primary-600"> / </span>
-            <span className="text-vip">vips</span>
-            <span className="text-primary-500"> — both directions</span>
-          </span>
-        </div>
+    <main id="main" className="flex-grow">
+      <Container>
+        {/* no hero with a search box in it. the search is in the nav on every
+            page, so what this space is worth spending on is a statement of what
+            the site holds. */}
+        <section className="enter pt-14 pb-10">
+          <p className="flex items-center gap-3 text-ui text-primary-400 mb-5">
+            <Mark size={18} split />
+            <span>
+              <span className="text-mod font-semibold">mods</span> and{' '}
+              <span className="text-vip font-semibold">vips</span>, indexed from
+              both ends
+            </span>
+          </p>
 
-        <h1 className="font-cairo text-4xl sm:text-5xl leading-[1.05] tracking-tight max-w-xl mb-5">
-          Every mod list on twitch, read backwards.
-        </h1>
+          <h1 className="text-display max-w-[18ch] mb-5">
+            Every mod list on twitch, read backwards.
+          </h1>
 
-        <p className="text-lg text-primary-300 max-w-xl leading-relaxed mb-12">
-          Twitch shows a broadcaster their own moderators. {config.brand.name} keeps
-          the other half — every channel a person holds mod or vip in, and the day
-          they were given it.
-        </p>
+          <p className="text-lead text-primary-300 max-w-prose">
+            Twitch shows a broadcaster their own moderators. {config.brand.name}{' '}
+            keeps the other half: every channel a person holds a role in, and the
+            day it was granted. Type a name in the bar above.
+          </p>
+        </section>
 
-        {/* brackets close around the search on load: the mark assembling */}
-        <Bracket animate className="max-w-md p-3">
-          <SearchUser type="channel" />
-        </Bracket>
+        <section
+          className="enter grid gap-5 md:grid-cols-2 pb-12"
+          style={{ '--i': 1 } as CSSProperties}
+        >
+          <Direction
+            href="/channel"
+            corner="corner-tl"
+            tone="text-mod"
+            hover="group-hover:text-mod"
+            title="Look up a channel"
+            example={`${config.brand.domain}/c/forsen`}
+          >
+            Who holds mod, vip and founder in a channel, and since when.
+            Searching one for the first time is what adds it to the index.
+          </Direction>
 
-        <dl className="flex flex-wrap gap-x-8 gap-y-2 mt-12 text-sm mono">
-          {counts.map((count, index) => (
-            <div
-              key={count.label}
-              className="enter-item flex flex-col"
-              style={{ '--i': index } as React.CSSProperties}
-            >
-              <dd className="text-2xl text-primary-100">{count.value}</dd>
-              <dt className="text-primary-500 text-xs uppercase tracking-widest">
-                {count.label}
-              </dt>
+          <Direction
+            href="/user"
+            corner="corner-br"
+            tone="text-vip"
+            hover="group-hover:text-vip"
+            title="Look up a person"
+            example={`${config.brand.domain}/u/nymn`}
+          >
+            Every indexed channel where one account holds a role. This is the
+            direction twitch itself will not show you.
+          </Direction>
+        </section>
+
+        {/* five numbers at one size made all five equally ignorable. the two
+            role counts ARE the product, so they lead at 3rem in their own
+            colours and the rest supports them in a sentence. */}
+        <section
+          className="enter pb-14"
+          style={{ '--i': 2 } as CSSProperties}
+          aria-label="What the index holds"
+        >
+          <div className="flex flex-wrap items-end gap-x-14 gap-y-7">
+            <div>
+              <p className="flex items-center gap-2.5 text-ui text-primary-400 mb-2">
+                <span className="corner corner-tl text-mod" aria-hidden="true" />
+                moderator records
+              </p>
+              <p className="text-[clamp(2.25rem,4vw,3rem)] font-extrabold leading-none tabular text-mod">
+                {formatNumber(stats.mods.raw)}
+              </p>
             </div>
-          ))}
-        </dl>
+
+            <div>
+              <p className="flex items-center gap-2.5 text-ui text-primary-400 mb-2">
+                <span className="corner corner-br text-vip" aria-hidden="true" />
+                vip records
+              </p>
+              <p className="text-[clamp(2.25rem,4vw,3rem)] font-extrabold leading-none tabular text-vip">
+                {formatNumber(stats.vips.raw)}
+              </p>
+            </div>
+
+            <p className="text-read text-primary-400 max-w-[30ch] leading-relaxed">
+              across{' '}
+              <span className="text-primary-100 font-bold tabular">
+                {formatNumber(stats.channels.raw)}
+              </span>{' '}
+              channels and{' '}
+              <span className="text-primary-100 font-bold tabular">
+                {formatNumber(stats.users.raw)}
+              </span>{' '}
+              accounts.
+            </p>
+          </div>
+        </section>
+
+        {(recent.items.length > 0 || holders.items.length > 0) && (
+          <section
+            className="enter grid items-start gap-6 lg:grid-cols-2 pb-12"
+            style={{ '--i': 3 } as CSSProperties}
+          >
+            {recent.items.length > 0 && (
+              <Live title="Recently indexed" href="/channel" link="All channels">
+                <BrowseRows kind="channel" items={recent.items} />
+              </Live>
+            )}
+
+            {holders.items.length > 0 && (
+              <Live title="Holding the most roles" href="/user" link="All people">
+                <BrowseRows kind="account" items={holders.items} />
+              </Live>
+            )}
+          </section>
+        )}
+
+        <section
+          className="enter grid gap-6 md:grid-cols-2 pb-4"
+          style={{ '--i': 4 } as CSSProperties}
+        >
+          <div className="panel">
+            <h2 className="text-h2 mb-3">The index fills up by being used</h2>
+            <p className="text-read text-primary-300 max-w-[46ch] mb-5">
+              A channel enters the index the first time somebody searches for it.
+              That read pulls its mod and vip lists in and keeps them, for
+              everyone. No account needed.
+            </p>
+            <Link href="/channel" className="btn btn-soft">
+              Index a channel
+            </Link>
+          </div>
+
+          <div className="panel">
+            <h2 className="text-h2 mb-3">Listed here and would rather not be?</h2>
+            <p className="text-read text-primary-300 max-w-[46ch] mb-5">
+              Sign in with twitch and switch the opt-out on. Your profile stops
+              being served and you come off every list and the public api. It is
+              reversible: switching it back off restores your entry.
+            </p>
+            <Link href="/settings" className="btn btn-soft">
+              Opt out
+            </Link>
+          </div>
+        </section>
       </Container>
-
-      {/* the two halves of the mark, at page scale: mod-green anchored top-left,
-          vip-pink anchored bottom-right, 180° apart */}
-      <div className="border-t border-primary-700">
-        <Container className="py-20 grid gap-16 sm:grid-cols-2">
-          <section className="sm:pr-8">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-3 h-3 border-2 border-b-0 border-r-0 border-mod" />
-              <h2 className="font-cairo text-xl tracking-tight">
-                Built by looking things up
-              </h2>
-            </div>
-            <p className="text-primary-400 leading-relaxed">
-              A channel enters the index the first time somebody searches for it —
-              that read pulls its mod and vip lists in and keeps them. If a
-              moderator you expect is missing, look up the channel they mod in,
-              once.
-            </p>
-          </section>
-
-          <section className="sm:pl-8 sm:text-right">
-            <div className="flex items-center gap-2 mb-4 sm:justify-end">
-              <h2 className="font-cairo text-xl tracking-tight">
-                Two urls, one per direction
-              </h2>
-              <span className="w-3 h-3 border-2 border-t-0 border-l-0 border-vip" />
-            </div>
-            <p className="text-primary-400 leading-relaxed mb-5">
-              Who mods <em>for</em> a channel, and where a person mods.
-            </p>
-            <div className="flex flex-col gap-2 mono text-sm">
-              {(['c', 'u'] as const).map((prefix) => (
-                <code
-                  key={prefix}
-                  className="px-3 py-2 bg-primary-800 border border-primary-700 text-primary-300"
-                >
-                  {config.brand.domain}/{prefix}/{username}
-                </code>
-              ))}
-            </div>
-          </section>
-        </Container>
-      </div>
     </main>
   );
 }

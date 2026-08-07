@@ -154,6 +154,21 @@ export const getUserDonationTotal = (userId: string) =>
     latest: string | null;
   }>(`/v1/donations${query({ userId })}`, { authenticated: true });
 
+/**
+ * The two browse lists. Both are pages, not bare arrays, because a browse
+ * surface has to know whether there is another page.
+ *
+ * Cached for a minute. These are rankings over the whole index rather than an
+ * answer about one channel, so a reader seeing a 60-second-old ordering is not
+ * seeing anything wrong -- and the `roles` ordering reads a rollup that is
+ * rebuilt daily anyway, so caching it for less than that is already generous.
+ */
+export const getChannels = <T>(params: Record<string, string | undefined>) =>
+  call<T>(`/v1/channels${query(params)}`, { revalidate: 60 });
+
+export const getAccounts = <T>(params: Record<string, string | undefined>) =>
+  call<T>(`/v1/accounts${query(params)}`, { revalidate: 60 });
+
 /** Homepage counters. Public, and raw — formatting is this app's job. */
 export const getStats = () =>
   call<{
