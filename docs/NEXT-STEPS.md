@@ -181,7 +181,10 @@ earlier works but the next donation would re-corrupt it.)
 
 Detail and measurements in [`DATABASE.md`](DATABASE.md).
 
-- [ ] **Apply `001-indexes-and-audit-fix.sql`** to production. Low risk,
+- [x] **Apply `001-indexes-and-audit-fix.sql`** to production. **Confirmed
+      applied 2026-08-07** by inspecting production directly: `audit`.`id` has
+      its `AUTO_INCREMENT` and the `granted` indexes are present. The rehearsal
+      notes below are kept for the measurements. Low risk,
       `INPLACE`. **Rehearsed 2026-08-06** on a full restore of the
       2026-08-06 dump (8.1M mods, 5.6M vips, 2.75M users) in the dev container:
       applied clean in **47 s** total.
@@ -303,14 +306,17 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
 - [ ] **Write `003`**: convert `users.id` to `BIGINT UNSIGNED`, add the foreign
       keys 002 had to defer, drop `mods`/`vips`. Only after the app is live on
       `roles`.
-- [ ] **Apply `004-rebrand-chat-badge-labels.sql`.** Instant, 7 rows. All seven
-      production `chat_badges.name` values still read `"Modchecker ..."` — they
+- [x] **Apply `004-rebrand-chat-badge-labels.sql`.** **Confirmed applied
+      2026-08-07** — no `chat_badges.name` in production begins "Modchecker"
+      any more. Instant, 7 rows. The original note: production values read
+      `"Modchecker ..."` — they
       are *data*, so the code rebrand does not touch them and the old brand is
       still rendered next to users' names. `slug` is deliberately left alone: it
       is the key the app and the FFZ add-on match on.
-- [ ] **Migrate production data into the container volume**, now that the DB is
-      containerised in production too. Dump → restore → verify row counts → cut
-      over.
+- [x] **Migrate production data into the container volume.** Done — the volume
+      owned by `moddex-api`'s compose project holds the live data (2.7M users,
+      8.1M mods, 5.6M vips) and the nightly dump runs beside it. The host MySQL
+      still exists with the pre-split copy; see DEPLOY.md for retiring it.
 - [x] **The missing companion docs.** **Half of this was wrong.**
       `DATABASE.md` exists and always did — 8 KB of measurements against the
       production copy, including the row counts and the disk analysis. Only
@@ -394,7 +400,10 @@ taking, cheapest first:
       roles.tv gives ten their own page. `snapshots` already has 2,014 rows of
       history, so a chart over time is available for free and is something they
       do *not* appear to do.
-- [ ] **Flag known bots.** They curate 19. Bots dominate large mod lists
+- [x] **Flag known bots.** Done — `users`.`bot` is populated from the curated
+      list in `misc/bots.ts`, re-evaluated on every write so adding a name takes
+      effect as users refresh, and moddex-web has a "hide bots" filter. They
+      curate 19. Bots dominate large mod lists
       (`fossabot` and `susgeebot` are already in our data), so a flag — or a
       "hide bots" toggle — makes a 14,000-entry mod list considerably more
       readable.

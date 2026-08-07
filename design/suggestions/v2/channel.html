@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Channels | moddex</title>
+  <meta name="description" content="Search for twitch channels to look up their mods and vips.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / GET /channel
+     A directory's lookup page. The ruled line, and beside it the register of
+     what has recently been added, set with leader dots the way a printed
+     contents page runs a title out to its page number. -->
+<body data-nav="channel" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio" style="--i: 0">
+        <p class="margin">
+          Searching a channel for the first time is what adds it to the index.
+          No account needed.
+        </p>
+
+        <div>
+          <h1 class="title text-h1 mb-4">Look up a channel</h1>
+          <p class="text-read text-primary-300 max-w-prose mb-10">
+            Who holds mod, vip and founder in a channel, and since when.
+          </p>
+
+          <form class="max-w-2xl mb-12" onsubmit="event.preventDefault(); location.href='channel-detail.html';">
+            <div class="flex items-baseline gap-3 border-b-2 border-primary-100 pb-2">
+              <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+              <input name="username" placeholder="forsen" maxlength="25" autocomplete="off" aria-label="twitch channel name"
+                     class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 placeholder:text-primary-600 outline-none">
+              <button type="submit" class="btn h-10 shrink-0">Look up</button>
+            </div>
+            <p class="label text-note mt-3">
+              Looking for a person instead?
+              <a href="user.html" class="link text-primary-200 not-italic">Search people</a>.
+            </p>
+          </form>
+
+          <!-- the reject state, set as an erratum rather than an alarm -->
+          <div class="rule-hair pt-7 max-w-2xl">
+            <p class="label text-note mb-4">If the name cannot be a twitch name</p>
+            <div class="flex items-baseline gap-3 border-b-2 border-vip pb-2">
+              <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+              <input value="not a name!" aria-invalid="true" aria-describedby="reject"
+                     class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 outline-none">
+              <button type="button" disabled class="btn h-10 shrink-0 opacity-40 cursor-not-allowed">Look up</button>
+            </div>
+            <p id="reject" class="label text-note mt-3 text-vip">
+              Twitch names are one to twenty-five characters: letters, numbers
+              and underscores. Nothing was sent.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================ recently indexed -->
+      <section class="enter mt-16" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Recently added to the index</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            The index has grown by <span class="text-figures">1,204</span>
+            channels today.
+          </p>
+
+          <div class="grid gap-x-14 gap-y-3 sm:grid-cols-2 max-w-3xl">
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">forsen</span>
+              <span class="datum text-note text-primary-400 order-last">26 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">nymn</span>
+              <span class="datum text-note text-primary-400 order-last">41 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">xqc</span>
+              <span class="datum text-note text-primary-400 order-last">88 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">pajlada</span>
+              <span class="datum text-note text-primary-400 order-last">19 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">knut</span>
+              <span class="datum text-note text-primary-400 order-last">33 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">alinity</span>
+              <span class="datum text-note text-primary-400 order-last">12 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">joeykaotyk</span>
+              <span class="datum text-note text-primary-400 order-last">7 roles</span>
+            </a>
+            <a href="channel-detail.html" class="leader group">
+              <span class="datum text-primary-100 group-hover:text-mod transition-colors duration-150">lekkerbekje</span>
+              <span class="datum text-note text-primary-400 order-last">4 roles</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

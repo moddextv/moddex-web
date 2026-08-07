@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>forsen | moddex</title>
+  <meta name="description" content="Everyone holding mod, vip or founder in forsen's channel, and the date each role was granted.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / GET /channel/forsen
+     A directory entry, set the way a directory sets one.
+
+     Running head above a rule, the way a dictionary tells you where you are.
+     The apparatus (followers, joined, id, source, when it was last read) goes
+     in the margin rather than into a row of chips, because it is reference
+     material about the entry rather than part of it. Three ruled sections in
+     sequence, each closed with a single rule and nothing between rows. -->
+<body data-nav="channel" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-8 pb-16">
+
+      <!-- ===================================================== running head -->
+      <div class="enter flex items-baseline justify-between gap-6 pb-2 border-b border-primary-700 mb-9" style="--i: 0">
+        <p class="smallcaps text-note text-primary-400">Channels &middot; forsen</p>
+        <p class="label text-note">
+          <span class="datum not-italic text-figures">24</span> mods,
+          <span class="datum not-italic text-figures">5</span> vips,
+          <span class="datum not-italic text-figures">0</span> founders
+        </p>
+      </div>
+
+      <!-- =========================================================== entry -->
+      <div class="enter folio mb-14" style="--i: 1">
+
+        <!-- apparatus, in the margin -->
+        <aside class="margin flex flex-col gap-3">
+          <span>Read from twitch 4 minutes ago</span>
+          <span class="rule-hair pt-3">
+            <a href="https://twitch.tv/forsen" target="_blank" rel="noopener noreferrer" class="link not-italic text-primary-300">twitch.tv/forsen</a>
+          </span>
+          <span class="rule-hair pt-3">
+            <a href="#" class="link not-italic text-primary-300">discord</a>
+          </span>
+        </aside>
+
+        <div>
+          <div class="flex items-start gap-5 mb-6">
+            <span class="portrait w-20 h-20 text-3xl" aria-hidden="true">f</span>
+
+            <div class="min-w-0">
+              <div class="flex items-center gap-3 flex-wrap mb-1.5">
+                <h1 class="title text-h1 leading-none">forsen</h1>
+                <img src="../../badges/partner.svg" alt="Twitch partner" width="19" height="19" title="partner">
+                <img src="../../badges/donator.svg" alt="moddex donator" width="19" height="19" title="donator">
+              </div>
+              <p class="label mb-4">
+                Swedish streamer, formerly a professional starcraft II and
+                hearthstone player.
+              </p>
+
+              <!-- the entry's own figures, set as a printed record line -->
+              <dl class="flex flex-wrap gap-x-8 gap-y-1.5 text-small">
+                <div class="flex gap-2">
+                  <dt class="label">followers</dt>
+                  <dd class="datum text-primary-200">1,730,412</dd>
+                </div>
+                <div class="flex gap-2">
+                  <dt class="label">joined</dt>
+                  <dd class="datum text-primary-200">2011.03.12</dd>
+                </div>
+                <div class="flex gap-2">
+                  <dt class="label">twitch id</dt>
+                  <dd class="datum text-primary-200">22484632</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <!-- the cross-reference. one relationship, two entries. -->
+          <div class="rule-hair pt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <p class="label text-note">This entry</p>
+            <span class="flex items-center gap-2.5">
+              <span class="corner corner-tl text-mod"></span>
+              <span class="text-primary-100">as a channel</span>
+            </span>
+            <a href="user-detail.html" class="flex items-center gap-2.5 group">
+              <span class="corner corner-br text-primary-600 group-hover:text-vip transition-colors duration-150"></span>
+              <span class="text-primary-400 group-hover:text-primary-100 link transition-colors duration-150">as a person</span>
+            </a>
+            <span class="ml-auto flex items-center gap-5 text-note">
+              <button type="button" class="label not-italic text-primary-400 hover:text-primary-100 link transition-colors duration-150">Copy short url</button>
+              <button type="button" class="label not-italic text-primary-400 hover:text-primary-100 link transition-colors duration-150">Read again from twitch</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================== moderators -->
+      <section class="enter mb-14" style="--i: 2" aria-labelledby="s-mods">
+        <div class="opener mb-5">
+          <span class="corner corner-tl text-mod"></span>
+          <h2 id="s-mods" class="text-h2">Moderators</h2>
+          <span class="label text-note"><span class="datum not-italic text-figures">24</span> in all</span>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Three of these are bots.
+            <button type="button" class="link not-italic text-primary-300">Hide them</button>
+          </p>
+
+          <table class="ledger closed">
+            <thead>
+              <tr>
+                <th scope="col">Account</th>
+                <th scope="col" class="text-right">Granted</th>
+                <th scope="col" class="text-right">Followers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a href="user-detail.html" class="datum text-primary-100 link">nymn</a>
+                  <img src="../../badges/partner.svg" alt="Twitch partner" width="13" height="13" title="partner" class="inline-block ml-1.5 align-baseline">
+                </td>
+                <td class="datum text-right text-primary-300">2016.04.11</td>
+                <td class="datum text-right text-primary-400">614,201</td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="user-detail.html" class="datum text-primary-100 link">pajlada</a>
+                  <img src="../../badges/team.svg" alt="moddex team" width="13" height="13" title="team" class="inline-block ml-1.5 align-baseline">
+                </td>
+                <td class="datum text-right text-primary-300">2015.09.02</td>
+                <td class="datum text-right text-primary-400">92,830</td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="user-detail.html" class="datum text-primary-100 link">supibot</a>
+                  <span class="label text-note ml-2">bot</span>
+                </td>
+                <td class="datum text-right text-primary-300">2019.11.23</td>
+                <td class="datum text-right text-primary-400">1,204</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">elis</a></td>
+                <!-- an unrecorded date is set as a short rule, the way a
+                     printed table marks a gap it cannot fill. drawn rather
+                     than typed, so it is not an em-dash. -->
+                <td class="text-right" title="Twitch returned no grant date for this role">
+                  <span aria-hidden="true" class="inline-block w-5 border-b border-primary-500 align-middle"></span>
+                  <span class="sr-only">not recorded</span>
+                </td>
+                <td class="datum text-right text-primary-400">8,910</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">marlon</a></td>
+                <td class="datum text-right text-primary-300">2022.01.30</td>
+                <td class="datum text-right text-primary-400">3,417</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">kkona</a></td>
+                <td class="datum text-right text-primary-300">2021.02.19</td>
+                <td class="datum text-right text-primary-400">31,004</td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="user-detail.html" class="datum text-primary-100 link">fossabot</a>
+                  <span class="label text-note ml-2">bot</span>
+                </td>
+                <td class="datum text-right text-primary-300">2020.05.14</td>
+                <td class="datum text-right text-primary-400">402</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">joeykaotyk</a></td>
+                <td class="datum text-right text-primary-300">2021.06.22</td>
+                <td class="datum text-right text-primary-400">18,077</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                  <button type="button" class="link not-italic text-primary-300 hover:text-primary-100 transition-colors duration-150">
+                    Show the remaining 16
+                  </button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================================== vips -->
+      <section class="enter mb-14" style="--i: 3" aria-labelledby="s-vips">
+        <div class="opener mb-5">
+          <span class="corner corner-br text-vip"></span>
+          <h2 id="s-vips" class="text-h2">Vips</h2>
+          <span class="label text-note"><span class="datum not-italic text-figures">5</span> in all, 3 hidden</span>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Bots are hidden here.
+            <button type="button" class="link not-italic text-primary-300">Show them</button>
+          </p>
+
+          <table class="ledger closed">
+            <thead>
+              <tr>
+                <th scope="col">Account</th>
+                <th scope="col" class="text-right">Granted</th>
+                <th scope="col" class="text-right">Followers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a href="user-detail.html" class="datum text-primary-100 link">kkona</a>
+                  <img src="../../badges/affiliate.svg" alt="Twitch affiliate" width="13" height="13" title="affiliate" class="inline-block ml-1.5 align-baseline">
+                </td>
+                <td class="datum text-right text-primary-300">2021.02.19</td>
+                <td class="datum text-right text-primary-400">31,004</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">lekkerbekje</a></td>
+                <td class="datum text-right text-primary-300">2023.07.30</td>
+                <td class="datum text-right text-primary-400">512</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====================================================== founders -->
+      <!-- an empty section still gets its heading and its rule. a directory
+           prints "none recorded" rather than dropping the heading, because the
+           absence is itself information. -->
+      <section class="enter" style="--i: 4" aria-labelledby="s-founders">
+        <div class="opener mb-5">
+          <span class="corner corner-bl text-founder"></span>
+          <h2 id="s-founders" class="text-h2">Founders</h2>
+          <span class="label text-note">none recorded</span>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Last attempted 2026.08.06.</p>
+
+          <p class="text-primary-300 max-w-prose rule-mid pt-5">
+            Founder badges come from a different twitch query than mods and vips,
+            and it runs on a slower schedule. An empty section here means not yet
+            read, not none exist.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

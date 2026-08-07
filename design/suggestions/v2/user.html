@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>People | moddex</title>
+  <meta name="description" content="Search for the channels where a twitch account holds mod or vip.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / GET /user
+     The mirror. Same ruled line, opposite direction, and a register of the
+     accounts carrying the most roles, which is the only genuinely interesting
+     ranking this data supports. -->
+<body data-nav="user" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio" style="--i: 0">
+        <p class="margin">
+          This is the direction twitch itself will not show you.
+        </p>
+
+        <div>
+          <h1 class="title text-h1 mb-4">Look up a person</h1>
+          <p class="text-read text-primary-300 max-w-prose mb-10">
+            Every indexed channel where they hold mod or vip, and the day each
+            role was granted.
+          </p>
+
+          <form class="max-w-2xl mb-12" onsubmit="event.preventDefault(); location.href='user-detail.html';">
+            <div class="flex items-baseline gap-3 border-b-2 border-primary-100 pb-2">
+              <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+              <input name="username" placeholder="nymn" maxlength="25" autocomplete="off" aria-label="twitch account name"
+                     class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 placeholder:text-primary-600 outline-none">
+              <button type="submit" class="btn h-10 shrink-0">Look up</button>
+            </div>
+            <p class="label text-note mt-3">
+              Looking for a channel instead?
+              <a href="channel.html" class="link text-primary-200 not-italic">Search channels</a>.
+            </p>
+          </form>
+
+          <!-- the in-flight state -->
+          <div class="rule-hair pt-7 max-w-2xl">
+            <p class="label text-note mb-4">While the name is being checked with twitch</p>
+            <div class="flex items-baseline gap-3 border-b-2 border-primary-100 pb-2">
+              <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+              <input value="nymn" readonly
+                     class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 outline-none">
+              <span class="btn h-10 shrink-0 gap-2.5">
+                <svg width="13" height="13" viewBox="0 0 32 32" aria-hidden="true">
+                  <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="currentColor">
+                    <animate attributeName="opacity" dur="1.2s" values="1;0.25;1" repeatCount="indefinite" begin="-.3s"/>
+                  </path>
+                  <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="currentColor">
+                    <animate attributeName="opacity" dur="1.2s" values="1;0.25;1" repeatCount="indefinite" begin="0s"/>
+                  </path>
+                </svg>
+                Checking
+              </span>
+            </div>
+            <p class="label text-note mt-3">Resolving nymn against twitch.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================== most roles -->
+      <section class="enter mt-16" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Accounts carrying the most roles</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Counts cover indexed channels only, so every figure here is a floor
+            rather than a total.
+          </p>
+
+          <table class="ledger closed max-w-3xl">
+            <thead>
+              <tr>
+                <th scope="col">Account</th>
+                <th scope="col" class="text-right">Modding</th>
+                <th scope="col" class="text-right">Viping</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">supibot</a>
+                  <span class="label text-note ml-2">bot</span></td>
+                <td class="datum text-right text-mod">1,204</td>
+                <td class="datum text-right text-primary-500">0</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">pajlada</a></td>
+                <td class="datum text-right text-mod">412</td>
+                <td class="datum text-right text-vip">37</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">nymn</a></td>
+                <td class="datum text-right text-mod">88</td>
+                <td class="datum text-right text-vip">14</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">kkona</a></td>
+                <td class="datum text-right text-mod">61</td>
+                <td class="datum text-right text-vip">29</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">elis</a></td>
+                <td class="datum text-right text-mod">47</td>
+                <td class="datum text-right text-vip">8</td>
+              </tr>
+              <tr>
+                <td><a href="user-detail.html" class="datum text-primary-100 link">marlon</a></td>
+                <td class="datum text-right text-mod">39</td>
+                <td class="datum text-right text-vip">11</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

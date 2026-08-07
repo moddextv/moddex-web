@@ -1,0 +1,567 @@
+/* ==========================================================================
+ * v2 "ALMANAC"
+ *
+ * moddex set as a printed reference volume rather than as a website.
+ *
+ * The devices below are all borrowed from book and directory typography, and
+ * every one of them is doing a job the web equivalent does worse:
+ *
+ *   the sheet        paper on a desk. gives the content an edge, which is what
+ *                    a max-width container never quite does.
+ *   register marks   the moddex mark IS two corner brackets 180 degrees apart,
+ *                    which is exactly what a printer's registration mark is.
+ *                    put them on the corners of the sheet and the page becomes
+ *                    the logo. this is the whole reason the concept fits.
+ *   booktabs rules   thick rule above a table head, thin below it, thin at the
+ *                    foot, and NOTHING between rows. the convention every
+ *                    typesetting manual has recommended for a century, and the
+ *                    exact opposite of a hairline under all 24 rows.
+ *   the margin       notes, sources and timestamps sit in the left margin
+ *                    instead of in chips and pills. a scholarly edition puts
+ *                    apparatus beside the text, not inside it.
+ *   italic labels    a printed table labels its columns in italic, not in
+ *                    tracked-out uppercase.
+ *   old-style figs   numbers in running prose get old-style figures so they sit
+ *                    in the line; numbers in columns get lining tabular figures
+ *                    so they stack. two different jobs, two different settings.
+ *   the colophon     the footer states what the volume is set in and what it
+ *                    holds. footers on the web say nothing; a colophon says
+ *                    something true.
+ *
+ * ABSENT ON PURPOSE, because they are what made the previous v2 read as
+ * generated: monospace, uppercase tracked-out micro-labels, a heavy display
+ * grotesk, a dark canvas, saturated accents, cards, shadows.
+ *
+ * DIALS (design-taste-frontend section 1): DESIGN_VARIANCE 7,
+ * MOTION_INTENSITY 2, VISUAL_DENSITY 5. Motion is near zero on purpose. Paper
+ * does not animate, and the restraint is the point.
+ * ========================================================================== */
+
+/* --------------------------------------------------------------- tokens -- */
+:root {
+    /* Chrome's "Auto Dark Mode for Web Contents" will invert a light page that
+       has not declared what it supports, which turns this whole direction into
+       a bad version of v1 on any machine with that flag on. Declaring `light`
+       opts out. The <meta name="color-scheme"> in each page head does the same
+       job before the stylesheet has parsed. Not optional for a light design. */
+    color-scheme: light;
+
+    --ink: #18181B;
+    --paper: #FFFFFF;
+    --desk: #F2F2F5;
+    --rule-hair: #E2E2E7;
+    --rule-mid: #C4C4CC;
+    --rule-thick: #18181B;
+
+    --mod: #16A34A;
+    --vip: #DB2777;
+
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+    --duration: 160ms;
+
+    --z-header: 40;
+    --z-overlay: 60;
+    --z-switcher: 90;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--desk);
+    color: var(--ink);
+    font-family: 'Newsreader', 'Iowan Old Style', Georgia, serif;
+    font-variant-numeric: oldstyle-nums proportional-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------- sheet --
+ * paper on a desk, with the mark's two corners registering it.
+ */
+.sheet {
+    position: relative;
+    background: var(--paper);
+    border-left: 1px solid var(--rule-hair);
+    border-right: 1px solid var(--rule-hair);
+}
+
+/* the two halves of the moddex mark, at page scale, 180 degrees apart. the
+   sheet IS the logo. */
+.sheet::before,
+.sheet::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 3px solid;
+    pointer-events: none;
+}
+
+.sheet::before {
+    top: -1px;
+    left: -1px;
+    border-color: var(--mod);
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.sheet::after {
+    bottom: -1px;
+    right: -1px;
+    border-color: var(--vip);
+    border-left: 0;
+    border-top: 0;
+}
+
+/* ------------------------------------------------------------ typography -- */
+h1, h2, h3, h4 {
+    font-weight: 400;
+    text-wrap: balance;
+}
+
+/* a book title is large and light. weight comes from the size, never from
+   dropping to 700 and hoping. */
+.title {
+    font-weight: 300;
+    letter-spacing: -0.015em;
+}
+
+.title em {
+    font-style: italic;
+    font-weight: 300;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+/* the label. italic serif, sentence case, small. replaces every tracked-out
+   uppercase micro-label in the other two directions. */
+.label {
+    font-style: italic;
+    font-weight: 400;
+    color: #6E6E78;
+}
+
+/* names, dates and counts. grotesk, because a serif's proportional figures do
+   not stack in a column. */
+.datum {
+    font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0;
+}
+
+/* running prose keeps old-style figures so numbers sit in the line rather than
+   standing up out of it */
+.text-figures {
+    font-variant-numeric: oldstyle-nums proportional-nums;
+}
+
+/* small caps, for the running head only. genuine small caps from the font, not
+   uppercase at a smaller size. */
+.smallcaps {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------------------- booktabs --
+ * thick above the head, thin below it, thin at the foot, nothing between rows.
+ */
+.ledger {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ledger thead th {
+    padding: 0 0 6px;
+    border-top: 2px solid var(--rule-thick);
+    border-bottom: 1px solid var(--rule-mid);
+    padding-top: 8px;
+    font-family: 'Newsreader', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.9375rem;
+    color: #6E6E78;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* the element selector above outweighs tailwind's .text-right, so numeric
+   column heads need this to follow their column */
+.ledger thead th.text-right {
+    text-align: right;
+}
+
+.ledger tbody td {
+    padding: 9px 0;
+    vertical-align: baseline;
+}
+
+.ledger tbody tr:last-child td {
+    padding-bottom: 12px;
+}
+
+.ledger tfoot td {
+    border-top: 1px solid var(--rule-mid);
+    padding-top: 8px;
+    font-style: italic;
+    font-size: 0.875rem;
+    color: #6E6E78;
+}
+
+/* the whole table closes with a single rule. nothing between rows. */
+.ledger.closed tbody tr:last-child td {
+    border-bottom: 1px solid var(--rule-mid);
+    padding-bottom: 12px;
+}
+
+/* hovering a row tints the paper very slightly. no fill, no border, no lift. */
+@media (hover: hover) and (pointer: fine) {
+    .ledger tbody tr {
+        transition: background-color var(--duration) linear;
+    }
+
+    .ledger tbody tr:hover {
+        background-color: #F7F7F9;
+    }
+}
+
+/* a column of names in a directory gets a leader dot line to its value. this
+   is the phone-book device, and it is genuinely useful at this width. */
+.leader {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    width: 100%;
+}
+
+.leader::after {
+    content: '';
+    flex: 1;
+    height: 0;
+    border-bottom: 1px dotted var(--rule-mid);
+    transform: translateY(-3px);
+}
+
+/* --------------------------------------------------------------- margin --
+ * apparatus beside the text, the way a scholarly edition sets it.
+ */
+.folio {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 1024px) {
+    .folio {
+        grid-template-columns: 168px minmax(0, 1fr);
+        gap: 40px;
+    }
+}
+
+.margin {
+    font-style: italic;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #6E6E78;
+}
+
+@media (min-width: 1024px) {
+    .margin {
+        text-align: right;
+    }
+}
+
+/* --------------------------------------------------------------- rules -- */
+.rule-thick { border-top: 2px solid var(--rule-thick); }
+.rule-mid { border-top: 1px solid var(--rule-mid); }
+.rule-hair { border-top: 1px solid var(--rule-hair); }
+
+/* the section opener: a role's corner, its name, and a rule that runs out to
+   the edge of the measure */
+.opener {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.opener::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--rule-mid);
+}
+
+/* the mark's corner, at text scale, oriented per role */
+.corner {
+    display: block;
+    width: 11px;
+    height: 11px;
+    border: 2px solid currentColor;
+    flex-shrink: 0;
+}
+
+.corner-tl { border-right: 0; border-bottom: 0; }
+.corner-br { border-left: 0; border-top: 0; }
+.corner-bl { border-right: 0; border-top: 0; }
+.corner-tr { border-left: 0; border-bottom: 0; }
+
+/* ---------------------------------------------------------- interaction -- */
+a {
+    color: inherit;
+}
+
+.link {
+    text-decoration: underline;
+    text-decoration-color: var(--rule-mid);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color var(--duration) linear;
+}
+
+.link:hover {
+    text-decoration-color: var(--ink);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 20px;
+    font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    transition: background-color var(--duration) linear, color var(--duration) linear;
+}
+
+.btn:hover {
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.btn-quiet {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--rule-mid);
+}
+
+.btn-quiet:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
+/* ----------------------------------------------------------------- entry --
+ * motion is nearly absent. one fade, no translate, no stagger beyond a beat.
+ * paper does not animate, and the restraint is the whole register.
+ */
+.enter {
+    opacity: 0;
+    animation: enter 420ms var(--ease) forwards;
+    animation-delay: min(calc(var(--i, 0) * 55ms), 280ms);
+}
+
+@keyframes enter {
+    to { opacity: 1; }
+}
+
+/* --------------------------------------------------------- comp helpers --
+ * NOTHING BELOW THIS LINE BELONGS IN src/. These stand in for react components
+ * a static file cannot render.
+ */
+.portrait {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--desk);
+    border: 1px solid var(--rule-hair);
+    color: #9A9AA4;
+    font-family: 'Newsreader', Georgia, serif;
+    font-style: italic;
+    user-select: none;
+}
+
+.skeleton {
+    background: var(--desk);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+    animation: sweep 1.4s var(--ease) infinite;
+}
+
+@keyframes sweep {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* a switch on paper is a printed checkbox, not an iOS toggle */
+.mark-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid var(--rule-mid);
+    background: var(--paper);
+    flex-shrink: 0;
+    transition: border-color var(--duration) linear;
+}
+
+.mark-box svg {
+    opacity: 0;
+    transition: opacity var(--duration) linear;
+}
+
+.mark-box[data-on='true'] {
+    border-color: var(--mod);
+}
+
+.mark-box[data-on='true'] svg {
+    opacity: 1;
+}
+
+/* ----------------------------------------------------------------- a11y -- */
+:where(a, button, input, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: var(--z-overlay);
+    padding: 10px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.875rem;
+    transition: top var(--duration) var(--ease);
+}
+
+.skip-link:focus {
+    top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+
+    .enter {
+        opacity: 1;
+        animation: none;
+    }
+
+    .skeleton::after { animation: none; }
+}
+
+::selection {
+    background: #16A34A;
+    color: #FFFFFF;
+}
+
+/* ------------------------------------------------------ variant switcher --
+ * comp scaffolding.
+ */
+#vswitch {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: var(--z-switcher);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 14px;
+}
+
+#vswitch > button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 38px;
+    padding: 0 16px;
+    margin-left: auto;
+    background: var(--paper);
+    border: 1px solid var(--rule-mid);
+    color: var(--ink);
+    font-style: italic;
+    cursor: pointer;
+    transition: border-color var(--duration) linear;
+}
+
+#vswitch > button:hover { border-color: var(--ink); }
+
+#vswitch nav {
+    display: none;
+    width: 268px;
+    max-height: 72vh;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    padding: 6px 0 8px;
+    background: var(--paper);
+    border: 1px solid var(--rule-mid);
+}
+
+#vswitch[data-open='true'] nav { display: block; }
+
+#vswitch h3 {
+    margin: 10px 16px 4px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--rule-hair);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    color: #9A9AA4;
+}
+
+#vswitch a {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 5px 16px;
+    color: #45454C;
+    text-decoration: none;
+}
+
+#vswitch a:hover { background: var(--desk); color: var(--ink); }
+#vswitch a[aria-current='page'] { color: var(--mod); }
+
+#vswitch a span {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    color: #C4C4CC;
+    align-self: center;
+}
+
+#vswitch .cross {
+    display: flex;
+    gap: 8px;
+    margin: 10px 16px 2px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule-hair);
+}
+
+#vswitch .cross a {
+    flex: 1;
+    justify-content: center;
+    padding: 6px 4px;
+    border: 1px solid var(--rule-hair);
+    font-style: italic;
+}
+
+#vswitch .cross a:hover { border-color: var(--ink); }

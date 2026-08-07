@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>moddex</title>
+  <meta name="description" content="Every channel a twitch account holds mod or vip in, and the day they were given it. The direction twitch itself will not show you.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / GET /
+     A title page. The search is a ruled line you write on rather than a boxed
+     field, because that is what filling in an entry on a form looks like, and
+     it is the one interaction the whole volume exists for. -->
+<body data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10">
+
+      <!-- ============================================================ title -->
+      <section class="pt-14 pb-16">
+        <h1 class="enter title text-display max-w-[15ch] mb-7" style="--i: 0">
+          Every mod list on twitch, read <em>backwards</em>.
+        </h1>
+
+        <p class="enter text-lead text-primary-300 max-w-prose mb-12 text-figures" style="--i: 1">
+          Twitch shows a broadcaster their own moderators. moddex keeps the other
+          half: every channel a person holds a role in, and the day it was
+          granted.
+        </p>
+
+        <!-- the ruled line. no box, no fill, no placeholder greyed into
+             invisibility. a rule you write on. -->
+        <form class="enter max-w-2xl" style="--i: 2"
+              onsubmit="event.preventDefault(); location.href='channel-detail.html';">
+          <label for="q" class="label text-note block mb-2">Look up a channel</label>
+          <div class="flex items-baseline gap-3 border-b-2 border-primary-100 pb-2">
+            <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+            <input id="q" name="username" placeholder="forsen" maxlength="25" autocomplete="off"
+                   class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 placeholder:text-primary-600 outline-none">
+            <button type="submit" class="btn h-10 shrink-0">Look up</button>
+          </div>
+          <p class="label text-note mt-3">
+            Or look up
+            <a href="user.html" class="link text-primary-200 not-italic">a person</a>
+            instead, to see where they hold a role.
+          </p>
+        </form>
+      </section>
+
+      <!-- ================================================== the two ways in -->
+      <section class="pb-16">
+        <div class="opener mb-6">
+          <h2 class="text-h2">The two ways in</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            One relationship, read from either end. The mark is the same idea:
+            two corners, a hundred and eighty degrees apart.
+          </p>
+
+          <div class="grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            <a href="channel-detail.html" class="group block">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="corner corner-tl text-mod"></span>
+                <h3 class="text-h3">By channel</h3>
+              </div>
+              <p class="text-primary-300 mb-4 max-w-[36ch]">
+                Who holds mod, vip and founder in a channel, and since when.
+              </p>
+              <span class="datum text-note text-primary-400 group-hover:text-mod transition-colors duration-150">moddex.tv/c/forsen</span>
+            </a>
+
+            <a href="user-detail.html" class="group block">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="corner corner-br text-vip"></span>
+                <h3 class="text-h3">By person</h3>
+              </div>
+              <p class="text-primary-300 mb-4 max-w-[36ch]">
+                Every indexed channel where one account holds a role.
+              </p>
+              <span class="datum text-note text-primary-400 group-hover:text-vip transition-colors duration-150">moddex.tv/u/forsen</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================= a specimen entry -->
+      <section class="pb-16">
+        <div class="opener mb-6">
+          <h2 class="text-h2">A specimen entry</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            The granted column is the part twitch does not surface anywhere, in
+            either direction.
+          </p>
+
+          <div>
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="corner corner-tl text-mod self-center"></span>
+              <h3 class="text-h3">forsen</h3>
+              <span class="label text-note">moderators, 24 in all</span>
+            </div>
+
+            <table class="ledger closed">
+              <thead>
+                <tr>
+                  <th scope="col">Account</th>
+                  <th scope="col" class="text-right">Granted</th>
+                  <th scope="col" class="text-right">Followers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="user-detail.html" class="datum text-primary-100 link">nymn</a></td>
+                  <td class="datum text-right text-primary-300">2016.04.11</td>
+                  <td class="datum text-right text-primary-400">614,201</td>
+                </tr>
+                <tr>
+                  <td><a href="user-detail.html" class="datum text-primary-100 link">pajlada</a></td>
+                  <td class="datum text-right text-primary-300">2015.09.02</td>
+                  <td class="datum text-right text-primary-400">92,830</td>
+                </tr>
+                <tr>
+                  <td><a href="user-detail.html" class="datum text-primary-100 link">knut</a></td>
+                  <td class="datum text-right text-primary-300">2020.08.17</td>
+                  <td class="datum text-right text-primary-400">204,551</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="label text-note mt-3">
+              <a href="channel-detail.html" class="link text-primary-200 not-italic">See the full entry</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= mechanics -->
+      <section class="pb-16">
+        <div class="opener mb-6">
+          <h2 class="text-h2">How the index fills</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Nobody has to sign in, and nothing is queued. The read is the write.
+          </p>
+
+          <div class="max-w-prose text-figures">
+            <p class="text-read text-primary-200 mb-4">
+              A channel enters the index the first time somebody searches for it.
+              That read pulls its mod and vip lists in and keeps them.
+            </p>
+            <p class="text-read text-primary-300 mb-7">
+              So if a moderator you expect is missing from somebody's entry, the
+              fix is to look up the channel they moderate, once. It stays indexed
+              afterwards, for everyone.
+            </p>
+            <a href="channel.html" class="btn btn-quiet">Index a channel</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ optout -->
+      <section class="pb-14">
+        <div class="rule-thick pt-7 flex flex-col sm:flex-row sm:items-center gap-6 sm:justify-between">
+          <div>
+            <h2 class="text-h3 mb-2">Listed here and would rather not be?</h2>
+            <p class="text-primary-300 max-w-[54ch]">
+              Sign in with twitch and switch the opt-out on. Your entry stops
+              being served and you come off every list and the public api.
+            </p>
+          </div>
+          <a href="settings.html" class="btn btn-quiet shrink-0">Remove your entry</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>
