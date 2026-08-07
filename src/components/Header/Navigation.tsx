@@ -13,11 +13,16 @@ interface MenuItemProps {
   newTab?: boolean;
 }
 
+// `api` sits last and opens in a new tab because it leaves the site: /api/docs
+// permanently redirects to api.moddex.tv/docs, where the docs are generated
+// from the annotations beside the routes they describe. The internal path is
+// kept rather than linking the external one directly, so the redirect stays the
+// single place that knows where the docs live.
 const menuItems: MenuItemProps[] = [
   { label: 'channel', href: '/channel' },
   { label: 'user', href: '/user' },
-  { label: 'api', href: '/api/docs' },
-  { label: 'donate', href: '/donate' }
+  { label: 'donate', href: '/donate' },
+  { label: 'api', href: '/api/docs', newTab: true }
 ];
 
 export const Navigation = () => {
