@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Support | moddex</title>
+  <meta name="description" content="Help cover the server and database cost of running moddex. Donors get a badge next to their name.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / GET /donate
+     A subscriber's appeal, which is what the page actually is and what printed
+     reference works have always called it. It asks first and thanks afterwards,
+     on /donate/success where the thanks has been earned. The shipped page opens
+     with "THANK YOU FOR YOUR SUPPORT!" over a reaction image before the reader
+     has done anything. -->
+<body data-nav="donate" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio mb-14" style="--i: 0">
+        <aside class="margin flex flex-col gap-3">
+          <span>No paid tier. Nothing behind a login. The api stays open.</span>
+        </aside>
+
+        <div>
+          <h1 class="title text-h1 max-w-[20ch] mb-6">
+            moddex runs on one server and no advertising
+          </h1>
+
+          <div class="max-w-prose text-figures">
+            <p class="text-read text-primary-200 mb-4">
+              The index holds 2,714,096 accounts and close to fourteen million
+              role records, and it grows every time somebody looks a channel up.
+              That costs a fixed amount every month whether or not anybody
+              donates.
+            </p>
+            <p class="text-read text-primary-300">
+              Donations are the only thing keeping it free to read.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================== the appeal -->
+      <section class="enter mb-14" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Subscribe to the running cost</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Sign in with twitch first and the badge lands on your entry
+            automatically. Donating signed out works too; it just needs an email
+            afterwards.
+          </p>
+
+          <div class="max-w-xl">
+            <div class="flex items-baseline gap-4 mb-3">
+              <span class="datum text-[2.75rem] leading-none">$5.00</span>
+              <span class="label">one time, in usd</span>
+            </div>
+            <p class="text-primary-300 mb-7 max-w-prose">
+              Card details are handled entirely by Stripe. moddex stores the
+              payment reference and the amount, and nothing else.
+            </p>
+
+            <form onsubmit="event.preventDefault(); location.href='donate-success.html';">
+              <button type="submit" class="btn w-full sm:w-auto">Continue to Stripe</button>
+            </form>
+
+            <!-- the in-flight state of the same control -->
+            <div class="rule-hair mt-10 pt-6">
+              <p class="label text-note mb-4">While the checkout session is being made</p>
+              <button type="button" disabled class="btn w-full sm:w-auto opacity-40 cursor-not-allowed gap-2.5">
+                <svg width="13" height="13" viewBox="0 0 32 32" aria-hidden="true">
+                  <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="currentColor">
+                    <animate attributeName="opacity" dur="1.2s" values="1;0.25;1" repeatCount="indefinite" begin="-.3s"/>
+                  </path>
+                  <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="currentColor">
+                    <animate attributeName="opacity" dur="1.2s" values="1;0.25;1" repeatCount="indefinite" begin="0s"/>
+                  </path>
+                </svg>
+                Opening Stripe
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= badges -->
+      <section class="enter mb-14" style="--i: 2">
+        <div class="opener mb-6">
+          <h2 class="text-h2">What a subscriber gets</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Both are cosmetic. They unlock nothing and carry no monetary value.
+          </p>
+
+          <div class="flex flex-col gap-7 max-w-2xl">
+            <div class="flex items-start gap-5">
+              <img src="../../badges/donator.svg" alt="The donator badge, a moddex mark on amber" width="44" height="44" class="shrink-0">
+              <div>
+                <h3 class="text-h3 mb-1.5">donator</h3>
+                <p class="text-primary-300 max-w-[46ch]">
+                  Sits beside your name everywhere moddex prints it. Any donation
+                  of $5 or more, permanently.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-5 rule-hair pt-7">
+              <img src="../../badges/top_donator.svg" alt="The top donator badge, a moddex mark on a light field" width="44" height="44" class="shrink-0">
+              <div>
+                <h3 class="text-h3 mb-1.5">top donator</h3>
+                <p class="text-primary-300 max-w-[46ch]">
+                  Held by exactly one account at a time, whoever has given the
+                  most. It moves when somebody passes you.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================== terms -->
+      <section class="enter" style="--i: 3">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Being straight about it</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Set out in full in the terms, clause four.</p>
+
+          <table class="ledger closed max-w-2xl">
+            <tbody>
+              <tr>
+                <td class="label w-40 align-top">a contribution</td>
+                <td class="text-primary-300">Towards running costs, not a purchase.</td>
+              </tr>
+              <tr>
+                <td class="label align-top">cosmetic only</td>
+                <td class="text-primary-300">Badges may change or be withdrawn.</td>
+              </tr>
+              <tr>
+                <td class="label align-top">non-refundable</td>
+                <td class="text-primary-300">Generally. If something went wrong, write and it gets sorted out.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

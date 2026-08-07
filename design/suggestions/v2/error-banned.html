@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Entry suspended | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / <BannedUser>, the one state in the family with no status code.
+     Nothing failed. Twitch reports the account as banned or deactivated, so the
+     entry is withheld and the reason is passed through exactly as twitch worded
+     it rather than translated into a number we made up.
+
+     It is also the only state on the site whose cause can change while somebody
+     is looking at it, which is why it is the only one that offers to read
+     again. -->
+<body data-nav="channel" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio mb-14" style="--i: 0">
+        <aside class="margin flex flex-col gap-3">
+          <span>Reported by twitch, not by moddex.</span>
+          <span class="rule-hair pt-3">
+            Bans reverse, which is why this is the only notice offering to read
+            again.
+          </span>
+        </aside>
+
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <span class="corner corner-bl text-founder"></span>
+            <p class="label">Entry suspended upstream</p>
+          </div>
+
+          <h1 class="title text-h1 max-w-[22ch] mb-6">
+            <span class="datum font-normal">someonewhoquit</span> is banned on twitch
+          </h1>
+          <p class="text-read text-primary-300 max-w-prose mb-9">
+            Twitch is not serving this account, so moddex will not serve an entry
+            for it either. Any roles it held stay in the index but are withheld
+            while the ban is in place.
+          </p>
+
+          <table class="ledger closed max-w-lg mb-9">
+            <tbody>
+              <tr><td class="label w-52">reason from twitch</td><td class="datum text-right text-primary-100">TOS_BANNED</td></tr>
+              <tr><td class="label">last read successfully</td><td class="datum text-right text-primary-100">2025.11.02</td></tr>
+              <tr><td class="label">roles retained</td><td class="datum text-right text-primary-100">31</td></tr>
+              <tr><td class="label">roles shown</td><td class="datum text-right text-primary-400">0</td></tr>
+            </tbody>
+          </table>
+
+          <div class="flex flex-wrap gap-3">
+            <button type="button" class="btn">Read again</button>
+            <a href="channel.html" class="btn btn-quiet">Look up someone else</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- gone by the owner's choice rather than twitch's, so the wording
+           softens and the retry goes away -->
+      <section class="enter" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">The same notice, other reasons</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Unrecognised reasons are passed through rather than guessed at.
+          </p>
+
+          <div class="grid gap-x-14 gap-y-9 sm:grid-cols-2 max-w-3xl">
+            <div>
+              <h3 class="text-h3 mb-2.5">
+                <span class="datum font-normal">someonewhoquit</span> deleted their account
+              </h3>
+              <p class="text-primary-300">
+                Reason from twitch:
+                <span class="datum text-primary-200">DEACTIVATED</span>. This one
+                does not usually reverse, so there is no read-again offered.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-h3 mb-2.5">
+                <span class="datum font-normal">someonewhoquit</span> is unavailable
+              </h3>
+              <p class="text-primary-300">
+                Reason from twitch:
+                <span class="datum text-primary-200">SUSPENDED</span>. Anything
+                twitch returns that moddex does not recognise lands here.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

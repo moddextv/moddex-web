@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>v2 specimen | moddex design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<body data-chrome="bare" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-14 pb-16">
+
+      <p class="label mb-6">Suggestion v2</p>
+      <h1 class="title text-h1 mb-5">Specimen sheet</h1>
+      <p class="text-read text-primary-300 max-w-prose mb-14">
+        Every device this direction uses, with the reason it is there. Check a
+        new component against this page before adding it.
+      </p>
+
+      <!-- ============================================================ type -->
+      <section class="mb-14">
+        <div class="opener mb-7">
+          <h2 class="text-h2">Type</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Newsreader has real optical sizing, so the display cut is drawn
+            differently from the reading cut rather than just scaled.
+          </p>
+
+          <div class="flex flex-col gap-8">
+            <div>
+              <p class="label text-note mb-2">Display, Newsreader 300</p>
+              <p class="title text-display">Read backwards</p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Heading, Newsreader 400</p>
+              <p class="text-h1">Look up a channel</p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Section, Newsreader 400</p>
+              <p class="text-h2">The two ways in</p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Reading, Newsreader 400 at 18px</p>
+              <p class="text-read text-primary-300 max-w-prose">
+                A channel enters the index the first time somebody searches for
+                it. That read pulls its mod and vip lists in and keeps them.
+              </p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Label, Newsreader italic. Replaces every uppercase micro-label.</p>
+              <p class="label text-base">three of these are bots</p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Data, Archivo with lining tabular figures</p>
+              <p class="datum text-read text-primary-200">2016.04.11 &nbsp; 1,730,412 &nbsp; moddex.tv/c/forsen</p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Figures in prose are old-style, so they sit in the line</p>
+              <p class="text-read text-figures text-primary-300 max-w-prose">
+                The index holds 2,714,096 accounts and 8,131,260 moderator
+                records, and it grew by 1,204 channels today.
+              </p>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Figures in columns are lining, so they stack</p>
+              <table class="ledger closed max-w-xs">
+                <tbody>
+                  <tr><td class="text-primary-300">accounts</td><td class="datum text-right text-primary-100">2,714,096</td></tr>
+                  <tr><td class="text-primary-300">moderator records</td><td class="datum text-right text-primary-100">8,131,260</td></tr>
+                  <tr><td class="text-primary-300">vip records</td><td class="datum text-right text-primary-100">5,611,594</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="rule-hair pt-7">
+              <p class="label text-note mb-2">Small caps, for the running head only. Real ones, not shrunk capitals.</p>
+              <p class="smallcaps text-primary-300">Channels &middot; forsen</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= palette -->
+      <section class="mb-14">
+        <div class="opener mb-7">
+          <h2 class="text-h2">Palette</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            The light theme from tailwind.config.mjs, which has always existed
+            and never rendered.
+          </p>
+
+          <div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 border border-primary-700 mb-8">
+              <div class="bg-primary-900 border-r border-b border-primary-700 p-3"><div class="h-10"></div><p class="datum text-note">900</p><p class="datum text-note text-primary-400">#FFFFFF</p></div>
+              <div class="bg-primary-800 border-r border-b border-primary-700 p-3"><div class="h-10"></div><p class="datum text-note">800</p><p class="datum text-note text-primary-400">#F2F2F5</p></div>
+              <div class="bg-primary-700 border-r border-b border-primary-700 p-3"><div class="h-10"></div><p class="datum text-note">700</p><p class="datum text-note text-primary-400">#E2E2E7</p></div>
+              <div class="bg-primary-600 border-r border-b border-primary-700 p-3"><div class="h-10"></div><p class="datum text-note">600</p><p class="datum text-note text-primary-300">#C4C4CC</p></div>
+              <div class="bg-primary-500 border-b border-primary-700 p-3"><div class="h-10"></div><p class="datum text-note text-primary-900">500</p><p class="datum text-note text-primary-800">#9A9AA4</p></div>
+              <div class="bg-primary-400 border-r border-primary-700 p-3 text-primary-900"><div class="h-10"></div><p class="datum text-note">400</p><p class="datum text-note">#6E6E78</p></div>
+              <div class="bg-primary-300 border-r border-primary-700 p-3 text-primary-900"><div class="h-10"></div><p class="datum text-note">300</p><p class="datum text-note">#45454C</p></div>
+              <div class="bg-primary-200 border-r border-primary-700 p-3 text-primary-900"><div class="h-10"></div><p class="datum text-note">200</p><p class="datum text-note">#2A2A2E</p></div>
+              <div class="bg-primary-100 border-r border-primary-700 p-3 text-primary-900"><div class="h-10"></div><p class="datum text-note">100</p><p class="datum text-note">#18181B</p></div>
+              <div class="bg-primary-50 p-3 text-primary-900"><div class="h-10"></div><p class="datum text-note">50</p><p class="datum text-note">#0B0B0C</p></div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 border border-primary-700">
+              <div class="bg-mod border-r border-primary-700 p-3 text-white"><div class="h-10"></div><p class="datum text-note">mod</p><p class="datum text-note">#16A34A</p></div>
+              <div class="bg-vip border-r border-primary-700 p-3 text-white"><div class="h-10"></div><p class="datum text-note">vip</p><p class="datum text-note">#DB2777</p></div>
+              <div class="bg-founder border-r border-primary-700 p-3 text-white"><div class="h-10"></div><p class="datum text-note">founder</p><p class="datum text-note">#B45309</p></div>
+              <div class="bg-twitch p-3 text-white"><div class="h-10"></div><p class="datum text-note">twitch</p><p class="datum text-note">#714AB8</p></div>
+            </div>
+
+            <p class="label text-note mt-4 max-w-prose">
+              mod and vip were darkened in that file with the comment "so the
+              same tokens stay legible on white". This is the first time anything
+              has used them.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================== rules -->
+      <section class="mb-14">
+        <div class="opener mb-7">
+          <h2 class="text-h2">Rules</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Thick above the head, thin below it, thin at the foot, nothing
+            between rows. The convention every typesetting manual has recommended
+            for a century.
+          </p>
+
+          <div class="max-w-2xl">
+            <table class="ledger closed mb-8">
+              <thead>
+                <tr>
+                  <th scope="col">Account</th>
+                  <th scope="col" class="text-right">Granted</th>
+                  <th scope="col" class="text-right">Followers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#" class="datum text-primary-100 link">nymn</a></td>
+                  <td class="datum text-right text-primary-300">2016.04.11</td>
+                  <td class="datum text-right text-primary-400">614,201</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#" class="datum text-primary-100 link">supibot</a>
+                    <span class="label text-note ml-2">bot</span>
+                  </td>
+                  <td class="datum text-right text-primary-300">2019.11.23</td>
+                  <td class="datum text-right text-primary-400">1,204</td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="datum text-primary-100 link">elis</a></td>
+                  <td class="text-right" title="Twitch returned no grant date">
+                    <span aria-hidden="true" class="inline-block w-5 border-b border-primary-500 align-middle"></span>
+                    <span class="sr-only">not recorded</span>
+                  </td>
+                  <td class="datum text-right text-primary-400">8,910</td>
+                </tr>
+                <tr>
+                  <td><span class="skeleton block h-4 w-24"></span></td>
+                  <td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td>
+                  <td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr><td colspan="3">Show the remaining 16</td></tr>
+              </tfoot>
+            </table>
+
+            <p class="label text-note mb-3">The leader, for a contents list</p>
+            <div class="flex flex-col gap-2 max-w-md">
+              <span class="leader">
+                <a href="#" class="text-primary-100 link">forsen</a>
+                <span class="datum text-note text-primary-400 order-last">26 roles</span>
+              </span>
+              <span class="leader">
+                <a href="#" class="text-primary-100 link">nymn</a>
+                <span class="datum text-note text-primary-400 order-last">41 roles</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= the mark -->
+      <section class="mb-14">
+        <div class="opener mb-7">
+          <h2 class="text-h2">The mark</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Two corners, a hundred and eighty degrees apart, which is what a
+            printer's registration mark is.
+          </p>
+
+          <div>
+            <div class="flex flex-wrap items-end gap-12 mb-9">
+              <div class="flex flex-col gap-3">
+                <svg width="76" height="76" viewBox="0 0 32 32" role="img" aria-label="moddex">
+                  <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/>
+                  <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/>
+                </svg>
+                <span class="label text-note">split</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <svg width="76" height="76" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="moddex">
+                  <path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/>
+                </svg>
+                <span class="label text-note">in ink</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-3.5">
+                  <svg width="26" height="26" viewBox="0 0 32 32" role="img" aria-label="moddex">
+                    <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/>
+                    <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/>
+                  </svg>
+                  <span class="text-[1.75rem] leading-none tracking-tight">moddex</span>
+                </div>
+                <span class="label text-note">the lockup</span>
+              </div>
+            </div>
+
+            <p class="label text-note mb-4">One corner, oriented by role</p>
+            <div class="flex flex-wrap items-center gap-x-9 gap-y-4">
+              <span class="flex items-center gap-3"><span class="corner corner-tl text-mod"></span><span class="label text-note">moderators</span></span>
+              <span class="flex items-center gap-3"><span class="corner corner-br text-vip"></span><span class="label text-note">vips</span></span>
+              <span class="flex items-center gap-3"><span class="corner corner-bl text-founder"></span><span class="label text-note">founders</span></span>
+              <span class="flex items-center gap-3"><span class="corner corner-tr text-artist"></span><span class="label text-note">artists</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== controls -->
+      <section class="mb-14">
+        <div class="opener mb-7">
+          <h2 class="text-h2">Controls</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            A binary on paper is a box you tick, not a sliding switch. The tick
+            is the mark.
+          </p>
+
+          <div>
+            <div class="flex flex-wrap items-start gap-8 mb-10">
+              <div class="flex flex-col gap-3">
+                <button class="btn">Look up</button>
+                <span class="label text-note">primary</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <button class="btn btn-quiet">Index a channel</button>
+                <span class="label text-note">quiet</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <label class="flex items-center gap-3 cursor-pointer">
+                  <span class="mark-box" data-on="true">
+                    <svg width="14" height="14" viewBox="0 0 32 32"><path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/><path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/></svg>
+                  </span>
+                  <span class="text-primary-200">Ticked</span>
+                </label>
+                <span class="label text-note">the tick is the mark</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <a href="#" class="link text-primary-100">An inline link</a>
+                <span class="label text-note">rule under, ink on hover</span>
+              </div>
+            </div>
+
+            <p class="label text-note mb-3">The ruled line</p>
+            <form class="max-w-xl" onsubmit="return false">
+              <div class="flex items-baseline gap-3 border-b-2 border-primary-100 pb-2">
+                <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+                <input placeholder="forsen" class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 placeholder:text-primary-600 outline-none">
+                <button type="submit" class="btn h-10 shrink-0">Look up</button>
+              </div>
+            </form>
+            <p class="label text-note mt-3 max-w-prose">
+              No box, no fill. A rule you write on, which is what filling in an
+              entry on a form looks like.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================== badges -->
+      <section class="mb-14">
+        <div class="opener mb-7">
+          <h2 class="text-h2">Badges</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Awarded, not decorative. The only saturated things on the sheet, so
+            they carry weight without needing size.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-7">
+            <img src="../../badges/admin.svg" alt="admin" width="34" height="34" title="admin">
+            <img src="../../badges/staff.svg" alt="staff" width="34" height="34" title="staff">
+            <img src="../../badges/team.svg" alt="team" width="34" height="34" title="team">
+            <img src="../../badges/partner.svg" alt="partner" width="34" height="34" title="partner">
+            <img src="../../badges/affiliate.svg" alt="affiliate" width="34" height="34" title="affiliate">
+            <img src="../../badges/donator.svg" alt="donator" width="34" height="34" title="donator">
+            <img src="../../badges/top_donator.svg" alt="top donator" width="34" height="34" title="top donator">
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================== motion -->
+      <section>
+        <div class="opener mb-7">
+          <h2 class="text-h2">Motion</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Paper does not animate. The restraint is the register.</p>
+
+          <table class="ledger closed max-w-2xl">
+            <tbody>
+              <tr>
+                <td class="label w-44">entry</td>
+                <td class="text-primary-300">A 420ms fade. No translate, no stagger beyond a beat.</td>
+              </tr>
+              <tr>
+                <td class="label">hover on a row</td>
+                <td class="text-primary-300">The paper tints. No fill, no border, no lift.</td>
+              </tr>
+              <tr>
+                <td class="label">hover on a link</td>
+                <td class="text-primary-300">The rule under it goes from grey to ink.</td>
+              </tr>
+              <tr>
+                <td class="label">loading</td>
+                <td class="text-primary-300">A sweep across the blank, like light across paper.</td>
+              </tr>
+              <tr>
+                <td class="label">reduced motion</td>
+                <td class="text-primary-300">All of it stops. Nothing is lost, because nothing was carrying meaning.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

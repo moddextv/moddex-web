@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>forsen | moddex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / the first paint of an entry.
+     Every rule, heading, column head and margin note is already printed,
+     because all of it is known before the response arrives. Only the values
+     are blank. That is what a printed form looks like before it is filled in,
+     and it means nothing shifts when the data lands.
+
+     The founders section carries the per-list failure: one section failing does
+     not take the entry down, and the note in the margin says which and why. -->
+<body data-nav="channel" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow" aria-busy="true">
+    <div class="px-6 sm:px-10 pt-8 pb-16">
+
+      <div class="flex items-baseline justify-between gap-6 pb-2 border-b border-primary-700 mb-9">
+        <p class="smallcaps text-note text-primary-400">Channels &middot; forsen</p>
+        <p class="label text-note">reading from twitch</p>
+      </div>
+
+      <!-- =========================================================== entry -->
+      <div class="folio mb-14">
+        <aside class="margin flex flex-col gap-3">
+          <span>Reading now</span>
+          <span class="rule-hair pt-3">
+            <a href="https://twitch.tv/forsen" target="_blank" rel="noopener noreferrer" class="link not-italic text-primary-300">twitch.tv/forsen</a>
+          </span>
+        </aside>
+
+        <div>
+          <div class="flex items-start gap-5 mb-6">
+            <div class="skeleton w-20 h-20 shrink-0"></div>
+            <div class="min-w-0 flex-1">
+              <div class="skeleton h-9 w-56 mb-3"></div>
+              <div class="skeleton h-4 w-full max-w-md mb-2"></div>
+              <div class="skeleton h-4 w-2/3 max-w-sm mb-5"></div>
+
+              <dl class="flex flex-wrap gap-x-8 gap-y-1.5 text-small">
+                <div class="flex gap-2 items-baseline">
+                  <dt class="label">followers</dt>
+                  <dd class="skeleton h-3.5 w-16"></dd>
+                </div>
+                <div class="flex gap-2 items-baseline">
+                  <dt class="label">joined</dt>
+                  <dd class="skeleton h-3.5 w-20"></dd>
+                </div>
+                <div class="flex gap-2 items-baseline">
+                  <dt class="label">twitch id</dt>
+                  <dd class="skeleton h-3.5 w-16"></dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="rule-hair pt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <p class="label text-note">This entry</p>
+            <span class="flex items-center gap-2.5">
+              <span class="corner corner-tl text-mod"></span>
+              <span class="text-primary-100">as a channel</span>
+            </span>
+            <a href="user-detail.html" class="flex items-center gap-2.5 group">
+              <span class="corner corner-br text-primary-600 group-hover:text-vip transition-colors duration-150"></span>
+              <span class="text-primary-400 group-hover:text-primary-100 link transition-colors duration-150">as a person</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================== moderators -->
+      <section class="mb-14" aria-labelledby="l-mods">
+        <div class="opener mb-5">
+          <span class="corner corner-tl text-mod"></span>
+          <h2 id="l-mods" class="text-h2">Moderators</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Reading the list from twitch.</p>
+
+          <table class="ledger closed">
+            <thead>
+              <tr>
+                <th scope="col">Account</th>
+                <th scope="col" class="text-right">Granted</th>
+                <th scope="col" class="text-right">Followers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="skeleton block h-4 w-28"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-16 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-36"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-24"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-32"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-16 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-20"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-28"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ vips -->
+      <section class="mb-14" aria-labelledby="l-vips">
+        <div class="opener mb-5">
+          <span class="corner corner-br text-vip"></span>
+          <h2 id="l-vips" class="text-h2">Vips</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Reading the list from twitch.</p>
+
+          <table class="ledger closed">
+            <thead>
+              <tr>
+                <th scope="col">Account</th>
+                <th scope="col" class="text-right">Granted</th>
+                <th scope="col" class="text-right">Followers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="skeleton block h-4 w-24"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-36"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-10 ml-auto"></span></td></tr>
+              <tr><td><span class="skeleton block h-4 w-28"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================== founders -->
+      <section aria-labelledby="l-founders">
+        <div class="opener mb-5">
+          <span class="corner corner-bl text-founder"></span>
+          <h2 id="l-founders" class="text-h2">Founders</h2>
+          <span class="label text-note text-vip">could not be read</span>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            The other sections on this entry are unaffected.
+          </p>
+
+          <div class="rule-mid pt-5 flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between max-w-prose">
+            <p class="text-primary-300">
+              Twitch returned an error for this query.
+            </p>
+            <button type="button" class="btn btn-quiet shrink-0">Try this section again</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

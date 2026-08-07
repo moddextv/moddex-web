@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Sign in | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / the auth gate.
+     Not a route. /settings and /dashboard render this in place of their own
+     main when there is no session, so the url stays put and signing in lands
+     the reader where they were going.
+
+     Written as a statement of what the sign-in is for and what it hands over,
+     because somebody arriving here may well be trying to remove themselves from
+     the index, and "You need to login to access this page" is the wrong thing
+     to show that person. -->
+<body data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio mb-14" style="--i: 0">
+        <aside class="margin">
+          <span>You land back on the page you were trying to reach. Nothing else on the site needs an account.</span>
+        </aside>
+
+        <div class="max-w-prose">
+          <h1 class="title text-h1 mb-6 max-w-[18ch]">Settings need a twitch sign-in</h1>
+          <p class="text-read text-primary-300 mb-9">
+            moddex has to know which twitch account is yours before it can let
+            you change anything about it.
+          </p>
+
+          <form onsubmit="event.preventDefault(); location.href='settings.html';">
+            <button type="submit" class="btn">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/>
+              </svg>
+              Continue with twitch
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ========================================================== scope -->
+      <section class="enter mb-12" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">What a signed-in account can do</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Three things. That is the whole list.</p>
+
+          <table class="ledger closed max-w-2xl">
+            <tbody>
+              <tr>
+                <td class="align-top w-56">
+                  <span class="flex items-center gap-2.5">
+                    <span class="corner corner-tl text-mod"></span>
+                    <span class="text-primary-100">Opt out of the index</span>
+                  </span>
+                </td>
+                <td class="text-primary-300">
+                  Your entry stops being served and you come off every list and
+                  the api.
+                </td>
+              </tr>
+              <tr>
+                <td class="align-top">
+                  <span class="flex items-center gap-2.5">
+                    <span class="corner corner-tl text-mod"></span>
+                    <span class="text-primary-100">Pick a chat badge</span>
+                  </span>
+                </td>
+                <td class="text-primary-300">
+                  If you hold more than one, choose which shows next to your name.
+                </td>
+              </tr>
+              <tr>
+                <td class="align-top">
+                  <span class="flex items-center gap-2.5">
+                    <span class="corner corner-tl text-mod"></span>
+                    <span class="text-primary-100">Attach a donation</span>
+                  </span>
+                </td>
+                <td class="text-primary-300">
+                  So the donator badge lands automatically instead of by email.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================================== grant -->
+      <section class="enter" style="--i: 2">
+        <div class="opener mb-6">
+          <h2 class="text-h2">What twitch hands over</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Set out in full in the
+            <a href="tos.html" class="link not-italic text-primary-300">terms, clause four</a>.
+          </p>
+
+          <table class="ledger closed max-w-md">
+            <tbody>
+              <tr><td class="datum text-primary-200">user id</td><td class="text-right text-mod">yes</td></tr>
+              <tr><td class="datum text-primary-200">login name</td><td class="text-right text-mod">yes</td></tr>
+              <tr><td class="datum text-primary-200">avatar</td><td class="text-right text-mod">yes</td></tr>
+              <tr><td class="datum text-primary-200">password</td><td class="text-right label">never</td></tr>
+              <tr><td class="datum text-primary-200">chat access</td><td class="text-right label">never</td></tr>
+              <tr><td class="datum text-primary-200">acting on your behalf</td><td class="text-right label">never</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

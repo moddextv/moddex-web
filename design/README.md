@@ -13,10 +13,11 @@ without running next.
 Two directions live in [`suggestions/`](suggestions/README.md), drawn against
 these comps with the mark and the full palette locked:
 
-- [**v1 Index**](suggestions/v1/index.html) — the evolution. Same design, its own
-  rules actually enforced.
-- [**v2 Telemetry**](suggestions/v2/index.html) — the overhaul. The product drawn
-  as the instrument it is.
+- [**v1 Index**](suggestions/v1/index.html) — the evolution. This design, its own
+  rules actually enforced, on the dark theme.
+- [**v2 Almanac**](suggestions/v2/index.html) — the overhaul. The product set as
+  a printed directory, on the light theme that has been sitting unused in
+  `tailwind.config.mjs`.
 
 The switcher on every comp jumps to the same page in either direction.
 

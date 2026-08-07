@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Page did not print | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / app/error.tsx, the react error boundary.
+     No status code, because nothing returned one: something threw during
+     render. reset() rebuilds this segment without a full reload, which is
+     genuinely different from refreshing, so the control says which it does.
+
+     The shipped copy is "oops, something went wrong!". Both halves of that go:
+     "oops" is not confidence and the exclamation mark is not either. The
+     masthead and colophon survive because the boundary sits inside the root
+     layout, so the reader is never stranded on a blank sheet. -->
+<body data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio mb-14" style="--i: 0">
+        <aside class="margin flex flex-col gap-3">
+          <span>No status code. Nothing returned one.</span>
+          <span class="rule-hair pt-3">It is logged.</span>
+        </aside>
+
+        <div>
+          <h1 class="title text-h1 max-w-[20ch] mb-6">
+            That page did not finish loading
+          </h1>
+          <p class="text-read text-primary-300 max-w-prose mb-9">
+            Something threw while the page was being built. Retrying rebuilds
+            only this part of it, which usually works when the cause was a slow
+            response rather than a bug.
+          </p>
+
+          <div class="flex flex-wrap gap-3 mb-8">
+            <button type="button" class="btn">Retry this page</button>
+            <a href="home.html" class="btn btn-quiet">Front page</a>
+          </div>
+
+          <p class="label text-note max-w-prose">
+            If it keeps happening,
+            <a href="../../no-ui.html" class="link text-primary-200 not-italic">status.moddex.tv</a>
+            shows whether the api is up. It runs on separate infrastructure, so
+            it stays available when this does not.
+          </p>
+        </div>
+      </div>
+
+      <!-- Errors.tsx also exports <InternalServerError>. Nothing renders it
+           today; it exists for an api failure that is caught rather than
+           thrown. Drawn so the family is complete. -->
+      <section class="enter" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">The api failing, caught rather than thrown</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            http 500. Not rendered anywhere today; it exists in Errors.tsx for
+            this case.
+          </p>
+
+          <div class="max-w-prose flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
+            <p class="text-primary-300">
+              moddex.tv is up but api.moddex.tv did not answer in time. Nothing
+              is lost and the index is unaffected.
+            </p>
+            <button type="button" class="btn btn-quiet shrink-0">Check again</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

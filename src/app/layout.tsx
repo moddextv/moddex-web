@@ -42,9 +42,10 @@ export const metadata: Metadata = {
     name: 'maersux',
     url: 'https://github.com/maersux'
   },
-  // 'modchecker' stays in the keyword list on purpose: it is the term the
-  // existing audience will search for after the rename.
-  keywords: [config.brand.name, 'modchecker', 'twitch', 'mods', 'vips', 'modlookup', 'viplookup', 'modscanner', 'twitch lookup tool', 'twitch user search', 'twitch channel search', 'Find twitch users', 'Find twitch channels', 'twitch user lookup', 'twitch channel lookup', 'twitch profile search', 'twitch profile lookup', 'discover twitch users', 'discover twitch channels', 'twitch username search', 'twitch username lookup', 'twitch streamer search', 'twitch streamer lookup'],
+  // no `keywords`. the meta keywords tag has been ignored by google since 2009
+  // and is not read by search console either, so the list was cost without
+  // benefit — and it was the last place the old brand name was asserted as
+  // ours rather than described as history.
   openGraph: {
     locale: 'en_US',
     type: 'website',

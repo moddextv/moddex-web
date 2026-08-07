@@ -407,9 +407,9 @@ taking, cheapest first:
       (`fossabot` and `susgeebot` are already in our data), so a flag — or a
       "hide bots" toggle — makes a 14,000-entry mod list considerably more
       readable.
-- [ ] **Subscribers** — they track 32M. Note this is *not* public data the way
-      mods and vips are, so work out where it can legitimately come from before
-      designing anything around it.
+- ~~**Subscribers**~~ — **dropped 2026-08-07, by decision.** Not a backlog
+      item: it is not public data the way mods and vips are, and it is not
+      going to be built. Removed so it stops reading as something pending.
 
 Not worth copying: their site is a client-rendered SPA with an empty document,
 so it has no SEO surface at all. moddex renders on the server, which is the more
@@ -512,6 +512,10 @@ The database is fine (see `DATABASE.md`). These are the real bottlenecks.
       which will now fail loudly — keep it that way.
 
 ## 8. Design — open threads
+
+**Parked 2026-08-07.** None of the below is blocking anything; revisit when
+there is a reason to. Left in place rather than deleted because they are real,
+just not now.
 
 - [ ] The logo is in and the design derives from it. The remaining gap is the
       **light theme**, which was retuned to match but has only been exercised in

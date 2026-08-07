@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>No such entry | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / 404, from app/not-found.tsx and from either detail route.
+     "No such entry" is what a directory says, and it is more accurate than
+     "not found". The status code goes in the margin, where the apparatus lives,
+     because it is a fact about the response rather than the thing the reader
+     needs. Almost every 404 here is a mistyped twitch name, so the ruled line
+     comes back with the input still in it. -->
+<body data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio mb-14" style="--i: 0">
+        <aside class="margin flex flex-col gap-3">
+          <span>http 404</span>
+          <span class="rule-hair pt-3">Twitch was asked and had no such account. Nothing was written to the index.</span>
+        </aside>
+
+        <div>
+          <h1 class="title text-h1 max-w-[20ch] mb-6">
+            No entry for <span class="datum font-normal">xqcow2</span>
+          </h1>
+          <p class="text-read text-primary-300 max-w-prose mb-10">
+            Twitch has no account under that name, so there is nothing to index.
+            Names change often; check the spelling and look again.
+          </p>
+
+          <form class="max-w-2xl" onsubmit="event.preventDefault(); location.href='channel-detail.html';">
+            <div class="flex items-baseline gap-3 border-b-2 border-primary-100 pb-2">
+              <span class="datum text-read text-primary-400 shrink-0">twitch.tv/</span>
+              <input name="username" value="xqcow2" maxlength="25" aria-label="twitch username"
+                     class="datum flex-1 min-w-0 bg-transparent text-[1.5rem] leading-tight text-primary-100 outline-none">
+              <button type="submit" class="btn h-10 shrink-0">Look up</button>
+            </div>
+            <p class="label text-note mt-3">
+              Or go back to <a href="home.html" class="link text-primary-200 not-italic">the front page</a>.
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- the two other things this component renders -->
+      <section class="enter" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">The same notice, other causes</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">Both also return http 404.</p>
+
+          <div class="grid gap-x-14 gap-y-9 sm:grid-cols-2 max-w-3xl">
+            <div>
+              <h3 class="text-h3 mb-2.5">This page does not exist</h3>
+              <p class="text-primary-300">
+                Nothing lives at that address. The four places worth going are
+                channels, people, support and the api.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-h3 mb-2.5">
+                <span class="datum font-normal">not a name!</span> cannot be a twitch name
+              </h3>
+              <p class="text-primary-300">
+                Twitch names are one to twenty-five characters: letters, numbers
+                and underscores. Nothing was sent to twitch.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

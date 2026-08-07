@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>v2 Almanac | moddex design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<body data-chrome="bare" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-14 pb-16">
+
+      <p class="label mb-6">Suggestion v2</p>
+      <h1 class="title text-display max-w-[13ch] mb-9">moddex as an <em>almanac</em></h1>
+
+      <div class="folio mb-14">
+        <aside class="margin flex flex-col gap-3">
+          <span>Nothing here is a new colour. The mark is untouched.</span>
+          <span class="rule-hair pt-3">
+            <a href="../v1/index.html" class="link not-italic text-primary-300">v1, the direction you liked</a>
+          </span>
+        </aside>
+
+        <div class="max-w-prose">
+          <p class="text-lead text-primary-200 mb-5">
+            moddex is a directory. Not a dashboard, not a dev tool. Two and a
+            half million entries, cross-referenced two ways, each with a date
+            attached.
+          </p>
+          <p class="text-read text-primary-300 mb-5">
+            The best-designed dense-data objects ever made are printed
+            directories: almanacs, ships' registers, timetables, library
+            catalogues. Centuries of work went into making thousands of rows of
+            names and dates readable on paper, and almost none of it looks like a
+            website.
+          </p>
+          <p class="text-read text-primary-300">
+            So this direction takes that typography seriously instead of reaching
+            for another dark canvas with two saturated accents, which is the look
+            every generated interface arrives at.
+          </p>
+        </div>
+      </div>
+
+      <!-- ==================================================== what changed -->
+      <section class="mb-14">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Where it departs</h2>
+        </div>
+
+        <table class="ledger closed">
+          <thead>
+            <tr>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">Shipped and v1</th>
+              <th scope="col">v2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label w-40">Ground</td>
+              <td class="text-primary-400">near-black canvas</td>
+              <td class="text-primary-100">paper, on a desk</td>
+            </tr>
+            <tr>
+              <td class="label">Type</td>
+              <td class="text-primary-400">Cairo and Lato, a heavy grotesk display</td>
+              <td class="text-primary-100">Newsreader, set light at display size</td>
+            </tr>
+            <tr>
+              <td class="label">Labels</td>
+              <td class="text-primary-400">tracked-out uppercase, monospace</td>
+              <td class="text-primary-100">italic serif, sentence case</td>
+            </tr>
+            <tr>
+              <td class="label">Tables</td>
+              <td class="text-primary-400">a hairline under every row</td>
+              <td class="text-primary-100">rules above, below and at the foot only</td>
+            </tr>
+            <tr>
+              <td class="label">Apparatus</td>
+              <td class="text-primary-400">chips and pills in the content</td>
+              <td class="text-primary-100">notes in the margin</td>
+            </tr>
+            <tr>
+              <td class="label">Numerals</td>
+              <td class="text-primary-400">tabular everywhere</td>
+              <td class="text-primary-100">old-style in prose, lining in columns</td>
+            </tr>
+            <tr>
+              <td class="label">Motion</td>
+              <td class="text-primary-400">staggered entrances</td>
+              <td class="text-primary-100">one fade. paper does not animate</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ======================================================== the mark -->
+      <section class="mb-14">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Why the mark fits this</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">
+            Look at the top-left and bottom-right corners of this sheet.
+          </p>
+
+          <p class="text-read text-primary-300 max-w-prose">
+            The moddex mark is two corner brackets in a hundred and eighty
+            degrees of rotational symmetry. That is precisely what a printer's
+            registration mark is, and where it goes is the corner of the sheet.
+            Put the two halves there and the page becomes the logo, at page
+            scale, without drawing it anywhere. Nothing was bent to make this
+            work; it was already true.
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================================================== pages -->
+      <section class="mb-14">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Contents</h2>
+        </div>
+        <div id="page-index"></div>
+      </section>
+
+      <!-- =========================================================== notes -->
+      <section>
+        <div class="opener mb-6">
+          <h2 class="text-h2">Worth arguing about</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">All of it is reversible.</p>
+
+          <table class="ledger closed">
+            <tbody>
+              <tr>
+                <td class="label w-44 align-top">Two new fonts</td>
+                <td class="text-primary-300">
+                  Newsreader and Archivo come from the Google CDN in these comps.
+                  Shipping means self-hosting two woff2 files, which the repo
+                  already does for Lato and Cairo, so the pattern exists.
+                </td>
+              </tr>
+              <tr>
+                <td class="label align-top">A light interface</td>
+                <td class="text-primary-300">
+                  Every value comes from the light theme already in
+                  tailwind.config.mjs, but layout.tsx hardcodes dark on the html
+                  element, so shipping this means removing that one class and
+                  wiring the theme properly.
+                </td>
+              </tr>
+              <tr>
+                <td class="label align-top">A serif interface</td>
+                <td class="text-primary-300">
+                  Unusual for a twitch tool, which is the point, but it is a
+                  bigger swing than v1 and it will not suit everyone.
+                </td>
+              </tr>
+              <tr>
+                <td class="label align-top">Copy without em-dashes</td>
+                <td class="text-primary-300">
+                  The taste skill bans the character outright, so sentences were
+                  restructured. That is a voice change as well as a visual one.
+                </td>
+              </tr>
+              <tr>
+                <td class="label align-top">The register</td>
+                <td class="text-primary-300">
+                  Everything on /dashboard below the heading is a proposal. The
+                  shipped page is a stub with nothing to redesign.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+<script>
+  document.getElementById('page-index').innerHTML = PAGES.map(
+    (section) => `
+      <div class="mb-9">
+        <p class="label text-note mb-3">${section.group}</p>
+        <div class="grid gap-x-14 gap-y-2.5 sm:grid-cols-2">
+          ${section.items.map((page) => `
+            <span class="leader">
+              <a href="${page.file}" class="text-primary-100 link">${page.title}</a>
+              <span class="datum text-note text-primary-400 order-last whitespace-nowrap">
+                <a href="../../${page.file}" class="link">shipped</a>
+                <span class="text-primary-600">&middot;</span>
+                <a href="../v1/${page.file}" class="link">v1</a>
+              </span>
+            </span>`).join('')}
+        </div>
+      </div>`
+  ).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Receipt unavailable | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+</head>
+
+<!-- v2 / 400 and 404 on /donate/success.
+     The headline has exactly one job: stop the donor believing their payment
+     failed. The webhook on api.moddex.tv records the donation whether or not
+     this page ever loads, so the fault is display-only and the table says so
+     line by line. The shipped version prints "failed to retrieve session
+     details" under a red 400, which reads as "your payment failed" to anyone
+     who is not an engineer. -->
+<body data-nav="donate" data-auth="out" class="min-h-screen flex flex-col">
+
+<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+
+  <main id="main" class="flex-grow">
+    <div class="px-6 sm:px-10 pt-12 pb-16">
+
+      <div class="enter folio mb-14" style="--i: 0">
+        <aside class="margin flex flex-col gap-3">
+          <span>http 400</span>
+          <span class="rule-hair pt-3">This page could not read the checkout session back from Stripe.</span>
+        </aside>
+
+        <div>
+          <h1 class="title text-h1 max-w-[20ch] mb-6">
+            Your payment is fine. This page is not.
+          </h1>
+          <p class="text-read text-primary-300 max-w-prose mb-9">
+            moddex cannot show you a summary, and that has no effect at all on
+            the donation itself.
+          </p>
+
+          <table class="ledger closed max-w-xl mb-9">
+            <tbody>
+              <tr><td class="label w-52">payment</td><td class="text-right text-mod">taken by Stripe</td></tr>
+              <tr><td class="label">receipt</td><td class="text-right text-mod">Stripe will email it</td></tr>
+              <tr><td class="label">donator badge</td><td class="text-right text-mod">granted by the webhook</td></tr>
+              <tr><td class="label">this page</td><td class="text-right text-founder">cannot read the session</td></tr>
+            </tbody>
+          </table>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="user-detail.html" class="btn">Check your entry</a>
+            <a href="mailto:marcel@doubt.ch?subject=moddex%20donator%20badge" class="btn btn-quiet">Email marcel@doubt.ch</a>
+          </div>
+
+          <p class="label text-note mt-5 max-w-prose">
+            If the badge is still missing an hour from now, send the Stripe
+            receipt and it gets assigned by hand.
+          </p>
+        </div>
+      </div>
+
+      <!-- landing on /donate/success with no session_id, usually a bookmark -->
+      <section class="enter" style="--i: 1">
+        <div class="opener mb-6">
+          <h2 class="text-h2">Arriving with no checkout at all</h2>
+        </div>
+
+        <div class="folio">
+          <p class="margin">http 404.</p>
+
+          <div class="max-w-prose flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
+            <p class="text-primary-300">
+              This address only means something directly after a Stripe checkout.
+              You have probably arrived from a bookmark.
+            </p>
+            <a href="donate.html" class="btn btn-quiet shrink-0">Support page</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>
