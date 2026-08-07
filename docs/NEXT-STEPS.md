@@ -32,10 +32,16 @@ These are yours, not code. The rebrand is inert without them.
       `moddex-workspace/SECRETS.md` for why rotating those is an `ALTER USER`
       job rather than an `.env` edit.
 
-      Still outstanding on the Stripe side: **the old `sk_live_` key has not
-      been revoked.** Two live keys can coexist, which is what made the
-      rotation zero-downtime, but the old one keeps working until you revoke
-      it in the dashboard. Do that after a real donation confirms the new key.
+      The old `sk_live_` key has since been revoked. Rotation is complete.
+
+      **What this entry claimed on the morning of 2026-08-07 was not what had
+      been checked.** It said "done, and verified on the server" on the strength
+      of every value in `.env.new` matching what was deployed — which proves two
+      files agree with each other and nothing else. Twitch was rejecting
+      `AUTH_TWITCH_SECRET` the whole time and login was broken; the check could
+      not see it, because a credential is only verified by the provider
+      accepting it. A new secret was generated in the Twitch console and login
+      works. **Verify an OAuth secret by logging in, never by diffing files.**
 
       The history below is kept because it is why this took two passes:
       Checked on the server 2026-08-06 by diffing
@@ -479,8 +485,31 @@ The database is fine (see `DATABASE.md`). These are the real bottlenecks.
       of the `roles` switch in §3. Batched 500 rows per statement, wrapped in a
       transaction, and using `revoked` so a refresh is a diff rather than a full
       rewrite — exactly as this entry predicted.
-- [ ] **No cache TTL.** A channel scraped once is frozen forever unless someone
-      clicks reload.
+- [x] **No cache TTL.** **Done 2026-08-07.** `CACHE_TTL_SECONDS` (1 day), plus a
+      demand-driven refresh queue and a batched backfill sweep — see
+      `moddex-api/src/workers/`.
+
+      Three bugs surfaced getting there, all now fixed and deployed:
+
+      1. `users`.`updated` is per CHANNEL but gated every ROLE, stamped by
+         whichever was fetched first. On a new channel `/v1/mods` scraped and
+         stamped, then `/v1/vips` saw "fresh" and returned `[]` — the vips were
+         never fetched at all. A refresh now does every role and stamps once.
+      2. `fetchRoles` trusted `pageInfo.hasNextPage` and looped forever on a
+         page that claimed more without a usable cursor. Twenty minutes on one
+         channel in production, memory +8 MiB per 18s.
+      3. `storeUsers` revoked everything absent from the fetched set with no
+         notion of whether that set was trustworthy, so a truncated read
+         revoked 900 live rows across 67 channels. Reverted by hand; fetches
+         now report `complete` and a short read upserts without revoking.
+
+      And the thing that made sense of all of it: **twitch's `hasNextPage` is
+      wrong on a final partial page.** It claims another page, replays the one
+      just sent, and returns the same cursor. Probed on nymn (95 mods) and mendo
+      (98): the "~190 rows" was never 190, it was one page counted twice. A page
+      that adds nothing new is the END of the data and reads as complete —
+      getting that backwards suppressed revocation on the 99.6% of channels
+      that fit in a single page.
 - [ ] **Server Actions used as a data-fetching layer.** Every profile page
       hydrates, then round-trips for data the server already had. Fetch in the
       RSC and stream with `<Suspense>`; keep an action only for explicit reload.
