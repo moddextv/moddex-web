@@ -47,8 +47,9 @@ ENV NEXTAUTH_URL=http://localhost:4999 \
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# NOTE: next/font/google downloads Lato and Cairo here, so this stage needs
-# network access. self-host the fonts if you ever build somewhere airgapped.
+# the fonts are self-hosted (src/app/fonts), so this stage no longer reaches
+# fonts.gstatic.com. it used to, and that fetch is what killed the emulated
+# arm64 build — do not reintroduce next/font/google here.
 #
 # next mirrors its webpack build cache (~390 MB) into the standalone output.
 # it has to go before the runner COPYs it, since deleting it in a later layer
@@ -63,6 +64,11 @@ ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=4999 \
     HOSTNAME=0.0.0.0
+
+# ghcr links a package to a repository from this label, and an unlinked package
+# is one the repo's GITHUB_TOKEN cannot push to — a 403 that reads like a
+# missing scope but is not. See moddex-api/Dockerfile for the full note.
+LABEL org.opencontainers.image.source=https://github.com/moddextv/moddex-web
 
 RUN addgroup --system --gid 1001 nodejs \
  && adduser --system --uid 1001 nextjs

@@ -1,23 +1,33 @@
 import '@/styles/globals.css';
 import { Footer } from '@/components/Footer/Footer';
 import { Header } from '@/components/Header/Header';
-import { Cairo, Lato } from 'next/font/google';
+import localFont from 'next/font/local';
 import React from 'react';
 import { Providers } from './providers';
 import { Metadata } from 'next';
 import Tracking from '@/components/Tracking';
 import { config } from '@/config';
 
-const lato = Lato({
-  weight: ['300', '400', '700'],
-  subsets: ['latin'],
-  preload: true,
+// self-hosted rather than `next/font/google` on purpose. that helper downloads
+// the woff2 from fonts.gstatic.com during `next build`, which put a network
+// call inside the docker build — and inside the emulated arm64 half of the
+// cross-build it ran for 503 s and then died with a FetchError. that is the
+// reason no arm64 image ever came out of CI and moddex.tv is running a
+// hand-built local one. the files in ./fonts are the exact latin-subset woff2
+// google was serving, so this is a like-for-like swap, not a redesign.
+const lato = localFont({
+  src: [
+    { path: './fonts/lato-300.woff2', weight: '300', style: 'normal' },
+    { path: './fonts/lato-400.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/lato-700.woff2', weight: '700', style: 'normal' }
+  ],
+  display: 'swap',
   variable: '--font-lato'
 });
 
-const cairo = Cairo({
-  weight: ['700'],
-  subsets: ['latin'],
+const cairo = localFont({
+  src: [{ path: './fonts/cairo-700.woff2', weight: '700', style: 'normal' }],
+  display: 'swap',
   variable: '--font-cairo'
 });
 

@@ -32,7 +32,11 @@ export class ModdexApiError extends Error {
 }
 
 type Options = {
-  /** send the internal token. required for donation figures and every write. */
+  /**
+   * Whether this endpoint *requires* the token — donation figures and every
+   * write. It no longer controls whether the header is sent: the token now
+   * goes on every call, authenticated or not. See the note in `call` below.
+   */
   authenticated?: boolean;
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   body?: unknown;
@@ -55,11 +59,23 @@ async function call<T>(path: string, options: Options = {}): Promise<T> {
     );
   }
 
+  /**
+   * The token goes on every call, not only the guarded ones.
+   *
+   * moddex-api rate limits per IP, and this app renders every page server-side
+   * — so all of moddex.tv's traffic reaches the api from a single address and
+   * would be the first thing throttled. The limiter exempts callers holding
+   * this token; sending it on reads is what identifies us as one.
+   *
+   * It costs nothing in exposure: the header goes to our own api over TLS from
+   * a module that is `server-only`, and a read endpoint that does not check the
+   * token simply ignores it.
+   */
   const res = await fetch(`${BASE}${path}`, {
     method,
     headers: {
       ...(body ? { 'content-type': 'application/json' } : {}),
-      ...(authenticated ? { authorization: `Bearer ${token()}` } : {})
+      ...(token() ? { authorization: `Bearer ${token()}` } : {})
     },
     body: body ? JSON.stringify(body) : undefined,
     next: revalidate === undefined ? { revalidate: 0 } : { revalidate }

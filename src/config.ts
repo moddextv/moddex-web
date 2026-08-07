@@ -61,10 +61,11 @@ export const config = {
     publishableSecretKey: process.env
       .NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
 
-    // deliberately not required(): a missing webhook secret must not take the
-    // whole app down at import. /api/stripe/webhook checks it per request and
-    // refuses to process anything unsigned.
-    webhookSecret: optional('STRIPE_WEBHOOK_SECRET', ''),
+    // no webhookSecret here. the stripe webhook moved to
+    // api.moddex.tv/v1/stripe/webhook in phase 2, so STRIPE_WEBHOOK_SECRET
+    // belongs to moddex-api's .env and nothing in this app reads it. this app
+    // still needs secretKey: it creates the checkout session (/api/checkout)
+    // and reads it back on /donate/success.
 
     donation: {
       price: required('STRIPE_DONATION_PRICE'),

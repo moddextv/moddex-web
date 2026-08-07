@@ -107,9 +107,35 @@ earlier works but the next donation would re-corrupt it.)
       it is self-healing). `db/migrations/005-repair-top-donator-badge.sql`
       redistributes the existing data — rehearsed on the production copy:
       26 holders → 1, the correct $25.00 donor. Rerun-safe.
-- [ ] **Rate limiting.** The public API is unauthenticated and some paths
-      trigger outbound Twitch scraping. One client can drive your GQL volume up
-      and get the app's client-ID throttled.
+- [x] **Rate limiting.** **Done 2026-08-07**, in `moddex-api`
+      (`src/http/rateLimit.ts`). Per-IP fixed window, hand-rolled rather than
+      `express-rate-limit` so the lockfile is untouched — see §7 on why adding
+      a dependency from Windows is a build failure waiting for CI.
+
+      Two budgets: `RATE_LIMIT_MAX` (120/min) for the public surface, and
+      `RATE_LIMIT_SCRAPE_MAX` (20/min) for `/v1/mods|vips|founders` asked by
+      **channel**, the only direction that can fan out to twitch. `?user=`
+      reads stored rows and stays on the wider budget.
+
+      Three things it deliberately does not limit: `/health` (status.moddex.tv
+      polls it, and a throttled monitor reports a fake outage), the stripe
+      webhook (signature-verified, and stripe picks its own delivery rate), and
+      any caller holding `INTERNAL_API_TOKEN`.
+
+      **That last exemption is load-bearing.** moddex-web renders every page
+      through the api, so all of moddex.tv's traffic arrives from one address
+      and would have been the first thing throttled. `moddex-web`'s api client
+      now sends the token on *every* call, not just the guarded ones.
+
+      Also fixed alongside: `trust proxy` was `true`, which makes express take
+      the leftmost `X-Forwarded-For` entry — client-supplied, so anyone could
+      mint unlimited buckets and walk straight through the limiter. It counts
+      one hop now (Caddy). Raise it if a proxy is ever added in front.
+
+      **Deploy moddex-web first, then moddex-api** — the reverse of the usual
+      order in `CLAUDE.md`, and deliberately so. moddex-web is only adding a
+      header that the current api ignores, whereas shipping the api first
+      leaves a window where the website is throttled at 120 req/min.
 - [x] **An authorisation helper**, so the next server action added does not have
       to remember the `auth()` dance by hand. **Done** — `src/utils/authz.ts`
       exports `requireUserId()` and `requirePermission(level)`. Both throw
@@ -323,7 +349,27 @@ valuable position for a lookup tool people find by searching a username.
 
 The database is fine (see `DATABASE.md`). These are the real bottlenecks.
 
-- [ ] **N+1 in `getUsers`** — a badge query per user in a loop.
+- [x] **N+1 in `getUsers`** — a badge query per user in a loop. **Done
+      2026-08-07** in `moddex-api/src/utils/user.ts`: the loop is gone, not
+      batched, because every one of those queries was wasted twice over.
+      `getUsersFromDbById` already LEFT JOINs the badges and `formatUsers` has
+      already populated them — the loop refetched what was in hand and
+      *downgraded* it, overwriting the join's `{id, name, path}` with
+      `getUserBadges`'s `{name, path}`. And the only caller passing more than
+      one id (`utils/roles/channel.ts`, which calls `getUsers` purely to create
+      users it has not seen) throws the return value away.
+
+      No response shape changes: `/v1/users` builds from
+      `getUsersFromDb`/`getUsersFromDbById` and never goes through `getUsers`.
+      Verified by reading the call graph — **the integration suite was not run**
+      (it needs a running stack; docker was down on the machine that made this
+      change). Run `npm run test:integration` before deploying.
+
+      Still open next door, and bigger on a cold channel: `updateUserInDb` runs
+      four queries per user after the insert, and `channel.ts` discards those
+      results too. On a channel whose 14,000 mods are all new that is ~56,000
+      queries computing a value nobody reads. That is the "row-at-a-time
+      inserts" item below.
 - [ ] **Row-at-a-time inserts in `storeUsers`** — one round trip per mod, on
       channels with tens of thousands of them. Batch it and wrap it in a
       transaction. The `revoked` column from 002 turns this into a small diff
