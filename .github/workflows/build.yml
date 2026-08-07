@@ -2,9 +2,7 @@ name: build
 
 on:
   push:
-    # ci/native-arm64-runner is here only while the arm64 runner is being
-    # proven. Remove it once this merges to main.
-    branches: [main, ci/native-arm64-runner]
+    branches: [main]
     tags: ['v*']
   pull_request:
     branches: [main]
