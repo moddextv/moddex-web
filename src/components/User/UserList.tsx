@@ -1,178 +1,275 @@
 'use client';
 
-import { FC, useCallback, useEffect, useState, useMemo } from 'react';
-import { FilterIcon, ReloadIcon, Sort01Icon, Sort10Icon, SortAZIcon, SortNewOldIcon, SortOldNewIcon, SortZAIcon } from '@/components/Icons';
+import { FC, ReactNode, useMemo, useState } from 'react';
+import { ChevronDownIcon } from '@/components/Icons';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
 import { useUserListData } from '@/hooks/useUserListData';
 import { User, UserListProps } from '@/misc/Interfaces';
+import { ROLES, RoleKey, roleByLabel, roleCornerClass, roleTextClass } from '@/misc/roles';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { FixedSizeList as List } from 'react-window';
 import clsx from 'clsx';
 
-const sortAZ = (users: User[]): User[] => [...users].sort((a, b) => a.login.localeCompare(b.login));
-const sortZA = (users: User[]): User[] => [...users].sort((a, b) => b.login.localeCompare(a.login));
-const sort01 = (users: User[]): User[] => [...users].sort((a, b) => (a.follower || 0) - (b.follower || 0));
-const sort10 = (users: User[]): User[] => [...users].sort((a, b) => (b.follower || 0) - (a.follower || 0));
-const sortFewMany = (users: User[]): User[] => [...users].sort((a, b) => new Date(a.granted || '1970-01-01').getTime() - new Date(b.granted || '1970-01-01').getTime());
-const sortManyFew = (users: User[]): User[] => [...users].sort((a, b) => new Date(b.granted || '1970-01-01').getTime() - new Date(a.granted || '1970-01-01').getTime());
+/**
+ * `chip` is the column the sort acts on and is what the closed control shows;
+ * `label` is the full sentence inside the menu. two sorts share a chip because
+ * a reader scanning the header wants to know which column is ordering the list,
+ * not which end it starts from.
+ */
+const SORTS = [
+  {
+    key: 'granted-desc',
+    chip: 'Granted',
+    label: 'granted, newest first',
+    compare: (a: User, b: User) => grantedAt(b) - grantedAt(a)
+  },
+  {
+    key: 'granted-asc',
+    chip: 'Granted',
+    label: 'granted, oldest first',
+    compare: (a: User, b: User) => grantedAt(a) - grantedAt(b)
+  },
+  {
+    key: 'followers-desc',
+    chip: 'Followers',
+    label: 'followers, most first',
+    compare: (a: User, b: User) => (b.follower || 0) - (a.follower || 0)
+  },
+  {
+    key: 'followers-asc',
+    chip: 'Followers',
+    label: 'followers, fewest first',
+    compare: (a: User, b: User) => (a.follower || 0) - (b.follower || 0)
+  },
+  {
+    key: 'name-asc',
+    chip: 'Name',
+    label: 'name, a to z',
+    compare: (a: User, b: User) => a.login.localeCompare(b.login)
+  },
+  {
+    key: 'name-desc',
+    chip: 'Name',
+    label: 'name, z to a',
+    compare: (a: User, b: User) => b.login.localeCompare(a.login)
+  }
+] as const;
 
-interface UserDropdownProps {
-  onSort: (sortFn: (users: User[]) => User[]) => void;
-}
+type SortKey = (typeof SORTS)[number]['key'];
 
-const UserDropdown: FC<UserDropdownProps> = ({ onSort }) => {
-  const dropdownItems = [
-    { label: 'username a-z', icon: <SortAZIcon size={24} />, action: () => onSort(sortAZ) },
-    { label: 'username z-a', icon: <SortZAIcon size={24} />, action: () => onSort(sortZA) },
-    { label: 'follower few-many', icon: <Sort01Icon size={24} />, action: () => onSort(sort01) },
-    { label: 'follower many-few', icon: <Sort10Icon size={24} />, action: () => onSort(sort10) },
-    { label: 'granted old-new', icon: <SortOldNewIcon size={24} />, action: () => onSort(sortFewMany) },
-    { label: 'granted new-old', icon: <SortNewOldIcon size={24} />, action: () => onSort(sortManyFew) }
-  ];
+/**
+ * a missing grant date sorts to the far end rather than to 1970. twitch returns
+ * none for a large share of older roles, and the previous comparator passed
+ * those through `new Date('1970-01-01')`, which buried every real answer under
+ * the ones it knew nothing about.
+ */
+const grantedAt = (user: User): number => {
+  if (!user.granted) return Number.NEGATIVE_INFINITY;
 
-  return (
-    <Dropdown type="listbox">
-      <DropdownTrigger>
-        <button
-          type="button"
-          aria-label="sort list"
-          className="flex items-center justify-center w-7 h-7 rounded-md hover:text-primary-200 transition-colors duration-150 pressable"
-        >
-          <FilterIcon size={18} />
-        </button>
-      </DropdownTrigger>
-      <DropdownMenu>
-        {dropdownItems.map((item, index) => (
-          <DropdownItem key={index} onClick={item.action} startContent={item.icon}>
-            {item.label}
-          </DropdownItem>
-        ))}
-      </DropdownMenu>
-    </Dropdown>
-  );
+  const time = new Date(user.granted).getTime();
+  return Number.isNaN(time) ? Number.NEGATIVE_INFINITY : time;
 };
 
+/** the corner, the name and whatever the panel wants on the right of them */
+const PanelHeading: FC<{
+  roleKey: RoleKey;
+  title: string;
+  className?: string;
+  children?: ReactNode;
+}> = ({ roleKey, title, className, children }) => (
+  <div className={clsx('flex items-center gap-3 flex-wrap', className)}>
+    <span
+      aria-hidden="true"
+      className={clsx('corner', roleCornerClass[roleKey], roleTextClass[roleKey])}
+    />
+    <h2 className="text-h2">{title}</h2>
+    {children}
+  </div>
+);
+
 export const UserList: FC<UserListProps> = ({ type, role, user }) => {
-  const { users: initialUsers, isLoading, error, reload } = useUserListData(user, type, role);
-  const [users, setUsers] = useState<User[]>(initialUsers);
+  const { users, isLoading, error, reload } = useUserListData(user, type, role);
 
-  useEffect(() => {
-    setUsers(initialUsers);
-  }, [initialUsers]);
+  const roleKey = roleByLabel(role) ?? 'mod';
+  const title = type === 'channel' ? ROLES[roleKey].channelTitle : ROLES[roleKey].userTitle;
 
-  const handleSort = useCallback((sortFn: (users: User[]) => User[]) => {
-    setUsers((prevUsers) => sortFn(prevUsers));
-  }, []);
-
-  // filtered rather than removed from state, so toggling back does not need a
-  // refetch and sorting still applies to the full set.
-  const [hideBots, setHideBots] = useState(false);
-  const botCount = useMemo(() => users.filter((u) => u.bot).length, [users]);
-  const visibleUsers = useMemo(
-    () => (hideBots ? users.filter((u) => !u.bot) : users),
-    [users, hideBots]
+  // a channel's members are the answer to "when did each of these happen", so
+  // the grant date is the axis worth defaulting to. the channels a person holds
+  // a role in have no shared timeline, so those default to reach.
+  const [sortKey, setSortKey] = useState<SortKey>(
+    type === 'channel' ? 'granted-desc' : 'followers-desc'
   );
 
-  // the rows are virtualized, so they mount and unmount constantly while
-  // scrolling — animating them individually would re-fire on every scroll.
-  // the list arrives as one surface instead.
-  const listKey = `${role}-${visibleUsers.length}-${hideBots}`;
+  // filtered rather than removed from state, so toggling back needs no refetch
+  // and the sort still applies to the full set.
+  const [hideBots, setHideBots] = useState(false);
+  const botCount = useMemo(() => users.filter((entry) => entry.bot).length, [users]);
 
-  const isMod = role === 'mods' || role === 'modding';
+  const visibleUsers = useMemo(() => {
+    const compare = SORTS.find((sort) => sort.key === sortKey)?.compare;
+    const filtered = hideBots ? users.filter((entry) => !entry.bot) : users;
+
+    return compare ? [...filtered].sort(compare) : filtered;
+  }, [users, hideBots, sortKey]);
+
+  const activeSort = SORTS.find((sort) => sort.key === sortKey) ?? SORTS[0];
+
+  if (isLoading) {
+    return (
+      <div className="panel-flush" aria-busy="true">
+        <PanelHeading roleKey={roleKey} title={title} className="px-4 pb-5">
+          <span className="ml-auto text-ui text-primary-400">
+            {type === 'channel' ? 'reading from twitch' : 'reading the index'}
+          </span>
+        </PanelHeading>
+        <UserListLoading type={type} />
+      </div>
+    );
+  }
+
+  // one list failing does not take the page down, so the message names which
+  // list, what happened, that the rest is intact, and the one thing to do.
+  if (error) {
+    return (
+      <div className="panel">
+        <PanelHeading roleKey={roleKey} title={title} className="mb-4">
+          <span className="ml-auto text-ui text-vip">could not be read</span>
+        </PanelHeading>
+        <p className="text-read text-primary-300 max-w-prose mb-2">
+          {type === 'channel'
+            ? 'Twitch returned an error for this query.'
+            : 'The index could not be read for this list.'}
+        </p>
+        <p className="text-ui text-primary-400 mb-5">
+          The other lists on this page are unaffected.
+        </p>
+        <button type="button" className="btn btn-soft" onClick={reload}>
+          Try this list again
+        </button>
+      </div>
+    );
+  }
+
+  if (visibleUsers.length === 0) {
+    return (
+      <div className="panel">
+        <PanelHeading roleKey={roleKey} title={title} className="mb-4">
+          <span className="text-lead text-primary-400 tabular">0</span>
+        </PanelHeading>
+
+        {users.length > 0 ? (
+          <p className="text-read text-primary-300 max-w-prose">
+            Every account in this list is a bot.{' '}
+            <button
+              type="button"
+              className="text-primary-200 font-semibold hover:underline"
+              onClick={() => setHideBots(false)}
+            >
+              Show them
+            </button>
+          </p>
+        ) : roleKey === 'founder' ? (
+          // the empty founders list is the one that needs explaining: it is read
+          // by a different twitch query than mods and vips, on a slower
+          // schedule, so empty here means not read yet rather than none exist.
+          <p className="text-read text-primary-300 max-w-prose">
+            None read yet. Founder badges come from a different twitch query than
+            mods and vips, and it runs on a slower schedule. An empty list here
+            means not yet read, not none exist.
+          </p>
+        ) : (
+          <p className="text-read text-primary-300 max-w-prose">None read yet.</p>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <section>
-      {/* heading row carries the count and the controls, so the list itself
-          can be pure data with nothing floating over it */}
-      <div className="flex items-center gap-3 h-8 mb-1">
-        {/* a single corner from the mark, oriented per role: mods take the
-            top-left bracket, vips the bottom-right — 180° apart, so a channel
-            page renders the logo at page scale */}
-        <span
-          aria-hidden="true"
-          className={clsx(
-            'w-3 h-3 border-2',
-            isMod ? 'border-b-0 border-r-0 border-mod' : 'border-t-0 border-l-0 border-vip'
-          )}
-        />
-        <h2
-          className={clsx(
-            'text-sm uppercase tracking-wider',
-            isMod ? 'text-mod' : 'text-vip'
-          )}
-        >
-          {role}
-        </h2>
+    <div className="panel-flush">
+      <PanelHeading roleKey={roleKey} title={title} className="px-4 pb-5">
+        <span className="text-lead text-primary-400 tabular">{visibleUsers.length}</span>
 
-        {!isLoading && !error && (
-          <span className="text-sm text-primary-500 mono">
-            {visibleUsers.length}
-            {hideBots && botCount > 0 && (
-              <span className="text-primary-600"> / {users.length}</span>
-            )}
-          </span>
-        )}
-
-        <div className="ml-auto flex items-center gap-1 text-primary-400">
-          {/* only offered when it would do something -- a dead toggle on a
-              list with no bots is noise */}
-          {!isLoading && !error && botCount > 0 && (
+        <span className="ml-auto flex items-center gap-2">
+          {/* only offered when it would do something. a dead toggle on a list
+              with no bots in it is noise. */}
+          {botCount > 0 && (
             <button
               type="button"
-              aria-label={hideBots ? `show ${botCount} bots` : `hide ${botCount} bots`}
+              className="chip"
               aria-pressed={hideBots}
-              title={hideBots ? `show ${botCount} bots` : `hide ${botCount} bots`}
-              className={clsx(
-                'flex items-center h-7 px-2 rounded-md text-xs mono transition-colors duration-150 pressable',
-                hideBots
-                  ? 'bg-primary-700 text-primary-100'
-                  : 'hover:text-primary-200'
-              )}
-              onClick={() => setHideBots((v) => !v)}
+              onClick={() => setHideBots((hidden) => !hidden)}
             >
-              bots
+              {hideBots
+                ? 'Bots hidden'
+                : `Hide ${botCount} ${botCount === 1 ? 'bot' : 'bots'}`}
             </button>
           )}
-          {!isLoading && !error && !!users.length && <UserDropdown onSort={handleSort} />}
-          {!isLoading && !error && type === 'channel' && (
-            <button
-              type="button"
-              aria-label={`reload ${role}`}
-              className="flex items-center justify-center w-7 h-7 rounded-md hover:text-primary-200 transition-colors duration-150 pressable"
-              onClick={reload}
+
+          <Dropdown type="listbox" placement="bottom-end">
+            <DropdownTrigger>
+              <button
+                type="button"
+                className="chip"
+                aria-label={`Sorted by ${activeSort.label}. Change the sort.`}
+              >
+                {activeSort.chip}
+                <ChevronDownIcon size={11} />
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Sort this list"
+              selectionMode="single"
+              disallowEmptySelection
+              selectedKeys={new Set([sortKey])}
+              onSelectionChange={(keys) => {
+                const [next] = Array.from(keys as Set<string>);
+                if (next) setSortKey(next as SortKey);
+              }}
             >
-              <ReloadIcon size={18} />
-            </button>
-          )}
+              {SORTS.map((sort) => (
+                <DropdownItem key={sort.key} textValue={sort.label}>
+                  {sort.label}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </span>
+      </PanelHeading>
+
+      <div className="rows">
+        <div className="row-head cols-people">
+          <span>{type === 'channel' ? 'Account' : 'Channel'}</span>
+          <span className="text-right">Granted</span>
+          <span className="text-right">Followers</span>
         </div>
+
+        <List
+          height={Math.min(visibleUsers.length * 52, 520)}
+          itemCount={visibleUsers.length}
+          itemSize={52}
+          width="100%"
+        >
+          {({ index, style }) => (
+            <div style={style}>
+              <UserListItem user={visibleUsers[index]} type={type} />
+            </div>
+          )}
+        </List>
       </div>
 
-      {error && <p className="py-3 text-red-400">{error}</p>}
-      {isLoading && <UserListLoading />}
-
-      {!isLoading && !error && (
-        <div key={listKey} className="enter-item border-t border-primary-700">
-          {visibleUsers.length === 0 ? (
-            <p className="py-6 text-sm text-primary-500 mono">
-              {users.length === 0 ? 'none tracked yet' : 'only bots here'}
-            </p>
-          ) : (
-            <List
-              height={Math.min(visibleUsers.length * 72, 512)}
-              itemCount={visibleUsers.length}
-              itemSize={72}
-              width="100%"
-            >
-              {({ index, style }) => (
-                <div style={style}>
-                  <UserListItem user={visibleUsers[index]} role={role} />
-                </div>
-              )}
-            </List>
-          )}
-        </div>
+      {hideBots && botCount > 0 && (
+        <p className="px-4 py-4 text-ui text-primary-400">
+          {botCount} bot {botCount === 1 ? 'account' : 'accounts'} hidden.{' '}
+          <button
+            type="button"
+            className="text-primary-200 font-semibold hover:underline"
+            onClick={() => setHideBots(false)}
+          >
+            Show them
+          </button>
+        </p>
       )}
-    </section>
+    </div>
   );
 };

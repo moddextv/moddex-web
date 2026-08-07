@@ -18,6 +18,9 @@ export const ROLES = {
     channelLabel: 'mods',
     /** how the user page labels it: "where does this person mod" */
     userLabel: 'modding',
+    /** the two headings a list of this role gets, one per lookup direction */
+    channelTitle: 'Moderators',
+    userTitle: 'Moderating',
     colour: '#4ADE80',
     tailwind: 'mod',
     /** which corner of the mark this role takes */
@@ -28,6 +31,8 @@ export const ROLES = {
     gqlField: 'vips',
     channelLabel: 'vips',
     userLabel: 'viping',
+    channelTitle: 'VIPs',
+    userTitle: 'Holding VIP',
     colour: '#F472B6',
     tailwind: 'vip',
     corner: 'br'
@@ -57,6 +62,8 @@ export const ROLES = {
     gqlField: 'artists',
     channelLabel: 'artists',
     userLabel: 'arting',
+    channelTitle: 'Artists',
+    userTitle: 'Holding artist',
     colour: '#60A5FA',
     tailwind: 'artist',
     corner: 'tr'
@@ -83,6 +90,8 @@ export const ROLES = {
     gqlField: 'founders',
     channelLabel: 'founders',
     userLabel: 'founding',
+    channelTitle: 'Founders',
+    userTitle: 'Founding',
     colour: '#FBBF24',
     tailwind: 'founder',
     corner: 'bl'
@@ -106,10 +115,22 @@ export const roleByLabel = (label: string): RoleKey | undefined =>
     (key) => ROLES[key].channelLabel === label || ROLES[key].userLabel === label
   );
 
-/** the two border classes that draw this role's corner of the mark */
-export const cornerClasses: Record<(typeof ROLES)[RoleKey]['corner'], string> = {
-  tl: 'border-b-0 border-r-0',
-  br: 'border-t-0 border-l-0',
-  tr: 'border-b-0 border-l-0',
-  bl: 'border-t-0 border-r-0'
+/**
+ * the class that draws this role's corner of the mark, and the class that
+ * colours it. spelled out rather than built from `ROLES[key].corner` and
+ * `.tailwind`, because tailwind reads these files as text: `text-${role}` is
+ * a class it never sees and therefore never emits.
+ */
+export const roleCornerClass: Record<RoleKey, string> = {
+  mod: 'corner-tl',
+  vip: 'corner-br',
+  artist: 'corner-tr',
+  founder: 'corner-bl'
+};
+
+export const roleTextClass: Record<RoleKey, string> = {
+  mod: 'text-mod',
+  vip: 'text-vip',
+  artist: 'text-artist',
+  founder: 'text-founder'
 };
