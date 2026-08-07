@@ -21,7 +21,23 @@ These are yours, not code. The rebrand is inert without them.
       `http://localhost:5099/api/auth/callback/twitch`. The local one matches
       `APP_PORT=5099`; if that port ever changes, the redirect must change with
       it or local login breaks.
-- [ ] **Rotate every secret.** *Partially* done — the "Done." here was wrong.
+- [x] **Rotate every secret.** **Done, and verified on the server 2026-08-07**
+      by hashing each value in `/srv/moddex.tv/.env` and
+      `/srv/api.moddex.tv/.env` and comparing against the prepared set:
+      `AUTH_SECRET`, `AUTH_TWITCH_SECRET`, `STRIPE_SECRET_KEY` and
+      `STRIPE_WEBHOOK_SECRET` all match, so production is running rotated
+      credentials.
+
+      `DB_PASS`/`DB_ROOT_PASS` were deliberately left alone — see
+      `moddex-workspace/SECRETS.md` for why rotating those is an `ALTER USER`
+      job rather than an `.env` edit.
+
+      Still outstanding on the Stripe side: **the old `sk_live_` key has not
+      been revoked.** Two live keys can coexist, which is what made the
+      rotation zero-downtime, but the old one keeps working until you revoke
+      it in the dashboard. Do that after a real donation confirms the new key.
+
+      The history below is kept because it is why this took two passes:
       Checked on the server 2026-08-06 by diffing
       `/home/dev/modchecker.com/.env` (Aug 2026) against `.env.local` (May 2025):
       `AUTH_SECRET`, `DB_USER` and `DB_PASS` were rotated, but
@@ -37,17 +53,31 @@ These are yours, not code. The rebrand is inert without them.
       (`gh api .../actions/secrets` reports 1 secret). `IMAGE=ghcr.io/<owner>/<repo>`
       in the *server* `.env` is still outstanding — that one is not a repo
       secret and cannot be checked from here.
-- [ ] **Confirm the reverse proxy.** `compose.prod.yaml` assumes one already
-      terminates TLS on an external Docker network named `web`.
-      **Answered 2026-08-06: there isn't one.** On the host, TLS is terminated
-      by **host nginx** (`/etc/nginx/sites-enabled/`, ~14 sites) proxying to
-      bare Node processes; `docker ps` is empty, the `web` network does not
-      exist, and `/srv/` is empty. So Caddy (or an nginx container) does have to
-      join the compose file — and note this makes the split a *two-part*
-      migration: five repos **and** nginx+bare-Node+host-MySQL → Compose. The
-      second part is not otherwise written down anywhere.
-- [ ] Repoint DNS, the status page and the FrankerFaceZ add-on at the new
-      domain. Keep `modchecker.com` redirecting if it is still yours.
+- [x] **Confirm the reverse proxy.** **Resolved — it is Caddy, in docker.**
+      Lives in `/srv/caddy/` (`Caddyfile` + `compose.yaml`), terminates TLS for
+      every hostname over ACME, and reaches each service by container name on
+      the external `web` network exactly as `compose.prod.yaml` assumed. Host
+      nginx is retired; `switchover.sh` in that directory is the one-time
+      migration that did it, not a deploy script.
+
+      One trap recorded in the Caddyfile and worth repeating: moddex-web's
+      compose project is named `moddex`, so the container is `moddex-app-1`,
+      **not** `moddex-web-app-1`. Guessing it from the repo name gives a silent
+      502.
+
+      The two-part-migration note below was right, and both parts are now done.
+- [x] **DNS and the status page — done.** Verified 2026-08-07: `moddex.tv`,
+      `www.`, `api.`, `status.` and `ws.` all resolve to `152.53.3.167`
+      (and `2001:1700:a00::14`), and `moddex.tv`, `api.moddex.tv` and
+      `status.moddex.tv` each answer `200` on `/health` over https.
+
+      **Two pieces are not done.** The FrankerFaceZ add-on has not been
+      verified against the new domain — it reads `/v1/chatBadges`, so check it
+      resolves badge images from `api.moddex.tv` and not the old host.
+      And `modchecker.com` still resolves to `162.255.119.167`, a different
+      server entirely, so it is neither redirecting here nor serving the app.
+      Decide whether to point it at this host with a permanent redirect or let
+      it lapse.
 
 ## 1b. Deployment ordering — read before shipping
 
@@ -176,7 +206,24 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
       The channel page's real cost is the join fan-out, not the role index:
       role lookup alone is ~4-12 ms, adding the `users` join takes it to
       **1.83 s**, and the badge join to **2.20 s**. That is §6 territory.
-- [ ] **Apply `002-unified-roles.sql`** in a maintenance window.
+- [ ] **Apply `002-unified-roles.sql`** in a maintenance window — **but not on
+      its own, and not yet.** This is why it is still open, and it is a
+      dependency rather than procrastination:
+
+      `002` is a **one-shot backfill**. It copies `mods` and `vips` into
+      `roles` and installs no dual-write and no trigger. The application keeps
+      writing only to `mods`/`vips` — `storeUsers` does DELETE-all +
+      INSERT-all per channel refresh — so `roles` begins going stale the
+      moment the next channel is scraped. And it cannot be topped up later:
+      the primary key is `(user_id, channel_id, role)`, so a second pass
+      collides on duplicates.
+
+      Applying it now therefore buys nothing and costs something — a table
+      nothing reads, wrong by an unknown amount, expensive to redo.
+
+      **Run it adjacent to the data-layer switch below, in the same window.**
+      Order: switch the code to read and write `roles` → apply `002` →
+      verify per role → deploy → only then uncomment the `DROP TABLE`s.
 
       **Rehearsal 2026-08-06 — the ~13 minute estimate did not hold.** On the
       production copy the `mods` pass alone (8.1M rows) took over 20 minutes,
@@ -220,11 +267,16 @@ Detail and measurements in [`DATABASE.md`](DATABASE.md).
 - [ ] **Migrate production data into the container volume**, now that the DB is
       containerised in production too. Dump → restore → verify row counts → cut
       over.
-- [ ] **Restore the missing companion docs.** `REBUILD-PLAN.md` and
-      `DATABASE.md` are linked from the top of this file and from §3, but
-      neither exists in `docs/` or anywhere in git history. The §3 measurements
-      (1253 ms → 22 ms, −340 MB, ~13 min on 13.7M rows) currently have no
-      backing document in the repo.
+- [x] **The missing companion docs.** **Half of this was wrong.**
+      `DATABASE.md` exists and always did — 8 KB of measurements against the
+      production copy, including the row counts and the disk analysis. Only
+      `REBUILD-PLAN.md` was absent, and it was absent from git history too, so
+      there was nothing to restore.
+
+      Written fresh 2026-08-07 as a reconstruction rather than a recovery, and
+      it says so at the top. It records the roadmap as it actually stands and
+      quotes only numbers that have a source in `DATABASE.md` or in a rehearsal
+      recorded here.
 
 ## 4. The new roles
 

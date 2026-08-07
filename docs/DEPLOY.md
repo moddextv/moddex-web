@@ -107,13 +107,28 @@ Three traps:
   copy you are about to deploy from.
 
   **Not** the one in `/home/dev/modchecker.com/` on the host. That directory is
-  a checkout of this repo *and* the currently live app (nginx proxies
-  `modchecker.com` to a bare `next-server` on `127.0.0.1:4999` out of it), and
-  its `.env.local` is what pins live production to `https://modchecker.com` and
-  `DB_NAME=modchecker_web`. The `.env` beside it points at `localhost:5099` and
-  a compose service named `db` that does not exist on the host, so removing
-  `.env.local` there breaks Twitch login and repoints the database. Verified
-  2026-08-06.
+  a checkout of this repo and *used* to be the live app, back when nginx
+  proxied `modchecker.com` to a bare `next-server` on `127.0.0.1:4999` out of
+  it. Its `.env.local` pinned that app to `https://modchecker.com` and
+  `DB_NAME=modchecker_web`.
+
+  **Superseded 2026-08-07.** nginx is `inactive` and `disabled`, Caddy serves
+  everything, and `moddex.tv` is a container. The directory is no longer live
+  and the trap above no longer applies to it — but do not treat it as gone
+  either, because three things from that era are still running on the host:
+
+  - a **bare `next-server` (v14.2.28) still holding `:4999`**, up 21 h, ~65 MB
+    resident, and not answering (`curl` to it returns nothing). Nothing
+    proxies to it since nginx was disabled, so it is an orphan, not a service.
+  - **host MySQL/MariaDB, still `active`**, holding the pre-split
+    `modchecker_web` database. The containerised database in
+    `/srv/api.moddex.tv/` is a *separate* restore — this is the old copy, and
+    it is a second set of user data sitting on the same box.
+  - the checkout itself, `.env.local` and all.
+
+  None of it is load-bearing. All of it is worth a deliberate decision rather
+  than leaving it to rot: stop the orphan, take a final dump of the host
+  database if you want one, then retire both.
 - `NEXTAUTH_URL` must match a redirect URL registered in the Twitch console
   character for character, or login fails.
 - `APP_PORT` / `DB_PORT_HOST` are local-development only. `compose.prod.yaml`
