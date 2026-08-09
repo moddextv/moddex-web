@@ -44,12 +44,27 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ session }) => {
   const login = session.user.login ?? 'account';
 
   return (
-    <Dropdown showArrow placement="bottom-end" className="border border-primary-700">
+    // shouldBlockScroll={false}: HeroUI's Dropdown locks the body scroll by
+    // default (Popover does not), and the lock sets `overflow: hidden` on
+    // <html>. That releases the scrollbar gutter, the viewport widens, and
+    // every centred thing on the page jumps sideways. A sort menu is not a
+    // modal — it has no business freezing the page behind it.
+    <Dropdown
+      showArrow
+      placement="bottom-end"
+      shouldBlockScroll={false}
+      className="border border-primary-700"
+    >
       <DropdownTrigger>
+        {/* `btn btn-ghost`, the same control Donate uses, because the two sit
+            next to each other in the nav. Hand-rolling this one gave it a
+            different radius, a different hover colour and a different text
+            weight from its neighbour. Only the padding is overridden: the
+            avatar needs less room on the left than a label does. */}
         <button
           type="button"
           aria-label="Account menu"
-          className="flex items-center gap-2.5 shrink-0 h-10 pl-1 pr-3 rounded-md text-primary-200 hover:bg-primary-700 hover:text-primary-100 transition-colors"
+          className="btn btn-ghost shrink-0 gap-2.5 pl-1 pr-3"
         >
           {session.user.image ? (
             <Image
@@ -65,7 +80,7 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ session }) => {
               {login.slice(0, 1)}
             </span>
           )}
-          <span className="hidden sm:inline text-ui font-semibold">{login}</span>
+          <span className="hidden sm:inline">{login}</span>
         </button>
       </DropdownTrigger>
 
