@@ -23,10 +23,7 @@ export const metadata: Metadata = {
  * and paging past it are the client's job, through the same endpoint.
  */
 export default async function ChannelPage() {
-  const [stats, initial] = await Promise.all([
-    getStats(),
-    fetchChannels('read', 25, 0)
-  ]);
+  const [stats, initial] = await Promise.all([getStats(), fetchChannels('read', 25, 0)]);
 
   return (
     <main id="main" className="flex-grow">
@@ -37,9 +34,9 @@ export default async function ChannelPage() {
             <h1 className="text-h1">Channels</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">
-            Who holds mod, vip and founder in a channel, and since when. Type a
-            name in the bar above to look one up. Searching a channel for the
-            first time is what adds it to the index.
+            Who holds mod, vip and founder in a channel, and since when. Type a name in the bar
+            above to look one up. Searching a channel for the first time is what adds it to the
+            index.
           </p>
         </header>
 

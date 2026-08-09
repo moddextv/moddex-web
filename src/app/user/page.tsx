@@ -23,10 +23,7 @@ export const metadata: Metadata = {
  * it would be hiding the answer.
  */
 export default async function UserPage() {
-  const [stats, initial] = await Promise.all([
-    getStats(),
-    fetchAccounts('roles', 25, 0, true)
-  ]);
+  const [stats, initial] = await Promise.all([getStats(), fetchAccounts('roles', 25, 0, true)]);
 
   return (
     <main id="main" className="flex-grow">
@@ -37,9 +34,8 @@ export default async function UserPage() {
             <h1 className="text-h1">People</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">
-            Every indexed channel where an account holds mod or vip, and the day
-            each role was granted. This is the direction twitch itself will not
-            show you.
+            Every indexed channel where an account holds mod or vip, and the day each role was
+            granted. This is the direction twitch itself will not show you.
           </p>
         </header>
 

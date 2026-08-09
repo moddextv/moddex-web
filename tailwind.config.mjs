@@ -42,10 +42,7 @@ module.exports = {
         h3: ['1.125rem', { lineHeight: '1.35', letterSpacing: '-0.01em' }],
         h2: ['1.375rem', { lineHeight: '1.3', letterSpacing: '-0.015em' }],
         h1: ['1.75rem', { lineHeight: '1.25', letterSpacing: '-0.02em' }],
-        display: [
-          'clamp(2rem, 3.6vw, 2.75rem)',
-          { lineHeight: '1.15', letterSpacing: '-0.03em' }
-        ]
+        display: ['clamp(2rem, 3.6vw, 2.75rem)', { lineHeight: '1.15', letterSpacing: '-0.03em' }]
       },
 
       // the shipped dark palette, value for value. heroui already declares most

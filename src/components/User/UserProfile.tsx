@@ -199,9 +199,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           <button
             type="button"
             title={
-              isUser
-                ? 'Read this profile again from twitch'
-                : 'Read this channel again from twitch'
+              isUser ? 'Read this profile again from twitch' : 'Read this channel again from twitch'
             }
             aria-label="Refresh"
             className="btn btn-soft w-10 p-0"

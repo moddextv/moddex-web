@@ -21,9 +21,7 @@ const Section: FC<{ title: string; children: ReactNode; blurb?: string }> = ({
 }) => (
   <section className="panel">
     <h2 className="text-h2 mb-2">{title}</h2>
-    {blurb && (
-      <p className="text-read text-primary-300 max-w-prose mb-6">{blurb}</p>
-    )}
+    {blurb && <p className="text-read text-primary-300 max-w-prose mb-6">{blurb}</p>}
     {children}
   </section>
 );
@@ -43,10 +41,7 @@ const Swatch: FC<{ value: string; label: string; outlined?: boolean }> = ({
   </div>
 );
 
-const Specimen: FC<{ caption: string; children: ReactNode }> = ({
-  caption,
-  children
-}) => (
+const Specimen: FC<{ caption: string; children: ReactNode }> = ({ caption, children }) => (
   <div className="flex flex-col gap-3">
     {children}
     <span className="text-micro text-primary-400">{caption}</span>
@@ -74,15 +69,7 @@ const MOTION = [
   ['reduced motion', 'all of it stops']
 ];
 
-const BADGES = [
-  'admin',
-  'staff',
-  'team',
-  'partner',
-  'affiliate',
-  'donator',
-  'top_donator'
-];
+const BADGES = ['admin', 'staff', 'team', 'partner', 'affiliate', 'donator', 'top_donator'];
 
 export default function DesignPage() {
   return (
@@ -93,9 +80,9 @@ export default function DesignPage() {
             <p className="text-ui text-primary-400 mb-4">Design system</p>
             <h1 className="text-h1 mb-3">Components</h1>
             <p className="text-lead text-primary-300 max-w-prose">
-              Every primitive, with the verdict it answers. Check a new component
-              against this page before adding it, and read docs/DESIGN.md for the
-              five directions that were rejected on the way here.
+              Every primitive, with the verdict it answers. Check a new component against this page
+              before adding it, and read docs/DESIGN.md for the five directions that were rejected
+              on the way here.
             </p>
           </header>
 
@@ -105,19 +92,10 @@ export default function DesignPage() {
           >
             <div className="flex flex-col gap-4">
               {TYPE.map((entry) => (
-                <div
-                  key={entry.name}
-                  className="flex flex-wrap items-baseline gap-x-6 gap-y-1"
-                >
-                  <span className="text-micro text-primary-400 w-16 shrink-0">
-                    {entry.name}
-                  </span>
-                  <span className={clsx(entry.cls, 'min-w-0')}>
-                    Every mod list on twitch
-                  </span>
-                  <span className="text-micro text-primary-400 tabular ml-auto">
-                    {entry.spec}
-                  </span>
+                <div key={entry.name} className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                  <span className="text-micro text-primary-400 w-16 shrink-0">{entry.name}</span>
+                  <span className={clsx(entry.cls, 'min-w-0')}>Every mod list on twitch</span>
+                  <span className="text-micro text-primary-400 tabular ml-auto">{entry.spec}</span>
                 </div>
               ))}
             </div>
@@ -127,11 +105,10 @@ export default function DesignPage() {
             <div className="px-4 pb-5">
               <h2 className="text-h2 mb-2">Rows</h2>
               <p className="text-read text-primary-300 max-w-prose">
-                Not a table. A CSS grid on a shared column template, hover, and
-                nothing between rows but air. Column labels sit light and unboxed
-                above the first row, so the numbers on the right are still
-                explained without the thing reading as a spreadsheet. 52px, which
-                is the fix for &quot;clamped&quot;.
+                Not a table. A CSS grid on a shared column template, hover, and nothing between rows
+                but air. Column labels sit light and unboxed above the first row, so the numbers on
+                the right are still explained without the thing reading as a spreadsheet. 52px,
+                which is the fix for &quot;clamped&quot;.
               </p>
             </div>
 
@@ -149,12 +126,8 @@ export default function DesignPage() {
                   </span>
                   <span className="row-name text-base font-bold truncate">nymn</span>
                 </span>
-                <span className="text-ui text-primary-300 tabular text-right">
-                  Apr 2016
-                </span>
-                <span className="text-ui text-primary-400 tabular text-right">
-                  614,201
-                </span>
+                <span className="text-ui text-primary-300 tabular text-right">Apr 2016</span>
+                <span className="text-ui text-primary-400 tabular text-right">614,201</span>
               </a>
 
               <a href="#main" className="row cols-people">
@@ -163,20 +136,14 @@ export default function DesignPage() {
                     s
                   </span>
                   <span className="flex items-center gap-2 min-w-0">
-                    <span className="row-name text-base font-bold truncate">
-                      supibot
-                    </span>
+                    <span className="row-name text-base font-bold truncate">supibot</span>
                     <span className="shrink-0 px-2 py-0.5 rounded-sm bg-primary-700 text-micro font-semibold text-primary-400">
                       bot
                     </span>
                   </span>
                 </span>
-                <span className="text-ui text-primary-300 tabular text-right">
-                  Nov 2019
-                </span>
-                <span className="text-ui text-primary-400 tabular text-right">
-                  1,204
-                </span>
+                <span className="text-ui text-primary-300 tabular text-right">Nov 2019</span>
+                <span className="text-ui text-primary-400 tabular text-right">1,204</span>
               </a>
 
               <a href="#main" className="row cols-people">
@@ -192,9 +159,7 @@ export default function DesignPage() {
                 >
                   no date
                 </span>
-                <span className="text-ui text-primary-400 tabular text-right">
-                  8,910
-                </span>
+                <span className="text-ui text-primary-400 tabular text-right">8,910</span>
               </a>
 
               <div className="row cols-people">
@@ -225,9 +190,7 @@ export default function DesignPage() {
                 <Swatch
                   key={key}
                   value={ROLES[key].colour}
-                  label={
-                    ACTIVE_ROLE_KEYS.includes(key) ? key : `${key}, not yet used`
-                  }
+                  label={ACTIVE_ROLE_KEYS.includes(key) ? key : `${key}, not yet used`}
                 />
               ))}
               <Swatch value="#714ab8" label="twitch, sign-in only" />
@@ -242,9 +205,7 @@ export default function DesignPage() {
               {ROLE_KEYS.map((key) => (
                 <span key={key} className="flex items-center gap-3">
                   <span className={clsx('corner', roleCornerClass[key], roleTextClass[key])} />
-                  <span className="text-ui text-primary-300">
-                    {ROLES[key].channelLabel}
-                  </span>
+                  <span className="text-ui text-primary-300">{ROLES[key].channelLabel}</span>
                 </span>
               ))}
               <span className="flex items-center gap-3">
@@ -255,13 +216,12 @@ export default function DesignPage() {
 
             <div className="rounded-md bg-primary-900 p-4 max-w-prose">
               <p className="text-ui text-primary-300 leading-relaxed">
-                <span className="text-artist font-bold">Artist</span> is declared
-                in <span className="text-primary-100">misc/roles.ts</span> with
-                its own colour and corner, but it is not in{' '}
-                <span className="text-primary-100">ACTIVE_ROLE_KEYS</span>: twitch
-                does not expose artists through the public unauthenticated
-                surface, so nothing renders it today. It is here so the system
-                already has an answer when that changes.
+                <span className="text-artist font-bold">Artist</span> is declared in{' '}
+                <span className="text-primary-100">misc/roles.ts</span> with its own colour and
+                corner, but it is not in <span className="text-primary-100">ACTIVE_ROLE_KEYS</span>:
+                twitch does not expose artists through the public unauthenticated surface, so
+                nothing renders it today. It is here so the system already has an answer when that
+                changes.
               </p>
             </div>
           </Section>

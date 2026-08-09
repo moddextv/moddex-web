@@ -44,9 +44,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
     }
   };
 
-  const preview = userChatBadges.available.find(
-    (badge) => badge.name === selected && badge.path
-  );
+  const preview = userChatBadges.available.find((badge) => badge.name === selected && badge.path);
 
   return (
     <>
@@ -84,9 +82,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
                   />
                 )}
 
-                <span
-                  className={active ? 'text-base font-bold' : 'text-base text-primary-300'}
-                >
+                <span className={active ? 'text-base font-bold' : 'text-base text-primary-300'}>
                   {badge.name === 'none' ? 'No badge' : badge.name}
                 </span>
 
@@ -109,12 +105,9 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
             message — in chat the colon sits against the name. so the name and
             what follows it are one flex item, and only the badge is spaced. */}
         <p className="flex items-center gap-2.5 rounded-md bg-primary-900 px-4 py-3">
-          {preview && (
-            <Image src={preview.path} alt="" width={18} height={18} radius="sm" />
-          )}
+          {preview && <Image src={preview.path} alt="" width={18} height={18} radius="sm" />}
           <span className="text-base text-primary-300">
-            <span className="font-bold text-primary-100">{login}</span>
-            : forsen has 24 mods, wow
+            <span className="font-bold text-primary-100">{login}</span>: forsen has 24 mods, wow
           </span>
         </p>
       </div>

@@ -16,11 +16,10 @@ import { getRole } from '@/utils/api/moddex';
  * from the record's own `updated` timestamp. The parameter is still accepted
  * so the client components did not have to change in the same commit.
  */
-const ROLE_FOR: Record<UserType, Record<string, 'mods' | 'vips' | 'founders'>> =
-  {
-    channel: { mods: 'mods', vips: 'vips', founders: 'founders' },
-    user: { modding: 'mods', viping: 'vips', founding: 'founders' }
-  };
+const ROLE_FOR: Record<UserType, Record<string, 'mods' | 'vips' | 'founders'>> = {
+  channel: { mods: 'mods', vips: 'vips', founders: 'founders' },
+  user: { modding: 'mods', viping: 'vips', founding: 'founders' }
+};
 
 export async function fetchUserListData(
   userId: string,
@@ -33,8 +32,7 @@ export async function fetchUserListData(
 
   // the axis decides which parameter the id goes in: a channel's members, or
   // the channels a user is a member of
-  const params =
-    type === 'channel' ? { channel_id: userId } : { user_id: userId };
+  const params = type === 'channel' ? { channel_id: userId } : { user_id: userId };
 
   try {
     return await getRole<User[]>(endpoint, params);

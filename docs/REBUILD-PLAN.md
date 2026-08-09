@@ -24,13 +24,13 @@ calls, and a scraping bug takes the website down with it.
 
 Five repos, one container each:
 
-| repo | host | owns |
-|---|---|---|
-| `moddex-api` | api.moddex.tv | the database, the scraping, the public `/v1` surface |
-| `moddex-web` | moddex.tv | the UI, and nothing else |
-| `moddex-ws` | ws.moddex.tv | websocket fan-out (not built) |
-| `moddex-status` | status.moddex.tv | monitoring, sharing nothing with the above |
-| `moddex-workspace` | — | the shared context and conventions |
+| repo               | host             | owns                                                 |
+| ------------------ | ---------------- | ---------------------------------------------------- |
+| `moddex-api`       | api.moddex.tv    | the database, the scraping, the public `/v1` surface |
+| `moddex-web`       | moddex.tv        | the UI, and nothing else                             |
+| `moddex-ws`        | ws.moddex.tv     | websocket fan-out (not built)                        |
+| `moddex-status`    | status.moddex.tv | monitoring, sharing nothing with the above           |
+| `moddex-workspace` | —                | the shared context and conventions                   |
 
 **The one rule:** only `moddex-api` talks to the database. It is what stops
 five repos becoming a distributed monolith, which would be strictly worse than
@@ -45,7 +45,7 @@ the single app they came from.
   connection; it asks the api over HTTP. The rule above is now true rather
   than aspirational.
 - **The second migration nobody wrote down.** The split was always two
-  migrations, not one: five repos *and* nginx + bare-Node + host-MySQL →
+  migrations, not one: five repos _and_ nginx + bare-Node + host-MySQL →
   Compose. Both are done. Caddy terminates TLS from `/srv/caddy/`, every
   service is a container, and the database lives in a volume owned by
   `moddex-api`.
@@ -115,5 +115,5 @@ request.
 - **Ship the api change before the code that calls it** — except where the
   caller is only adding something the old server ignores, in which case the
   reverse is safer. The rate-limit work was one of those: `moddex-web` started
-  sending its internal token *before* `moddex-api` began enforcing limits, so
+  sending its internal token _before_ `moddex-api` began enforcing limits, so
   there was never a window where the website throttled itself.

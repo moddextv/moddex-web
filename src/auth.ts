@@ -18,7 +18,7 @@ export const { handlers, auth, signIn } = NextAuth({
         const [twitchUser, userPermission] = await Promise.all([
           getUser(account?.providerAccountId),
           getUserPermission(account?.providerAccountId)
-        ])
+        ]);
 
         token.login = twitchUser?.login || '';
         token.perms = userPermission;

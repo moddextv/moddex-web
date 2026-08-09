@@ -41,14 +41,11 @@ export const Footer = () => {
         <div className="max-w-[42ch]">
           <div className="flex items-center gap-3 mb-3 text-primary-200">
             <Mark size={20} split />
-            <span className="text-h3 font-extrabold tracking-tight">
-              {config.brand.name}
-            </span>
+            <span className="text-h3 font-extrabold tracking-tight">{config.brand.name}</span>
           </div>
           <p className="text-ui text-primary-400 leading-relaxed">
-            Every channel a twitch account holds mod or vip in, and the day it was
-            granted. Not affiliated with, endorsed by, or sponsored by Twitch
-            Interactive.
+            Every channel a twitch account holds mod or vip in, and the day it was granted. Not
+            affiliated with, endorsed by, or sponsored by Twitch Interactive.
           </p>
           <p className="mt-3 text-micro text-primary-400">
             &copy; {year} {config.brand.name}

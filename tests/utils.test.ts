@@ -1,16 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import {
-  formatDate,
-  formatNumber,
-  formatNumberShort,
-  splitArray
-} from '@/utils/utils';
+import { formatDate, formatNumber, formatNumberShort, splitArray } from '@/utils/utils';
 import { isInteger } from '@/utils/validation';
 
 describe('splitArray', () => {
   it('chunks evenly and keeps the remainder', () => {
     expect(splitArray([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]]);
-    expect(splitArray([1, 2, 3, 4], 2)).toEqual([[1, 2], [3, 4]]);
+    expect(splitArray([1, 2, 3, 4], 2)).toEqual([
+      [1, 2],
+      [3, 4]
+    ]);
   });
 
   it('does NOT mutate its input', () => {

@@ -101,13 +101,13 @@ BACKUP_RETENTION_DAYS=14
 
 Three traps:
 
-- **Do not copy `.env.local` to the server.** Next.js loads it at *higher*
+- **Do not copy `.env.local` to the server.** Next.js loads it at _higher_
   precedence than `.env`, and the copy in this repo still points
   `NEXTAUTH_URL` at `https://modchecker.com`. Delete it — but delete only the
   copy you are about to deploy from.
 
   **Not** the one in `/home/dev/modchecker.com/` on the host. That directory is
-  a checkout of this repo and *used* to be the live app, back when nginx
+  a checkout of this repo and _used_ to be the live app, back when nginx
   proxied `modchecker.com` to a bare `next-server` on `127.0.0.1:4999` out of
   it. Its `.env.local` pinned that app to `https://modchecker.com` and
   `DB_NAME=modchecker_web`.
@@ -122,13 +122,14 @@ Three traps:
     proxies to it since nginx was disabled, so it is an orphan, not a service.
   - **host MySQL/MariaDB, still `active`**, holding the pre-split
     `modchecker_web` database. The containerised database in
-    `/srv/api.moddex.tv/` is a *separate* restore — this is the old copy, and
+    `/srv/api.moddex.tv/` is a _separate_ restore — this is the old copy, and
     it is a second set of user data sitting on the same box.
   - the checkout itself, `.env.local` and all.
 
   None of it is load-bearing. All of it is worth a deliberate decision rather
   than leaving it to rot: stop the orphan, take a final dump of the host
   database if you want one, then retire both.
+
 - `NEXTAUTH_URL` must match a redirect URL registered in the Twitch console
   character for character, or login fails.
 - `APP_PORT` / `DB_PORT_HOST` are local-development only. `compose.prod.yaml`

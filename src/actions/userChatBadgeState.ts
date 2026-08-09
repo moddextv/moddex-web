@@ -13,9 +13,7 @@ import { requireUserId } from '@/utils/authz';
  * staying here. it is a rule about the data, and the database is that
  * service's to protect — a 403 comes back if the badge was never earned.
  */
-export async function setSelectedUserChatBadge(
-  newSelectedBadge: string
-): Promise<void> {
+export async function setSelectedUserChatBadge(newSelectedBadge: string): Promise<void> {
   const userId = await requireUserId();
 
   await setUserChatBadge(userId, newSelectedBadge);

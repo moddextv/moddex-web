@@ -6,11 +6,7 @@ type ResponsePayload = {
   message?: string;
 };
 
-const sendResponse = (
-  status: number,
-  error: string,
-  message?: string
-): NextResponse => {
+const sendResponse = (status: number, error: string, message?: string): NextResponse => {
   const responsePayload: ResponsePayload = { error, status };
 
   if (message) {

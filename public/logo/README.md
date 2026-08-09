@@ -5,6 +5,7 @@ Bracket A: 4,4 18,4 18,10 10,10 10,18 4,18 — B is A rotated 180° about (16,16
 Stroke weight = 6 units; inner channel = 4 units. No fine interior detail: silhouette only.
 
 ## Files
+
 - moddex-mark.svg — primary, monochrome, inherits `currentColor` (site header, 22x22)
 - moddex-mark-color.svg — bracket A mod green #4ADE80, bracket B VIP pink #F472B6 (128px+)
 - moddex-favicon.svg — mark on #0B0B0C, ships as the tab icon
@@ -17,6 +18,7 @@ Stroke weight = 6 units; inner channel = 4 units. No fine interior detail: silho
 - moddex-lockup-stacked.svg — mark centred over the wordmark
 
 ## Rules
+
 - Clear space = 4 grid units (12.5% of the mark's width) on all sides.
 - Minimum size 16px. Below 16px use the favicon raster, not the SVG.
 - Colour is never load-bearing: the header, favicon and chat badge all run monochrome.

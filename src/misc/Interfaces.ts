@@ -39,7 +39,6 @@ export interface User {
   chatBadge: ChatBadge | null;
 }
 
-
 /**
  * the browse surfaces, /v1/channels and /v1/accounts.
  *
@@ -186,8 +185,8 @@ export interface ChatBadge {
 }
 
 export interface UserChatBadges {
-  available: ChatBadge[],
-  selected: string
+  available: ChatBadge[];
+  selected: string;
 }
 
 declare module 'next-auth' {

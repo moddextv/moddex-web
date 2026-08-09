@@ -18,24 +18,15 @@ const Can: FC<{ title: string; children: ReactNode }> = ({ title, children }) =>
     <span className="corner corner-tl text-mod mt-1.5" aria-hidden="true" />
     <span>
       <span className="block text-base font-bold mb-1">{title}</span>
-      <span className="block text-ui text-primary-300 leading-relaxed">
-        {children}
-      </span>
+      <span className="block text-ui text-primary-300 leading-relaxed">{children}</span>
     </span>
   </li>
 );
 
 const Scope: FC<{ label: string; granted: boolean }> = ({ label, granted }) => (
-  <div
-    className="row"
-    style={{ gridTemplateColumns: 'minmax(0, 1fr) auto', minHeight: '44px' }}
-  >
-    <span className={granted ? 'text-base' : 'text-base text-primary-400'}>
-      {label}
-    </span>
-    <span
-      className={granted ? 'text-ui text-mod font-bold' : 'text-ui text-primary-400'}
-    >
+  <div className="row" style={{ gridTemplateColumns: 'minmax(0, 1fr) auto', minHeight: '44px' }}>
+    <span className={granted ? 'text-base' : 'text-base text-primary-400'}>{label}</span>
+    <span className={granted ? 'text-ui text-mod font-bold' : 'text-ui text-primary-400'}>
       {granted ? 'Yes' : 'Never'}
     </span>
   </div>
@@ -85,9 +76,8 @@ export const Login: FC<LoginProps> = ({
           <h2 className="text-h2 mb-5">What a signed-in account can do</h2>
           <ul className="flex flex-col gap-5">
             <Can title="Opt out of the index">
-              Your profile stops being served and you come off every list and the
-              public api. It is reversible: switching it back off restores your
-              entry.
+              Your profile stops being served and you come off every list and the public api. It is
+              reversible: switching it back off restores your entry.
             </Can>
             <Can title="Pick a chat badge">
               If you hold more than one, choose which shows next to your name.
@@ -110,10 +100,7 @@ export const Login: FC<LoginProps> = ({
           </div>
           <p className="text-ui text-primary-400 px-4 py-4">
             Full terms in{' '}
-            <Link
-              href="/tos#accounts"
-              className="text-primary-200 font-semibold hover:underline"
-            >
+            <Link href="/tos#accounts" className="text-primary-200 font-semibold hover:underline">
               section 4
             </Link>
             .

@@ -7,12 +7,12 @@ export const ivr = async (path: string): Promise<IVRUser[]> => {
   } catch (err) {
     return [];
   }
-}
+};
 
-export const getUser = async function(user: string) {
+export const getUser = async function (user: string) {
   const encodedUser = encodeURIComponent(user);
 
-  const data = await getUserByLogin(encodedUser) ?? await getUserById(encodedUser);
+  const data = (await getUserByLogin(encodedUser)) ?? (await getUserById(encodedUser));
   if (data?.id) return data;
 
   return null;

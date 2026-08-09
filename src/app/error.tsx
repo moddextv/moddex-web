@@ -15,13 +15,7 @@ import { useEffect } from 'react';
  * no "oops". a page that failed and apologises cutely is worse than one that
  * says what happened.
  */
-export default function Error({
-  error,
-  reset
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -32,9 +26,9 @@ export default function Error({
         <section className="enter pt-16 pb-10 max-w-2xl">
           <h1 className="text-h1 mb-4">That page did not finish loading</h1>
           <p className="text-lead text-primary-300 max-w-prose mb-8">
-            Something threw while the page was rendering, and it is logged.
-            Retrying rebuilds just this part of the page, which usually works
-            when the cause was a slow response rather than a bug.
+            Something threw while the page was rendering, and it is logged. Retrying rebuilds just
+            this part of the page, which usually works when the cause was a slow response rather
+            than a bug.
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -57,8 +51,8 @@ export default function Error({
             >
               {config.brand.statusUrl.replace('https://', '')}
             </a>{' '}
-            shows whether the api is up. It runs on separate infrastructure, so
-            it stays available when this does not.
+            shows whether the api is up. It runs on separate infrastructure, so it stays available
+            when this does not.
           </p>
         </section>
       </Container>

@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 
 declare global {
   interface Window {
-    _mtm: Array<{ 'mtm.startTime': number, event: string }>;
+    _mtm: Array<{ 'mtm.startTime': number; event: string }>;
   }
 }
 
 export default function Tracking() {
   useEffect(() => {
     window._mtm = window._mtm || [];
-    window._mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+    window._mtm.push({ 'mtm.startTime': new Date().getTime(), event: 'mtm.Start' });
 
     const matomoScript = document.createElement('script');
     matomoScript.async = true;

@@ -27,9 +27,7 @@ import {
  */
 export const filterUsers = async (users: User[]): Promise<User[]> => users;
 
-export const getUserPermission = async (
-  userId: string = ''
-): Promise<number> => {
+export const getUserPermission = async (userId: string = ''): Promise<number> => {
   if (!userId) return 0;
 
   const { permission } = await getUserPermissionLevel(userId);

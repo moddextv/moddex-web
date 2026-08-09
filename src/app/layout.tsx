@@ -56,11 +56,7 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // `dark` is set here, server-side, on purpose. heroui emits its light
     // palette under `:root`, so an html element with no theme class renders
@@ -69,24 +65,20 @@ export default function RootLayout({
     // which made that the first paint for everyone and the permanent state for
     // anyone whose OS prefers light. the design is dark-only; there is no
     // toggle left to honour.
-    <html
-      lang="en"
-      className={`dark ${manrope.variable}`}
-      suppressHydrationWarning
-    >
-    {/* `font-sans` is the fix for the site having had no body typeface at all:
+    <html lang="en" className={`dark ${manrope.variable}`} suppressHydrationWarning>
+      {/* `font-sans` is the fix for the site having had no body typeface at all:
         lato was loaded and never applied, so every paragraph rendered in the
         browser default. `sans` now resolves to manrope in tailwind.config.mjs,
         and tailwind's preflight already puts it on <html>, so this is belt and
         braces rather than the only thing holding it up. */}
-    <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 font-sans text-base text-primary-100">
-    <Providers>
-      <Tracking />
-      <Header />
-      {children}
-      <Footer />
-    </Providers>
-    </body>
+      <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 font-sans text-base text-primary-100">
+        <Providers>
+          <Tracking />
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
+      </body>
     </html>
   );
 }

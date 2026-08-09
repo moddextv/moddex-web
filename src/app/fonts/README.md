@@ -8,8 +8,8 @@ image ever came out of CI. Self-hosting removes the network from the build.
 This is the **latin subset only**, byte-for-byte what the Google Fonts CSS API
 was serving on 2026-08-07.
 
-| file | family | weight | source |
-|---|---|---|---|
+| file                  | family      | weight               | source                         |
+| --------------------- | ----------- | -------------------- | ------------------------------ |
 | `manrope-latin.woff2` | Manrope v20 | 200 to 800, variable | `xn7gYHE41ni1AdIRggexSg.woff2` |
 
 **Manrope is one file, not five.** Google serves it as a variable font: the CSS

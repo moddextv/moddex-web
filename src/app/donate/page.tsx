@@ -14,11 +14,7 @@ export const metadata: Metadata = {
   description: `${config.brand.name} runs on one server and no advertising. No paid tier, nothing behind a login, and the api is open.`
 };
 
-const Badge: FC<{ src: string; name: string; children: string }> = ({
-  src,
-  name,
-  children
-}) => (
+const Badge: FC<{ src: string; name: string; children: string }> = ({ src, name, children }) => (
   <div className="flex items-start gap-4">
     <Image
       src={src}
@@ -69,8 +65,8 @@ export default async function DonatePage() {
             {config.brand.name} runs on one server and no advertising
           </h1>
           <p className="text-lead text-primary-300 max-w-prose">
-            No paid tier, nothing behind a login, and the api is open. Donations
-            are the only thing keeping it that way.
+            No paid tier, nothing behind a login, and the api is open. Donations are the only thing
+            keeping it that way.
           </p>
         </header>
 
@@ -86,16 +82,15 @@ export default async function DonatePage() {
               <span className="text-ui text-primary-400">one time, USD</span>
             </div>
             <p className="text-read text-primary-300 mb-6">
-              Card details are handled entirely by Stripe. {config.brand.name}{' '}
-              stores the payment reference and the amount, and nothing else.
+              Card details are handled entirely by Stripe. {config.brand.name} stores the payment
+              reference and the amount, and nothing else.
             </p>
 
             <DonateForm />
 
             <p className="text-ui text-primary-400 mt-4">
-              Sign in with twitch first and the badge lands on your profile
-              automatically. Donating signed out works too, it just needs an
-              email afterwards.
+              Sign in with twitch first and the badge lands on your profile automatically. Donating
+              signed out works too, it just needs an email afterwards.
             </p>
           </div>
 
@@ -103,12 +98,12 @@ export default async function DonatePage() {
             <h2 className="text-h2 mb-5">What you get</h2>
             <div className="flex flex-col gap-6">
               <Badge src="/badges/donator.png" name="donator">
-                Sits beside your name everywhere moddex shows it. Any donation of
-                $5 or more, permanently.
+                Sits beside your name everywhere moddex shows it. Any donation of $5 or more,
+                permanently.
               </Badge>
               <Badge src="/badges/top_donator.png" name="top donator">
-                Held by exactly one account at a time, whoever has given the
-                most. It moves when somebody passes you.
+                Held by exactly one account at a time, whoever has given the most. It moves when
+                somebody passes you.
               </Badge>
             </div>
           </div>
@@ -117,13 +112,9 @@ export default async function DonatePage() {
             <h2 className="text-h2 mb-5">Being straight about it</h2>
             <ul className="flex flex-col gap-4">
               <Term>A contribution to running costs, not a purchase.</Term>
+              <Term>The badges are cosmetic. They unlock nothing and carry no monetary value.</Term>
               <Term>
-                The badges are cosmetic. They unlock nothing and carry no
-                monetary value.
-              </Term>
-              <Term>
-                Generally non-refundable. If something went wrong, write and it
-                gets sorted out.
+                Generally non-refundable. If something went wrong, write and it gets sorted out.
               </Term>
             </ul>
           </div>
@@ -131,9 +122,7 @@ export default async function DonatePage() {
 
         <section className="enter pb-4" style={{ '--i': 2 } as CSSProperties}>
           <div className="panel">
-            <p className="text-meta text-primary-400 mb-4">
-              What the money holds up
-            </p>
+            <p className="text-meta text-primary-400 mb-4">What the money holds up</p>
             <div className="flex flex-wrap gap-x-14 gap-y-6">
               <Held value={formatNumber(roleRecords)} label="role records" />
               <Held value={formatNumber(stats.users.raw)} label="accounts" />

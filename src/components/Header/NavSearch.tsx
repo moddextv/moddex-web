@@ -52,9 +52,7 @@ export const NavSearch: FC = () => {
       {/* primary-400, not the 500 the comp draws: #55555F on the raised surface
           is 2.6:1 and this is a real label, not decoration. the same swap is
           already baked into `.row-head`. */}
-      <span className="text-meta text-primary-400 shrink-0 hidden sm:inline">
-        twitch.tv/
-      </span>
+      <span className="text-meta text-primary-400 shrink-0 hidden sm:inline">twitch.tv/</span>
 
       <input
         type="text"

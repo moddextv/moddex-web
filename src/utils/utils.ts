@@ -26,9 +26,7 @@ const asDate = (value?: string | Date | null): Date | null => {
 /** "March 2011" — for the one place a profile states when an account started */
 export const formatMonthYearLong = (value?: string | Date | null): string | null => {
   const date = asDate(value);
-  return date
-    ? date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    : null;
+  return date ? date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : null;
 };
 
 /**
@@ -77,7 +75,7 @@ export const formatRelative = (value?: string | Date | null): string | null => {
   return format.format(-Math.round(amount), 'year');
 };
 
-export const formatNumber = (num: number|string = 0): string => {
+export const formatNumber = (num: number | string = 0): string => {
   return num.toLocaleString('en-US');
 };
 

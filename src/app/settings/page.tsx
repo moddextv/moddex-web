@@ -29,12 +29,7 @@ export default async function SettingsPage() {
   const session = await auth();
 
   if (!session?.user?.id) {
-    return (
-      <Login
-        heading="Settings need a twitch sign-in"
-        redirectTo="/settings"
-      />
-    );
+    return <Login heading="Settings need a twitch sign-in" redirectTo="/settings" />;
   }
 
   const userId = session.user.id;
@@ -50,10 +45,7 @@ export default async function SettingsPage() {
   if (availableUserChatBadges.length) {
     userChatBadges.selected = await getSelectedUserChatBadge(userId);
     // `none` first, so clearing the badge is as reachable as setting one
-    userChatBadges.available = [
-      { name: 'none', path: '' },
-      ...availableUserChatBadges
-    ];
+    userChatBadges.available = [{ name: 'none', path: '' }, ...availableUserChatBadges];
   }
 
   return (

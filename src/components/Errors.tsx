@@ -39,11 +39,7 @@ const Facts: FC<{ rows: { label: string; value: ReactNode }[] }> = ({ rows }) =>
   <div className="panel-flush mb-8">
     <div className="rows">
       {rows.map((row) => (
-        <div
-          key={row.label}
-          className="row"
-          style={{ gridTemplateColumns: 'minmax(0, 1fr) auto' }}
-        >
+        <div key={row.label} className="row" style={{ gridTemplateColumns: 'minmax(0, 1fr) auto' }}>
           <span className="text-base text-primary-300">{row.label}</span>
           <span className="text-ui text-primary-400">{row.value}</span>
         </div>
@@ -73,8 +69,8 @@ export const NotFoundUser: FC<{ username: string }> = ({ username }) => (
       <span className="text-primary-400 break-all">{username}</span>
     </h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      Twitch was asked and had no such account, so there is nothing to index.
-      Names change often. Check the spelling and try again in the bar above.
+      Twitch was asked and had no such account, so there is nothing to index. Names change often.
+      Check the spelling and try again in the bar above.
     </p>
 
     <div className="flex flex-wrap gap-3">
@@ -86,9 +82,7 @@ export const NotFoundUser: FC<{ username: string }> = ({ username }) => (
       </Link>
     </div>
 
-    <p className="text-ui text-primary-400 mt-8">
-      HTTP 404. Nothing was written to the index.
-    </p>
+    <p className="text-ui text-primary-400 mt-8">HTTP 404. Nothing was written to the index.</p>
   </ErrorPage>
 );
 
@@ -100,12 +94,11 @@ export const NotFoundUser: FC<{ username: string }> = ({ username }) => (
 export const InvalidUsername: FC<{ username: string }> = ({ username }) => (
   <ErrorPage>
     <h1 className="text-h1 mb-4">
-      <span className="text-primary-400 break-all">{username}</span> cannot be a
-      twitch name
+      <span className="text-primary-400 break-all">{username}</span> cannot be a twitch name
     </h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      Twitch names are 1 to 25 characters, letters, numbers and underscores only.
-      Nothing was sent to twitch and nothing was written.
+      Twitch names are 1 to 25 characters, letters, numbers and underscores only. Nothing was sent
+      to twitch and nothing was written.
     </p>
 
     <div className="flex flex-wrap gap-3">
@@ -126,8 +119,8 @@ export const UnknownPage: FC = () => (
   <ErrorPage>
     <h1 className="text-h1 mb-4">This page does not exist</h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      Nothing lives at that address. The places worth going are Channels, People,
-      Donate and the api docs.
+      Nothing lives at that address. The places worth going are Channels, People, Donate and the api
+      docs.
     </p>
 
     <div className="flex flex-wrap gap-3">
@@ -163,10 +156,9 @@ export const OptedOut: FC<{ username: string }> = ({ username }) => (
 
     <h1 className="text-h1 mb-4">This account asked not to be listed</h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      <span className="text-primary-100 font-bold break-all">{username}</span>{' '}
-      switched the opt-out on, so {config.brand.name} stopped serving their
-      profile and took them out of every mod and vip list and out of the public
-      api. Nothing went wrong and there is nothing to retry.
+      <span className="text-primary-100 font-bold break-all">{username}</span> switched the opt-out
+      on, so {config.brand.name} stopped serving their profile and took them out of every mod and
+      vip list and out of the public api. Nothing went wrong and there is nothing to retry.
     </p>
 
     <Facts
@@ -197,13 +189,11 @@ export const OptedOut: FC<{ username: string }> = ({ username }) => (
 /** signed in, but without team permission. an actual permission failure. */
 export const TeamOnly: FC<{ login?: string }> = ({ login }) => (
   <ErrorPage>
-    <p className="text-meta text-primary-400 mb-2.5">
-      Signed in, but not on the team
-    </p>
+    <p className="text-meta text-primary-400 mb-2.5">Signed in, but not on the team</p>
     <h1 className="text-h1 mb-4">The dashboard is team only</h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      You are signed in{login ? ` as ${login}` : ''}, which does not carry team
-      permission. Nothing else on the site needs it.
+      You are signed in{login ? ` as ${login}` : ''}, which does not carry team permission. Nothing
+      else on the site needs it.
     </p>
 
     <div className="flex flex-wrap gap-3">
@@ -233,10 +223,7 @@ export const TeamOnly: FC<{ login?: string }> = ({ login }) => (
  * account, which is a different thing from moddex deleting records. moddex does
  * not delete records; see the opt-out copy above.
  */
-export const BannedUser: FC<{ username: string; reason?: string }> = ({
-  username,
-  reason
-}) => {
+export const BannedUser: FC<{ username: string; reason?: string }> = ({ username, reason }) => {
   const kind = reason?.toLowerCase();
   const banned = kind === 'tos_banned';
   const deactivated = kind === 'deactivated';
@@ -254,9 +241,8 @@ export const BannedUser: FC<{ username: string; reason?: string }> = ({
             {!banned && !deactivated && `${username} is unavailable`}
           </h1>
           <p className="text-lead text-primary-300 max-w-prose">
-            Twitch is not serving this account, so {config.brand.name} will not
-            serve a profile for it either. Any roles it held stay in the index
-            but are hidden while that is the case.
+            Twitch is not serving this account, so {config.brand.name} will not serve a profile for
+            it either. Any roles it held stay in the index but are hidden while that is the case.
           </p>
         </div>
       </div>
@@ -266,9 +252,7 @@ export const BannedUser: FC<{ username: string; reason?: string }> = ({
           {
             label: 'Reason from twitch',
             value: (
-              <span className="text-base font-bold text-primary-100">
-                {reason ?? 'not given'}
-              </span>
+              <span className="text-base font-bold text-primary-100">{reason ?? 'not given'}</span>
             )
           },
           { label: 'Roles retained', value: <Good>Still indexed</Good> },
@@ -288,8 +272,7 @@ export const BannedUser: FC<{ username: string; reason?: string }> = ({
 
       {banned && (
         <p className="text-ui text-primary-400 mt-6 max-w-prose">
-          Bans reverse, which is why this is the only state on the site that
-          offers to read again.
+          Bans reverse, which is why this is the only state on the site that offers to read again.
         </p>
       )}
       {deactivated && (
@@ -319,9 +302,8 @@ export const CheckoutUnreadable: FC = () => (
   <ErrorPage>
     <h1 className="text-h1 mb-4">Your payment is fine. This page is not.</h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      {config.brand.name} could not read the checkout session back from Stripe,
-      so it cannot show you a summary. That has no effect at all on the donation
-      itself.
+      {config.brand.name} could not read the checkout session back from Stripe, so it cannot show
+      you a summary. That has no effect at all on the donation itself.
     </p>
 
     <Facts
@@ -331,11 +313,7 @@ export const CheckoutUnreadable: FC = () => (
         { label: 'Donator badge', value: <Good>Granted by the webhook</Good> },
         {
           label: 'This page',
-          value: (
-            <span className="text-ui text-founder font-semibold">
-              Cannot read the session
-            </span>
-          )
+          value: <span className="text-ui text-founder font-semibold">Cannot read the session</span>
         }
       ]}
     />
@@ -353,8 +331,8 @@ export const CheckoutUnreadable: FC = () => (
     </div>
 
     <p className="text-ui text-primary-400 mt-6 max-w-prose">
-      If the badge is still missing an hour from now, send the Stripe receipt and
-      it gets assigned by hand. HTTP 400.
+      If the badge is still missing an hour from now, send the Stripe receipt and it gets assigned
+      by hand. HTTP 400.
     </p>
   </ErrorPage>
 );
@@ -364,8 +342,8 @@ export const NoCheckout: FC = () => (
   <ErrorPage>
     <h1 className="text-h1 mb-4">There is no checkout to show</h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      This address only means something directly after a Stripe checkout. You
-      have probably arrived from a bookmark.
+      This address only means something directly after a Stripe checkout. You have probably arrived
+      from a bookmark.
     </p>
 
     <div className="flex flex-wrap gap-3">
@@ -386,8 +364,8 @@ export const ServiceUnavailable: FC = () => (
   <ErrorPage>
     <h1 className="text-h1 mb-4">The lookup service did not respond</h1>
     <p className="text-lead text-primary-300 max-w-prose mb-8">
-      {config.brand.domain} is up but the api did not answer in time. Nothing is
-      lost and the index is unaffected.
+      {config.brand.domain} is up but the api did not answer in time. Nothing is lost and the index
+      is unaffected.
     </p>
 
     <div className="flex flex-wrap gap-3">
@@ -407,8 +385,8 @@ export const ServiceUnavailable: FC = () => (
       >
         {config.brand.statusUrl.replace('https://', '')}
       </a>{' '}
-      shows whether the api is up. It runs on separate infrastructure, so it
-      stays available when this does not.
+      shows whether the api is up. It runs on separate infrastructure, so it stays available when
+      this does not.
     </p>
   </ErrorPage>
 );

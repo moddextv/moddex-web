@@ -22,20 +22,12 @@ const HEADS: Record<BrowseKind, [string, string, string, string?]> = {
 const Count: FC<{ value: number; tone: string }> = ({ value, tone }) => (
   // a zero drops the role colour. colour here means "there are some", so
   // painting a zero green says the opposite of what the number says.
-  <span
-    className={clsx(
-      'text-ui tabular text-right',
-      value > 0 ? tone : 'text-primary-400'
-    )}
-  >
+  <span className={clsx('text-ui tabular text-right', value > 0 ? tone : 'text-primary-400')}>
     {formatNumber(value)}
   </span>
 );
 
-export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({
-  kind,
-  items
-}) => {
+export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kind, items }) => {
   const cols = kind === 'channel' ? 'cols-channels' : 'cols-people';
   const [first, second, third, fourth] = HEADS[kind];
 

@@ -111,9 +111,7 @@ export const roleById = (id: number): RoleKey | undefined =>
 
 /** accepts either label form so existing routes and urls keep working */
 export const roleByLabel = (label: string): RoleKey | undefined =>
-  ROLE_KEYS.find(
-    (key) => ROLES[key].channelLabel === label || ROLES[key].userLabel === label
-  );
+  ROLE_KEYS.find((key) => ROLES[key].channelLabel === label || ROLES[key].userLabel === label);
 
 /**
  * the class that draws this role's corner of the mark, and the class that

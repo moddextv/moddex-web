@@ -33,17 +33,13 @@ const load = (userId: string) => {
   return pending;
 };
 
-export const getUserChatBadges = async (
-  userId: string = ''
-): Promise<ChatBadge[]> => {
+export const getUserChatBadges = async (userId: string = ''): Promise<ChatBadge[]> => {
   if (!userId) return [];
 
   return (await load(userId)).available;
 };
 
-export const getSelectedUserChatBadge = async (
-  userId: string = ''
-): Promise<string> => {
+export const getSelectedUserChatBadge = async (userId: string = ''): Promise<string> => {
   if (!userId) return '';
 
   return (await load(userId)).selected ?? '';

@@ -1,9 +1,4 @@
-import {
-  BannedUser,
-  InvalidUsername,
-  NotFoundUser,
-  OptedOut
-} from '@/components/Errors';
+import { BannedUser, InvalidUsername, NotFoundUser, OptedOut } from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';

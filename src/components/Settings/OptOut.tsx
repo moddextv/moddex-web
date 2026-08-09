@@ -53,18 +53,15 @@ export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
       <div className="max-w-prose">
         <p className="text-base font-bold mb-2">Opt out of the index</p>
         <p className="text-read text-primary-300 leading-relaxed">
-          Your profile stops being served, you are removed from every mod and vip
-          list, and you disappear from the public api. Channels you moderate are
-          unaffected; only your own entry goes. The opt-out is reversible:
-          switching it back off restores your entry.
+          Your profile stops being served, you are removed from every mod and vip list, and you
+          disappear from the public api. Channels you moderate are unaffected; only your own entry
+          goes. The opt-out is reversible: switching it back off restores your entry.
         </p>
 
         {saved && !failed && (
           <p className="flex items-center gap-3 text-read text-primary-200 mt-4">
             <span className="corner corner-tl text-mod" aria-hidden="true" />
-            {isIgnored
-              ? 'Saved. Your entry is hidden.'
-              : 'Saved. Your entry is listed again.'}
+            {isIgnored ? 'Saved. Your entry is hidden.' : 'Saved. Your entry is listed again.'}
           </p>
         )}
 

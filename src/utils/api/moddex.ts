@@ -52,11 +52,7 @@ async function call<T>(path: string, options: Options = {}): Promise<T> {
   const { authenticated = false, method = 'GET', body, revalidate } = options;
 
   if (authenticated && !token()) {
-    throw new ModdexApiError(
-      0,
-      path,
-      'INTERNAL_API_TOKEN is not set — see .env.example'
-    );
+    throw new ModdexApiError(0, path, 'INTERNAL_API_TOKEN is not set — see .env.example');
   }
 
   /**
@@ -121,10 +117,9 @@ export const getUsers = <T>(params: Record<string, string | undefined>) =>
  * setting exists to keep private.
  */
 export const getUserIgnored = (userId: string) =>
-  call<{ userId: string; ignored: boolean }>(
-    `/v1/users/${encodeURIComponent(userId)}/ignored`,
-    { authenticated: true }
-  );
+  call<{ userId: string; ignored: boolean }>(`/v1/users/${encodeURIComponent(userId)}/ignored`, {
+    authenticated: true
+  });
 
 /** Staff level, for the session. Guarded — open, it would be a staff list. */
 export const getUserPermissionLevel = (userId: string) =>
@@ -142,8 +137,7 @@ export const getChatBadges = <T>() => call<T>('/v1/chatBadges');
  * The one donation figure that is public, because the holder is already named
  * by the badge they wear. Everything else about donations needs the token.
  */
-export const getTopDonator = <T>() =>
-  call<T | null>('/v1/donations/top-donator');
+export const getTopDonator = <T>() => call<T | null>('/v1/donations/top-donator');
 
 /** Requires the token: a donator badge plus an open total tells you how much. */
 export const getUserDonationTotal = (userId: string) =>

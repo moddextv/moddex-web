@@ -44,13 +44,7 @@ const local = (src: NextImageProps['src']) =>
     ? src.slice(config.brand.url.length)
     : src;
 
-export const Image: FC<ImageProps> = ({
-  alt = '',
-  radius = 'none',
-  className,
-  src,
-  ...props
-}) => (
+export const Image: FC<ImageProps> = ({ alt = '', radius = 'none', className, src, ...props }) => (
   <NextImage
     alt={alt}
     src={local(src)}

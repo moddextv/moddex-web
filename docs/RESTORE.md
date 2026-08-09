@@ -2,13 +2,13 @@
 
 ## Naming (renamed 2026-08-06)
 
-| thing | name |
-|---|---|
-| github repo | `moddextv/moddex-web` (was `modchecker-web`) |
-| database | `moddex_web` (was `modchecker_web`) |
-| deploy directory | `/srv/moddex.tv` — or wherever, but name it after the domain |
-| compose project | `moddex` (the `name:` in both compose files) |
-| ci image | `ghcr.io/moddextv/moddex-web` — follows the repo name automatically |
+| thing            | name                                                                |
+| ---------------- | ------------------------------------------------------------------- |
+| github repo      | `moddextv/moddex-web` (was `modchecker-web`)                        |
+| database         | `moddex_web` (was `modchecker_web`)                                 |
+| deploy directory | `/srv/moddex.tv` — or wherever, but name it after the domain        |
+| compose project  | `moddex` (the `name:` in both compose files)                        |
+| ci image         | `ghcr.io/moddextv/moddex-web` — follows the repo name automatically |
 
 Github keeps a redirect from the old repo path, so existing clones and remotes
 keep working; update them anyway (`git remote set-url`). Images published under
@@ -23,7 +23,6 @@ Two places still say "modchecker" on purpose: the SEO keyword list in
 `src/app/layout.tsx` (people still search for it) and the descriptive text in
 `docs/` and `db/migrations/` explaining what was renamed.
 
-
 Written 2026-08-06, when the project went on hold. The data is frozen as of
 that date.
 
@@ -32,10 +31,10 @@ that date.
 Neither file is in git — `.gitignore` has `*.sql.gz`, deliberately. They must
 be copied across by hand.
 
-| file | size | what it is |
-|---|---|---|
-| `modchecker_web-2026-08-06.sql.gz` | 423 MB | the original production dump, **untouched**. Pre-migration. |
-| `moddex-prod-migrated-2026-08-06.sql.gz` | ~400 MB | the same data with `001` and `005` **already applied**. |
+| file                                     | size    | what it is                                                  |
+| ---------------------------------------- | ------- | ----------------------------------------------------------- |
+| `modchecker_web-2026-08-06.sql.gz`       | 423 MB  | the original production dump, **untouched**. Pre-migration. |
+| `moddex-prod-migrated-2026-08-06.sql.gz` | ~400 MB | the same data with `001` and `005` **already applied**.     |
 
 Restore the **migrated** one unless you specifically want the original state.
 It saves you running the migrations and it is the version that has been
@@ -46,7 +45,7 @@ Also not in git, and needed on the server:
 - `.env` — every secret. (Already on your transfer server.)
 - `.env.local` — **do not carry this across.** It still contains
   `NEXTAUTH_URL=https://modchecker.com`, and Next.js loads `.env.local` at
-  *higher* precedence than `.env`, so it silently overrides the real value
+  _higher_ precedence than `.env`, so it silently overrides the real value
   outside Docker. Delete it.
 
 ## What is in the migrated dump

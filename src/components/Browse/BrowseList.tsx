@@ -2,12 +2,7 @@
 
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
-import {
-  AccountSort,
-  BrowseEntry,
-  BrowsePage,
-  ChannelSort
-} from '@/misc/Interfaces';
+import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/Interfaces';
 import { formatNumber } from '@/utils/utils';
 import { FC, useState, useTransition } from 'react';
 
@@ -46,12 +41,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, initial })
   const [hasMore, setHasMore] = useState(initial.hasMore);
   const [pending, startTransition] = useTransition();
 
-  const load = (
-    nextSort: string,
-    nextBots: boolean,
-    offset: number,
-    append: boolean
-  ) => {
+  const load = (nextSort: string, nextBots: boolean, offset: number, append: boolean) => {
     startTransition(async () => {
       const page =
         kind === 'channel'
@@ -83,9 +73,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, initial })
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <h2 className="text-h2">{title}</h2>
-        <span className="text-lead text-primary-400 tabular">
-          {formatNumber(total)}
-        </span>
+        <span className="text-lead text-primary-400 tabular">{formatNumber(total)}</span>
 
         <span className="ml-auto flex items-center gap-2 flex-wrap">
           {sorts.map((option) => (
@@ -101,12 +89,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, initial })
           ))}
 
           {kind === 'account' && (
-            <button
-              type="button"
-              className="chip"
-              aria-pressed={includeBots}
-              onClick={toggleBots}
-            >
+            <button type="button" className="chip" aria-pressed={includeBots} onClick={toggleBots}>
               Include bots
             </button>
           )}

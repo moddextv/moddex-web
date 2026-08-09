@@ -1,9 +1,4 @@
-import {
-  BannedUser,
-  InvalidUsername,
-  NotFoundUser,
-  OptedOut
-} from '@/components/Errors';
+import { BannedUser, InvalidUsername, NotFoundUser, OptedOut } from '@/components/Errors';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
@@ -78,8 +73,8 @@ export default async function UserUsernamePage({ params }: PageProps) {
                 is wrong. */}
             <div className="panel flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
               <p className="text-read text-primary-300 max-w-[46ch]">
-                Missing a channel? It only appears here once somebody has looked
-                that channel up. Search for it once and it stays indexed.
+                Missing a channel? It only appears here once somebody has looked that channel up.
+                Search for it once and it stays indexed.
               </p>
               <Link href="/channel" className="btn btn-soft shrink-0">
                 Index a channel

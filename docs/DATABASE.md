@@ -13,12 +13,12 @@ that a swap would help.
 
 What moddex actually asks the database to do:
 
-| Access pattern | Frequency | Cost today |
-|---|---|---|
-| "who holds role R in channel C" | every channel page | 3.5 ms |
-| "which channels does user U hold R in" | every user page | 42 ms |
-| replace a channel's role set on refresh | per scrape | bulk delete + insert |
-| newest snapshot row | homepage | trivial |
+| Access pattern                          | Frequency          | Cost today           |
+| --------------------------------------- | ------------------ | -------------------- |
+| "who holds role R in channel C"         | every channel page | 3.5 ms               |
+| "which channels does user U hold R in"  | every user page    | 42 ms                |
+| replace a channel's role set on refresh | per scrape         | bulk delete + insert |
+| newest snapshot row                     | homepage           | trivial              |
 
 Those are point lookups on an indexed key, returning tens to tens-of-thousands
 of rows. There are no aggregations, no scans, no analytical queries. After the
@@ -57,7 +57,7 @@ single-digit milliseconds.
 
 `mods` and `vips` are identical tables differing only in name. The role name is
 therefore hardcoded in **15 files**, interpolated directly into SQL
-(`` FROM ${role} ``), and duplicated across the fetch layer, the actions, and the
+(`FROM ${role}`), and duplicated across the fetch layer, the actions, and the
 API routes.
 
 Adding **founder** and **artist** doubles that: four tables, four query paths,
@@ -69,11 +69,11 @@ becomes four times as much surface to keep safe.
 
 Built the unified table from the real 13.7M rows and compacted both:
 
-| | current (`mods` + `vips`) | unified (`roles`) |
-|---|---|---|
-| Channel page, 2 roles | 3.48 ms + 0.61 ms = **4.09 ms** (2 queries) | **4.22 ms** (1 query) |
-| On disk | 988 MB | 947 MB |
-| Round trips at 4 roles | 4 | 1 |
+|                        | current (`mods` + `vips`)                   | unified (`roles`)     |
+| ---------------------- | ------------------------------------------- | --------------------- |
+| Channel page, 2 roles  | 3.48 ms + 0.61 ms = **4.09 ms** (2 queries) | **4.22 ms** (1 query) |
+| On disk                | 988 MB                                      | 947 MB                |
+| Round trips at 4 roles | 4                                           | 1                     |
 
 **Performance is a wash at two roles and better at four.** Disk is 4% smaller —
 the `BIGINT` saving is mostly eaten by the extra role byte in the primary key.
@@ -91,7 +91,7 @@ enough.
 `granted` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ```
 
-Any `UPDATE` to a role row replaces the historical grant date with *now*. That
+Any `UPDATE` to a role row replaces the historical grant date with _now_. That
 date is the single thing moddex has which Twitch does not expose. The current
 code happens to delete-and-reinsert rather than update, so it has not fired —
 but it is one `UPDATE` away from quietly destroying the product's core data,
@@ -111,7 +111,7 @@ structural gap in the schema. The new table adds a nullable `revoked` column:
 a refresh becomes a **diff** (mark missing roles revoked, insert new ones)
 rather than a wipe, which also:
 
-- enables a genuine feature — *former* mods, role tenure, "modded 4 channels,
+- enables a genuine feature — _former_ mods, role tenure, "modded 4 channels,
   lost 1"
 - removes the partial-write risk: today a failure mid-refresh leaves the channel
   with an incomplete list **and** a fresh `updated` timestamp, so it looks
@@ -150,12 +150,12 @@ since launch went unrecorded. Fixed in migration 001.
 The registry lives in `src/misc/roles.ts`; a role is one entry there plus one
 integer in the database.
 
-| Role | id | Colour | Corner of the mark |
-|---|---|---|---|
-| mod | 1 | `#4ADE80` green | top-left |
-| vip | 2 | `#F472B6` pink | bottom-right |
-| **artist** | 3 | `#60A5FA` blue | top-right |
-| **founder** | 4 | `#FBBF24` amber | bottom-left |
+| Role        | id  | Colour          | Corner of the mark |
+| ----------- | --- | --------------- | ------------------ |
+| mod         | 1   | `#4ADE80` green | top-left           |
+| vip         | 2   | `#F472B6` pink  | bottom-right       |
+| **artist**  | 3   | `#60A5FA` blue  | top-right          |
+| **founder** | 4   | `#FBBF24` amber | bottom-left        |
 
 All four are Tailwind `*-400` — the existing two already were, so the family is
 consistent rather than arbitrary. Amber for founder reads as "first supporter"
@@ -167,7 +167,7 @@ Four roles also complete the mark: each takes one corner.
 `mods`/`vips`, so it fetches through the same paginated path.
 
 **Founder needs verification first.** No `founders` connection appears in the
-GraphQL shape the code already models, and on Twitch a founder is a *subscriber*
+GraphQL shape the code already models, and on Twitch a founder is a _subscriber_
 badge — one of a channel's first subscribers — rather than a channel role. It
 may not be exposed on the user type at all. The schema does not care: `founder`
 is just id 4 whenever a source is confirmed. Do not build the fetch path until
@@ -177,11 +177,11 @@ someone has run the query.
 
 ## Migration order
 
-| File | What | Risk |
-|---|---|---|
-| `001-indexes-and-audit-fix.sql` | audit AUTO_INCREMENT, drop redundant indexes, widen channel index | low, ~10s per table, `INPLACE` |
-| `002-unified-roles.sql` | build `roles`, copy 13.7M rows | **~13 min**, needs a window |
-| `003` (not written) | convert `users.id` to BIGINT, add FKs, drop `mods`/`vips` | only after the app is switched over |
+| File                            | What                                                              | Risk                                |
+| ------------------------------- | ----------------------------------------------------------------- | ----------------------------------- |
+| `001-indexes-and-audit-fix.sql` | audit AUTO_INCREMENT, drop redundant indexes, widen channel index | low, ~10s per table, `INPLACE`      |
+| `002-unified-roles.sql`         | build `roles`, copy 13.7M rows                                    | **~13 min**, needs a window         |
+| `003` (not written)             | convert `users.id` to BIGINT, add FKs, drop `mods`/`vips`         | only after the app is switched over |
 
 001 is already applied to the local production copy and measured: the channel
 query went **1253 ms → 22 ms** and the database shrank 340 MB.

@@ -13,15 +13,15 @@ export async function POST(request: NextRequest) {
       line_items: [
         {
           price: config.stripe.donation.price,
-          quantity: 1,
-        },
+          quantity: 1
+        }
       ],
       submit_type: 'donate',
       mode: 'payment',
       success_url: `${config.baseUrl}/donate/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.baseUrl}/donate`,
       metadata: {
-        twitchUsername: twitchUsername || '',
+        twitchUsername: twitchUsername || ''
       }
     });
     return NextResponse.json({ id: session.id });

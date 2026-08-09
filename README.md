@@ -7,13 +7,13 @@ inverse — given a user, which channels do they hold mod or VIP on. That index 
 crowdsourced: looking up `/channel/x` scrapes x's mod and VIP lists into the
 database, which is what lets `/user/y` answer "y mods for x".
 
-| | |
-|---|---|
-| Stack | Next.js 14 (App Router), React 18, TypeScript, HeroUI + Tailwind |
-| Database | MariaDB 11 |
-| Auth | NextAuth v5 (Twitch provider) |
-| Data sources | Twitch private GQL, Twitch Helix, [ivr.fi](https://api.ivr.fi) |
-| Public API | `/api/v1/...`, documented at `/api/docs` |
+|              |                                                                  |
+| ------------ | ---------------------------------------------------------------- |
+| Stack        | Next.js 14 (App Router), React 18, TypeScript, HeroUI + Tailwind |
+| Database     | MariaDB 11                                                       |
+| Auth         | NextAuth v5 (Twitch provider)                                    |
+| Data sources | Twitch private GQL, Twitch Helix, [ivr.fi](https://api.ivr.fi)   |
+| Public API   | `/api/v1/...`, documented at `/api/docs`                         |
 
 ---
 
@@ -27,9 +27,9 @@ cp .env.example .env      # fill in the twitch + stripe values
 docker compose up
 ```
 
-| | |
-|---|---|
-| App | http://localhost:4999 |
+|         |                                                                  |
+| ------- | ---------------------------------------------------------------- |
+| App     | http://localhost:4999                                            |
 | Adminer | http://localhost:8080 (server `db`, user/pass/database `moddex`) |
 
 The database is created and seeded from `db/init/*.sql` on first boot, so the

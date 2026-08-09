@@ -19,13 +19,13 @@ The current design was arrived at after four rejected attempts. Those verdicts
 are constraints, not history: most "obvious improvements" to this interface are
 one of the five things already tried and thrown out.
 
-| Attempt | Verdict | Constraint it produced |
-| --- | --- | --- |
-| v1 Index | liked | Dark, modern sans, room to breathe |
-| v2 Telemetry | "screams AI-generated" | No dark canvas plus saturated accents plus tracked-out uppercase mono |
-| v2 Almanac | "screams AI-generated" | No light-weight serif on off-white paper |
-| v2 Native | "kind of, not quite" | Do not borrow Twitch's identity wholesale |
-| v3 Records | "old-fashioned, table-like, clamped" | No Arial, no bordered table grids, no cramped spacing |
+| Attempt      | Verdict                              | Constraint it produced                                                |
+| ------------ | ------------------------------------ | --------------------------------------------------------------------- |
+| v1 Index     | liked                                | Dark, modern sans, room to breathe                                    |
+| v2 Telemetry | "screams AI-generated"               | No dark canvas plus saturated accents plus tracked-out uppercase mono |
+| v2 Almanac   | "screams AI-generated"               | No light-weight serif on off-white paper                              |
+| v2 Native    | "kind of, not quite"                 | Do not borrow Twitch's identity wholesale                             |
+| v3 Records   | "old-fashioned, table-like, clamped" | No Arial, no bordered table grids, no cramped spacing                 |
 
 The three that shape almost every value below:
 
@@ -47,18 +47,18 @@ Manrope, and nothing else. Geometric enough that it cannot read as
 old-fashioned, with enough character in the letterforms not to be Inter by
 default, and a real 800 weight for the few display moments.
 
-| token | size | line height | tracking |
-| --- | --- | --- | --- |
-| `text-micro` | 12px | 1.45 | |
-| `text-meta` | 13px | 1.5 | |
-| `text-ui` | 14px | 1.5 | |
-| `text-base` | 15px | 1.6 | |
-| `text-read` | 16px | 1.65 | |
-| `text-lead` | 18px | 1.6 | |
-| `text-h3` | 18px | 1.35 | -0.01em |
-| `text-h2` | 22px | 1.3 | -0.015em |
-| `text-h1` | 28px | 1.25 | -0.02em |
-| `text-display` | clamp(2rem, 3.6vw, 2.75rem) | 1.15 | -0.03em |
+| token          | size                        | line height | tracking |
+| -------------- | --------------------------- | ----------- | -------- |
+| `text-micro`   | 12px                        | 1.45        |          |
+| `text-meta`    | 13px                        | 1.5         |          |
+| `text-ui`      | 14px                        | 1.5         |          |
+| `text-base`    | 15px                        | 1.6         |          |
+| `text-read`    | 16px                        | 1.65        |          |
+| `text-lead`    | 18px                        | 1.6         |          |
+| `text-h3`      | 18px                        | 1.35        | -0.01em  |
+| `text-h2`      | 22px                        | 1.3         | -0.015em |
+| `text-h1`      | 28px                        | 1.25        | -0.02em  |
+| `text-display` | clamp(2rem, 3.6vw, 2.75rem) | 1.15        | -0.03em  |
 
 15px base is deliberate. 13px was the rejected size.
 
@@ -70,7 +70,7 @@ applied it to no element at all: every paragraph on the live site rendered in
 the browser default sans for months.
 
 **Manrope is self-hosted and must stay that way.** `next/font/google` downloads
-woff2 from fonts.gstatic.com *during `next build`*, which puts a network call
+woff2 from fonts.gstatic.com _during `next build`_, which puts a network call
 inside the Docker build; under the emulated arm64 half of the cross-build that
 call 503'd and killed CI. See `src/app/fonts/README.md`. It is one 24 KB
 variable file covering 200 to 800.
@@ -119,7 +119,7 @@ lighter on a panel. `primary-500` is for decoration only.
 
 The comps draw `twitch` as Twitch's own `#9146FF`. The shipped value is
 `#714ab8` instead, because white on `#9146FF` is 3.5:1 and fails the rule above
-at button size. The demotion of purple is a rule about *where* it appears, and
+at button size. The demotion of purple is a rule about _where_ it appears, and
 that rule is unaffected.
 
 ---
@@ -148,22 +148,22 @@ not have to dictate button radius.
 
 All in `src/styles/globals.css`, rendered live at `/design`.
 
-| Class | What it is |
-| --- | --- |
-| `.panel` / `.panel-flush` | The one raised surface. 12px radius, 24px padding. `-flush` is for panels whose content is rows, which carry their own padding. Not a card grid. |
-| `.rows` / `.row` / `.row-head` | **Not a table.** A grid on a shared column template, hover, nothing between rows but air. Column labels sit light and unboxed above the first row. |
-| `.cols-people` / `.cols-channels` | The two column templates. Both collapse to two columns under 640px by hiding children 3 and up. |
-| `.row-name` | Underlines on row hover, so a row reads as a link rather than as a selection. |
-| `.corner` + `-tl` `-br` `-bl` `-tr` | The mark's own notation at UI scale, one orientation per role. |
-| `.tabs` / `.tab` / `.tab-mod` / `.tab-vip` | The two lookup directions. Underline is the role's colour. |
-| `.btn` / `.btn-soft` / `.btn-ghost` / `.btn-twitch` / `.btn-twitch-quiet` | Buttons. `btn-twitch` filled is sign-in only. |
-| `.chip` | Filters and sorts. |
-| `.toggle` | The opt-out switch. Mod green when on. |
-| `.search` / `.scope` | The nav search and its Channel/Person switch. |
-| `.avatar` | Initial-letter fallback where Twitch gives no image. |
-| `.skeleton` | Loading. Column labels stay, only values are blank. |
-| `.enter` | Section entry, staggered by `--i`. |
-| `.skip-link` | First focusable element on the page, targets `#main`. |
+| Class                                                                     | What it is                                                                                                                                         |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.panel` / `.panel-flush`                                                 | The one raised surface. 12px radius, 24px padding. `-flush` is for panels whose content is rows, which carry their own padding. Not a card grid.   |
+| `.rows` / `.row` / `.row-head`                                            | **Not a table.** A grid on a shared column template, hover, nothing between rows but air. Column labels sit light and unboxed above the first row. |
+| `.cols-people` / `.cols-channels`                                         | The two column templates. Both collapse to two columns under 640px by hiding children 3 and up.                                                    |
+| `.row-name`                                                               | Underlines on row hover, so a row reads as a link rather than as a selection.                                                                      |
+| `.corner` + `-tl` `-br` `-bl` `-tr`                                       | The mark's own notation at UI scale, one orientation per role.                                                                                     |
+| `.tabs` / `.tab` / `.tab-mod` / `.tab-vip`                                | The two lookup directions. Underline is the role's colour.                                                                                         |
+| `.btn` / `.btn-soft` / `.btn-ghost` / `.btn-twitch` / `.btn-twitch-quiet` | Buttons. `btn-twitch` filled is sign-in only.                                                                                                      |
+| `.chip`                                                                   | Filters and sorts.                                                                                                                                 |
+| `.toggle`                                                                 | The opt-out switch. Mod green when on.                                                                                                             |
+| `.search` / `.scope`                                                      | The nav search and its Channel/Person switch.                                                                                                      |
+| `.avatar`                                                                 | Initial-letter fallback where Twitch gives no image.                                                                                               |
+| `.skeleton`                                                               | Loading. Column labels stay, only values are blank.                                                                                                |
+| `.enter`                                                                  | Section entry, staggered by `--i`.                                                                                                                 |
+| `.skip-link`                                                              | First focusable element on the page, targets `#main`.                                                                                              |
 
 Every route's `<main>` carries `id="main"` so the skip link works.
 
@@ -202,12 +202,12 @@ recently-read and most-followers orderings are always live.
 
 ## 7. Motion
 
-| Event | Spec |
-| --- | --- |
-| hover | 150ms, background and the name underline |
+| Event         | Spec                                                               |
+| ------------- | ------------------------------------------------------------------ |
+| hover         | 150ms, background and the name underline                           |
 | section entry | 320ms fade and 8px rise, staggered 50ms per `--i`, capped at 250ms |
-| loading | 1.3s sweep, transform only |
-| press | 1px down on the primary button |
+| loading       | 1.3s sweep, transform only                                         |
+| press         | 1px down on the primary button                                     |
 
 `prefers-reduced-motion: reduce` stops all of it, including Tailwind's
 `animate-pulse`, which is not reduced-motion aware on its own.
@@ -220,8 +220,8 @@ recently-read and most-followers orderings are always live.
   body, buttons, alt text or meta descriptions. Use a period, a comma, or
   restructure.
 - **Never say user data is deleted.** The policy is hide-only. The opt-out hides
-  records and is reversible, and the copy says so: *"The opt-out is reversible:
-  switching it back off restores your entry."* ("Deleted their account" on the
+  records and is reversible, and the copy says so: _"The opt-out is reversible:
+  switching it back off restores your entry."_ ("Deleted their account" on the
   banned page is fine, that is a Twitch user deleting their own Twitch account.)
 - No "Oops", no exclamation marks in success messages, no Title Case headings.
 - **Error states are written per cause.** Name the cause in the heading in

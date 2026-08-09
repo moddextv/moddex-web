@@ -48,11 +48,7 @@ export const CopyButton: FC<CopyButtonProps> = ({ value, label }) => {
       aria-label={label}
       className="btn btn-soft w-10 p-0"
     >
-      {copied ? (
-        <CheckIcon size={16} color="text-mod" />
-      ) : (
-        <CopyIcon size={16} />
-      )}
+      {copied ? <CheckIcon size={16} color="text-mod" /> : <CopyIcon size={16} />}
     </button>
   );
 };

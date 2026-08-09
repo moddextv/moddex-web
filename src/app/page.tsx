@@ -83,8 +83,7 @@ export default async function Home() {
             <Mark size={18} split />
             <span>
               <span className="text-mod font-semibold">mods</span> and{' '}
-              <span className="text-vip font-semibold">vips</span>, indexed from
-              both ends
+              <span className="text-vip font-semibold">vips</span>, indexed from both ends
             </span>
           </p>
 
@@ -93,9 +92,9 @@ export default async function Home() {
           </h1>
 
           <p className="text-lead text-primary-300 max-w-prose">
-            Twitch shows a broadcaster their own moderators. {config.brand.name}{' '}
-            keeps the other half: every channel a person holds a role in, and the
-            day it was granted. Type a name in the bar above.
+            Twitch shows a broadcaster their own moderators. {config.brand.name} keeps the other
+            half: every channel a person holds a role in, and the day it was granted. Type a name in
+            the bar above.
           </p>
         </section>
 
@@ -111,8 +110,8 @@ export default async function Home() {
             title="Look up a channel"
             example={`${config.brand.domain}/c/forsen`}
           >
-            Who holds mod, vip and founder in a channel, and since when.
-            Searching one for the first time is what adds it to the index.
+            Who holds mod, vip and founder in a channel, and since when. Searching one for the first
+            time is what adds it to the index.
           </Direction>
 
           <Direction
@@ -123,8 +122,8 @@ export default async function Home() {
             title="Look up a person"
             example={`${config.brand.domain}/u/nymn`}
           >
-            Every indexed channel where one account holds a role. This is the
-            direction twitch itself will not show you.
+            Every indexed channel where one account holds a role. This is the direction twitch
+            itself will not show you.
           </Direction>
         </section>
 
@@ -197,9 +196,8 @@ export default async function Home() {
           <div className="panel">
             <h2 className="text-h2 mb-3">The index fills up by being used</h2>
             <p className="text-read text-primary-300 max-w-[46ch] mb-5">
-              A channel enters the index the first time somebody searches for it.
-              That read pulls its mod and vip lists in and keeps them, for
-              everyone. No account needed.
+              A channel enters the index the first time somebody searches for it. That read pulls
+              its mod and vip lists in and keeps them, for everyone. No account needed.
             </p>
             <Link href="/channel" className="btn btn-soft">
               Index a channel
@@ -209,9 +207,9 @@ export default async function Home() {
           <div className="panel">
             <h2 className="text-h2 mb-3">Listed here and would rather not be?</h2>
             <p className="text-read text-primary-300 max-w-[46ch] mb-5">
-              Sign in with twitch and switch the opt-out on. Your profile stops
-              being served and you come off every list and the public api. It is
-              reversible: switching it back off restores your entry.
+              Sign in with twitch and switch the opt-out on. Your profile stops being served and you
+              come off every list and the public api. It is reversible: switching it back off
+              restores your entry.
             </p>
             <Link href="/settings" className="btn btn-soft">
               Opt out

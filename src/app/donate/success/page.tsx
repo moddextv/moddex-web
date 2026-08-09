@@ -81,20 +81,15 @@ export default async function SuccessPage({
               <span className="text-ui text-primary-400">Payment settled</span>
             </div>
 
-            <h1 className="text-h1 mb-3">
-              The payment worked. The badge needs one more step.
-            </h1>
+            <h1 className="text-h1 mb-3">The payment worked. The badge needs one more step.</h1>
             <p className="text-lead text-primary-300 max-w-prose mb-6">
-              Stripe did not pass back a twitch username, so there is no profile
-              to put the badge on. Send the reference below plus your twitch name
-              and it gets assigned by hand.
+              Stripe did not pass back a twitch username, so there is no profile to put the badge
+              on. Send the reference below plus your twitch name and it gets assigned by hand.
             </p>
 
             <div className="panel flex flex-col sm:flex-row sm:items-end gap-4 sm:justify-between">
               <div className="min-w-0">
-                <p className="text-meta text-primary-400 mb-1.5">
-                  Payment reference
-                </p>
+                <p className="text-meta text-primary-400 mb-1.5">Payment reference</p>
                 <code className="text-base text-primary-100 break-all select-all">
                   {reference || 'not returned by Stripe'}
                 </code>
@@ -126,11 +121,10 @@ export default async function SuccessPage({
               opened with. the thanks belong here, once. */}
           <h1 className="text-h1 mb-4">Thank you, genuinely</h1>
           <p className="text-lead text-primary-300 max-w-prose mb-8">
-            Donations are the only thing keeping {config.brand.name} free to
-            read, and there is no paid tier waiting in the wings. The donator
-            badge is on <span className="text-primary-100 font-bold">{login}</span>{' '}
-            already and will show up next to your name everywhere{' '}
-            {config.brand.name} prints it.
+            Donations are the only thing keeping {config.brand.name} free to read, and there is no
+            paid tier waiting in the wings. The donator badge is on{' '}
+            <span className="text-primary-100 font-bold">{login}</span> already and will show up
+            next to your name everywhere {config.brand.name} prints it.
           </p>
 
           <div className="panel-flush mb-6">
@@ -143,13 +137,7 @@ export default async function SuccessPage({
 
               <Row label="Badge granted">
                 <span className="flex items-center gap-2.5">
-                  <Image
-                    src="/badges/donator.png"
-                    alt=""
-                    width={18}
-                    height={18}
-                    radius="sm"
-                  />
+                  <Image src="/badges/donator.png" alt="" width={18} height={18} radius="sm" />
                   <span className="text-base font-bold">donator</span>
                 </span>
               </Row>
@@ -164,9 +152,7 @@ export default async function SuccessPage({
 
               {reference && (
                 <Row label="Reference">
-                  <span className="text-ui text-primary-300 select-all break-all">
-                    {reference}
-                  </span>
+                  <span className="text-ui text-primary-300 select-all break-all">{reference}</span>
                 </Row>
               )}
             </div>
@@ -195,8 +181,8 @@ export default async function SuccessPage({
             <div>
               <p className="text-base font-bold mb-1">top donator</p>
               <p className="text-ui text-primary-300 leading-relaxed max-w-prose">
-                Held by exactly one account at a time, whoever has given the
-                most. It moves when somebody passes you.
+                Held by exactly one account at a time, whoever has given the most. It moves when
+                somebody passes you.
               </p>
             </div>
           </div>

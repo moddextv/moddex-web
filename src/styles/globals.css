@@ -21,62 +21,67 @@
  * this file introduces a colour that is not already a token.
  */
 :root {
-    --base: #0B0B0C;
-    --raised: #111113;
-    --line: #232326;
-    --line-strong: #33333A;
-    --line-soft: rgba(35, 35, 38, 0.7);
-    --hover: #17171A;
-    --text: #E7E7EA;
-    --text-alt: #8A8A93;
-    --text-dim: #55555F;
-    /* primary-100 at 45%, for the underline a row grows on hover */
-    --text-faint: rgba(231, 231, 234, 0.45);
+	--base: #0b0b0c;
+	--raised: #111113;
+	--line: #232326;
+	--line-strong: #33333a;
+	--line-soft: rgba(35, 35, 38, 0.7);
+	--hover: #17171a;
+	--text: #e7e7ea;
+	--text-alt: #8a8a93;
+	--text-dim: #55555f;
+	/* primary-100 at 45%, for the underline a row grows on hover */
+	--text-faint: rgba(231, 231, 234, 0.45);
 
-    --mod: #4ADE80;
-    --vip: #F472B6;
-    --twitch: #714ab8;
-    /* derived, not invented: the palette holds one purple, and a filled purple
+	--mod: #4ade80;
+	--vip: #f472b6;
+	--twitch: #714ab8;
+	/* derived, not invented: the palette holds one purple, and a filled purple
        control still needs a hover state and a glyph that reads on --line. */
-    --twitch-lift: color-mix(in srgb, var(--twitch), #FFFFFF 25%);
+	--twitch-lift: color-mix(in srgb, var(--twitch), #ffffff 25%);
 
-    --nav-h: 60px;
-    --row-h: 52px;
+	--nav-h: 60px;
+	--row-h: 52px;
 
-    --ease: cubic-bezier(0.2, 0, 0, 1);
-    --dur: 150ms;
+	--ease: cubic-bezier(0.2, 0, 0, 1);
+	--dur: 150ms;
 
-    --z-nav: 40;
-    --z-overlay: 60;
+	--z-nav: 40;
+	--z-overlay: 60;
 }
 
 /* ============================================================ typography == */
 @layer base {
-    html {
-        scroll-behavior: smooth;
-        /* Opening a dropdown or popover locks the body scroll (HeroUI, via
+	html {
+		scroll-behavior: smooth;
+		/* Opening a dropdown or popover locks the body scroll (HeroUI, via
            react-aria) — the scrollbar disappears and every centred thing on the
            page slides sideways by its width. Reserving the gutter permanently
            means there is nothing left to remove, so nothing moves. Costs an
            empty strip on short pages with classic scrollbars, and nothing at
            all on the overlay scrollbars phones and macOS use. */
-        scrollbar-gutter: stable;
-    }
+		scrollbar-gutter: stable;
+	}
 
-    h1, h2, h3 {
-        font-weight: 700;
-    }
+	h1,
+	h2,
+	h3 {
+		font-weight: 700;
+	}
 
-    /* form controls inherit the page typeface. without this they render in the
+	/* form controls inherit the page typeface. without this they render in the
        browser's own ui font, which was the second half of the "no body
        typeface" bug: even after fixing <body>, every input stayed on Arial. */
-    input, button, select, textarea {
-        font: inherit;
-    }
+	input,
+	button,
+	select,
+	textarea {
+		font: inherit;
+	}
 }
 
 @layer components {
-    /* --------------------------------------------------------- the corner --
+	/* --------------------------------------------------------- the corner --
      * the mark's own notation at ui scale, and the thing that replaced purple
      * as the identity. mod takes the top-left corner, vip the bottom-right,
      * 180° apart — one relationship read from two ends.
@@ -85,418 +90,452 @@
      * ACTIVE_ROLE_KEYS, because a role that exists in misc/roles.ts should not
      * be missing from the design system the day twitch makes it fetchable.
      */
-    .corner {
-        display: block;
-        width: 10px;
-        height: 10px;
-        border: 2px solid currentColor;
-        flex-shrink: 0;
-    }
+	.corner {
+		display: block;
+		width: 10px;
+		height: 10px;
+		border: 2px solid currentColor;
+		flex-shrink: 0;
+	}
 
-    .corner-tl { border-right: 0; border-bottom: 0; }
-    .corner-br { border-left: 0; border-top: 0; }
-    .corner-bl { border-right: 0; border-top: 0; }
-    .corner-tr { border-left: 0; border-bottom: 0; }
+	.corner-tl {
+		border-right: 0;
+		border-bottom: 0;
+	}
+	.corner-br {
+		border-left: 0;
+		border-top: 0;
+	}
+	.corner-bl {
+		border-right: 0;
+		border-top: 0;
+	}
+	.corner-tr {
+		border-left: 0;
+		border-bottom: 0;
+	}
 
-    /* ---------------------------------------------------------------- nav --
+	/* ---------------------------------------------------------------- nav --
      * 60px, and the search is the widest thing in it. that search is on every
      * page, which is the one move that means no page needs a hero.
      */
-    .nav {
-        position: sticky;
-        top: 0;
-        z-index: var(--z-nav);
-        height: var(--nav-h);
-        background: rgba(11, 11, 12, 0.82);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--line-soft);
-    }
+	.nav {
+		position: sticky;
+		top: 0;
+		z-index: var(--z-nav);
+		height: var(--nav-h);
+		background: rgba(11, 11, 12, 0.82);
+		backdrop-filter: blur(12px);
+		border-bottom: 1px solid var(--line-soft);
+	}
 
-    .nav-inner {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        height: 100%;
-    }
+	.nav-inner {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		height: 100%;
+	}
 
-
-    .search {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        /* a flex item defaults to min-width:auto, which means "never narrower
+	.search {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		/* a flex item defaults to min-width:auto, which means "never narrower
            than my contents". the scope switch inside does not shrink, so
            without this the search bar held itself at 387px and pushed the
            whole page 176px wider than the phone — on every route, since the
            header is on every route. */
-        min-width: 0;
-        height: 40px;
-        padding: 0 6px 0 14px;
-        background: var(--raised);
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
-    }
+		min-width: 0;
+		height: 40px;
+		padding: 0 6px 0 14px;
+		background: var(--raised);
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		transition:
+			border-color var(--dur) var(--ease),
+			background-color var(--dur) var(--ease);
+	}
 
-    .search:focus-within {
-        border-color: var(--line-strong);
-        background: var(--hover);
-    }
+	.search:focus-within {
+		border-color: var(--line-strong);
+		background: var(--hover);
+	}
 
-    .search input {
-        flex: 1;
-        min-width: 0;
-        background: transparent;
-        border: 0;
-        color: var(--text);
-        outline: none;
-    }
+	.search input {
+		flex: 1;
+		min-width: 0;
+		background: transparent;
+		border: 0;
+		color: var(--text);
+		outline: none;
+	}
 
-    .search input::placeholder {
-        color: var(--text-dim);
-    }
+	.search input::placeholder {
+		color: var(--text-dim);
+	}
 
-    /* two corners of the mark, so which direction you are searching is stated
+	/* two corners of the mark, so which direction you are searching is stated
        in the brand's own notation rather than in a word. */
-    .scope {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-        padding: 3px;
-        background: var(--base);
-        border-radius: 6px;
-        flex-shrink: 0;
-    }
+	.scope {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		padding: 3px;
+		background: var(--base);
+		border-radius: 6px;
+		flex-shrink: 0;
+	}
 
-    .scope button {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        height: 28px;
-        padding: 0 11px;
-        /* keeps the tap target square once the label is hidden below `sm` */
-        min-width: 28px;
-        justify-content: center;
-        background: transparent;
-        border: 0;
-        border-radius: 4px;
-        color: var(--text-alt);
-        font-size: 0.8125rem;
-        font-weight: 600;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
-    }
+	.scope button {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		height: 28px;
+		padding: 0 11px;
+		/* keeps the tap target square once the label is hidden below `sm` */
+		min-width: 28px;
+		justify-content: center;
+		background: transparent;
+		border: 0;
+		border-radius: 4px;
+		color: var(--text-alt);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		white-space: nowrap;
+		transition:
+			color var(--dur) var(--ease),
+			background-color var(--dur) var(--ease);
+	}
 
-    .scope button:hover {
-        color: var(--text);
-    }
+	.scope button:hover {
+		color: var(--text);
+	}
 
-    .scope button[aria-pressed='true'] {
-        background: var(--line);
-        color: var(--text);
-    }
+	.scope button[aria-pressed='true'] {
+		background: var(--line);
+		color: var(--text);
+	}
 
-    /* Phone layout for the whole header, and it has to sit after the rules it
+	/* Phone layout for the whole header, and it has to sit after the rules it
        overrides — same specificity, so source order decides.
        20px of gap between three items is 40px of a 360px screen and the search
        pays for all of it. The bar grows rather than shrinks: on a phone it is a
        touch target, not somewhere a cursor lands. */
-    @media (max-width: 640px) {
-        .nav-inner {
-            gap: 12px;
-        }
+	@media (max-width: 640px) {
+		.nav-inner {
+			gap: 12px;
+		}
 
-        .search {
-            height: 44px;
-        }
+		.search {
+			height: 44px;
+		}
 
-        .scope button {
-            height: 34px;
-            min-width: 40px;
-        }
-    }
+		.scope button {
+			height: 34px;
+			min-width: 40px;
+		}
+	}
 
-    /* --------------------------------------------------------------- rows --
+	/* --------------------------------------------------------------- rows --
      * NOT a table. a grid on a shared column template, hover, and nothing
      * between rows but air. no borders between cells, no zebra, no boxed
      * column-header bar.
      */
-    .rows {
-        display: flex;
-        flex-direction: column;
-    }
+	.rows {
+		display: flex;
+		flex-direction: column;
+	}
 
-    .row {
-        display: grid;
-        align-items: center;
-        gap: 20px;
-        min-height: var(--row-h);
-        padding: 0 16px;
-        border-radius: 8px;
-        transition: background-color var(--dur) var(--ease);
-    }
+	.row {
+		display: grid;
+		align-items: center;
+		gap: 20px;
+		min-height: var(--row-h);
+		padding: 0 16px;
+		border-radius: 8px;
+		transition: background-color var(--dur) var(--ease);
+	}
 
-    .row:hover {
-        background: var(--hover);
-    }
+	.row:hover {
+		background: var(--hover);
+	}
 
-    /* the row is a link, so the name behaves like one on hover. changing only
+	/* the row is a link, so the name behaves like one on hover. changing only
        the row background reads as selection rather than as "this goes
        somewhere". */
-    .row:hover .row-name {
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        text-decoration-thickness: 1px;
-        text-decoration-color: var(--text-faint);
-    }
+	.row:hover .row-name {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		text-decoration-thickness: 1px;
+		text-decoration-color: var(--text-faint);
+	}
 
-    /* the column labels. they exist because the shipped design showed a date
+	/* the column labels. they exist because the shipped design showed a date
        and a number with nothing saying what either was — but they sit light and
        unboxed, so they do not read as a spreadsheet header. */
-    .row-head {
-        display: grid;
-        align-items: center;
-        gap: 20px;
-        padding: 0 16px 10px;
-        font-size: 0.8125rem;
-        /* primary-400, not primary-500: at 13px, #55555F on the raised surface
+	.row-head {
+		display: grid;
+		align-items: center;
+		gap: 20px;
+		padding: 0 16px 10px;
+		font-size: 0.8125rem;
+		/* primary-400, not primary-500: at 13px, #55555F on the raised surface
            is about 3.9:1 and fails AA. these labels stay recessive through size
            and weight rather than through being hard to read. */
-        color: var(--text-alt);
-        border-bottom: 1px solid var(--line-soft);
-        margin-bottom: 6px;
-    }
+		color: var(--text-alt);
+		border-bottom: 1px solid var(--line-soft);
+		margin-bottom: 6px;
+	}
 
-    /* the heading is the sort control. it stays a label until you approach it —
+	/* the heading is the sort control. it stays a label until you approach it —
        a row of buttons across the top of a list reads as a toolbar, which this
        is not. */
-    .col-sort {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 0;
-        background: none;
-        border: 0;
-        color: inherit;
-        font: inherit;
-        cursor: pointer;
-        transition: color var(--dur) var(--ease);
-    }
+	.col-sort {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		padding: 0;
+		background: none;
+		border: 0;
+		color: inherit;
+		font: inherit;
+		cursor: pointer;
+		transition: color var(--dur) var(--ease);
+	}
 
-    .col-sort:hover {
-        color: var(--text);
-    }
+	.col-sort:hover {
+		color: var(--text);
+	}
 
-    .col-sort.is-active {
-        color: var(--text);
-    }
+	.col-sort.is-active {
+		color: var(--text);
+	}
 
-    /* the arrow is always in the DOM so the heading does not change width when
+	/* the arrow is always in the DOM so the heading does not change width when
        the sort moves to it, and the row under it does not jump sideways */
-    .col-arrow {
-        opacity: 0;
-        transition: opacity var(--dur) var(--ease);
-    }
+	.col-arrow {
+		opacity: 0;
+		transition: opacity var(--dur) var(--ease);
+	}
 
-    .col-sort:hover .col-arrow {
-        opacity: 0.5;
-    }
+	.col-sort:hover .col-arrow {
+		opacity: 0.5;
+	}
 
-    .col-arrow.is-active {
-        opacity: 1;
-    }
+	.col-arrow.is-active {
+		opacity: 1;
+	}
 
-    .cols-people {
-        grid-template-columns: minmax(0, 1fr) 110px 110px;
-    }
+	.cols-people {
+		grid-template-columns: minmax(0, 1fr) 110px 110px;
+	}
 
-    .cols-channels {
-        grid-template-columns: minmax(0, 1fr) 90px 90px 110px;
-    }
+	.cols-channels {
+		grid-template-columns: minmax(0, 1fr) 90px 90px 110px;
+	}
 
-    @media (max-width: 640px) {
-        .cols-people,
-        .cols-channels {
-            grid-template-columns: minmax(0, 1fr) auto;
-        }
+	@media (max-width: 640px) {
+		.cols-people,
+		.cols-channels {
+			grid-template-columns: minmax(0, 1fr) auto;
+		}
 
-        .cols-people > :nth-child(n + 3),
-        .cols-channels > :nth-child(n + 3) {
-            display: none;
-        }
-    }
+		.cols-people > :nth-child(n + 3),
+		.cols-channels > :nth-child(n + 3) {
+			display: none;
+		}
+	}
 
-    /* the per-list search. shaped like `.chip` rather than like the nav
+	/* the per-list search. shaped like `.chip` rather than like the nav
        `.search`, because it belongs to the toolbar it sits in — the nav bar is
        the page's search and this one filters 28 rows. */
-    .search-inline {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        height: 30px;
-        padding: 0 11px;
-        min-width: 0;
-        background: var(--base);
-        border: 1px solid transparent;
-        border-radius: 6px;
-        transition: border-color var(--dur) var(--ease);
-    }
+	.search-inline {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		height: 30px;
+		padding: 0 11px;
+		min-width: 0;
+		background: var(--base);
+		border: 1px solid transparent;
+		border-radius: 6px;
+		transition: border-color var(--dur) var(--ease);
+	}
 
-    .search-inline:focus-within {
-        border-color: var(--line-strong);
-    }
+	.search-inline:focus-within {
+		border-color: var(--line-strong);
+	}
 
-    .search-inline input {
-        width: 8.5rem;
-        min-width: 0;
-        background: transparent;
-        border: 0;
-        outline: none;
-        color: var(--text);
-        font-size: 0.8125rem;
-        font-weight: 600;
-    }
+	.search-inline input {
+		width: 8.5rem;
+		min-width: 0;
+		background: transparent;
+		border: 0;
+		outline: none;
+		color: var(--text);
+		font-size: 0.8125rem;
+		font-weight: 600;
+	}
 
-    .search-inline input::placeholder {
-        color: var(--text-dim);
-        font-weight: 500;
-    }
+	.search-inline input::placeholder {
+		color: var(--text-dim);
+		font-weight: 500;
+	}
 
-    /* on a phone the toolbar wraps to its own line, so the field takes the
+	/* on a phone the toolbar wraps to its own line, so the field takes the
        width instead of sitting at 8.5rem beside three chips */
-    @media (max-width: 640px) {
-        .search-inline {
-            flex: 1 1 100%;
-        }
+	@media (max-width: 640px) {
+		.search-inline {
+			flex: 1 1 100%;
+		}
 
-        .search-inline input {
-            width: 100%;
-        }
-    }
+		.search-inline input {
+			width: 100%;
+		}
+	}
 
-    /* ------------------------------------------------------------ surface --
+	/* ------------------------------------------------------------ surface --
      * one raised surface, generously padded. not a card grid.
      */
-    .panel {
-        background: var(--raised);
-        border-radius: 12px;
-        padding: 24px;
-    }
+	.panel {
+		background: var(--raised);
+		border-radius: 12px;
+		padding: 24px;
+	}
 
-    /* for a panel whose content is rows: the rows carry their own 16px of
+	/* for a panel whose content is rows: the rows carry their own 16px of
        padding and their own hover background, so the panel gives them less. */
-    .panel-flush {
-        background: var(--raised);
-        border-radius: 12px;
-        padding: 24px 8px 8px;
-    }
+	.panel-flush {
+		background: var(--raised);
+		border-radius: 12px;
+		padding: 24px 8px 8px;
+	}
 
-    /* ------------------------------------------------------------- avatar --
+	/* ------------------------------------------------------------- avatar --
      * the initial-letter fallback, for accounts twitch gives us no image for.
      */
-    .avatar {
-        display: grid;
-        place-items: center;
-        flex-shrink: 0;
-        border-radius: 9999px;
-        background: var(--line);
-        color: var(--text-alt);
-        font-weight: 700;
-        text-transform: uppercase;
-        user-select: none;
-    }
+	.avatar {
+		display: grid;
+		place-items: center;
+		flex-shrink: 0;
+		border-radius: 9999px;
+		background: var(--line);
+		color: var(--text-alt);
+		font-weight: 700;
+		text-transform: uppercase;
+		user-select: none;
+	}
 
-    /* --------------------------------------------------------------- tabs --
+	/* --------------------------------------------------------------- tabs --
      * the two lookup directions, underlined in the role's own colour rather
      * than in purple. this is the identity change in miniature.
      */
-    .tabs {
-        display: flex;
-        gap: 4px;
-        border-bottom: 1px solid var(--line-soft);
-        /* the tabs do not wrap and do not shrink, so without this a label that
+	.tabs {
+		display: flex;
+		gap: 4px;
+		border-bottom: 1px solid var(--line-soft);
+		/* the tabs do not wrap and do not shrink, so without this a label that
            outgrows the screen widens the whole page instead of itself. it never
            scrolls at the current labels — it is here so that changing one
            cannot silently break the layout again. */
-        overflow-x: auto;
-        scrollbar-width: none;
-    }
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
 
-    .tabs::-webkit-scrollbar {
-        display: none;
-    }
+	.tabs::-webkit-scrollbar {
+		display: none;
+	}
 
-    /* the labels are sentences, and at 380px they wrapped to three lines inside
+	/* the labels are sentences, and at 380px they wrapped to three lines inside
        a rigid 48px tab — the underline cut straight through the third. they do
        not wrap now; the components shorten the sentence below `sm` instead. */
-    .tab {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        height: 48px;
-        padding: 0 18px;
-        white-space: nowrap;
-        flex-shrink: 0;
-        color: var(--text-alt);
-        font-size: 0.9375rem;
-        font-weight: 600;
-        border-bottom: 2px solid transparent;
-        margin-bottom: -1px;
-        transition: color var(--dur) var(--ease);
-    }
+	.tab {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 48px;
+		padding: 0 18px;
+		white-space: nowrap;
+		flex-shrink: 0;
+		color: var(--text-alt);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -1px;
+		transition: color var(--dur) var(--ease);
+	}
 
-    /* 18px each side is 72px of a 320px screen across two tabs, which is what
+	/* 18px each side is 72px of a 320px screen across two tabs, which is what
        tipped them over the edge on the smallest phones still in use. */
-    @media (max-width: 640px) {
-        .tab {
-            padding: 0 12px;
-            gap: 8px;
-        }
-    }
+	@media (max-width: 640px) {
+		.tab {
+			padding: 0 12px;
+			gap: 8px;
+		}
+	}
 
-    .tab:hover { color: var(--text); }
+	.tab:hover {
+		color: var(--text);
+	}
 
-    .tab[aria-current='page'] { color: var(--text); }
-    .tab-mod[aria-current='page'] { border-bottom-color: var(--mod); }
-    .tab-vip[aria-current='page'] { border-bottom-color: var(--vip); }
+	.tab[aria-current='page'] {
+		color: var(--text);
+	}
+	.tab-mod[aria-current='page'] {
+		border-bottom-color: var(--mod);
+	}
+	.tab-vip[aria-current='page'] {
+		border-bottom-color: var(--vip);
+	}
 
-    /* ----------------------------------------------------------- controls -- */
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        height: 40px;
-        padding: 0 18px;
-        border: 0;
-        border-radius: 8px;
-        background: var(--text);
-        color: var(--base);
-        font-size: 0.9375rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
-    }
+	/* ----------------------------------------------------------- controls -- */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 40px;
+		padding: 0 18px;
+		border: 0;
+		border-radius: 8px;
+		background: var(--text);
+		color: var(--base);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition:
+			background-color var(--dur) var(--ease),
+			transform var(--dur) var(--ease);
+	}
 
-    .btn:hover { background: #FFFFFF; }
-    .btn:active { transform: translateY(1px); }
+	.btn:hover {
+		background: #ffffff;
+	}
+	.btn:active {
+		transform: translateY(1px);
+	}
 
-    .btn-soft {
-        background: var(--line);
-        color: var(--text);
-    }
+	.btn-soft {
+		background: var(--line);
+		color: var(--text);
+	}
 
-    .btn-soft:hover { background: var(--line-strong); }
+	.btn-soft:hover {
+		background: var(--line-strong);
+	}
 
-    .btn-ghost {
-        background: transparent;
-        color: var(--text-alt);
-    }
+	.btn-ghost {
+		background: transparent;
+		color: var(--text-alt);
+	}
 
-    .btn-ghost:hover { background: var(--line); color: var(--text); }
+	.btn-ghost:hover {
+		background: var(--line);
+		color: var(--text);
+	}
 
-    /* purple appears in exactly two forms, and only ever on something that
+	/* purple appears in exactly two forms, and only ever on something that
        talks to twitch.
 
        filled, at most once per page: the sign-in control in the nav, which is
@@ -506,133 +545,161 @@
        surface. "Open on Twitch" as a solid purple button was the brightest
        thing on a profile page and it pulled focus off the account name, which
        is the actual subject. the glyph carries the recognition on its own. */
-    .btn-twitch {
-        background: var(--twitch);
-        color: #FFFFFF;
-    }
+	.btn-twitch {
+		background: var(--twitch);
+		color: #ffffff;
+	}
 
-    .btn-twitch:hover { background: var(--twitch-lift); }
+	.btn-twitch:hover {
+		background: var(--twitch-lift);
+	}
 
-    .btn-twitch-quiet {
-        background: var(--line);
-        color: var(--text);
-    }
+	.btn-twitch-quiet {
+		background: var(--line);
+		color: var(--text);
+	}
 
-    .btn-twitch-quiet svg { color: var(--twitch-lift); }
+	.btn-twitch-quiet svg {
+		color: var(--twitch-lift);
+	}
 
-    .btn-twitch-quiet:hover { background: var(--line-strong); }
+	.btn-twitch-quiet:hover {
+		background: var(--line-strong);
+	}
 
-    .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        height: 32px;
-        padding: 0 12px;
-        border-radius: 8px;
-        background: transparent;
-        border: 1px solid var(--line);
-        color: var(--text-alt);
-        font-size: 0.8125rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
-    }
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		height: 32px;
+		padding: 0 12px;
+		border-radius: 8px;
+		background: transparent;
+		border: 1px solid var(--line);
+		color: var(--text-alt);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			color var(--dur) var(--ease),
+			border-color var(--dur) var(--ease),
+			background-color var(--dur) var(--ease);
+	}
 
-    .chip:hover { color: var(--text); border-color: var(--line-strong); }
+	.chip:hover {
+		color: var(--text);
+		border-color: var(--line-strong);
+	}
 
-    .chip[aria-pressed='true'] {
-        background: var(--line);
-        border-color: var(--line);
-        color: var(--text);
-    }
+	.chip[aria-pressed='true'] {
+		background: var(--line);
+		border-color: var(--line);
+		color: var(--text);
+	}
 
-    /* the opt-out switch. mod green when on, because green is this design's
+	/* the opt-out switch. mod green when on, because green is this design's
        affirmative and purple is reserved for twitch. */
-    .toggle {
-        display: inline-flex;
-        align-items: center;
-        width: 48px;
-        height: 28px;
-        padding: 3px;
-        background: var(--line);
-        border-radius: 9999px;
-        flex-shrink: 0;
-        transition: background-color var(--dur) var(--ease);
-    }
+	.toggle {
+		display: inline-flex;
+		align-items: center;
+		width: 48px;
+		height: 28px;
+		padding: 3px;
+		background: var(--line);
+		border-radius: 9999px;
+		flex-shrink: 0;
+		transition: background-color var(--dur) var(--ease);
+	}
 
-    .toggle > span {
-        width: 22px;
-        height: 22px;
-        background: var(--text-alt);
-        border-radius: 9999px;
-        transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
-    }
+	.toggle > span {
+		width: 22px;
+		height: 22px;
+		background: var(--text-alt);
+		border-radius: 9999px;
+		transition:
+			transform var(--dur) var(--ease),
+			background-color var(--dur) var(--ease);
+	}
 
-    .toggle[data-on='true'] { background: rgba(74, 222, 128, 0.22); }
+	.toggle[data-on='true'] {
+		background: rgba(74, 222, 128, 0.22);
+	}
 
-    .toggle[data-on='true'] > span {
-        transform: translateX(20px);
-        background: var(--mod);
-    }
+	.toggle[data-on='true'] > span {
+		transform: translateX(20px);
+		background: var(--mod);
+	}
 
-    /* -------------------------------------------------------------- state -- */
-    .skeleton {
-        display: inline-block;
-        background: var(--line);
-        border-radius: 6px;
-        position: relative;
-        overflow: hidden;
-    }
+	/* -------------------------------------------------------------- state -- */
+	.skeleton {
+		display: inline-block;
+		background: var(--line);
+		border-radius: 6px;
+		position: relative;
+		overflow: hidden;
+	}
 
-    .skeleton::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-        animation: sweep 1.3s var(--ease) infinite;
-    }
+	.skeleton::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+		animation: sweep 1.3s var(--ease) infinite;
+	}
 
-    @keyframes sweep {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(100%); }
-    }
+	@keyframes sweep {
+		from {
+			transform: translateX(-100%);
+		}
+		to {
+			transform: translateX(100%);
+		}
+	}
 
-    .enter {
-        opacity: 0;
-        animation: enter 320ms var(--ease) forwards;
-        animation-delay: min(calc(var(--i, 0) * 50ms), 250ms);
-    }
+	.enter {
+		opacity: 0;
+		animation: enter 320ms var(--ease) forwards;
+		animation-delay: min(calc(var(--i, 0) * 50ms), 250ms);
+	}
 
-    @keyframes enter {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: none; }
-    }
+	@keyframes enter {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
 
-    .tabular {
-        font-variant-numeric: tabular-nums;
-        font-feature-settings: 'tnum';
-    }
+	.tabular {
+		font-variant-numeric: tabular-nums;
+		font-feature-settings: 'tnum';
+	}
 
-    .skip-link {
-        position: absolute;
-        left: 16px;
-        top: -60px;
-        z-index: var(--z-overlay);
-        padding: 10px 16px;
-        background: var(--text);
-        color: var(--base);
-        border-radius: 8px;
-        font-weight: 700;
-        transition: top var(--dur) var(--ease);
-    }
+	.skip-link {
+		position: absolute;
+		left: 16px;
+		top: -60px;
+		z-index: var(--z-overlay);
+		padding: 10px 16px;
+		background: var(--text);
+		color: var(--base);
+		border-radius: 8px;
+		font-weight: 700;
+		transition: top var(--dur) var(--ease);
+	}
 
-    .skip-link:focus { top: 12px; }
+	.skip-link:focus {
+		top: 12px;
+	}
 }
 
 /* ================================================================= a11y == */
 :where(a, button, input, select, [tabindex]):focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 3px;
+	outline: 2px solid var(--text);
+	outline-offset: 3px;
 }
 
 /* heroui already shows focus on the input *wrapper* -- its border turns mod
@@ -643,66 +710,66 @@
 [data-slot='input-wrapper'] input:focus-visible,
 [data-slot='input-wrapper'] textarea:focus-visible,
 [data-slot='input']:focus-visible {
-    outline: none;
+	outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
+	html {
+		scroll-behavior: auto;
+	}
 
-    .enter {
-        opacity: 1;
-        animation: none;
-    }
+	.enter {
+		opacity: 1;
+		animation: none;
+	}
 
-    .skeleton::after {
-        animation: none;
-    }
+	.skeleton::after {
+		animation: none;
+	}
 
-    .btn:active {
-        transform: none;
-    }
+	.btn:active {
+		transform: none;
+	}
 
-    .row:hover {
-        transition: none;
-    }
+	.row:hover {
+		transition: none;
+	}
 
-    .search,
-    .scope button,
-    .tab,
-    .chip,
-    .toggle,
-    .toggle > span {
-        transition: none;
-    }
+	.search,
+	.scope button,
+	.tab,
+	.chip,
+	.toggle,
+	.toggle > span {
+		transition: none;
+	}
 
-    /* tailwind's own utility, used on the mark while stripe checkout opens. it
+	/* tailwind's own utility, used on the mark while stripe checkout opens. it
        is not reduced-motion aware on its own. */
-    .animate-pulse {
-        animation: none;
-    }
+	.animate-pulse {
+		animation: none;
+	}
 }
 
 /* =============================================================== chrome == */
 ::-webkit-scrollbar {
-    width: 10px;
+	width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent;
+	background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--line-strong);
-    border-radius: 5px;
+	background: var(--line-strong);
+	border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--text-dim);
+	background: var(--text-dim);
 }
 
 ::selection {
-    background: #4ADE80;
-    color: #0B0B0C;
+	background: #4ade80;
+	color: #0b0b0c;
 }

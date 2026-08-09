@@ -39,9 +39,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
         />
 
         <span className="flex items-center gap-2 min-w-0">
-          <span className="row-name text-base font-bold truncate">
-            {user.name || user.login}
-          </span>
+          <span className="row-name text-base font-bold truncate">{user.name || user.login}</span>
           {/* the bot marker is a badge now, not a text chip beside the badges —
               two ways of saying "something is true about this account" sitting
               next to each other read as two unrelated things. */}

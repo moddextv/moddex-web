@@ -76,8 +76,7 @@ export const DonateForm = () => {
 
       {failed && (
         <p className="text-ui text-vip mt-3">
-          Stripe could not be reached, so nothing was charged. Try again in a
-          moment.
+          Stripe could not be reached, so nothing was charged. Try again in a moment.
         </p>
       )}
     </form>

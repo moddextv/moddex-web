@@ -26,11 +26,7 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ session }) => {
       // here that actually talks to twitch, and everything else that used to be
       // purple — "open on twitch", the tab underlines, the section headings —
       // is neutral or a role colour now.
-      <button
-        type="button"
-        onClick={() => signIn('twitch')}
-        className="btn btn-twitch shrink-0"
-      >
+      <button type="button" onClick={() => signIn('twitch')} className="btn btn-twitch shrink-0">
         {/* TwitchIcon defaults to `text-twitch`, which on the filled purple
             button is purple on purple: the control rendered as an empty block
             at small widths, where the label is hidden and the glyph is all
@@ -98,7 +94,9 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ session }) => {
             <DropdownItem key="dashboard" textValue="dashboard" href="/dashboard">
               dashboard
             </DropdownItem>
-          ) : (null as unknown as ItemElement<object>)}
+          ) : (
+            (null as unknown as ItemElement<object>)
+          )}
         </DropdownSection>
 
         <DropdownSection>

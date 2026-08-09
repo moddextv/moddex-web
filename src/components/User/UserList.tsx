@@ -70,8 +70,7 @@ const matches = (user: User, query: string) => {
   if (!needle) return true;
 
   return (
-    user.login.toLowerCase().includes(needle) ||
-    (user.name ?? '').toLowerCase().includes(needle)
+    user.login.toLowerCase().includes(needle) || (user.name ?? '').toLowerCase().includes(needle)
   );
 };
 
@@ -153,9 +152,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
   // a channel's members are the answer to "when did each of these happen", so
   // the grant date is the axis worth defaulting to. the channels a person holds
   // a role in have no shared timeline, so those default to reach.
-  const [column, setColumn] = useState<ColumnKey>(
-    type === 'channel' ? 'granted' : 'followers'
-  );
+  const [column, setColumn] = useState<ColumnKey>(type === 'channel' ? 'granted' : 'followers');
   const [direction, setDirection] = useState<Direction>('desc');
 
   // filtered rather than removed from state, so changing your mind needs no
@@ -255,9 +252,8 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
           // by a different twitch query than mods and vips, on a slower
           // schedule, so empty here means not read yet rather than none exist.
           <p className="text-read text-primary-300 max-w-prose">
-            None read yet. Founder badges come from a different twitch query than
-            mods and vips, and it runs on a slower schedule. An empty list here
-            means not yet read, not none exist.
+            None read yet. Founder badges come from a different twitch query than mods and vips, and
+            it runs on a slower schedule. An empty list here means not yet read, not none exist.
           </p>
         ) : (
           <p className="text-read text-primary-300 max-w-prose">None read yet.</p>

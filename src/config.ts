@@ -14,16 +14,13 @@ const required = (key: string): string => {
   const value = process.env[key];
 
   if (isServer && !value) {
-    throw new Error(
-      `missing required environment variable: ${key} — see .env.example`
-    );
+    throw new Error(`missing required environment variable: ${key} — see .env.example`);
   }
 
   return value as string;
 };
 
-const optional = (key: string, fallback: string): string =>
-  process.env[key] || fallback;
+const optional = (key: string, fallback: string): string => process.env[key] || fallback;
 
 export const config = {
   /**
@@ -62,8 +59,7 @@ export const config = {
     secretKey: required('STRIPE_SECRET_KEY'),
     // inlined at build time by next, so it must be present as a --build-arg,
     // not only at runtime.
-    publishableSecretKey: process.env
-      .NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
+    publishableSecretKey: process.env.NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
 
     // no webhookSecret here. the stripe webhook moved to
     // api.moddex.tv/v1/stripe/webhook in phase 2, so STRIPE_WEBHOOK_SECRET
@@ -75,6 +71,5 @@ export const config = {
       price: required('STRIPE_DONATION_PRICE'),
       default: 5
     }
-  },
-
+  }
 };

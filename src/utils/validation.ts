@@ -2,9 +2,7 @@ import { IVRUser } from '@/misc/Interfaces';
 import { ivr } from '@/utils/api/ivr';
 import { regex } from '@/utils/regex';
 
-export const validateUsername = async (
-  username: string = ''
-): Promise<boolean> => {
+export const validateUsername = async (username: string = ''): Promise<boolean> => {
   if (!regex.username.test(username)) {
     return false;
   }
