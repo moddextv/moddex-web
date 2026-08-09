@@ -206,7 +206,9 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
             </button>
           )}
 
-          <Dropdown type="listbox" placement="bottom-end">
+          {/* see ProfileDropdown: the default scroll lock releases the
+              scrollbar gutter and shifts the page sideways on open */}
+          <Dropdown type="listbox" placement="bottom-end" shouldBlockScroll={false}>
             <DropdownTrigger>
               <button
                 type="button"

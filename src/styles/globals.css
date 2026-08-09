@@ -54,6 +54,13 @@
 @layer base {
     html {
         scroll-behavior: smooth;
+        /* Opening a dropdown or popover locks the body scroll (HeroUI, via
+           react-aria) — the scrollbar disappears and every centred thing on the
+           page slides sideways by its width. Reserving the gutter permanently
+           means there is nothing left to remove, so nothing moves. Costs an
+           empty strip on short pages with classic scrollbars, and nothing at
+           all on the overlay scrollbars phones and macOS use. */
+        scrollbar-gutter: stable;
     }
 
     h1, h2, h3 {
