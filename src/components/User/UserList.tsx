@@ -12,29 +12,37 @@ import { FixedSizeList as List } from 'react-window';
 import clsx from 'clsx';
 
 /**
- * A column and a direction, not six sort keys.
+ * A column and a direction, not six sort keys — and the control for it is the
+ * column heading itself (see SortHeader), not a menu.
  *
- * The old control listed all six combinations, which is three decisions
- * expressed as six options — and two entries deep in a menu shared a name, so
- * the closed chip could not say which of them was active. Picking the column
- * that is already active flips the direction instead.
+ * This went through a dropdown listing all six combinations, then a dropdown
+ * of three columns that flipped when you picked the active one. Both were
+ * inventions: a list with headed columns already has a place readers look to
+ * sort, and it is the heading.
  *
  * `ends` names the two directions in the column's own terms: "newest" means
- * something for a date and nothing for a name.
+ * something for a date and nothing for a name. It is what the heading's
+ * accessible label reads out.
  */
 const COLUMNS = {
   granted: {
     label: 'Granted',
+    // the end a column starts at when you first sort by it. dates and counts
+    // open at the big end, names at A — picking "Account" and being handed
+    // z-to-a because the last column happened to be descending is a puzzle.
+    opens: 'desc',
     ends: { desc: 'newest first', asc: 'oldest first' },
     compare: (a: User, b: User) => grantedAt(a) - grantedAt(b)
   },
   followers: {
     label: 'Followers',
+    opens: 'desc',
     ends: { desc: 'most first', asc: 'fewest first' },
     compare: (a: User, b: User) => (a.follower || 0) - (b.follower || 0)
   },
   name: {
     label: 'Name',
+    opens: 'asc',
     ends: { desc: 'z to a', asc: 'a to z' },
     compare: (a: User, b: User) => a.login.localeCompare(b.login)
   }
@@ -51,10 +59,10 @@ type Direction = 'asc' | 'desc';
 const BOT_MODES = ['all', 'hide', 'only'] as const;
 type BotMode = (typeof BOT_MODES)[number];
 
-const BOT_LABEL: Record<BotMode, (count: number) => string> = {
-  all: (count) => `${count} ${count === 1 ? 'bot' : 'bots'}`,
-  hide: () => 'Bots hidden',
-  only: () => 'Bots only'
+const BOT_MODES_LABEL: Record<BotMode, string> = {
+  all: 'shown',
+  hide: 'hidden',
+  only: 'only'
 };
 
 const matches = (user: User, query: string) => {
@@ -78,6 +86,45 @@ const grantedAt = (user: User): number => {
 
   const time = new Date(user.granted).getTime();
   return Number.isNaN(time) ? Number.NEGATIVE_INFINITY : time;
+};
+
+/**
+ * A column heading that sorts. Pressing the active one reverses it.
+ *
+ * `aria-pressed` rather than `aria-sort`: this is a grid of divs, not a table,
+ * and `aria-sort` on something that is not a columnheader inside a table role
+ * announces nothing. The label spells out the state instead, which works
+ * everywhere.
+ */
+const SortHeader: FC<{
+  column: ColumnKey;
+  label: string;
+  align?: 'right';
+  active: ColumnKey;
+  direction: Direction;
+  onSort: (column: ColumnKey) => void;
+}> = ({ column, label, align, active, direction, onSort }) => {
+  const isActive = active === column;
+
+  return (
+    <span className={clsx(align === 'right' && 'text-right')}>
+      <button
+        type="button"
+        className={clsx('col-sort', isActive && 'is-active')}
+        aria-label={
+          isActive
+            ? `Sorted by ${label.toLowerCase()}, ${COLUMNS[column].ends[direction]}. Press to reverse.`
+            : `Sort by ${label.toLowerCase()}`
+        }
+        onClick={() => onSort(column)}
+      >
+        {label}
+        <span aria-hidden="true" className={clsx('col-arrow', isActive && 'is-active')}>
+          {isActive && direction === 'asc' ? '↑' : '↓'}
+        </span>
+      </button>
+    </span>
+  );
 };
 
 /** the corner, the name and whatever the panel wants on the right of them */
@@ -133,7 +180,6 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
     return direction === 'desc' ? sorted.reverse() : sorted;
   }, [users, query, botMode, column, direction]);
 
-  const active = COLUMNS[column];
   const searching = query.trim().length > 0;
   const filtered = searching || botMode !== 'all';
 
@@ -142,10 +188,15 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
     setBotMode('all');
   };
 
-  /** picking the column that is already sorting the list flips its direction */
+  /** pressing the active column reverses it; any other opens at its own end */
   const chooseColumn = (next: ColumnKey) => {
-    if (next === column) setDirection((d) => (d === 'asc' ? 'desc' : 'asc'));
-    else setColumn(next);
+    if (next === column) {
+      setDirection((d) => (d === 'asc' ? 'desc' : 'asc'));
+      return;
+    }
+
+    setColumn(next);
+    setDirection(COLUMNS[next].opens);
   };
 
   if (isLoading) {
@@ -239,59 +290,46 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
             />
           </label>
 
-          {/* only offered when it would do something. a dead control on a list
-              with no bots in it is noise. */}
-          {botCount > 0 && (
-            <button
-              type="button"
-              className="chip"
-              aria-pressed={botMode !== 'all'}
-              aria-label={`Bots: ${botMode}. Change which accounts are shown.`}
-              onClick={() =>
-                setBotMode((mode) => BOT_MODES[(BOT_MODES.indexOf(mode) + 1) % BOT_MODES.length])
-              }
-            >
-              {BOT_LABEL[botMode](botCount)}
-            </button>
-          )}
+          {/* A named control, not a bare count. It read "1 bot" before, which
+              is a fact about the list rather than something you can press, and
+              it went unfound. Only offered when it would do something.
 
-          {/* see ProfileDropdown: the default scroll lock releases the
+              see ProfileDropdown: the default scroll lock releases the
               scrollbar gutter and shifts the page sideways on open */}
-          <Dropdown type="listbox" placement="bottom-end" shouldBlockScroll={false}>
-            <DropdownTrigger>
-              <button
-                type="button"
-                className="chip"
-                aria-label={`Sorted by ${active.label.toLowerCase()}, ${active.ends[direction]}. Change the sort.`}
-              >
-                {active.label}
-                <span aria-hidden="true" className="text-primary-400">
-                  {direction === 'desc' ? '↓' : '↑'}
-                </span>
-                <ChevronDownIcon size={11} />
-              </button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Sort this list"
-              onAction={(key) => chooseColumn(key as ColumnKey)}
-            >
-              {(Object.keys(COLUMNS) as ColumnKey[]).map((key) => (
-                <DropdownItem
-                  key={key}
-                  textValue={COLUMNS[key].label}
-                  // the active row says what clicking it does next, which is
-                  // the only hint that the column doubles as the flip
-                  description={
-                    key === column
-                      ? `showing ${COLUMNS[key].ends[direction]} — flip`
-                      : COLUMNS[key].ends.desc
-                  }
+          {botCount > 0 && (
+            <Dropdown type="listbox" placement="bottom-end" shouldBlockScroll={false}>
+              <DropdownTrigger>
+                <button
+                  type="button"
+                  className="chip"
+                  aria-label={`Bots: ${BOT_MODES_LABEL[botMode]}. Change which accounts are listed.`}
                 >
-                  {COLUMNS[key].label}
+                  Bots: {BOT_MODES_LABEL[botMode]}
+                  <ChevronDownIcon size={11} />
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Which accounts to list"
+                selectionMode="single"
+                disallowEmptySelection
+                selectedKeys={new Set([botMode])}
+                onSelectionChange={(keys) => {
+                  const [next] = Array.from(keys as Set<string>);
+                  if (next) setBotMode(next as BotMode);
+                }}
+              >
+                <DropdownItem key="all" textValue="Show bots">
+                  Show bots
                 </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
+                <DropdownItem key="hide" textValue="Hide bots">
+                  Hide {botCount} {botCount === 1 ? 'bot' : 'bots'}
+                </DropdownItem>
+                <DropdownItem key="only" textValue="Only bots">
+                  Only bots
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
 
           {filtered && (
             <button type="button" className="chip" onClick={clear}>
@@ -321,10 +359,39 @@ export const UserList: FC<UserListProps> = ({ type, role, user }) => {
         </p>
       ) : (
         <div className="rows">
+          {/* Sorting lives on the column headings, which is where a reader
+              already expects it and what every table has done for thirty
+              years. It replaced a dropdown that listed the three columns and
+              flipped the direction if you picked the one already active —
+              a rule that had to be explained in the menu to be found at all.
+
+              Below 640px the followers column is hidden (globals.css), so it
+              stops being sortable there too. Sorting by a column you cannot
+              see would reorder the rows for no visible reason. */}
           <div className="row-head cols-people">
-            <span>{type === 'channel' ? 'Account' : 'Channel'}</span>
-            <span className="text-right">Granted</span>
-            <span className="text-right">Followers</span>
+            <SortHeader
+              column="name"
+              label={type === 'channel' ? 'Account' : 'Channel'}
+              active={column}
+              direction={direction}
+              onSort={chooseColumn}
+            />
+            <SortHeader
+              column="granted"
+              label="Granted"
+              align="right"
+              active={column}
+              direction={direction}
+              onSort={chooseColumn}
+            />
+            <SortHeader
+              column="followers"
+              label="Followers"
+              align="right"
+              active={column}
+              direction={direction}
+              onSort={chooseColumn}
+            />
           </div>
 
           <List

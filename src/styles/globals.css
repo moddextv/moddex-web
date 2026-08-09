@@ -268,6 +268,45 @@
         margin-bottom: 6px;
     }
 
+    /* the heading is the sort control. it stays a label until you approach it —
+       a row of buttons across the top of a list reads as a toolbar, which this
+       is not. */
+    .col-sort {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0;
+        background: none;
+        border: 0;
+        color: inherit;
+        font: inherit;
+        cursor: pointer;
+        transition: color var(--dur) var(--ease);
+    }
+
+    .col-sort:hover {
+        color: var(--text);
+    }
+
+    .col-sort.is-active {
+        color: var(--text);
+    }
+
+    /* the arrow is always in the DOM so the heading does not change width when
+       the sort moves to it, and the row under it does not jump sideways */
+    .col-arrow {
+        opacity: 0;
+        transition: opacity var(--dur) var(--ease);
+    }
+
+    .col-sort:hover .col-arrow {
+        opacity: 0.5;
+    }
+
+    .col-arrow.is-active {
+        opacity: 1;
+    }
+
     .cols-people {
         grid-template-columns: minmax(0, 1fr) 110px 110px;
     }
