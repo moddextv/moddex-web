@@ -38,9 +38,11 @@ const Row: FC<{ label: string; children: ReactNode }> = ({ label, children }) =>
 export default async function SuccessPage({
   searchParams
 }: {
-  searchParams: { session_id: string };
+  // a promise since next 15 — the query string arrives asynchronously so a page
+  // can start rendering before it is known
+  searchParams: Promise<{ session_id: string }>;
 }) {
-  const sessionId = searchParams.session_id;
+  const { session_id: sessionId } = await searchParams;
 
   if (!sessionId) {
     return <NoCheckout />;

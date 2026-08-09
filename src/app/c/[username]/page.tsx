@@ -1,7 +1,9 @@
 import { permanentRedirect } from 'next/navigation';
 
 interface PageProps {
-  params: { username: string };
+  // a promise since next 15 — route params arrive asynchronously so a page can
+  // start rendering before they are known
+  params: Promise<{ username: string }>;
 }
 
 /**
@@ -11,6 +13,8 @@ interface PageProps {
  * the canonical url is already short enough, so the redirect is served by the
  * app itself and there is no second domain to keep alive.
  */
-export default function ShortChannelPage({ params }: PageProps) {
-  permanentRedirect(`/channel/${params.username}`);
+export default async function ShortChannelPage({ params }: PageProps) {
+  const { username } = await params;
+
+  permanentRedirect(`/channel/${username}`);
 }

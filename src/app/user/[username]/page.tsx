@@ -10,11 +10,13 @@ import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 interface PageProps {
-  params: { username: string };
+  // a promise since next 15 — route params arrive asynchronously so a page can
+  // start rendering before they are known
+  params: Promise<{ username: string }>;
 }
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
-  const username = decodeURI(params.username);
+  const username = decodeURI((await params).username);
 
   return {
     title: username,
@@ -23,7 +25,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default async function UserUsernamePage({ params }: PageProps) {
-  const username = decodeURI(params.username);
+  const username = decodeURI((await params).username);
 
   if (!regex.username.test(username)) {
     return <InvalidUsername username={username} />;
