@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Not shown | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / 403, two unrelated causes behind one component.
+
+     The opt-out case is not an error and gets no error styling. It is the
+     visible half of the promise in /tos section 3, so it reads as the system
+     working, and it offers the reader the same control. The shipped page prints
+     "403 access forbidden" in red, which makes somebody exercising a privacy
+     right look like a fault. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <section class="enter pt-16 pb-10 max-w-2xl" style="--i: 0">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="corner corner-tl text-mod" aria-hidden="true"></span>
+        <p class="text-ui text-primary-400">Withheld at the account's request</p>
+      </div>
+
+      <h1 class="text-h1 mb-4">This account asked not to be listed</h1>
+      <p class="text-lead text-primary-300 max-w-prose mb-8">
+        <span class="text-primary-100 font-bold">somebody</span> switched the
+        opt-out on, so moddex stopped serving their profile and removed them from
+        every mod and vip list and from the public api. Nothing went wrong and
+        there is nothing to retry.
+      </p>
+
+      <div class="panel-flush mb-8">
+        <div class="rows">
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-base text-primary-300">Profile served</span>
+            <span class="text-ui text-primary-400">No</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-base text-primary-300">Appears in role lists</span>
+            <span class="text-ui text-primary-400">No</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-base text-primary-300">Returned by the api</span>
+            <span class="text-ui text-primary-400">No</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-base text-primary-300">Channels they moderate</span>
+            <span class="text-ui text-mod font-semibold">Still indexed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="channel.html" class="btn">Look up someone else</a>
+        <a href="settings.html" class="btn btn-soft">Opt out yourself</a>
+      </div>
+
+      <p class="text-ui text-primary-500 mt-8">HTTP 403.</p>
+    </section>
+
+    <!-- the other cause: /dashboard with perms below `team`. this one IS a
+         permission failure, so it says so. -->
+    <section class="enter pb-4 max-w-3xl" style="--i: 1">
+      <div class="panel flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
+        <div>
+          <p class="text-meta text-primary-400 mb-2.5">Signed in, but not on the team, HTTP 403</p>
+          <h2 class="text-h2 mb-2">The dashboard is team only</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            You are signed in as nymn, which does not carry team permission.
+            Nothing else on the site needs it.
+          </p>
+        </div>
+        <a href="home.html" class="btn btn-soft shrink-0">Home</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

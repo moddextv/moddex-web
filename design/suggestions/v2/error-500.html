@@ -1,92 +1,78 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>Page did not print | moddex</title>
+  <title>Something broke | moddex</title>
   <meta name="robots" content="noindex">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/v2.css">
 </head>
 
 <!-- v2 / app/error.tsx, the react error boundary.
      No status code, because nothing returned one: something threw during
      render. reset() rebuilds this segment without a full reload, which is
-     genuinely different from refreshing, so the control says which it does.
+     genuinely different from refreshing, so the button says which it does.
 
-     The shipped copy is "oops, something went wrong!". Both halves of that go:
-     "oops" is not confidence and the exclamation mark is not either. The
-     masthead and colophon survive because the boundary sits inside the root
-     layout, so the reader is never stranded on a blank sheet. -->
-<body data-auth="out" class="min-h-screen flex flex-col">
+     The shipped copy is "oops, something went wrong!". Both halves of that go.
+     The nav and the rail survive because the boundary sits inside the root
+     layout, so the reader can still search from here. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base">
 
-<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+<main id="main" class="flex-1 min-w-0">
+  <div class="px-4 sm:px-6 py-5 max-w-page">
 
-  <main id="main" class="flex-grow">
-    <div class="px-6 sm:px-10 pt-12 pb-16">
+    <div class="enter card px-6 py-12 flex flex-col items-center text-center max-w-2xl mx-auto" style="--i: 0">
+      <svg width="44" height="44" viewBox="0 0 32 32" class="mb-5 opacity-30" role="img" aria-label="moddex">
+        <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#4ADE80"/>
+        <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#F472B6"/>
+      </svg>
 
-      <div class="enter folio mb-14" style="--i: 0">
-        <aside class="margin flex flex-col gap-3">
-          <span>No status code. Nothing returned one.</span>
-          <span class="rule-hair pt-3">It is logged.</span>
-        </aside>
+      <h1 class="text-h2 mb-2">That page did not finish loading</h1>
+      <p class="text-read text-primary-300 max-w-prose mb-6">
+        Something threw while the page was rendering, and it is logged. Retrying
+        rebuilds just this part of the page, which usually works when the cause
+        was a slow response rather than a bug.
+      </p>
 
-        <div>
-          <h1 class="title text-h1 max-w-[20ch] mb-6">
-            That page did not finish loading
-          </h1>
-          <p class="text-read text-primary-300 max-w-prose mb-9">
-            Something threw while the page was being built. Retrying rebuilds
-            only this part of it, which usually works when the cause was a slow
-            response rather than a bug.
-          </p>
-
-          <div class="flex flex-wrap gap-3 mb-8">
-            <button type="button" class="btn">Retry this page</button>
-            <a href="home.html" class="btn btn-quiet">Front page</a>
-          </div>
-
-          <p class="label text-note max-w-prose">
-            If it keeps happening,
-            <a href="../../no-ui.html" class="link text-primary-200 not-italic">status.moddex.tv</a>
-            shows whether the api is up. It runs on separate infrastructure, so
-            it stays available when this does not.
-          </p>
-        </div>
+      <div class="flex flex-wrap gap-2 justify-center">
+        <button type="button" class="btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+          </svg>
+          Retry this page
+        </button>
+        <a href="home.html" class="btn btn-alt">Home</a>
       </div>
 
-      <!-- Errors.tsx also exports <InternalServerError>. Nothing renders it
-           today; it exists for an api failure that is caught rather than
-           thrown. Drawn so the family is complete. -->
-      <section class="enter" style="--i: 1">
-        <div class="opener mb-6">
-          <h2 class="text-h2">The api failing, caught rather than thrown</h2>
-        </div>
-
-        <div class="folio">
-          <p class="margin">
-            http 500. Not rendered anywhere today; it exists in Errors.tsx for
-            this case.
-          </p>
-
-          <div class="max-w-prose flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
-            <p class="text-primary-300">
-              moddex.tv is up but api.moddex.tv did not answer in time. Nothing
-              is lost and the index is unaffected.
-            </p>
-            <button type="button" class="btn btn-quiet shrink-0">Check again</button>
-          </div>
-        </div>
-      </section>
+      <p class="text-meta text-primary-400 mt-6 max-w-prose">
+        If it keeps happening,
+        <a href="../../no-ui.html" class="text-twitch-hover hover:underline">status.moddex.tv</a>
+        shows whether the api is up. It runs on separate infrastructure, so it
+        stays available when this does not.
+      </p>
     </div>
-  </main>
 
-</div>
+    <!-- Errors.tsx also exports <InternalServerError>. Nothing renders it
+         today; it exists for an api failure that is caught rather than thrown. -->
+    <section class="enter card p-4 max-w-2xl mx-auto mt-4 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between" style="--i: 1">
+      <div>
+        <p class="text-meta text-primary-400 mb-1.5">Errors.tsx InternalServerError, unused today &middot; HTTP 500</p>
+        <h2 class="text-h3 mb-1">The lookup service did not respond</h2>
+        <p class="text-ui text-primary-300">
+          moddex.tv is up but api.moddex.tv did not answer in time. Nothing is
+          lost and the index is unaffected.
+        </p>
+      </div>
+      <button type="button" class="btn btn-alt shrink-0">Check again</button>
+    </section>
+  </div>
+</main>
 
 <script src="assets/chrome.js"></script>
 </body>

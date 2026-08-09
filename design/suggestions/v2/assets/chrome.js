@@ -1,20 +1,23 @@
 /**
- * v2 shared chrome: masthead, colophon, page switcher.
+ * v2 shared chrome: top nav, left rail, page switcher.
  *
- * The header is a masthead rather than a navbar: a rule, the imprint line, the
- * contents, a thicker rule. It does not stick. A book's running head does not
- * follow you down the page, and on a document this short nothing is gained by
- * it except a permanently occupied 64px.
+ * Both are structural borrows, not decoration:
  *
- * The footer is a colophon. It states what the volume is set in and what it
- * holds. Web footers usually say nothing; a colophon says something true, and
- * it is the natural home for the "not affiliated with Twitch" line.
+ *   the nav search   Twitch keeps search in the top bar at all times because
+ *                    search is how you get anywhere. On moddex, search IS the
+ *                    product, so putting it here means no page ever needs a
+ *                    hero whose only job is to hold a search box. That single
+ *                    move is why the home page in this direction looks nothing
+ *                    like the home page in the other two.
+ *   the rail         Twitch's left rail is followed channels. moddex's is
+ *                    recently looked up. Same job, and on a lookup tool it is
+ *                    arguably more useful than it is on Twitch.
  *
  * Pages declare their state on <body>:
- *   data-nav="channel|user|donate|api"   which contents entry is current
- *   data-auth="in|out"                   imprint shows the account or sign-in
- *   data-chrome="bare"                   reference pages, minimal masthead
- *   data-running="left|right text"       optional running head on the sheet
+ *   data-nav="channel|user|donate"   which rail section is current
+ *   data-scope="channel|user"        what the nav search will look up
+ *   data-auth="in|out"               account button or Log in
+ *   data-chrome="bare"               reference pages, no rail
  */
 const PAGES = [
   {
@@ -22,10 +25,10 @@ const PAGES = [
     items: [
       { file: 'home.html', route: '/', title: 'home' },
       { file: 'channel.html', route: '/channel', title: 'channel search' },
-      { file: 'channel-detail.html', route: '/channel/[username]', title: 'channel entry' },
+      { file: 'channel-detail.html', route: '/channel/[username]', title: 'channel page' },
       { file: 'user.html', route: '/user', title: 'user search' },
-      { file: 'user-detail.html', route: '/user/[username]', title: 'person entry' },
-      { file: 'detail-loading.html', route: '/channel/[username]', title: 'entry loading' },
+      { file: 'user-detail.html', route: '/user/[username]', title: 'user page' },
+      { file: 'detail-loading.html', route: '/channel/[username]', title: 'page loading' },
       { file: 'donate.html', route: '/donate', title: 'donate' },
       { file: 'donate-success.html', route: '/donate/success', title: 'donate success' },
       { file: 'tos.html', route: '/tos', title: 'terms of service' }
@@ -43,7 +46,7 @@ const PAGES = [
     group: 'error states',
     items: [
       { file: 'error-404.html', route: 'not-found', title: '404 not found' },
-      { file: 'error-403.html', route: 'any lookup', title: '403 withheld' },
+      { file: 'error-403.html', route: 'any lookup', title: '403 not shown' },
       { file: 'error-400.html', route: '/donate/success', title: '400 bad request' },
       { file: 'error-500.html', route: 'error boundary', title: '500 thrown' },
       { file: 'error-banned.html', route: 'any lookup', title: 'banned account' }
@@ -62,133 +65,161 @@ const MARK = (size, split) =>
   `<svg width="${size}" height="${size}" viewBox="0 0 32 32" role="img" aria-label="moddex" class="shrink-0"${
     split ? '' : ' fill="currentColor"'
   }>
-    <path d="M4 4 H18 V10 H10 V18 H4 Z"${split ? ' fill="#16A34A"' : ''}/>
-    <path d="M28 28 H14 V22 H22 V14 H28 Z"${split ? ' fill="#DB2777"' : ''}/>
+    <path d="M4 4 H18 V10 H10 V18 H4 Z"${split ? ' fill="#4ADE80"' : ''}/>
+    <path d="M28 28 H14 V22 H22 V14 H28 Z"${split ? ' fill="#F472B6"' : ''}/>
   </svg>`;
 
-const NAV = [
-  { key: 'channel', label: 'Channels', href: 'channel.html' },
-  { key: 'user', label: 'People', href: 'user.html' },
-  { key: 'donate', label: 'Support', href: 'donate.html' },
-  { key: 'api', label: 'The api', href: '../../no-ui.html', external: true }
+/**
+ * The chat badge. 18px, drawn as one half of the moddex mark on the role's
+ * colour, and rendered immediately before a username with no label.
+ *
+ * That is the Twitch chat convention exactly: a moderator is a green sword
+ * before the name, a VIP is a pink gem before the name. moddex's mod green and
+ * vip pink were never an invention that happens to match Twitch, they ARE that
+ * convention, so this is the most native component in the direction and it
+ * costs one SVG.
+ */
+const BADGE = (role) => {
+  const spec = {
+    mod: { fill: '#4ADE80', path: 'M4 4 H18 V10 H10 V18 H4 Z', label: 'Moderator' },
+    vip: { fill: '#F472B6', path: 'M28 28 H14 V22 H22 V14 H28 Z', label: 'VIP' },
+    founder: { fill: '#FBBF24', path: 'M4 28 H18 V22 H10 V14 H4 Z', label: 'Founder' }
+  }[role];
+
+  return `<span class="chat-badge" style="background:${spec.fill}" title="${spec.label}" role="img" aria-label="${spec.label}">
+    <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C" aria-hidden="true"><path d="${spec.path}"/></svg>
+  </span>`;
+};
+
+/** channels the reader has looked at, which is what the rail is for */
+const RECENT = [
+  { login: 'forsen', name: 'forsen', roles: 26, hue: 12, href: 'channel-detail.html' },
+  { login: 'nymn', name: 'NymN', roles: 41, hue: 200, href: 'channel-detail.html' },
+  { login: 'xqc', name: 'xQc', roles: 88, hue: 340, href: 'channel-detail.html' },
+  { login: 'pajlada', name: 'pajlada', roles: 19, hue: 96, href: 'channel-detail.html' },
+  { login: 'knut', name: 'knut', roles: 33, hue: 55, href: 'channel-detail.html' },
+  { login: 'alinity', name: 'Alinity', roles: 12, hue: 300, href: 'channel-detail.html' },
+  { login: 'kkona', name: 'KKona', roles: 9, hue: 270, href: 'channel-detail.html' }
 ];
 
 (function mountChrome() {
   const body = document.body;
-  const activeNav = body.dataset.nav || '';
+  const scope = body.dataset.scope || 'channel';
   const auth = body.dataset.auth || 'out';
   const bare = body.dataset.chrome === 'bare';
   const here = location.pathname.split('/').pop() || 'index.html';
 
-  /* ----------------------------------------------------------- masthead -- */
-  const contents = NAV.map((item) => {
-    const active = item.key === activeNav;
-    return `<a href="${item.href}"${item.external ? ' target="_blank" rel="noopener noreferrer"' : ''}
-      ${active ? 'aria-current="page"' : ''}
-      class="relative text-read transition-colors duration-150 ${
-        active ? 'text-primary-100 italic' : 'text-primary-300 hover:text-primary-100'
-      }">${item.label}${
-      active
-        ? '<span aria-hidden="true" class="absolute -bottom-1.5 left-0 right-0 border-b border-primary-100"></span>'
-        : ''
-    }</a>`;
-  }).join('<span class="text-primary-600" aria-hidden="true">&middot;</span>');
-
-  const imprint =
+  /* --------------------------------------------------------------- nav -- */
+  const account =
     auth === 'in'
-      ? `<a href="settings.html" class="flex items-center gap-2.5 text-note text-primary-400 hover:text-primary-100 transition-colors duration-150">
-           <span class="portrait w-6 h-6 text-[11px]">n</span>
-           <span class="italic">signed in as nymn</span>
-         </a>`
-      : `<a href="login.html" class="text-note italic text-primary-400 hover:text-primary-100 link transition-colors duration-150">sign in with twitch</a>`;
-
-  const masthead = bare
-    ? `<header class="border-b border-primary-700">
-         <div class="mx-auto w-full max-w-sheet px-6 sm:px-10 h-16 flex items-center gap-5">
-           <a href="index.html" class="flex items-center gap-3">
-             ${MARK(20, true)}
-             <span class="text-h3 tracking-tight">moddex</span>
+      ? `<div class="flex items-center gap-2">
+           <a href="donate.html" class="btn btn-alt hidden sm:inline-flex">
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+             Donate
            </a>
-           <span class="label text-note">a design proposal</span>
-           <a href="../README.md" class="ml-auto text-note italic text-primary-400 hover:text-primary-100 link">read the audit</a>
-         </div>
-       </header>`
-    : `<header>
-         <div class="mx-auto w-full max-w-sheet px-6 sm:px-10">
-           <div class="flex items-baseline justify-between gap-6 py-4 border-b border-primary-700">
-             <p class="label text-note">Every mod and vip list on twitch, indexed both ways</p>
-             ${imprint}
-           </div>
+           <button type="button" class="p-0.5 rounded-pill hover:bg-primary-700 transition-colors" aria-label="Account menu">
+             <span class="avatar w-[30px] h-[30px] text-[12px]" style="background:hsl(200 14% 22%);color:hsl(200 22% 70%)">n</span>
+           </button>
+         </div>`
+      : `<div class="flex items-center gap-2">
+           <a href="donate.html" class="btn btn-alt hidden sm:inline-flex">
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+             Donate
+           </a>
+           <a href="login.html" class="btn">Log in</a>
+         </div>`;
 
-           <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 py-7">
-             <a href="home.html" class="flex items-center gap-3.5" aria-label="moddex home">
-               ${MARK(28, true)}
-               <span class="text-[2rem] leading-none tracking-tight">moddex</span>
-             </a>
-             <nav class="flex flex-wrap items-center gap-4" aria-label="Contents">${contents}</nav>
-           </div>
-         </div>
-         <div class="border-b-2 border-primary-100"></div>
-       </header>`;
+  const nav = `
+    <header class="nav">
+      <a href="home.html" class="flex items-center gap-2 shrink-0 pr-1 text-primary-100" aria-label="moddex home">
+        ${MARK(22, true)}
+        <span class="text-[17px] font-bold tracking-tight hidden sm:inline">moddex</span>
+      </a>
 
-  /* ----------------------------------------------------------- colophon -- */
-  const colophon = `
-    <footer class="mt-auto">
-      <div class="mx-auto w-full max-w-sheet px-6 sm:px-10 pt-10 pb-14">
-        <div class="rule-mid pt-8 grid gap-10 sm:grid-cols-12">
+      <form class="nav-search mx-auto" onsubmit="event.preventDefault(); location.href='${
+        scope === 'user' ? 'user-detail.html' : 'channel-detail.html'
+      }';">
+        <button type="button" class="nav-scope" aria-label="Change what is searched">
+          ${scope === 'user' ? 'People' : 'Channels'}
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <input type="text" placeholder="${scope === 'user' ? 'nymn' : 'forsen'}" aria-label="Search twitch ${scope === 'user' ? 'accounts' : 'channels'}" maxlength="25">
+        <button type="submit" aria-label="Search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </form>
 
-          <div class="sm:col-span-5">
-            <div class="flex items-center gap-3 mb-4">
-              ${MARK(18, true)}
-              <span class="text-h3 tracking-tight">moddex</span>
-            </div>
-            <p class="text-small text-primary-400 max-w-[38ch] leading-relaxed">
-              An index of which twitch accounts hold moderator and vip in which
-              channels, and the day each role was granted. Not affiliated with,
-              endorsed by, or sponsored by Twitch Interactive.
-            </p>
-          </div>
+      <div class="shrink-0">${account}</div>
+    </header>`;
 
-          <div class="sm:col-span-3">
-            <p class="label text-note mb-3">Contents</p>
-            <div class="flex flex-col gap-1.5 text-small">
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="channel.html">Channels</a>
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="user.html">People</a>
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="donate.html">Support</a>
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="../../no-ui.html">The api</a>
-            </div>
-          </div>
+  /* -------------------------------------------------------------- rail -- */
+  const railItems = RECENT.map(
+    (c) => `
+      <a href="${c.href}" class="rail-item"${c.login === 'forsen' && here.startsWith('channel-detail') ? ' aria-current="page"' : ''}>
+        <span class="avatar w-[30px] h-[30px] text-[12px]" style="background:hsl(${c.hue} 14% 20%);color:hsl(${c.hue} 24% 68%)" aria-hidden="true">${c.login[0]}</span>
+        <span class="min-w-0 flex-1">
+          <span class="block text-ui font-semibold truncate leading-tight">${c.name}</span>
+          <span class="block text-meta text-primary-400 truncate leading-tight">${c.roles} roles held</span>
+        </span>
+      </a>`
+  ).join('');
 
-          <div class="sm:col-span-4">
-            <p class="label text-note mb-3">Your entry</p>
-            <div class="flex flex-col gap-1.5 text-small">
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="settings.html">Remove yourself from the index</a>
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="tos.html">Terms and what is held</a>
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="mailto:marcel@doubt.ch">marcel@doubt.ch</a>
-              <a class="text-primary-300 hover:text-primary-100 transition-colors duration-150" href="../../no-ui.html">Service status</a>
-            </div>
-          </div>
-        </div>
+  const rail = `
+    <aside class="rail hidden lg:block" aria-label="Recently looked up">
+      <div class="rail-head">
+        <span>Recently looked up</span>
+      </div>
+      ${railItems}
 
-        <!-- the colophon proper: what the volume is set in, and what it holds -->
-        <p class="rule-hair mt-10 pt-5 text-note text-primary-400 italic max-w-[70ch] leading-relaxed">
-          Set in Newsreader and Archivo. This edition holds
-          <span class="datum not-italic">412,847</span> channels and
-          <span class="datum not-italic">2,714,096</span> accounts, carrying
-          <span class="datum not-italic">8,131,260</span> moderator and
-          <span class="datum not-italic">5,611,594</span> vip records. It grows
-          whenever somebody looks a channel up. Copyright 2026.
+      <div class="rail-head mt-3 pt-3 border-t border-primary-700">
+        <span>Browse</span>
+      </div>
+      <a href="channel.html" class="rail-item">
+        <span class="w-[30px] grid place-items-center text-mod" aria-hidden="true">
+          <span class="block w-3 h-3 border-2 border-b-0 border-r-0 border-current"></span>
+        </span>
+        <span class="text-ui font-semibold">Channels</span>
+      </a>
+      <a href="user.html" class="rail-item">
+        <span class="w-[30px] grid place-items-center text-vip" aria-hidden="true">
+          <span class="block w-3 h-3 border-2 border-t-0 border-l-0 border-current"></span>
+        </span>
+        <span class="text-ui font-semibold">People</span>
+      </a>
+
+      <div class="px-4 py-4 mt-2 border-t border-primary-700">
+        <p class="text-meta text-primary-400 leading-relaxed">
+          Listed here yourself?
+          <a href="settings.html" class="text-primary-200 hover:text-twitch-hover transition-colors">Opt out</a>
+          at any time.
         </p>
       </div>
-    </footer>`;
+    </aside>`;
 
-  // the masthead and colophon go INSIDE the sheet, because on paper they are
-  // part of the page rather than furniture around it. that is also what puts
-  // the mark's two register corners around the whole document.
-  const sheet = document.getElementById('sheet') || body;
-  sheet.insertAdjacentHTML('afterbegin', masthead);
-  sheet.insertAdjacentHTML('beforeend', colophon);
-  body.insertAdjacentHTML('afterbegin', '<a href="#main" class="skip-link">Skip to content</a>');
+  /* -------------------------------------------------------------- shell -- */
+  const main = document.getElementById('main');
+  const shell = document.createElement('div');
+  shell.className = 'flex items-start';
+  main.parentNode.insertBefore(shell, main);
+  if (!bare) shell.insertAdjacentHTML('afterbegin', rail);
+  shell.appendChild(main);
+
+  body.insertAdjacentHTML(
+    'afterbegin',
+    `<a href="#main" class="skip-link">Skip to content</a>${bare ? bareNav() : nav}`
+  );
+
+  function bareNav() {
+    return `
+      <header class="nav">
+        <a href="index.html" class="flex items-center gap-2 shrink-0 text-primary-100">
+          ${MARK(22, true)}
+          <span class="text-[17px] font-bold tracking-tight">moddex</span>
+        </a>
+        <span class="text-meta text-primary-400">design proposal v2</span>
+        <a href="../README.md" class="ml-auto text-ui text-primary-400 hover:text-primary-100 transition-colors">Read the audit</a>
+      </header>`;
+  }
 
   /* ---------------------------------------------------------- switcher -- */
   const links = PAGES.map(
@@ -207,9 +238,10 @@ const NAV = [
       <div class="cross">
         <a href="../../${here}">shipped</a>
         <a href="../v1/${here}">v1</a>
+        <a href="../v3/${here}">v3</a>
       </div>
     </nav>
-    <button type="button" aria-expanded="false">${MARK(13, true)} v2 &middot; pages</button>`;
+    <button type="button" aria-expanded="false">${MARK(12, true)} v2 pages</button>`;
 
   const button = el.querySelector('button');
   button.addEventListener('click', () => {

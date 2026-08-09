@@ -1,196 +1,172 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>Your entry | moddex</title>
+  <title>Settings | moddex</title>
   <meta name="robots" content="noindex">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/v2.css">
 </head>
 
-<!-- v2 / GET /settings, signed in. Signed out this renders login.html.
+<!-- v2 / GET /settings, logged in. Logged out this renders login.html.
 
-     Framed as "your entry" rather than "settings", because in a directory that
-     is what it is, and because the only control that matters here is whether
-     you appear in the volume at all.
+     Twitch's settings page is a tab bar over sections of labelled rows, each
+     row being a description on the left and its control on the right. That
+     shape puts the consequence before the switch, which is the right order for
+     the most consequential control on the site. -->
+<body data-scope="channel" data-auth="in" class="font-sans text-base">
 
-     The switch is a printed checkbox rather than an iOS toggle: on paper a
-     binary is a box you tick. The consequence is stated before the control, not
-     under it, which is the right order for anything this consequential. -->
-<body data-auth="in" class="min-h-screen flex flex-col">
+<main id="main" class="flex-1 min-w-0">
+  <div class="px-4 sm:px-6 py-5 max-w-page">
 
-<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+    <header class="enter mb-4" style="--i: 0">
+      <h1 class="text-h1">Settings</h1>
+    </header>
 
-  <main id="main" class="flex-grow">
-    <div class="px-6 sm:px-10 pt-8 pb-16">
+    <nav class="enter tabs mb-6" style="--i: 1" aria-label="Settings sections">
+      <a href="settings.html" class="tab" aria-current="page">Privacy</a>
+      <a href="#cosmetics" class="tab">Cosmetics</a>
+      <a href="#account" class="tab">Account</a>
+    </nav>
 
-      <div class="enter flex items-baseline justify-between gap-6 pb-2 border-b border-primary-700 mb-9" style="--i: 0">
-        <p class="smallcaps text-note text-primary-400">Your entry &middot; nymn</p>
-        <p class="label text-note">Changes save immediately</p>
+    <!-- ========================================================== privacy -->
+    <section class="enter card mb-4 max-w-4xl" style="--i: 2" aria-labelledby="s-privacy">
+      <div class="role-head border-b border-primary-700">
+        <span class="chat-badge" style="background:#4ADE80" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M4 4 H18 V10 H10 V18 H4 Z"/></svg>
+        </span>
+        <span id="s-privacy">Privacy</span>
+        <span class="ml-auto text-meta text-primary-400 font-normal">Saves immediately</span>
       </div>
 
-      <h1 class="enter title text-h1 mb-12" style="--i: 1">Your entry</h1>
-
-      <!-- ======================================================= inclusion -->
-      <section class="enter mb-14" style="--i: 2" aria-labelledby="s-privacy">
-        <div class="opener mb-6">
-          <span class="corner corner-tl text-mod"></span>
-          <h2 id="s-privacy" class="text-h2">Whether you appear at all</h2>
+      <div class="p-4 flex flex-col sm:flex-row sm:items-start gap-5 sm:justify-between">
+        <div class="max-w-prose">
+          <p class="text-ui font-semibold mb-1.5">Opt out of the index</p>
+          <p class="text-ui text-primary-300 leading-relaxed mb-2">
+            Your profile stops being served, you are removed from every mod and
+            vip list, and you disappear from the public api. Channels you
+            moderate are unaffected; only your own entry goes.
+          </p>
         </div>
 
-        <div class="folio">
-          <p class="margin">
-            This hides the records. To have them deleted outright, write to
-            <a href="mailto:marcel@doubt.ch" class="link not-italic text-primary-300">marcel@doubt.ch</a>.
+        <label class="flex items-center gap-3 shrink-0 cursor-pointer">
+          <span class="text-meta text-primary-400">Listed</span>
+          <span class="toggle" data-on="false" role="switch" aria-checked="false" aria-label="Opt out of the index"><span></span></span>
+        </label>
+      </div>
+
+      <!-- the same control after the change, with what actually happened -->
+      <div class="p-4 border-t border-primary-700">
+        <p class="text-meta text-primary-400 mb-3">Once it is switched on</p>
+        <div class="flex items-center gap-4 justify-between rounded bg-primary-900 p-3.5">
+          <p class="flex items-center gap-2.5 text-ui">
+            <span class="chat-badge" style="background:#4ADE80" aria-hidden="true">
+              <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M4 4 H18 V10 H10 V18 H4 Z"/></svg>
+            </span>
+            Saved. You came off 88 mod lists and 14 vip lists.
           </p>
+          <label class="flex items-center gap-3 shrink-0 cursor-pointer">
+            <span class="text-meta text-primary-200">Hidden</span>
+            <span class="toggle" data-on="true" role="switch" aria-checked="true" aria-label="Opt out of the index"><span></span></span>
+          </label>
+        </div>
+      </div>
+    </section>
 
-          <div class="max-w-prose">
-            <p class="text-read text-primary-300 mb-7">
-              Opting out stops your entry being served, removes you from every
-              mod and vip list, and takes you out of the public api. Channels you
-              moderate are unaffected; only your own entry goes.
-            </p>
+    <!-- ======================================================== cosmetics -->
+    <!-- rendered only when the account actually holds a badge -->
+    <section id="cosmetics" class="enter card mb-4 max-w-4xl" style="--i: 3" aria-labelledby="s-cosmetics">
+      <div class="role-head border-b border-primary-700">
+        <span class="chat-badge" style="background:#F472B6" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M28 28 H14 V22 H22 V14 H28 Z"/></svg>
+        </span>
+        <span id="s-cosmetics">Cosmetics</span>
+        <span class="ml-auto text-meta text-founder font-normal">Chat integration is not live yet</span>
+      </div>
 
-            <label class="flex items-center gap-4 cursor-pointer rule-mid pt-6">
-              <span class="mark-box" data-on="false" role="checkbox" aria-checked="false" aria-labelledby="optout-1">
-                <svg width="14" height="14" viewBox="0 0 32 32" aria-hidden="true">
-                  <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/>
-                  <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/>
-                </svg>
-              </span>
-              <span>
-                <span id="optout-1" class="block text-primary-100">Remove me from the index</span>
-                <span class="label text-note">Currently listed.</span>
-              </span>
+      <div class="p-4">
+        <p class="text-ui font-semibold mb-1">Chat badge</p>
+        <p class="text-ui text-primary-300 mb-4">
+          Choose it now and it is set when chat integration ships.
+        </p>
+
+        <fieldset>
+          <legend class="sr-only">Chat badge</legend>
+          <div class="flex flex-wrap gap-2">
+            <label class="flex items-center gap-2.5 h-11 px-3.5 rounded bg-primary-900 border border-primary-700 hover:border-primary-600 cursor-pointer transition-colors">
+              <input type="radio" name="chat-badge" value="none" class="sr-only">
+              <span class="w-[18px] h-[18px] rounded-sm border border-primary-600" aria-hidden="true"></span>
+              <span class="text-ui text-primary-300">No badge</span>
             </label>
+            <label class="flex items-center gap-2.5 h-11 px-3.5 rounded bg-primary-900 border border-twitch cursor-pointer">
+              <input type="radio" name="chat-badge" value="donator" checked class="sr-only">
+              <img src="../../badges/donator.svg" alt="" width="18" height="18" class="rounded-sm">
+              <span class="text-ui font-semibold">donator</span>
+              <span class="text-meta text-twitch-hover font-semibold ml-1">Selected</span>
+            </label>
+            <label class="flex items-center gap-2.5 h-11 px-3.5 rounded bg-primary-900 border border-primary-700 hover:border-primary-600 cursor-pointer transition-colors">
+              <input type="radio" name="chat-badge" value="team" class="sr-only">
+              <img src="../../badges/team.svg" alt="" width="18" height="18" class="rounded-sm">
+              <span class="text-ui text-primary-300">team</span>
+            </label>
+          </div>
+        </fieldset>
 
-            <!-- the same control, ticked, with what actually happened -->
-            <div class="rule-hair mt-8 pt-6">
-              <p class="label text-note mb-4">Once it is ticked</p>
-              <label class="flex items-center gap-4 cursor-pointer">
-                <span class="mark-box" data-on="true" role="checkbox" aria-checked="true" aria-labelledby="optout-2">
-                  <svg width="14" height="14" viewBox="0 0 32 32" aria-hidden="true">
-                    <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/>
-                    <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/>
-                  </svg>
-                </span>
-                <span>
-                  <span id="optout-2" class="block text-primary-100">Remove me from the index</span>
-                  <span class="label text-note">
-                    Saved. Taken off <span class="text-figures">88</span> mod
-                    lists and <span class="text-figures">14</span> vip lists.
-                  </span>
-                </span>
-              </label>
-            </div>
+        <!-- a preview, which is the point of a cosmetic setting and something
+             the shipped page never shows -->
+        <div class="mt-5 pt-4 border-t border-primary-700">
+          <p class="text-meta text-primary-400 mb-2.5">How it will look in chat</p>
+          <div class="rounded bg-primary-900 p-3 flex items-center gap-2">
+            <img src="../../badges/donator.svg" alt="" width="18" height="18" class="rounded-sm">
+            <span class="text-ui font-bold" style="color:#00C7AC">nymn</span><span class="text-ui text-primary-300">: forsen has 24 mods, wow</span>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ======================================================= cosmetics -->
-      <!-- rendered only when the account actually holds a badge -->
-      <section class="enter mb-14" style="--i: 3" aria-labelledby="s-badge">
-        <div class="opener mb-6">
-          <span class="corner corner-br text-vip"></span>
-          <h2 id="s-badge" class="text-h2">Chat badge</h2>
+    <!-- ========================================================== account -->
+    <section id="account" class="enter card max-w-4xl" style="--i: 4" aria-labelledby="s-account">
+      <div class="role-head border-b border-primary-700">
+        <span id="s-account">Account</span>
+        <span class="ml-auto text-meta text-primary-400 font-normal">All of it comes from twitch</span>
+      </div>
+
+      <div class="divide-y divide-primary-700">
+        <div class="flex items-center justify-between gap-4 px-4 h-14">
+          <span class="text-ui text-primary-300">Logged in as</span>
+          <span class="flex items-center gap-2.5">
+            <span class="avatar w-7 h-7 text-[12px]" style="background:hsl(200 14% 20%);color:hsl(200 24% 68%)" aria-hidden="true">n</span>
+            <span class="text-ui font-semibold">nymn</span>
+          </span>
         </div>
-
-        <div class="folio">
-          <p class="margin">
-            Chat integration is not live yet. Choosing now means it is set when
-            it ships.
-          </p>
-
-          <fieldset class="max-w-xl">
-            <legend class="sr-only">Chat badge</legend>
-            <div class="flex flex-col">
-              <label class="flex items-center gap-4 py-3.5 rule-mid cursor-pointer">
-                <input type="radio" name="chat-badge" value="none" class="sr-only">
-                <span class="mark-box" data-on="false" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 32 32"><path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/><path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/></svg>
-                </span>
-                <span class="text-primary-300">No badge</span>
-              </label>
-
-              <label class="flex items-center gap-4 py-3.5 rule-hair cursor-pointer">
-                <input type="radio" name="chat-badge" value="donator" checked class="sr-only">
-                <span class="mark-box" data-on="true" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 32 32"><path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/><path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/></svg>
-                </span>
-                <img src="../../badges/donator.svg" alt="" width="22" height="22">
-                <span class="text-primary-100">donator</span>
-              </label>
-
-              <label class="flex items-center gap-4 py-3.5 rule-hair cursor-pointer">
-                <input type="radio" name="chat-badge" value="team" class="sr-only">
-                <span class="mark-box" data-on="false" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 32 32"><path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/><path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/></svg>
-                </span>
-                <img src="../../badges/team.svg" alt="" width="22" height="22">
-                <span class="text-primary-300">team</span>
-              </label>
-            </div>
-          </fieldset>
+        <div class="flex items-center justify-between gap-4 px-4 h-14">
+          <span class="text-ui text-primary-300">Permission</span>
+          <span class="text-ui font-semibold">team</span>
         </div>
-      </section>
-
-      <!-- ========================================================= account -->
-      <section class="enter" style="--i: 4" aria-labelledby="s-account">
-        <div class="opener mb-6">
-          <h2 id="s-account" class="text-h2">Account</h2>
+        <div class="flex items-center justify-between gap-4 px-4 h-14">
+          <span class="text-ui text-primary-300">Badges held</span>
+          <span class="flex items-center gap-1.5">
+            <img src="../../badges/donator.svg" alt="donator" width="18" height="18" title="donator" class="rounded-sm">
+            <img src="../../badges/team.svg" alt="team" width="18" height="18" title="team" class="rounded-sm">
+          </span>
         </div>
-
-        <div class="folio">
-          <p class="margin">Read only. All of it comes from twitch.</p>
-
-          <div class="max-w-xl">
-            <table class="ledger closed mb-8">
-              <tbody>
-                <tr>
-                  <td class="label w-44">signed in as</td>
-                  <td class="text-right">
-                    <span class="inline-flex items-center gap-2.5 justify-end">
-                      <span class="portrait w-6 h-6 text-[11px]" aria-hidden="true">n</span>
-                      <span class="datum text-primary-100">nymn</span>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="label">permission</td>
-                  <td class="datum text-right text-primary-100">team</td>
-                </tr>
-                <tr>
-                  <td class="label">badges held</td>
-                  <td class="text-right">
-                    <span class="inline-flex items-center gap-2 justify-end">
-                      <img src="../../badges/donator.svg" alt="donator" width="18" height="18" title="donator">
-                      <img src="../../badges/team.svg" alt="team" width="18" height="18" title="team">
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="label">public entry</td>
-                  <td class="text-right">
-                    <a href="user-detail.html" class="datum text-primary-200 link">moddex.tv/u/nymn</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <button type="button" class="btn btn-quiet">Sign out</button>
-          </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-14">
+          <span class="text-ui text-primary-300">Public profile</span>
+          <a href="user-detail.html" class="text-ui text-twitch-hover hover:underline">moddex.tv/u/nymn</a>
         </div>
-      </section>
-    </div>
-  </main>
+      </div>
 
-</div>
+      <div class="p-4 border-t border-primary-700">
+        <button type="button" class="btn btn-alt">Log out</button>
+      </div>
+    </section>
+  </div>
+</main>
 
 <script src="assets/chrome.js"></script>
 </body>

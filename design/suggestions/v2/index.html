@@ -1,218 +1,205 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>v2 Almanac | moddex design</title>
+  <title>v2 Native | moddex design</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/v2.css">
 </head>
 
-<body data-chrome="bare" class="min-h-screen flex flex-col">
+<body data-chrome="bare" class="font-sans text-base">
 
-<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+<main id="main" class="flex-1 min-w-0">
+  <div class="px-4 sm:px-6 py-6 max-w-page">
 
-  <main id="main" class="flex-grow">
-    <div class="px-6 sm:px-10 pt-14 pb-16">
+    <header class="enter mb-6" style="--i: 0">
+      <p class="text-meta text-primary-400 mb-2">Suggestion v2</p>
+      <h1 class="text-display mb-3 max-w-[20ch]">Built to sit inside the Twitch ecosystem</h1>
+      <p class="text-read text-primary-300 max-w-prose">
+        moddex is not a standalone product. It is a companion tool for one
+        platform, used by people who arrive from that platform and go straight
+        back to it. So it should look like it belongs there, and the way to do
+        that is to copy the host's actual decisions rather than invent a mood.
+      </p>
+    </header>
 
-      <p class="label mb-6">Suggestion v2</p>
-      <h1 class="title text-display max-w-[13ch] mb-9">moddex as an <em>almanac</em></h1>
+    <!-- ================================================= what was wrong -->
+    <section class="enter card p-5 mb-4 max-w-4xl" style="--i: 1">
+      <h2 class="text-h3 mb-2.5">Why the two earlier attempts failed</h2>
+      <p class="text-ui text-primary-300 leading-relaxed mb-3 max-w-prose">
+        The first v2 was a dark terminal. The second was a paper almanac. Both
+        read as generated, and it was the same mistake twice: they were
+        <strong class="text-primary-100">costumes over the same wireframe</strong>.
+        Heading, paragraph, table, section, table, in different clothes.
+      </p>
+      <p class="text-ui text-primary-300 leading-relaxed max-w-prose">
+        Worse, both reached for a house style that generators default to. A
+        near-black canvas with two saturated accents is the first one. A
+        light-weight serif on off-white paper is the second. The
+        <code class="text-primary-200">design-taste-frontend</code> skill names
+        the serif case explicitly and I broke that rule while quoting it
+        approvingly. This direction fixes the cause rather than the symptom: it
+        changes what the pages ARE, and it copies from a real interface instead
+        of from a concept.
+      </p>
+    </section>
 
-      <div class="folio mb-14">
-        <aside class="margin flex flex-col gap-3">
-          <span>Nothing here is a new colour. The mark is untouched.</span>
-          <span class="rule-hair pt-3">
-            <a href="../v1/index.html" class="link not-italic text-primary-300">v1, the direction you liked</a>
-          </span>
-        </aside>
+    <!-- ================================================ the borrowings -->
+    <section class="enter mb-4" style="--i: 2">
+      <h2 class="text-h2 mb-3">What was taken, and what it does</h2>
 
-        <div class="max-w-prose">
-          <p class="text-lead text-primary-200 mb-5">
-            moddex is a directory. Not a dashboard, not a dev tool. Two and a
-            half million entries, cross-referenced two ways, each with a date
-            attached.
+      <div class="card divide-y divide-primary-700 max-w-4xl">
+        <div class="grid gap-2 sm:grid-cols-12 p-4">
+          <p class="sm:col-span-3 text-ui font-semibold">The nav search</p>
+          <p class="sm:col-span-9 text-ui text-primary-300 leading-relaxed">
+            Twitch keeps search in the top bar at all times. On moddex search IS
+            the product, so it belongs there. This one move means no page needs a
+            hero whose only job is to hold a search box, which is why the home
+            page here looks nothing like the home page in the other two.
           </p>
-          <p class="text-read text-primary-300 mb-5">
-            The best-designed dense-data objects ever made are printed
-            directories: almanacs, ships' registers, timetables, library
-            catalogues. Centuries of work went into making thousands of rows of
-            names and dates readable on paper, and almost none of it looks like a
-            website.
+        </div>
+        <div class="grid gap-2 sm:grid-cols-12 p-4">
+          <p class="sm:col-span-3 text-ui font-semibold">The left rail</p>
+          <p class="sm:col-span-9 text-ui text-primary-300 leading-relaxed">
+            Twitch's rail is followed channels. moddex's is recently looked up.
+            Same job, and on a lookup tool it is arguably more useful than it is
+            on Twitch.
           </p>
-          <p class="text-read text-primary-300">
-            So this direction takes that typography seriously instead of reaching
-            for another dark canvas with two saturated accents, which is the look
-            every generated interface arrives at.
+        </div>
+        <div class="grid gap-2 sm:grid-cols-12 p-4">
+          <p class="sm:col-span-3 text-ui font-semibold">Channel header and tabs</p>
+          <p class="sm:col-span-9 text-ui text-primary-300 leading-relaxed">
+            A moddex entry IS a channel page: avatar, name, follower count, a
+            primary action, then tabs for the views of it. The two lookup
+            directions are those tabs, because on Twitch a tab is a different
+            view of the same subject.
+          </p>
+        </div>
+        <div class="grid gap-2 sm:grid-cols-12 p-4">
+          <p class="sm:col-span-3 text-ui font-semibold">The chatter list</p>
+          <p class="sm:col-span-9 text-ui text-primary-300 leading-relaxed">
+            Twitch's viewer list groups people by role under headings, each name
+            carrying its badge, at chat-line rhythm. That is exactly what a
+            moddex channel page is: a chatter list, persisted and dated. The
+            single most useful borrow in the direction.
+          </p>
+        </div>
+        <div class="grid gap-2 sm:grid-cols-12 p-4">
+          <p class="sm:col-span-3 text-ui font-semibold">Chat badges</p>
+          <p class="sm:col-span-9 text-ui text-primary-300 leading-relaxed">
+            Twitch's own moderator badge is a green sword and its VIP badge is a
+            pink gem, 18px, immediately before the username. moddex's mod green
+            and vip pink were never an invention that happens to match Twitch,
+            they ARE that convention.
           </p>
         </div>
       </div>
+    </section>
 
-      <!-- ==================================================== what changed -->
-      <section class="mb-14">
-        <div class="opener mb-6">
-          <h2 class="text-h2">Where it departs</h2>
+    <!-- ====================================================== the palette -->
+    <section class="enter mb-4" style="--i: 3">
+      <h2 class="text-h2 mb-3">The palette barely moved</h2>
+      <p class="text-ui text-primary-300 leading-relaxed mb-3 max-w-prose">
+        moddex's dark ramp is already almost exactly Twitch's. It was never the
+        reason the site felt generic.
+      </p>
+
+      <div class="card divide-y divide-primary-700 max-w-2xl">
+        <div class="grid grid-cols-3 px-4 py-2.5 text-meta text-primary-400">
+          <span>Job</span><span>moddex</span><span>Twitch</span>
         </div>
-
-        <table class="ledger closed">
-          <thead>
-            <tr>
-              <th scope="col">&nbsp;</th>
-              <th scope="col">Shipped and v1</th>
-              <th scope="col">v2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="label w-40">Ground</td>
-              <td class="text-primary-400">near-black canvas</td>
-              <td class="text-primary-100">paper, on a desk</td>
-            </tr>
-            <tr>
-              <td class="label">Type</td>
-              <td class="text-primary-400">Cairo and Lato, a heavy grotesk display</td>
-              <td class="text-primary-100">Newsreader, set light at display size</td>
-            </tr>
-            <tr>
-              <td class="label">Labels</td>
-              <td class="text-primary-400">tracked-out uppercase, monospace</td>
-              <td class="text-primary-100">italic serif, sentence case</td>
-            </tr>
-            <tr>
-              <td class="label">Tables</td>
-              <td class="text-primary-400">a hairline under every row</td>
-              <td class="text-primary-100">rules above, below and at the foot only</td>
-            </tr>
-            <tr>
-              <td class="label">Apparatus</td>
-              <td class="text-primary-400">chips and pills in the content</td>
-              <td class="text-primary-100">notes in the margin</td>
-            </tr>
-            <tr>
-              <td class="label">Numerals</td>
-              <td class="text-primary-400">tabular everywhere</td>
-              <td class="text-primary-100">old-style in prose, lining in columns</td>
-            </tr>
-            <tr>
-              <td class="label">Motion</td>
-              <td class="text-primary-400">staggered entrances</td>
-              <td class="text-primary-100">one fade. paper does not animate</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- ======================================================== the mark -->
-      <section class="mb-14">
-        <div class="opener mb-6">
-          <h2 class="text-h2">Why the mark fits this</h2>
+        <div class="grid grid-cols-3 px-4 py-2.5 text-ui items-center">
+          <span class="text-primary-300">base</span>
+          <span class="flex items-center gap-2"><span class="w-4 h-4 rounded-sm border border-primary-600" style="background:#0B0B0C"></span>#0B0B0C</span>
+          <span class="text-primary-400">#0E0E10</span>
         </div>
-
-        <div class="folio">
-          <p class="margin">
-            Look at the top-left and bottom-right corners of this sheet.
-          </p>
-
-          <p class="text-read text-primary-300 max-w-prose">
-            The moddex mark is two corner brackets in a hundred and eighty
-            degrees of rotational symmetry. That is precisely what a printer's
-            registration mark is, and where it goes is the corner of the sheet.
-            Put the two halves there and the page becomes the logo, at page
-            scale, without drawing it anywhere. Nothing was bent to make this
-            work; it was already true.
-          </p>
+        <div class="grid grid-cols-3 px-4 py-2.5 text-ui items-center">
+          <span class="text-primary-300">raised</span>
+          <span class="flex items-center gap-2"><span class="w-4 h-4 rounded-sm border border-primary-600" style="background:#111113"></span>#111113</span>
+          <span class="text-primary-400">#18181B</span>
         </div>
-      </section>
-
-      <!-- =========================================================== pages -->
-      <section class="mb-14">
-        <div class="opener mb-6">
-          <h2 class="text-h2">Contents</h2>
+        <div class="grid grid-cols-3 px-4 py-2.5 text-ui items-center">
+          <span class="text-primary-300">hover</span>
+          <span class="flex items-center gap-2"><span class="w-4 h-4 rounded-sm" style="background:#232326"></span>#232326</span>
+          <span class="text-primary-400">#26262C</span>
         </div>
-        <div id="page-index"></div>
-      </section>
-
-      <!-- =========================================================== notes -->
-      <section>
-        <div class="opener mb-6">
-          <h2 class="text-h2">Worth arguing about</h2>
+        <div class="grid grid-cols-3 px-4 py-2.5 text-ui items-center">
+          <span class="text-primary-300">text</span>
+          <span class="flex items-center gap-2"><span class="w-4 h-4 rounded-sm" style="background:#E7E7EA"></span>#E7E7EA</span>
+          <span class="text-primary-400">#EFEFF1</span>
         </div>
-
-        <div class="folio">
-          <p class="margin">All of it is reversible.</p>
-
-          <table class="ledger closed">
-            <tbody>
-              <tr>
-                <td class="label w-44 align-top">Two new fonts</td>
-                <td class="text-primary-300">
-                  Newsreader and Archivo come from the Google CDN in these comps.
-                  Shipping means self-hosting two woff2 files, which the repo
-                  already does for Lato and Cairo, so the pattern exists.
-                </td>
-              </tr>
-              <tr>
-                <td class="label align-top">A light interface</td>
-                <td class="text-primary-300">
-                  Every value comes from the light theme already in
-                  tailwind.config.mjs, but layout.tsx hardcodes dark on the html
-                  element, so shipping this means removing that one class and
-                  wiring the theme properly.
-                </td>
-              </tr>
-              <tr>
-                <td class="label align-top">A serif interface</td>
-                <td class="text-primary-300">
-                  Unusual for a twitch tool, which is the point, but it is a
-                  bigger swing than v1 and it will not suit everyone.
-                </td>
-              </tr>
-              <tr>
-                <td class="label align-top">Copy without em-dashes</td>
-                <td class="text-primary-300">
-                  The taste skill bans the character outright, so sentences were
-                  restructured. That is a voice change as well as a visual one.
-                </td>
-              </tr>
-              <tr>
-                <td class="label align-top">The register</td>
-                <td class="text-primary-300">
-                  Everything on /dashboard below the heading is a proposal. The
-                  shipped page is a stub with nothing to redesign.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="grid grid-cols-3 px-4 py-2.5 text-ui items-center bg-primary-900/50">
+          <span class="text-primary-300">brand</span>
+          <span class="flex items-center gap-2"><span class="w-4 h-4 rounded-sm" style="background:#9146FF"></span>#9146FF</span>
+          <span class="text-founder text-meta">the one changed value</span>
         </div>
-      </section>
-    </div>
-  </main>
+      </div>
 
-</div>
+      <p class="text-meta text-primary-400 leading-relaxed mt-3 max-w-prose">
+        The repo's <code class="text-primary-300">twitch</code> token was
+        #714AB8, a dated approximation. On a direction whose argument is "look
+        like the platform", using the real one matters, and it gets promoted from
+        the colour of the login button to the primary action colour.
+      </p>
+    </section>
+
+    <!-- =========================================================== pages -->
+    <section class="enter mb-4" style="--i: 4">
+      <h2 class="text-h2 mb-3">Every page</h2>
+      <div id="page-index"></div>
+    </section>
+
+    <!-- =========================================================== notes -->
+    <section class="enter grid gap-4 md:grid-cols-2 max-w-4xl" style="--i: 5">
+      <div class="card p-4">
+        <h2 class="text-h3 mb-2.5">Worth arguing about</h2>
+        <ul class="flex flex-col gap-2 text-ui text-primary-300 leading-relaxed">
+          <li>Inter, which is what Twitch ships. The skill discourages it as a default and names the override; a brief of "look like the host" is that override.</li>
+          <li>4px radius, which the shipped design bans on the grounds that the mark has no curves. A logo does not have to dictate a button.</li>
+          <li>Looking like Twitch means looking less distinctive. That is the trade, and for a companion tool it is usually the right one.</li>
+          <li>Copy carries no em-dashes, which is a voice change as well as a visual one.</li>
+          <li>The dashboard below the heading is a proposal. The shipped page is a stub.</li>
+        </ul>
+      </div>
+      <div class="card p-4">
+        <h2 class="text-h3 mb-2.5">What shipping it needs</h2>
+        <ul class="flex flex-col gap-2 text-ui text-primary-300 leading-relaxed">
+          <li>Inter self-hosted, the same way Lato and Cairo already are in <code class="text-primary-200">src/app/fonts</code>.</li>
+          <li>One palette value changed in <code class="text-primary-200">tailwind.config.mjs</code>.</li>
+          <li>Radius unbanned in <code class="text-primary-200">globals.css</code>.</li>
+          <li>A rail component, which is genuinely new. Everything else maps onto components that already exist.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
 
 <script src="assets/chrome.js"></script>
 <script>
-  document.getElementById('page-index').innerHTML = PAGES.map(
-    (section) => `
-      <div class="mb-9">
-        <p class="label text-note mb-3">${section.group}</p>
-        <div class="grid gap-x-14 gap-y-2.5 sm:grid-cols-2">
-          ${section.items.map((page) => `
-            <span class="leader">
-              <a href="${page.file}" class="text-primary-100 link">${page.title}</a>
-              <span class="datum text-note text-primary-400 order-last whitespace-nowrap">
-                <a href="../../${page.file}" class="link">shipped</a>
-                <span class="text-primary-600">&middot;</span>
-                <a href="../v1/${page.file}" class="link">v1</a>
-              </span>
-            </span>`).join('')}
-        </div>
-      </div>`
-  ).join('');
+  document.getElementById('page-index').innerHTML = `
+    <div class="card divide-y divide-primary-700 max-w-4xl">
+      ${PAGES.map((section) => `
+        <div class="p-4">
+          <p class="text-meta text-primary-400 mb-2.5">${section.group}</p>
+          <div class="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+            ${section.items.map((page) => `
+              <span class="flex items-center gap-3 h-8">
+                <a href="${page.file}" class="text-ui font-semibold hover:text-twitch-hover transition-colors">${page.title}</a>
+                <span class="text-meta text-primary-500 truncate">${page.route}</span>
+                <span class="ml-auto flex items-center gap-2 shrink-0 text-meta">
+                  <a href="../../${page.file}" class="text-primary-400 hover:text-primary-100 transition-colors">shipped</a>
+                  <span class="text-primary-600">/</span>
+                  <a href="../v1/${page.file}" class="text-primary-400 hover:text-primary-100 transition-colors">v1</a>
+                </span>
+              </span>`).join('')}
+          </div>
+        </div>`).join('')}
+    </div>`;
 </script>
 </body>
 </html>

@@ -1,0 +1,597 @@
+/* ==========================================================================
+ * v3
+ *
+ * Answering five verdicts, not a concept.
+ *
+ * ---------------------------------------------------------------- KEPT
+ * from v2, which was "kind of, but not quite":
+ *   - search in the nav, on every page, so nothing needs a hero to hold it
+ *   - a profile header with tabs for the two lookup directions
+ *   - roles as LISTS of people, never as a spreadsheet
+ *
+ * ------------------------------------------------------------- CHANGED
+ * "not quite" -> the identity was Twitch's, not moddex's:
+ *   - purple is demoted to the two controls that talk to Twitch. everywhere
+ *     else the accent is the mark's own green/pink pair.
+ *   - the left rail is gone. it was the most obviously borrowed element and
+ *     it was eating 240px of width.
+ *   - the mark appears at real size, doing real work.
+ *
+ * "old-fashioned" -> geometric sans at 15px, 8px radius, no hard chrome.
+ *
+ * "table-like" -> there is not one <table> in this direction. Rows are grids
+ *   with hover, aligned on a shared template. No borders between cells, no
+ *   zebra, no boxed column-header bar. Column labels exist but sit light and
+ *   unboxed above the first row.
+ *
+ * "clamped" -> the actual fix, and most of the work:
+ *   row height   26px (v3-records) -> 52px
+ *   base type    13px -> 15px
+ *   container    1200px -> 1440px
+ *   gutters      12px -> 32px
+ *   panel pad    8px -> 24px
+ *   section gap  16px -> 48px
+ *
+ * DIALS: DESIGN_VARIANCE 6, MOTION_INTENSITY 3, VISUAL_DENSITY 4.
+ * ========================================================================== */
+
+/* --------------------------------------------------------------- tokens -- */
+:root {
+    --base: #0B0B0C;
+    --raised: #111113;
+    --line: #232326;
+    --line-soft: rgba(35, 35, 38, 0.7);
+    --hover: #17171A;
+    --text: #E7E7EA;
+    --text-alt: #8A8A93;
+
+    --mod: #4ADE80;
+    --vip: #F472B6;
+    --twitch: #9146FF;
+
+    --nav-h: 60px;
+    --row-h: 52px;
+
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+    --dur: 150ms;
+
+    --z-nav: 40;
+    --z-overlay: 60;
+    --z-switcher: 90;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--base);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+input, button, select, textarea {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.tabular {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ nav --
+ * 60px, and the search is the widest thing in it. Kept from v2 because it is
+ * the one move that means no page needs a hero.
+ */
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    height: var(--nav-h);
+    background: rgba(11, 11, 12, 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 6px 0 14px;
+    background: var(--raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.search:focus-within {
+    border-color: #3A3A42;
+    background: #141416;
+}
+
+.search input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+    outline: none;
+}
+
+.search input::placeholder {
+    color: #4A4A53;
+}
+
+/* the scope switch. two corners of the mark, so which direction you are
+   searching is stated in the brand's own notation rather than in a word. */
+.scope {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    background: var(--base);
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.scope button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 28px;
+    padding: 0 11px;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--text-alt);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.scope button:hover {
+    color: var(--text);
+}
+
+.scope button[aria-pressed='true'] {
+    background: var(--line);
+    color: var(--text);
+}
+
+/* --------------------------------------------------------------- corner --
+ * the mark's own notation, at UI scale. mod takes the top-left corner, vip the
+ * bottom-right, 180 degrees apart. this is the identity purple was doing in v2.
+ */
+.corner {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid currentColor;
+    flex-shrink: 0;
+}
+
+/* the four orientations are the four corners of the mark, and misc/roles.ts
+   already assigns one to each role: mod tl, vip br, founder bl, artist tr.
+   all four are defined here even though artist is not in ACTIVE_ROLE_KEYS,
+   because a role that exists in the registry should not be missing from the
+   design system the day it becomes fetchable. */
+.corner-tl { border-right: 0; border-bottom: 0; }
+.corner-br { border-left: 0; border-top: 0; }
+.corner-bl { border-right: 0; border-top: 0; }
+.corner-tr { border-left: 0; border-bottom: 0; }
+
+/* ---------------------------------------------------------------- rows --
+ * NOT a table. a grid with a shared column template, hover, and nothing
+ * between rows but air. this is the "table-like" fix.
+ */
+.rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: grid;
+    align-items: center;
+    gap: 20px;
+    min-height: var(--row-h);
+    padding: 0 16px;
+    border-radius: 8px;
+    transition: background-color var(--dur) var(--ease);
+}
+
+.row:hover {
+    background: var(--hover);
+}
+
+/* the row is a link, so the name behaves like one on hover. a whole-row
+   background change alone reads as selection rather than as "this goes
+   somewhere". */
+.row:hover .row-name {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgba(231, 231, 234, 0.45);
+}
+
+/* the column labels. present, because unlabelled numbers were a real problem
+   in the shipped design, but light and unboxed so they do not read as a
+   spreadsheet header. */
+.row-head {
+    display: grid;
+    align-items: center;
+    gap: 20px;
+    padding: 0 16px 10px;
+    font-size: 13px;
+    /* primary-400. at 13px, #6A6A74 on the raised surface is about 3.9:1,
+       which fails AA. these labels stay recessive through size and weight
+       rather than through being hard to read. */
+    color: #8A8A93;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 6px;
+}
+
+/* the two templates used across the direction */
+.cols-people {
+    grid-template-columns: minmax(0, 1fr) 110px 110px;
+}
+
+.cols-channels {
+    grid-template-columns: minmax(0, 1fr) 90px 90px 110px;
+}
+
+@media (max-width: 640px) {
+    .cols-people,
+    .cols-channels {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .cols-people > :nth-child(n + 3),
+    .cols-channels > :nth-child(n + 3) {
+        display: none;
+    }
+}
+
+/* -------------------------------------------------------------- surface --
+ * one raised surface, generously padded. not a card grid.
+ */
+.panel {
+    background: var(--raised);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.panel-flush {
+    background: var(--raised);
+    border-radius: 12px;
+    padding: 24px 8px 8px;
+}
+
+/* --------------------------------------------------------------- avatar -- */
+.avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--line);
+    color: var(--text-alt);
+    font-weight: 700;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+/* ---------------------------------------------------------------- tabs --
+ * the two lookup directions. underlined in the role's own colour rather than
+ * in purple, which is the identity change in miniature.
+ */
+.tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 18px;
+    color: var(--text-alt);
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color var(--dur) var(--ease);
+}
+
+.tab:hover { color: var(--text); }
+
+.tab[aria-current='page'] { color: var(--text); }
+.tab-mod[aria-current='page'] { border-bottom-color: var(--mod); }
+.tab-vip[aria-current='page'] { border-bottom-color: var(--vip); }
+
+/* ------------------------------------------------------------- controls -- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--text);
+    color: var(--base);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.btn:hover { background: #FFFFFF; }
+.btn:active { transform: translateY(1px); }
+
+.btn-soft {
+    background: var(--line);
+    color: var(--text);
+}
+
+.btn-soft:hover { background: #2C2C33; }
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-alt);
+}
+
+.btn-ghost:hover { background: var(--line); color: var(--text); }
+
+/* Purple appears in exactly two forms, and only ever on something that talks
+   to twitch.
+
+   Filled, once per page at most: the sign-in control in the nav, which is the
+   one thing a signed-out reader might need to do.
+
+   Everything else that links to twitch uses the glyph alone on a neutral
+   surface. "Open on Twitch" as a solid purple button was the brightest thing
+   on a profile page and it was pulling focus off the account name, which is
+   the actual subject. The glyph carries the recognition on its own. */
+.btn-twitch {
+    background: var(--twitch);
+    color: #FFFFFF;
+}
+
+.btn-twitch:hover { background: #A970FF; }
+
+.btn-twitch-quiet {
+    background: var(--line);
+    color: var(--text);
+}
+
+.btn-twitch-quiet svg { color: #A970FF; }
+
+.btn-twitch-quiet:hover {
+    background: #2C2C33;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-alt);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.chip:hover { color: var(--text); border-color: #3A3A42; }
+
+.chip[aria-pressed='true'] {
+    background: var(--line);
+    border-color: var(--line);
+    color: var(--text);
+}
+
+/* ---------------------------------------------------------------- entry -- */
+.enter {
+    opacity: 0;
+    animation: enter 320ms var(--ease) forwards;
+    animation-delay: min(calc(var(--i, 0) * 50ms), 250ms);
+}
+
+@keyframes enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------- comp helpers --
+ * NOTHING BELOW THIS LINE BELONGS IN src/.
+ */
+.skeleton {
+    display: inline-block;
+    background: var(--line);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    animation: sweep 1.3s var(--ease) infinite;
+}
+
+@keyframes sweep {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* the opt-out switch. mod green when on, because green is this design's
+   affirmative and purple is reserved for twitch. */
+.toggle {
+    display: inline-flex;
+    align-items: center;
+    width: 48px;
+    height: 28px;
+    padding: 3px;
+    background: var(--line);
+    border-radius: 9999px;
+    flex-shrink: 0;
+    transition: background-color var(--dur) var(--ease);
+}
+
+.toggle > span {
+    width: 22px;
+    height: 22px;
+    background: #8A8A93;
+    border-radius: 9999px;
+    transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.toggle[data-on='true'] { background: rgba(74, 222, 128, 0.22); }
+
+.toggle[data-on='true'] > span {
+    transform: translateX(20px);
+    background: var(--mod);
+}
+
+/* ----------------------------------------------------------------- a11y -- */
+:where(a, button, input, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: var(--z-overlay);
+    padding: 10px 16px;
+    background: var(--text);
+    color: var(--base);
+    border-radius: 8px;
+    font-weight: 700;
+    transition: top var(--dur) var(--ease);
+}
+
+.skip-link:focus { top: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .enter { opacity: 1; animation: none; }
+    .skeleton::after { animation: none; }
+    .btn:active { transform: none; }
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2A2A30; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #3A3A42; }
+
+::selection { background: #4ADE80; color: #0B0B0C; }
+
+/* ------------------------------------------------------ variant switcher -- */
+#vswitch {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: var(--z-switcher);
+    font-size: 13px;
+}
+
+#vswitch > button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 38px;
+    padding: 0 16px;
+    margin-left: auto;
+    background: var(--raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text-alt);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--dur) var(--ease);
+}
+
+#vswitch > button:hover { color: var(--text); }
+
+#vswitch nav {
+    display: none;
+    width: 264px;
+    max-height: 72vh;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    padding: 8px;
+    background: var(--raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+#vswitch[data-open='true'] nav { display: block; }
+
+#vswitch h3 {
+    padding: 8px 10px 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #55555F;
+}
+
+#vswitch a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    color: var(--text-alt);
+}
+
+#vswitch a:hover { background: var(--line); color: var(--text); }
+#vswitch a[aria-current='page'] { color: var(--mod); }
+#vswitch a span { font-size: 11px; color: #45454C; align-self: center; }
+
+#vswitch .cross {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+}
+
+#vswitch .cross a {
+    flex: 1;
+    justify-content: center;
+    background: var(--line);
+    font-weight: 700;
+}
+
+#vswitch .cross a:hover { background: #2C2C33; }

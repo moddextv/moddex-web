@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Not found | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / 404, from app/not-found.tsx and from either detail route.
+     The status code is metadata about the response, not the headline, so it
+     sits small at the bottom. Almost every 404 here is a mistyped twitch name
+     and the recovery is already in the nav on every page, so this points at it
+     rather than duplicating a search box. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <section class="enter pt-16 pb-10 max-w-2xl" style="--i: 0">
+      <h1 class="text-h1 mb-4">
+        There is no twitch account called <span class="text-primary-400">xqcow2</span>
+      </h1>
+      <p class="text-lead text-primary-300 max-w-prose mb-8">
+        Twitch was asked and had no such account, so there is nothing to index.
+        Names change often. Check the spelling and try again in the bar above.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="channel.html" class="btn">Browse channels</a>
+        <a href="home.html" class="btn btn-soft">Home</a>
+      </div>
+
+      <p class="text-ui text-primary-500 mt-8">HTTP 404. Nothing was written to the index.</p>
+    </section>
+
+    <!-- the two other things this component renders -->
+    <section class="enter grid gap-6 md:grid-cols-2 pb-4 max-w-4xl" style="--i: 1">
+      <div class="panel">
+        <p class="text-meta text-primary-400 mb-3">Unknown page, HTTP 404</p>
+        <h2 class="text-h2 mb-2.5">This page does not exist</h2>
+        <p class="text-read text-primary-300 leading-relaxed">
+          Nothing lives at that address. The places worth going are Channels,
+          People, Donate and the api docs.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="text-meta text-primary-400 mb-3">Malformed name, not sent, HTTP 404</p>
+        <h2 class="text-h2 mb-2.5">
+          <span class="text-primary-400">not a name!</span> cannot be a twitch name
+        </h2>
+        <p class="text-read text-primary-300 leading-relaxed">
+          Twitch names are 1 to 25 characters, letters, numbers and underscores
+          only. Nothing was sent to twitch.
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

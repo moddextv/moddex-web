@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donate | moddex</title>
+  <meta name="description" content="Help cover the server and database cost of running moddex. Donors get a badge next to their name.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /donate
+     Asks first and thanks afterwards, on /donate/success where the thanks has
+     been earned. The shipped page opens with "THANK YOU FOR YOUR SUPPORT!" over
+     a reaction image before the reader has done anything. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <header class="enter pt-12 pb-8" style="--i: 0">
+      <h1 class="text-h1 mb-3 max-w-[24ch]">moddex runs on one server and no advertising</h1>
+      <p class="text-lead text-primary-300 max-w-prose">
+        No paid tier, nothing behind a login, and the api is open. Donations are
+        the only thing keeping it that way.
+      </p>
+    </header>
+
+    <section class="enter grid gap-6 lg:grid-cols-3 pb-6" style="--i: 1">
+
+      <!-- ============================================================ ask -->
+      <div class="panel">
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="text-[2.25rem] font-extrabold leading-none tabular">$5.00</span>
+          <span class="text-ui text-primary-400">one time, USD</span>
+        </div>
+        <p class="text-read text-primary-300 mb-6">
+          Card details are handled entirely by Stripe. moddex stores the payment
+          reference and the amount, and nothing else.
+        </p>
+
+        <form onsubmit="event.preventDefault(); location.href='donate-success.html';">
+          <button type="submit" class="btn w-full">Continue to Stripe</button>
+        </form>
+
+        <p class="text-ui text-primary-400 mt-4">
+          Sign in with twitch first and the badge lands on your profile
+          automatically. Donating signed out works too, it just needs an email
+          afterwards.
+        </p>
+
+        <div class="mt-7 pt-6 border-t border-primary-700/70">
+          <p class="text-meta text-primary-400 mb-3">While the checkout is being made</p>
+          <button type="button" disabled class="btn w-full opacity-50 cursor-not-allowed">
+            <svg width="15" height="15" viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="currentColor"><animate attributeName="opacity" dur="1.2s" values="1;0.3;1" repeatCount="indefinite" begin="-.3s"/></path>
+              <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="currentColor"><animate attributeName="opacity" dur="1.2s" values="1;0.3;1" repeatCount="indefinite" begin="0s"/></path>
+            </svg>
+            Opening Stripe
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================= badges -->
+      <div class="panel">
+        <h2 class="text-h2 mb-5">What you get</h2>
+
+        <div class="flex items-start gap-4 mb-6">
+          <img src="../../badges/donator.svg" alt="The donator badge" width="42" height="42" class="shrink-0 rounded-sm">
+          <div>
+            <p class="text-base font-bold mb-1">donator</p>
+            <p class="text-ui text-primary-300 leading-relaxed">
+              Sits beside your name everywhere moddex shows it. Any donation of
+              $5 or more, permanently.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <img src="../../badges/top_donator.svg" alt="The top donator badge" width="42" height="42" class="shrink-0 rounded-sm">
+          <div>
+            <p class="text-base font-bold mb-1">top donator</p>
+            <p class="text-ui text-primary-300 leading-relaxed">
+              Held by exactly one account at a time, whoever has given the most.
+              It moves when somebody passes you.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================== terms -->
+      <div class="panel">
+        <h2 class="text-h2 mb-5">Being straight about it</h2>
+        <ul class="flex flex-col gap-4">
+          <li class="flex gap-3.5">
+            <span class="corner corner-tl text-primary-500 mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              A contribution to running costs, not a purchase.
+            </span>
+          </li>
+          <li class="flex gap-3.5">
+            <span class="corner corner-tl text-primary-500 mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              The badges are cosmetic. They unlock nothing and carry no monetary
+              value.
+            </span>
+          </li>
+          <li class="flex gap-3.5">
+            <span class="corner corner-tl text-primary-500 mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              Generally non-refundable. If something went wrong, write and it
+              gets sorted out.
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ scale -->
+    <section class="enter pb-4" style="--i: 2">
+      <div class="panel">
+        <p class="text-meta text-primary-400 mb-4">What the money holds up</p>
+        <div class="flex flex-wrap gap-x-14 gap-y-6">
+          <div>
+            <p class="text-h1 font-extrabold leading-none tabular mb-1.5">13,742,854</p>
+            <p class="text-ui text-primary-400">role records</p>
+          </div>
+          <div>
+            <p class="text-h1 font-extrabold leading-none tabular mb-1.5">2,714,096</p>
+            <p class="text-ui text-primary-400">accounts</p>
+          </div>
+          <div>
+            <p class="text-h1 font-extrabold leading-none tabular mb-1.5">412,847</p>
+            <p class="text-ui text-primary-400">channels</p>
+          </div>
+          <div>
+            <p class="text-h1 font-extrabold leading-none tabular mb-1.5">14 days</p>
+            <p class="text-ui text-primary-400">of backups retained</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

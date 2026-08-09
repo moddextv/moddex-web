@@ -1,168 +1,115 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
   <title>forsen | moddex</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/v2.css">
 </head>
 
-<!-- v2 / the first paint of an entry.
-     Every rule, heading, column head and margin note is already printed,
-     because all of it is known before the response arrives. Only the values
-     are blank. That is what a printed form looks like before it is filled in,
-     and it means nothing shifts when the data lands.
+<!-- v2 / the first paint of a channel page.
+     Everything already known is already drawn: the tabs, the role headings and
+     their badges, the panel structure. Only the values are blank, so nothing
+     shifts when the response lands.
 
-     The founders section carries the per-list failure: one section failing does
-     not take the entry down, and the note in the margin says which and why. -->
-<body data-nav="channel" data-auth="out" class="min-h-screen flex flex-col">
+     The founders panel carries the per-list failure. One list failing does not
+     take the page down, and the message names which list and what to do. -->
+<body data-nav="channel" data-scope="channel" data-auth="out" class="font-sans text-base">
 
-<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+<main id="main" class="flex-1 min-w-0" aria-busy="true">
 
-  <main id="main" class="flex-grow" aria-busy="true">
-    <div class="px-6 sm:px-10 pt-8 pb-16">
+  <section class="px-4 sm:px-6 pt-5">
+    <div class="flex flex-wrap items-start gap-4">
+      <span class="skeleton w-[70px] h-[70px] rounded-pill shrink-0"></span>
 
-      <div class="flex items-baseline justify-between gap-6 pb-2 border-b border-primary-700 mb-9">
-        <p class="smallcaps text-note text-primary-400">Channels &middot; forsen</p>
-        <p class="label text-note">reading from twitch</p>
+      <div class="min-w-0 flex-1">
+        <span class="skeleton block h-6 w-44 mb-2"></span>
+        <span class="skeleton block h-3.5 w-72 max-w-full mb-3"></span>
+        <span class="skeleton block h-3.5 w-full max-w-md mb-1.5"></span>
+        <span class="skeleton block h-3.5 w-2/3 max-w-sm"></span>
       </div>
 
-      <!-- =========================================================== entry -->
-      <div class="folio mb-14">
-        <aside class="margin flex flex-col gap-3">
-          <span>Reading now</span>
-          <span class="rule-hair pt-3">
-            <a href="https://twitch.tv/forsen" target="_blank" rel="noopener noreferrer" class="link not-italic text-primary-300">twitch.tv/forsen</a>
-          </span>
-        </aside>
-
-        <div>
-          <div class="flex items-start gap-5 mb-6">
-            <div class="skeleton w-20 h-20 shrink-0"></div>
-            <div class="min-w-0 flex-1">
-              <div class="skeleton h-9 w-56 mb-3"></div>
-              <div class="skeleton h-4 w-full max-w-md mb-2"></div>
-              <div class="skeleton h-4 w-2/3 max-w-sm mb-5"></div>
-
-              <dl class="flex flex-wrap gap-x-8 gap-y-1.5 text-small">
-                <div class="flex gap-2 items-baseline">
-                  <dt class="label">followers</dt>
-                  <dd class="skeleton h-3.5 w-16"></dd>
-                </div>
-                <div class="flex gap-2 items-baseline">
-                  <dt class="label">joined</dt>
-                  <dd class="skeleton h-3.5 w-20"></dd>
-                </div>
-                <div class="flex gap-2 items-baseline">
-                  <dt class="label">twitch id</dt>
-                  <dd class="skeleton h-3.5 w-16"></dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-
-          <div class="rule-hair pt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <p class="label text-note">This entry</p>
-            <span class="flex items-center gap-2.5">
-              <span class="corner corner-tl text-mod"></span>
-              <span class="text-primary-100">as a channel</span>
-            </span>
-            <a href="user-detail.html" class="flex items-center gap-2.5 group">
-              <span class="corner corner-br text-primary-600 group-hover:text-vip transition-colors duration-150"></span>
-              <span class="text-primary-400 group-hover:text-primary-100 link transition-colors duration-150">as a person</span>
-            </a>
-          </div>
-        </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="skeleton h-[30px] w-[132px]"></span>
+        <span class="skeleton h-[30px] w-[30px]"></span>
+        <span class="skeleton h-[30px] w-[30px]"></span>
       </div>
-
-      <!-- ====================================================== moderators -->
-      <section class="mb-14" aria-labelledby="l-mods">
-        <div class="opener mb-5">
-          <span class="corner corner-tl text-mod"></span>
-          <h2 id="l-mods" class="text-h2">Moderators</h2>
-        </div>
-
-        <div class="folio">
-          <p class="margin">Reading the list from twitch.</p>
-
-          <table class="ledger closed">
-            <thead>
-              <tr>
-                <th scope="col">Account</th>
-                <th scope="col" class="text-right">Granted</th>
-                <th scope="col" class="text-right">Followers</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><span class="skeleton block h-4 w-28"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-16 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-36"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-24"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-32"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-16 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-20"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-28"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ============================================================ vips -->
-      <section class="mb-14" aria-labelledby="l-vips">
-        <div class="opener mb-5">
-          <span class="corner corner-br text-vip"></span>
-          <h2 id="l-vips" class="text-h2">Vips</h2>
-        </div>
-
-        <div class="folio">
-          <p class="margin">Reading the list from twitch.</p>
-
-          <table class="ledger closed">
-            <thead>
-              <tr>
-                <th scope="col">Account</th>
-                <th scope="col" class="text-right">Granted</th>
-                <th scope="col" class="text-right">Followers</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><span class="skeleton block h-4 w-24"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-14 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-36"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-10 ml-auto"></span></td></tr>
-              <tr><td><span class="skeleton block h-4 w-28"></span></td><td><span class="skeleton block h-3.5 w-20 ml-auto"></span></td><td><span class="skeleton block h-3.5 w-12 ml-auto"></span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ======================================================== founders -->
-      <section aria-labelledby="l-founders">
-        <div class="opener mb-5">
-          <span class="corner corner-bl text-founder"></span>
-          <h2 id="l-founders" class="text-h2">Founders</h2>
-          <span class="label text-note text-vip">could not be read</span>
-        </div>
-
-        <div class="folio">
-          <p class="margin">
-            The other sections on this entry are unaffected.
-          </p>
-
-          <div class="rule-mid pt-5 flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between max-w-prose">
-            <p class="text-primary-300">
-              Twitch returned an error for this query.
-            </p>
-            <button type="button" class="btn btn-quiet shrink-0">Try this section again</button>
-          </div>
-        </div>
-      </section>
     </div>
-  </main>
 
-</div>
+    <nav class="tabs mt-5" aria-label="Views of this account">
+      <a href="channel-detail.html" class="tab" aria-current="page">
+        <span class="w-2.5 h-2.5 border-2 border-b-0 border-r-0 border-mod" aria-hidden="true"></span>
+        As a channel
+      </a>
+      <a href="user-detail.html" class="tab">
+        <span class="w-2.5 h-2.5 border-2 border-t-0 border-l-0 border-primary-500" aria-hidden="true"></span>
+        As a person
+      </a>
+    </nav>
+  </section>
+
+  <section class="px-4 sm:px-6 py-5 grid gap-4 lg:grid-cols-12">
+
+    <div class="card lg:col-span-5 pb-2">
+      <div class="role-head border-b border-primary-700">
+        <span class="chat-badge" style="background:#4ADE80" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M4 4 H18 V10 H10 V18 H4 Z"/></svg>
+        </span>
+        <span class="text-mod">Moderators</span>
+        <span class="ml-auto text-meta text-primary-400 font-normal">reading from twitch</span>
+      </div>
+      <div class="p-1.5">
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-24"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-32"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-20"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-28"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-24"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-36"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-20"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+      </div>
+    </div>
+
+    <div class="card lg:col-span-4 pb-2">
+      <div class="role-head border-b border-primary-700">
+        <span class="chat-badge" style="background:#F472B6" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M28 28 H14 V22 H22 V14 H28 Z"/></svg>
+        </span>
+        <span class="text-vip">VIPs</span>
+        <span class="ml-auto text-meta text-primary-400 font-normal">reading from twitch</span>
+      </div>
+      <div class="p-1.5">
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-24"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-32"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+        <span class="chatter"><span class="skeleton w-[18px] h-[18px]"></span><span class="skeleton w-[26px] h-[26px] rounded-pill"></span><span class="skeleton h-3.5 w-20"></span><span class="skeleton h-3 w-[68px] ml-auto"></span></span>
+      </div>
+    </div>
+
+    <!-- per-list failure -->
+    <div class="card lg:col-span-3 pb-2">
+      <div class="role-head border-b border-primary-700">
+        <span class="chat-badge" style="background:#FBBF24" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M4 28 H18 V22 H10 V14 H4 Z"/></svg>
+        </span>
+        <span class="text-founder">Founders</span>
+        <span class="ml-auto text-meta text-vip font-normal">failed</span>
+      </div>
+      <div class="p-4">
+        <p class="text-ui text-primary-300 leading-relaxed mb-1.5">
+          Twitch returned an error for this query.
+        </p>
+        <p class="text-meta text-primary-400 leading-relaxed mb-3">
+          The other lists on this page are unaffected.
+        </p>
+        <button type="button" class="btn btn-alt">Try this list again</button>
+      </div>
+    </div>
+  </section>
+</main>
 
 <script src="assets/chrome.js"></script>
 </body>

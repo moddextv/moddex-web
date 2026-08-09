@@ -13,11 +13,12 @@ without running next.
 Two directions live in [`suggestions/`](suggestions/README.md), drawn against
 these comps with the mark and the full palette locked:
 
+- [**v3**](suggestions/v3/index.html) — the current front-runner. v2's structure,
+  its own identity, and a lot more air.
 - [**v1 Index**](suggestions/v1/index.html) — the evolution. This design, its own
-  rules actually enforced, on the dark theme.
-- [**v2 Almanac**](suggestions/v2/index.html) — the overhaul. The product set as
-  a printed directory, on the light theme that has been sitting unused in
-  `tailwind.config.mjs`.
+  rules actually enforced.
+- [**v2 Native**](suggestions/v2/index.html) — repositioned as a Twitch
+  companion tool, copying structure from Twitch's own interface.
 
 The switcher on every comp jumps to the same page in either direction.
 

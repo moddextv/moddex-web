@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>People | moddex</title>
+  <meta name="description" content="Browse the twitch accounts moddex holds role records for, or look one up.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /user
+     The mirror browse surface. The nav search scope flips to Person on this
+     route, so the bar above looks up accounts without the reader needing to
+     notice that a heading changed. -->
+<body data-scope="user" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <header class="enter pt-12 pb-8" style="--i: 0">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="corner corner-br text-vip" aria-hidden="true"></span>
+        <h1 class="text-h1">People</h1>
+      </div>
+      <p class="text-lead text-primary-300 max-w-prose">
+        Every indexed channel where an account holds mod or vip, and the day each
+        role was granted. This is the direction twitch itself will not show you.
+      </p>
+    </header>
+
+    <section class="enter pb-6" style="--i: 1">
+      <div class="panel-flush">
+        <div class="flex items-center gap-3 flex-wrap px-4 pb-5">
+          <h2 class="text-h2">Accounts holding roles</h2>
+          <span class="text-lead text-primary-400 tabular">2,714,096</span>
+          <span class="ml-auto flex items-center gap-2">
+            <button type="button" class="chip" aria-pressed="true">Most roles</button>
+            <button type="button" class="chip" aria-pressed="false">Most followers</button>
+            <button type="button" class="chip" aria-pressed="true">Include bots</button>
+          </span>
+        </div>
+
+        <div class="rows">
+          <div class="row-head cols-people">
+            <span>Account</span>
+            <span class="text-right">Modding</span>
+            <span class="text-right">Viping</span>
+          </div>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(320 12% 18%);color:hsl(320 22% 66%)" aria-hidden="true">s</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">supibot</span>
+                  <span class="text-micro font-semibold text-primary-400 bg-primary-700 px-2 py-0.5 rounded-sm shrink-0">bot</span>
+                </span>
+                <span class="block text-micro text-primary-400">1,204 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">1,204</span>
+            <span class="text-ui text-primary-500 tabular text-right">0</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(96 12% 18%);color:hsl(96 22% 66%)" aria-hidden="true">p</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">pajlada</span>
+                  <img src="../../badges/team.svg" alt="moddex team" width="14" height="14" title="moddex team" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">92,830 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">412</span>
+            <span class="text-ui text-vip tabular text-right">37</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(200 12% 18%);color:hsl(200 22% 66%)" aria-hidden="true">n</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">NymN</span>
+                  <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" title="Twitch partner" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">614,201 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">88</span>
+            <span class="text-ui text-vip tabular text-right">14</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(270 12% 18%);color:hsl(270 22% 66%)" aria-hidden="true">k</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">KKona</span>
+                  <img src="../../badges/affiliate.svg" alt="Affiliate" width="14" height="14" title="Twitch affiliate" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">31,004 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">61</span>
+            <span class="text-ui text-vip tabular text-right">29</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(40 12% 18%);color:hsl(40 22% 66%)" aria-hidden="true">e</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">elis</span>
+                <span class="block text-micro text-primary-400">8,910 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">47</span>
+            <span class="text-ui text-vip tabular text-right">8</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(160 12% 18%);color:hsl(160 22% 66%)" aria-hidden="true">m</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">marlon</span>
+                <span class="block text-micro text-primary-400">3,417 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">39</span>
+            <span class="text-ui text-vip tabular text-right">11</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(150 12% 18%);color:hsl(150 22% 66%)" aria-hidden="true">l</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">lekkerbekje</span>
+                <span class="block text-micro text-primary-400">512 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">22</span>
+            <span class="text-ui text-vip tabular text-right">19</span>
+          </a>
+        </div>
+
+        <button type="button" class="w-full h-12 mt-2 rounded-md text-base font-bold text-primary-300 hover:text-primary-100 hover:bg-primary-700 transition-colors">
+          Load more
+        </button>
+      </div>
+    </section>
+
+    <!-- the in-flight state: the row shape stays so nothing shifts when the
+         name resolves -->
+    <section class="enter pb-4" style="--i: 2">
+      <div class="panel-flush">
+        <p class="text-meta text-primary-400 px-4 pb-4">While a name is being checked with twitch</p>
+        <div class="rows">
+          <div class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="skeleton w-9 h-9 rounded-pill"></span>
+              <span class="min-w-0">
+                <span class="skeleton block h-4 w-28 mb-1.5"></span>
+                <span class="skeleton block h-3 w-20"></span>
+              </span>
+            </span>
+            <span class="skeleton h-3.5 w-12 justify-self-end"></span>
+            <span class="skeleton h-3.5 w-10 justify-self-end"></span>
+          </div>
+          <div class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="skeleton w-9 h-9 rounded-pill"></span>
+              <span class="min-w-0">
+                <span class="skeleton block h-4 w-36 mb-1.5"></span>
+                <span class="skeleton block h-3 w-24"></span>
+              </span>
+            </span>
+            <span class="skeleton h-3.5 w-10 justify-self-end"></span>
+            <span class="skeleton h-3.5 w-12 justify-self-end"></span>
+          </div>
+        </div>
+        <p class="text-ui text-primary-400 px-4 py-4">Resolving nymn against twitch.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

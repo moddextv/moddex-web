@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v3 | moddex design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<body data-chrome="bare" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <header class="enter pt-14 pb-10" style="--i: 0">
+      <p class="text-ui text-primary-400 mb-4">Suggestion v3</p>
+      <h1 class="text-display mb-5 max-w-[20ch]">Built from five verdicts, not a concept</h1>
+      <p class="text-lead text-primary-300 max-w-prose">
+        Four earlier attempts each got rejected for a different reason. This one
+        is not another idea; it is those five reasons applied in order.
+      </p>
+    </header>
+
+    <!-- ========================================================= verdicts -->
+    <section class="enter pb-10" style="--i: 1">
+      <div class="panel-flush">
+        <h2 class="text-h2 px-4 pb-5">What each attempt taught</h2>
+
+        <div class="rows">
+          <div class="row-head" style="grid-template-columns: 200px 190px minmax(0,1fr)">
+            <span>Attempt</span><span>Verdict</span><span>What it settled</span>
+          </div>
+
+          <div class="row" style="grid-template-columns: 200px 190px minmax(0,1fr); min-height: 60px">
+            <span class="text-base font-bold">v1 Index</span>
+            <span class="text-ui text-mod">liked</span>
+            <span class="text-ui text-primary-300">Dark, modern sans, room to breathe.</span>
+          </div>
+          <div class="row" style="grid-template-columns: 200px 190px minmax(0,1fr); min-height: 60px">
+            <span class="text-base font-bold">v2 Telemetry</span>
+            <span class="text-ui text-vip">read as generated</span>
+            <span class="text-ui text-primary-300">Dark canvas plus saturated accents plus tracked-out mono is a house style.</span>
+          </div>
+          <div class="row" style="grid-template-columns: 200px 190px minmax(0,1fr); min-height: 60px">
+            <span class="text-base font-bold">v2 Almanac</span>
+            <span class="text-ui text-vip">read as generated</span>
+            <span class="text-ui text-primary-300">Light serif on paper is the other house style. Both were costumes over one wireframe.</span>
+          </div>
+          <div class="row" style="grid-template-columns: 200px 190px minmax(0,1fr); min-height: 60px">
+            <span class="text-base font-bold">v2 Native</span>
+            <span class="text-ui text-founder">kind of, not quite</span>
+            <span class="text-ui text-primary-300">Structure was right. Identity was Twitch's, not moddex's.</span>
+          </div>
+          <div class="row" style="grid-template-columns: 200px 190px minmax(0,1fr); min-height: 60px">
+            <span class="text-base font-bold">v3 Records</span>
+            <span class="text-ui text-vip">old-fashioned, table-like, clamped</span>
+            <span class="text-ui text-primary-300">No Arial, no bordered grids, no squeeze.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== fixes -->
+    <section class="enter grid gap-6 lg:grid-cols-3 pb-10" style="--i: 2">
+      <div class="panel">
+        <h2 class="text-h2 mb-3">Kept</h2>
+        <p class="text-read text-primary-300 leading-relaxed mb-4">
+          The three things v2 got structurally right.
+        </p>
+        <ul class="flex flex-col gap-3">
+          <li class="flex gap-3.5">
+            <span class="corner corner-tl text-mod mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              Search in the nav, so no page needs a hero whose only job is to
+              hold a search box.
+            </span>
+          </li>
+          <li class="flex gap-3.5">
+            <span class="corner corner-tl text-mod mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              A profile header with tabs for the two lookup directions.
+            </span>
+          </li>
+          <li class="flex gap-3.5">
+            <span class="corner corner-tl text-mod mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              Roles as lists of people, never as a spreadsheet.
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2 class="text-h2 mb-3">Its own identity</h2>
+        <p class="text-read text-primary-300 leading-relaxed mb-4">
+          The fix for "not quite".
+        </p>
+        <ul class="flex flex-col gap-3">
+          <li class="flex gap-3.5">
+            <span class="corner corner-br text-vip mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              Purple is demoted to the two controls that actually talk to Twitch.
+              Everywhere else the accent is the mark's own green and pink.
+            </span>
+          </li>
+          <li class="flex gap-3.5">
+            <span class="corner corner-br text-vip mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              The left rail is gone. It was the most obviously borrowed element
+              and it was eating 240px of width.
+            </span>
+          </li>
+          <li class="flex gap-3.5">
+            <span class="corner corner-br text-vip mt-1.5" aria-hidden="true"></span>
+            <span class="text-ui text-primary-300 leading-relaxed">
+              The tab underline is the role's colour, so which direction you are
+              reading is stated in the brand's own notation.
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2 class="text-h2 mb-3">Opened up</h2>
+        <p class="text-read text-primary-300 leading-relaxed mb-4">
+          The fix for "clamped", in numbers.
+        </p>
+        <div class="rows">
+          <div class="row px-0" style="grid-template-columns: minmax(0,1fr) auto; min-height: 34px">
+            <span class="text-ui text-primary-400">row height</span>
+            <span class="text-ui tabular">26px to 52px</span>
+          </div>
+          <div class="row px-0" style="grid-template-columns: minmax(0,1fr) auto; min-height: 34px">
+            <span class="text-ui text-primary-400">base type</span>
+            <span class="text-ui tabular">13px to 15px</span>
+          </div>
+          <div class="row px-0" style="grid-template-columns: minmax(0,1fr) auto; min-height: 34px">
+            <span class="text-ui text-primary-400">container</span>
+            <span class="text-ui tabular">1200 to 1440</span>
+          </div>
+          <div class="row px-0" style="grid-template-columns: minmax(0,1fr) auto; min-height: 34px">
+            <span class="text-ui text-primary-400">gutters</span>
+            <span class="text-ui tabular">12px to 32px</span>
+          </div>
+          <div class="row px-0" style="grid-template-columns: minmax(0,1fr) auto; min-height: 34px">
+            <span class="text-ui text-primary-400">panel padding</span>
+            <span class="text-ui tabular">8px to 24px</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== pages -->
+    <section class="enter pb-10" style="--i: 3">
+      <h2 class="text-h2 mb-5">Every page</h2>
+      <div id="page-index" class="grid gap-6 lg:grid-cols-2"></div>
+    </section>
+
+    <!-- =========================================================== notes -->
+    <section class="enter grid gap-6 md:grid-cols-2 pb-4" style="--i: 4">
+      <div class="panel">
+        <h2 class="text-h2 mb-4">Still worth arguing about</h2>
+        <ul class="flex flex-col gap-3 text-read text-primary-300 leading-relaxed">
+          <li>Manrope is one line in <span class="text-primary-100">assets/theme.js</span>. Cheap to swap, and cheapest before 19 pages exist.</li>
+          <li>Copy carries no em-dashes, which is a voice change as well as a visual one.</li>
+          <li>The dashboard below its heading is a proposal. The shipped page is a stub.</li>
+          <li>The 403 for an opted-out account no longer reads as an error, because it is the privacy promise working.</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2 class="text-h2 mb-4">What shipping it needs</h2>
+        <ul class="flex flex-col gap-3 text-read text-primary-300 leading-relaxed">
+          <li>Manrope self-hosted, the way Lato and Cairo already are in <span class="text-primary-100">src/app/fonts</span>. <span class="text-primary-100">next/font/local</span> is already wired.</li>
+          <li>Radius unbanned in <span class="text-primary-100">globals.css</span>, which currently forces 0 on every control.</li>
+          <li>No palette change at all. Every colour is the shipped dark theme.</li>
+          <li>The four fixes from the audit, which apply whichever direction wins.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+<script>
+  document.getElementById('page-index').innerHTML = PAGES.map(
+    (section) => `
+      <div class="panel-flush">
+        <h3 class="text-h3 px-4 pb-4">${section.group}</h3>
+        <div class="rows">
+          ${section.items.map((page) => `
+            <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+              <span class="min-w-0">
+                <a href="${page.file}" class="block text-base font-bold truncate hover:underline" style="text-underline-offset:3px">${page.title}</a>
+                <span class="block text-micro text-primary-400">${page.route}</span>
+              </span>
+              <span class="flex items-center gap-3 shrink-0 text-micro text-primary-500">
+                compare
+                <a href="../../${page.file}" class="text-primary-300 hover:text-primary-100 transition-colors">shipped</a>
+                <a href="../v1/${page.file}" class="text-primary-300 hover:text-primary-100 transition-colors">v1</a>
+                <a href="../v2/${page.file}" class="text-primary-300 hover:text-primary-100 transition-colors">v2</a>
+              </span>
+            </div>`).join('')}
+        </div>
+      </div>`
+  ).join('');
+</script>
+</body>
+</html>

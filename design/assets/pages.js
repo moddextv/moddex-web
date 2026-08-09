@@ -74,6 +74,7 @@ const PAGES = [
       <div class="cross">
         <a href="suggestions/v1/${here}">v1</a>
         <a href="suggestions/v2/${here}">v2</a>
+        <a href="suggestions/v3/${here}">v3</a>
       </div>
     </nav>
     <button type="button" aria-expanded="false">

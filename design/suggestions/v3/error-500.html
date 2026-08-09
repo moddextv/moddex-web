@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Something broke | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / app/error.tsx, the react error boundary.
+     No status code, because nothing returned one: something threw during
+     render. reset() rebuilds this segment without a full reload, which is
+     genuinely different from refreshing, so the button says which it does.
+
+     The shipped copy is "oops, something went wrong!". Both halves of that go.
+     The nav survives because the boundary sits inside the root layout, so the
+     reader can still search from here. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <section class="enter pt-16 pb-10 max-w-2xl" style="--i: 0">
+      <h1 class="text-h1 mb-4">That page did not finish loading</h1>
+      <p class="text-lead text-primary-300 max-w-prose mb-8">
+        Something threw while the page was rendering, and it is logged. Retrying
+        rebuilds just this part of the page, which usually works when the cause
+        was a slow response rather than a bug.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        <button type="button" class="btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+          </svg>
+          Retry this page
+        </button>
+        <a href="home.html" class="btn btn-soft">Home</a>
+      </div>
+
+      <p class="text-ui text-primary-400 mt-8 max-w-prose">
+        If it keeps happening,
+        <a href="../../no-ui.html" class="text-primary-200 font-semibold hover:underline">status.moddex.tv</a>
+        shows whether the api is up. It runs on separate infrastructure, so it
+        stays available when this does not.
+      </p>
+    </section>
+
+    <!-- Errors.tsx also exports <InternalServerError>. Nothing renders it
+         today; it exists for an api failure that is caught rather than thrown. -->
+    <section class="enter pb-4 max-w-3xl" style="--i: 1">
+      <div class="panel flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
+        <div>
+          <p class="text-meta text-primary-400 mb-2.5">Errors.tsx InternalServerError, unused today, HTTP 500</p>
+          <h2 class="text-h2 mb-2">The lookup service did not respond</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            moddex.tv is up but api.moddex.tv did not answer in time. Nothing is
+            lost and the index is unaffected.
+          </p>
+        </div>
+        <button type="button" class="btn btn-soft shrink-0">Check again</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

@@ -1,93 +1,84 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>Entry withheld | moddex</title>
+  <title>Not shown | moddex</title>
   <meta name="robots" content="noindex">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/v2.css">
 </head>
 
 <!-- v2 / 403, two unrelated causes behind one component.
 
-     The opt-out case is the important one, and it is not an error. It is the
-     visible half of the promise in the terms, clause three, so it reads as the
-     volume working: "withheld at the subject's request" is exactly what a
-     directory prints. The shipped page says "403 access forbidden" in red,
-     which makes somebody exercising a privacy right look like a fault. -->
-<body data-auth="out" class="min-h-screen flex flex-col">
+     The opt-out case is not an error and does not get error styling. It is the
+     visible half of the promise in /tos section 3, so it reads as the system
+     working, with the same control offered to the reader. The shipped page
+     prints "403 access forbidden" in red, which makes somebody exercising a
+     privacy right look like a fault. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base">
 
-<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
+<main id="main" class="flex-1 min-w-0">
+  <div class="px-4 sm:px-6 py-5 max-w-page">
 
-  <main id="main" class="flex-grow">
-    <div class="px-6 sm:px-10 pt-12 pb-16">
+    <div class="enter card px-6 py-10 max-w-2xl mx-auto" style="--i: 0">
+      <div class="flex flex-col items-center text-center">
+        <span class="avatar w-16 h-16 text-2xl mb-4" style="background:#232326;color:#55555F" aria-hidden="true">?</span>
+        <h1 class="text-h2 mb-2">This account asked not to be listed</h1>
+        <p class="text-read text-primary-300 max-w-prose mb-6">
+          <span class="font-semibold text-primary-100">somebody</span> switched the
+          opt-out on, so moddex stopped serving their profile and removed them
+          from every mod and vip list and from the public api. Nothing went wrong
+          and there is nothing to retry.
+        </p>
+      </div>
 
-      <div class="enter folio mb-14" style="--i: 0">
-        <aside class="margin flex flex-col gap-3">
-          <span>http 403</span>
-          <span class="rule-hair pt-3">Nothing went wrong, and there is nothing to retry.</span>
-        </aside>
-
-        <div>
-          <div class="flex items-center gap-3 mb-5">
-            <span class="corner corner-tl text-mod"></span>
-            <p class="label">Withheld at the subject's request</p>
-          </div>
-
-          <h1 class="title text-h1 max-w-[22ch] mb-6">
-            This account asked not to be listed
-          </h1>
-          <p class="text-read text-primary-300 max-w-prose mb-9">
-            <span class="datum text-primary-100">somebody</span> switched the
-            opt-out on, so moddex stopped serving their entry and removed them
-            from every mod and vip list and from the public api.
-          </p>
-
-          <table class="ledger closed max-w-lg mb-9">
-            <tbody>
-              <tr><td class="label w-56">entry served</td><td class="text-right text-primary-400">no</td></tr>
-              <tr><td class="label">appears in role lists</td><td class="text-right text-primary-400">no</td></tr>
-              <tr><td class="label">returned by the api</td><td class="text-right text-primary-400">no</td></tr>
-              <tr><td class="label">channels they moderate</td><td class="text-right text-mod">still indexed</td></tr>
-            </tbody>
-          </table>
-
-          <div class="flex flex-wrap gap-3">
-            <a href="channel.html" class="btn">Look up someone else</a>
-            <a href="settings.html" class="btn btn-quiet">Remove your own entry</a>
-          </div>
+      <div class="rounded bg-primary-900 divide-y divide-primary-700 mb-6">
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-300">Profile served</span>
+          <span class="text-meta text-primary-400">No</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-300">Appears in role lists</span>
+          <span class="text-meta text-primary-400">No</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-300">Returned by the api</span>
+          <span class="text-meta text-primary-400">No</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-300">Channels they moderate</span>
+          <span class="text-meta text-mod font-semibold">Still indexed</span>
         </div>
       </div>
 
-      <!-- the other cause: /dashboard with perms below `team`. this one IS a
-           permission failure, so it says so plainly. -->
-      <section class="enter" style="--i: 1">
-        <div class="opener mb-6">
-          <h2 class="text-h2">Signed in, but not on the team</h2>
-        </div>
+      <div class="flex flex-wrap gap-2 justify-center">
+        <a href="channel.html" class="btn">Look up someone else</a>
+        <a href="settings.html" class="btn btn-alt">Opt out yourself</a>
+      </div>
 
-        <div class="folio">
-          <p class="margin">http 403. Nothing else on the site needs it.</p>
-
-          <div class="max-w-prose flex flex-col sm:flex-row sm:items-center gap-5 sm:justify-between">
-            <p class="text-primary-300">
-              You are signed in as <span class="datum text-primary-100">nymn</span>,
-              which does not carry team permission.
-            </p>
-            <a href="home.html" class="btn btn-quiet shrink-0">Front page</a>
-          </div>
-        </div>
-      </section>
+      <p class="text-meta text-primary-400 mt-6 text-center">HTTP 403 &middot; withheld at the account's request</p>
     </div>
-  </main>
 
-</div>
+    <!-- the other cause: /dashboard with perms below `team`. this one IS a
+         permission failure, so it says so. -->
+    <section class="enter card p-4 max-w-2xl mx-auto mt-4 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between" style="--i: 1">
+      <div>
+        <p class="text-meta text-primary-400 mb-1.5">Logged in, but not on the team &middot; HTTP 403</p>
+        <h2 class="text-h3 mb-1">The dashboard is team only</h2>
+        <p class="text-ui text-primary-300">
+          You are logged in as nymn, which does not carry team permission.
+          Nothing else on the site needs it.
+        </p>
+      </div>
+      <a href="home.html" class="btn btn-alt shrink-0">Home</a>
+    </section>
+  </div>
+</main>
 
 <script src="assets/chrome.js"></script>
 </body>

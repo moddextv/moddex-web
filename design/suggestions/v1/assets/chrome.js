@@ -171,8 +171,9 @@ const NAV = [
   el.dataset.open = 'false';
   el.innerHTML = `<nav aria-label="v1 pages">${links}
       <div class="cross">
-        <a href="../../index.html">shipped</a>
+        <a href="../../${here}">shipped</a>
         <a href="../v2/${here}">v2</a>
+        <a href="../v3/${here}">v3</a>
       </div>
     </nav>
     <button type="button" aria-expanded="false">${MARK(12, true)} v1 / pages</button>`;

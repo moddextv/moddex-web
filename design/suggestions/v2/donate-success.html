@@ -1,129 +1,100 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
   <title>Thank you | moddex</title>
   <meta name="robots" content="noindex">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/v2.css">
 </head>
 
 <!-- v2 / GET /donate/success?session_id=...
-     An acknowledgement, set as a receipt.
+     Read-only on purpose: the donation is recorded by the webhook on
+     api.moddex.tv, which fires whether or not anybody lands here. That split is
+     why there are two states, and why the fallback's whole job is to put a
+     reference in front of somebody who can act on it. -->
+<body data-nav="donate" data-scope="channel" data-auth="in" class="font-sans text-base">
 
-     The page is read-only on purpose: the donation is recorded by the webhook
-     on api.moddex.tv, which fires whether or not anybody ever lands here. That
-     split is why there are two states, and why the fallback's whole job is to
-     put a reference in front of somebody who can act on it. -->
-<body data-nav="donate" data-auth="in" class="min-h-screen flex flex-col">
+<main id="main" class="flex-1 min-w-0">
+  <div class="px-4 sm:px-6 py-5 max-w-page">
 
-<div id="sheet" class="sheet mx-auto w-full max-w-sheet flex-1 flex flex-col">
-
-  <main id="main" class="flex-grow">
-    <div class="px-6 sm:px-10 pt-12 pb-16">
-
-      <div class="enter folio mb-14" style="--i: 0">
-        <aside class="margin">
-          <span>Receipt sent by Stripe to the address on the card.</span>
-        </aside>
-
+    <div class="enter card p-5 mb-4 max-w-2xl" style="--i: 0">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="chat-badge w-8 h-8 rounded" style="background:#4ADE80" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 32 32" fill="#0B0B0C"><path d="M4 4 H18 V10 H10 V18 H4 Z"/><path d="M28 28 H14 V22 H22 V14 H28 Z"/></svg>
+        </span>
         <div>
-          <div class="flex items-center gap-4 mb-6">
-            <svg width="34" height="34" viewBox="0 0 32 32" role="img" aria-label="moddex" class="shrink-0">
-              <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#16A34A"/>
-              <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#DB2777"/>
-            </svg>
-            <p class="label">Payment settled</p>
-          </div>
-
-          <h1 class="title text-h1 max-w-[22ch] mb-6">
-            Thank you. That is genuinely useful.
-          </h1>
-
-          <p class="text-read text-primary-300 max-w-prose mb-10 text-figures">
-            The donator badge is on <span class="datum text-primary-100">nymn</span>
-            already, and will show up next to your name everywhere moddex prints
-            it.
-          </p>
-
-          <table class="ledger closed max-w-xl mb-9">
-            <tbody>
-              <tr>
-                <td class="label w-40">amount</td>
-                <td class="datum text-right text-primary-100">$5.00 USD</td>
-              </tr>
-              <tr>
-                <td class="label">badge granted</td>
-                <td class="text-right">
-                  <span class="inline-flex items-center gap-2 justify-end">
-                    <img src="../../badges/donator.svg" alt="" width="17" height="17">
-                    <span class="datum text-primary-100">donator</span>
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td class="label">assigned to</td>
-                <td class="datum text-right text-primary-100">nymn</td>
-              </tr>
-              <tr>
-                <td class="label">reference</td>
-                <td class="datum text-right text-primary-300 select-all text-note">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="flex flex-wrap gap-3">
-            <a href="user-detail.html" class="btn">See it on your entry</a>
-            <a href="settings.html" class="btn btn-quiet">Pick a chat badge</a>
-          </div>
+          <h1 class="text-h2">Thank you. That is genuinely useful.</h1>
+          <p class="text-meta text-primary-400">Payment settled</p>
         </div>
       </div>
 
-      <!-- the fallback: stripe redirected but the checkout metadata carried no
-           resolvable twitch login -->
-      <section class="enter" style="--i: 1">
-        <div class="opener mb-6">
-          <h2 class="text-h2">If the twitch name could not be resolved</h2>
+      <p class="text-read text-primary-300 mb-5">
+        The donator badge is on <span class="font-semibold text-primary-100">nymn</span>
+        already and will show up next to your name everywhere moddex prints it.
+      </p>
+
+      <div class="rounded bg-primary-900 divide-y divide-primary-700 mb-5">
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-400">Amount</span>
+          <span class="text-ui font-semibold tabular">$5.00 USD</span>
         </div>
-
-        <div class="folio">
-          <p class="margin">
-            The payment is unaffected either way. Only the badge assignment needs
-            a hand.
-          </p>
-
-          <div class="max-w-prose">
-            <p class="text-read text-primary-200 mb-4">
-              Stripe did not pass back a twitch username, so there is no entry to
-              put the badge on.
-            </p>
-            <p class="text-read text-primary-300 mb-7">
-              Send the reference below and your twitch name, and it gets assigned
-              by hand.
-            </p>
-
-            <div class="rule-mid pt-5 flex flex-col sm:flex-row sm:items-end gap-5 sm:justify-between">
-              <div class="min-w-0">
-                <p class="label text-note mb-1.5">payment reference</p>
-                <code class="datum text-primary-100 break-all select-all">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</code>
-              </div>
-              <a href="mailto:marcel@doubt.ch?subject=moddex%20donator%20badge" class="btn btn-quiet shrink-0">
-                Email marcel@doubt.ch
-              </a>
-            </div>
-          </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-400">Badge granted</span>
+          <span class="flex items-center gap-2">
+            <img src="../../badges/donator.svg" alt="" width="16" height="16" class="rounded">
+            <span class="text-ui font-semibold">donator</span>
+          </span>
         </div>
-      </section>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-400">Assigned to</span>
+          <span class="text-ui font-semibold">nymn</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-400">Receipt</span>
+          <span class="text-ui text-primary-300">Emailed by Stripe</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 px-4 h-11">
+          <span class="text-ui text-primary-400">Reference</span>
+          <span class="text-meta text-primary-300 select-all">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</span>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <a href="user-detail.html" class="btn">See it on your profile</a>
+        <a href="settings.html" class="btn btn-alt">Pick a chat badge</a>
+      </div>
     </div>
-  </main>
 
-</div>
+    <!-- the fallback: stripe redirected but the metadata carried no resolvable
+         twitch login -->
+    <div class="enter card p-5 max-w-2xl" style="--i: 1">
+      <p class="text-meta text-primary-400 mb-3">If the twitch name could not be resolved</p>
+
+      <h2 class="text-h3 mb-2">The payment worked. The badge needs one more step.</h2>
+      <p class="text-ui text-primary-300 leading-relaxed mb-4">
+        Stripe did not pass back a twitch username, so there is no profile to put
+        the badge on. Send the reference below plus your twitch name and it gets
+        assigned by hand.
+      </p>
+
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between rounded bg-primary-900 p-4">
+        <div class="min-w-0">
+          <p class="text-meta text-primary-400 mb-1">Payment reference</p>
+          <code class="text-ui text-primary-100 break-all select-all">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</code>
+        </div>
+        <a href="mailto:marcel@doubt.ch?subject=moddex%20donator%20badge" class="btn btn-alt shrink-0">
+          Email marcel@doubt.ch
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
 
 <script src="assets/chrome.js"></script>
 </body>

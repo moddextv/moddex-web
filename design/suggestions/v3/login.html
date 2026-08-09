@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / the auth gate.
+     Not a route. /settings and /dashboard render this in place of their own
+     main when there is no session, so the url stays put and signing in lands
+     the reader where they were going.
+
+     Written as a statement of what the session is for and what twitch hands
+     over, because somebody arriving here may well be trying to remove
+     themselves from the index, and "You need to login to access this page" is
+     the wrong thing to show that person. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <section class="enter pt-16 pb-8 max-w-2xl" style="--i: 0">
+      <h1 class="text-h1 mb-4 max-w-[20ch]">Settings need a twitch sign-in</h1>
+      <p class="text-lead text-primary-300 max-w-prose mb-8">
+        moddex has to know which twitch account is yours before it can let you
+        change anything about it. Nothing else on the site needs an account.
+      </p>
+
+      <form onsubmit="event.preventDefault(); location.href='settings.html';">
+        <button type="submit" class="btn btn-twitch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/>
+          </svg>
+          Continue with Twitch
+        </button>
+      </form>
+
+      <p class="text-ui text-primary-400 mt-4">
+        You land back on the page you were trying to reach.
+      </p>
+    </section>
+
+    <section class="enter grid gap-6 md:grid-cols-2 pb-4" style="--i: 1">
+
+      <div class="panel">
+        <h2 class="text-h2 mb-5">What a signed-in account can do</h2>
+        <ul class="flex flex-col gap-5">
+          <li class="flex gap-4">
+            <span class="corner corner-tl text-mod mt-1.5" aria-hidden="true"></span>
+            <span>
+              <span class="block text-base font-bold mb-1">Opt out of the index</span>
+              <span class="block text-ui text-primary-300 leading-relaxed">
+                Your profile stops being served and you come off every list and
+                the public api.
+              </span>
+            </span>
+          </li>
+          <li class="flex gap-4">
+            <span class="corner corner-tl text-mod mt-1.5" aria-hidden="true"></span>
+            <span>
+              <span class="block text-base font-bold mb-1">Pick a chat badge</span>
+              <span class="block text-ui text-primary-300 leading-relaxed">
+                If you hold more than one, choose which shows next to your name.
+              </span>
+            </span>
+          </li>
+          <li class="flex gap-4">
+            <span class="corner corner-tl text-mod mt-1.5" aria-hidden="true"></span>
+            <span>
+              <span class="block text-base font-bold mb-1">Attach a donation</span>
+              <span class="block text-ui text-primary-300 leading-relaxed">
+                So the donator badge lands automatically instead of by email.
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel-flush">
+        <h2 class="text-h2 px-4 pb-5">What twitch hands over</h2>
+        <div class="rows">
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+            <span class="text-base">User id</span>
+            <span class="text-ui text-mod font-bold">Yes</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+            <span class="text-base">Login name</span>
+            <span class="text-ui text-mod font-bold">Yes</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+            <span class="text-base">Avatar</span>
+            <span class="text-ui text-mod font-bold">Yes</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+            <span class="text-base text-primary-400">Password</span>
+            <span class="text-ui text-primary-500">Never</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+            <span class="text-base text-primary-400">Chat access</span>
+            <span class="text-ui text-primary-500">Never</span>
+          </div>
+          <div class="row" style="grid-template-columns: minmax(0,1fr) auto; min-height: 44px">
+            <span class="text-base text-primary-400">Acting on your behalf</span>
+            <span class="text-ui text-primary-500">Never</span>
+          </div>
+        </div>
+        <p class="text-ui text-primary-400 px-4 py-4">
+          Full terms in
+          <a href="tos.html" class="text-primary-200 font-semibold hover:underline">section 4</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

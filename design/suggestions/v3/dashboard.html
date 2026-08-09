@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /dashboard
+     Signed out goes to login.html, perms below `team` goes to error-403.html.
+
+     The shipped page is one line of German and nothing else, so everything
+     below the heading is a PROPOSAL rather than a redraw. No chart with a
+     filled track, because none of this data is a trend anybody acts on: it is
+     counts, a feed, and two things that are either fine or not. -->
+<body data-scope="channel" data-auth="in" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <header class="enter pt-12 pb-8 flex flex-wrap items-end justify-between gap-4" style="--i: 0">
+      <div>
+        <h1 class="text-h1 mb-2">Dashboard</h1>
+        <p class="text-ui text-primary-400">Signed in as nymn, team access.</p>
+      </div>
+      <p class="text-ui text-primary-400">Counters refresh every 60 seconds</p>
+    </header>
+
+    <!-- =========================================================== totals -->
+    <section class="enter pb-12" style="--i: 1" aria-label="Index totals">
+      <div class="flex flex-wrap items-end gap-x-14 gap-y-7">
+        <div>
+          <p class="flex items-center gap-2.5 text-ui text-primary-400 mb-2">
+            <span class="corner corner-tl text-mod" aria-hidden="true"></span>
+            moderator records
+          </p>
+          <p class="text-[clamp(2rem,3.4vw,2.5rem)] font-extrabold leading-none tabular text-mod mb-1.5">8,131,260</p>
+          <p class="text-ui text-primary-400 tabular">+22,470 today</p>
+        </div>
+        <div>
+          <p class="flex items-center gap-2.5 text-ui text-primary-400 mb-2">
+            <span class="corner corner-br text-vip" aria-hidden="true"></span>
+            vip records
+          </p>
+          <p class="text-[clamp(2rem,3.4vw,2.5rem)] font-extrabold leading-none tabular text-vip mb-1.5">5,611,594</p>
+          <p class="text-ui text-primary-400 tabular">+9,118 today</p>
+        </div>
+        <p class="text-read text-primary-400 max-w-[30ch] leading-relaxed">
+          across <span class="text-primary-100 font-bold tabular">412,847</span> channels
+          and <span class="text-primary-100 font-bold tabular">2,714,096</span> accounts.
+          <span class="text-primary-100 font-bold tabular">31,588</span> written today.
+        </p>
+      </div>
+    </section>
+
+    <div class="enter grid gap-6 lg:grid-cols-2 pb-6" style="--i: 2">
+
+      <!-- ==================================================== recent reads -->
+      <section class="panel-flush" aria-labelledby="d-reads">
+        <div class="flex items-center gap-3 px-4 pb-5">
+          <h2 id="d-reads" class="text-h2">Recent lookups</h2>
+          <span class="ml-auto flex items-center gap-2 text-ui text-mod">
+            <span class="w-1.5 h-1.5 rounded-pill bg-mod" aria-hidden="true"></span> live
+          </span>
+        </div>
+
+        <div class="rows">
+          <div class="row-head" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span>Time</span><span>Target</span><span class="text-right">Outcome</span><span class="text-right">ms</span>
+          </div>
+
+          <div class="row" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span class="text-ui text-primary-400 tabular">12:04:31</span>
+            <a href="channel-detail.html" class="text-base font-bold hover:underline">forsen</a>
+            <span class="text-ui text-mod text-right">indexed</span>
+            <span class="text-ui text-primary-400 tabular text-right">412</span>
+          </div>
+          <div class="row" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span class="text-ui text-primary-400 tabular">12:04:02</span>
+            <a href="channel-detail.html" class="text-base font-bold hover:underline">NymN</a>
+            <span class="text-ui text-primary-400 text-right">cached</span>
+            <span class="text-ui text-primary-400 tabular text-right">18</span>
+          </div>
+          <div class="row" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span class="text-ui text-primary-400 tabular">12:03:47</span>
+            <span class="text-base text-primary-300">someonewhoquit</span>
+            <span class="text-ui text-vip text-right">tos_banned</span>
+            <span class="text-ui text-primary-400 tabular text-right">203</span>
+          </div>
+          <div class="row" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span class="text-ui text-primary-400 tabular">12:03:19</span>
+            <a href="channel-detail.html" class="text-base font-bold hover:underline">pajlada</a>
+            <span class="text-ui text-primary-400 text-right">cached</span>
+            <span class="text-ui text-primary-400 tabular text-right">22</span>
+          </div>
+          <div class="row" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span class="text-ui text-primary-400 tabular">12:02:58</span>
+            <span class="text-base text-primary-300">hiddenaccount</span>
+            <span class="text-ui text-primary-400 text-right">opted out</span>
+            <span class="text-ui text-primary-400 tabular text-right">11</span>
+          </div>
+          <div class="row" style="grid-template-columns: 80px minmax(0,1fr) 110px 70px">
+            <span class="text-ui text-primary-400 tabular">12:02:41</span>
+            <a href="channel-detail.html" class="text-base font-bold hover:underline">xQc</a>
+            <span class="text-ui text-mod text-right">indexed</span>
+            <span class="text-ui text-primary-400 tabular text-right">1,204</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================ services + state -->
+      <div class="flex flex-col gap-6">
+        <section class="panel-flush" aria-labelledby="d-services">
+          <div class="flex items-center gap-3 px-4 pb-5">
+            <h2 id="d-services" class="text-h2">Services</h2>
+            <span class="ml-auto text-ui text-mod">3 up</span>
+          </div>
+
+          <div class="rows">
+            <div class="row" style="grid-template-columns: minmax(0,1fr) 60px 80px">
+              <span class="text-base">api.moddex.tv</span>
+              <span class="text-ui text-mod font-bold text-right">200</span>
+              <span class="text-ui text-primary-400 tabular text-right">84ms</span>
+            </div>
+            <div class="row" style="grid-template-columns: minmax(0,1fr) 60px 80px">
+              <span class="text-base">moddex.tv</span>
+              <span class="text-ui text-mod font-bold text-right">200</span>
+              <span class="text-ui text-primary-400 tabular text-right">112ms</span>
+            </div>
+            <div class="row" style="grid-template-columns: minmax(0,1fr) 60px 80px">
+              <span class="text-base">status.moddex.tv</span>
+              <span class="text-ui text-mod font-bold text-right">200</span>
+              <span class="text-ui text-primary-400 tabular text-right">31ms</span>
+            </div>
+            <div class="row" style="grid-template-columns: minmax(0,1fr) auto">
+              <span class="text-base text-primary-400">ws.moddex.tv</span>
+              <span class="text-ui text-primary-400">not deployed</span>
+            </div>
+          </div>
+
+          <p class="text-ui text-primary-400 px-4 py-4">
+            Every service answers <span class="text-primary-200">/health</span>.
+            The docker healthcheck and status.moddex.tv both read it.
+          </p>
+        </section>
+
+        <section class="panel-flush" aria-labelledby="d-migrations">
+          <div class="flex items-center gap-3 px-4 pb-5">
+            <h2 id="d-migrations" class="text-h2">Migrations</h2>
+            <span class="ml-auto text-ui text-founder">1 pending</span>
+          </div>
+
+          <div class="rows">
+            <div class="row" style="grid-template-columns: 60px minmax(0,1fr) auto">
+              <span class="text-ui text-primary-400 tabular">002</span>
+              <span class="text-base text-primary-300">role backfill</span>
+              <span class="text-ui text-mod font-semibold">applied</span>
+            </div>
+            <div class="row" style="grid-template-columns: 60px minmax(0,1fr) auto">
+              <span class="text-ui text-primary-400 tabular">013</span>
+              <span class="text-base text-primary-300">supersedes 009 to 011</span>
+              <span class="text-ui text-mod font-semibold">applied</span>
+            </div>
+            <div class="row" style="grid-template-columns: 60px minmax(0,1fr) auto">
+              <span class="text-ui text-primary-400 tabular">003</span>
+              <span class="text-base text-primary-300">next, now unblocked</span>
+              <span class="text-ui text-founder font-semibold">pending</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="text-h2 mb-3">Opt-outs this month</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            <span class="text-primary-100 font-bold tabular">17</span> accounts
+            switched the opt-out on and
+            <span class="text-primary-100 font-bold tabular">2</span> switched it
+            back off. Opted-out accounts are hidden from this page too, so the
+            count is all it shows.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

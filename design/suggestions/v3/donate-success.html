@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank you | moddex</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /donate/success?session_id=...
+     Read-only on purpose: the donation is recorded by the webhook on
+     api.moddex.tv, which fires whether or not anybody lands here. That split is
+     why there are two states, and why the fallback's whole job is to put a
+     reference in front of somebody who can act on it. -->
+<body data-scope="channel" data-auth="in" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <section class="enter pt-12 pb-6 max-w-3xl" style="--i: 0">
+      <div class="flex items-center gap-3.5 mb-5">
+        <svg width="26" height="26" viewBox="0 0 32 32" role="img" aria-label="moddex" class="shrink-0">
+          <path d="M4 4 H18 V10 H10 V18 H4 Z" fill="#4ADE80"/>
+          <path d="M28 28 H14 V22 H22 V14 H28 Z" fill="#F472B6"/>
+        </svg>
+        <span class="text-ui text-primary-400">Payment settled</span>
+      </div>
+
+      <h1 class="text-h1 mb-4">Thank you, genuinely &lt;3</h1>
+      <p class="text-lead text-primary-300 max-w-prose mb-8">
+        Donations are the only thing keeping moddex free to read, and there is no
+        paid tier waiting in the wings. The donator badge is on
+        <span class="text-primary-100 font-bold">nymn</span> already and will show
+        up next to your name everywhere moddex prints it.
+      </p>
+
+      <div class="panel-flush mb-6">
+        <div class="rows">
+          <div class="row cols-people" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-ui text-primary-400">Amount</span>
+            <span class="text-base font-bold tabular">$5.00 USD</span>
+          </div>
+          <div class="row cols-people" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-ui text-primary-400">Badge granted</span>
+            <span class="flex items-center gap-2.5">
+              <img src="../../badges/donator.svg" alt="" width="18" height="18" class="rounded-sm">
+              <span class="text-base font-bold">donator</span>
+            </span>
+          </div>
+          <div class="row cols-people" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-ui text-primary-400">Assigned to</span>
+            <span class="text-base font-bold">nymn</span>
+          </div>
+          <div class="row cols-people" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-ui text-primary-400">Receipt</span>
+            <span class="text-ui text-primary-300">Emailed by Stripe</span>
+          </div>
+          <div class="row cols-people" style="grid-template-columns: minmax(0,1fr) auto">
+            <span class="text-ui text-primary-400">Reference</span>
+            <span class="text-ui text-primary-300 select-all">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="user-detail.html" class="btn">See it on your profile</a>
+        <a href="settings.html" class="btn btn-soft">Pick a chat badge</a>
+      </div>
+    </section>
+
+    <!-- the fallback: stripe redirected but the checkout metadata carried no
+         resolvable twitch login -->
+    <section class="enter pb-4 max-w-3xl" style="--i: 1">
+      <div class="panel">
+        <p class="text-meta text-primary-400 mb-4">If the twitch name could not be resolved</p>
+
+        <h2 class="text-h2 mb-3">The payment worked. The badge needs one more step.</h2>
+        <p class="text-read text-primary-300 max-w-prose mb-6">
+          Stripe did not pass back a twitch username, so there is no profile to
+          put the badge on. Send the reference below plus your twitch name and it
+          gets assigned by hand.
+        </p>
+
+        <div class="flex flex-col sm:flex-row sm:items-end gap-4 sm:justify-between">
+          <div class="min-w-0">
+            <p class="text-meta text-primary-400 mb-1.5">Payment reference</p>
+            <code class="text-base text-primary-100 break-all select-all">pi_3Qk8vXJmXn2LqR0f1aBcDeFg</code>
+          </div>
+          <a href="mailto:marcel@doubt.ch?subject=moddex%20donator%20badge" class="btn btn-soft shrink-0">
+            Email marcel@doubt.ch
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

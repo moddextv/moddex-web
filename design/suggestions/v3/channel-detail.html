@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>forsen | moddex</title>
+  <meta name="description" content="Everyone holding mod, vip or founder in forsen's channel, and the date each role was granted.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /channel/forsen
+     The page the corrections are easiest to see on.
+
+     Not a table: every list here is a grid of rows with a shared column
+     template, hover, and nothing between rows but air. Column labels sit light
+     and unboxed above the first row, so the two numbers on the right are still
+     explained without the thing reading as a spreadsheet.
+
+     Not clamped: 52px rows, 15px base, 1440px page, 24px panel padding.
+
+     Not Twitch: the accent is the mark's own green/pink pair. Purple appears
+     once, on the button that opens twitch. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <!-- ========================================================= profile -->
+    <section class="enter pt-10 pb-8" style="--i: 0">
+      <div class="flex flex-wrap items-start gap-6">
+        <span class="avatar w-[88px] h-[88px] text-[2rem]" style="background:hsl(12 12% 18%);color:hsl(12 22% 66%)" aria-hidden="true">f</span>
+
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-3 flex-wrap mb-2">
+            <h1 class="text-h1">forsen</h1>
+            <img src="../../badges/partner.svg" alt="Twitch partner" width="20" height="20" title="Twitch partner" class="rounded-sm">
+            <img src="../../badges/donator.svg" alt="moddex donator" width="20" height="20" title="moddex donator" class="rounded-sm">
+          </div>
+
+          <p class="text-read text-primary-300 max-w-prose mb-4">
+            forsen is a swedish streamer, formerly a professional starcraft II
+            and hearthstone player.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-x-7 gap-y-2 text-ui text-primary-400">
+            <span><span class="tabular text-primary-100 font-bold">1,730,412</span> followers</span>
+            <span>joined <span class="tabular text-primary-200">March 2011</span></span>
+            <span>last read <span class="text-primary-200">4 minutes ago</span></span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="https://twitch.tv/forsen" target="_blank" rel="noopener noreferrer" class="btn btn-twitch-quiet">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/>
+            </svg>
+            Open on Twitch
+          </a>
+          <button type="button" class="btn btn-soft w-10 p-0" title="Copy moddex.tv/c/forsen" aria-label="Copy short url">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+          <button type="button" class="btn btn-soft w-10 p-0" title="Read the lists again from twitch" aria-label="Refresh">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- the two lookup directions. underlined in the role's own colour. -->
+      <nav class="tabs mt-8" aria-label="Which direction to read this account">
+        <a href="channel-detail.html" class="tab tab-mod" aria-current="page">
+          <span class="corner corner-tl text-mod" aria-hidden="true"></span>
+          Holds roles in this channel
+          <span class="text-primary-400 font-normal tabular">29</span>
+        </a>
+        <a href="user-detail.html" class="tab tab-vip">
+          <span class="corner corner-br text-primary-600" aria-hidden="true"></span>
+          Roles forsen holds elsewhere
+          <span class="text-primary-500 font-normal tabular">3</span>
+        </a>
+      </nav>
+    </section>
+
+    <!-- =========================================================== roles -->
+    <section class="enter grid gap-6 lg:grid-cols-2 pb-6" style="--i: 1">
+
+      <!-- ------------------------------------------------------- mods -->
+      <div class="panel-flush">
+        <div class="flex items-center gap-3 flex-wrap px-4 pb-5">
+          <span class="corner corner-tl text-mod" aria-hidden="true"></span>
+          <h2 class="text-h2">Moderators</h2>
+          <span class="text-lead text-primary-400 tabular">24</span>
+          <span class="ml-auto flex items-center gap-2">
+            <button type="button" class="chip" aria-pressed="false">Hide 3 bots</button>
+            <button type="button" class="chip">
+              Granted
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </span>
+        </div>
+
+        <div class="rows">
+          <div class="row-head cols-people">
+            <span>Account</span>
+            <span class="text-right">Granted</span>
+            <span class="text-right">Followers</span>
+          </div>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(200 12% 18%);color:hsl(200 22% 66%)" aria-hidden="true">n</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">nymn</span>
+                  <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" title="Twitch partner" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">holds 102 roles</span>
+              </span>
+            </span>
+            <span class="text-ui text-primary-300 tabular text-right">Apr 2016</span>
+            <span class="text-ui text-primary-400 tabular text-right">614,201</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(96 12% 18%);color:hsl(96 22% 66%)" aria-hidden="true">p</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">pajlada</span>
+                  <img src="../../badges/team.svg" alt="moddex team" width="14" height="14" title="moddex team" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">holds 449 roles</span>
+              </span>
+            </span>
+            <span class="text-ui text-primary-300 tabular text-right">Sep 2015</span>
+            <span class="text-ui text-primary-400 tabular text-right">92,830</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(320 12% 18%);color:hsl(320 22% 66%)" aria-hidden="true">s</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">supibot</span>
+                  <span class="text-micro font-semibold text-primary-400 bg-primary-700 px-2 py-0.5 rounded-sm shrink-0">bot</span>
+                </span>
+                <span class="block text-micro text-primary-400">holds 1,204 roles</span>
+              </span>
+            </span>
+            <span class="text-ui text-primary-300 tabular text-right">Nov 2019</span>
+            <span class="text-ui text-primary-400 tabular text-right">1,204</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(40 12% 18%);color:hsl(40 22% 66%)" aria-hidden="true">e</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">elis</span>
+                <span class="block text-micro text-primary-400">holds 55 roles</span>
+              </span>
+            </span>
+            <!-- twitch returned no date. the cell says so in words rather than
+                 printing a dash the reader has to decode. -->
+            <span class="text-ui text-primary-500 text-right" title="Twitch returned no grant date for this role">no date</span>
+            <span class="text-ui text-primary-400 tabular text-right">8,910</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(160 12% 18%);color:hsl(160 22% 66%)" aria-hidden="true">m</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">marlon</span>
+                <span class="block text-micro text-primary-400">holds 50 roles</span>
+              </span>
+            </span>
+            <span class="text-ui text-primary-300 tabular text-right">Jan 2022</span>
+            <span class="text-ui text-primary-400 tabular text-right">3,417</span>
+          </a>
+
+          <a href="user-detail.html" class="row cols-people">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(270 12% 18%);color:hsl(270 22% 66%)" aria-hidden="true">k</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">kkona</span>
+                  <img src="../../badges/affiliate.svg" alt="Affiliate" width="14" height="14" title="Twitch affiliate" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">holds 90 roles</span>
+              </span>
+            </span>
+            <span class="text-ui text-primary-300 tabular text-right">Feb 2021</span>
+            <span class="text-ui text-primary-400 tabular text-right">31,004</span>
+          </a>
+        </div>
+
+        <button type="button" class="w-full h-12 mt-2 rounded-md text-base font-bold text-primary-300 hover:text-primary-100 hover:bg-primary-700 transition-colors">
+          Show 18 more
+        </button>
+      </div>
+
+      <!-- ------------------------------------------------- vips + founders -->
+      <div class="flex flex-col gap-6">
+        <div class="panel-flush">
+          <div class="flex items-center gap-3 flex-wrap px-4 pb-5">
+            <span class="corner corner-br text-vip" aria-hidden="true"></span>
+            <h2 class="text-h2">VIPs</h2>
+            <span class="text-lead text-primary-400 tabular">5</span>
+            <span class="ml-auto">
+              <button type="button" class="chip" aria-pressed="true">Bots hidden</button>
+            </span>
+          </div>
+
+          <div class="rows">
+            <div class="row-head cols-people">
+              <span>Account</span>
+              <span class="text-right">Granted</span>
+              <span class="text-right">Followers</span>
+            </div>
+
+            <a href="user-detail.html" class="row cols-people">
+              <span class="flex items-center gap-3.5 min-w-0">
+                <span class="avatar w-9 h-9 text-meta" style="background:hsl(270 12% 18%);color:hsl(270 22% 66%)" aria-hidden="true">k</span>
+                <span class="min-w-0">
+                  <span class="flex items-center gap-2">
+                    <span class="row-name text-base font-bold truncate">kkona</span>
+                    <img src="../../badges/affiliate.svg" alt="Affiliate" width="14" height="14" title="Twitch affiliate" class="rounded-sm">
+                  </span>
+                  <span class="block text-micro text-primary-400">holds 90 roles</span>
+                </span>
+              </span>
+              <span class="text-ui text-primary-300 tabular text-right">Feb 2021</span>
+              <span class="text-ui text-primary-400 tabular text-right">31,004</span>
+            </a>
+
+            <a href="user-detail.html" class="row cols-people">
+              <span class="flex items-center gap-3.5 min-w-0">
+                <span class="avatar w-9 h-9 text-meta" style="background:hsl(150 12% 18%);color:hsl(150 22% 66%)" aria-hidden="true">l</span>
+                <span class="min-w-0">
+                  <span class="row-name block text-base font-bold truncate">lekkerbekje</span>
+                  <span class="block text-micro text-primary-400">holds 41 roles</span>
+                </span>
+              </span>
+              <span class="text-ui text-primary-300 tabular text-right">Jul 2023</span>
+              <span class="text-ui text-primary-400 tabular text-right">512</span>
+            </a>
+          </div>
+
+          <p class="px-4 py-4 text-ui text-primary-400">
+            3 bot accounts hidden.
+            <button type="button" class="text-primary-200 font-semibold hover:underline">Show them</button>
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="corner corner-bl text-founder" aria-hidden="true"></span>
+            <h2 class="text-h2">Founders</h2>
+            <span class="text-lead text-primary-400 tabular">0</span>
+          </div>
+          <p class="text-read text-primary-300 max-w-prose">
+            None read yet. Founder badges come from a different twitch query
+            than mods and vips, and it runs on a slower schedule. An empty list
+            here means not yet read, not none exist.
+          </p>
+          <p class="text-ui text-primary-500 mt-3">Last attempt 6 August 2026.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

@@ -1,65 +1,64 @@
 /* ==========================================================================
- * v2 "ALMANAC"
+ * v2 "NATIVE"
  *
- * moddex set as a printed reference volume rather than as a website.
+ * moddex built to sit inside the Twitch ecosystem rather than beside it.
  *
- * The devices below are all borrowed from book and directory typography, and
- * every one of them is doing a job the web equivalent does worse:
+ * The point of this direction is that the borrowings are STRUCTURAL, not
+ * decorative. Both earlier attempts at v2 put a different skin on the same
+ * wireframe (heading, paragraph, table, section, table) and both read as
+ * generated because of it. These are different page shapes, taken from
+ * interfaces that already solved the same problems:
  *
- *   the sheet        paper on a desk. gives the content an edge, which is what
- *                    a max-width container never quite does.
- *   register marks   the moddex mark IS two corner brackets 180 degrees apart,
- *                    which is exactly what a printer's registration mark is.
- *                    put them on the corners of the sheet and the page becomes
- *                    the logo. this is the whole reason the concept fits.
- *   booktabs rules   thick rule above a table head, thin below it, thin at the
- *                    foot, and NOTHING between rows. the convention every
- *                    typesetting manual has recommended for a century, and the
- *                    exact opposite of a hairline under all 24 rows.
- *   the margin       notes, sources and timestamps sit in the left margin
- *                    instead of in chips and pills. a scholarly edition puts
- *                    apparatus beside the text, not inside it.
- *   italic labels    a printed table labels its columns in italic, not in
- *                    tracked-out uppercase.
- *   old-style figs   numbers in running prose get old-style figures so they sit
- *                    in the line; numbers in columns get lining tabular figures
- *                    so they stack. two different jobs, two different settings.
- *   the colophon     the footer states what the volume is set in and what it
- *                    holds. footers on the web say nothing; a colophon says
- *                    something true.
+ *   persistent nav search   Twitch keeps search in the top bar because search
+ *                           is how you get anywhere. On moddex search IS the
+ *                           product, so it belongs there and not in a hero.
+ *   the left rail           Twitch's rail is followed channels. moddex's is
+ *                           recently looked up. Same job: get back to a thing
+ *                           you were just at, from anywhere.
+ *   channel header + tabs   A moddex entry IS a channel page. Avatar, name,
+ *                           follower count, action, then tabs for the views of
+ *                           it. The two lookup directions are those tabs.
+ *   the chatter list        Twitch's viewer list groups people by role under
+ *                           headings, with each name carrying its badge. That
+ *                           is exactly what a moddex channel entry is: a
+ *                           chatter list, persisted and dated. This is the
+ *                           single most useful borrow in the whole direction.
+ *   chat badges             Twitch's own mod badge is a green sword and its VIP
+ *                           badge is a pink gem, at 18px immediately before the
+ *                           username. moddex's mod green and vip pink are not
+ *                           an invention that happens to match; they are the
+ *                           same convention.
  *
- * ABSENT ON PURPOSE, because they are what made the previous v2 read as
- * generated: monospace, uppercase tracked-out micro-labels, a heavy display
- * grotesk, a dark canvas, saturated accents, cards, shadows.
- *
- * DIALS (design-taste-frontend section 1): DESIGN_VARIANCE 7,
- * MOTION_INTENSITY 2, VISUAL_DENSITY 5. Motion is near zero on purpose. Paper
- * does not animate, and the restraint is the point.
+ * DIALS (design-taste-frontend section 1): DESIGN_VARIANCE 5,
+ * MOTION_INTENSITY 3, VISUAL_DENSITY 7. Variance is deliberately LOW. A
+ * companion tool that invents its own layout language is a worse companion
+ * tool, and "surprising" is not what anybody wants from a lookup.
  * ========================================================================== */
 
 /* --------------------------------------------------------------- tokens -- */
 :root {
-    /* Chrome's "Auto Dark Mode for Web Contents" will invert a light page that
-       has not declared what it supports, which turns this whole direction into
-       a bad version of v1 on any machine with that flag on. Declaring `light`
-       opts out. The <meta name="color-scheme"> in each page head does the same
-       job before the stylesheet has parsed. Not optional for a light design. */
-    color-scheme: light;
+    --base: #0B0B0C;
+    --raised: #111113;
+    --hover: #232326;
+    --border: #33333A;
+    --text: #E7E7EA;
+    --text-alt: #8A8A93;
 
-    --ink: #18181B;
-    --paper: #FFFFFF;
-    --desk: #F2F2F5;
-    --rule-hair: #E2E2E7;
-    --rule-mid: #C4C4CC;
-    --rule-thick: #18181B;
+    --purple: #9146FF;
+    --purple-hover: #A970FF;
+    --purple-press: #772CE8;
 
-    --mod: #16A34A;
-    --vip: #DB2777;
+    --mod: #4ADE80;
+    --vip: #F472B6;
 
-    --ease: cubic-bezier(0.2, 0, 0, 1);
-    --duration: 160ms;
+    --nav-h: 50px;
+    --rail-w: 240px;
 
-    --z-header: 40;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --dur: 120ms;
+
+    --z-rail: 30;
+    --z-nav: 40;
     --z-overlay: 60;
     --z-switcher: 90;
 }
@@ -73,329 +72,333 @@ html {
 }
 
 body {
-    background: var(--desk);
-    color: var(--ink);
-    font-family: 'Newsreader', 'Iowan Old Style', Georgia, serif;
-    font-variant-numeric: oldstyle-nums proportional-nums;
+    background: var(--base);
+    color: var(--text);
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv05' 1, 'ss03' 1;
 }
 
-/* ---------------------------------------------------------------- sheet --
- * paper on a desk, with the mark's two corners registering it.
- */
-.sheet {
-    position: relative;
-    background: var(--paper);
-    border-left: 1px solid var(--rule-hair);
-    border-right: 1px solid var(--rule-hair);
-}
-
-/* the two halves of the moddex mark, at page scale, 180 degrees apart. the
-   sheet IS the logo. */
-.sheet::before,
-.sheet::after {
-    content: '';
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    border: 3px solid;
-    pointer-events: none;
-}
-
-.sheet::before {
-    top: -1px;
-    left: -1px;
-    border-color: var(--mod);
-    border-right: 0;
-    border-bottom: 0;
-}
-
-.sheet::after {
-    bottom: -1px;
-    right: -1px;
-    border-color: var(--vip);
-    border-left: 0;
-    border-top: 0;
-}
-
-/* ------------------------------------------------------------ typography -- */
 h1, h2, h3, h4 {
-    font-weight: 400;
-    text-wrap: balance;
+    font-weight: 600;
 }
 
-/* a book title is large and light. weight comes from the size, never from
-   dropping to 700 and hoping. */
-.title {
-    font-weight: 300;
-    letter-spacing: -0.015em;
+input, button, select, textarea {
+    font: inherit;
 }
 
-.title em {
-    font-style: italic;
-    font-weight: 300;
+.tabular {
+    font-variant-numeric: tabular-nums;
 }
 
-p {
-    text-wrap: pretty;
-}
-
-/* the label. italic serif, sentence case, small. replaces every tracked-out
-   uppercase micro-label in the other two directions. */
-.label {
-    font-style: italic;
-    font-weight: 400;
-    color: #6E6E78;
-}
-
-/* names, dates and counts. grotesk, because a serif's proportional figures do
-   not stack in a column. */
-.datum {
-    font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-    font-variant-numeric: lining-nums tabular-nums;
-    letter-spacing: 0;
-}
-
-/* running prose keeps old-style figures so numbers sit in the line rather than
-   standing up out of it */
-.text-figures {
-    font-variant-numeric: oldstyle-nums proportional-nums;
-}
-
-/* small caps, for the running head only. genuine small caps from the font, not
-   uppercase at a smaller size. */
-.smallcaps {
-    font-variant-caps: all-small-caps;
-    letter-spacing: 0.06em;
-}
-
-/* ------------------------------------------------------------- booktabs --
- * thick above the head, thin below it, thin at the foot, nothing between rows.
+/* ------------------------------------------------------------------ nav --
+ * 50px, fixed, the full width of the window. Twitch's is 50px and it never
+ * moves, because search and account have to be reachable from anywhere.
  */
-.ledger {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.ledger thead th {
-    padding: 0 0 6px;
-    border-top: 2px solid var(--rule-thick);
-    border-bottom: 1px solid var(--rule-mid);
-    padding-top: 8px;
-    font-family: 'Newsreader', Georgia, serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 0.9375rem;
-    color: #6E6E78;
-    text-align: left;
-    white-space: nowrap;
-}
-
-/* the element selector above outweighs tailwind's .text-right, so numeric
-   column heads need this to follow their column */
-.ledger thead th.text-right {
-    text-align: right;
-}
-
-.ledger tbody td {
-    padding: 9px 0;
-    vertical-align: baseline;
-}
-
-.ledger tbody tr:last-child td {
-    padding-bottom: 12px;
-}
-
-.ledger tfoot td {
-    border-top: 1px solid var(--rule-mid);
-    padding-top: 8px;
-    font-style: italic;
-    font-size: 0.875rem;
-    color: #6E6E78;
-}
-
-/* the whole table closes with a single rule. nothing between rows. */
-.ledger.closed tbody tr:last-child td {
-    border-bottom: 1px solid var(--rule-mid);
-    padding-bottom: 12px;
-}
-
-/* hovering a row tints the paper very slightly. no fill, no border, no lift. */
-@media (hover: hover) and (pointer: fine) {
-    .ledger tbody tr {
-        transition: background-color var(--duration) linear;
-    }
-
-    .ledger tbody tr:hover {
-        background-color: #F7F7F9;
-    }
-}
-
-/* a column of names in a directory gets a leader dot line to its value. this
-   is the phone-book device, and it is genuinely useful at this width. */
-.leader {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    width: 100%;
-}
-
-.leader::after {
-    content: '';
-    flex: 1;
-    height: 0;
-    border-bottom: 1px dotted var(--rule-mid);
-    transform: translateY(-3px);
-}
-
-/* --------------------------------------------------------------- margin --
- * apparatus beside the text, the way a scholarly edition sets it.
- */
-.folio {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-}
-
-@media (min-width: 1024px) {
-    .folio {
-        grid-template-columns: 168px minmax(0, 1fr);
-        gap: 40px;
-    }
-}
-
-.margin {
-    font-style: italic;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: #6E6E78;
-}
-
-@media (min-width: 1024px) {
-    .margin {
-        text-align: right;
-    }
-}
-
-/* --------------------------------------------------------------- rules -- */
-.rule-thick { border-top: 2px solid var(--rule-thick); }
-.rule-mid { border-top: 1px solid var(--rule-mid); }
-.rule-hair { border-top: 1px solid var(--rule-hair); }
-
-/* the section opener: a role's corner, its name, and a rule that runs out to
-   the edge of the measure */
-.opener {
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    height: var(--nav-h);
+    background: var(--raised);
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 0 12px;
 }
 
-.opener::after {
-    content: '';
+/* the persistent search. this is the single most load-bearing borrow: it means
+   moddex never needs a hero whose only job is to hold a search box. */
+.nav-search {
+    display: flex;
+    align-items: stretch;
+    /* basis rather than width:100%. as a flex item inside the nav it was being
+       shrunk below its content, and since the scope label is nowrap it
+       overflowed straight over the input. */
+    flex: 1 1 420px;
+    max-width: 420px;
+    min-width: 180px;
+    height: 30px;
+    background: var(--base);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color var(--dur) var(--ease);
+}
+
+.nav-search:focus-within {
+    border-color: var(--purple);
+}
+
+.nav-search input {
     flex: 1;
-    border-bottom: 1px solid var(--rule-mid);
+    min-width: 0;
+    padding: 0 10px;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
 }
 
-/* the mark's corner, at text scale, oriented per role */
-.corner {
-    display: block;
-    width: 11px;
-    height: 11px;
-    border: 2px solid currentColor;
+.nav-search input::placeholder {
+    color: #55555F;
+}
+
+.nav-search button[type='submit'] {
+    width: 34px;
     flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: var(--hover);
+    border: 0;
+    border-left: 1px solid var(--border);
+    color: var(--text-alt);
+    cursor: pointer;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
-.corner-tl { border-right: 0; border-bottom: 0; }
-.corner-br { border-left: 0; border-top: 0; }
-.corner-bl { border-right: 0; border-top: 0; }
-.corner-tr { border-left: 0; border-bottom: 0; }
-
-/* ---------------------------------------------------------- interaction -- */
-a {
-    color: inherit;
+.nav-search button[type='submit']:hover {
+    background: #2A2A2F;
+    color: var(--text);
 }
 
-.link {
-    text-decoration: underline;
-    text-decoration-color: var(--rule-mid);
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    transition: text-decoration-color var(--duration) linear;
+/* the direction selector, sitting inside the search the way Twitch's category
+   filter sits inside its search on the browse page */
+.nav-scope {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 5px;
+    padding: 0 10px;
+    background: var(--hover);
+    border-right: 1px solid var(--border);
+    color: var(--text-alt);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color var(--dur) var(--ease);
 }
 
-.link:hover {
-    text-decoration-color: var(--ink);
+.nav-scope:hover {
+    color: var(--text);
 }
 
+/* ----------------------------------------------------------------- rail --
+ * 240px, Twitch's exact width. Sticky under the nav, its own scroll.
+ */
+.rail {
+    position: sticky;
+    top: var(--nav-h);
+    align-self: flex-start;
+    width: var(--rail-w);
+    flex-shrink: 0;
+    height: calc(100dvh - var(--nav-h));
+    overflow-y: auto;
+    background: var(--raised);
+    z-index: var(--z-rail);
+}
+
+.rail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    padding: 0 10px 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* a rail row: 42px, 30px avatar, name over meta, stat right. Twitch's followed
+   channel row, exactly. */
+.rail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 0 10px 0 16px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color var(--dur) var(--ease);
+}
+
+.rail-item:hover {
+    background: var(--hover);
+}
+
+.rail-item[aria-current='page'] {
+    background: var(--hover);
+    box-shadow: inset 3px 0 0 var(--purple);
+}
+
+/* -------------------------------------------------------------- avatars --
+ * circular, always. this is the one shape Twitch never varies.
+ */
+.avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--hover);
+    color: var(--text-alt);
+    font-weight: 600;
+    text-transform: uppercase;
+    user-select: none;
+    overflow: hidden;
+}
+
+/* the purple ring Twitch puts on an avatar that wants attention */
+.avatar-ring {
+    box-shadow: 0 0 0 2px var(--base), 0 0 0 4px var(--purple);
+}
+
+/* ------------------------------------------------------------- buttons -- */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    height: 44px;
-    padding: 0 20px;
-    font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    border: 1px solid var(--ink);
-    background: var(--ink);
-    color: var(--paper);
+    gap: 6px;
+    height: 30px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 4px;
+    background: var(--purple);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color var(--duration) linear, color var(--duration) linear;
+    transition: background-color var(--dur) var(--ease);
 }
 
-.btn:hover {
-    background: var(--paper);
-    color: var(--ink);
+.btn:hover { background: var(--purple-hover); }
+.btn:active { background: var(--purple-press); }
+
+.btn-lg { height: 40px; padding: 0 16px; font-size: 14px; }
+
+.btn-alt {
+    background: var(--hover);
+    color: var(--text);
 }
 
-.btn-quiet {
+.btn-alt:hover { background: #2E2E35; }
+
+.btn-ghost {
     background: transparent;
-    color: var(--ink);
-    border-color: var(--rule-mid);
+    color: var(--text-alt);
 }
 
-.btn-quiet:hover {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
+.btn-ghost:hover { background: var(--hover); color: var(--text); }
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* ----------------------------------------------------------------- entry --
- * motion is nearly absent. one fade, no translate, no stagger beyond a beat.
- * paper does not animate, and the restraint is the whole register.
+/* ---------------------------------------------------------------- tabs --
+ * Twitch's channel tab bar: text, 600, purple underline and purple text when
+ * current. The two lookup directions are the tabs, because on Twitch a tab is
+ * a different view of the same subject and that is exactly what they are.
  */
+.tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 4px;
+    border-bottom: 1px solid var(--hover);
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 14px;
+    color: var(--text-alt);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.tab:hover { color: var(--text); }
+
+.tab[aria-current='page'] {
+    color: var(--purple-hover);
+    border-bottom-color: var(--purple);
+}
+
+/* ------------------------------------------------------------ role list --
+ * Twitch's chatter list. A role heading, then compact rows, each name carrying
+ * its badge. 36px rows: the chat line rhythm, which is what these are.
+ */
+.role-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.chatter {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 36px;
+    padding: 0 12px;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color var(--dur) var(--ease);
+}
+
+.chatter:hover {
+    background: var(--hover);
+}
+
+/* the chat badge, at the size Twitch renders it and in the position Twitch
+   renders it: 18px, immediately before the name, no gap-filling label */
+.chat-badge {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.chat-badge svg { display: block; }
+
+/* -------------------------------------------------------------- surface -- */
+.card {
+    background: var(--raised);
+    border-radius: 6px;
+}
+
+.divide-line { border-color: var(--hover); }
+
+/* ------------------------------------------------------------- entry -- */
 .enter {
     opacity: 0;
-    animation: enter 420ms var(--ease) forwards;
-    animation-delay: min(calc(var(--i, 0) * 55ms), 280ms);
+    animation: enter 260ms var(--ease) forwards;
+    animation-delay: min(calc(var(--i, 0) * 40ms), 200ms);
 }
 
 @keyframes enter {
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
 }
 
 /* --------------------------------------------------------- comp helpers --
- * NOTHING BELOW THIS LINE BELONGS IN src/. These stand in for react components
- * a static file cannot render.
+ * NOTHING BELOW THIS LINE BELONGS IN src/.
  */
-.portrait {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: var(--desk);
-    border: 1px solid var(--rule-hair);
-    color: #9A9AA4;
-    font-family: 'Newsreader', Georgia, serif;
-    font-style: italic;
-    user-select: none;
-}
-
 .skeleton {
-    background: var(--desk);
+    background: var(--hover);
+    border-radius: 4px;
     position: relative;
     overflow: hidden;
 }
@@ -404,8 +407,8 @@ a {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
-    animation: sweep 1.4s var(--ease) infinite;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    animation: sweep 1.2s var(--ease) infinite;
 }
 
 @keyframes sweep {
@@ -413,155 +416,142 @@ a {
     to { transform: translateX(100%); }
 }
 
-/* a switch on paper is a printed checkbox, not an iOS toggle */
-.mark-box {
+/* Twitch's toggle: a pill track, purple when on */
+.toggle {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border: 1.5px solid var(--rule-mid);
-    background: var(--paper);
+    width: 42px;
+    height: 22px;
+    padding: 2px;
+    background: #464649;
+    border-radius: 9999px;
     flex-shrink: 0;
-    transition: border-color var(--duration) linear;
+    transition: background-color var(--dur) var(--ease);
 }
 
-.mark-box svg {
-    opacity: 0;
-    transition: opacity var(--duration) linear;
+.toggle > span {
+    width: 18px;
+    height: 18px;
+    background: #FFFFFF;
+    border-radius: 9999px;
+    transition: transform var(--dur) var(--ease);
 }
 
-.mark-box[data-on='true'] {
-    border-color: var(--mod);
-}
-
-.mark-box[data-on='true'] svg {
-    opacity: 1;
-}
+.toggle[data-on='true'] { background: var(--purple); }
+.toggle[data-on='true'] > span { transform: translateX(20px); }
 
 /* ----------------------------------------------------------------- a11y -- */
 :where(a, button, input, select, [tabindex]):focus-visible {
-    outline: 2px solid var(--ink);
-    outline-offset: 3px;
+    outline: 2px solid var(--purple-hover);
+    outline-offset: 2px;
 }
 
 .skip-link {
     position: absolute;
-    left: 16px;
+    left: 12px;
     top: -60px;
     z-index: var(--z-overlay);
-    padding: 10px 16px;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 0.875rem;
-    transition: top var(--duration) var(--ease);
+    padding: 9px 14px;
+    background: var(--purple);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: top var(--dur) var(--ease);
 }
 
-.skip-link:focus {
-    top: 12px;
-}
+.skip-link:focus { top: 10px; }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-
-    .enter {
-        opacity: 1;
-        animation: none;
-    }
-
+    .enter { opacity: 1; animation: none; }
     .skeleton::after { animation: none; }
 }
 
-::selection {
-    background: #16A34A;
-    color: #FFFFFF;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3A3A3D; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #4A4A4E; }
+
+::selection { background: var(--purple); color: #FFFFFF; }
 
 /* ------------------------------------------------------ variant switcher --
  * comp scaffolding.
  */
 #vswitch {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 16px;
+    bottom: 16px;
     z-index: var(--z-switcher);
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 #vswitch > button {
     display: flex;
     align-items: center;
-    gap: 9px;
-    height: 38px;
-    padding: 0 16px;
+    gap: 8px;
+    height: 32px;
+    padding: 0 12px;
     margin-left: auto;
-    background: var(--paper);
-    border: 1px solid var(--rule-mid);
-    color: var(--ink);
-    font-style: italic;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-alt);
+    font-weight: 600;
     cursor: pointer;
-    transition: border-color var(--duration) linear;
+    transition: color var(--dur) var(--ease);
 }
 
-#vswitch > button:hover { border-color: var(--ink); }
+#vswitch > button:hover { color: var(--text); }
 
 #vswitch nav {
     display: none;
-    width: 268px;
+    width: 252px;
     max-height: 72vh;
     overflow-y: auto;
     margin-bottom: 8px;
-    padding: 6px 0 8px;
-    background: var(--paper);
-    border: 1px solid var(--rule-mid);
+    padding: 6px;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
 }
 
 #vswitch[data-open='true'] nav { display: block; }
 
 #vswitch h3 {
-    margin: 10px 16px 4px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--rule-hair);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 13px;
-    color: #9A9AA4;
+    padding: 8px 8px 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #55555F;
 }
 
 #vswitch a {
     display: flex;
     justify-content: space-between;
-    gap: 14px;
-    padding: 5px 16px;
-    color: #45454C;
+    gap: 12px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: var(--text-alt);
     text-decoration: none;
 }
 
-#vswitch a:hover { background: var(--desk); color: var(--ink); }
-#vswitch a[aria-current='page'] { color: var(--mod); }
-
-#vswitch a span {
-    font-family: 'Archivo', sans-serif;
-    font-size: 11px;
-    color: #C4C4CC;
-    align-self: center;
-}
+#vswitch a:hover { background: var(--hover); color: var(--text); }
+#vswitch a[aria-current='page'] { color: var(--purple-hover); }
+#vswitch a span { font-size: 11px; color: #45454C; align-self: center; }
 
 #vswitch .cross {
     display: flex;
-    gap: 8px;
-    margin: 10px 16px 2px;
-    padding-top: 10px;
-    border-top: 1px solid var(--rule-hair);
+    gap: 6px;
+    margin-top: 6px;
+    padding-top: 8px;
+    border-top: 1px solid var(--hover);
 }
 
 #vswitch .cross a {
     flex: 1;
     justify-content: center;
-    padding: 6px 4px;
-    border: 1px solid var(--rule-hair);
-    font-style: italic;
+    background: var(--hover);
+    font-weight: 600;
 }
 
-#vswitch .cross a:hover { border-color: var(--ink); }
+#vswitch .cross a:hover { background: #2E2E35; }

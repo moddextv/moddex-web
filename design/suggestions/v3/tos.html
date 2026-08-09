@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terms of Service | moddex</title>
+  <meta name="description" content="moddex terms of service, what data is held, and how to opt out.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /tos
+     A reading column with a sticky section index beside it. Section 3 is lifted
+     into a callout at the top because it is the one people arrive for. Anchor
+     ids preserved exactly, because links to them exist. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <header class="enter pt-12 pb-8" style="--i: 0">
+      <h1 class="text-h1 mb-3">Terms of Service</h1>
+      <p class="text-ui text-primary-400">
+        Last updated 2026. moddex is not affiliated with, endorsed by, or
+        sponsored by Twitch Interactive, Inc.
+      </p>
+    </header>
+
+    <!-- the thing most readers came for, ahead of the contract -->
+    <section class="enter pb-10 max-w-3xl" style="--i: 1">
+      <div class="panel">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="corner corner-tl text-mod" aria-hidden="true"></span>
+          <h2 class="text-h2">You can opt out at any time</h2>
+        </div>
+        <p class="text-read text-primary-300 max-w-prose mb-6">
+          Sign in with twitch and enable the opt-out. Your profile stops being
+          served, and you are removed from every mod and vip list and from the
+          public api. It is one switch, and switching it back off restores your
+          entry.
+        </p>
+        <a href="settings.html" class="btn">Go to opt-out settings</a>
+      </div>
+    </section>
+
+    <div class="enter flex gap-12 pb-4" style="--i: 2">
+
+      <!-- ========================================================= clauses -->
+      <div class="min-w-0 flex-1 max-w-3xl flex flex-col gap-10">
+
+        <section id="acceptance">
+          <h2 class="text-h2 mb-3">1. Acceptance</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            By accessing moddex.tv you agree to these terms. If you disagree with
+            any part of them, please do not use the site.
+          </p>
+        </section>
+
+        <section id="service">
+          <h2 class="text-h2 mb-3">2. What this service does</h2>
+          <p class="text-read text-primary-300 max-w-prose mb-4">
+            moddex records which twitch accounts hold moderator or VIP status in
+            which twitch channels, and when that status was granted. This
+            information is retrieved from twitch's own interfaces and is visible
+            to anyone who can view the channel in question.
+          </p>
+          <p class="text-read text-primary-300 max-w-prose">
+            A channel is only indexed once somebody looks it up. We do not read
+            chat messages, private messages, email addresses, or anything that is
+            not publicly visible on twitch.
+          </p>
+        </section>
+
+        <section id="your-data">
+          <h2 class="text-h2 mb-3">3. Your data and how to opt out</h2>
+          <p class="text-read text-primary-300 max-w-prose mb-5">
+            If you are listed on moddex, we hold the fields below plus the mod
+            and VIP roles described above.
+          </p>
+
+          <div class="panel grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-3 mb-5">
+            <span class="text-ui text-primary-200">twitch user id</span>
+            <span class="text-ui text-primary-200">login name</span>
+            <span class="text-ui text-primary-200">display name</span>
+            <span class="text-ui text-primary-200">avatar url</span>
+            <span class="text-ui text-primary-200">description</span>
+            <span class="text-ui text-primary-200">follower count</span>
+            <span class="text-ui text-primary-200">created date</span>
+            <span class="text-ui text-primary-200">role grant dates</span>
+          </div>
+
+          <p class="text-read text-primary-300 max-w-prose mb-4">
+            <strong class="text-primary-100">You can opt out at any time.</strong>
+            Sign in with twitch and enable the opt-out in
+            <a class="text-primary-100 font-semibold hover:underline" href="settings.html">your settings</a>.
+            Your profile then stops being served and you are removed from every
+            mod and VIP list and from the public API. The opt-out is reversible:
+            switching it back off restores your entry.
+          </p>
+          <p class="text-read text-primary-300 max-w-prose">
+            Accounts that twitch reports as banned or deactivated are marked as
+            such and are not displayed.
+          </p>
+        </section>
+
+        <section id="accounts">
+          <h2 class="text-h2 mb-3">4. Accounts and donations</h2>
+          <p class="text-read text-primary-300 max-w-prose mb-4">
+            Signing in uses twitch OAuth; we never see your twitch password.
+            Donations are processed by Stripe, and card details are handled
+            entirely by Stripe. We store only the payment reference, the amount,
+            and the name and email Stripe returns to us.
+          </p>
+          <p class="text-read text-primary-300 max-w-prose">
+            Donations are voluntary contributions towards running costs, not
+            purchases. Cosmetic badges granted alongside a donation carry no
+            monetary value and may change or be withdrawn. Donations are
+            generally non-refundable; if something went wrong, contact us and we
+            will sort it out.
+          </p>
+        </section>
+
+        <section id="use">
+          <h2 class="text-h2 mb-3">5. Acceptable use</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            Do not use moddex to harass, dox, or target anyone, and do not
+            attempt to disrupt the service or scrape it in a way that degrades it
+            for others. The public API is provided as-is and rate limits may be
+            applied or changed without notice.
+          </p>
+        </section>
+
+        <section id="disclaimer">
+          <h2 class="text-h2 mb-3">6. Disclaimer and liability</h2>
+          <p class="text-read text-primary-300 max-w-prose mb-4">
+            moddex is provided "as is", without warranty of any kind. The data is
+            gathered automatically and may be incomplete, stale, or wrong. It
+            should not be relied upon for any decision that matters.
+          </p>
+          <p class="text-read text-primary-300 max-w-prose">
+            To the extent permitted by law, we are not liable for any damages
+            arising from the use of, or inability to use, this site. Some
+            jurisdictions do not allow such limitations, in which case they may
+            not apply to you.
+          </p>
+        </section>
+
+        <section id="changes">
+          <h2 class="text-h2 mb-3">7. Changes</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            We may revise these terms at any time. Continuing to use the site
+            means you accept the current version.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2 class="text-h2 mb-3">8. Contact</h2>
+          <p class="text-read text-primary-300 max-w-prose">
+            Questions about these terms, your data, or anything else:
+            <a class="text-primary-100 font-semibold hover:underline" href="mailto:marcel@doubt.ch">marcel@doubt.ch</a>.
+          </p>
+        </section>
+      </div>
+
+      <!-- ======================================================== contents -->
+      <nav class="hidden xl:block w-56 shrink-0" aria-label="Sections">
+        <div class="sticky top-[76px] flex flex-col gap-1">
+          <p class="text-meta text-primary-400 mb-2 px-3">On this page</p>
+          <a href="#acceptance" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">1. Acceptance</a>
+          <a href="#service" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">2. What this does</a>
+          <a href="#your-data" class="px-3 py-2 rounded-md text-ui text-primary-100 bg-primary-800 font-semibold">3. Your data</a>
+          <a href="#accounts" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">4. Accounts</a>
+          <a href="#use" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">5. Acceptable use</a>
+          <a href="#disclaimer" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">6. Disclaimer</a>
+          <a href="#changes" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">7. Changes</a>
+          <a href="#contact" class="px-3 py-2 rounded-md text-ui text-primary-400 hover:bg-primary-800 hover:text-primary-100 transition-colors">8. Contact</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

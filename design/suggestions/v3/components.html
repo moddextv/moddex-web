@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v3 components | moddex design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<body data-chrome="bare" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8 flex flex-col gap-6 pt-14 pb-4">
+
+    <header class="mb-2">
+      <p class="text-ui text-primary-400 mb-4">Suggestion v3</p>
+      <h1 class="text-h1 mb-3">Components</h1>
+      <p class="text-lead text-primary-300 max-w-prose">
+        Every primitive, with the verdict it answers. Check a new component
+        against this page before adding it.
+      </p>
+    </header>
+
+    <!-- ============================================================ rows -->
+    <section class="panel-flush">
+      <div class="px-4 pb-5">
+        <h2 class="text-h2 mb-2">Rows</h2>
+        <p class="text-read text-primary-300 max-w-prose">
+          Not a table. A CSS grid with a shared column template, hover, and
+          nothing between rows but air. Column labels sit light and unboxed above
+          the first row, so the numbers on the right are still explained without
+          the thing reading as a spreadsheet. 52px, which is the fix for
+          "clamped".
+        </p>
+      </div>
+
+      <div class="rows">
+        <div class="row-head cols-people">
+          <span>Account</span>
+          <span class="text-right">Granted</span>
+          <span class="text-right">Followers</span>
+        </div>
+
+        <a href="#" class="row cols-people">
+          <span class="flex items-center gap-3.5 min-w-0">
+            <span class="avatar w-9 h-9 text-meta" style="background:hsl(200 12% 18%);color:hsl(200 22% 66%)">n</span>
+            <span class="min-w-0">
+              <span class="flex items-center gap-2">
+                <span class="row-name text-base font-bold truncate">nymn</span>
+                <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" class="rounded-sm">
+              </span>
+              <span class="block text-micro text-primary-400">holds 102 roles</span>
+            </span>
+          </span>
+          <span class="text-ui text-primary-300 tabular text-right">Apr 2016</span>
+          <span class="text-ui text-primary-400 tabular text-right">614,201</span>
+        </a>
+
+        <a href="#" class="row cols-people">
+          <span class="flex items-center gap-3.5 min-w-0">
+            <span class="avatar w-9 h-9 text-meta" style="background:hsl(320 12% 18%);color:hsl(320 22% 66%)">s</span>
+            <span class="min-w-0">
+              <span class="flex items-center gap-2">
+                <span class="row-name text-base font-bold truncate">supibot</span>
+                <span class="text-micro font-semibold text-primary-400 bg-primary-700 px-2 py-0.5 rounded-sm">bot</span>
+              </span>
+              <span class="block text-micro text-primary-400">holds 1,204 roles</span>
+            </span>
+          </span>
+          <span class="text-ui text-primary-300 tabular text-right">Nov 2019</span>
+          <span class="text-ui text-primary-400 tabular text-right">1,204</span>
+        </a>
+
+        <a href="#" class="row cols-people">
+          <span class="flex items-center gap-3.5 min-w-0">
+            <span class="avatar w-9 h-9 text-meta" style="background:hsl(40 12% 18%);color:hsl(40 22% 66%)">e</span>
+            <span class="min-w-0">
+              <span class="row-name block text-base font-bold truncate">elis</span>
+              <span class="block text-micro text-primary-400">holds 55 roles</span>
+            </span>
+          </span>
+          <span class="text-ui text-primary-500 text-right" title="Twitch returned no grant date">no date</span>
+          <span class="text-ui text-primary-400 tabular text-right">8,910</span>
+        </a>
+
+        <div class="row cols-people">
+          <span class="flex items-center gap-3.5 min-w-0">
+            <span class="skeleton w-9 h-9 rounded-pill"></span>
+            <span class="min-w-0"><span class="skeleton block h-4 w-24 mb-1.5"></span><span class="skeleton block h-3 w-20"></span></span>
+          </span>
+          <span class="skeleton h-3.5 w-16 justify-self-end"></span>
+          <span class="skeleton h-3.5 w-14 justify-self-end"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== colour -->
+    <section class="panel">
+      <h2 class="text-h2 mb-2">Colour</h2>
+      <p class="text-read text-primary-300 max-w-prose mb-6">
+        The shipped dark theme, value for value, with nothing added. What changed
+        is that purple is no longer the primary action colour. It appears filled
+        once per page at most, on the control that signs you into Twitch, and
+        otherwise only as a glyph. The accent doing identity work is the mark's
+        own pair.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
+        <div><div class="h-14 rounded-md border border-primary-700" style="background:#0B0B0C"></div><p class="text-micro text-primary-400 mt-2">900 base</p></div>
+        <div><div class="h-14 rounded-md border border-primary-700" style="background:#111113"></div><p class="text-micro text-primary-400 mt-2">800 panel</p></div>
+        <div><div class="h-14 rounded-md" style="background:#232326"></div><p class="text-micro text-primary-400 mt-2">700 line</p></div>
+        <div><div class="h-14 rounded-md" style="background:#8A8A93"></div><p class="text-micro text-primary-400 mt-2">400 alt text</p></div>
+        <div><div class="h-14 rounded-md" style="background:#E7E7EA"></div><p class="text-micro text-primary-400 mt-2">100 text</p></div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <div><div class="h-14 rounded-md" style="background:#4ADE80"></div><p class="text-micro text-primary-400 mt-2">mod, identity</p></div>
+        <div><div class="h-14 rounded-md" style="background:#F472B6"></div><p class="text-micro text-primary-400 mt-2">vip, identity</p></div>
+        <div><div class="h-14 rounded-md" style="background:#FBBF24"></div><p class="text-micro text-primary-400 mt-2">founder</p></div>
+        <div><div class="h-14 rounded-md" style="background:#60A5FA"></div><p class="text-micro text-primary-400 mt-2">artist, not yet used</p></div>
+        <div><div class="h-14 rounded-md" style="background:#9146FF"></div><p class="text-micro text-primary-400 mt-2">twitch, sign-in only</p></div>
+      </div>
+    </section>
+
+    <!-- =========================================================== corner -->
+    <section class="panel">
+      <h2 class="text-h2 mb-2">The mark, at UI scale</h2>
+      <p class="text-read text-primary-300 max-w-prose mb-6">
+        Two corners a hundred and eighty degrees apart. Mod takes the top-left,
+        vip the bottom-right, founder the bottom-left. This is the notation that
+        replaced purple as the thing carrying identity: every section heading,
+        every tab and every scope switch is marked with it.
+      </p>
+      <div class="flex flex-wrap items-center gap-x-10 gap-y-5 mb-6">
+        <span class="flex items-center gap-3"><span class="corner corner-tl text-mod"></span><span class="text-ui text-primary-300">moderators</span></span>
+        <span class="flex items-center gap-3"><span class="corner corner-br text-vip"></span><span class="text-ui text-primary-300">vips</span></span>
+        <span class="flex items-center gap-3"><span class="corner corner-bl text-founder"></span><span class="text-ui text-primary-300">founders</span></span>
+        <span class="flex items-center gap-3"><span class="corner corner-tr text-artist"></span><span class="text-ui text-primary-300">artists</span></span>
+        <span class="flex items-center gap-3"><span class="corner corner-tl text-primary-600"></span><span class="text-ui text-primary-400">inactive</span></span>
+      </div>
+
+      <!-- artist is declared in misc/roles.ts with its own colour and corner but
+           is not in ACTIVE_ROLE_KEYS, so nothing renders it yet. It belongs in
+           the specimen anyway: the registry has four roles, and a role missing
+           from the design system is a role that gets designed badly in a hurry
+           the day it becomes fetchable. -->
+      <div class="rounded-md bg-primary-900 p-4 max-w-prose">
+        <p class="text-ui text-primary-300 leading-relaxed">
+          <span class="text-artist font-bold">Artist</span> is declared in
+          <span class="text-primary-100">misc/roles.ts</span> with its own colour
+          and corner, but it is not in
+          <span class="text-primary-100">ACTIVE_ROLE_KEYS</span>: twitch does not
+          expose artists through the public unauthenticated surface, so nothing
+          renders it today. It is here so the system already has an answer when
+          that changes.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================= controls -->
+    <section class="panel">
+      <h2 class="text-h2 mb-6">Controls</h2>
+
+      <div class="flex flex-wrap items-start gap-8 mb-8">
+        <div class="flex flex-col gap-3">
+          <button class="btn">Index a channel</button>
+          <span class="text-micro text-primary-400">primary</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="btn btn-soft">Show 18 more</button>
+          <span class="text-micro text-primary-400">soft</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="btn btn-ghost">Donate</button>
+          <span class="text-micro text-primary-400">ghost</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="btn btn-twitch-quiet">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/></svg>
+            Open on Twitch
+          </button>
+          <span class="text-micro text-primary-400">twitch, quiet</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button class="btn btn-twitch">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.269-6.269v-14.686h-21.314zm19.164 13.612l-3.582 3.582h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.194v11.463zm-3.582-7.343v6.262h-2.149v-6.262h2.149zm-5.731 0v6.262h-2.149v-6.262h2.149z"/></svg>
+            Sign in
+          </button>
+          <span class="text-micro text-primary-400">once per page, at most</span>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-start gap-8">
+        <div class="flex flex-col gap-3">
+          <span class="flex gap-2">
+            <button class="chip" aria-pressed="true">Recently read</button>
+            <button class="chip" aria-pressed="false">Most roles</button>
+          </span>
+          <span class="text-micro text-primary-400">chips, for filters and sorts</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <span class="toggle" data-on="true"><span></span></span>
+          <span class="text-micro text-primary-400">toggle, mod green when on</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <nav class="tabs">
+            <span class="tab tab-mod" aria-current="page"><span class="corner corner-tl text-mod"></span>As a channel</span>
+            <span class="tab tab-vip"><span class="corner corner-br text-primary-600"></span>As a person</span>
+          </nav>
+          <span class="text-micro text-primary-400">tabs, underlined in the role's colour</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== badges -->
+    <section class="panel">
+      <h2 class="text-h2 mb-2">Badges</h2>
+      <p class="text-read text-primary-300 max-w-prose mb-6">
+        Awarded, not decorative. 14px beside a name in a row, 20px on a profile,
+        42px where the badge itself is the subject.
+      </p>
+      <div class="flex flex-wrap items-center gap-5">
+        <img src="../../badges/admin.svg" alt="admin" width="32" height="32" title="admin" class="rounded-sm">
+        <img src="../../badges/staff.svg" alt="staff" width="32" height="32" title="staff" class="rounded-sm">
+        <img src="../../badges/team.svg" alt="team" width="32" height="32" title="team" class="rounded-sm">
+        <img src="../../badges/partner.svg" alt="partner" width="32" height="32" title="partner" class="rounded-sm">
+        <img src="../../badges/affiliate.svg" alt="affiliate" width="32" height="32" title="affiliate" class="rounded-sm">
+        <img src="../../badges/donator.svg" alt="donator" width="32" height="32" title="donator" class="rounded-sm">
+        <img src="../../badges/top_donator.svg" alt="top donator" width="32" height="32" title="top donator" class="rounded-sm">
+      </div>
+    </section>
+
+    <!-- =========================================================== motion -->
+    <section class="panel-flush">
+      <h2 class="text-h2 px-4 pb-5">Motion</h2>
+      <div class="rows">
+        <div class="row" style="grid-template-columns: 220px minmax(0,1fr); min-height: 44px">
+          <span class="text-ui text-primary-400">hover</span>
+          <span class="text-ui text-primary-300">150ms, background and the name's underline</span>
+        </div>
+        <div class="row" style="grid-template-columns: 220px minmax(0,1fr); min-height: 44px">
+          <span class="text-ui text-primary-400">section entry</span>
+          <span class="text-ui text-primary-300">320ms fade and 8px rise, staggered 50ms, capped at 250ms</span>
+        </div>
+        <div class="row" style="grid-template-columns: 220px minmax(0,1fr); min-height: 44px">
+          <span class="text-ui text-primary-400">loading</span>
+          <span class="text-ui text-primary-300">1.3s sweep, transform only</span>
+        </div>
+        <div class="row" style="grid-template-columns: 220px minmax(0,1fr); min-height: 44px">
+          <span class="text-ui text-primary-400">press</span>
+          <span class="text-ui text-primary-300">1px down on the primary button</span>
+        </div>
+        <div class="row" style="grid-template-columns: 220px minmax(0,1fr); min-height: 44px">
+          <span class="text-ui text-primary-400">reduced motion</span>
+          <span class="text-ui text-primary-300">all of it stops</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>

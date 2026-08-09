@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Channels | moddex</title>
+  <meta name="description" content="Browse the twitch channels moddex has indexed, or look one up to add it.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v3.css">
+</head>
+
+<!-- v3 / GET /channel
+     With search in the nav, this route stops being a page with a search box on
+     it and becomes a browse surface. That is a better page than the one it
+     replaces and it costs nothing, because the search that used to be its only
+     content is reachable from here and everywhere else. -->
+<body data-scope="channel" data-auth="out" class="font-sans text-base min-h-screen">
+
+<main id="main">
+  <div class="mx-auto w-full max-w-page px-6 sm:px-8">
+
+    <header class="enter pt-12 pb-8" style="--i: 0">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="corner corner-tl text-mod" aria-hidden="true"></span>
+        <h1 class="text-h1">Channels</h1>
+      </div>
+      <p class="text-lead text-primary-300 max-w-prose">
+        Who holds mod, vip and founder in a channel, and since when. Type a name
+        in the bar above to look one up. Searching a channel for the first time
+        is what adds it to the index.
+      </p>
+    </header>
+
+    <section class="enter pb-6" style="--i: 1">
+      <div class="panel-flush">
+        <div class="flex items-center gap-3 flex-wrap px-4 pb-5">
+          <h2 class="text-h2">Indexed channels</h2>
+          <span class="text-lead text-primary-400 tabular">412,847</span>
+          <span class="ml-auto flex items-center gap-2">
+            <button type="button" class="chip" aria-pressed="true">Recently read</button>
+            <button type="button" class="chip" aria-pressed="false">Most roles</button>
+            <button type="button" class="chip" aria-pressed="false">Most followers</button>
+          </span>
+        </div>
+
+        <div class="rows">
+          <div class="row-head cols-channels">
+            <span>Channel</span>
+            <span class="text-right">Mods</span>
+            <span class="text-right">Vips</span>
+            <span class="text-right">Read</span>
+          </div>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(12 12% 18%);color:hsl(12 22% 66%)" aria-hidden="true">f</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">forsen</span>
+                  <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" title="Twitch partner" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">1,730,412 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">24</span>
+            <span class="text-ui text-vip tabular text-right">5</span>
+            <span class="text-ui text-primary-400 text-right">4m ago</span>
+          </a>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(200 12% 18%);color:hsl(200 22% 66%)" aria-hidden="true">n</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">NymN</span>
+                  <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" title="Twitch partner" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">614,201 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">31</span>
+            <span class="text-ui text-vip tabular text-right">10</span>
+            <span class="text-ui text-primary-400 text-right">12m ago</span>
+          </a>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(340 12% 18%);color:hsl(340 22% 66%)" aria-hidden="true">x</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">xQc</span>
+                  <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" title="Twitch partner" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">12,400,318 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">62</span>
+            <span class="text-ui text-vip tabular text-right">26</span>
+            <span class="text-ui text-primary-400 text-right">31m ago</span>
+          </a>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(96 12% 18%);color:hsl(96 22% 66%)" aria-hidden="true">p</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">pajlada</span>
+                <span class="block text-micro text-primary-400">92,830 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">14</span>
+            <span class="text-ui text-vip tabular text-right">5</span>
+            <span class="text-ui text-primary-400 text-right">1h ago</span>
+          </a>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(55 12% 18%);color:hsl(55 22% 66%)" aria-hidden="true">k</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">knut</span>
+                <span class="block text-micro text-primary-400">204,551 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">27</span>
+            <span class="text-ui text-vip tabular text-right">6</span>
+            <span class="text-ui text-primary-400 text-right">2h ago</span>
+          </a>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(300 12% 18%);color:hsl(300 22% 66%)" aria-hidden="true">a</span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2">
+                  <span class="row-name text-base font-bold truncate">Alinity</span>
+                  <img src="../../badges/partner.svg" alt="Partner" width="14" height="14" title="Twitch partner" class="rounded-sm">
+                </span>
+                <span class="block text-micro text-primary-400">1,412,908 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">9</span>
+            <span class="text-ui text-vip tabular text-right">3</span>
+            <span class="text-ui text-primary-400 text-right">2h ago</span>
+          </a>
+
+          <a href="channel-detail.html" class="row cols-channels">
+            <span class="flex items-center gap-3.5 min-w-0">
+              <span class="avatar w-9 h-9 text-meta" style="background:hsl(280 12% 18%);color:hsl(280 22% 66%)" aria-hidden="true">j</span>
+              <span class="min-w-0">
+                <span class="row-name block text-base font-bold truncate">joeykaotyk</span>
+                <span class="block text-micro text-primary-400">18,077 followers</span>
+              </span>
+            </span>
+            <span class="text-ui text-mod tabular text-right">7</span>
+            <span class="text-ui text-primary-500 tabular text-right">0</span>
+            <span class="text-ui text-primary-400 text-right">3h ago</span>
+          </a>
+        </div>
+
+        <button type="button" class="w-full h-12 mt-2 rounded-md text-base font-bold text-primary-300 hover:text-primary-100 hover:bg-primary-700 transition-colors">
+          Load more
+        </button>
+      </div>
+    </section>
+
+    <!-- the reject state. inline, plain, and it names the actual rule rather
+         than saying "invalid". -->
+    <section class="enter pb-4" style="--i: 2">
+      <div class="panel">
+        <p class="text-meta text-primary-400 mb-3">If the name cannot be a twitch name</p>
+        <div class="flex items-start gap-3.5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-vip shrink-0 mt-0.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 8v4.5"/><path d="M12 16h.01"/>
+          </svg>
+          <p class="text-read text-primary-300 max-w-prose">
+            <span class="font-bold text-primary-100">not a name!</span> is not a
+            valid twitch name. They are 1 to 25 characters, letters, numbers and
+            underscores only. Nothing was sent to twitch and nothing was written.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/chrome.js"></script>
+</body>
+</html>
