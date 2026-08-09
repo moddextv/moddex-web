@@ -99,12 +99,15 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
 
       <div className="mt-7 pt-6 border-t border-primary-700/70">
         <p className="text-meta text-primary-400 mb-3">How it will look in chat</p>
+        {/* the gap belongs between the badge and the name, not inside the
+            message — in chat the colon sits against the name. so the name and
+            what follows it are one flex item, and only the badge is spaced. */}
         <p className="flex items-center gap-2.5 rounded-md bg-primary-900 px-4 py-3">
           {preview && (
             <Image src={preview.path} alt="" width={18} height={18} radius="sm" />
           )}
-          <span className="text-base font-bold text-primary-100">{login}</span>
           <span className="text-base text-primary-300">
+            <span className="font-bold text-primary-100">{login}</span>
             : forsen has 24 mods, wow
           </span>
         </p>
