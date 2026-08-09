@@ -22,5 +22,9 @@ Stroke weight = 6 units; inner channel = 4 units. No fine interior detail: silho
 - Colour is never load-bearing: the header, favicon and chat badge all run monochrome.
 - Never recolour to Twitch purple. Never place on a hue other than canvas, white, or a
   neutral chat background.
-- The two lockup SVGs reference Cairo 700 as a live font. Outline the wordmark in
-  logo.ai before shipping them anywhere the font is not guaranteed.
+- The two lockup SVGs reference Cairo 700 as a live font, so the wordmark falls
+  back to a system face anywhere Cairo is not installed. Outline the text before
+  shipping them off-site. The editable source used to be `public/files/logo.ai`;
+  that is gone, so this needs redrawing in whatever tool comes next rather than
+  editing. Note the app itself is unaffected — it draws the mark from paths in
+  `components/UI/Mark.tsx` and sets the wordmark in Manrope, not Cairo.

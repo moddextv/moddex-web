@@ -549,9 +549,11 @@ just not now.
 - [ ] The logo is in and the design derives from it. The remaining gap is the
       **light theme**, which was retuned to match but has only been exercised in
       dark.
-- [ ] `public/files/logo.ai` still holds the *old* wordmark artwork. The lockup
-      SVGs reference Cairo 700 as a live font — outline the wordmark before
-      shipping them anywhere the font is not guaranteed (see
-      `public/logo/README.md`).
+- [ ] The two lockup SVGs in `public/logo/` reference Cairo 700 as a live font,
+      so the wordmark falls back to a system face off-site. `public/files/`
+      held the Illustrator sources and has been removed — nobody here runs
+      Illustrator and `logo.ai` carried the *old* wordmark anyway — so the
+      lockups need redrawing rather than editing. Badge artwork is due a
+      redesign in the same pass; the current SVGs are in `public/badges/`.
 - [ ] Decide whether the donation flow survives the reset at all. It carries a
       Stripe dependency, a legal surface and a whole badge subsystem.

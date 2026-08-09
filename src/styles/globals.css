@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 /* ================================================================ tokens ==
- * the v3 direction, ported from design/suggestions/v3/assets/v3.css.
+ * the v3 direction. docs/DESIGN.md explains it in prose and /design renders
+ * every primitive below from this file, so the two cannot drift.
  *
  * it exists to answer five verdicts rather than to express a concept, and the
  * three that shape everything below are:

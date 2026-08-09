@@ -1,9 +1,13 @@
 # DESIGN.md
 
-The design system as it is actually built. This replaces
-`design/suggestions/v3/` as the source of truth: the comps are the record of how
-the direction was decided, this file is what the code does now, and
-`/design` renders the live specimen from the same CSS the site uses.
+The design system as it is actually built, and the only source of truth for it.
+This file is what the code does; `/design` renders the live specimen from the
+same CSS the site uses, so the two cannot drift.
+
+The static comps this was ported from lived in `design/` and were removed once
+this file existed, because a second description of the same system is a second
+thing to keep current. They are recoverable: `git show 852fa99` is the last
+commit that contains them, and section 1 below carries the part worth keeping.
 
 Read section 1 before proposing a change to how anything looks.
 
@@ -276,7 +280,8 @@ the heroui config is unused. If a light mode is ever added, declare
 
 ## 11. Verifying a change
 
-- Compare against `design/suggestions/v3/` side by side rather than from memory.
+- Compare against `/design`, which renders every primitive from the shipped
+  CSS. Do not eyeball from memory.
 - Check at ~1440px and at ~380px. The row templates collapse under 640px, and
   the profile tabs switch to short labels there.
 - `prefers-reduced-motion` must kill all motion.
