@@ -19,6 +19,21 @@ env:
   IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
+  # deliberately its own job rather than a step in `check`: it is the cheapest
+  # check there is, and it reports in its own right instead of hiding behind a
+  # type error. Both gate the build, so a stray tab costs twenty seconds here
+  # rather than the full per-architecture image build.
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+
   check:
     runs-on: ubuntu-latest
     steps:
@@ -45,7 +60,7 @@ jobs:
   # ---------------------------------------------------------------------------
   build:
     if: github.event_name == 'push'
-    needs: check
+    needs: [format, check]
     runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
