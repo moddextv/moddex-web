@@ -60,12 +60,13 @@ export const Footer = () => {
             <p className="text-meta text-primary-400 mb-0.5">Look up</p>
             <FooterLink href="/channel">By channel</FooterLink>
             <FooterLink href="/user">By person</FooterLink>
-            {/* the address itself, not "API docs" pointing at the internal
-                /api/docs hop. the redirects in next.config.mjs stay — they
-                exist for old links and for people who guess moddex.tv/docs,
-                which is a different job from this link. */}
+            {/* points straight at api.moddex.tv/docs rather than through the
+                internal /api/docs hop, but reads as a name like every other
+                link in this directory — the glyph already says it leaves the
+                site. the redirects in next.config.mjs stay: they exist for old
+                links and for people who guess moddex.tv/docs. */}
             <FooterLink href={config.brand.docsUrl} newTab>
-              {config.brand.docsUrl.replace('https://', '')}
+              API docs
             </FooterLink>
           </nav>
 

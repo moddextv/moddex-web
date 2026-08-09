@@ -81,6 +81,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
   const login = currentUser?.login ?? user.login;
   const name = currentUser?.name ?? login;
+  const id = currentUser?.id ?? user.id;
 
   // the tabs are already known before the refetch answers, so they keep being
   // drawn around the skeleton rather than disappearing with it.
@@ -106,17 +107,28 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
         />
 
         <div className="min-w-0 flex-1">
-          {/* both identities, because they are not interchangeable: the display
-              name is what the account calls itself and the login is what you
-              type, search and link. they differ on plenty of accounts — and on
-              a non-latin display name the login is the only part a reader can
-              act on. shown once when they are the same word. */}
-          <div className="flex items-baseline gap-x-3 gap-y-1 flex-wrap mb-2">
-            <h1 className="text-h1">{name}</h1>
-            {name.toLowerCase() !== login.toLowerCase() && (
-              <span className="text-lead text-primary-400">{login}</span>
-            )}
-            <Badges badges={currentUser?.badges || []} bot={currentUser?.bot} />
+          {/* three identities on two lines: the display name is what the
+              account calls itself, the login is what you type and link, and the
+              twitch id is the only one of the three that never changes — a
+              renamed account keeps it, which is what makes it worth showing.
+
+              the login is printed even when it matches the display name. it
+              reads as the handle line rather than as a correction, and a line
+              that appears only on some profiles is a line nobody learns to
+              look for. */}
+          <div className="mb-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <h1 className="text-h1">{name}</h1>
+              <Badges badges={currentUser?.badges || []} bot={currentUser?.bot} />
+            </div>
+            <p className="mt-0.5 flex items-baseline gap-2 flex-wrap">
+              <span className="text-base font-bold text-primary-300">@{login}</span>
+              {/* primary-400, not the 500 this reads as in the reference:
+                  #55555F on the page is about 2.5:1 and fails AA outright. the
+                  id stays recessive through weight and position instead — the
+                  same swap `.row-head` already makes. */}
+              <span className="text-base text-primary-400 tabular">#{id}</span>
+            </p>
           </div>
 
           {currentUser?.bio && (

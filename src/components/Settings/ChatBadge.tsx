@@ -98,7 +98,13 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
       </fieldset>
 
       <div className="mt-7 pt-6 border-t border-primary-700/70">
-        <p className="text-meta text-primary-400 mb-3">How it will look in chat</p>
+        {/* not "how it will look in chat", which it is not. twitch renders the
+            name in the colour the account picked, and moddex does not have it:
+            `chatColor` comes back in the graphql response moddex-api reads but
+            is never stored or served, so there is nothing here to colour it
+            with. claiming fidelity we cannot deliver makes the reader distrust
+            the rest of the page — this says what it actually shows. */}
+        <p className="text-meta text-primary-400 mb-3">Where the badge sits</p>
         {/* the gap belongs between the badge and the name, not inside the
             message — in chat the colon sits against the name. so the name and
             what follows it are one flex item, and only the badge is spaced. */}
