@@ -35,6 +35,10 @@ export const config = {
     domain: 'moddex.tv',
     url: 'https://moddex.tv',
     statusUrl: 'https://status.moddex.tv',
+    // the api owns the endpoints and the annotations describing them, so it
+    // owns the docs too. moddex.tv/docs and /api/docs still redirect here for
+    // anyone following an old link or guessing — see next.config.mjs.
+    docsUrl: 'https://api.moddex.tv/docs',
     email: 'marcel@doubt.ch'
   },
 

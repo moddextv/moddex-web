@@ -1,5 +1,6 @@
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
+import { ExternalLinkIcon } from '@/components/Icons';
 import { config } from '@/config';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
@@ -10,6 +11,11 @@ import { FC, ReactNode } from 'react';
  * and losing; down here the same links read as a directory, and there is room
  * to say in one sentence what the site actually holds.
  */
+/**
+ * `newTab` already means "this leaves the site", so it is what draws the
+ * external-link glyph too — rather than each call site remembering to add one
+ * and the two outbound links ending up marked differently.
+ */
 const FooterLink: FC<{ href: string; newTab?: boolean; children: ReactNode }> = ({
   href,
   newTab,
@@ -19,9 +25,10 @@ const FooterLink: FC<{ href: string; newTab?: boolean; children: ReactNode }> = 
     href={href}
     target={newTab ? '_blank' : undefined}
     rel={newTab ? 'noopener noreferrer' : undefined}
-    className="text-ui text-primary-300 hover:text-primary-100 transition-colors"
+    className="inline-flex items-center text-ui text-primary-300 hover:text-primary-100 transition-colors"
   >
     {children}
+    {newTab && <ExternalLinkIcon size={22} />}
   </Link>
 );
 
@@ -53,12 +60,12 @@ export const Footer = () => {
             <p className="text-meta text-primary-400 mb-0.5">Look up</p>
             <FooterLink href="/channel">By channel</FooterLink>
             <FooterLink href="/user">By person</FooterLink>
-            {/* the internal path, not api.moddex.tv/docs directly: /api/docs
-                permanently redirects, so the redirect stays the single place
-                that knows where the docs live. it leaves the site, so it opens
-                in a new tab. */}
-            <FooterLink href="/api/docs" newTab>
-              API docs
+            {/* the address itself, not "API docs" pointing at the internal
+                /api/docs hop. the redirects in next.config.mjs stay — they
+                exist for old links and for people who guess moddex.tv/docs,
+                which is a different job from this link. */}
+            <FooterLink href={config.brand.docsUrl} newTab>
+              {config.brand.docsUrl.replace('https://', '')}
             </FooterLink>
           </nav>
 
