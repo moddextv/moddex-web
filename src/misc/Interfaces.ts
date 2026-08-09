@@ -176,6 +176,7 @@ export interface BadgeComponent {
   size?: number;
   /** prepends the synthetic bot badge — see components/User/Badges.tsx */
   bot?: boolean;
+  className?: string;
 }
 
 export interface ChatBadge {

@@ -288,6 +288,54 @@
         }
     }
 
+    /* the per-list search. shaped like `.chip` rather than like the nav
+       `.search`, because it belongs to the toolbar it sits in — the nav bar is
+       the page's search and this one filters 28 rows. */
+    .search-inline {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 30px;
+        padding: 0 11px;
+        min-width: 0;
+        background: var(--base);
+        border: 1px solid transparent;
+        border-radius: 6px;
+        transition: border-color var(--dur) var(--ease);
+    }
+
+    .search-inline:focus-within {
+        border-color: var(--line-strong);
+    }
+
+    .search-inline input {
+        width: 8.5rem;
+        min-width: 0;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: var(--text);
+        font-size: 0.8125rem;
+        font-weight: 600;
+    }
+
+    .search-inline input::placeholder {
+        color: var(--text-dim);
+        font-weight: 500;
+    }
+
+    /* on a phone the toolbar wraps to its own line, so the field takes the
+       width instead of sitting at 8.5rem beside three chips */
+    @media (max-width: 640px) {
+        .search-inline {
+            flex: 1 1 100%;
+        }
+
+        .search-inline input {
+            width: 100%;
+        }
+    }
+
     /* ------------------------------------------------------------ surface --
      * one raised surface, generously padded. not a card grid.
      */

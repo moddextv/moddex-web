@@ -2,6 +2,7 @@ import { Tooltip } from '@/components/UI/Tooltip';
 import { Badge, BadgeComponent } from '@/misc/Interfaces';
 import { FC } from 'react';
 import { Image } from '@/components/UI/Image';
+import clsx from 'clsx';
 
 /**
  * Not a row in `badges` — synthesised here from `user.bot`.
@@ -17,7 +18,7 @@ import { Image } from '@/components/UI/Image';
  */
 const BOT_BADGE: Badge = { id: -1, name: 'Bot', path: '/badges/bot.svg' };
 
-export const Badges: FC<BadgeComponent> = ({ badges, size = 24, bot = false }) => {
+export const Badges: FC<BadgeComponent> = ({ badges, size = 24, bot = false, className }) => {
   const shown = bot ? [BOT_BADGE, ...(badges ?? [])] : (badges ?? []);
 
   if (shown.length === 0) {
@@ -25,7 +26,10 @@ export const Badges: FC<BadgeComponent> = ({ badges, size = 24, bot = false }) =
   }
 
   return (
-    <div className="flex flex-row flex-wrap gap-1">
+    // wraps by default, for the profile header where an account can hold six.
+    // a list row passes `shrink-0 flex-nowrap`: the row is a fixed 52px, so a
+    // second line of badges does not wrap there, it spills out of the row.
+    <div className={clsx('flex flex-row flex-wrap gap-1', className)}>
       {shown.map((badge) => (
         <Tooltip key={badge.id} content={badge.name}>
           <div>

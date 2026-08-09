@@ -45,7 +45,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
           {/* the bot marker is a badge now, not a text chip beside the badges —
               two ways of saying "something is true about this account" sitting
               next to each other read as two unrelated things. */}
-          <Badges badges={user.badges} bot={user.bot} size={18} />
+          <Badges badges={user.badges} bot={user.bot} size={18} className="shrink-0 flex-nowrap" />
         </span>
       </span>
 
