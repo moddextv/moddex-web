@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Badges } from '@/components/User/Badges';
 import { User, UserType } from '@/misc/Interfaces';
-import { formatMonthYear, formatNumber } from '@/utils/utils';
+import { formatDayMonthYear, formatNumber } from '@/utils/utils';
 import { Image } from '@/components/UI/Image';
 import Link from 'next/link';
 
@@ -21,7 +21,7 @@ interface UserListItemProps {
  * to /user/<login>; a channel listed on a person's page goes to /channel/.
  */
 export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
-  const granted = formatMonthYear(user.granted);
+  const granted = formatDayMonthYear(user.granted);
 
   return (
     <Link
@@ -42,12 +42,10 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
           <span className="row-name text-base font-bold truncate">
             {user.name || user.login}
           </span>
-          <Badges badges={user.badges} size={14} />
-          {user.bot && (
-            <span className="shrink-0 px-2 py-0.5 rounded-sm bg-primary-700 text-micro font-semibold text-primary-400">
-              bot
-            </span>
-          )}
+          {/* the bot marker is a badge now, not a text chip beside the badges —
+              two ways of saying "something is true about this account" sitting
+              next to each other read as two unrelated things. */}
+          <Badges badges={user.badges} bot={user.bot} size={18} />
         </span>
       </span>
 

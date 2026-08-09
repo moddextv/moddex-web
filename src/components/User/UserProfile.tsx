@@ -106,9 +106,17 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
         />
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3 flex-wrap mb-2">
+          {/* both identities, because they are not interchangeable: the display
+              name is what the account calls itself and the login is what you
+              type, search and link. they differ on plenty of accounts — and on
+              a non-latin display name the login is the only part a reader can
+              act on. shown once when they are the same word. */}
+          <div className="flex items-baseline gap-x-3 gap-y-1 flex-wrap mb-2">
             <h1 className="text-h1">{name}</h1>
-            <Badges badges={currentUser?.badges || []} size={20} />
+            {name.toLowerCase() !== login.toLowerCase() && (
+              <span className="text-lead text-primary-400">{login}</span>
+            )}
+            <Badges badges={currentUser?.badges || []} bot={currentUser?.bot} />
           </div>
 
           {currentUser?.bio && (
@@ -154,7 +162,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
             rel="noopener noreferrer"
             className="btn btn-twitch-quiet"
           >
-            <TwitchIcon size={15} />
+            <TwitchIcon size={18} />
             Open on Twitch
           </a>
 
@@ -167,7 +175,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
               aria-label="Open on Discord"
               className="btn btn-soft w-10 p-0"
             >
-              <DiscordIcon size={16} />
+              <DiscordIcon size={18} />
             </a>
           )}
 

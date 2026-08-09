@@ -151,8 +151,8 @@ export default async function SettingsPage() {
                         src={badge.path}
                         alt={badge.name}
                         title={badge.name}
-                        width={20}
-                        height={20}
+                        width={24}
+                        height={24}
                         radius="sm"
                       />
                     ))}

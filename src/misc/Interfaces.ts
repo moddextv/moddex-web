@@ -174,6 +174,8 @@ export interface Badge {
 export interface BadgeComponent {
   badges?: Badge[];
   size?: number;
+  /** prepends the synthetic bot badge — see components/User/Badges.tsx */
+  bot?: boolean;
 }
 
 export interface ChatBadge {

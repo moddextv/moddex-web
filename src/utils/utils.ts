@@ -32,14 +32,20 @@ export const formatMonthYearLong = (value?: string | Date | null): string | null
 };
 
 /**
- * "Apr 2016". a grant date is read as a column of 24, where the day of the
- * month is noise: nobody scanning a mod list cares that it was the 14th, and
- * the extra glyphs were part of what made the old list feel like a ledger.
+ * "14 Apr 2016" — the grant date in a list row.
+ *
+ * This used to drop the day on the argument that a column of 24 dates reads as
+ * a ledger. It does not hold: the day is the only part that distinguishes two
+ * roles granted in the same month, which is exactly the comparison the column
+ * is scanned for.
+ *
+ * Day-first and a short month, not "April 14, 2016": the column is 110px at
+ * 14px type, and the long form does not fit in it.
  */
-export const formatMonthYear = (value?: string | Date | null): string | null => {
+export const formatDayMonthYear = (value?: string | Date | null): string | null => {
   const date = asDate(value);
   return date
-    ? date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+    ? date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
     : null;
 };
 

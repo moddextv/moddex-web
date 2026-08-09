@@ -35,7 +35,7 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ session }) => {
             button is purple on purple: the control rendered as an empty block
             at small widths, where the label is hidden and the glyph is all
             there is. */}
-        <TwitchIcon size={15} color="text-white" />
+        <TwitchIcon size={18} color="text-white" />
         <span className="hidden sm:inline">Sign in</span>
       </button>
     );
