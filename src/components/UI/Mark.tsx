@@ -10,10 +10,15 @@ import clsx from 'clsx';
  * whole idea of the mark: one relationship, two ends.
  *
  * the header and footer use `split` now. they used to be monochrome on the
- * reasoning that colour is never load-bearing at small sizes — still true, and
- * still why the favicon and the chat badge are monochrome — but the green/pink
- * pair is what took over from twitch purple as the site's accent, so the one
- * place the pair is stated outright had better be the wordmark.
+ * reasoning that colour is never load-bearing at small sizes — still why the
+ * chat badge is monochrome — but the green/pink pair is what took over from
+ * twitch purple as the site's accent, so the places the mark stands alone say
+ * it outright.
+ *
+ * the favicon is split too, in all three services (`app/icon.svg` here,
+ * `src/public/favicon.*` in moddex-status, the docs icon in moddex-api). it is
+ * the same two paths and the same two hexes each time; there is no shared
+ * package across the repo boundary, so they are kept in step by hand.
  */
 export const Mark: FC<{ size?: number; split?: boolean; className?: string }> = ({
   size = 22,
