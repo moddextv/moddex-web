@@ -112,10 +112,17 @@
         height: 100%;
     }
 
+
     .search {
         display: flex;
         align-items: center;
         gap: 10px;
+        /* a flex item defaults to min-width:auto, which means "never narrower
+           than my contents". the scope switch inside does not shrink, so
+           without this the search bar held itself at 387px and pushed the
+           whole page 176px wider than the phone — on every route, since the
+           header is on every route. */
+        min-width: 0;
         height: 40px;
         padding: 0 6px 0 14px;
         background: var(--raised);
@@ -160,6 +167,9 @@
         gap: 7px;
         height: 28px;
         padding: 0 11px;
+        /* keeps the tap target square once the label is hidden below `sm` */
+        min-width: 28px;
+        justify-content: center;
         background: transparent;
         border: 0;
         border-radius: 4px;
@@ -178,6 +188,26 @@
     .scope button[aria-pressed='true'] {
         background: var(--line);
         color: var(--text);
+    }
+
+    /* Phone layout for the whole header, and it has to sit after the rules it
+       overrides — same specificity, so source order decides.
+       20px of gap between three items is 40px of a 360px screen and the search
+       pays for all of it. The bar grows rather than shrinks: on a phone it is a
+       touch target, not somewhere a cursor lands. */
+    @media (max-width: 640px) {
+        .nav-inner {
+            gap: 12px;
+        }
+
+        .search {
+            height: 44px;
+        }
+
+        .scope button {
+            height: 34px;
+            min-width: 40px;
+        }
     }
 
     /* --------------------------------------------------------------- rows --
@@ -291,6 +321,16 @@
         display: flex;
         gap: 4px;
         border-bottom: 1px solid var(--line-soft);
+        /* the tabs do not wrap and do not shrink, so without this a label that
+           outgrows the screen widens the whole page instead of itself. it never
+           scrolls at the current labels — it is here so that changing one
+           cannot silently break the layout again. */
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+        display: none;
     }
 
     /* the labels are sentences, and at 380px they wrapped to three lines inside
@@ -310,6 +350,15 @@
         border-bottom: 2px solid transparent;
         margin-bottom: -1px;
         transition: color var(--dur) var(--ease);
+    }
+
+    /* 18px each side is 72px of a 320px screen across two tabs, which is what
+       tipped them over the edge on the smallest phones still in use. */
+    @media (max-width: 640px) {
+        .tab {
+            padding: 0 12px;
+            gap: 8px;
+        }
     }
 
     .tab:hover { color: var(--text); }

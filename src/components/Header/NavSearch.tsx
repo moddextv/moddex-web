@@ -68,6 +68,15 @@ export const NavSearch: FC = () => {
         onChange={(event) => setValue(event.target.value)}
       />
 
+      {/* below `sm` the two words are dropped and the corners carry the switch
+          on their own. they are the same notation the direction tabs use, the
+          pressed option keeps its own colour and a filled background, and the
+          placeholder swaps between `forsen` and `nymn` — so which way round it
+          is set stays legible. keeping the words cost 100px of a 360px header
+          and left the input too narrow to type a login into.
+
+          the label stays in `aria-label` either way, so the accessible name
+          never depends on the viewport. */}
       <span className="scope" role="group" aria-label="What to look up">
         {(
           [
@@ -78,6 +87,8 @@ export const NavSearch: FC = () => {
           <button
             key={option.key}
             type="button"
+            aria-label={option.label}
+            title={option.label}
             aria-pressed={scope === option.key}
             onClick={() => setScope(option.key)}
           >
@@ -89,7 +100,7 @@ export const NavSearch: FC = () => {
                 scope === option.key ? option.tone : 'text-primary-600'
               )}
             />
-            {option.label}
+            <span className="hidden sm:inline">{option.label}</span>
           </button>
         ))}
       </span>

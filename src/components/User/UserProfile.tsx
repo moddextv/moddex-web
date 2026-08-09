@@ -23,14 +23,13 @@ import clsx from 'clsx';
  * argument in one detail: the thing telling you which way round you are reading
  * is the mark's colour pair, not a borrowed purple.
  */
-const DirectionTabs: FC<{ login: string; name: string; isUser: boolean }> = ({
-  login,
-  name,
-  isUser
-}) => (
-  // the labels are full sentences because the two directions are genuinely easy
-  // to confuse, but they do not fit side by side on a phone. the short forms
-  // below `sm` say the same thing with the tab position carrying the rest.
+const DirectionTabs: FC<{ login: string; isUser: boolean }> = ({ login, isUser }) => (
+  // the two directions are genuinely easy to confuse, so the labels say "roles"
+  // rather than leaving the tab position to carry it alone. they used to be
+  // full sentences — "Holds roles in this channel" beside "Roles <name> holds
+  // elsewhere" — which read as a paragraph rather than as two tabs, and repeated
+  // a name that is already the <h1> directly above. the short forms below `sm`
+  // drop the noun as well; by then the two tabs are the only thing on the row.
   <nav className="tabs mt-8" aria-label="Which direction to read this account">
     <Link
       href={`/channel/${login}`}
@@ -42,7 +41,7 @@ const DirectionTabs: FC<{ login: string; name: string; isUser: boolean }> = ({
         className={clsx('corner corner-tl', isUser ? 'text-primary-600' : 'text-mod')}
       />
       <span className="sm:hidden">In this channel</span>
-      <span className="hidden sm:inline">Holds roles in this channel</span>
+      <span className="hidden sm:inline">Roles in this channel</span>
     </Link>
 
     <Link
@@ -55,7 +54,7 @@ const DirectionTabs: FC<{ login: string; name: string; isUser: boolean }> = ({
         className={clsx('corner corner-br', isUser ? 'text-vip' : 'text-primary-600')}
       />
       <span className="sm:hidden">Elsewhere</span>
-      <span className="hidden sm:inline">Roles {name} holds elsewhere</span>
+      <span className="hidden sm:inline">Roles elsewhere</span>
     </Link>
   </nav>
 );
@@ -89,7 +88,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
     return (
       <section className="pt-10 pb-8" aria-busy="true">
         <UserProfileLoading />
-        <DirectionTabs login={user.login} name={user.name ?? user.login} isUser={!!isUser} />
+        <DirectionTabs login={user.login} isUser={!!isUser} />
       </section>
     );
   }
@@ -193,7 +192,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
         </div>
       </div>
 
-      <DirectionTabs login={login} name={name} isUser={!!isUser} />
+      <DirectionTabs login={login} isUser={!!isUser} />
     </section>
   );
 };
