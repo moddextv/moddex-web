@@ -10,7 +10,6 @@ import { getSelectedUserChatBadge, getUserChatBadges } from '@/utils/badges';
 import { getUserIgnoreState } from '@/utils/user';
 import { UserChatBadges } from '@/misc/Interfaces';
 import { config } from '@/config';
-import { constants } from '@/utils/constants';
 import Link from 'next/link';
 import { CSSProperties, FC, ReactNode } from 'react';
 
@@ -25,12 +24,6 @@ const Fact: FC<{ label: string; children: ReactNode }> = ({ label, children }) =
     {children}
   </div>
 );
-
-const permissionLabel = (perms: number) => {
-  if (perms >= constants.permissions.admin) return 'admin';
-  if (perms >= constants.permissions.team) return 'team';
-  return 'standard';
-};
 
 export default async function SettingsPage() {
   const session = await auth();
@@ -146,12 +139,6 @@ export default async function SettingsPage() {
                     </span>
                   )}
                   <span className="text-base font-bold">{login}</span>
-                </span>
-              </Fact>
-
-              <Fact label="Permission">
-                <span className="text-base font-bold">
-                  {permissionLabel(session.user.perms ?? 0)}
                 </span>
               </Fact>
 
