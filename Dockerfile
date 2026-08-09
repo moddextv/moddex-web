@@ -84,4 +84,12 @@ RUN mkdir -p .next/cache && chown nextjs:nodejs .next/cache
 USER nextjs
 EXPOSE 4999
 
+# every moddex service answers /health — the status page depends on it. This
+# was the only image without the check, which meant docker reported the
+# container healthy from the moment it started, whether or not next had
+# finished coming up. start-period is longer than the others because a cold
+# next boot is slower than a bare node process.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:4999/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+
 CMD ["node", "server.js"]
