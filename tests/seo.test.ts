@@ -69,9 +69,12 @@ describe('robots.txt', () => {
     }
   );
 
-  it.each(['/', '/channel', '/user', '/donate', '/privacy', '/tos'])('allows %s', (path) => {
-    expect(disallow.some((rule) => path === rule || path.startsWith(`${rule}/`))).toBe(false);
-  });
+  it.each(['/', '/channel', '/user', '/donate', '/about', '/privacy', '/tos'])(
+    'allows %s',
+    (path) => {
+      expect(disallow.some((rule) => path === rule || path.startsWith(`${rule}/`))).toBe(false);
+    }
+  );
 });
 
 describe('a page disallowed in robots.txt also sends noindex', () => {
@@ -102,17 +105,20 @@ describe('the profile routes cannot serve a soft 404', () => {
 describe('the sitemap lists pages, not rows', () => {
   const urls = sitemap().map((entry) => entry.url);
 
-  it.each(['/', '/channel', '/user', '/donate', '/privacy', '/tos'])('carries %s', (path) => {
-    expect(urls).toContain(`https://moddex.tv${path}`);
-  });
+  it.each(['/', '/channel', '/user', '/donate', '/about', '/privacy', '/tos'])(
+    'carries %s',
+    (path) => {
+      expect(urls).toContain(`https://moddex.tv${path}`);
+    }
+  );
 
   it('carries no profile', () => {
     expect(urls.filter((url) => /\/(channel|user)\/./.test(url))).toEqual([]);
-    expect(urls).toHaveLength(6);
+    expect(urls).toHaveLength(7);
   });
 
   it('carries no field a search engine ignores', () => {
-    expect(sitemap().flatMap((entry) => Object.keys(entry))).toEqual(Array(6).fill('url'));
+    expect(sitemap().flatMap((entry) => Object.keys(entry))).toEqual(Array(7).fill('url'));
   });
 });
 

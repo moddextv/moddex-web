@@ -38,7 +38,8 @@ export const Footer = () => {
             Every channel a Twitch account holds mod or vip in, and the day they got it. Not
             affiliated with, endorsed by, or sponsored by Twitch Interactive.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
+            <FooterLink href="/about">About {config.brand.name}</FooterLink>
             <FooterLink href={config.brand.githubUrl} newTab icon={<GitHubIcon size={18} />}>
               {config.brand.name} on GitHub
             </FooterLink>

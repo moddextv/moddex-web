@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   applicationName: config.brand.name,
   authors: {
     name: 'maersux',
-    url: 'https://github.com/maersux'
+    url: config.brand.authorUrl
   },
   other: { 'darkreader-lock': 'true' },
   robots: {
