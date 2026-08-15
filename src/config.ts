@@ -5,6 +5,7 @@ export const config = {
     url: 'https://moddex.tv',
     statusUrl: 'https://status.moddex.tv',
     docsUrl: 'https://api.moddex.tv/docs',
+    githubUrl: 'https://github.com/moddextv',
     email: 'marcel@doubt.ch'
   },
 

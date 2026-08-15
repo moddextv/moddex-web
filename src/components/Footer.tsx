@@ -1,23 +1,25 @@
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
-import { ExternalLinkIcon } from '@/components/Icons';
+import { ExternalLinkIcon, GitHubIcon } from '@/components/Icons';
 import { config } from '@/config';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
-const FooterLink: FC<{ href: string; newTab?: boolean; children: ReactNode }> = ({
-  href,
-  newTab,
-  children
-}) => (
+const FooterLink: FC<{
+  href: string;
+  newTab?: boolean;
+  icon?: ReactNode;
+  children: ReactNode;
+}> = ({ href, newTab, icon, children }) => (
   <Link
     href={href}
     target={newTab ? '_blank' : undefined}
     rel={newTab ? 'noopener noreferrer' : undefined}
-    className="inline-flex items-center text-ui text-primary-300 hover:text-primary-100 transition-colors"
+    className={`inline-flex items-center ${icon ? 'gap-2 ' : ''}text-ui text-primary-300 hover:text-primary-100 transition-colors`}
   >
+    {icon}
     {children}
-    {newTab && <ExternalLinkIcon size={22} />}
+    {!icon && newTab && <ExternalLinkIcon size={22} />}
   </Link>
 );
 
@@ -36,6 +38,11 @@ export const Footer = () => {
             Every channel a Twitch account holds mod or vip in, and the day they got it. Not
             affiliated with, endorsed by, or sponsored by Twitch Interactive.
           </p>
+          <div className="mt-4">
+            <FooterLink href={config.brand.githubUrl} newTab icon={<GitHubIcon size={18} />}>
+              {config.brand.name} on GitHub
+            </FooterLink>
+          </div>
           <p className="mt-3 text-micro text-primary-400">
             &copy; {year} {config.brand.name}
           </p>
