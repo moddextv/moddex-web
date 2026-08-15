@@ -1,0 +1,13 @@
+name: moddex
+
+services:
+  app:
+    image: ${IMAGE:-ghcr.io/moddextv/moddex-web}:${IMAGE_TAG:-latest}
+    env_file: .env
+    networks:
+      - web
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true

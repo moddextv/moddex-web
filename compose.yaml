@@ -1,0 +1,18 @@
+name: moddex
+
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    env_file: .env
+    environment:
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:4999}
+      WATCHPACK_POLLING: 'true'
+    ports:
+      - '${APP_PORT:-4999}:4999'
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
