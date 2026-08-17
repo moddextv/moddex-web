@@ -221,55 +221,71 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
               />
             </label>
 
-            <label className="search w-full sm:w-72">
-              <SearchIcon size={16} color="text-primary-400" />
-              <input
-                value={add}
-                onChange={(event) => {
-                  setAdd(event.target.value);
-                  setFound(null);
-                  setLooked(false);
-                }}
-                placeholder="Add a Twitch name"
-                aria-label={`Give somebody the ${selected} badge`}
-                autoComplete="off"
-              />
-            </label>
+            <form
+              className="flex items-center gap-2 w-full sm:w-auto"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void lookup.run(add);
+              }}
+            >
+              <label className="search w-full sm:w-72">
+                <SearchIcon size={16} color="text-primary-400" />
+                <input
+                  value={add}
+                  onChange={(event) => {
+                    setAdd(event.target.value);
+                    setFound(null);
+                    setLooked(false);
+                  }}
+                  placeholder="Add user"
+                  aria-label={`Give somebody the ${selected} badge`}
+                  autoComplete="off"
+                />
+              </label>
 
-            {add.trim() && !found && (
-              <button
-                type="button"
-                className="btn btn-soft"
-                disabled={busy}
-                onClick={() => void lookup.run(add)}
-              >
-                Look up
+              <button type="submit" className="btn btn-soft" disabled={busy || !add.trim()}>
+                Add user
               </button>
-            )}
+            </form>
+          </div>
 
-            {found && (
-              <span className="flex items-center gap-2">
-                <Avatar src={found.avatar} name={found.login} />
-                <span className="text-base font-bold">{found.login}</span>
+          {looked && !found && (
+            <p className="text-read text-primary-300 px-4 pb-4">
+              There is no twitch account called {add.trim()}.
+            </p>
+          )}
+
+          {found && (
+            <div className="rows pb-4">
+              <div className="row cols-badges">
+                <span className="flex items-center gap-3 min-w-0">
+                  <Avatar src={found.avatar} name={found.login} />
+                  <span className="text-base font-bold truncate">{found.login}</span>
+                </span>
+
+                <span className="text-ui text-primary-300 truncate">
+                  {already ? `already has ${selected}` : 'not on this list yet'}
+                </span>
+
+                <span />
+
                 {already ? (
-                  <span className="text-ui text-primary-400">has it already</span>
+                  <span className="text-micro text-primary-400 justify-self-end">
+                    nothing to do
+                  </span>
                 ) : (
                   <button
                     type="button"
-                    className="btn"
+                    className="btn justify-self-end"
                     disabled={busy}
                     onClick={() => give(found.id)}
                   >
                     Give {selected}
                   </button>
                 )}
-              </span>
-            )}
-
-            {looked && !found && (
-              <span className="text-ui text-primary-400">no such twitch account</span>
-            )}
-          </div>
+              </div>
+            </div>
+          )}
 
           {rows.length === 0 ? (
             <p className="text-read text-primary-300 max-w-prose px-4 pb-4">
