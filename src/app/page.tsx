@@ -209,23 +209,23 @@ export default async function Home() {
           className="enter grid gap-6 md:grid-cols-2 pb-4"
           style={{ '--i': 5 } as CSSProperties}
         >
-          <div className="panel">
+          <div className="panel flex flex-col h-full">
             <h2 className="text-h2 mb-3">The index fills up by being used</h2>
             <p className="text-read text-primary-300 max-w-[46ch] mb-5">
               A channel gets added the first time somebody searches for it. That one lookup pulls in
               its mod and vip lists and keeps them, for everybody. You don&apos;t need an account.
             </p>
-            <Link href="/channel" className="btn btn-soft">
+            <Link href="/channel" className="mt-auto self-start btn btn-soft">
               Index a channel
             </Link>
           </div>
 
-          <div className="panel">
+          <div className="panel flex flex-col h-full">
             <h2 className="text-h2 mb-3">Listed here and would rather not be?</h2>
             <p className="text-read text-primary-300 max-w-[46ch] mb-5">
               Sign in with Twitch and switch the opt-out on. <OptOutEffect /> <OptOutReversible />
             </p>
-            <Link href="/settings" className="btn btn-soft">
+            <Link href="/settings" className="mt-auto self-start btn btn-soft">
               Opt out
             </Link>
           </div>

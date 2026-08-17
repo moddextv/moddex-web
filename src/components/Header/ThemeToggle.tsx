@@ -11,7 +11,7 @@ export const ThemeToggle: FC = () => {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <span className="btn btn-ghost w-10 px-0 shrink-0" aria-hidden="true" />;
+    return <span className="btn btn-soft w-10 px-0 shrink-0" aria-hidden="true" />;
   }
 
   const isDark = resolvedTheme === 'dark';
@@ -20,7 +20,7 @@ export const ThemeToggle: FC = () => {
     <button
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="btn btn-ghost w-10 px-0 shrink-0"
+      className="btn btn-soft w-10 px-0 shrink-0"
       aria-label={isDark ? 'Switch to the light theme' : 'Switch to the dark theme'}
       title={isDark ? 'Light theme' : 'Dark theme'}
     >

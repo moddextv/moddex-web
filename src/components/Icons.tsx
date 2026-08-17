@@ -23,7 +23,7 @@ export const DiscordIcon: FC<SvgIconProps> = ({ size = 32, color = 'text-discord
 export const ExternalLinkIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className={`${color} ml-1 scale-50 md:scale-80`}
+    className={`${color} ml-1`}
     width={size}
     height={size}
     fill="none"
@@ -166,6 +166,25 @@ export const MoonIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   >
     <g stroke="currentColor">
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </g>
+  </svg>
+);
+
+export const MenuIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+  >
+    <g stroke="currentColor">
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
     </g>
   </svg>
 );

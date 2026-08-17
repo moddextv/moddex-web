@@ -19,7 +19,7 @@ const FooterLink: FC<{
   >
     {icon}
     {children}
-    {!icon && newTab && <ExternalLinkIcon size={22} />}
+    {!icon && newTab && <ExternalLinkIcon size={14} />}
   </Link>
 );
 
@@ -38,8 +38,7 @@ export const Footer = () => {
             Every channel a Twitch account holds mod or vip in, and the day they got it. Not
             affiliated with, endorsed by, or sponsored by Twitch Interactive.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
-            <FooterLink href="/about">About {config.brand.name}</FooterLink>
+          <div className="mt-5 flex flex-col items-start gap-2.5">
             <FooterLink
               href={config.brand.discordUrl}
               newTab
@@ -50,8 +49,14 @@ export const Footer = () => {
             <FooterLink href={config.brand.githubUrl} newTab icon={<GitHubIcon size={18} />}>
               {config.brand.name} on GitHub
             </FooterLink>
+            <FooterLink href="/about" icon={<span className="w-[18px]" aria-hidden="true" />}>
+              About {config.brand.name}
+            </FooterLink>
+            <FooterLink href="/donate" icon={<span className="w-[18px]" aria-hidden="true" />}>
+              Donate
+            </FooterLink>
           </div>
-          <p className="mt-3 text-micro text-primary-400">
+          <p className="mt-5 text-micro text-primary-400">
             &copy; {year} {config.brand.name}
           </p>
         </div>
