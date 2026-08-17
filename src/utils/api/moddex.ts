@@ -2,6 +2,7 @@ import 'server-only';
 
 import { logger } from '@/misc/Logger';
 import type { RoleUser, User } from '@/misc/account';
+import type { Badge } from '@/misc/badges';
 import type { BrowsePage } from '@/misc/browse';
 import type { RolePage } from '@/misc/roleList';
 import {
@@ -111,6 +112,8 @@ const roleUserShape = object({
   granted: nullable(str)
 });
 const roleUsersShape = arrayOf(roleUserShape);
+
+const badgesShape = arrayOf(object({ id: num, name: str, svg: str, webp: str }));
 
 const statsShape = object({
   channels: num,
@@ -392,3 +395,17 @@ export const refreshUser = (
     body: { ...subject, roles },
     expect: userShape
   });
+
+export const getBadges = () => call<Badge[]>('/v1/badges', { expect: badgesShape });
+
+export const grantBadge = (actor: string, userId: string, badge: string) =>
+  call<{ userId: string; badge: string; granted: boolean }>(
+    `/v1/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
+    { authenticated: true, method: 'PUT', actor }
+  );
+
+export const revokeBadge = (actor: string, userId: string, badge: string) =>
+  call<{ userId: string; badge: string; revoked: boolean; chatBadgeCleared: boolean }>(
+    `/v1/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
+    { authenticated: true, method: 'DELETE', actor }
+  );

@@ -7,8 +7,10 @@ import { TeamOnly } from '@/components/Notices';
 import { AccountManager } from '@/components/Dashboard/AccountManager';
 import { JobHealth } from '@/components/Dashboard/JobHealth';
 import { Connections } from '@/components/Dashboard/Connections';
+import { BadgeManager } from '@/components/Dashboard/BadgeManager';
 import { listBots } from '@/actions/bots';
 import { listAdmins } from '@/actions/admins';
+import { listBadgeCatalogue } from '@/actions/badges';
 import { fetchJobHealth } from '@/actions/dashboard';
 import { listConnections } from '@/actions/dashboard';
 
@@ -37,14 +39,21 @@ export default async function DashboardPage() {
 
   const isAdmin = session.user.perms >= permissions.admin;
 
-  const [botsResult, healthResult, adminsResult, connectionsResult] = isAdmin
-    ? await Promise.all([listBots(), fetchJobHealth(), listAdmins(), listConnections()])
-    : [null, null, null, null];
+  const [botsResult, healthResult, adminsResult, connectionsResult, badgesResult] = isAdmin
+    ? await Promise.all([
+        listBots(),
+        fetchJobHealth(),
+        listAdmins(),
+        listConnections(),
+        listBadgeCatalogue()
+      ])
+    : [null, null, null, null, null];
 
   const bots = botsResult?.ok ? botsResult.data : [];
   const admins = adminsResult?.ok ? adminsResult.data : [];
   const health = healthResult?.ok ? healthResult.data : null;
   const connections = connectionsResult?.ok ? connectionsResult.data : null;
+  const catalogue = badgesResult?.ok ? badgesResult.data : [];
 
   return (
     <main id="main" className="flex-grow">
@@ -62,6 +71,12 @@ export default async function DashboardPage() {
         {connections && (
           <section className="enter pb-6">
             <Connections connections={connections} />
+          </section>
+        )}
+
+        {isAdmin && catalogue.length > 0 && (
+          <section className="enter pb-6">
+            <BadgeManager catalogue={catalogue} />
           </section>
         )}
 
