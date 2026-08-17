@@ -1,6 +1,6 @@
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
-import { ExternalLinkIcon, GitHubIcon } from '@/components/Icons';
+import { DiscordIcon, ExternalLinkIcon, GitHubIcon } from '@/components/Icons';
 import { config } from '@/config';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
@@ -40,6 +40,13 @@ export const Footer = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
             <FooterLink href="/about">About {config.brand.name}</FooterLink>
+            <FooterLink
+              href={config.brand.discordUrl}
+              newTab
+              icon={<DiscordIcon size={18} color="" />}
+            >
+              Join the Discord
+            </FooterLink>
             <FooterLink href={config.brand.githubUrl} newTab icon={<GitHubIcon size={18} />}>
               {config.brand.name} on GitHub
             </FooterLink>
@@ -57,6 +64,9 @@ export const Footer = () => {
             <FooterLink href={config.brand.docsUrl} newTab>
               API docs
             </FooterLink>
+            <FooterLink href={config.brand.statusUrl} newTab>
+              Status
+            </FooterLink>
           </nav>
 
           <nav className="flex flex-col gap-2.5" aria-label="Your data">
@@ -64,9 +74,6 @@ export const Footer = () => {
             <FooterLink href="/settings">Opt out</FooterLink>
             <FooterLink href="/privacy">Privacy</FooterLink>
             <FooterLink href="/tos">Terms</FooterLink>
-            <FooterLink href={config.brand.statusUrl} newTab>
-              Status
-            </FooterLink>
           </nav>
         </div>
       </Container>

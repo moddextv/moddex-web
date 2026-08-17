@@ -99,10 +99,12 @@ export default async function SuccessPage({
                 </code>
               </div>
               <a
-                href={`mailto:${config.brand.email}?subject=${encodeURIComponent(`${config.brand.name} donator badge`)}`}
+                href={config.brand.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-soft shrink-0"
               >
-                Email {config.brand.email}
+                Ask on Discord
               </a>
             </div>
           </section>

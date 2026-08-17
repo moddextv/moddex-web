@@ -70,7 +70,7 @@ export const Login: FC<LoginProps> = ({
               If you hold more than one, choose which shows next to your name.
             </Can>
             <Can title="Attach a donation">
-              So the donator badge lands automatically instead of by email.
+              So the donator badge lands automatically instead of being assigned by hand.
             </Can>
           </ul>
         </div>

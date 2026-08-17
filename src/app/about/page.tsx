@@ -1,7 +1,7 @@
 import { openGraphFor } from '@/misc/metadata';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
-import { Inline } from '@/components/Legal';
+import { Ext, Inline } from '@/components/Legal';
 import { config } from '@/config';
 import { Metadata } from 'next';
 import { CSSProperties, FC, ReactNode } from 'react';
@@ -16,21 +16,6 @@ export const metadata: Metadata = {
 const Para: FC<{ children: ReactNode }> = ({ children }) => (
   <p className="text-read text-primary-300 max-w-prose">{children}</p>
 );
-
-const Ext: FC<{ href: string; children: ReactNode }> = ({ href, children }) => {
-  const offSite = href.startsWith('http');
-
-  return (
-    <a
-      href={href}
-      target={offSite ? '_blank' : undefined}
-      rel={offSite ? 'noopener noreferrer' : undefined}
-      className="text-primary-100 font-semibold hover:underline"
-    >
-      {children}
-    </a>
-  );
-};
 
 const Panel: FC<{ title: string; icon?: ReactNode; children: ReactNode }> = ({
   title,
@@ -47,7 +32,7 @@ const Panel: FC<{ title: string; icon?: ReactNode; children: ReactNode }> = ({
 );
 
 export default function AboutPage() {
-  const { name, domain, email, githubUrl, authorUrl } = config.brand;
+  const { name, domain, discordUrl, githubUrl, authorUrl } = config.brand;
 
   return (
     <main id="main" className="flex-grow">
@@ -117,8 +102,8 @@ export default function AboutPage() {
             <Para>
               That is the likely answer if you are wearing a badge on a site you don&apos;t remember
               giving anything to. There is nothing to claim and nothing to renew, and it
-              doesn&apos;t expire. If you did donate back then and the badge isn&apos;t showing,
-              write to <Ext href={`mailto:${email}`}>{email}</Ext> and it will be put right by hand.
+              doesn&apos;t expire. If you did donate back then and the badge isn&apos;t showing, say
+              so in <Ext href={discordUrl}>the Discord</Ext> and it will be put right by hand.
             </Para>
           </Panel>
 

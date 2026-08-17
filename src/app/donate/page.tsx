@@ -85,7 +85,7 @@ export default async function DonatePage() {
 
             <p className="text-ui text-primary-400 mt-4">
               Sign in with Twitch first and the badge lands on your profile automatically. Donating
-              signed out works too, it just needs an email afterward.
+              signed out works too, it just needs a message in the Discord afterward.
             </p>
           </div>
 

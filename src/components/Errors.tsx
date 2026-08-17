@@ -180,10 +180,12 @@ export const CheckoutUnreadable: FC = () => (
         Check your profile
       </Link>
       <a
-        href={`mailto:${config.brand.email}?subject=${encodeURIComponent(`${config.brand.name} donator badge`)}`}
+        href={config.brand.discordUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className="btn btn-soft"
       >
-        Email {config.brand.email}
+        Ask on Discord
       </a>
     </div>
 

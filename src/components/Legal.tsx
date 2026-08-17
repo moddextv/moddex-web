@@ -20,6 +20,17 @@ export const Inline: FC<{ href: string; children: ReactNode }> = ({ href, childr
   </Link>
 );
 
+export const Ext: FC<{ href: string; children: ReactNode }> = ({ href, children }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-primary-100 font-semibold hover:underline"
+  >
+    {children}
+  </a>
+);
+
 export const Clause: FC<{ id: string; title: string; children: ReactNode }> = ({
   id,
   title,
