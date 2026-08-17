@@ -368,11 +368,11 @@
 		grid-template-columns: minmax(0, 1fr) 90px 90px 110px;
 	}
 
-	.cols-bots {
+	.cols-badges {
 		grid-template-columns: minmax(0, 1fr) 130px 110px 86px;
 	}
 
-	.row-head.cols-bots {
+	.row-head.cols-badges {
 		padding-top: 14px;
 	}
 
@@ -385,11 +385,11 @@
 	}
 
 	@media (max-width: 900px) {
-		.cols-bots {
+		.cols-badges {
 			grid-template-columns: minmax(0, 1fr) 86px;
 		}
 
-		.cols-bots > :nth-child(n + 2):not(:last-child) {
+		.cols-badges > :nth-child(n + 2):not(:last-child) {
 			display: none;
 		}
 

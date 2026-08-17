@@ -1,5 +1,6 @@
 import type { BotRow } from '@/actions/bots';
 import type { AdminRow } from '@/actions/admins';
+import type { BadgeHolder } from '@/utils/api/moddex';
 
 export interface Row {
   userId: string;
@@ -9,6 +10,7 @@ export interface Row {
   byLogin: string | null;
   at: string | null;
   owner?: boolean;
+  ignored?: boolean;
   known?: boolean;
 }
 
@@ -39,29 +41,18 @@ export const matches = (row: Row, term: string) =>
   row.name?.toLowerCase().includes(term) ||
   row.userId.includes(term);
 
-export interface Hit {
-  account: Row;
-  bot: boolean;
-  admin: boolean;
-}
-
-export const resolveHit = (bots: Row[], admins: Row[], term: string): Hit | null => {
-  if (!term) return null;
-
-  const account =
-    bots.find((row) => matches(row, term)) ?? admins.find((row) => matches(row, term));
-
-  if (!account) return null;
-
-  return {
-    account,
-    bot: bots.some((row) => row.userId === account.userId),
-    admin: admins.some((row) => row.userId === account.userId)
-  };
-};
-
 export const visibleRows = (rows: Row[], term: string, showAll: boolean) => {
   const filtered = term ? rows.filter((row) => matches(row, term)) : rows;
 
   return showAll ? filtered : filtered.slice(0, CAP);
 };
+
+export const toHolderRow = (holder: BadgeHolder): Row => ({
+  userId: holder.id,
+  login: holder.login,
+  name: holder.name,
+  avatar: holder.avatar,
+  byLogin: holder.grantedByLogin,
+  at: holder.grantedAt,
+  ignored: holder.ignored
+});

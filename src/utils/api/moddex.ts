@@ -409,3 +409,23 @@ export const revokeBadge = (actor: string, userId: string, badge: string) =>
     `/v1/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
     { authenticated: true, method: 'DELETE', actor }
   );
+
+export interface BadgeHolder {
+  id: string;
+  login: string | null;
+  name: string | null;
+  avatar: string | null;
+  ignored: boolean;
+  grantedBy: string | null;
+  grantedAt: string | null;
+  grantedByLogin: string | null;
+}
+
+export const getBadgeHolders = (actor: string, badge: string) =>
+  call<{ badge: string; total: number; listable: boolean; items: BadgeHolder[] }>(
+    `/v1/badges/${encodeURIComponent(badge)}/users`,
+    { authenticated: true, actor }
+  );
+
+export const getBadgeCounts = (actor: string) =>
+  call<Record<string, number>>('/v1/badges/counts', { authenticated: true, actor });

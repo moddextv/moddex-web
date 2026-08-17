@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   CAP,
   matches,
-  resolveHit,
   toAdminRow,
   toBotRow,
+  toHolderRow,
   visibleRows
 } from '@/components/Dashboard/accounts';
 import type { Row } from '@/components/Dashboard/accounts';
@@ -21,37 +21,6 @@ const row = (over: Partial<Row> & { userId: string }): Row => ({
 const NIGHTBOT = row({ userId: '19264788', login: 'nightbot', name: 'Nightbot' });
 const APUJAR = row({ userId: '896181679', login: 'apujar', name: 'ApuJar' });
 const MAERSUX = row({ userId: '217986157', login: 'maersux', name: 'maersux', owner: true });
-
-describe('resolveHit', () => {
-  it('never reports a second roster hit as belonging to the first account', () => {
-    const hit = resolveHit([APUJAR], [MAERSUX], 'a');
-
-    expect(hit?.account.userId).toBe(APUJAR.userId);
-    expect(hit?.admin).toBe(false);
-    expect(hit?.bot).toBe(true);
-  });
-
-  it('reports both when they really are the same account', () => {
-    const hit = resolveHit([MAERSUX], [MAERSUX], 'maersux');
-
-    expect(hit?.account.userId).toBe(MAERSUX.userId);
-    expect(hit?.bot).toBe(true);
-    expect(hit?.admin).toBe(true);
-  });
-
-  it('finds an account that is only in the admin roster', () => {
-    const hit = resolveHit([NIGHTBOT], [MAERSUX], 'maersux');
-
-    expect(hit?.account.userId).toBe(MAERSUX.userId);
-    expect(hit?.bot).toBe(false);
-    expect(hit?.admin).toBe(true);
-  });
-
-  it('is null for an empty term and for a term nothing matches', () => {
-    expect(resolveHit([NIGHTBOT], [MAERSUX], '')).toBeNull();
-    expect(resolveHit([NIGHTBOT], [MAERSUX], 'forsen')).toBeNull();
-  });
-});
 
 describe('matches', () => {
   it('searches login, display name and id', () => {
@@ -118,5 +87,46 @@ describe('row mapping', () => {
     expect(admin.byLogin).toBeNull();
     expect(admin.at).toBeNull();
     expect(admin.owner).toBe(true);
+  });
+});
+
+describe('toHolderRow', () => {
+  it('maps a badge holder onto the same row shape as a bot and an admin', () => {
+    const mapped = toHolderRow({
+      id: '1',
+      login: 'maersux',
+      name: 'Maersux',
+      avatar: 'a.png',
+      ignored: false,
+      grantedBy: '9',
+      grantedAt: '2026-08-17',
+      grantedByLogin: 'someone'
+    });
+
+    expect(mapped).toEqual({
+      userId: '1',
+      login: 'maersux',
+      name: 'Maersux',
+      avatar: 'a.png',
+      byLogin: 'someone',
+      at: '2026-08-17',
+      ignored: false
+    });
+  });
+
+  it('carries the opt-out through rather than hiding the row', () => {
+    const mapped = toHolderRow({
+      id: '1',
+      login: 'a',
+      name: null,
+      avatar: null,
+      ignored: true,
+      grantedBy: null,
+      grantedAt: null,
+      grantedByLogin: null
+    });
+
+    expect(mapped.ignored).toBe(true);
+    expect(mapped.byLogin).toBeNull();
   });
 });

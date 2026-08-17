@@ -4,13 +4,10 @@ import { Container } from '@/components/UI/Container';
 import { Login } from '@/components/Login';
 import { permissions } from '@/utils/permissions';
 import { TeamOnly } from '@/components/Notices';
-import { AccountManager } from '@/components/Dashboard/AccountManager';
 import { JobHealth } from '@/components/Dashboard/JobHealth';
 import { Connections } from '@/components/Dashboard/Connections';
 import { BadgeManager } from '@/components/Dashboard/BadgeManager';
-import { listBots } from '@/actions/bots';
-import { listAdmins } from '@/actions/admins';
-import { listBadgeCatalogue } from '@/actions/badges';
+import { listBadgeCatalogue, listBadgeCounts } from '@/actions/badges';
 import { fetchJobHealth } from '@/actions/dashboard';
 import { listConnections } from '@/actions/dashboard';
 
@@ -39,21 +36,19 @@ export default async function DashboardPage() {
 
   const isAdmin = session.user.perms >= permissions.admin;
 
-  const [botsResult, healthResult, adminsResult, connectionsResult, badgesResult] = isAdmin
+  const [healthResult, connectionsResult, badgesResult, countsResult] = isAdmin
     ? await Promise.all([
-        listBots(),
         fetchJobHealth(),
-        listAdmins(),
         listConnections(),
-        listBadgeCatalogue()
+        listBadgeCatalogue(),
+        listBadgeCounts()
       ])
-    : [null, null, null, null, null];
+    : [null, null, null, null];
 
-  const bots = botsResult?.ok ? botsResult.data : [];
-  const admins = adminsResult?.ok ? adminsResult.data : [];
   const health = healthResult?.ok ? healthResult.data : null;
   const connections = connectionsResult?.ok ? connectionsResult.data : null;
   const catalogue = badgesResult?.ok ? badgesResult.data : [];
+  const counts = countsResult?.ok ? countsResult.data : {};
 
   return (
     <main id="main" className="flex-grow">
@@ -74,19 +69,13 @@ export default async function DashboardPage() {
           </section>
         )}
 
-        {isAdmin && catalogue.length > 0 && (
-          <section className="enter pb-6">
-            <BadgeManager catalogue={catalogue} />
-          </section>
-        )}
-
         <section className="enter pb-6">
-          {isAdmin ? (
-            <AccountManager bots={bots} admins={admins} />
+          {isAdmin && catalogue.length > 0 ? (
+            <BadgeManager catalogue={catalogue} counts={counts} />
           ) : (
             <div className="panel">
               <p className="text-read text-primary-300 max-w-prose">
-                Nothing here needs you yet. The bot list is admin only.
+                Nothing here needs you yet. Handing out badges is admin only.
               </p>
             </div>
           )}

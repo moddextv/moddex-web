@@ -1,6 +1,13 @@
 'use server';
 
-import { getBadges, grantBadge, revokeBadge } from '@/utils/api/moddex';
+import {
+  getBadgeCounts,
+  getBadgeHolders,
+  getBadges,
+  grantBadge,
+  revokeBadge,
+  type BadgeHolder
+} from '@/utils/api/moddex';
 import type { Badge } from '@/misc/badges';
 import { requirePermission } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
@@ -40,5 +47,23 @@ export async function listBadgeCatalogue(): Promise<ActionResult<Badge[]>> {
     await admin();
 
     return getBadges();
+  });
+}
+
+export async function listBadgeCounts(): Promise<ActionResult<Record<string, number>>> {
+  return attempt('listBadgeCounts', async () => {
+    const { userId } = await admin();
+
+    return getBadgeCounts(userId);
+  });
+}
+
+export async function listBadgeHolders(badge: string): Promise<ActionResult<BadgeHolder[]>> {
+  return attempt('listBadgeHolders', async () => {
+    const { userId } = await admin();
+
+    const { items } = await getBadgeHolders(userId, badge);
+
+    return items;
   });
 }
