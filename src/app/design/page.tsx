@@ -67,7 +67,16 @@ const MOTION = [
   ['reduced motion', 'all of it stops']
 ];
 
-const BADGES = ['affiliate', 'partner', 'staff', 'donator', 'top_donator', 'admin', 'bot'];
+const BADGES = [
+  'affiliate',
+  'partner',
+  'staff',
+  'donator',
+  'top_donator',
+  'admin',
+  'bot',
+  'booster'
+];
 
 export default function DesignPage() {
   return (

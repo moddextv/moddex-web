@@ -52,6 +52,10 @@ const glyphs = {
     `<rect x="50" y="83" width="28" height="8" rx="4"/>` +
     `</g>`,
 
+  boost: (ink) =>
+    `<g fill="none" stroke="${ink}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">` +
+    `<path d="M40 62 L64 40 L88 62"/><path d="M40 92 L64 70 L88 92"/></g>`,
+
   mark: (ink) => mark(ink)
 };
 
@@ -62,7 +66,8 @@ const BADGES = [
   { name: 'donator', fill: '#15803D', ink: PAPER, glyph: 'heart' },
   { name: 'top_donator', fill: '#FACC15', ink: INK, glyph: 'crown' },
   { name: 'admin', fill: '#F87171', ink: INK, glyph: 'mark' },
-  { name: 'bot', fill: '#008585', ink: PAPER, glyph: 'robot' }
+  { name: 'bot', fill: '#008585', ink: PAPER, glyph: 'robot' },
+  { name: 'booster', fill: '#FF73FA', ink: INK, glyph: 'boost' }
 ];
 
 const srgb = (v) => {
