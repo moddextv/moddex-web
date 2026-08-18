@@ -20,8 +20,8 @@ const nextConfig = {
    * so the page scanned an empty folder and published a document with no
    * endpoints in it, while still rendering as though it were fine.
    *
-   * Permanent, and both spellings, because moddex.tv/api/docs is what was
-   * linked publicly and moddex.tv/docs is what people guess.
+   * Permanent, and all three spellings, because moddex.tv/api/docs is what was
+   * linked publicly and moddex.tv/docs and moddex.tv/api are what people guess.
    */
   async redirects() {
     return [
@@ -32,6 +32,11 @@ const nextConfig = {
       },
       {
         source: '/docs',
+        destination: 'https://api.moddex.tv/docs',
+        permanent: true
+      },
+      {
+        source: '/api',
         destination: 'https://api.moddex.tv/docs',
         permanent: true
       }
