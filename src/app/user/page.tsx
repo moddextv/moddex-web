@@ -5,6 +5,7 @@ import { config } from '@/config';
 import { fetchAccounts } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 export const dynamic = 'force-dynamic';
@@ -44,6 +45,14 @@ export default async function UserPage() {
             totalLabel="accounts known"
             initial={initial}
           />
+
+          <p className="pt-6 text-read text-primary-300">
+            Or walk the whole index:{' '}
+            <Link href="/user/page/1" className="text-primary-200 font-semibold hover:underline">
+              accounts by role count
+            </Link>
+            .
+          </p>
         </section>
       </Container>
     </main>

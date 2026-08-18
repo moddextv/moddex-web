@@ -5,6 +5,7 @@ import { config } from '@/config';
 import { fetchChannels } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 export const dynamic = 'force-dynamic';
@@ -41,6 +42,14 @@ export default async function ChannelPage() {
             totalLabel="channels indexed"
             initial={initial}
           />
+
+          <p className="pt-6 text-read text-primary-300">
+            Or walk the whole index:{' '}
+            <Link href="/channel/page/1" className="text-primary-200 font-semibold hover:underline">
+              channels by role count
+            </Link>
+            .
+          </p>
         </section>
       </Container>
     </main>

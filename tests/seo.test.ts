@@ -1,11 +1,16 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('@/utils/api/moddex', () => ({
+  getStats: vi.fn(async () => ({ channels: 1_220_000, users: 8_200_000 }))
+}));
 
 import robots from '@/app/robots';
 import manifest from '@/app/manifest';
 import sitemap from '@/app/sitemap';
+import { MAX_BROWSE_PAGE } from '@/misc/browsePages';
 import { profileGraph, siteGraph } from '@/components/JsonLd';
 
 const ROOT = join(__dirname, '..');
@@ -103,22 +108,43 @@ describe('the profile routes cannot serve a soft 404', () => {
 });
 
 describe('the sitemap lists pages, not rows', () => {
-  const urls = sitemap().map((entry) => entry.url);
+  const entries = async () => await sitemap();
+  const paths = async () =>
+    (await entries()).map((entry) => entry.url.replace('https://moddex.tv', ''));
 
   it.each(['/', '/channel', '/user', '/donate', '/about', '/privacy', '/tos'])(
     'carries %s',
-    (path) => {
-      expect(urls).toContain(`https://moddex.tv${path}`);
+    async (path) => {
+      expect(await paths()).toContain(path);
     }
   );
 
-  it('carries no profile', () => {
-    expect(urls.filter((url) => /\/(channel|user)\/./.test(url))).toEqual([]);
-    expect(urls).toHaveLength(7);
+  it('carries no profile', async () => {
+    const profiles = (await paths()).filter((path) => /^\/(channel|user)\/(?!page\/)./.test(path));
+
+    expect(profiles).toEqual([]);
   });
 
-  it('carries no field a search engine ignores', () => {
-    expect(sitemap().flatMap((entry) => Object.keys(entry))).toEqual(Array(7).fill('url'));
+  it('carries browse pages, which are pages this site publishes', async () => {
+    const browse = (await paths()).filter((path) => /^\/(channel|user)\/page\/[0-9]+$/.test(path));
+
+    expect(browse).toContain('/channel/page/1');
+    expect(browse).toContain('/user/page/1');
+  });
+
+  it('stops at the page the api can still serve', async () => {
+    const numbers = (await paths())
+      .map((path) => /^\/(?:channel|user)\/page\/([0-9]+)$/.exec(path)?.[1])
+      .filter(Boolean)
+      .map(Number);
+
+    expect(Math.max(...numbers)).toBeLessThanOrEqual(MAX_BROWSE_PAGE);
+  });
+
+  it('carries no field a search engine ignores', async () => {
+    const keys = (await entries()).flatMap((entry) => Object.keys(entry));
+
+    expect([...new Set(keys)]).toEqual(['url']);
   });
 });
 
