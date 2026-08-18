@@ -297,6 +297,7 @@ export interface BotEntry {
   login: string | null;
   name: string | null;
   avatar: string | null;
+  badges?: Badge[];
   addedBy: string | null;
   addedByLogin: string | null;
   addedAt: string;
@@ -327,6 +328,7 @@ export interface AdminEntry {
   login: string | null;
   name: string | null;
   avatar: string | null;
+  badges?: Badge[];
   grantedBy: string | null;
   grantedByLogin: string | null;
   grantedAt: string | null;
@@ -415,6 +417,7 @@ export interface BadgeHolder {
   login: string | null;
   name: string | null;
   avatar: string | null;
+  badges?: Badge[];
   ignored: boolean;
   grantedBy: string | null;
   grantedAt: string | null;

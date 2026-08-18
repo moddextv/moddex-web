@@ -376,6 +376,16 @@
 		padding-top: 14px;
 	}
 
+	.found {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 8px 14px;
+		padding: 12px 14px;
+		border: 1px solid var(--line-soft);
+		border-radius: var(--radius-md);
+	}
+
 	.cols-jobs {
 		grid-template-columns: 150px minmax(0, 1.4fr) minmax(0, 1fr);
 	}

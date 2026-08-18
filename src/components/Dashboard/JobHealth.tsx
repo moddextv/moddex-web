@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { formatDate, formatNumber } from '@/utils/format';
+import { formatDate } from '@/utils/format';
 import { ago } from './ago';
 import { backupLate, clock, size } from '@/utils/jobHealth';
 import type { JobHealth as Health } from '@/utils/api/moddex';
@@ -39,7 +39,7 @@ export const JobHealth: FC<{ health: Health }> = ({ health }) => {
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <h2 className="text-h2">Scheduled work</h2>
-        <span className="ml-auto text-ui text-primary-400">
+        <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
           as of {formatDate(new Date().toISOString())}
         </span>
       </div>
@@ -53,9 +53,6 @@ export const JobHealth: FC<{ health: Health }> = ({ health }) => {
 
         <Row label="Snapshot" note="one point a day at 03:00 UTC">
           <Ran {...snapshot} />
-          {snapshot.users !== null && (
-            <span className="text-primary-400"> · {formatNumber(snapshot.users)} users</span>
-          )}
         </Row>
 
         <Row label="Role counts" note="the browse rankings, rebuilt at 04:00 UTC">

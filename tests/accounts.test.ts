@@ -13,6 +13,7 @@ const row = (over: Partial<Row> & { userId: string }): Row => ({
   login: null,
   name: null,
   avatar: null,
+  badges: [],
   byLogin: null,
   at: null,
   ...over
@@ -108,10 +109,19 @@ describe('toHolderRow', () => {
       login: 'maersux',
       name: 'Maersux',
       avatar: 'a.png',
+      badges: [],
       byLogin: 'someone',
       at: '2026-08-17',
       ignored: false
     });
+  });
+
+  // web and api deploy separately, so the badges may not be in the reply yet
+  it('carries the badges through, and survives an api that does not send them', () => {
+    const badge = { id: 4, name: 'donator', svg: 's', webp: 'w' };
+
+    expect(toHolderRow({ id: '1', badges: [badge] } as never).badges).toEqual([badge]);
+    expect(toHolderRow({ id: '1' } as never).badges).toEqual([]);
   });
 
   it('carries the opt-out through rather than hiding the row', () => {

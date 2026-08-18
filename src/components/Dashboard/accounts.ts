@@ -1,5 +1,6 @@
 import type { BotRow } from '@/actions/bots';
 import type { AdminRow } from '@/actions/admins';
+import type { Badge } from '@/misc/badges';
 import type { BadgeHolder } from '@/utils/api/moddex';
 
 export interface Row {
@@ -7,6 +8,7 @@ export interface Row {
   login: string | null;
   name: string | null;
   avatar: string | null;
+  badges: Badge[];
   byLogin: string | null;
   at: string | null;
   owner?: boolean;
@@ -21,6 +23,7 @@ export const toBotRow = (bot: BotRow): Row => ({
   login: bot.login,
   name: bot.name,
   avatar: bot.avatar,
+  badges: bot.badges ?? [],
   byLogin: bot.addedByLogin,
   at: bot.addedAt,
   known: bot.known
@@ -31,6 +34,7 @@ export const toAdminRow = (admin: AdminRow): Row => ({
   login: admin.login,
   name: admin.name,
   avatar: admin.avatar,
+  badges: admin.badges ?? [],
   byLogin: admin.grantedByLogin,
   at: admin.grantedAt,
   owner: admin.owner
@@ -52,6 +56,7 @@ export const toHolderRow = (holder: BadgeHolder): Row => ({
   login: holder.login,
   name: holder.name,
   avatar: holder.avatar,
+  badges: holder.badges ?? [],
   byLogin: holder.grantedByLogin,
   at: holder.grantedAt,
   ignored: holder.ignored

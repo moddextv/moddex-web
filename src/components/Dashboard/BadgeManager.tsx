@@ -1,6 +1,8 @@
 'use client';
 
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
 import { SearchIcon } from '@/components/Icons';
 import { findAccount, flagAccountAsBot, listBots, unflagAccountAsBot } from '@/actions/bots';
@@ -38,6 +40,17 @@ const SOURCES: Record<string, string> = {
 };
 
 const kindOf = (badge: string): Kind => KINDS[badge] ?? 'badge';
+
+// a bot flagged before anybody looked it up has an id and no login, and there is
+// no profile behind an id
+const Name: FC<{ login: string | null; fallback?: string }> = ({ login, fallback }) =>
+  login ? (
+    <Link href={`/channel/${login}`} className="row-name text-base font-bold truncate">
+      {login}
+    </Link>
+  ) : (
+    <span className="text-base font-bold truncate">{fallback}</span>
+  );
 
 const Avatar: FC<{ src: string | null; name: string }> = ({ src, name }) =>
   src ? (
@@ -256,27 +269,25 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
           )}
 
           {found && (
-            <div className="rows pb-4">
-              <div className="row cols-badges">
-                <span className="flex items-center gap-3 min-w-0">
-                  <Avatar src={found.avatar} name={found.login} />
-                  <span className="text-base font-bold truncate">{found.login}</span>
+            <div className="px-4 pb-4">
+              <div className="found">
+                <Avatar src={found.avatar} name={found.login} />
+
+                <span className="flex items-center gap-2 min-w-0">
+                  <Name login={found.login} />
+                  <Badges badges={found.badges} size={16} />
                 </span>
 
-                <span className="text-ui text-primary-300 truncate">
+                <span className="text-ui text-primary-300">
                   {already ? `already has ${selected}` : 'not on this list yet'}
                 </span>
 
-                <span />
-
                 {already ? (
-                  <span className="text-micro text-primary-400 justify-self-end">
-                    nothing to do
-                  </span>
+                  <span className="text-micro text-primary-400 sm:ml-auto">nothing to do</span>
                 ) : (
                   <button
                     type="button"
-                    className="btn justify-self-end"
+                    className="btn sm:ml-auto whitespace-nowrap"
                     disabled={busy}
                     onClick={() => give(found.id)}
                   >
@@ -305,13 +316,18 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                   <span className="flex items-center gap-3 min-w-0">
                     <Avatar src={row.avatar} name={row.login ?? row.userId} />
                     <span className="min-w-0">
-                      <span className="text-base font-bold truncate">
-                        {row.login ?? row.userId}
+                      <span className="flex items-center gap-2 min-w-0">
+                        <Name login={row.login} fallback={row.userId} />
+                        <Badges badges={row.badges} size={16} />
                       </span>
-                      {row.owner && <span className="text-micro text-mod"> · owner</span>}
-                      {row.ignored && <span className="text-micro text-vip"> · opted out</span>}
-                      {row.known === false && (
-                        <span className="text-micro text-primary-400"> · never fetched</span>
+                      {(row.owner || row.ignored || row.known === false) && (
+                        <span className="flex items-center gap-2 text-micro">
+                          {row.owner && <span className="text-mod">owner</span>}
+                          {row.ignored && <span className="text-vip">opted out</span>}
+                          {row.known === false && (
+                            <span className="text-primary-400">never fetched</span>
+                          )}
+                        </span>
                       )}
                     </span>
                   </span>
