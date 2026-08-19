@@ -125,13 +125,21 @@ for (const badge of BADGES) {
 
   const chat = svgFor(badge, 'mark');
   const chatPath = join(OUT, `${badge.name}.webp`);
+  // the site glyph rather than the chat mark: an emoji wants the crown, not the logo
+  const emojiPath = join(OUT, `${badge.name}.png`);
 
   if (check) {
     const ok = existsSync(chatPath);
+    const emojiOk = existsSync(emojiPath);
     if (!ok) drift++;
-    report.push(`  ${''.padEnd(12)} chat webp ${ok ? 'present' : 'MISSING'}`);
+    if (!emojiOk) drift++;
+    report.push(
+      `  ${''.padEnd(12)} chat webp ${ok ? 'present' : 'MISSING'}  ` +
+        `emoji png ${emojiOk ? 'present' : 'MISSING'}`
+    );
   } else {
     await sharp(Buffer.from(chat)).resize(128, 128).webp({ quality: 92 }).toFile(chatPath);
+    await sharp(Buffer.from(site)).resize(128, 128).png({ compressionLevel: 9 }).toFile(emojiPath);
   }
 }
 
@@ -141,5 +149,7 @@ if (check) {
   console.log(drift ? `\n${drift} file(s) differ. Run: npm run badges` : '\nall ok');
   process.exit(drift ? 1 : 0);
 } else {
-  console.log(`wrote ${BADGES.length} svg + ${BADGES.length} webp to public/badges`);
+  console.log(
+    `wrote ${BADGES.length} svg + ${BADGES.length} webp + ${BADGES.length} png to public/badges`
+  );
 }
