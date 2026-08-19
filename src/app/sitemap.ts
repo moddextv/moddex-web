@@ -7,7 +7,7 @@ import type { MetadataRoute } from 'next';
 // counting the browse pages needs the api, so this must not be prerendered
 export const dynamic = 'force-dynamic';
 
-const PAGES = ['/', '/channel', '/user', '/donate', '/about', '/privacy', '/tos'];
+const PAGES = ['/', '/channel', '/user', '/leaderboard', '/donate', '/about', '/privacy', '/tos'];
 
 const browsePaths = (axis: BrowseAxis, total: number): string[] => {
   const last = browsePageCount(total);

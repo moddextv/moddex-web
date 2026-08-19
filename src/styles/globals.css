@@ -372,6 +372,10 @@
 		grid-template-columns: minmax(0, 1fr) 130px 110px 86px;
 	}
 
+	.cols-leaders {
+		grid-template-columns: 56px minmax(0, 1fr) 120px;
+	}
+
 	.row-head.cols-badges {
 		padding-top: 14px;
 	}
@@ -569,6 +573,9 @@
 	}
 	.tab-vip[aria-current='page'] {
 		border-bottom-color: var(--vip);
+	}
+	.tab-founder[aria-current='page'] {
+		border-bottom-color: var(--founder);
 	}
 
 	.btn {

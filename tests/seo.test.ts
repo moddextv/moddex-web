@@ -74,7 +74,7 @@ describe('robots.txt', () => {
     }
   );
 
-  it.each(['/', '/channel', '/user', '/donate', '/about', '/privacy', '/tos'])(
+  it.each(['/', '/channel', '/user', '/leaderboard', '/donate', '/about', '/privacy', '/tos'])(
     'allows %s',
     (path) => {
       expect(disallow.some((rule) => path === rule || path.startsWith(`${rule}/`))).toBe(false);
@@ -112,7 +112,7 @@ describe('the sitemap lists pages, not rows', () => {
   const paths = async () =>
     (await entries()).map((entry) => entry.url.replace('https://moddex.tv', ''));
 
-  it.each(['/', '/channel', '/user', '/donate', '/about', '/privacy', '/tos'])(
+  it.each(['/', '/channel', '/user', '/leaderboard', '/donate', '/about', '/privacy', '/tos'])(
     'carries %s',
     async (path) => {
       expect(await paths()).toContain(path);

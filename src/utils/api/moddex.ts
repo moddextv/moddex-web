@@ -140,6 +140,26 @@ const browsePageShape = object({
   hasMore: bool
 });
 
+const leaderboardShape = object({
+  scale: str,
+  computed: nullable(str),
+  depth: num,
+  items: arrayOf(
+    object({
+      position: num,
+      count: num,
+      id,
+      login: str,
+      name: nullable(str),
+      avatar: nullable(str),
+      bot: bool
+    })
+  ),
+  limit: num,
+  hasMore: bool,
+  after: nullable(num)
+});
+
 export type Role = 'mods' | 'vips' | 'founders';
 
 export type { RolePage } from '@/misc/roleList';
@@ -222,6 +242,37 @@ export interface HistoryPoint {
   vips: number;
   founders: number | null;
 }
+
+export type LeaderScale = 'mod' | 'vip' | 'founder' | 'roles';
+
+export interface LeaderRow {
+  position: number;
+  count: number;
+  id: string;
+  login: string;
+  name: string | null;
+  avatar: string | null;
+  bot: boolean;
+}
+
+export interface Leaderboard {
+  scale: string;
+  computed: string | null;
+  depth: number;
+  items: LeaderRow[];
+  limit: number;
+  hasMore: boolean;
+  after: number | null;
+}
+
+export const getLeaderboard = (
+  scale: LeaderScale,
+  params: { limit?: number; after?: number; bots?: 'include' | 'exclude' } = {}
+): Promise<Leaderboard> =>
+  call(`/v1/stats/${scale}${query(asParams(params))}`, {
+    revalidate: 900,
+    expect: leaderboardShape
+  });
 
 export const getStatsHistory = (days = 30) =>
   call<HistoryPoint[]>(`/v1/stats/history?days=${days}`, {
