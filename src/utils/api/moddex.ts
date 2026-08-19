@@ -152,7 +152,8 @@ const leaderboardShape = object({
       login: str,
       name: nullable(str),
       avatar: nullable(str),
-      bot: bool
+      bot: bool,
+      badges: arrayOf(object({}))
     })
   ),
   limit: num,
@@ -253,6 +254,7 @@ export interface LeaderRow {
   name: string | null;
   avatar: string | null;
   bot: boolean;
+  badges: Badge[];
 }
 
 export interface Leaderboard {

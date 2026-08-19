@@ -1,4 +1,5 @@
 import { Avatar } from '@/components/UI/Avatar';
+import { Badges } from '@/components/User/Badges';
 import { LeaderRow } from '@/utils/api/moddex';
 import { formatNumber } from '@/utils/format';
 import Link from 'next/link';
@@ -32,7 +33,7 @@ export const LeaderRows: FC<{ scale: string; label: string; items: LeaderRow[] }
           <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />
           <span className="flex items-center gap-2 min-w-0">
             <span className="row-name text-base font-bold truncate">{row.name || row.login}</span>
-            {row.bot && <span className="text-micro text-primary-400 shrink-0">bot</span>}
+            <Badges badges={row.badges} size={18} className="shrink-0 flex-nowrap" />
           </span>
         </span>
 
