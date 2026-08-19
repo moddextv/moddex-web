@@ -4,7 +4,6 @@ import { LeaderRows } from '@/components/Leaderboard/LeaderRows';
 import { LeaderScale, getLeaderboard } from '@/utils/api/moddex';
 import { Metadata } from 'next';
 import { config } from '@/config';
-import { formatDayMonthYear } from '@/utils/format';
 import { openGraphFor } from '@/misc/metadata';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -54,8 +53,8 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
             <h1 className="text-h1">Leaderboard</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">
-            Who holds the most roles across every channel {config.brand.name} has read. Counted once
-            a day, so a position moves overnight rather than while you watch it.
+            Who holds the most roles across every channel {config.brand.name} has read. Updates once
+            a day.
           </p>
         </header>
 
@@ -73,15 +72,10 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
         </nav>
 
         <section className="enter pt-6 pb-10" style={{ '--i': 2 } as CSSProperties}>
-          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 mb-4">
-            <p className="text-ui text-primary-400">
-              Top {board.items.length} of {board.depth}
-              {board.computed && <> · as of {formatDayMonthYear(board.computed)}</>}
-            </p>
-
+          <div className="flex justify-end mb-4">
             <Link
               href={href({ bots: bots === 'exclude' ? 'include' : 'exclude' })}
-              className="text-ui text-primary-300 underline underline-offset-4 sm:ml-auto"
+              className="text-ui text-primary-300 underline underline-offset-4"
             >
               {bots === 'exclude' ? 'Show bots' : 'Hide bots'}
             </Link>
@@ -94,11 +88,6 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
               Nothing here yet — the daily count has not run since this list was added.
             </p>
           )}
-
-          <p className="text-micro text-primary-400 mt-4 max-w-prose">
-            Positions keep their gaps: hiding bots removes rows without renumbering the rest, so the
-            number beside a name is the same one that account sees on its own profile.
-          </p>
         </section>
       </Container>
     </main>

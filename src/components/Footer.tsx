@@ -28,7 +28,7 @@ export const Footer = () => {
 
   return (
     <footer className="mt-auto border-t border-primary-700/70">
-      <Container className="py-10 flex flex-col gap-8 lg:flex-row lg:justify-between">
+      <Container className="pt-10 pb-8 flex flex-col gap-8 lg:flex-row lg:justify-between">
         <div className="max-w-[42ch]">
           <div className="flex items-center gap-3 mb-3 text-primary-200">
             <Mark size={20} split />
@@ -39,6 +39,12 @@ export const Footer = () => {
             affiliated with, endorsed by, or sponsored by Twitch Interactive.
           </p>
           <div className="mt-5 flex flex-col items-start gap-2.5">
+            <FooterLink href="/about" icon={<span className="w-[18px]" aria-hidden="true" />}>
+              About {config.brand.name}
+            </FooterLink>
+            <FooterLink href="/donate" icon={<span className="w-[18px]" aria-hidden="true" />}>
+              Donate
+            </FooterLink>
             <FooterLink
               href={config.brand.discordUrl}
               newTab
@@ -49,16 +55,7 @@ export const Footer = () => {
             <FooterLink href={config.brand.githubUrl} newTab icon={<GitHubIcon size={18} />}>
               {config.brand.name} on GitHub
             </FooterLink>
-            <FooterLink href="/about" icon={<span className="w-[18px]" aria-hidden="true" />}>
-              About {config.brand.name}
-            </FooterLink>
-            <FooterLink href="/donate" icon={<span className="w-[18px]" aria-hidden="true" />}>
-              Donate
-            </FooterLink>
           </div>
-          <p className="mt-5 text-micro text-primary-400">
-            &copy; {year} {config.brand.name}
-          </p>
         </div>
 
         <div className="flex gap-14">
@@ -81,6 +78,12 @@ export const Footer = () => {
             <FooterLink href="/tos">Terms</FooterLink>
           </nav>
         </div>
+      </Container>
+
+      <Container className="pb-10">
+        <p className="text-micro text-primary-400">
+          &copy; {year} {config.brand.name}
+        </p>
       </Container>
     </footer>
   );
