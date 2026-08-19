@@ -12,7 +12,7 @@ import { signIn, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Session } from 'next-auth';
-import { DiscordIcon, MenuIcon, TwitchIcon } from '@/components/Icons';
+import { ExternalLinkIcon, MenuIcon, TwitchIcon } from '@/components/Icons';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
 import { signInOptions } from '@/utils/signIn';
@@ -118,14 +118,14 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             key="discord"
             textValue="discord"
             href={config.brand.discordUrl}
-            startContent={<DiscordIcon size={16} />}
+            endContent={<ExternalLinkIcon size={14} />}
             {...external}
           >
             discord
           </DropdownItem>
         </DropdownSection>
 
-        <DropdownSection showDivider>
+        <DropdownSection>
           <DropdownItem
             key="theme"
             textValue="switch theme"
@@ -133,20 +133,6 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             onPress={() => setTheme(isDark.current ? 'light' : 'dark')}
           >
             switch theme
-          </DropdownItem>
-        </DropdownSection>
-
-        <DropdownSection>
-          <DropdownItem key="about" textValue="about" href="/about" {...here('/about')}>
-            about
-          </DropdownItem>
-
-          <DropdownItem key="docs" textValue="api docs" href={config.brand.docsUrl} {...external}>
-            api docs
-          </DropdownItem>
-
-          <DropdownItem key="status" textValue="status" href={config.brand.statusUrl} {...external}>
-            status
           </DropdownItem>
         </DropdownSection>
       </DropdownMenu>
