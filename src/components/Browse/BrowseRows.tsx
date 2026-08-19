@@ -1,5 +1,5 @@
 import { Badges } from '@/components/User/Badges';
-import { Image } from '@/components/UI/Image';
+import { Avatar } from '@/components/UI/Avatar';
 import { BrowseEntry } from '@/misc/browse';
 import { formatNumber, formatRelative } from '@/utils/format';
 import Link from 'next/link';
@@ -39,13 +39,11 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kin
           className={`row ${cols}`}
         >
           <span className="flex items-center gap-3.5 min-w-0">
-            <Image
-              src={entry.avatar ?? ''}
-              alt={entry.name || entry.login}
-              width={36}
-              height={36}
-              radius="full"
-              className="w-9 h-9 shrink-0 bg-primary-700"
+            <Avatar
+              src={entry.avatar}
+              name={entry.name || entry.login}
+              size={36}
+              className="w-9 h-9"
             />
             <span className="min-w-0">
               <span className="flex items-center gap-2 min-w-0">

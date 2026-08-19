@@ -495,6 +495,33 @@
 		user-select: none;
 	}
 
+	.avatar-slot {
+		position: relative;
+		display: inline-grid;
+		place-items: center;
+		flex-shrink: 0;
+		border-radius: var(--radius-full);
+		background: var(--line);
+		overflow: hidden;
+	}
+
+	.avatar-slot::before {
+		content: '';
+		position: absolute;
+		inset: 24%;
+		background: var(--text-alt);
+		opacity: 0.45;
+		mask: url('/logo/moddex-mark.svg') center / contain no-repeat;
+		-webkit-mask: url('/logo/moddex-mark.svg') center / contain no-repeat;
+	}
+
+	.avatar-slot > img {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
 	.tabs {
 		display: flex;
 		gap: 4px;

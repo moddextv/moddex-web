@@ -4,7 +4,7 @@ import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
 import { formatMonthYearLong, formatNumber, formatRelative } from '@/utils/format';
 import { displayBio } from '@/utils/text';
-import { Image } from '@/components/UI/Image';
+import { Avatar } from '@/components/UI/Avatar';
 import { FC, useEffect, useState } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { CopyButton } from '@/components/UI/CopyButton';
@@ -83,13 +83,11 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
   return (
     <section className="enter pt-10 pb-8">
       <div className="flex flex-wrap items-start gap-6">
-        <Image
-          src={currentUser?.avatar ?? ''}
-          alt={currentUser?.name || currentUser?.login || ''}
-          width={88}
-          height={88}
-          radius="full"
-          className="w-[88px] h-[88px] shrink-0 bg-primary-800"
+        <Avatar
+          src={currentUser?.avatar}
+          name={currentUser?.name || currentUser?.login || ''}
+          size={88}
+          className="w-[88px] h-[88px]"
         />
 
         <div className="min-w-0 flex-1">
