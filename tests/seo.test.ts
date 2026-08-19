@@ -184,7 +184,7 @@ describe('every image says what it is', () => {
 describe('a profile puts its role lists in the html', () => {
   it.each([
     ['channel', ['mods', 'vips', 'founders']],
-    ['user', ['modding', 'viping']]
+    ['user', ['modding', 'viping', 'founding']]
   ] as const)('%s/[username] seeds every list on the server', (kind, roles) => {
     const source = read(kind, '[username]', 'page.tsx');
 

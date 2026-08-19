@@ -13,7 +13,7 @@ import { isEmpty, seedRoleLists } from '@/utils/roleSeed';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 
-const ROLES = ['modding', 'viping'] as const;
+const ROLES = ['modding', 'viping', 'founding'] as const;
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -87,6 +87,7 @@ export default async function UserUsernamePage({ params }: PageProps) {
 
           <div className="flex flex-col gap-6">
             <UserList type="user" role="viping" user={user} initial={seeded.viping} />
+            <UserList type="user" role="founding" user={user} initial={seeded.founding} />
 
             <div className="panel flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
               <p className="text-read text-primary-300 max-w-[46ch]">
