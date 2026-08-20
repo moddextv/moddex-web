@@ -730,6 +730,23 @@
 		color: var(--text);
 	}
 
+	.role-card {
+		position: relative;
+		display: inline-flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 116px;
+		padding: 12px 14px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md);
+		background: transparent;
+	}
+
+	.role-card.is-held {
+		background: var(--raised);
+		border-color: var(--line-strong);
+	}
+
 	.badge-row {
 		display: flex;
 		align-items: center;

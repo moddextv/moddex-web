@@ -8,6 +8,7 @@ import { config } from '@/config';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
 import { getStatsHistory } from '@/utils/api/moddex';
+import { RoleCheck } from '@/components/Home/RoleCheck';
 import { RoleHistory } from '@/components/Home/RoleHistory';
 import { formatNumber } from '@/utils/format';
 import { JsonLd, siteGraph } from '@/components/JsonLd';
@@ -146,9 +147,13 @@ export default async function Home() {
             won&apos;t show you.
           </Direction>
         </section>
+        <section className="enter pb-12" style={{ '--i': 2 } as CSSProperties}>
+          <RoleCheck />
+        </section>
+
         <section
           className="enter pb-14"
-          style={{ '--i': 2 } as CSSProperties}
+          style={{ '--i': 3 } as CSSProperties}
           aria-label="What the index holds"
         >
           <div className="flex flex-wrap items-end gap-x-12 gap-y-7">
@@ -182,14 +187,14 @@ export default async function Home() {
             </p>
           </div>
         </section>
-        <section className="enter pb-12" style={{ '--i': 3 } as CSSProperties}>
+        <section className="enter pb-12" style={{ '--i': 4 } as CSSProperties}>
           <RoleHistory points={history} />
         </section>
 
         {(recent.items.length > 0 || holders.items.length > 0) && (
           <section
             className="enter grid items-start gap-6 lg:grid-cols-2 pb-12"
-            style={{ '--i': 4 } as CSSProperties}
+            style={{ '--i': 5 } as CSSProperties}
           >
             {recent.items.length > 0 && (
               <Live title="Recently indexed" href="/channel" link="All channels">
@@ -207,7 +212,7 @@ export default async function Home() {
 
         <section
           className="enter grid gap-6 md:grid-cols-2 pb-4"
-          style={{ '--i': 5 } as CSSProperties}
+          style={{ '--i': 6 } as CSSProperties}
         >
           <div className="panel flex flex-col h-full">
             <h2 className="text-h2 mb-3">The index fills up by being used</h2>

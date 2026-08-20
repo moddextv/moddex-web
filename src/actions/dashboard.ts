@@ -53,14 +53,3 @@ export async function listConnections(): Promise<ActionResult<ChannelConnections
     return getConnections(userId);
   });
 }
-
-export async function checkMembership(
-  login: string,
-  channel: string
-): Promise<ActionResult<Membership>> {
-  return attempt('checkMembership', async () => {
-    await requirePermission(permissions.team);
-
-    return getMembership(login.trim().toLowerCase(), channel.trim().toLowerCase());
-  });
-}
