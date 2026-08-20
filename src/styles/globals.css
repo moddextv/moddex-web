@@ -730,14 +730,6 @@
 		color: var(--text);
 	}
 
-	/* the corner convention as light: mod top-left, vip bottom-right */
-	.paired {
-		position: relative;
-		background-image:
-			radial-gradient(60% 70% at 0% 0%, rgb(var(--mod-rgb) / 0.07), transparent 70%),
-			radial-gradient(60% 70% at 100% 100%, rgb(var(--vip-rgb) / 0.07), transparent 70%);
-	}
-
 	.role-card {
 		position: relative;
 		display: inline-flex;

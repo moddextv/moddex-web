@@ -76,7 +76,7 @@ export const RoleCheck: FC = () => {
   };
 
   return (
-    <div className="panel paired">
+    <div className="panel">
       <h2 className="text-h2 pb-5">Ask about one pair</h2>
 
       <form onSubmit={submit} className="flex flex-wrap items-center gap-3">
