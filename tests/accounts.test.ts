@@ -1,11 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  CAP,
-  matches,
-  toBotRow,
-  toHolderRow,
-  visibleRows
-} from '@/components/Dashboard/accounts';
+import { CAP, matches, toBotRow, toHolderRow, visibleRows } from '@/components/Dashboard/accounts';
 import type { Row } from '@/components/Dashboard/accounts';
 
 const row = (over: Partial<Row> & { userId: string }): Row => ({
