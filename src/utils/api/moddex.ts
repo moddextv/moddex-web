@@ -19,8 +19,6 @@ import {
 
 const BASE = process.env.MODDEX_API_URL ?? 'https://api.moddex.tv';
 
-// INTERNAL_API_TOKEN can write as any user, so `server-only` above must stay and
-// the token must never move into config.ts, which is bundled for the browser
 const token = () => process.env.INTERNAL_API_TOKEN ?? '';
 
 export class ModdexApiError extends Error {
@@ -109,7 +107,7 @@ const roleUserShape = object({
   id,
   login: str,
   badges: arrayOf(object({})),
-  granted: nullable(str)
+  grantedAt: nullable(str)
 });
 const roleUsersShape = arrayOf(roleUserShape);
 
@@ -141,12 +139,13 @@ const browsePageShape = object({
 });
 
 const leaderboardShape = object({
-  scale: str,
-  computed: nullable(str),
+  role: str,
+  computedAt: nullable(str),
   depth: num,
+  of: nullable(num),
   items: arrayOf(
     object({
-      position: num,
+      place: num,
       count: num,
       id,
       login: str,
@@ -165,8 +164,15 @@ export type Role = 'mods' | 'vips' | 'founders';
 
 export type { RolePage } from '@/misc/roleList';
 
+const subjectPath = (axis: RoleAxis): string =>
+  'channel_id' in axis
+    ? `/v1/channels/by-id/${encodeURIComponent(axis.channel_id)}`
+    : `/v1/users/by-id/${encodeURIComponent(axis.user_id)}`;
+
 export const getRolePage = (params: RoleQuery & { limit: number }): Promise<RolePage> =>
-  call(`/v1/${params.role}${query(roleParams(params))}`, { expect: rolePageShape });
+  call(`${subjectPath(params)}/${params.role}${query(roleParams(params))}`, {
+    expect: rolePageShape
+  });
 
 export type RoleAxis = { channel_id: string } | { user_id: string };
 
@@ -195,27 +201,37 @@ export type RoleQuery = RoleAxis & {
 const roleParams = ({ role, ...rest }: RoleQuery): Record<string, string | undefined> => {
   void role;
 
+  const { channel_id: channelId, user_id: userId, ...query } = rest as Record<string, unknown>;
+  void channelId;
+  void userId;
+
   return Object.fromEntries(
-    Object.entries(rest).map(([key, value]) => [key, value == null ? undefined : String(value)])
+    Object.entries(query).map(([key, value]) => [key, value == null ? undefined : String(value)])
   );
 };
 
-export const getUsers = (params: UserQuery, actor?: string): Promise<User[]> =>
-  call(`/v1/users${query(asParams(params))}`, {
-    ...(actor ? { actor } : {}),
-    expect: usersShape
-  });
+export const getUserProfile = (params: UserQuery, actor?: string): Promise<User> =>
+  call(
+    'login' in params
+      ? `/v1/users/${encodeURIComponent(params.login)}`
+      : `/v1/users/by-id/${encodeURIComponent(params.id)}`,
+    {
+      ...(actor ? { actor } : {}),
+      expect: userShape
+    }
+  );
 
 export const getUserIgnored = (userId: string) =>
-  call<{ userId: string; ignored: boolean }>(`/v1/users/${encodeURIComponent(userId)}/ignored`, {
-    authenticated: true
+  call<{ userId: string; ignored: boolean }>('/v1/me/opt-out', {
+    authenticated: true,
+    actor: userId
   });
 
 export const getUserPermissionLevel = (userId: string) =>
-  call<{ userId: string; permission: number }>(
-    `/v1/users/${encodeURIComponent(userId)}/permission`,
-    { authenticated: true }
-  );
+  call<{ userId: string; permission: number }>('/v1/me', {
+    authenticated: true,
+    actor: userId
+  });
 
 export const getChannels = (params: BrowseQuery): Promise<BrowsePage> =>
   call(`/v1/channels${query(asParams(params))}`, { revalidate: 60, expect: browsePageShape });
@@ -223,7 +239,7 @@ export const getChannels = (params: BrowseQuery): Promise<BrowsePage> =>
 export const getAccounts = (
   params: BrowseQuery & { bots: 'include' | 'exclude' }
 ): Promise<BrowsePage> =>
-  call(`/v1/accounts${query(asParams(params))}`, { revalidate: 60, expect: browsePageShape });
+  call(`/v1/users${query(asParams(params))}`, { revalidate: 60, expect: browsePageShape });
 
 export const getStats = () =>
   call<{
@@ -247,7 +263,7 @@ export interface HistoryPoint {
 export type LeaderScale = 'mod' | 'vip' | 'founder' | 'roles';
 
 export interface LeaderRow {
-  position: number;
+  place: number;
   count: number;
   id: string;
   login: string;
@@ -258,20 +274,29 @@ export interface LeaderRow {
 }
 
 export interface Leaderboard {
-  scale: string;
-  computed: string | null;
+  role: string;
+  computedAt: string | null;
   depth: number;
+  of: number | null;
   items: LeaderRow[];
   limit: number;
   hasMore: boolean;
   after: number | null;
 }
 
+// this site's own ?scale= is singular and public; the api's path segment is plural
+const BOARD_PATH: Record<LeaderScale, string> = {
+  mod: 'mods',
+  vip: 'vips',
+  founder: 'founders',
+  roles: 'roles'
+};
+
 export const getLeaderboard = (
   scale: LeaderScale,
   params: { limit?: number; after?: number; bots?: 'include' | 'exclude' } = {}
 ): Promise<Leaderboard> =>
-  call(`/v1/stats/${scale}${query(asParams(params))}`, {
+  call(`/v1/leaderboards/${BOARD_PATH[scale]}${query(asParams(params))}`, {
     revalidate: 900,
     expect: leaderboardShape
   });
@@ -284,26 +309,26 @@ export const getStatsHistory = (days = 30) =>
 
 export const getUserChatBadges = <T>(userId: string) =>
   call<{ userId: string; available: T; selected: string | null }>(
-    `/v1/users/${encodeURIComponent(userId)}/chat-badges`,
-    { authenticated: true }
+    '/v1/me/chat-badges',
+    { authenticated: true, actor: userId }
   );
 
 export const setUserIgnored = (userId: string, ignored: boolean) =>
   call<{ userId: string; ignored: boolean; updated: boolean }>(
-    `/v1/users/${encodeURIComponent(userId)}/ignored`,
-    { authenticated: true, method: 'PATCH', body: { ignored } }
+    '/v1/me/opt-out',
+    { authenticated: true, method: 'PUT', actor: userId, body: { ignored } }
   );
 
 export const setUserSocial = (userId: string, network: string, externalId: string) =>
   call<{ userId: string; network: string; externalId: string }>(
-    `/v1/users/${encodeURIComponent(userId)}/socials/${encodeURIComponent(network)}`,
-    { authenticated: true, method: 'PUT', body: { externalId } }
+    `/v1/me/socials/${encodeURIComponent(network)}`,
+    { authenticated: true, method: 'PUT', actor: userId, body: { externalId } }
   );
 
 export const clearUserSocial = (userId: string, network: string) =>
   call<{ userId: string; network: string; removed: boolean }>(
-    `/v1/users/${encodeURIComponent(userId)}/socials/${encodeURIComponent(network)}`,
-    { authenticated: true, method: 'DELETE' }
+    `/v1/me/socials/${encodeURIComponent(network)}`,
+    { authenticated: true, method: 'DELETE', actor: userId }
   );
 
 export const getChannelConnection = (channelId: string) =>
@@ -315,7 +340,7 @@ export const getChannelConnection = (channelId: string) =>
     connectedAt: string | null;
     revokedAt: string | null;
     syncedAt: string | null;
-  }>(`/v1/channels/${encodeURIComponent(channelId)}/connection`, { authenticated: true });
+  }>('/v1/me/connection', { authenticated: true, actor: channelId });
 
 export const setModeratedChannels = (
   userId: string,
@@ -323,26 +348,26 @@ export const setModeratedChannels = (
   complete: boolean
 ) =>
   call<{ userId: string; channels: number; revoked: number; complete: boolean }>(
-    `/v1/users/${encodeURIComponent(userId)}/moderated-channels`,
-    { authenticated: true, method: 'PUT', body: { channels, complete } }
+    '/v1/me/moderated-channels',
+    { authenticated: true, method: 'POST', actor: userId, body: { channels, complete } }
   );
 
 export const setChannelConnection = (channelId: string, scopes: string[]) =>
   call<{ channelId: string; connected: boolean; scopes: string }>(
-    `/v1/channels/${encodeURIComponent(channelId)}/connection`,
-    { authenticated: true, method: 'PUT', body: { scopes } }
+    '/v1/me/connection',
+    { authenticated: true, method: 'PUT', actor: channelId, body: { scopes } }
   );
 
 export const clearChannelConnection = (channelId: string) =>
   call<{ channelId: string; connected: boolean; changed: boolean }>(
-    `/v1/channels/${encodeURIComponent(channelId)}/connection`,
-    { authenticated: true, method: 'DELETE' }
+    '/v1/me/connection',
+    { authenticated: true, method: 'DELETE', actor: channelId }
   );
 
 export const setUserChatBadge = (userId: string, badge: string) =>
   call<{ userId: string; badge: string | null }>(
-    `/v1/users/${encodeURIComponent(userId)}/chat-badge`,
-    { authenticated: true, method: 'PUT', body: { badge } }
+    '/v1/me/chat-badge',
+    { authenticated: true, method: 'PUT', actor: userId, body: { badge } }
   );
 
 export interface BotEntry {
@@ -358,7 +383,7 @@ export interface BotEntry {
 }
 
 export const getBots = (actor: string) =>
-  call<BotEntry[]>('/v1/bots', { authenticated: true, actor });
+  call<BotEntry[]>('/v1/admin/bots', { authenticated: true, actor });
 
 export interface JobStatus {
   lastAt: string | null;
@@ -374,22 +399,7 @@ export interface JobHealth {
 }
 
 export const getJobHealth = (actor: string) =>
-  call<JobHealth>('/v1/jobs', { authenticated: true, actor });
-
-export interface AdminEntry {
-  userId: string;
-  login: string | null;
-  name: string | null;
-  avatar: string | null;
-  badges?: Badge[];
-  grantedBy: string | null;
-  grantedByLogin: string | null;
-  grantedAt: string | null;
-  owner: boolean;
-}
-
-export const getAdmins = (actor: string) =>
-  call<AdminEntry[]>('/v1/admins', { authenticated: true, actor });
+  call<JobHealth>('/v1/admin/jobs', { authenticated: true, actor });
 
 export interface ChannelConnection {
   id: string;
@@ -410,31 +420,31 @@ export interface ChannelConnections {
 }
 
 export const getConnections = (actor: string) =>
-  call<ChannelConnections>('/v1/channels/connections', { authenticated: true, actor });
+  call<ChannelConnections>('/v1/admin/connections', { authenticated: true, actor });
 
 export const grantAdmin = (actor: string, userId: string) =>
-  call<{ userId: string; admin: boolean }>(`/v1/admins/${encodeURIComponent(userId)}`, {
+  call<{ userId: string; admin: boolean }>(`/v1/admin/admins/${encodeURIComponent(userId)}`, {
     authenticated: true,
     method: 'PUT',
     actor
   });
 
 export const revokeAdmin = (actor: string, userId: string) =>
-  call<{ userId: string; admin: boolean }>(`/v1/admins/${encodeURIComponent(userId)}`, {
+  call<{ userId: string; admin: boolean }>(`/v1/admin/admins/${encodeURIComponent(userId)}`, {
     authenticated: true,
     method: 'DELETE',
     actor
   });
 
 export const flagBot = (actor: string, userId: string) =>
-  call<{ userId: string; bot: boolean }>(`/v1/bots/${encodeURIComponent(userId)}`, {
+  call<{ userId: string; bot: boolean }>(`/v1/admin/bots/${encodeURIComponent(userId)}`, {
     authenticated: true,
     method: 'PUT',
     actor
   });
 
 export const unflagBot = (actor: string, userId: string) =>
-  call<{ userId: string; bot: boolean }>(`/v1/bots/${encodeURIComponent(userId)}`, {
+  call<{ userId: string; bot: boolean }>(`/v1/admin/bots/${encodeURIComponent(userId)}`, {
     authenticated: true,
     method: 'DELETE',
     actor
@@ -444,7 +454,7 @@ export const refreshUser = (
   subject: { login: string } | { id: string },
   roles: boolean = false
 ): Promise<User> =>
-  call('/v1/users/refresh', {
+  call('/v1/internal/users/refresh', {
     authenticated: true,
     method: 'POST',
     body: { ...subject, roles },
@@ -455,13 +465,13 @@ export const getBadges = () => call<Badge[]>('/v1/badges', { expect: badgesShape
 
 export const grantBadge = (actor: string, userId: string, badge: string) =>
   call<{ userId: string; badge: string; granted: boolean }>(
-    `/v1/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
+    `/v1/admin/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
     { authenticated: true, method: 'PUT', actor }
   );
 
 export const revokeBadge = (actor: string, userId: string, badge: string) =>
   call<{ userId: string; badge: string; revoked: boolean; chatBadgeCleared: boolean }>(
-    `/v1/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
+    `/v1/admin/users/${encodeURIComponent(userId)}/badges/${encodeURIComponent(badge)}`,
     { authenticated: true, method: 'DELETE', actor }
   );
 
@@ -475,13 +485,14 @@ export interface BadgeHolder {
   grantedBy: string | null;
   grantedAt: string | null;
   grantedByLogin: string | null;
+  owner: boolean;
 }
 
 export const getBadgeHolders = (actor: string, badge: string) =>
   call<{ badge: string; total: number; listable: boolean; items: BadgeHolder[] }>(
-    `/v1/badges/${encodeURIComponent(badge)}/users`,
+    `/v1/admin/badges/${encodeURIComponent(badge)}/holders`,
     { authenticated: true, actor }
   );
 
 export const getBadgeCounts = (actor: string) =>
-  call<Record<string, number>>('/v1/badges/counts', { authenticated: true, actor });
+  call<Record<string, number>>('/v1/admin/badges/counts', { authenticated: true, actor });

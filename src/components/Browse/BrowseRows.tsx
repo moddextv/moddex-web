@@ -53,7 +53,7 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kin
                 <Badges badges={entry.badges} size={18} />
               </span>
               <span className="block text-micro text-primary-400">
-                {formatNumber(entry.follower || 0)} followers
+                {formatNumber(entry.followers || 0)} followers
               </span>
             </span>
           </span>
@@ -63,11 +63,11 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kin
 
           {kind === 'channel' && (
             <time
-              dateTime={entry.updated ? new Date(entry.updated).toISOString() : undefined}
+              dateTime={entry.updatedAt ? new Date(entry.updatedAt).toISOString() : undefined}
               suppressHydrationWarning
               className="text-ui text-primary-400 text-right"
             >
-              {formatRelative(entry.updated) ?? 'not yet'}
+              {formatRelative(entry.updatedAt) ?? 'not yet'}
             </time>
           )}
         </Link>

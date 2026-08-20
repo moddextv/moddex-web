@@ -12,7 +12,7 @@ interface UserListItemProps {
 }
 
 export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
-  const granted = formatDayMonthYear(user.granted);
+  const granted = formatDayMonthYear(user.grantedAt);
 
   return (
     <Link
@@ -40,7 +40,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
       )}
 
       <span className="text-ui text-primary-400 tabular text-right">
-        {formatNumber(user.follower || 0)}
+        {formatNumber(user.followers || 0)}
       </span>
     </Link>
   );

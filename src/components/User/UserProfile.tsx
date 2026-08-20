@@ -60,8 +60,8 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
   const [lastRead, setLastRead] = useState<string | null>(null);
 
   useEffect(() => {
-    setLastRead(formatRelative(currentUser?.updated));
-  }, [currentUser?.updated]);
+    setLastRead(formatRelative(currentUser?.updatedAt));
+  }, [currentUser?.updatedAt]);
 
   useEffect(() => {
     if (banReason) window.location.reload();
@@ -111,20 +111,20 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           )}
 
           <div className="flex flex-wrap items-center gap-x-7 gap-y-2 text-ui text-primary-400">
-            {currentUser?.follower !== null && (
+            {currentUser?.followers !== null && (
               <span>
                 <span className="tabular text-primary-100 font-bold">
-                  {formatNumber(currentUser?.follower || 0)}
+                  {formatNumber(currentUser?.followers || 0)}
                 </span>{' '}
                 followers
               </span>
             )}
 
-            {currentUser?.created && (
+            {currentUser?.createdAt && (
               <span>
                 joined{' '}
                 <span className="tabular text-primary-200">
-                  {formatMonthYearLong(currentUser.created)}
+                  {formatMonthYearLong(currentUser.createdAt)}
                 </span>
               </span>
             )}

@@ -1,5 +1,4 @@
 import type { BotRow } from '@/actions/bots';
-import type { AdminRow } from '@/actions/admins';
 import type { Badge } from '@/misc/badges';
 import type { BadgeHolder } from '@/utils/api/moddex';
 
@@ -29,17 +28,6 @@ export const toBotRow = (bot: BotRow): Row => ({
   known: bot.known
 });
 
-export const toAdminRow = (admin: AdminRow): Row => ({
-  userId: admin.userId,
-  login: admin.login,
-  name: admin.name,
-  avatar: admin.avatar,
-  badges: admin.badges ?? [],
-  byLogin: admin.grantedByLogin,
-  at: admin.grantedAt,
-  owner: admin.owner
-});
-
 export const matches = (row: Row, term: string) =>
   row.login?.toLowerCase().includes(term) ||
   row.name?.toLowerCase().includes(term) ||
@@ -59,5 +47,6 @@ export const toHolderRow = (holder: BadgeHolder): Row => ({
   badges: holder.badges ?? [],
   byLogin: holder.grantedByLogin,
   at: holder.grantedAt,
-  ignored: holder.ignored
+  ignored: holder.ignored,
+  owner: holder.owner
 });

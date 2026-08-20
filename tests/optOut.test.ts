@@ -7,7 +7,7 @@ process.env.AUTH_TWITCH_SECRET = 'test-secret';
 process.env.STRIPE_SECRET_KEY = 'sk_test';
 process.env.STRIPE_DONATION_PRICE = 'price_test';
 
-const getUsers = vi.fn();
+const getUserProfile = vi.fn();
 const refreshUser = vi.fn();
 
 vi.mock('@/utils/api/moddex', async () => {
@@ -16,7 +16,7 @@ vi.mock('@/utils/api/moddex', async () => {
 
   return {
     ModdexApiError: actual.ModdexApiError,
-    getUsers,
+    getUserProfile,
     refreshUser,
     getUserIgnored: vi.fn(),
     getUserPermissionLevel: vi.fn()
@@ -37,13 +37,13 @@ afterEach(() => {
 });
 
 const optedOut = () =>
-  new ModdexApiError(404, '/v1/users', 'mrsxdev opted out of being listed', 'opted out');
+  new ModdexApiError(404, '/v1/users/mrsxdev', 'mrsxdev opted out of being listed', 'opted out');
 
 const theRow = { id: '123', login: 'mrsxdev', name: 'mrsxdev' };
 
 describe('getUser and the opt-out', () => {
   it('reports an opted-out account as opted out on the ordinary read', () => {
-    getUsers.mockRejectedValue(optedOut());
+    getUserProfile.mockRejectedValue(optedOut());
 
     return getUser('mrsxdev').then((result) => {
       expect(result).toEqual({ user: null, optedOut: true });
@@ -52,7 +52,7 @@ describe('getUser and the opt-out', () => {
   });
 
   it('does not serve an opted-out account through the reload button', () => {
-    getUsers.mockRejectedValue(optedOut());
+    getUserProfile.mockRejectedValue(optedOut());
     refreshUser.mockResolvedValue(theRow);
 
     return getUser('mrsxdev', true).then((result) => {
@@ -62,7 +62,7 @@ describe('getUser and the opt-out', () => {
   });
 
   it('still refreshes an ordinary account by id', () => {
-    getUsers.mockResolvedValue([theRow]);
+    getUserProfile.mockResolvedValue(theRow);
     refreshUser.mockResolvedValue({ ...theRow, name: 'newer' });
 
     return getUser('mrsxdev', true).then((result) => {

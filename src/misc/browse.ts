@@ -8,7 +8,7 @@ export interface BrowseCounts {
 
 export interface BrowseEntry extends Account {
   counts: BrowseCounts;
-  updated: string | null;
+  updatedAt: string | null;
 }
 
 export interface BrowsePage {

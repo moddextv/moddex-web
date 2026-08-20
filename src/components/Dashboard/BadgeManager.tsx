@@ -6,7 +6,7 @@ import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
 import { SearchIcon } from '@/components/Icons';
 import { findAccount, flagAccountAsBot, listBots, unflagAccountAsBot } from '@/actions/bots';
-import { listAdmins, makeAdmin, removeAdmin } from '@/actions/admins';
+import { makeAdmin, removeAdmin } from '@/actions/admins';
 import {
   grantUserBadge,
   listBadgeCounts,
@@ -17,7 +17,7 @@ import { useAction } from '@/hooks/useAction';
 import { formatDayMonthYear } from '@/utils/format';
 import type { Badge } from '@/misc/badges';
 import type { User } from '@/misc/account';
-import { toAdminRow, toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
+import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
 
 type Kind = 'admins' | 'bots' | 'badge' | 'twitch';
 
@@ -87,10 +87,6 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
     const which = kindOf(name);
 
     if (which === 'twitch') return [];
-    if (which === 'admins') {
-      const result = await listAdmins();
-      return result.ok ? result.data.map(toAdminRow) : [];
-    }
     if (which === 'bots') {
       const result = await listBots();
       return result.ok ? result.data.map(toBotRow) : [];

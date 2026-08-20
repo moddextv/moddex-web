@@ -1,6 +1,6 @@
 'use server';
 
-import { flagBot, getBots, getUsers, unflagBot, type BotEntry } from '@/utils/api/moddex';
+import { flagBot, getBots, getUserProfile, unflagBot, type BotEntry } from '@/utils/api/moddex';
 import { requirePermission } from '@/utils/authz';
 import type { User } from '@/misc/account';
 import { attempt } from '@/actions/attempt';
@@ -27,9 +27,7 @@ export async function findAccount(login: string): Promise<ActionResult<User | nu
     const trimmed = login.trim().toLowerCase();
     if (!trimmed) return null;
 
-    const [account] = await getUsers({ login: trimmed });
-
-    return account ?? null;
+    return await getUserProfile({ login: trimmed });
   });
 }
 

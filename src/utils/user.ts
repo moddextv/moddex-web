@@ -5,7 +5,7 @@ import {
   ModdexApiError,
   getUserIgnored,
   getUserPermissionLevel,
-  getUsers as apiGetUsers,
+  getUserProfile as apiGetUser,
   refreshUser
 } from '@/utils/api/moddex';
 import { logger } from '@/misc/Logger';
@@ -15,7 +15,7 @@ export const getUserLogin = async (userId: string = ''): Promise<string> => {
   if (!userId) return '';
 
   try {
-    const [stored] = await getUsersFromDbById([userId], userId);
+    const stored = await getUserById(userId, userId);
     if (stored?.login) return stored.login;
   } catch (error) {
     logger.warn(`no stored row for ${userId} while signing in`, error);
@@ -54,14 +54,13 @@ export const getUser = cache(
     forceRefresh: boolean = false,
     withRoles: boolean = false
   ): Promise<{ user: User | null; banReason?: string; optedOut?: boolean }> => {
-    let users: User[];
+    let fetched: User | null;
 
     if (forceRefresh) {
       let stored: User | null = null;
 
       try {
-        const rows = await apiGetUsers({ login: username });
-        stored = Array.isArray(rows) ? (rows[0] ?? null) : null;
+        stored = await apiGetUser({ login: username });
       } catch (error) {
         if (error instanceof ModdexApiError && error.status === 404 && error.code === 'opted out') {
           return { user: null, optedOut: true };
@@ -85,7 +84,7 @@ export const getUser = cache(
     }
 
     try {
-      users = await apiGetUsers({ login: username });
+      fetched = await apiGetUser({ login: username });
     } catch (error) {
       if (error instanceof ModdexApiError && error.status === 404) {
         if (error.code === 'opted out') return { user: null, optedOut: true };
@@ -107,19 +106,19 @@ export const getUser = cache(
       throw error;
     }
 
-    const user = Array.isArray(users) ? (users[0] ?? null) : null;
+    const user = fetched;
 
     const banned = user?.banned;
     if (user && banned) {
-      return { user: null, banReason: banned };
+      return { user: null, banReason: banned.reason };
     }
 
     return { user };
   }
 );
 
-export const getUsersFromDbById = async (ids: string[], actor?: string): Promise<User[]> => {
-  if (ids.length === 0) return [];
+export const getUserById = async (id: string, actor?: string): Promise<User | null> => {
+  if (!id) return null;
 
-  return await apiGetUsers({ id: ids.join(',') }, actor);
+  return await apiGetUser({ id }, actor);
 };

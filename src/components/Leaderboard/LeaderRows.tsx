@@ -27,7 +27,7 @@ export const LeaderRows: FC<{ scale: string; label: string; items: LeaderRow[] }
 
     {items.map((row) => (
       <Link key={row.id} href={`/user/${row.login}`} className="row cols-leaders">
-        <span className="text-ui tabular text-primary-400">{row.position}</span>
+        <span className="text-ui tabular text-primary-400">{row.place}</span>
 
         <span className="flex items-center gap-3.5 min-w-0">
           <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />

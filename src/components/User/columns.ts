@@ -11,7 +11,7 @@ export const COLUMNS = {
     label: 'Followers',
     opens: 'desc',
     ends: { desc: 'most first', asc: 'fewest first' },
-    compare: (a: RoleUser, b: RoleUser) => (a.follower || 0) - (b.follower || 0)
+    compare: (a: RoleUser, b: RoleUser) => (a.followers || 0) - (b.followers || 0)
   },
   name: {
     label: 'Name',
@@ -43,8 +43,8 @@ export const matches = (user: RoleUser, query: string) => {
 };
 
 export const grantedAt = (user: RoleUser): number => {
-  if (!user.granted) return Number.NEGATIVE_INFINITY;
+  if (!user.grantedAt) return Number.NEGATIVE_INFINITY;
 
-  const time = new Date(user.granted).getTime();
+  const time = new Date(user.grantedAt).getTime();
   return Number.isNaN(time) ? Number.NEGATIVE_INFINITY : time;
 };

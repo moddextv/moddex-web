@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   CAP,
   matches,
-  toAdminRow,
   toBotRow,
   toHolderRow,
   visibleRows
@@ -58,7 +57,7 @@ describe('visibleRows', () => {
 });
 
 describe('row mapping', () => {
-  it('maps a bot and an admin onto the same row shape', () => {
+  it('maps a bot and a holder onto the same row shape', () => {
     const bot = toBotRow({
       userId: '1',
       login: 'a',
@@ -70,11 +69,12 @@ describe('row mapping', () => {
       known: true
     });
 
-    const admin = toAdminRow({
-      userId: '2',
+    const admin = toHolderRow({
+      id: '2',
       login: 'b',
       name: 'B',
       avatar: null,
+      ignored: false,
       grantedBy: null,
       grantedByLogin: null,
       grantedAt: null,
@@ -101,7 +101,8 @@ describe('toHolderRow', () => {
       ignored: false,
       grantedBy: '9',
       grantedAt: '2026-08-17',
-      grantedByLogin: 'someone'
+      grantedByLogin: 'someone',
+      owner: false
     });
 
     expect(mapped).toEqual({
@@ -112,7 +113,8 @@ describe('toHolderRow', () => {
       badges: [],
       byLogin: 'someone',
       at: '2026-08-17',
-      ignored: false
+      ignored: false,
+      owner: false
     });
   });
 
@@ -133,7 +135,8 @@ describe('toHolderRow', () => {
       ignored: true,
       grantedBy: null,
       grantedAt: null,
-      grantedByLogin: null
+      grantedByLogin: null,
+      owner: false
     });
 
     expect(mapped.ignored).toBe(true);

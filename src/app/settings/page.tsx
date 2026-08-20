@@ -10,7 +10,7 @@ import { ConnectDiscord } from '@/components/Settings/ConnectDiscord';
 import { SignOutButton } from '@/components/Settings/SignOutButton';
 import { getAvailableUserChatBadges, getSelectedUserChatBadge } from '@/utils/badges';
 import { getChannelConnection } from '@/utils/api/moddex';
-import { getUserIgnoreState, getUsersFromDbById } from '@/utils/user';
+import { getUserById, getUserIgnoreState } from '@/utils/user';
 import { User } from '@/misc/account';
 import { UserChatBadges } from '@/misc/badges';
 import { config } from '@/config';
@@ -83,11 +83,11 @@ export default async function SettingsPage({
   const [isIgnored, availableUserChatBadges, self, connection] = await Promise.all([
     getUserIgnoreState(userId),
     getAvailableUserChatBadges(userId),
-    getUsersFromDbById([userId], userId).catch(() => [] as User[]),
+    getUserById(userId, userId).catch(() => null),
     getChannelConnection(userId).catch(() => ({ connected: false, everConnected: false }))
   ]);
 
-  const discordId = self[0]?.discord ?? null;
+  const discordId = self?.discord ?? null;
 
   if (availableUserChatBadges.length) {
     userChatBadges.selected = await getSelectedUserChatBadge(userId);
