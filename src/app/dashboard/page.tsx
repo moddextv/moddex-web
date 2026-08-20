@@ -20,16 +20,12 @@ export default async function DashboardPage() {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300 max-w-prose">
-            Nothing here needs you yet. Handing out badges is admin only.
-          </p>
+          <p className="text-read text-primary-300">Admin only.</p>
         </div>
       </section>
     );
   }
 
-  // nothing expensive: the health read is three point reads and the counts are
-  // live for moddex's own badges and a nightly rollup for twitch's
   const [healthResult, countsResult] = await Promise.all([fetchJobHealth(), listBadgeCounts()]);
 
   return (

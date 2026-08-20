@@ -14,7 +14,7 @@ export default async function BadgesPage() {
   const [catalogueResult, countsResult, adminsResult] = await Promise.all([
     listBadgeCatalogue(),
     listBadgeCounts(),
-    // four rows, and the only place the owner flag is published
+    // the only place the owner flag is published
     listBadgeHolders('admin')
   ]);
 
@@ -28,7 +28,7 @@ export default async function BadgesPage() {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">The badge catalogue could not be read.</p>
+          <p className="text-read text-primary-300">Could not read the catalogue.</p>
         </div>
       </section>
     );

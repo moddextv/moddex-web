@@ -16,7 +16,7 @@ export default async function DonationsPage() {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">The donation history could not be read.</p>
+          <p className="text-read text-primary-300">Could not read the ledger.</p>
         </div>
       </section>
     );

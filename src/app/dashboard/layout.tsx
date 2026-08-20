@@ -8,7 +8,7 @@ import { Login } from '@/components/Login';
 import { TeamOnly } from '@/components/Notices';
 import { permissions } from '@/utils/permissions';
 
-// every segment reads the session and the api; none of it may be baked at build
+// none of this may be baked at build
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }
 };
 
-// the permission check lives here once rather than in every segment
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const session = await auth();
 

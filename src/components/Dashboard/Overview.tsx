@@ -42,39 +42,37 @@ export const Overview: FC<{ health: JobHealth | null; counts: BadgeCounts | null
         <Tile
           label="Accounts indexed"
           value={number(health?.snapshot.users)}
-          note={health?.snapshot.lastAt ? ago(health.snapshot.lastAt) : 'no snapshot yet'}
+          note={health?.snapshot.lastAt ? ago(health.snapshot.lastAt) : 'no snapshot'}
           href="/dashboard/jobs"
         />
 
         <Tile
           label="Refresh queue"
           value={queue ? `${number(queue.waiting)} / ${number(queue.capacity)}` : '—'}
-          note={health?.sweeps.yield.engaged ? 'sweeps are standing aside' : 'sweeps are running'}
+          note={health?.sweeps.yield.engaged ? 'sweeps aside' : 'sweeps running'}
           href="/dashboard/jobs"
         />
 
         <Tile
           label="Donators"
           value={number(counts?.counts.donator)}
-          note="moddex's own, counted live"
+          note="counted live"
           href="/dashboard/badges"
         />
 
         <Tile
-          label="Oldest unread channel"
+          label="Sweep head"
           value={health?.sweepHead ? ago(health.sweepHead) : '—'}
-          note="how far behind the sweep is"
+          note="oldest unread"
           href="/dashboard/jobs"
         />
       </div>
 
       {health?.roleCounts.overdue ? (
-        <p className="text-read text-primary-300 pt-4">
-          The nightly rollup has not run since its last slot.{' '}
+        <p className="text-read text-vip pt-4">
           <Link href="/dashboard/jobs" className="underline">
-            Jobs
-          </Link>{' '}
-          has the detail.
+            The nightly rollup is overdue.
+          </Link>
         </p>
       ) : null}
     </section>

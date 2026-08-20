@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function JobsPage() {
-  // its own route, so the two backlog counts can be afforded here and nowhere else
+  // its own route, so the backlog counts are affordable here
   const [healthResult, eventsubResult] = await Promise.all([
     fetchJobHealth(true),
     fetchEventsubHealth()
@@ -22,7 +22,7 @@ export default async function JobsPage() {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">Job health could not be read.</p>
+          <p className="text-read text-primary-300">Could not read job health.</p>
         </div>
       </section>
     );

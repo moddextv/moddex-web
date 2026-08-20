@@ -19,7 +19,7 @@ export default async function ChannelsPage() {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">The connections could not be read.</p>
+          <p className="text-read text-primary-300">Could not read connections.</p>
         </div>
       </section>
     );

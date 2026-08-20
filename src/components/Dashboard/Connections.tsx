@@ -28,7 +28,7 @@ const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boo
         title={
           moderatedSyncedAt
             ? formatDate(moderatedSyncedAt)
-            : 'this channel has never handed over its moderated list — reconnecting is the only way'
+            : 'never handed over — only reconnecting fixes it'
         }
       >
         {moderatedSyncedAt ? ago(moderatedSyncedAt) : 'never'}
@@ -40,7 +40,7 @@ const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boo
         ) : subscribed ? (
           <span className="text-primary-400">yes</span>
         ) : (
-          <span className="text-vip font-bold" title="connected, but nothing is subscribed for it">
+          <span className="text-vip font-bold" title="connected, nothing subscribed">
             none
           </span>
         )}
@@ -56,8 +56,7 @@ export const Connections: FC<{
   const { items, total } = connections;
   const live = items.filter((connection) => !connection.revokedAt).length;
 
-  // the api publishes a count, not a per-channel list, so this says whether
-  // subscriptions exist at all rather than which channel each belongs to
+  // the api publishes a count, not a per-channel list
   const anySubscriptions = (eventsub?.subscriptions.enabled ?? 0) > 0;
 
   const capped = total > items.length;
@@ -82,7 +81,7 @@ export const Connections: FC<{
           <div className="row-head cols-connections">
             <span>Channel</span>
             <span>Connected</span>
-            <span>Mod list handed over</span>
+            <span>Mod list</span>
             <span>Subscribed</span>
           </div>
 

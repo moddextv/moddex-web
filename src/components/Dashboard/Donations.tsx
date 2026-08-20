@@ -10,8 +10,7 @@ import type { Ledger, LedgerEntry } from '@/utils/api/moddex';
 const money = (cents: number) =>
   (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'EUR' });
 
-// a failed or refunded charge that still carries a donator badge is the case
-// this list exists to catch
+// a refunded charge still wearing a donator badge is the case to catch
 const COUNTED = new Set(['paid', 'db_insertion']);
 
 const Who: FC<{ row: LedgerEntry }> = ({ row }) =>

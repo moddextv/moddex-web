@@ -6,8 +6,6 @@ import type { JobRun } from '@/utils/api/moddex';
 const seconds = (value: number) =>
   value >= 60 ? `${Math.round(value / 60)}m ${value % 60}s` : `${value}s`;
 
-// a rollup that has gone from 2171 s to 3400 s is the only early warning this
-// estate has that the nightly work is outgrowing its window
 const Trend: FC<{ run: JobRun }> = ({ run }) => {
   const average = run.averageSecondsLast7;
 
@@ -34,7 +32,7 @@ export const Runs: FC<{ runs: Record<string, JobRun> }> = ({ runs }) => {
     return (
       <div className="panel">
         <p className="text-read text-primary-300">
-          No job has recorded a run yet. The nightly work writes its first row at 03:00 UTC.
+          Nothing recorded yet. The first row lands at 03:00 UTC.
         </p>
       </div>
     );
@@ -54,7 +52,7 @@ export const Runs: FC<{ runs: Record<string, JobRun> }> = ({ runs }) => {
         <div className="row-head cols-jobs">
           <span>Job</span>
           <span>Last run</span>
-          <span>Against average</span>
+          <span>vs. 7d avg</span>
         </div>
 
         {entries.map(([job, run]) => (

@@ -14,8 +14,7 @@ import type { Badge } from '@/misc/badges';
 import type { User } from '@/misc/account';
 import { SOURCES, kindOf, wears } from './badgeRouting';
 
-// admin and bot are not the generic endpoint's to write: the first carries the
-// two lockout rules, the second has no user_badges row at all
+// admin and bot are not the generic endpoint's to write
 const write = async (badge: string, userId: string, on: boolean) => {
   const kind = kindOf(badge);
 
@@ -118,11 +117,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
   return (
     <div className="panel">
       <div className="px-4 pt-5 pb-4">
-        <h2 className="text-h2">Someone&apos;s badges</h2>
-        <p className="text-read text-primary-300 max-w-prose pt-1">
-          Find the account, then switch a badge on or off. The badge-first view below answers the
-          other question — who holds this one.
-        </p>
+        <h2 className="text-h2">Badges per account</h2>
       </div>
 
       <form onSubmit={search} className="flex gap-2 px-4 pb-4">
@@ -140,9 +135,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
       </form>
 
       {looked && !member ? (
-        <p className="text-read text-primary-300 px-4 pb-5">
-          There is no twitch account called {login}.
-        </p>
+        <p className="text-read text-primary-300 px-4 pb-5">No account called {login}.</p>
       ) : null}
 
       {member ? (
@@ -180,13 +173,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
                   on={wears(member.badges, badge.name)}
                   disabled={owned || isOwner}
                   busy={busy === badge.name}
-                  reason={
-                    isOwner
-                      ? 'the owner account, which cannot be removed'
-                      : owned
-                        ? `${SOURCES[badge.name]} decides this one`
-                        : (SOURCES[badge.name] ?? null)
-                  }
+                  reason={isOwner ? 'owner' : (SOURCES[badge.name] ?? null)}
                   onChange={(on) => void toggle(badge.name, on)}
                 />
               );
