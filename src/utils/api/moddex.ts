@@ -430,6 +430,19 @@ export const getJobHealth = (actor: string, withDepth = false) =>
     actor
   });
 
+export interface Membership {
+  mod: { grantedAt: string | null } | null;
+  vip: { grantedAt: string | null } | null;
+  founder: { grantedAt: string | null } | null;
+}
+
+// the internal token is what makes an opted-out account say so, rather than
+// reading as a name that does not exist
+export const getMembership = (login: string, channel: string) =>
+  call<Membership>(`/v1/users/${encodeURIComponent(login)}/roles/${encodeURIComponent(channel)}`, {
+    authenticated: true
+  });
+
 export interface EventsubHealth {
   status: string;
   eventsub: string;

@@ -3,10 +3,12 @@
 import {
   getConnections,
   getDonationLedger,
+  getMembership,
   getEventsubHealth,
   getJobHealth,
   type ChannelConnections,
   type EventsubHealth,
+  type Membership,
   type JobHealth,
   type Ledger
 } from '@/utils/api/moddex';
@@ -49,5 +51,16 @@ export async function listConnections(): Promise<ActionResult<ChannelConnections
     const { userId } = await admin();
 
     return getConnections(userId);
+  });
+}
+
+export async function checkMembership(
+  login: string,
+  channel: string
+): Promise<ActionResult<Membership>> {
+  return attempt('checkMembership', async () => {
+    await requirePermission(permissions.team);
+
+    return getMembership(login.trim().toLowerCase(), channel.trim().toLowerCase());
   });
 }
