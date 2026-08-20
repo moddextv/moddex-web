@@ -76,11 +76,8 @@ export const RoleCheck: FC = () => {
   };
 
   return (
-    <div className="panel">
-      <h2 className="text-h2 pb-1">Ask about one pair</h2>
-      <p className="text-read text-primary-300 max-w-prose pb-5">
-        Both lists answer &ldquo;who&rdquo;. This answers &ldquo;whether&rdquo;.
-      </p>
+    <div className="panel paired">
+      <h2 className="text-h2 pb-5">Ask about one pair</h2>
 
       <form onSubmit={submit} className="flex flex-wrap items-center gap-3">
         <span className="text-lead text-primary-400">Is</span>
