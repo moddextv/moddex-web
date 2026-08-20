@@ -730,6 +730,29 @@
 		color: var(--text);
 	}
 
+	.badge-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		min-height: 52px;
+		padding: 8px 12px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md);
+		background: var(--raised);
+		transition:
+			border-color var(--duration) var(--ease),
+			background-color var(--duration) var(--ease);
+	}
+
+	.badge-row:has(.toggle:not(:disabled)):hover {
+		border-color: var(--line-strong);
+	}
+
+	.badge-row.is-owned {
+		background: transparent;
+		border-style: dashed;
+	}
+
 	.toggle {
 		display: inline-flex;
 		align-items: center;

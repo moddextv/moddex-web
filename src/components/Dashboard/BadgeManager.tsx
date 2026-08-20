@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
 import { SearchIcon } from '@/components/Icons';
-import { findAccount, flagAccountAsBot, listBots, unflagAccountAsBot } from '@/actions/bots';
+import { flagAccountAsBot, listBots, unflagAccountAsBot } from '@/actions/bots';
 import { makeAdmin, removeAdmin } from '@/actions/admins';
 import {
   grantUserBadge,
@@ -56,9 +56,6 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
   const [rows, setRows] = useState<Row[]>([]);
   const [query, setQuery] = useState('');
   const [showAll, setShowAll] = useState(false);
-  const [add, setAdd] = useState('');
-  const [found, setFound] = useState<User | null>(null);
-  const [looked, setLooked] = useState(false);
 
   const kind = kindOf(selected);
 
@@ -89,20 +86,10 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
   const reload = async () => {
     setRows(await load(selected));
-    setAdd('');
-    setFound(null);
-    setLooked(false);
 
     const fresh = await listBadgeCounts();
     if (fresh.ok) setCounts(fresh.data.counts);
   };
-
-  const lookup = useAction(findAccount, {
-    onSuccess: (account) => {
-      setFound(account);
-      setLooked(true);
-    }
-  });
 
   // useAction freezes the function it is given on the first render, so the badge
   // travels as an argument rather than inside a closure
@@ -113,13 +100,6 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
   const flag = useAction(flagAccountAsBot, { onSuccess: reload });
   const unflag = useAction(unflagAccountAsBot, { onSuccess: reload });
 
-  const give = (userId: string) =>
-    void (kind === 'admins'
-      ? promote.run(userId)
-      : kind === 'bots'
-        ? flag.run(userId)
-        : grantBadge.run(userId, selected));
-
   const take = (userId: string) =>
     void (kind === 'admins'
       ? demote.run(userId)
@@ -128,22 +108,18 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
         : revokeBadge.run(userId, selected));
 
   const writes = [grantBadge, revokeBadge, promote, demote, flag, unflag];
-  const busy = lookup.pending || writes.some((one) => one.pending);
+  const busy = writes.some((one) => one.pending);
   const term = query.trim().toLowerCase();
 
   const matched = useMemo(() => visibleRows(rows, term, true), [rows, term]);
   const shown = useMemo(() => visibleRows(rows, term, showAll), [rows, term, showAll]);
 
-  const already = found ? rows.some((row) => row.userId === found.id) : false;
-  const error = lookup.error ?? writes.map((one) => one.error).find(Boolean) ?? null;
+  const error = writes.map((one) => one.error).find(Boolean) ?? null;
 
   const pick = (name: string) => {
     setSelected(name);
     setQuery('');
     setShowAll(false);
-    setAdd('');
-    setFound(null);
-    setLooked(false);
   };
 
   return (
@@ -214,70 +190,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                 autoComplete="off"
               />
             </label>
-
-            <form
-              className="flex items-center gap-2 w-full sm:w-auto"
-              onSubmit={(event) => {
-                event.preventDefault();
-                void lookup.run(add);
-              }}
-            >
-              <label className="search w-full sm:w-72">
-                <SearchIcon size={16} color="text-primary-400" />
-                <input
-                  value={add}
-                  onChange={(event) => {
-                    setAdd(event.target.value);
-                    setFound(null);
-                    setLooked(false);
-                  }}
-                  placeholder="Add user"
-                  aria-label={`Give somebody the ${selected} badge`}
-                  autoComplete="off"
-                />
-              </label>
-
-              <button type="submit" className="btn btn-soft" disabled={busy || !add.trim()}>
-                Add user
-              </button>
-            </form>
           </div>
-
-          {looked && !found && (
-            <p className="text-read text-primary-300 px-4 pb-4">
-              There is no twitch account called {add.trim()}.
-            </p>
-          )}
-
-          {found && (
-            <div className="px-4 pb-4">
-              <div className="found">
-                <Avatar src={found.avatar} name={found.login} />
-
-                <span className="flex items-center gap-2 min-w-0">
-                  <Name login={found.login} />
-                  <Badges badges={found.badges} size={16} />
-                </span>
-
-                <span className="text-ui text-primary-300">
-                  {already ? `already has ${selected}` : 'not on this list yet'}
-                </span>
-
-                {already ? (
-                  <span className="text-micro text-primary-400 sm:ml-auto">nothing to do</span>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn sm:ml-auto whitespace-nowrap"
-                    disabled={busy}
-                    onClick={() => give(found.id)}
-                  >
-                    Give {selected}
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
 
           {rows.length === 0 ? (
             <p className="text-read text-primary-300 max-w-prose px-4 pb-4">

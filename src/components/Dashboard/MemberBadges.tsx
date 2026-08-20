@@ -24,52 +24,53 @@ const write = async (badge: string, userId: string, on: boolean) => {
   return on ? grantUserBadge(userId, badge) : revokeUserBadge(userId, badge);
 };
 
-const Toggle: FC<{
-  badge: Badge;
-  on: boolean;
-  disabled: boolean;
-  reason: string | null;
-  busy: boolean;
-  onChange: (on: boolean) => void;
-}> = ({ badge, on, disabled, reason, busy, onChange }) => (
-  <button
-    type="button"
-    role="switch"
-    aria-checked={on}
-    aria-label={badge.name}
-    disabled={disabled || busy}
-    title={reason ?? undefined}
-    onClick={() => onChange(!on)}
-    className={`flex items-center gap-3 h-12 px-3 rounded-md border text-left transition-colors ${
-      disabled
-        ? 'border-primary-800 opacity-60 cursor-not-allowed'
-        : on
-          ? 'border-primary-300 bg-primary-800'
-          : 'border-primary-700 hover:border-primary-600'
-    }`}
-  >
-    <Image src={badge.svg} alt={`${badge.name} badge`} width={18} height={18} radius="sm" />
+const Face: FC<{ badge: Badge; on: boolean; note: string | null }> = ({ badge, on, note }) => (
+  <>
+    <Image src={badge.svg} alt={`${badge.name} badge`} width={20} height={20} radius="sm" />
 
     <span className="min-w-0 flex-1">
-      <span className={on ? 'text-ui font-bold block' : 'text-ui text-primary-300 block'}>
+      <span className={on ? 'text-ui font-bold block truncate' : 'text-ui block truncate'}>
         {badge.name}
       </span>
-      {reason ? <span className="text-micro text-primary-400 block">{reason}</span> : null}
+      {note ? <span className="text-micro text-primary-400 block truncate">{note}</span> : null}
     </span>
+  </>
+);
 
-    <span
-      aria-hidden="true"
-      className={`w-9 h-5 rounded-full shrink-0 relative transition-colors ${
-        on ? 'bg-primary-300' : 'bg-primary-700'
-      }`}
-    >
-      <span
-        className={`absolute top-0.5 w-4 h-4 rounded-full bg-primary-900 transition-all ${
-          on ? 'left-4.5' : 'left-0.5'
-        }`}
-      />
+// twitch owns these: state, not a switch nobody can move
+const Owned: FC<{ badge: Badge; on: boolean }> = ({ badge, on }) => (
+  <div className="badge-row is-owned">
+    <Face badge={badge} on={on} note="twitch" />
+    <span className={on ? 'text-ui text-primary-200' : 'text-ui text-primary-400'}>
+      {on ? 'held' : '—'}
     </span>
-  </button>
+  </div>
+);
+
+const Switch: FC<{
+  badge: Badge;
+  on: boolean;
+  locked: boolean;
+  note: string | null;
+  busy: boolean;
+  onChange: (on: boolean) => void;
+}> = ({ badge, on, locked, note, busy, onChange }) => (
+  <label className={`badge-row${locked ? ' is-owned' : ''}`}>
+    <Face badge={badge} on={on} note={locked ? 'owner' : note} />
+
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      aria-label={badge.name}
+      data-on={on}
+      disabled={locked || busy}
+      onClick={() => onChange(!on)}
+      className="toggle cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      <span />
+    </button>
+  </label>
 );
 
 export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
@@ -120,17 +121,20 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
         <h2 className="text-h2">Badges per account</h2>
       </div>
 
-      <form onSubmit={search} className="flex gap-2 px-4 pb-4">
-        <input
-          value={login}
-          onChange={(event) => setLogin(event.target.value)}
-          placeholder="twitch login"
-          aria-label="Twitch login"
-          className="input flex-1 min-w-0"
-        />
-        <button type="submit" className="button" disabled={lookup.pending}>
+      <form onSubmit={search} className="flex items-center gap-3 flex-wrap px-4 pb-4">
+        <label className="search w-full sm:w-72">
           <SearchIcon size={16} color="text-primary-400" />
-          <span>Find</span>
+          <input
+            value={login}
+            onChange={(event) => setLogin(event.target.value)}
+            placeholder="twitch login"
+            aria-label="Twitch login"
+            autoComplete="off"
+          />
+        </label>
+
+        <button type="submit" className="btn btn-soft" disabled={lookup.pending || !login.trim()}>
+          Search
         </button>
       </form>
 
@@ -161,20 +165,20 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
 
           <div className="grid gap-2 px-4 pb-5 sm:grid-cols-2">
             {catalogue.map((badge) => {
-              const owner = !!ownerId && member.id === ownerId;
               const kind = kindOf(badge.name);
-              const owned = kind === 'twitch';
-              const isOwner = kind === 'admins' && owner;
+              const on = wears(member.badges, badge.name);
+
+              if (kind === 'twitch') return <Owned key={badge.id} badge={badge} on={on} />;
 
               return (
-                <Toggle
+                <Switch
                   key={badge.id}
                   badge={badge}
-                  on={wears(member.badges, badge.name)}
-                  disabled={owned || isOwner}
+                  on={on}
+                  locked={kind === 'admins' && !!ownerId && member.id === ownerId}
+                  note={SOURCES[badge.name] ?? null}
                   busy={busy === badge.name}
-                  reason={isOwner ? 'owner' : (SOURCES[badge.name] ?? null)}
-                  onChange={(on) => void toggle(badge.name, on)}
+                  onChange={(next: boolean) => void toggle(badge.name, next)}
                 />
               );
             })}
