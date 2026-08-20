@@ -56,8 +56,8 @@ export const Connections: FC<{
   const { items, total } = connections;
   const live = items.filter((connection) => !connection.revokedAt).length;
 
-  // the api publishes a count, not a per-channel list
-  const anySubscriptions = (eventsub?.subscriptions.enabled ?? 0) > 0;
+  // the api publishes shard health, not a per-channel subscription list
+  const anySubscriptions = (eventsub?.enabledShards ?? 0) > 0;
 
   const capped = total > items.length;
 

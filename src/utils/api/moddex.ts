@@ -431,10 +431,10 @@ export const getJobHealth = (actor: string, withDepth = false) =>
   });
 
 export interface EventsubHealth {
-  enabled: boolean;
-  conduits: number;
-  shards: { total: number; enabled: number };
-  subscriptions: { total: number; enabled: number; cost: number; maxTotalCost: number };
+  status: string;
+  eventsub: string;
+  enabledShards?: number;
+  totalShards?: number;
 }
 
 export const getEventsubHealth = () =>

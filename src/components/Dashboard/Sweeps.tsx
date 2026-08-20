@@ -88,24 +88,15 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
         </Row>
 
         {eventsub && (
-          <Row
-            label="EventSub"
-            note="one conduit, one shard; a conduit with no shard discards events"
-          >
-            {eventsub.enabled ? (
-              <>
-                <span className={eventsub.shards.enabled ? undefined : 'text-vip font-bold'}>
-                  {number(eventsub.shards.enabled)} / {number(eventsub.shards.total)} shard(s)
-                </span>
-                <span className="text-primary-400">
-                  {' '}
-                  · {number(eventsub.subscriptions.enabled)} subscriptions · cost{' '}
-                  {number(eventsub.subscriptions.cost)} of{' '}
-                  {number(eventsub.subscriptions.maxTotalCost)}
-                </span>
-              </>
-            ) : (
-              <span className="text-primary-400">disabled</span>
+          <Row label="EventSub" note="a conduit with no shard discards events">
+            <span className={eventsub.status === 'ok' ? undefined : 'text-vip font-bold'}>
+              {eventsub.eventsub}
+            </span>
+            {eventsub.totalShards !== undefined && (
+              <span className="text-primary-400">
+                {' '}
+                · {number(eventsub.enabledShards)} / {number(eventsub.totalShards)} shard(s)
+              </span>
             )}
           </Row>
         )}
