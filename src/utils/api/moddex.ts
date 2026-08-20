@@ -308,16 +308,18 @@ export const getStatsHistory = (days = 30) =>
   });
 
 export const getUserChatBadges = <T>(userId: string) =>
-  call<{ userId: string; available: T; selected: string | null }>(
-    '/v1/me/chat-badges',
-    { authenticated: true, actor: userId }
-  );
+  call<{ userId: string; available: T; selected: string | null }>('/v1/me/chat-badges', {
+    authenticated: true,
+    actor: userId
+  });
 
 export const setUserIgnored = (userId: string, ignored: boolean) =>
-  call<{ userId: string; ignored: boolean; updated: boolean }>(
-    '/v1/me/opt-out',
-    { authenticated: true, method: 'PUT', actor: userId, body: { ignored } }
-  );
+  call<{ userId: string; ignored: boolean; updated: boolean }>('/v1/me/opt-out', {
+    authenticated: true,
+    method: 'PUT',
+    actor: userId,
+    body: { ignored }
+  });
 
 export const setUserSocial = (userId: string, network: string, externalId: string) =>
   call<{ userId: string; network: string; externalId: string }>(
@@ -353,22 +355,27 @@ export const setModeratedChannels = (
   );
 
 export const setChannelConnection = (channelId: string, scopes: string[]) =>
-  call<{ channelId: string; connected: boolean; scopes: string }>(
-    '/v1/me/connection',
-    { authenticated: true, method: 'PUT', actor: channelId, body: { scopes } }
-  );
+  call<{ channelId: string; connected: boolean; scopes: string }>('/v1/me/connection', {
+    authenticated: true,
+    method: 'PUT',
+    actor: channelId,
+    body: { scopes }
+  });
 
 export const clearChannelConnection = (channelId: string) =>
-  call<{ channelId: string; connected: boolean; changed: boolean }>(
-    '/v1/me/connection',
-    { authenticated: true, method: 'DELETE', actor: channelId }
-  );
+  call<{ channelId: string; connected: boolean; changed: boolean }>('/v1/me/connection', {
+    authenticated: true,
+    method: 'DELETE',
+    actor: channelId
+  });
 
 export const setUserChatBadge = (userId: string, badge: string) =>
-  call<{ userId: string; badge: string | null }>(
-    '/v1/me/chat-badge',
-    { authenticated: true, method: 'PUT', actor: userId, body: { badge } }
-  );
+  call<{ userId: string; badge: string | null }>('/v1/me/chat-badge', {
+    authenticated: true,
+    method: 'PUT',
+    actor: userId,
+    body: { badge }
+  });
 
 export interface BotEntry {
   userId: string;
@@ -391,15 +398,74 @@ export interface JobStatus {
   overdue: boolean;
 }
 
+export interface SweepHealth {
+  live: { perMinute: number | null };
+  stale: { depth: number | null; perMinute: number | null };
+  discover: { depth: number | null; perMinute: number | null };
+  depthCounted: boolean;
+  queue: { waiting: number; running: number; capacity: number; yieldAbove: number };
+  yield: { engaged: boolean; since: string | null };
+}
+
+export interface JobRun {
+  at: string;
+  seconds: number;
+  rows: number | null;
+  averageSecondsLast7: number | null;
+}
+
 export interface JobHealth {
   snapshot: JobStatus & { users: number | null };
   roleCounts: JobStatus;
   sweepHead: string | null;
+  sweeps: SweepHealth;
+  runs: Record<string, JobRun>;
   backup: { at: string; bytes: number; expectedEverySeconds: number } | null;
 }
 
-export const getJobHealth = (actor: string) =>
-  call<JobHealth>('/v1/admin/jobs', { authenticated: true, actor });
+// depth costs two scans of 8.2M rows, so the jobs page asks and nothing else does
+export const getJobHealth = (actor: string, withDepth = false) =>
+  call<JobHealth>(`/v1/admin/jobs${withDepth ? '?depth=1' : ''}`, {
+    authenticated: true,
+    actor
+  });
+
+export interface EventsubHealth {
+  enabled: boolean;
+  conduits: number;
+  shards: { total: number; enabled: number };
+  subscriptions: { total: number; enabled: number; cost: number; maxTotalCost: number };
+}
+
+export const getEventsubHealth = () =>
+  call<EventsubHealth>('/v1/eventsub/health', { revalidate: 30 });
+
+export interface LedgerEntry {
+  id: string;
+  userId: string | null;
+  login: string | null;
+  displayName: string | null;
+  donorName: string | null;
+  amountCents: number;
+  time: string | null;
+  status: string;
+}
+
+export interface Ledger {
+  items: LedgerEntry[];
+  limit: number;
+  hasMore: boolean;
+  cursor: string | null;
+}
+
+export const getDonationLedger = (
+  actor: string,
+  params: { limit?: number; cursor?: string } = {}
+) =>
+  call<Ledger>(`/v1/admin/donations${query(asParams(params))}`, {
+    authenticated: true,
+    actor
+  });
 
 export interface ChannelConnection {
   id: string;
@@ -494,5 +560,10 @@ export const getBadgeHolders = (actor: string, badge: string) =>
     { authenticated: true, actor }
   );
 
+export interface BadgeCounts {
+  counts: Record<string, number | null>;
+  countedAt: Record<string, string>;
+}
+
 export const getBadgeCounts = (actor: string) =>
-  call<Record<string, number>>('/v1/admin/badges/counts', { authenticated: true, actor });
+  call<BadgeCounts>('/v1/admin/badges/counts', { authenticated: true, actor });

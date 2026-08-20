@@ -395,7 +395,11 @@
 	}
 
 	.cols-connections {
-		grid-template-columns: minmax(0, 1fr) 120px;
+		grid-template-columns: minmax(0, 1fr) 120px 150px 100px;
+	}
+
+	.cols-donations {
+		grid-template-columns: minmax(0, 1fr) 120px 110px 110px;
 	}
 
 	@media (max-width: 900px) {
@@ -416,11 +420,39 @@
 		}
 
 		.cols-connections {
-			grid-template-columns: minmax(0, 1fr) 100px;
+			grid-template-columns: minmax(0, 1fr) 100px 120px;
+		}
+
+		.cols-connections > :nth-child(4) {
+			display: none;
+		}
+
+		.cols-donations {
+			grid-template-columns: minmax(0, 1fr) 100px 100px;
+		}
+
+		.cols-donations > :nth-child(3) {
+			display: none;
 		}
 	}
 
 	@media (max-width: 640px) {
+		.cols-connections {
+			grid-template-columns: minmax(0, 1fr) 100px;
+		}
+
+		.cols-connections > :nth-child(n + 3) {
+			display: none;
+		}
+
+		.cols-donations {
+			grid-template-columns: minmax(0, 1fr) 100px;
+		}
+
+		.cols-donations > :nth-child(n + 3) {
+			display: none;
+		}
+
 		.cols-people,
 		.cols-channels {
 			grid-template-columns: minmax(0, 1fr) auto;

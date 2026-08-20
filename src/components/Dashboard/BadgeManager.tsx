@@ -18,28 +18,7 @@ import { formatDayMonthYear } from '@/utils/format';
 import type { Badge } from '@/misc/badges';
 import type { User } from '@/misc/account';
 import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
-
-type Kind = 'admins' | 'bots' | 'badge' | 'twitch';
-
-// twitch decides these three, so they are a count rather than a roster
-const KINDS: Record<string, Kind> = {
-  admin: 'admins',
-  bot: 'bots',
-  affiliate: 'twitch',
-  partner: 'twitch',
-  staff: 'twitch'
-};
-
-const SOURCES: Record<string, string> = {
-  affiliate: 'twitch',
-  partner: 'twitch',
-  staff: 'twitch',
-  donator: 'the donations',
-  'top donator': 'the donations',
-  booster: 'discord boosts'
-};
-
-const kindOf = (badge: string): Kind => KINDS[badge] ?? 'badge';
+import { SOURCES, kindOf } from './badgeRouting';
 
 // a bot flagged before anybody looked it up has an id and no login, and there is
 // no profile behind an id
@@ -68,7 +47,7 @@ const Avatar: FC<{ src: string | null; name: string }> = ({ src, name }) =>
     </span>
   );
 
-export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, number> }> = ({
+export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, number | null> }> = ({
   catalogue,
   counts: initialCounts
 }) => {
@@ -115,7 +94,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
     setLooked(false);
 
     const fresh = await listBadgeCounts();
-    if (fresh.ok) setCounts(fresh.data);
+    if (fresh.ok) setCounts(fresh.data.counts);
   };
 
   const lookup = useAction(findAccount, {
@@ -180,7 +159,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
       <div className="flex flex-wrap gap-2 px-4 pb-5">
         {catalogue.map((one) => {
           const active = one.name === selected;
-          const count = counts[one.name] ?? 0;
+          const count = counts[one.name];
 
           return (
             <button
@@ -203,7 +182,9 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
               <span className={active ? 'text-ui font-bold' : 'text-ui text-primary-300'}>
                 {one.name}
               </span>
-              <span className="text-micro text-primary-400">{count.toLocaleString('en-US')}</span>
+              <span className="text-micro text-primary-400">
+                {count === null || count === undefined ? '·' : count.toLocaleString('en-US')}
+              </span>
             </button>
           );
         })}
@@ -213,7 +194,11 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
         <p className="text-read text-primary-300 max-w-prose px-4 pb-5">
           <span className="font-bold">{selected}</span> comes from twitch and is written by the
           sweep, so it is a count rather than a roster:{' '}
-          <span className="font-bold">{(counts[selected] ?? 0).toLocaleString('en-US')}</span>{' '}
+          <span className="font-bold">
+            {counts[selected] === null || counts[selected] === undefined
+              ? 'an unknown number of'
+              : counts[selected].toLocaleString('en-US')}
+          </span>{' '}
           accounts. Nobody can hand it out here, and listing a million of them would answer nothing.
         </p>
       ) : (

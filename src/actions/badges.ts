@@ -6,6 +6,7 @@ import {
   getBadges,
   grantBadge,
   revokeBadge,
+  type BadgeCounts,
   type BadgeHolder
 } from '@/utils/api/moddex';
 import type { Badge } from '@/misc/badges';
@@ -18,7 +19,7 @@ import { revalidatePath } from 'next/cache';
 const admin = () => requirePermission(permissions.admin);
 
 const refresh = () => {
-  revalidatePath('/dashboard');
+  revalidatePath('/dashboard', 'layout');
   revalidatePath('/', 'layout');
 };
 
@@ -50,7 +51,7 @@ export async function listBadgeCatalogue(): Promise<ActionResult<Badge[]>> {
   });
 }
 
-export async function listBadgeCounts(): Promise<ActionResult<Record<string, number>>> {
+export async function listBadgeCounts(): Promise<ActionResult<BadgeCounts>> {
   return attempt('listBadgeCounts', async () => {
     const { userId } = await admin();
 

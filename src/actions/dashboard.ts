@@ -2,9 +2,13 @@
 
 import {
   getConnections,
+  getDonationLedger,
+  getEventsubHealth,
   getJobHealth,
   type ChannelConnections,
-  type JobHealth
+  type EventsubHealth,
+  type JobHealth,
+  type Ledger
 } from '@/utils/api/moddex';
 import { requirePermission } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
@@ -16,11 +20,27 @@ import { permissions } from '@/utils/permissions';
 
 const admin = () => requirePermission(permissions.admin);
 
-export async function fetchJobHealth(): Promise<ActionResult<JobHealth>> {
+export async function fetchJobHealth(withDepth = false): Promise<ActionResult<JobHealth>> {
   return attempt('fetchJobHealth', async () => {
     const { userId } = await admin();
 
-    return getJobHealth(userId);
+    return getJobHealth(userId, withDepth);
+  });
+}
+
+export async function fetchEventsubHealth(): Promise<ActionResult<EventsubHealth>> {
+  return attempt('fetchEventsubHealth', async () => {
+    await admin();
+
+    return getEventsubHealth();
+  });
+}
+
+export async function listDonations(cursor?: string): Promise<ActionResult<Ledger>> {
+  return attempt('listDonations', async () => {
+    const { userId } = await admin();
+
+    return getDonationLedger(userId, { limit: 50, ...(cursor ? { cursor } : {}) });
   });
 }
 

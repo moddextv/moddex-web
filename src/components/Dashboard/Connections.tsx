@@ -1,10 +1,13 @@
 import { FC } from 'react';
 import { formatDate } from '@/utils/format';
 import { ago } from './ago';
-import type { ChannelConnections } from '@/utils/api/moddex';
+import type { ChannelConnections, EventsubHealth } from '@/utils/api/moddex';
 
-const Row: FC<{ connection: ChannelConnections['items'][number] }> = ({ connection }) => {
-  const { login, name, ignored, connectedAt, revokedAt, id } = connection;
+const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boolean }> = ({
+  connection,
+  subscribed
+}) => {
+  const { login, name, ignored, connectedAt, revokedAt, moderatedSyncedAt, id } = connection;
   const withdrew = !!revokedAt;
 
   return (
@@ -19,13 +22,43 @@ const Row: FC<{ connection: ChannelConnections['items'][number] }> = ({ connecti
       <span className="text-ui text-primary-300" title={formatDate(connectedAt)}>
         {ago(connectedAt)}
       </span>
+
+      <span
+        className="text-ui text-primary-300"
+        title={
+          moderatedSyncedAt
+            ? formatDate(moderatedSyncedAt)
+            : 'this channel has never handed over its moderated list — reconnecting is the only way'
+        }
+      >
+        {moderatedSyncedAt ? ago(moderatedSyncedAt) : 'never'}
+      </span>
+
+      <span className="text-ui">
+        {withdrew ? (
+          <span className="text-primary-400">—</span>
+        ) : subscribed ? (
+          <span className="text-primary-400">yes</span>
+        ) : (
+          <span className="text-vip font-bold" title="connected, but nothing is subscribed for it">
+            none
+          </span>
+        )}
+      </span>
     </div>
   );
 };
 
-export const Connections: FC<{ connections: ChannelConnections }> = ({ connections }) => {
+export const Connections: FC<{
+  connections: ChannelConnections;
+  eventsub?: EventsubHealth | null;
+}> = ({ connections, eventsub = null }) => {
   const { items, total } = connections;
   const live = items.filter((connection) => !connection.revokedAt).length;
+
+  // the api publishes a count, not a per-channel list, so this says whether
+  // subscriptions exist at all rather than which channel each belongs to
+  const anySubscriptions = (eventsub?.subscriptions.enabled ?? 0) > 0;
 
   const capped = total > items.length;
 
@@ -49,10 +82,12 @@ export const Connections: FC<{ connections: ChannelConnections }> = ({ connectio
           <div className="row-head cols-connections">
             <span>Channel</span>
             <span>Connected</span>
+            <span>Mod list handed over</span>
+            <span>Subscribed</span>
           </div>
 
           {items.map((connection) => (
-            <Row key={connection.id} connection={connection} />
+            <Row key={connection.id} connection={connection} subscribed={anySubscriptions} />
           ))}
         </div>
       )}
