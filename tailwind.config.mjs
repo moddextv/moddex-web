@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-manrope)', 'Helvetica Neue', 'Arial', 'sans-serif']
+        sans: ['var(--font-manrope)', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        mono: ['var(--font-jetbrains)', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace']
       },
 
       fontSize: {
@@ -22,7 +23,10 @@ module.exports = {
         h3: ['1.125rem', { lineHeight: '1.35', letterSpacing: '-0.01em' }],
         h2: ['1.375rem', { lineHeight: '1.3', letterSpacing: '-0.015em' }],
         h1: ['1.75rem', { lineHeight: '1.25', letterSpacing: '-0.02em' }],
-        display: ['clamp(2rem, 3.6vw, 2.75rem)', { lineHeight: '1.15', letterSpacing: '-0.03em' }]
+        display: [
+          'clamp(2.25rem, 4.8vw, 3.75rem)',
+          { lineHeight: '1.08', letterSpacing: '-0.035em' }
+        ]
       },
 
       colors: {

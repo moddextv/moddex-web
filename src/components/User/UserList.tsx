@@ -54,23 +54,30 @@ const SortHeader: FC<{
   );
 };
 
+// inside the role tabs the tab already carries the corner, the name and the
+// count, so repeating them here made three bands say the same thing
 const PanelHeading: FC<{
   roleKey: RoleKey;
   title: string;
+  tabbed?: boolean;
   className?: string;
   children?: ReactNode;
-}> = ({ roleKey, title, className, children }) => (
+}> = ({ roleKey, title, tabbed, className, children }) => (
   <div className={clsx('flex items-center gap-3 flex-wrap', className)}>
-    <span
-      aria-hidden="true"
-      className={clsx('corner', roleCornerClass[roleKey], roleTextClass[roleKey])}
-    />
-    <h2 className="text-h2">{title}</h2>
+    {!tabbed && (
+      <>
+        <span
+          aria-hidden="true"
+          className={clsx('corner', roleCornerClass[roleKey], roleTextClass[roleKey])}
+        />
+        <h2 className="text-h2">{title}</h2>
+      </>
+    )}
     {children}
   </div>
 );
 
-export const UserList: FC<UserListProps> = ({ type, role, user, initial }) => {
+export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed }) => {
   const {
     users,
     isLoading,
@@ -108,7 +115,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial }) => {
   if (isLoading) {
     return (
       <div className="panel-flush" aria-busy="true">
-        <PanelHeading roleKey={roleKey} title={title} className="px-4 pb-5">
+        <PanelHeading roleKey={roleKey} title={title} tabbed={tabbed} className="px-4 pb-5">
           <span className="ml-auto text-ui text-primary-400">reading the index</span>
         </PanelHeading>
         <UserListLoading type={type} />
@@ -119,7 +126,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial }) => {
   if (error) {
     return (
       <div className="panel">
-        <PanelHeading roleKey={roleKey} title={title} className="mb-4">
+        <PanelHeading roleKey={roleKey} title={title} tabbed={tabbed} className="mb-4">
           <span className="ml-auto text-ui text-vip">could not be read</span>
         </PanelHeading>
         <p className="text-read text-primary-300 max-w-prose mb-2">
@@ -138,8 +145,8 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial }) => {
   if (users.length === 0) {
     return (
       <div className="panel">
-        <PanelHeading roleKey={roleKey} title={title} className="mb-4">
-          <span className="text-lead text-primary-400 tabular">0</span>
+        <PanelHeading roleKey={roleKey} title={title} tabbed={tabbed} className="mb-4">
+          {!tabbed && <span className="text-lead text-primary-400 tabular">0</span>}
         </PanelHeading>
 
         {roleKey === 'founder' ? (
@@ -157,13 +164,16 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial }) => {
 
   return (
     <div className="panel-flush">
-      <PanelHeading roleKey={roleKey} title={title} className="px-4 pb-4">
-        <span className="text-lead text-primary-400 tabular">
-          {visibleUsers.length}
-          {filtered && <span className="text-ui"> of {users.length}</span>}
-          {paged && showTotal && <span className="text-ui"> of {formatNumber(total)}</span>}
-          {paged && !showTotal && <span className="text-ui"> loaded</span>}
-        </span>
+      <PanelHeading roleKey={roleKey} title={title} tabbed={tabbed} className="px-4 pb-4">
+        {/* tabbed and unfiltered, the tab's own count already says this */}
+        {(!tabbed || filtered || paged) && (
+          <span className="text-lead text-primary-400 tabular">
+            {visibleUsers.length}
+            {filtered && <span className="text-ui"> of {users.length}</span>}
+            {paged && showTotal && <span className="text-ui"> of {formatNumber(total)}</span>}
+            {paged && !showTotal && <span className="text-ui"> loaded</span>}
+          </span>
+        )}
 
         <span className="ml-auto flex items-center gap-2 flex-wrap justify-end">
           <label className="search-inline">
@@ -286,7 +296,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial }) => {
 
           {/* one page renders plainly, or the server html holds only what fits a viewport */}
           {visibleUsers.length <= PAGE_SIZE ? (
-            <div className="max-h-[520px] overflow-y-auto">
+            <div>
               {visibleUsers.map((entry) => (
                 <UserListItem key={entry.id} user={entry} type={type} />
               ))}

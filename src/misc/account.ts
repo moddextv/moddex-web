@@ -46,4 +46,5 @@ export interface UserListProps {
   role: RoleType;
   user: Account;
   initial?: RolePage;
+  tabbed?: boolean;
 }

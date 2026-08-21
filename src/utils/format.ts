@@ -80,3 +80,6 @@ export const formatNumberShort = (num: number): string => {
 
   return `${numFormatted.toFixed(1)}${unitName}`;
 };
+
+export const plural = (count: number, one: string, many = `${one}s`): string =>
+  count === 1 ? one : many;

@@ -49,7 +49,7 @@ async function call<T>(path: string, options: Options = {}): Promise<T> {
   const { authenticated = false, method = 'GET', body, revalidate, actor, expect } = options;
 
   if (authenticated && !token()) {
-    throw new ModdexApiError(0, path, 'INTERNAL_API_TOKEN is not set — see .env.example');
+    throw new ModdexApiError(0, path, 'INTERNAL_API_TOKEN is not set, see .env.example');
   }
 
   const res = await fetch(`${BASE}${path}`, {
@@ -132,6 +132,8 @@ const rolePageShape = object({
   cursor: nullable(str),
   total: nullable(num)
 });
+
+const suggestShape = object({ items: usersShape });
 
 const browsePageShape = object({
   items: arrayOf(object({ id, login: str, counts: object({ mod: num, vip: num }) })),
@@ -240,6 +242,12 @@ export const getAccounts = (
   params: BrowseQuery & { bots: 'include' | 'exclude' }
 ): Promise<BrowsePage> =>
   call(`/v1/users${query(asParams(params))}`, { revalidate: 60, expect: browsePageShape });
+
+export const getSuggestions = (q: string, limit: number): Promise<{ items: User[] }> =>
+  call(`/v1/search${query({ q, limit: String(limit) })}`, {
+    revalidate: 60,
+    expect: suggestShape
+  });
 
 export const getStats = () =>
   call<{
@@ -414,21 +422,30 @@ export interface JobRun {
   averageSecondsLast7: number | null;
 }
 
+export interface JobPoint {
+  at: string;
+  seconds: number;
+}
+
 export interface JobHealth {
   snapshot: JobStatus & { users: number | null };
   roleCounts: JobStatus;
   sweepHead: string | null;
   sweeps: SweepHealth;
   runs: Record<string, JobRun>;
+  series: Record<string, JobPoint[]> | null;
   backup: { at: string; bytes: number; expectedEverySeconds: number } | null;
 }
 
 // depth costs two scans of 8.2M rows, so the jobs page asks and nothing else does
-export const getJobHealth = (actor: string, withDepth = false) =>
-  call<JobHealth>(`/v1/admin/jobs${withDepth ? '?depth=1' : ''}`, {
-    authenticated: true,
-    actor
+export const getJobHealth = (actor: string, withDepth = false, historyDays?: number) => {
+  const params = query({
+    depth: withDepth ? '1' : undefined,
+    history: historyDays ? String(historyDays) : undefined
   });
+
+  return call<JobHealth>(`/v1/admin/jobs${params}`, { authenticated: true, actor });
+};
 
 export interface Membership {
   mod: { grantedAt: string | null } | null;

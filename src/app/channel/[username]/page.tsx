@@ -9,10 +9,17 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Container } from '@/components/UI/Container';
 import { JsonLd, profileGraph } from '@/components/JsonLd';
-import { isEmpty, seedRoleLists } from '@/utils/roleSeed';
+import { RoleTabs } from '@/components/User/RoleTabs';
+import { isEmpty, roleTabs, seedRoleLists } from '@/utils/roleSeed';
 import { CSSProperties } from 'react';
 
 const ROLES = ['mods', 'vips', 'founders'] as const;
+
+const CHANNEL_TABS = [
+  { key: 'mod', label: 'Moderators', role: 'mods' },
+  { key: 'vip', label: 'VIPs', role: 'vips' },
+  { key: 'founder', label: 'Founders', role: 'founders' }
+] as const;
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -78,16 +85,12 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
       <Container>
         <UserProfile user={user} />
 
-        <section
-          className="enter grid items-start gap-6 lg:grid-cols-2 pb-6"
-          style={{ '--i': 1 } as CSSProperties}
-        >
-          <UserList type="channel" role="mods" user={user} initial={seeded.mods} />
-
-          <div className="flex flex-col gap-6">
-            <UserList type="channel" role="vips" user={user} initial={seeded.vips} />
-            <UserList type="channel" role="founders" user={user} initial={seeded.founders} />
-          </div>
+        <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
+          <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS)}>
+            <UserList type="channel" role="mods" user={user} initial={seeded.mods} tabbed />
+            <UserList type="channel" role="vips" user={user} initial={seeded.vips} tabbed />
+            <UserList type="channel" role="founders" user={user} initial={seeded.founders} tabbed />
+          </RoleTabs>
         </section>
       </Container>
     </main>

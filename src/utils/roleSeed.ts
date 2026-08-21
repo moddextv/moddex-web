@@ -5,7 +5,7 @@ import { cache } from 'react';
 import { fetchUserListPage } from '@/actions/roleList';
 import { logger } from '@/misc/Logger';
 import { PAGE_SIZE, type RolePage } from '@/misc/roleList';
-import type { RoleType, UserType } from '@/misc/roles';
+import type { RoleKey, RoleType, UserType } from '@/misc/roles';
 
 export type Seed = Record<string, RolePage | undefined>;
 
@@ -35,3 +35,15 @@ export const seedRoleLists = cache(
 
 export const isEmpty = (seed: Seed): boolean =>
   Object.values(seed).every((page) => (page?.items.length ?? 0) === 0);
+
+// a seeded page carries `total` only when the api paginated it, so a short list
+// counts its own rows and a long one reports what the api said
+export const roleTabs = (
+  seed: Seed,
+  tabs: readonly { key: RoleKey; label: string; role: RoleType }[]
+) =>
+  tabs.map(({ key, label, role }) => {
+    const page = seed[role];
+
+    return { key, label, count: page ? (page.total ?? page.items.length) : null };
+  });

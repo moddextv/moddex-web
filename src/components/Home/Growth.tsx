@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { formatNumber } from '@/utils/format';
 import type { HistoryPoint } from '@/utils/api/moddex';
-import { buildPath, H, W } from './sparkline';
+import { buildPath, H, W } from '@/utils/sparkline';
 
 interface Series {
   label: string;
   color: string;
   values: (number | null)[];
 }
+
 const Spark: FC<{ series: Series }> = ({ series }) => {
   const known = series.values.filter((value): value is number => value !== null);
   const latest = known.at(-1) ?? null;
@@ -21,7 +22,7 @@ const Spark: FC<{ series: Series }> = ({ series }) => {
       <p className="text-micro uppercase tracking-wider text-primary-400">{series.label}</p>
 
       <p className="text-h2 font-extrabold tabular leading-none" style={{ color: series.color }}>
-        {change === null ? '—' : `${change >= 0 ? '+' : '−'}${formatNumber(Math.abs(change))}`}
+        {change === null ? '·' : `${change >= 0 ? '+' : '−'}${formatNumber(Math.abs(change))}`}
       </p>
 
       {path ? (
@@ -47,14 +48,15 @@ const Spark: FC<{ series: Series }> = ({ series }) => {
         </p>
       )}
 
+      {/* founders were measured later, so this number differs per series */}
       <p className="text-micro text-primary-400 tabular">
-        {change === null ? 'nothing to compare yet' : `over ${known.length} days`}
+        {change === null ? 'nothing to compare yet' : `over the last ${known.length} days`}
       </p>
     </div>
   );
 };
 
-export const RoleHistory: FC<{ points: HistoryPoint[] }> = ({ points }) => {
+export const Growth: FC<{ points: HistoryPoint[] }> = ({ points }) => {
   if (points.length < 2) return null;
 
   const series: Series[] = [
@@ -64,7 +66,7 @@ export const RoleHistory: FC<{ points: HistoryPoint[] }> = ({ points }) => {
       values: points.map((point) => point.mods)
     },
     {
-      label: 'vip records',
+      label: 'VIP records',
       color: 'var(--vip)',
       values: points.map((point) => point.vips)
     },

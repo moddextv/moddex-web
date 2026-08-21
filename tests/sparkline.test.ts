@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildPath, H, W } from '@/components/Home/sparkline';
+import { buildPath, H, W } from '@/utils/sparkline';
 
 const commands = (path: string) => path.match(/[ML][\d.]+ [\d.]+/g) ?? [];
 
