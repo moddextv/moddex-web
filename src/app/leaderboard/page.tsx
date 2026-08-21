@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 
 const SCALES: { key: LeaderScale; tab: string; label: string; tone: string }[] = [
   { key: 'mod', tab: 'Mod', label: 'Mod roles', tone: 'tab-mod' },
-  { key: 'vip', tab: 'Vip', label: 'Vip roles', tone: 'tab-vip' },
+  { key: 'vip', tab: 'VIPs', label: 'VIP roles', tone: 'tab-vip' },
   { key: 'founder', tab: 'Founder', label: 'Founder roles', tone: 'tab-founder' },
   { key: 'roles', tab: 'All roles', label: 'Roles held', tone: '' }
 ];
@@ -85,7 +85,7 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
             <LeaderRows scale={scale} label={active.label} items={board.items} />
           ) : (
             <p className="text-ui text-primary-400">
-              Nothing here yet — the daily count has not run since this list was added.
+              Nothing here yet. The daily count has not run since this list was added.
             </p>
           )}
         </section>

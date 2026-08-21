@@ -10,10 +10,14 @@ const read = (...parts: string[]) => readFileSync(join(__dirname, '..', 'src', .
 const SURFACES = [
   ['app', 'page.tsx'],
   ['app', 'privacy', 'page.tsx'],
-  ['app', 'tos', 'page.tsx'],
   ['components', 'Login.tsx'],
   ['components', 'Settings', 'OptOut.tsx']
 ];
+
+// /tos stopped stating the effect on 2026-08-21 and points at /privacy instead:
+// one page promises this, and it is the one the promise is judged against. it
+// still has to not describe the effect in words of its own.
+const POINTS_ELSEWHERE = [['app', 'tos', 'page.tsx']];
 
 describe('the opt-out promise', () => {
   it.each(SURFACES)('%s/%s states it through the shared component', (...parts) => {
@@ -23,16 +27,26 @@ describe('the opt-out promise', () => {
     expect(source).toContain('<OptOutEffect />');
   });
 
-  it.each(SURFACES)('%s/%s does not restate the effect in its own words', (...parts) => {
-    const source = read(...parts).toLowerCase();
+  it.each(POINTS_ELSEWHERE)('%s/%s sends the reader to the page that promises it', (...parts) => {
+    const source = read(...parts);
 
-    // the phrasings the copies used before they were unified
-    expect(source).not.toContain('stops being served');
-    expect(source).not.toContain('cease to include you');
-    expect(source).not.toContain('removed from every mod and vip list');
-    expect(source).not.toContain('hides your profile');
-    expect(source).not.toContain('it is reversible');
+    expect(source).not.toContain('OptOutPromise');
+    expect(source).toContain('href="/privacy"');
   });
+
+  it.each([...SURFACES, ...POINTS_ELSEWHERE])(
+    '%s/%s does not restate the effect in its own words',
+    (...parts) => {
+      const source = read(...parts).toLowerCase();
+
+      // the phrasings the copies used before they were unified
+      expect(source).not.toContain('stops being served');
+      expect(source).not.toContain('cease to include you');
+      expect(source).not.toContain('removed from every mod and vip list');
+      expect(source).not.toContain('hides your profile');
+      expect(source).not.toContain('it is reversible');
+    }
+  );
 
   it('keeps the emphasis that carries the meaning — served, not deleted', () => {
     expect(read('components', 'OptOutPromise.tsx')).toContain('<em>served</em>');

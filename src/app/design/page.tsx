@@ -47,7 +47,7 @@ const Specimen: FC<{ caption: string; children: ReactNode }> = ({ caption, child
 );
 
 const TYPE = [
-  { cls: 'text-display', name: 'display', spec: 'clamp(2rem, 3.6vw, 2.75rem)' },
+  { cls: 'text-display', name: 'display', spec: 'clamp(2.25rem, 4.8vw, 3.75rem)' },
   { cls: 'text-h1', name: 'h1', spec: '28px / 1.25' },
   { cls: 'text-h2', name: 'h2', spec: '22px / 1.3' },
   { cls: 'text-h3', name: 'h3', spec: '18px / 1.35' },
@@ -57,6 +57,14 @@ const TYPE = [
   { cls: 'text-ui', name: 'ui', spec: '14px / 1.5' },
   { cls: 'text-meta', name: 'meta', spec: '13px / 1.5' },
   { cls: 'text-micro', name: 'micro', spec: '12px / 1.45' }
+];
+
+const DATA = [
+  { cls: 'text-base font-mono', name: 'login', sample: 'nightbot', spec: 'font-mono' },
+  { cls: 'text-base font-mono', name: 'url', sample: 'moddex.tv/u/nymn', spec: 'font-mono' },
+  { cls: 'text-base tabular', name: 'figure', sample: '590,787', spec: '.tabular, 0.95em' },
+  { cls: 'text-base tabular', name: 'date', sample: '12 Mar 2021', spec: '.tabular' },
+  { cls: 'text-base tabular', name: 'id', sample: '#53952249', spec: '.tabular' }
 ];
 
 const MOTION = [
@@ -95,13 +103,29 @@ export default function DesignPage() {
 
           <Section
             title="Type"
-            blurb="Manrope, one file, 200 to 800 interpolated. 15px base, not 13: the rejected attempt set everything at 13px and it read as clamped."
+            blurb="Manrope for language, JetBrains Mono for data. 15px base, not 13: the rejected attempt set everything at 13px and it read as clamped."
           >
             <div className="flex flex-col gap-4">
               {TYPE.map((entry) => (
                 <div key={entry.name} className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
                   <span className="text-micro text-primary-400 w-16 shrink-0">{entry.name}</span>
                   <span className={clsx(entry.cls, 'min-w-0')}>Every mod list on Twitch</span>
+                  <span className="text-micro text-primary-400 tabular ml-auto">{entry.spec}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-line mt-8 pt-8 flex flex-col gap-4">
+              <p className="text-read text-primary-300 max-w-prose">
+                The second face is not a size on that scale, it is a rule about which strings get
+                it. A string a machine chose is mono. A string a person wrote is not, display names
+                included. Conventions §5b.
+              </p>
+
+              {DATA.map((entry) => (
+                <div key={entry.name} className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                  <span className="text-micro text-primary-400 w-16 shrink-0">{entry.name}</span>
+                  <span className={clsx(entry.cls, 'min-w-0')}>{entry.sample}</span>
                   <span className="text-micro text-primary-400 tabular ml-auto">{entry.spec}</span>
                 </div>
               ))}

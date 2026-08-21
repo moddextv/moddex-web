@@ -202,6 +202,7 @@
 	}
 
 	.search {
+		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 10px;
@@ -274,16 +275,136 @@
 		color: var(--text);
 	}
 
+	.search-hero {
+		height: 64px;
+		padding: 0 8px 0 20px;
+		border-radius: var(--radius-lg);
+	}
+
+	.search-hero .scope button {
+		height: 40px;
+		padding: 0 15px;
+		font-size: 0.875rem;
+	}
+
+	/* the scope toggle and a usable field do not both fit on a phone, so the
+	   toggle takes its own row rather than squeezing the input to nothing */
+	@media (max-width: 640px) {
+		.search-hero {
+			height: auto;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 10px;
+			padding: 12px;
+		}
+
+		.search-hero .scope {
+			width: 100%;
+		}
+
+		.search-hero .scope button {
+			flex: 1;
+		}
+	}
+
+	.suggest {
+		position: absolute;
+		top: calc(100% + 8px);
+		left: 0;
+		right: 0;
+		z-index: 40;
+		max-height: 380px;
+		overflow-y: auto;
+		padding: 6px;
+		background: var(--raised);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-md);
+	}
+
+	.suggest-row {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		padding: 7px 10px;
+		border-radius: var(--radius-sm);
+		background: transparent;
+		border: 0;
+		color: var(--text);
+		font-size: 0.9375rem;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.suggest-row.is-active {
+		background: var(--hover);
+	}
+
+	.suggest-note {
+		padding: 10px 12px;
+		color: var(--text-dim);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+	}
+
+	/* chips, not a second tab strip: the direction tabs sit directly above and
+	   two underlined rows read as one control that lost its mind */
+	.role-tabs {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin: 20px 0 16px;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.role-tabs::-webkit-scrollbar {
+		display: none;
+	}
+
+	.role-tab {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		height: 36px;
+		padding: 0 14px;
+		background: transparent;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md);
+		color: var(--text-alt);
+		font-size: 0.875rem;
+		font-weight: 600;
+		white-space: nowrap;
+		cursor: pointer;
+		transition:
+			color var(--duration) var(--ease),
+			background-color var(--duration) var(--ease),
+			border-color var(--duration) var(--ease);
+	}
+
+	.role-tab:hover {
+		color: var(--text);
+		border-color: var(--line-strong);
+	}
+
+	.role-tab.is-active {
+		background: var(--line);
+		border-color: var(--line);
+		color: var(--text);
+	}
+
 	@media (max-width: 640px) {
 		.nav-inner {
 			gap: 12px;
 		}
 
-		.search {
+		/* the hero form stacks and sizes itself, and this rule is later in the
+		   file than the one that says so */
+		.search:not(.search-hero) {
 			height: 44px;
 		}
 
-		.scope button {
+		.search:not(.search-hero) .scope button {
 			height: 34px;
 			min-width: 40px;
 		}
@@ -394,6 +515,11 @@
 		grid-template-columns: 150px minmax(0, 1.4fr) minmax(0, 1fr);
 	}
 
+	.cols-trends {
+		grid-template-columns: 150px 90px minmax(0, 1fr) 130px;
+		align-items: center;
+	}
+
 	.cols-connections {
 		grid-template-columns: minmax(0, 1fr) 120px 150px 100px;
 	}
@@ -408,6 +534,14 @@
 		}
 
 		.cols-badges > :nth-child(n + 2):not(:last-child) {
+			display: none;
+		}
+
+		.cols-trends {
+			grid-template-columns: 120px 80px minmax(0, 1fr);
+		}
+
+		.cols-trends > :nth-child(4) {
 			display: none;
 		}
 
@@ -458,8 +592,23 @@
 			grid-template-columns: minmax(0, 1fr) auto;
 		}
 
-		.cols-people > :nth-child(n + 3),
+		/* granted goes, not followers: a date is the column worth losing when the
+		   alternative is a truncated login */
+		.cols-people > :nth-child(2) {
+			display: none;
+		}
+
 		.cols-channels > :nth-child(n + 3) {
+			display: none;
+		}
+
+		/* the name needs the width more than a 36px avatar and its badges do */
+		.cols-leaders {
+			grid-template-columns: 34px minmax(0, 1fr) 84px;
+		}
+
+		.cols-leaders .avatar-slot,
+		.cols-leaders .badges {
 			display: none;
 		}
 	}
@@ -843,7 +992,10 @@
 		}
 	}
 
+	/* the mono runs large against Manrope at the same px, hence the 0.95em */
 	.tabular {
+		font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Consolas, monospace;
+		font-size: 0.95em;
 		font-variant-numeric: tabular-nums;
 		font-feature-settings: 'tnum';
 	}
