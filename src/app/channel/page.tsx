@@ -4,6 +4,7 @@ import { Container } from '@/components/UI/Container';
 import { config } from '@/config';
 import { fetchChannels } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
+import { PageSearch } from '@/components/Search/PageSearch';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
@@ -23,15 +24,17 @@ export default async function ChannelPage() {
   return (
     <main id="main" className="flex-grow">
       <Container>
-        <header className="enter pt-12 pb-8">
+        <header className="enter search-host pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-tl text-mod" aria-hidden="true" />
             <h1 className="text-h1">Channels</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">
-            Who holds mod, vip and founder in a channel, and since when. Type a name in the bar
-            above to look one up. Search a channel for the first time and you add it to the index.
+            Who holds mod, vip and founder in a channel, and since when. Search a channel for the
+            first time and you add it to the index.
           </p>
+
+          <PageSearch scope="channel" />
         </header>
 
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>

@@ -226,10 +226,42 @@ describe('the home page carries the thing it tells you to use', () => {
     expect(home).toContain('<HeroSearch />');
   });
 
-  // the nav bar is behind an icon below lg, so the old copy pointed at nothing
-  // on every tablet and phone
-  it('does not send the reader to a bar that is not on screen', () => {
-    expect(home).not.toMatch(/bar above/i);
+  // the header carries no search at all now, so "the bar above" points at
+  // nothing on every page and every width, not just below lg
+  it('no page sends the reader to a bar that is not there', () => {
+    const src = join(ROOT, 'src');
+
+    const walk = (dir: string, out: string[] = []): string[] => {
+      for (const name of readdirSync(dir)) {
+        const full = join(dir, name);
+        if (statSync(full).isDirectory()) walk(full, out);
+        else if (name.endsWith('.tsx')) out.push(full);
+      }
+
+      return out;
+    };
+
+    const offenders = walk(src)
+      .filter((file) => /bar above/i.test(readFileSync(file, 'utf8')))
+      .map((file) =>
+        file
+          .slice(src.length + 1)
+          .split('\\')
+          .join('/')
+      );
+
+    expect(offenders, 'the header has no search bar to point at').toEqual([]);
+  });
+
+  it('every page that tells you to search carries a field to search in', () => {
+    for (const page of ['channel', 'user']) {
+      expect(read(page, 'page.tsx'), `${page} asks for a lookup`).toContain('<PageSearch');
+    }
+
+    expect(
+      readFileSync(join(ROOT, 'src', 'components', 'Errors.tsx'), 'utf8'),
+      'a typo is exactly where a second try belongs'
+    ).toContain('<PageSearch');
   });
 
   // /design exists so the specimen cannot go stale, and the one value it types

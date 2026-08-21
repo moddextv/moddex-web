@@ -182,7 +182,13 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
               type="text"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder={paged ? 'Login starts with…' : 'Find an account'}
+              placeholder={
+                paged
+                  ? 'Login starts with…'
+                  : type === 'user'
+                    ? 'Find a channel'
+                    : 'Find an account'
+              }
               aria-label={
                 paged
                   ? `Search ${title.toLowerCase()} by the start of their login, at least 3 characters`

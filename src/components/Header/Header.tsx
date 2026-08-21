@@ -1,6 +1,6 @@
 import { auth } from '@/auth';
+import { NavLinks } from '@/components/Header/NavLinks';
 import { NavMenu } from '@/components/Header/NavMenu';
-import { NavSearch } from '@/components/Header/NavSearch';
 import { ProfileDropdown } from '@/components/Header/ProfileDropdown';
 import { ThemeToggle } from '@/components/Header/ThemeToggle';
 import { DiscordIcon } from '@/components/Icons';
@@ -29,9 +29,9 @@ export const Header = async () => {
             <span className="hidden sm:inline text-h3 font-extrabold">{config.brand.name}</span>
           </Link>
 
-          <NavSearch />
+          <NavLinks />
 
-          <div className="lg:ml-auto flex items-center gap-2 shrink-0">
+          <div className="ml-auto flex items-center gap-2 shrink-0">
             <Link href="/donate" className="hidden lg:inline-flex btn btn-soft">
               Donate
             </Link>
