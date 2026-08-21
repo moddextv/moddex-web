@@ -82,12 +82,12 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
   return (
     <section className="enter pt-10">
-      <div className="flex flex-wrap items-start gap-6">
+      <div className="flex flex-wrap items-start gap-4 sm:gap-6">
         <Avatar
           src={currentUser?.avatar}
           name={currentUser?.name || currentUser?.login || ''}
           size={88}
-          className="w-[88px] h-[88px]"
+          className="w-16 h-16 sm:w-[88px] sm:h-[88px]"
         />
 
         <div className="min-w-0 flex-1">
@@ -137,7 +137,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           </div>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap sm:shrink-0">
+        <div className="w-full flex items-center gap-2 flex-wrap sm:w-auto sm:shrink-0">
           <a
             href={`https://twitch.tv/${login}`}
             target="_blank"

@@ -2,6 +2,7 @@
 
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
+import { BOT_MODES_LABEL } from '@/components/User/columns';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';
 import { formatNumber } from '@/utils/format';
 import { FC, useRef, useState, useTransition } from 'react';
@@ -106,7 +107,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
 
           {kind === 'account' && (
             <button type="button" className="chip" aria-pressed={includeBots} onClick={toggleBots}>
-              Include bots
+              Bots: {includeBots ? BOT_MODES_LABEL.all : BOT_MODES_LABEL.hide}
             </button>
           )}
         </span>
