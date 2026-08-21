@@ -6,7 +6,7 @@ import { listDonations } from '@/actions/dashboard';
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   alternates: { canonical: '/dashboard/donations' },
-  title: 'Donations — Dashboard'
+  title: 'Donations · Dashboard'
 };
 
 export default async function DonationsPage() {

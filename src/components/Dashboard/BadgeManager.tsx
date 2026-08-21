@@ -226,10 +226,10 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                     </span>
                   </span>
 
-                  <span className="text-ui text-primary-300 truncate">{row.byLogin ?? '—'}</span>
+                  <span className="text-ui text-primary-300 truncate">{row.byLogin ?? '·'}</span>
 
                   <span className="text-ui text-primary-300">
-                    {row.at ? formatDayMonthYear(row.at) : '—'}
+                    {row.at ? formatDayMonthYear(row.at) : '·'}
                   </span>
 
                   {row.owner ? (

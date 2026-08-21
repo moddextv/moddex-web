@@ -4,7 +4,7 @@ import { ago } from './ago';
 import type { EventsubHealth, SweepHealth } from '@/utils/api/moddex';
 
 const number = (value: number | null | undefined) =>
-  value === null || value === undefined ? '—' : value.toLocaleString('en-US');
+  value === null || value === undefined ? '·' : value.toLocaleString('en-US');
 
 const Row: FC<{ label: string; note: string; children: React.ReactNode }> = ({
   label,
@@ -56,7 +56,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
 
         <Row
           label="Discover"
-          note="accounts no sweep has ever touched — this is what grows the index"
+          note="accounts no sweep has ever touched, which is what grows the index"
         >
           {number(sweeps.discover.perMinute)} <span className="text-primary-400">/ min</span>
           {sweeps.discover.depth !== null && (

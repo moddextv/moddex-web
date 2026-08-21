@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { backupLate, clock, size } from '@/utils/jobHealth';
+import { backupLate, clock, nightlyRuns, size } from '@/utils/jobHealth';
 import { ago } from '@/components/Dashboard/ago';
 
 const AT = '2026-08-14T03:00:00.000Z';
@@ -80,5 +80,37 @@ describe('ago', () => {
 
   it('does not fall back to minutes at the hour boundary', () => {
     expect(ago('2026-08-14T11:00:00.000Z', now)).toBe('1h ago');
+  });
+});
+
+describe('nightlyRuns', () => {
+  const daily = 86_400;
+  const night = '2026-08-21T04:55:38.000Z';
+  const now = Date.parse('2026-08-21T09:00:00.000Z');
+
+  const runs = (...ats: string[]) =>
+    Object.fromEntries(ats.map((at, index) => [`job_${index}`, { at }]));
+
+  it('counts every job that made its last slot', () => {
+    expect(nightlyRuns(runs(night, night, night, night, night), now)).toEqual({ ran: 5, total: 5 });
+  });
+
+  // a job that stops running is the failure this tile exists for, and it looks
+  // like nothing at all on a page that only shows the last run's duration
+  it('drops one that has not run since the slot before last', () => {
+    const stale = '2026-08-19T04:55:38.000Z';
+
+    expect(nightlyRuns(runs(night, night, stale), now)).toEqual({ ran: 2, total: 3 });
+  });
+
+  it('gives a long-running job the same grace a backup gets', () => {
+    const ran = Date.parse('2026-08-20T04:55:38.000Z');
+
+    expect(nightlyRuns(runs(night), ran + daily * 1200).ran).toBe(1);
+    expect(nightlyRuns(runs('2026-08-20T04:55:38.000Z'), ran + daily * 1251).ran).toBe(0);
+  });
+
+  it('reports nothing rather than dividing by zero when no job has ever run', () => {
+    expect(nightlyRuns({}, now)).toEqual({ ran: 0, total: 0 });
   });
 });

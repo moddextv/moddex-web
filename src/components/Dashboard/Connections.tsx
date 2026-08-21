@@ -28,7 +28,7 @@ const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boo
         title={
           moderatedSyncedAt
             ? formatDate(moderatedSyncedAt)
-            : 'never handed over — only reconnecting fixes it'
+            : 'never handed over, and only reconnecting fixes it'
         }
       >
         {moderatedSyncedAt ? ago(moderatedSyncedAt) : 'never'}
@@ -36,7 +36,7 @@ const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boo
 
       <span className="text-ui">
         {withdrew ? (
-          <span className="text-primary-400">—</span>
+          <span className="text-primary-400">·</span>
         ) : subscribed ? (
           <span className="text-primary-400">yes</span>
         ) : (

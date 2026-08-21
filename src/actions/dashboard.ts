@@ -22,11 +22,14 @@ import { permissions } from '@/utils/permissions';
 
 const admin = () => requirePermission(permissions.admin);
 
-export async function fetchJobHealth(withDepth = false): Promise<ActionResult<JobHealth>> {
+export async function fetchJobHealth(
+  withDepth = false,
+  historyDays?: number
+): Promise<ActionResult<JobHealth>> {
   return attempt('fetchJobHealth', async () => {
     const { userId } = await admin();
 
-    return getJobHealth(userId, withDepth);
+    return getJobHealth(userId, withDepth, historyDays);
   });
 }
 
