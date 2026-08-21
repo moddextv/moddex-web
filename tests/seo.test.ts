@@ -207,6 +207,53 @@ describe('a profile puts its role lists in the html', () => {
 
     expect(source).toContain('visibleUsers.length <= PAGE_SIZE ?');
   });
+
+  // the tabs hide two lists of three from a reader, and a crawler that got the
+  // open one only would be back where the seeded lists started: one link out
+  it('the role tabs render every panel and hide the closed ones with css', () => {
+    const source = readFileSync(join(ROOT, 'src', 'components', 'User', 'RoleTabs.tsx'), 'utf8');
+
+    expect(source).toContain('panels.map');
+    expect(source).toContain("index !== active && 'hidden'");
+    expect(source).not.toMatch(/panels\[active\]|index === active &&\s*panel/);
+  });
+});
+
+describe('the home page carries the thing it tells you to use', () => {
+  const home = read('page.tsx');
+
+  it('renders the search itself rather than pointing at the nav', () => {
+    expect(home).toContain('<HeroSearch />');
+  });
+
+  // the nav bar is behind an icon below lg, so the old copy pointed at nothing
+  // on every tablet and phone
+  it('does not send the reader to a bar that is not on screen', () => {
+    expect(home).not.toMatch(/bar above/i);
+  });
+
+  // /design exists so the specimen cannot go stale, and the one value it types
+  // out by hand went stale the day the display step moved
+  it('the styleguide quotes the display step the config actually ships', () => {
+    const config = readFileSync(join(ROOT, 'tailwind.config.mjs'), 'utf8');
+    const design = read('design', 'page.tsx');
+
+    const shipped = config.match(/display:\s*\[\s*'(clamp\([^']+\))'/);
+    expect(shipped, 'the display step has moved or changed shape').toBeTruthy();
+
+    expect(design).toContain(shipped![1]);
+  });
+
+  it('does not let a counter outgrow the headline', () => {
+    const config = readFileSync(join(ROOT, 'tailwind.config.mjs'), 'utf8');
+
+    const display = config.match(/display:\s*\[\s*'clamp\([^,]+,[^,]+,\s*([\d.]+)rem\)/);
+    const counter = home.match(/text-\[clamp\([^,]+,[^,]+,([\d.]+)rem\)\]/);
+
+    expect(display, 'the display step has moved or changed shape').toBeTruthy();
+    expect(counter, 'the home counters have moved or changed shape').toBeTruthy();
+    expect(Number(counter![1])).toBeLessThan(Number(display![1]));
+  });
 });
 
 describe('structured data', () => {

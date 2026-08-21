@@ -10,7 +10,7 @@ import type { Membership } from '@/utils/api/moddex';
 
 const ROLES = [
   { key: 'mod', label: 'Mod', tone: 'text-mod', corner: 'corner-tl' },
-  { key: 'vip', label: 'Vip', tone: 'text-vip', corner: 'corner-br' },
+  { key: 'vip', label: 'VIP', tone: 'text-vip', corner: 'corner-br' },
   { key: 'founder', label: 'Founder', tone: 'text-founder', corner: 'corner-bl' }
 ] as const;
 
@@ -48,7 +48,7 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
               </span>
 
               <span className="text-micro text-primary-400">
-                {on ? (on.grantedAt ? formatDayMonthYear(on.grantedAt) : 'no date') : '—'}
+                {on ? (on.grantedAt ? formatDayMonthYear(on.grantedAt) : 'no date') : 'not held'}
               </span>
             </span>
           );

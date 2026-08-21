@@ -12,7 +12,7 @@ export const Badges: FC<BadgesProps> = ({ badges, size = 24, className }) => {
   }
 
   return (
-    <div className={clsx('flex flex-row flex-wrap gap-1', className)}>
+    <div className={clsx('badges flex flex-row flex-wrap gap-1', className)}>
       {shown.map((badge) => (
         <Tooltip key={badge.id} content={badge.name}>
           <div>

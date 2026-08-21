@@ -116,7 +116,7 @@ export default function AboutPage() {
             </Para>
             <Para>
               What is held about an account, and how to make it stop, is on the{' '}
-              <Inline href="/privacy">privacy page</Inline> — the opt-out is one switch and takes
+              <Inline href="/privacy">privacy page</Inline>. The opt-out is one switch and takes
               effect immediately. The <Inline href="/tos">terms</Inline> say the rest. {name} is not
               affiliated with, endorsed by, or sponsored by Twitch Interactive, Inc.
             </Para>

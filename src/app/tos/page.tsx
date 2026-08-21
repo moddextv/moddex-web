@@ -4,7 +4,6 @@ import { config } from '@/config';
 import { Metadata } from 'next';
 
 import { Clause, Inline, LegalPage, Para } from '@/components/Legal';
-import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/tos' },
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   { id: 'acceptance', title: '1. Acceptance', short: '1. Acceptance' },
   { id: 'service', title: '2. What this service does', short: '2. What this does' },
-  { id: 'your-data', title: '3. Your data and how to opt out', short: '3. Your data' },
+  { id: 'your-data', title: '3. Your data', short: '3. Your data' },
   { id: 'accounts', title: '4. Accounts and donations', short: '4. Accounts' },
   { id: 'use', title: '5. Acceptable use', short: '5. Acceptable use' },
   { id: 'disclaimer', title: '6. Disclaimer and liability', short: '6. Disclaimer' },
@@ -52,7 +51,7 @@ export default async function TosPage() {
         </Para>
       </Clause>
 
-      <Clause id="your-data" title="3. Your data and how to opt out">
+      <Clause id="your-data" title="3. Your data">
         <Para>
           If you&apos;re listed on {name}, we hold the fields below plus the roles described above.
         </Para>
@@ -66,9 +65,9 @@ export default async function TosPage() {
         </div>
 
         <Para>
-          <strong className="text-primary-100">You can opt out at any time.</strong> Sign in with
-          Twitch and switch the opt-out on in <Inline href="/settings">your settings</Inline>.{' '}
-          <OptOutEffect /> <OptOutReversible />
+          <strong className="text-primary-100">You can opt out at any time</strong>, from{' '}
+          <Inline href="/settings">your settings</Inline>. What that does, exactly, is on the{' '}
+          <Inline href="/privacy">privacy page</Inline>, which is the page that promises it.
         </Para>
         <Para>
           If Twitch reports an account as banned or deactivated, we mark it and stop displaying it.
