@@ -6,7 +6,7 @@ import { fetchEventsubHealth, listConnections } from '@/actions/dashboard';
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   alternates: { canonical: '/dashboard/channels' },
-  title: 'Channels — Dashboard'
+  title: 'Channels · Dashboard'
 };
 
 export default async function ChannelsPage() {

@@ -42,7 +42,7 @@ const Owned: FC<{ badge: Badge; on: boolean }> = ({ badge, on }) => (
   <div className="badge-row is-owned">
     <Face badge={badge} on={on} note="twitch" />
     <span className={on ? 'text-ui text-primary-200' : 'text-ui text-primary-400'}>
-      {on ? 'held' : '—'}
+      {on ? 'held' : '·'}
     </span>
   </div>
 );

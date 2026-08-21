@@ -2,9 +2,11 @@ import { Metadata } from 'next';
 
 import { auth } from '@/auth';
 import { Overview } from '@/components/Dashboard/Overview';
+import { Trends } from '@/components/Dashboard/Trends';
 import { fetchJobHealth } from '@/actions/dashboard';
-import { listBadgeCounts } from '@/actions/badges';
 import { permissions } from '@/utils/permissions';
+
+const TREND_DAYS = 30;
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -26,12 +28,16 @@ export default async function DashboardPage() {
     );
   }
 
-  const [healthResult, countsResult] = await Promise.all([fetchJobHealth(), listBadgeCounts()]);
+  const healthResult = await fetchJobHealth(false, TREND_DAYS);
+  const health = healthResult.ok ? healthResult.data : null;
 
   return (
-    <Overview
-      health={healthResult.ok ? healthResult.data : null}
-      counts={countsResult.ok ? countsResult.data : null}
-    />
+    <>
+      <Overview health={health} />
+
+      <section className="enter pb-6">
+        <Trends series={health?.series ?? null} days={TREND_DAYS} />
+      </section>
+    </>
   );
 }

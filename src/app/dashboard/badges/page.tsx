@@ -7,7 +7,7 @@ import { listBadgeCatalogue, listBadgeCounts, listBadgeHolders } from '@/actions
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   alternates: { canonical: '/dashboard/badges' },
-  title: 'Badges — Dashboard'
+  title: 'Badges · Dashboard'
 };
 
 export default async function BadgesPage() {
