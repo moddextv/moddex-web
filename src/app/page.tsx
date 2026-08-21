@@ -8,8 +8,9 @@ import { config } from '@/config';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
 import { getStatsHistory } from '@/utils/api/moddex';
+import { Growth } from '@/components/Home/Growth';
+import { HeroSearch } from '@/components/Home/HeroSearch';
 import { RoleCheck } from '@/components/Home/RoleCheck';
-import { RoleHistory } from '@/components/Home/RoleHistory';
 import { formatNumber } from '@/utils/format';
 import { JsonLd, siteGraph } from '@/components/JsonLd';
 import Link from 'next/link';
@@ -37,7 +38,7 @@ const Direction: FC<{
     </div>
     <p className="text-read text-primary-300 max-w-[42ch] mb-5">{children}</p>
     <span
-      className={`mt-auto inline-flex items-center gap-2 text-ui font-semibold text-primary-200 transition-colors ${hover}`}
+      className={`mt-auto inline-flex items-center gap-2 text-ui font-mono text-primary-200 transition-colors ${hover}`}
     >
       {example}
       <ArrowRightIcon size={14} />
@@ -56,7 +57,7 @@ const Count: FC<{ label: string; corner: string; tone: string; value: number }> 
       <span className={`corner ${corner} ${tone}`} aria-hidden="true" />
       {label}
     </p>
-    <p className={`text-[clamp(2rem,3.4vw,3rem)] font-extrabold leading-none tabular ${tone}`}>
+    <p className={`text-[clamp(1.625rem,2.4vw,2.125rem)] font-bold leading-none tabular ${tone}`}>
       {formatNumber(value)}
     </p>
   </div>
@@ -112,11 +113,13 @@ export default async function Home() {
             Every mod list on Twitch, read backwards.
           </h1>
 
-          <p className="text-lead text-primary-300 max-w-prose">
+          <p className="text-lead text-primary-300 max-w-prose mb-8">
             Twitch shows a broadcaster who their own mods are. It won&apos;t tell you the reverse.{' '}
             {config.brand.name} does: every channel an account has a role in, and the day they got
-            it. Type a name in the bar above.
+            it.
           </p>
+
+          <HeroSearch />
         </section>
 
         <section
@@ -163,7 +166,7 @@ export default async function Home() {
               tone="text-mod"
               value={stats.mods.raw}
             />
-            <Count label="vip records" corner="corner-br" tone="text-vip" value={stats.vips.raw} />
+            <Count label="VIP records" corner="corner-br" tone="text-vip" value={stats.vips.raw} />
 
             {stats.founders && (
               <Count
@@ -187,8 +190,9 @@ export default async function Home() {
             </p>
           </div>
         </section>
+
         <section className="enter pb-12" style={{ '--i': 4 } as CSSProperties}>
-          <RoleHistory points={history} />
+          <Growth points={history} />
         </section>
 
         {(recent.items.length > 0 || holders.items.length > 0) && (

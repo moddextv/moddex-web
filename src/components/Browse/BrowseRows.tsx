@@ -1,7 +1,7 @@
 import { Badges } from '@/components/User/Badges';
 import { Avatar } from '@/components/UI/Avatar';
 import { BrowseEntry } from '@/misc/browse';
-import { formatNumber, formatRelative } from '@/utils/format';
+import { formatNumber, formatRelative, plural } from '@/utils/format';
 import Link from 'next/link';
 import { FC } from 'react';
 import clsx from 'clsx';
@@ -9,7 +9,7 @@ import clsx from 'clsx';
 export type BrowseKind = 'channel' | 'account';
 
 const HEADS: Record<BrowseKind, [string, string, string, string?]> = {
-  channel: ['Channel', 'Mods', 'Vips', 'Read'],
+  channel: ['Channel', 'Mods', 'VIPs', 'Read'],
   account: ['Account', 'Modding', 'Viping']
 };
 
@@ -53,7 +53,7 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kin
                 <Badges badges={entry.badges} size={18} />
               </span>
               <span className="block text-micro text-primary-400">
-                {formatNumber(entry.followers || 0)} followers
+                {formatNumber(entry.followers || 0)} {plural(entry.followers || 0, 'follower')}
               </span>
             </span>
           </span>

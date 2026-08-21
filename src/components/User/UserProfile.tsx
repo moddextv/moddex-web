@@ -2,7 +2,7 @@
 
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
-import { formatMonthYearLong, formatNumber, formatRelative } from '@/utils/format';
+import { formatMonthYearLong, formatNumber, formatRelative, plural } from '@/utils/format';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
 import { FC, useEffect, useState } from 'react';
@@ -73,7 +73,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
   if (loading) {
     return (
-      <section className="pt-10 pb-8" aria-busy="true">
+      <section className="pt-10" aria-busy="true">
         <UserProfileLoading />
         <DirectionTabs login={user.login} isUser={!!isUser} />
       </section>
@@ -81,7 +81,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
   }
 
   return (
-    <section className="enter pt-10 pb-8">
+    <section className="enter pt-10">
       <div className="flex flex-wrap items-start gap-6">
         <Avatar
           src={currentUser?.avatar}
@@ -97,7 +97,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
               <Badges badges={currentUser?.badges || []} />
             </div>
             <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">
-              <span className="text-base font-bold text-primary-300 min-w-0 break-all">
+              <span className="text-base font-mono text-primary-300 min-w-0 break-all">
                 @{login}
               </span>
               <span className="text-base text-primary-400 tabular">#{id}</span>
@@ -116,7 +116,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
                 <span className="tabular text-primary-100 font-bold">
                   {formatNumber(currentUser?.followers || 0)}
                 </span>{' '}
-                followers
+                {plural(currentUser?.followers || 0, 'follower')}
               </span>
             )}
 
@@ -137,15 +137,16 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 flex-wrap sm:shrink-0">
           <a
             href={`https://twitch.tv/${login}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-twitch-quiet"
+            aria-label="Open on Twitch"
+            className="btn btn-twitch-quiet w-10 p-0 sm:w-auto sm:px-[18px]"
           >
             <TwitchIcon size={18} />
-            Open on Twitch
+            <span className="hidden sm:inline">Open on Twitch</span>
           </a>
 
           {currentUser?.discord && (

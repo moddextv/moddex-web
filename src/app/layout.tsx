@@ -15,6 +15,12 @@ const manrope = localFont({
   variable: '--font-manrope'
 });
 
+const jetbrains = localFont({
+  src: [{ path: './fonts/jetbrains-mono-latin.woff2', weight: '100 800', style: 'normal' }],
+  display: 'swap',
+  variable: '--font-jetbrains'
+});
+
 const DESCRIPTION = `Every channel a Twitch account holds mod, vip or founder in, and the day they got it. Twitch shows a broadcaster their own list. ${config.brand.name} keeps the other half.`;
 
 export const metadata: Metadata = {
@@ -49,7 +55,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={manrope.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 font-sans text-base text-primary-100">
         <Providers>
           <Insights />

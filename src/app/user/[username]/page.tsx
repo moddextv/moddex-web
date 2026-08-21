@@ -9,11 +9,18 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Container } from '@/components/UI/Container';
 import { JsonLd, profileGraph } from '@/components/JsonLd';
-import { isEmpty, seedRoleLists } from '@/utils/roleSeed';
+import { RoleTabs } from '@/components/User/RoleTabs';
+import { isEmpty, roleTabs, seedRoleLists } from '@/utils/roleSeed';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 const ROLES = ['modding', 'viping', 'founding'] as const;
+
+const USER_TABS = [
+  { key: 'mod', label: 'Moderating', role: 'modding' },
+  { key: 'vip', label: 'Holding VIP', role: 'viping' },
+  { key: 'founder', label: 'Founding', role: 'founding' }
+] as const;
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -79,25 +86,21 @@ export default async function UserUsernamePage({ params }: PageProps) {
       <Container>
         <UserProfile user={user} isUser={true} />
 
-        <section
-          className="enter grid items-start gap-6 lg:grid-cols-2 pb-6"
-          style={{ '--i': 1 } as CSSProperties}
-        >
-          <UserList type="user" role="modding" user={user} initial={seeded.modding} />
+        <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
+          <RoleTabs tabs={roleTabs(seeded, USER_TABS)}>
+            <UserList type="user" role="modding" user={user} initial={seeded.modding} tabbed />
+            <UserList type="user" role="viping" user={user} initial={seeded.viping} tabbed />
+            <UserList type="user" role="founding" user={user} initial={seeded.founding} tabbed />
+          </RoleTabs>
 
-          <div className="flex flex-col gap-6">
-            <UserList type="user" role="viping" user={user} initial={seeded.viping} />
-            <UserList type="user" role="founding" user={user} initial={seeded.founding} />
-
-            <div className="panel flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
-              <p className="text-read text-primary-300 max-w-[46ch]">
-                Missing a channel? It only appears here once somebody has looked that channel up.
-                Search for it once and it stays indexed.
-              </p>
-              <Link href="/channel" className="btn btn-soft shrink-0">
-                Index a channel
-              </Link>
-            </div>
+          <div className="panel mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
+            <p className="text-read text-primary-300 max-w-[46ch]">
+              Missing a channel? It only appears here once somebody has looked that channel up.
+              Search for it once and it stays indexed.
+            </p>
+            <Link href="/channel" className="btn btn-soft shrink-0">
+              Index a channel
+            </Link>
           </div>
         </section>
       </Container>
