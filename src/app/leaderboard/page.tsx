@@ -10,11 +10,25 @@ import clsx from 'clsx';
 
 export const dynamic = 'force-dynamic';
 
-const SCALES: { key: LeaderScale; tab: string; label: string; tone: string }[] = [
-  { key: 'mod', tab: 'Mod', label: 'Mod roles', tone: 'tab-mod' },
-  { key: 'vip', tab: 'VIPs', label: 'VIP roles', tone: 'tab-vip' },
-  { key: 'founder', tab: 'Founder', label: 'Founder roles', tone: 'tab-founder' },
-  { key: 'roles', tab: 'All roles', label: 'Roles held', tone: '' }
+// picking a role here is the same act as picking one on a profile, so it wears
+// the same chip rather than a second tab pattern
+const SCALES: {
+  key: LeaderScale;
+  tab: string;
+  label: string;
+  corner: string | null;
+  tone: string;
+}[] = [
+  { key: 'mod', tab: 'Mod', label: 'Mod roles', corner: 'corner-tl', tone: 'text-mod' },
+  { key: 'vip', tab: 'VIPs', label: 'VIP roles', corner: 'corner-br', tone: 'text-vip' },
+  {
+    key: 'founder',
+    tab: 'Founder',
+    label: 'Founder roles',
+    corner: 'corner-bl',
+    tone: 'text-founder'
+  },
+  { key: 'roles', tab: 'All roles', label: 'Roles held', corner: null, tone: '' }
 ];
 
 const isScale = (value: string): value is LeaderScale =>
@@ -58,36 +72,60 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
           </p>
         </header>
 
-        <nav className="tabs enter" style={{ '--i': 1 } as CSSProperties}>
-          {SCALES.map((entry) => (
-            <Link
-              key={entry.key}
-              href={href({ scale: entry.key })}
-              aria-current={entry.key === scale ? 'page' : undefined}
-              className={clsx('tab', entry.tone)}
-            >
-              {entry.tab}
-            </Link>
-          ))}
+        <nav
+          className="role-tabs enter"
+          aria-label="Which roles to rank"
+          style={{ '--i': 1 } as CSSProperties}
+        >
+          {SCALES.map((entry) => {
+            const here = entry.key === scale;
+
+            return (
+              <Link
+                key={entry.key}
+                href={href({ scale: entry.key })}
+                aria-current={here ? 'page' : undefined}
+                className={clsx('role-tab', here && 'is-active')}
+              >
+                {entry.corner && (
+                  <span
+                    aria-hidden="true"
+                    className={clsx('corner', entry.corner, here ? entry.tone : 'text-primary-600')}
+                  />
+                )}
+                {entry.tab}
+              </Link>
+            );
+          })}
         </nav>
 
-        <section className="enter pt-6 pb-10" style={{ '--i': 2 } as CSSProperties}>
-          <div className="flex justify-end mb-4">
-            <Link
-              href={href({ bots: bots === 'exclude' ? 'include' : 'exclude' })}
-              className="text-ui text-primary-300 underline underline-offset-4"
-            >
-              {bots === 'exclude' ? 'Show bots' : 'Hide bots'}
-            </Link>
-          </div>
+        <section className="enter pt-2 pb-10" style={{ '--i': 2 } as CSSProperties}>
+          <div className="panel-flush">
+            <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
+              <h2 className="text-h2">{active.label}</h2>
+              <span className="text-lead text-primary-400 tabular">
+                {board.items.length} <span className="text-ui">ranked</span>
+              </span>
 
-          {board.items.length ? (
-            <LeaderRows scale={scale} label={active.label} items={board.items} />
-          ) : (
-            <p className="text-ui text-primary-400">
-              Nothing here yet. The daily count has not run since this list was added.
-            </p>
-          )}
+              <span className="ml-auto flex items-center gap-2 flex-wrap">
+                <Link
+                  href={href({ bots: bots === 'exclude' ? 'include' : 'exclude' })}
+                  className="chip"
+                  aria-pressed={bots === 'exclude'}
+                >
+                  Bots: {bots === 'exclude' ? 'hidden' : 'shown'}
+                </Link>
+              </span>
+            </div>
+
+            {board.items.length ? (
+              <LeaderRows scale={scale} label={active.label} items={board.items} />
+            ) : (
+              <p className="px-4 pb-6 text-ui text-primary-400">
+                Nothing here yet. The daily count has not run since this list was added.
+              </p>
+            )}
+          </div>
         </section>
       </Container>
     </main>

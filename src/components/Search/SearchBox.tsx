@@ -11,32 +11,23 @@ import { formatNumber } from '@/utils/format';
 
 export type Scope = 'channel' | 'user';
 
-const SCOPES = [
-  { key: 'channel', label: 'Channel', corner: 'corner-tl', tone: 'text-mod' },
-  { key: 'user', label: 'Account', corner: 'corner-br', tone: 'text-vip' }
-] as const;
-
 interface SearchBoxProps {
   scope: Scope;
-  onScope?: (scope: Scope) => void;
   size?: 'nav' | 'hero';
   className?: string;
   placeholder?: string;
   label?: string;
   inputRef?: RefObject<HTMLInputElement | null>;
-  scopeClassName?: string;
   children?: ReactNode;
 }
 
 export const SearchBox: FC<SearchBoxProps> = ({
   scope,
-  onScope,
   size = 'nav',
   className,
   placeholder,
   label,
   inputRef,
-  scopeClassName,
   children
 }) => {
   const router = useRouter();
@@ -120,31 +111,6 @@ export const SearchBox: FC<SearchBoxProps> = ({
 
         {children}
       </span>
-
-      {onScope && (
-        <span className={clsx('scope', scopeClassName)} role="group" aria-label="What to look up">
-          {SCOPES.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              aria-label={option.label}
-              title={option.label}
-              aria-pressed={scope === option.key}
-              onClick={() => onScope(option.key)}
-            >
-              <span
-                aria-hidden="true"
-                className={clsx(
-                  'corner',
-                  option.corner,
-                  scope === option.key ? option.tone : 'text-primary-600'
-                )}
-              />
-              {option.label}
-            </button>
-          ))}
-        </span>
-      )}
 
       {open && (
         <ul

@@ -142,11 +142,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
               key={one.id}
               type="button"
               onClick={() => pick(one.name)}
-              className={`flex items-center gap-2 h-10 px-3 rounded-md border transition-colors ${
-                active
-                  ? 'border-primary-300 bg-primary-800'
-                  : 'border-primary-700 hover:border-primary-600'
-              }`}
+              className={`option${active ? ' is-active' : ''}`}
             >
               <Image
                 src={one.svg}

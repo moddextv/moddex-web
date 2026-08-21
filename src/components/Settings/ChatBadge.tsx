@@ -45,15 +45,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
             const active = badge.name === selected;
 
             return (
-              <label
-                key={badge.name}
-                className={clsx(
-                  'flex items-center gap-3 h-12 px-4 rounded-md border cursor-pointer transition-colors',
-                  active
-                    ? 'border-primary-300 bg-primary-800'
-                    : 'border-primary-700 hover:border-primary-600'
-                )}
-              >
+              <label key={badge.name} className={clsx('option', active && 'is-active')}>
                 <input
                   type="radio"
                   name="chat-badge"

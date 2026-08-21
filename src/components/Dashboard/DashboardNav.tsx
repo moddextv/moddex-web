@@ -27,12 +27,7 @@ export const DashboardNav: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
             key={tab.href}
             href={tab.href}
             aria-current={active ? 'page' : undefined}
-            className={clsx(
-              'text-ui h-9 px-3 inline-flex items-center rounded-md border transition-colors',
-              active
-                ? 'border-primary-300 bg-primary-800 font-bold'
-                : 'border-primary-700 text-primary-300 hover:border-primary-600'
-            )}
+            className={clsx('option', active && 'is-active')}
           >
             {tab.label}
           </Link>

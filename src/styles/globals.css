@@ -268,75 +268,16 @@
 		color: var(--text-dim);
 	}
 
-	.scope {
-		display: flex;
-		align-items: center;
-		gap: 2px;
-		padding: 3px;
-		background: var(--base);
-		border-radius: var(--radius-sm);
-		flex-shrink: 0;
-	}
-
-	.scope button {
-		display: flex;
-		align-items: center;
-		gap: 7px;
-		height: 28px;
-		padding: 0 11px;
-		min-width: 28px;
-		justify-content: center;
-		background: transparent;
-		border: 0;
-		border-radius: var(--radius-xs);
-		color: var(--text-alt);
-		font-size: 0.8125rem;
-		font-weight: 600;
-		cursor: pointer;
-		white-space: nowrap;
-		transition:
-			color var(--duration) var(--ease),
-			background-color var(--duration) var(--ease);
-	}
-
-	.scope button:hover {
-		color: var(--text);
-	}
-
-	.scope button[aria-pressed='true'] {
-		background: var(--line);
-		color: var(--text);
-	}
-
 	.search-hero {
 		height: 64px;
 		padding: 0 8px 0 20px;
 		border-radius: var(--radius-lg);
 	}
 
-	.search-hero .scope button {
-		height: 40px;
-		padding: 0 15px;
-		font-size: 0.875rem;
-	}
-
-	/* the scope toggle and a usable field do not both fit on a phone, so the
-	   toggle takes its own row rather than squeezing the input to nothing */
 	@media (max-width: 640px) {
 		.search-hero {
-			height: auto;
-			flex-direction: column;
-			align-items: stretch;
-			gap: 10px;
-			padding: 12px;
-		}
-
-		.search-hero .scope {
-			width: 100%;
-		}
-
-		.search-hero .scope button {
-			flex: 1;
+			height: 56px;
+			padding: 0 8px 0 16px;
 		}
 	}
 
@@ -382,24 +323,23 @@
 
 	/* chips, not a second tab strip: the direction tabs sit directly above and
 	   two underlined rows read as one control that lost its mind */
+	/* wrapping, not scrolling: the three chips are 445px and a phone offers ~350,
+	   so a hidden scrollbar simply lost the founder tab */
 	.role-tabs {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
 		gap: 8px;
 		margin: 20px 0 16px;
-		overflow-x: auto;
-		scrollbar-width: none;
 	}
 
-	.role-tabs::-webkit-scrollbar {
-		display: none;
-	}
-
-	.role-tab {
+	/* one picker in two sizes: .role-tab holds a label and a count, .option holds
+	   whatever a row of choices needs. three components hand-rolled this before */
+	.role-tab,
+	.option {
 		display: inline-flex;
 		align-items: center;
 		gap: 9px;
-		height: 36px;
 		padding: 0 14px;
 		background: transparent;
 		border: 1px solid var(--line);
@@ -415,12 +355,33 @@
 			border-color var(--duration) var(--ease);
 	}
 
-	.role-tab:hover {
+	.role-tab {
+		height: 36px;
+	}
+
+	.option {
+		gap: 10px;
+		min-height: 44px;
+	}
+
+	/* a thumb needs more than the 30-36px these sit at on a desktop, and they all
+	   need the SAME more, or the row reads as three different kinds of control */
+	@media (max-width: 640px) {
+		.role-tab,
+		.chip,
+		.search-inline {
+			height: 40px;
+		}
+	}
+
+	.role-tab:hover,
+	.option:hover {
 		color: var(--text);
 		border-color: var(--line-strong);
 	}
 
-	.role-tab.is-active {
+	.role-tab.is-active,
+	.option.is-active {
 		background: var(--line);
 		border-color: var(--line);
 		color: var(--text);
@@ -431,15 +392,10 @@
 			gap: 12px;
 		}
 
-		/* the hero form stacks and sizes itself, and this rule is later in the
-		   file than the one that says so */
+		/* the hero form sizes itself, and this rule is later in the file than the
+		   one that says so */
 		.search:not(.search-hero) {
 			height: 44px;
-		}
-
-		.search:not(.search-hero) .scope button {
-			height: 34px;
-			min-width: 40px;
 		}
 	}
 
@@ -1085,7 +1041,9 @@
 	}
 
 	.search,
-	.scope button,
+	.role-tab,
+	.option,
+	.nav-link,
 	.tab,
 	.chip,
 	.toggle,
