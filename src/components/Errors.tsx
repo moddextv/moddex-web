@@ -1,6 +1,7 @@
 'use client';
 
 import { Facts, Good, ReloadButton, StatePage, Status } from '@/components/PageState';
+import { PageSearch } from '@/components/Search/PageSearch';
 import { config } from '@/config';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
@@ -11,12 +12,14 @@ export const NotFoundUser: FC<{ username: string }> = ({ username }) => (
       There&apos;s no Twitch account called{' '}
       <span className="text-primary-400 break-all">{username}</span>
     </h1>
-    <p className="text-lead text-primary-300 max-w-prose mb-8">
+    <p className="text-lead text-primary-300 max-w-prose mb-6">
       We asked Twitch and it has no account by that name, so there was nothing to index. People
-      rename themselves a lot. Check the spelling and try again in the bar above.
+      rename themselves a lot, so check the spelling and try again.
     </p>
 
-    <div className="flex flex-wrap gap-3">
+    <PageSearch scope="channel" />
+
+    <div className="flex flex-wrap gap-3 mt-8">
       <Link href="/channel" className="btn">
         Channels
       </Link>
@@ -36,12 +39,14 @@ export const InvalidUsername: FC<{ username: string }> = ({ username }) => (
     <h1 className="text-h1 mb-4">
       <span className="text-primary-400 break-all">{username}</span> can&apos;t be a Twitch name
     </h1>
-    <p className="text-lead text-primary-300 max-w-prose mb-8">
+    <p className="text-lead text-primary-300 max-w-prose mb-6">
       Twitch names run 1 to 25 characters and allow only letters, numbers and underscores. That one
       can&apos;t exist, so we never asked Twitch about it.
     </p>
 
-    <div className="flex flex-wrap gap-3">
+    <PageSearch scope="channel" />
+
+    <div className="flex flex-wrap gap-3 mt-8">
       <Link href="/channel" className="btn">
         Channels
       </Link>

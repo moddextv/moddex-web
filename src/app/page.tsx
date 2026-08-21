@@ -100,7 +100,7 @@ export default async function Home() {
     <main id="main" className="flex-grow">
       <JsonLd data={siteGraph()} />
       <Container>
-        <section className="enter pt-14 pb-10">
+        <section className="enter search-host pt-14 pb-10">
           <p className="flex items-center gap-3 text-ui text-primary-400 mb-5">
             <Mark size={18} split />
             <span>
@@ -207,7 +207,7 @@ export default async function Home() {
             )}
 
             {holders.items.length > 0 && (
-              <Live title="Holding the most roles" href="/user" link="All accounts">
+              <Live title="Holding the most roles" href="/leaderboard" link="Leaderboard">
                 <BrowseRows kind="account" items={holders.items} />
               </Live>
             )}

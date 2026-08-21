@@ -107,6 +107,15 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
           <DropdownItem key="accounts" textValue="browse accounts" href="/user" {...here('/user')}>
             browse accounts
           </DropdownItem>
+
+          <DropdownItem
+            key="leaderboard"
+            textValue="leaderboard"
+            href="/leaderboard"
+            {...here('/leaderboard')}
+          >
+            leaderboard
+          </DropdownItem>
         </DropdownSection>
 
         <DropdownSection showDivider>

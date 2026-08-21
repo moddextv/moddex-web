@@ -4,6 +4,7 @@ import { Container } from '@/components/UI/Container';
 import { config } from '@/config';
 import { fetchAccounts } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
+import { PageSearch } from '@/components/Search/PageSearch';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
@@ -26,7 +27,7 @@ export default async function UserPage() {
   return (
     <main id="main" className="flex-grow">
       <Container>
-        <header className="enter pt-12 pb-8">
+        <header className="enter search-host pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-br text-vip" aria-hidden="true" />
             <h1 className="text-h1">Accounts</h1>
@@ -35,6 +36,8 @@ export default async function UserPage() {
             Every indexed channel where an account holds mod or vip, and the day each role was
             granted. That&apos;s the direction Twitch won&apos;t show you.
           </p>
+
+          <PageSearch scope="user" />
         </header>
 
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>

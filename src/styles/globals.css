@@ -201,6 +201,39 @@
 		height: 100%;
 	}
 
+	/* .enter animates opacity, so every section is its own stacking context and a
+	   later one paints over the suggestion list whatever z-index it carries */
+	.search-host {
+		position: relative;
+		z-index: 20;
+	}
+
+	.nav-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		height: 36px;
+		padding: 0 12px;
+		border-radius: var(--radius-md);
+		color: var(--text-alt);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		white-space: nowrap;
+		transition:
+			color var(--duration) var(--ease),
+			background-color var(--duration) var(--ease);
+	}
+
+	.nav-link:hover {
+		color: var(--text);
+		background: var(--raised);
+	}
+
+	.nav-link.is-active {
+		color: var(--text);
+		background: var(--line);
+	}
+
 	.search {
 		position: relative;
 		display: flex;

@@ -18,9 +18,11 @@ const SCOPES = [
 
 interface SearchBoxProps {
   scope: Scope;
-  onScope: (scope: Scope) => void;
+  onScope?: (scope: Scope) => void;
   size?: 'nav' | 'hero';
   className?: string;
+  placeholder?: string;
+  label?: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   scopeClassName?: string;
   children?: ReactNode;
@@ -31,6 +33,8 @@ export const SearchBox: FC<SearchBoxProps> = ({
   onScope,
   size = 'nav',
   className,
+  placeholder,
+  label,
   inputRef,
   scopeClassName,
   children
@@ -97,8 +101,8 @@ export const SearchBox: FC<SearchBoxProps> = ({
           type="text"
           name="username"
           className={clsx('flex-1 min-w-0 font-mono', hero ? 'text-lead' : 'text-base')}
-          placeholder={scope === 'user' ? 'nymn' : 'forsen'}
-          aria-label={`Look up a Twitch ${scope === 'user' ? 'account' : 'channel'}`}
+          placeholder={placeholder ?? (scope === 'user' ? 'nymn' : 'forsen')}
+          aria-label={label ?? `Look up a Twitch ${scope === 'user' ? 'account' : 'channel'}`}
           maxLength={25}
           autoComplete="off"
           role="combobox"
@@ -117,28 +121,30 @@ export const SearchBox: FC<SearchBoxProps> = ({
         {children}
       </span>
 
-      <span className={clsx('scope', scopeClassName)} role="group" aria-label="What to look up">
-        {SCOPES.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            aria-label={option.label}
-            title={option.label}
-            aria-pressed={scope === option.key}
-            onClick={() => onScope(option.key)}
-          >
-            <span
-              aria-hidden="true"
-              className={clsx(
-                'corner',
-                option.corner,
-                scope === option.key ? option.tone : 'text-primary-600'
-              )}
-            />
-            {option.label}
-          </button>
-        ))}
-      </span>
+      {onScope && (
+        <span className={clsx('scope', scopeClassName)} role="group" aria-label="What to look up">
+          {SCOPES.map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              aria-label={option.label}
+              title={option.label}
+              aria-pressed={scope === option.key}
+              onClick={() => onScope(option.key)}
+            >
+              <span
+                aria-hidden="true"
+                className={clsx(
+                  'corner',
+                  option.corner,
+                  scope === option.key ? option.tone : 'text-primary-600'
+                )}
+              />
+              {option.label}
+            </button>
+          ))}
+        </span>
+      )}
 
       {open && (
         <ul
