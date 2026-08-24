@@ -36,7 +36,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   return (
     <main id="main" className="flex-grow">
       <Container>
-        <header className="enter pt-12 pb-6">
+        <header className="enter pt-8 pb-4 sm:pt-12 sm:pb-6">
           <h1 className="text-h1">Dashboard</h1>
         </header>
 

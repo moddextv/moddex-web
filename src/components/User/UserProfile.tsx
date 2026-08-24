@@ -70,6 +70,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
   const login = currentUser?.login ?? user.login;
   const name = currentUser?.name ?? login;
   const id = currentUser?.id ?? user.id;
+  const bio = displayBio(currentUser?.bio);
 
   if (loading) {
     return (
@@ -82,62 +83,56 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
   return (
     <section className="enter pt-10">
-      <div className="flex flex-wrap items-start gap-4 sm:gap-6">
+      <div className={clsx('profile-head', bio && 'has-bio')}>
         <Avatar
           src={currentUser?.avatar}
           name={currentUser?.name || currentUser?.login || ''}
           size={88}
-          className="w-16 h-16 sm:w-[88px] sm:h-[88px]"
+          className="profile-avatar w-16 h-16 sm:w-[88px] sm:h-[88px]"
         />
 
-        <div className="min-w-0 flex-1">
-          <div className="mb-3">
-            <div className="flex items-center gap-3 flex-wrap min-w-0">
-              <h1 className="text-h1 min-w-0 break-words">{name}</h1>
-              <Badges badges={currentUser?.badges || []} />
-            </div>
-            <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">
-              <span className="text-base font-mono text-primary-300 min-w-0 break-all">
-                @{login}
-              </span>
-              <span className="text-base text-primary-400 tabular">#{id}</span>
-            </p>
+        <div className="profile-identity min-w-0">
+          <div className="flex items-center gap-3 flex-wrap min-w-0">
+            <h1 className="text-h1 min-w-0 break-words">{name}</h1>
+            <Badges badges={currentUser?.badges || []} />
           </div>
-
-          {displayBio(currentUser?.bio) && (
-            <p className="text-read text-primary-300 max-w-prose mb-4 break-words">
-              {displayBio(currentUser?.bio)}
-            </p>
-          )}
-
-          <div className="flex flex-wrap items-center gap-x-7 gap-y-2 text-ui text-primary-400">
-            {currentUser?.followers !== null && (
-              <span>
-                <span className="tabular text-primary-100 font-bold">
-                  {formatNumber(currentUser?.followers || 0)}
-                </span>{' '}
-                {plural(currentUser?.followers || 0, 'follower')}
-              </span>
-            )}
-
-            {currentUser?.createdAt && (
-              <span>
-                joined{' '}
-                <span className="tabular text-primary-200">
-                  {formatMonthYearLong(currentUser.createdAt)}
-                </span>
-              </span>
-            )}
-
-            {lastRead && (
-              <span>
-                roles read <span className="text-primary-200">{lastRead}</span>
-              </span>
-            )}
-          </div>
+          <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">
+            <span className="text-base font-mono text-primary-300 min-w-0 break-all">@{login}</span>
+            <span className="text-base text-primary-400 tabular">#{id}</span>
+          </p>
         </div>
 
-        <div className="w-full flex items-center gap-2 flex-wrap sm:w-auto sm:shrink-0">
+        {bio && (
+          <p className="profile-bio text-read text-primary-300 max-w-prose break-words">{bio}</p>
+        )}
+
+        <div className="profile-facts flex flex-wrap items-center gap-x-7 gap-y-2 text-ui text-primary-400">
+          {currentUser?.followers !== null && (
+            <span>
+              <span className="tabular text-primary-100 font-bold">
+                {formatNumber(currentUser?.followers || 0)}
+              </span>{' '}
+              {plural(currentUser?.followers || 0, 'follower')}
+            </span>
+          )}
+
+          {currentUser?.createdAt && (
+            <span>
+              joined{' '}
+              <span className="tabular text-primary-200">
+                {formatMonthYearLong(currentUser.createdAt)}
+              </span>
+            </span>
+          )}
+
+          {lastRead && (
+            <span>
+              roles read <span className="text-primary-200">{lastRead}</span>
+            </span>
+          )}
+        </div>
+
+        <div className="profile-actions flex items-center gap-2 flex-wrap">
           <a
             href={`https://twitch.tv/${login}`}
             target="_blank"
