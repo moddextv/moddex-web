@@ -11,7 +11,6 @@ import { SignOutButton } from '@/components/Settings/SignOutButton';
 import { getAvailableUserChatBadges, getSelectedUserChatBadge } from '@/utils/badges';
 import { getChannelConnection } from '@/utils/api/moddex';
 import { getUserById, getUserIgnoreState } from '@/utils/user';
-import { User } from '@/misc/account';
 import { UserChatBadges } from '@/misc/badges';
 import { config } from '@/config';
 import Link from 'next/link';

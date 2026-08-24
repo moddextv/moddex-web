@@ -3,12 +3,10 @@
 import {
   getConnections,
   getDonationLedger,
-  getMembership,
   getEventsubHealth,
   getJobHealth,
   type ChannelConnections,
   type EventsubHealth,
-  type Membership,
   type JobHealth,
   type Ledger
 } from '@/utils/api/moddex';

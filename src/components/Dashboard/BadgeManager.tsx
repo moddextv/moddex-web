@@ -16,7 +16,6 @@ import {
 import { useAction } from '@/hooks/useAction';
 import { formatDayMonthYear } from '@/utils/format';
 import type { Badge } from '@/misc/badges';
-import type { User } from '@/misc/account';
 import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
 import { SOURCES, kindOf } from './badgeRouting';
 

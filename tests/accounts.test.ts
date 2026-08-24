@@ -13,8 +13,6 @@ const row = (over: Partial<Row> & { userId: string }): Row => ({
 });
 
 const NIGHTBOT = row({ userId: '19264788', login: 'nightbot', name: 'Nightbot' });
-const APUJAR = row({ userId: '896181679', login: 'apujar', name: 'ApuJar' });
-const MAERSUX = row({ userId: '217986157', login: 'maersux', name: 'maersux', owner: true });
 
 describe('matches', () => {
   it('searches login, display name and id', () => {

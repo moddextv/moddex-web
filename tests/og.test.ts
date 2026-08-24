@@ -13,7 +13,7 @@ const hexOf = (token: string): string => {
 
   if (!match) throw new Error(`globals.css carries no --${token}`);
 
-  return `#${match[1]
+  return `#${String(match[1])
     .split(' ')
     .map((channel) => Number(channel).toString(16).padStart(2, '0'))
     .join('')

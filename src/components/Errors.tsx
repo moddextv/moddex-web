@@ -4,7 +4,7 @@ import { Facts, Good, ReloadButton, StatePage, Status } from '@/components/PageS
 import { PageSearch } from '@/components/Search/PageSearch';
 import { config } from '@/config';
 import Link from 'next/link';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 export const NotFoundUser: FC<{ username: string }> = ({ username }) => (
   <StatePage>

@@ -60,7 +60,7 @@ describe('what the action will ask the api for', () => {
 
     const [first] = await fetchSuggestions('night');
 
-    expect(Object.keys(first).sort()).toEqual(['avatar', 'followers', 'id', 'login', 'name']);
+    expect(Object.keys(first ?? {}).sort()).toEqual(['avatar', 'followers', 'id', 'login', 'name']);
   });
 });
 
