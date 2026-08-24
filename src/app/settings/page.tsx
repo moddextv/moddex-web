@@ -57,7 +57,7 @@ const DISCORD_MESSAGES: Record<string, string> = {
 };
 
 const Fact: FC<{ label: string; children: ReactNode }> = ({ label, children }) => (
-  <div className="row" style={{ gridTemplateColumns: 'minmax(0, 1fr) auto' }}>
+  <div className="row cols-fact">
     <span className="text-base text-primary-300">{label}</span>
     {children}
   </div>

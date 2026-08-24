@@ -29,10 +29,10 @@ export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) =>
   }
 
   return (
-    <span className="flex items-center gap-3 flex-wrap justify-end">
-      <span className="flex items-center gap-2">
+    <span className="flex items-center gap-3 flex-wrap sm:justify-end">
+      <span className="flex items-center gap-2 min-w-0">
         <DiscordIcon size={16} />
-        <span className="text-base tabular">{discordId}</span>
+        <span className="text-base tabular break-all">{discordId}</span>
       </span>
 
       <button

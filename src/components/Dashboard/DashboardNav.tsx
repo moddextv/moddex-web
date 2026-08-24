@@ -18,7 +18,7 @@ export const DashboardNav: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const tabs = TABS.filter((tab) => isAdmin || !tab.adminOnly);
 
   return (
-    <nav aria-label="Dashboard sections" className="enter flex flex-wrap gap-2 pb-6">
+    <nav aria-label="Dashboard sections" className="enter flex flex-wrap gap-2 pb-4 sm:pb-6">
       {tabs.map((tab) => {
         const active = path === tab.href;
 

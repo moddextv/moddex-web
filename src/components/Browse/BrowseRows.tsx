@@ -20,7 +20,7 @@ const Count: FC<{ value: number; tone: string }> = ({ value, tone }) => (
 );
 
 export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kind, items }) => {
-  const cols = kind === 'channel' ? 'cols-channels' : 'cols-people';
+  const cols = kind === 'channel' ? 'cols-channels' : 'cols-holders';
   const [first, second, third, fourth] = HEADS[kind];
 
   return (
