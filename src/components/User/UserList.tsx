@@ -106,6 +106,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
     visibleUsers,
     searching,
     filtered,
+    canClear,
     clear,
     chooseColumn
   } = useUserListView(users, paged, type, setServerSort, setServerSearch);
@@ -239,7 +240,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             </Dropdown>
           )}
 
-          {filtered && (
+          {canClear && (
             <button type="button" className="chip" onClick={clear}>
               Clear
             </button>

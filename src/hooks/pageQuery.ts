@@ -27,3 +27,8 @@ export const withServerSearch = (previous: Query, term: string): Query => {
 
   return previous.search === next ? previous : { ...previous, search: next };
 };
+
+// hasMore answers "is there another page of THIS reply", paged answers "is this
+// list server-paged" — only an unfiltered reply may answer the second
+export const stillPaged = (previous: boolean, query: Query, hasMore: boolean): boolean =>
+  query.search ? previous : hasMore;

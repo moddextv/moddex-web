@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchUserListPage } from '@/actions/roleList';
 import {
+  stillPaged,
   takeOnce,
   withServerSearch,
   withServerSort,
@@ -63,7 +64,7 @@ export const useUserListData = (
 
         setUsers(page.items);
         setHasMore(page.hasMore);
-        setPaged(page.hasMore);
+        setPaged((previous) => stillPaged(previous, query, page.hasMore));
         setTotal(page.total);
         cursor.current = page.cursor;
       } catch {
