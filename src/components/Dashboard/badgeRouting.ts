@@ -1,6 +1,6 @@
 import type { Badge } from '@/misc/badges';
 
-export type Kind = 'admins' | 'bots' | 'badge' | 'twitch';
+type Kind = 'admins' | 'bots' | 'badge' | 'twitch';
 
 // twitch decides these three, so they are state rather than a switch
 const KINDS: Record<string, Kind> = {

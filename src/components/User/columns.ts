@@ -24,7 +24,7 @@ export const COLUMNS = {
 export type ColumnKey = keyof typeof COLUMNS;
 export type Direction = 'asc' | 'desc';
 
-export const BOT_MODES = ['all', 'hide', 'only'] as const;
+const BOT_MODES = ['all', 'hide', 'only'] as const;
 export type BotMode = (typeof BOT_MODES)[number];
 
 export const BOT_MODES_LABEL: Record<BotMode, string> = {

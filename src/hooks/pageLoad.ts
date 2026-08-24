@@ -9,7 +9,7 @@
 //
 // They differ exactly when the query moves while a page is in flight.
 
-export interface PageLoad {
+interface PageLoad {
   generation: number;
   ticket: number;
 }

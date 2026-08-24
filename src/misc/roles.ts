@@ -66,7 +66,7 @@ export const roleTextClass: Record<RoleKey, string> = {
 
 export type UserType = 'channel' | 'user';
 
-export type UserRoleType = 'modding' | 'viping' | 'founding';
-export type ChannelRoleType = 'mods' | 'vips' | 'founders';
+type UserRoleType = 'modding' | 'viping' | 'founding';
+type ChannelRoleType = 'mods' | 'vips' | 'founders';
 
 export type RoleType = UserRoleType | ChannelRoleType;

@@ -10,5 +10,5 @@ const COPY: Record<Scope, { placeholder: string; label: string }> = {
 };
 
 export const PageSearch: FC<{ scope: Scope }> = ({ scope }) => (
-  <SearchBox scope={scope} size="hero" className="mt-6 max-w-xl" {...COPY[scope]} />
+  <SearchBox scope={scope} className="mt-6 max-w-xl" {...COPY[scope]} />
 );

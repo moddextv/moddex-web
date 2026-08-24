@@ -10,7 +10,7 @@ interface Options<T> {
   onFailure?: (error: string, code?: string) => void;
 }
 
-export interface ActionHandle<A extends unknown[], T> extends ClearableAction {
+interface ActionHandle<A extends unknown[], T> extends ClearableAction {
   run: (...args: A) => Promise<ActionResult<T> | null>;
 }
 

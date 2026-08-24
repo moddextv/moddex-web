@@ -247,11 +247,11 @@
 		align-items: center;
 		gap: 10px;
 		min-width: 0;
-		height: 40px;
-		padding: 0 6px 0 14px;
+		height: 64px;
+		padding: 0 8px 0 20px;
 		background: var(--raised);
 		border: 1px solid var(--line);
-		border-radius: var(--radius-md);
+		border-radius: var(--radius-lg);
 		transition:
 			border-color var(--duration) var(--ease),
 			background-color var(--duration) var(--ease);
@@ -275,14 +275,8 @@
 		color: var(--text-dim);
 	}
 
-	.search-hero {
-		height: 64px;
-		padding: 0 8px 0 20px;
-		border-radius: var(--radius-lg);
-	}
-
 	@media (max-width: 640px) {
-		.search-hero {
+		.search {
 			height: 56px;
 			padding: 0 8px 0 16px;
 		}
@@ -397,12 +391,6 @@
 	@media (max-width: 640px) {
 		.nav-inner {
 			gap: 12px;
-		}
-
-		/* the hero form sizes itself, and this rule is later in the file than the
-		   one that says so */
-		.search:not(.search-hero) {
-			height: 44px;
 		}
 	}
 
@@ -843,9 +831,6 @@
 	}
 	.tab-vip[aria-current='page'] {
 		border-bottom-color: var(--vip);
-	}
-	.tab-founder[aria-current='page'] {
-		border-bottom-color: var(--founder);
 	}
 
 	.btn {

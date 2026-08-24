@@ -12,7 +12,6 @@ export const HeroSearch: FC = () => (
         one is the small list — /user/nightbot is 590k rows to land on by typo */}
     <SearchBox
       scope="channel"
-      size="hero"
       placeholder="search a channel or account"
       label="Look up a Twitch channel or account"
     />

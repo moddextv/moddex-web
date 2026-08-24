@@ -47,10 +47,7 @@ export async function disconnect(network: Network): Promise<ActionResult> {
   });
 }
 
-// Deliberately NOT `disconnect('channel')`. A channel connection is a
-// broadcaster's authorisation grant in `channel_connections`, with revoked_at
-// semantics and eventsub subscriptions behind it — a different thing that only
-// looks like the one above.
+// not disconnect('channel') — a grant with revoked_at and subscriptions behind it
 export async function disconnectChannel(): Promise<ActionResult> {
   return attempt('disconnectChannel', async () => {
     const userId = await requireUserId();

@@ -176,11 +176,11 @@ export const getRolePage = (params: RoleQuery & { limit: number }): Promise<Role
     expect: rolePageShape
   });
 
-export type RoleAxis = { channel_id: string } | { user_id: string };
+type RoleAxis = { channel_id: string } | { user_id: string };
 
-export type UserQuery = { id: string } | { login: string };
+type UserQuery = { id: string } | { login: string };
 
-export type BrowseQuery = {
+type BrowseQuery = {
   sort: string;
   limit: number;
   offset: number;
@@ -191,7 +191,7 @@ const asParams = (params: object): Record<string, string | undefined> =>
     Object.entries(params).map(([key, value]) => [key, value == null ? undefined : String(value)])
   );
 
-export type RoleQuery = RoleAxis & {
+type RoleQuery = RoleAxis & {
   role: Role;
   limit?: number;
   cursor?: string | null;
@@ -400,7 +400,7 @@ export interface BotEntry {
 export const getBots = (actor: string) =>
   call<BotEntry[]>('/v1/admin/bots', { authenticated: true, actor });
 
-export interface JobStatus {
+interface JobStatus {
   lastAt: string | null;
   dueSince: string;
   overdue: boolean;
@@ -497,7 +497,7 @@ export const getDonationLedger = (
     actor
   });
 
-export interface ChannelConnection {
+interface ChannelConnection {
   id: string;
   login: string | null;
   name: string | null;

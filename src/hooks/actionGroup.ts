@@ -1,4 +1,4 @@
-export interface ActionState {
+interface ActionState {
   pending: boolean;
   error: string | null;
   code: string | null;
@@ -8,7 +8,7 @@ export interface ClearableAction extends ActionState {
   clearError: () => void;
 }
 
-export interface GroupedAction extends ActionState {
+interface GroupedAction extends ActionState {
   clearError: () => void;
 }
 

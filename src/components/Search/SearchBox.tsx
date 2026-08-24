@@ -13,7 +13,6 @@ export type Scope = 'channel' | 'user';
 
 interface SearchBoxProps {
   scope: Scope;
-  size?: 'nav' | 'hero';
   className?: string;
   placeholder?: string;
   label?: string;
@@ -23,7 +22,6 @@ interface SearchBoxProps {
 
 export const SearchBox: FC<SearchBoxProps> = ({
   scope,
-  size = 'nav',
   className,
   placeholder,
   label,
@@ -69,29 +67,17 @@ export const SearchBox: FC<SearchBoxProps> = ({
   };
 
   const open = picking && !short && (loading || items.length > 0);
-  const hero = size === 'hero';
 
   return (
-    <form
-      className={clsx('search', hero && 'search-hero', className)}
-      onSubmit={submit}
-      onKeyDown={onKey}
-      role="search"
-    >
+    <form className={clsx('search', className)} onSubmit={submit} onKeyDown={onKey} role="search">
       <span className="flex items-center gap-2.5 min-w-0 flex-1">
-        {hero && <SearchIcon size={18} color="text-primary-400" />}
-
-        {!hero && (
-          <span className="text-meta text-primary-400 shrink-0 hidden lg:inline font-mono">
-            twitch.tv/
-          </span>
-        )}
+        <SearchIcon size={18} color="text-primary-400" />
 
         <input
           ref={inputRef}
           type="text"
           name="username"
-          className={clsx('flex-1 min-w-0 font-mono', hero ? 'text-lead' : 'text-base')}
+          className="flex-1 min-w-0 font-mono text-lead"
           placeholder={placeholder ?? (scope === 'user' ? 'nymn' : 'forsen')}
           aria-label={label ?? `Look up a Twitch ${scope === 'user' ? 'account' : 'channel'}`}
           maxLength={25}
