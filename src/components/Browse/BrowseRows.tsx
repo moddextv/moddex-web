@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 import clsx from 'clsx';
 
-export type BrowseKind = 'channel' | 'account';
+type BrowseKind = 'channel' | 'account';
 
 const HEADS: Record<BrowseKind, [string, string, string, string?]> = {
   channel: ['Channel', 'Mods', 'VIPs', 'Read'],

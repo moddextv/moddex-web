@@ -5,7 +5,7 @@ import type { ConnectFlow } from '@/utils/api/connectFlow';
 export const callbackUrl = (baseUrl: string, flow: ConnectFlow): string =>
   `${baseUrl.replace(/\/$/, '')}/api/connect/${flow}/callback`;
 
-export interface TokenGrant {
+interface TokenGrant {
   accessToken: string;
   scopes: string[];
 }

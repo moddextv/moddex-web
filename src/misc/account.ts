@@ -2,7 +2,7 @@ import type { Badge, ChatBadge } from '@/misc/badges';
 import type { RoleType, UserType } from '@/misc/roles';
 import type { RolePage } from '@/misc/roleList';
 
-export interface Banned {
+interface Banned {
   reason: string;
 }
 
@@ -19,12 +19,6 @@ export interface Account {
 
 export interface RoleUser extends Account {
   grantedAt: string | null;
-}
-
-export interface RoleScale {
-  count: number;
-  rank: number | null;
-  of: number | null;
 }
 
 export interface User extends Account {

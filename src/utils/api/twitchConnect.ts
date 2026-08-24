@@ -15,7 +15,7 @@ const PURPOSE = purposeOf('channel');
 
 export const SCOPES = ['moderation:read', 'channel:read:vips'] as const;
 
-export const OPTIONAL_SCOPES = ['user:read:moderated_channels'] as const;
+const OPTIONAL_SCOPES = ['user:read:moderated_channels'] as const;
 
 const clientId = () => process.env.AUTH_TWITCH_ID ?? '';
 const clientSecret = () => process.env.AUTH_TWITCH_SECRET ?? '';
@@ -42,7 +42,7 @@ export const authorizeUrl = (state: string): string => {
   return `${AUTHORIZE}?${params.toString()}`;
 };
 
-export interface ConnectResult {
+interface ConnectResult {
   userId: string;
   scopes: string[];
   moderated: { channels: { id: string; login: string }[]; complete: boolean } | null;

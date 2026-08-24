@@ -19,7 +19,7 @@ export const duration = (value: number): string =>
   value >= 60 ? `${Math.floor(value / 60)}m ${value % 60}s` : `${value}s`;
 
 // late once a quarter of its own interval has passed on top of it
-export const staleAfter = (at: string, everySeconds: number, now: number = Date.now()): boolean =>
+const staleAfter = (at: string, everySeconds: number, now: number = Date.now()): boolean =>
   now - new Date(at).getTime() > everySeconds * 1250;
 
 export const backupLate = staleAfter;

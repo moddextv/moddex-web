@@ -1,6 +1,6 @@
 import type { Account } from '@/misc/account';
 
-export interface BrowseCounts {
+interface BrowseCounts {
   mod: number;
   vip: number;
   total: number;

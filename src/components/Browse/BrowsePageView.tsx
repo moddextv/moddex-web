@@ -24,7 +24,7 @@ const COPY: Record<BrowseAxis, { heading: string; corner: string; lead: string; 
   }
 };
 
-export const browseTotal = async (axis: BrowseAxis): Promise<number> => {
+const browseTotal = async (axis: BrowseAxis): Promise<number> => {
   const stats = await getFormattedStats();
 
   return axis === 'channel' ? stats.channels.raw : stats.users.raw;

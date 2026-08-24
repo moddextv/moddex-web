@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { RoleKey, roleCornerClass, roleTextClass } from '@/misc/roles';
 import { formatNumber } from '@/utils/format';
 
-export interface RoleTab {
+interface RoleTab {
   key: RoleKey;
   label: string;
   count: number | null;
