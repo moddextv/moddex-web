@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   MIN_SEARCH_LENGTH,
   Query,
+  stillPaged,
   takeOnce,
   withServerSearch,
   withServerSort
@@ -109,5 +110,21 @@ describe('withServerSearch', () => {
     const previous = query({ sort: 'followers', dir: 'asc' });
 
     expect(withServerSearch(previous, 'thi')).toMatchObject({ sort: 'followers', dir: 'asc' });
+  });
+});
+
+describe('stillPaged', () => {
+  // nightbot: 839,706 rows, and "maers" matches two of them
+  it('keeps a searched list paged even when the reply fits one page', () => {
+    expect(stillPaged(true, query({ search: 'maers' }), false)).toBe(true);
+  });
+
+  it('lets an unfiltered reply decide', () => {
+    expect(stillPaged(true, query(), false)).toBe(false);
+    expect(stillPaged(false, query(), true)).toBe(true);
+  });
+
+  it('does not make a short list paged because a search matched nothing', () => {
+    expect(stillPaged(false, query({ search: 'maers' }), false)).toBe(false);
   });
 });

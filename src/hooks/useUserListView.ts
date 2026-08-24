@@ -41,6 +41,10 @@ export const useUserListView = (
   const searching = query.trim().length > 0;
   const filtered = !paged && (searching || botMode !== 'all');
 
+  // filtered asks whether THIS component is hiding rows, canClear whether the
+  // person has anything to undo — a paged list is filtered by the server
+  const canClear = searching || botMode !== 'all';
+
   useEffect(() => {
     if (!paged) return;
 
@@ -83,6 +87,7 @@ export const useUserListView = (
     visibleUsers,
     searching,
     filtered,
+    canClear,
     clear,
     chooseColumn
   };
