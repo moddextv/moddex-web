@@ -1,15 +1,14 @@
 'use server';
 
+import { getEventsubHealth, type EventsubHealth } from '@/utils/api/moddex/public';
 import {
   getConnections,
   getDonationLedger,
-  getEventsubHealth,
   getJobHealth,
   type ChannelConnections,
-  type EventsubHealth,
   type JobHealth,
   type Ledger
-} from '@/utils/api/moddex';
+} from '@/utils/api/moddex/admin';
 import { requirePermission } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
 import type { ActionResult } from '@/actions/result';

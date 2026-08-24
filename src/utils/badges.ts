@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { ChatBadge } from '@/misc/badges';
-import { getUserChatBadges } from '@/utils/api/moddex';
+import { getUserChatBadges } from '@/utils/api/moddex/me';
 
 const perRequest = new Map<string, Promise<{ available: ChatBadge[]; selected: string | null }>>();
 

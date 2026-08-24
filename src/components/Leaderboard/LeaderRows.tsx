@@ -1,6 +1,6 @@
 import { Avatar } from '@/components/UI/Avatar';
 import { Badges } from '@/components/User/Badges';
-import { LeaderRow } from '@/utils/api/moddex';
+import { LeaderRow } from '@/utils/api/moddex/public';
 import { formatNumber } from '@/utils/format';
 import Link from 'next/link';
 import { FC } from 'react';

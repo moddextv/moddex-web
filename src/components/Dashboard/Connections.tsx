@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { formatDate } from '@/utils/format';
 import { ago } from './ago';
-import type { ChannelConnections, EventsubHealth } from '@/utils/api/moddex';
+import type { EventsubHealth } from '@/utils/api/moddex/public';
+import type { ChannelConnections } from '@/utils/api/moddex/admin';
 
 const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boolean }> = ({
   connection,

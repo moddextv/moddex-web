@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { ago } from './ago';
 import { duration } from '@/utils/jobHealth';
-import type { JobRun } from '@/utils/api/moddex';
+import type { JobRun } from '@/utils/api/moddex/admin';
 
 const Trend: FC<{ run: JobRun }> = ({ run }) => {
   const average = run.averageSecondsLast7;

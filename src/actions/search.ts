@@ -1,6 +1,7 @@
 'use server';
 
-import { getSuggestions, ModdexApiError } from '@/utils/api/moddex';
+import { ModdexApiError } from '@/utils/api/moddex/client';
+import { getSuggestions } from '@/utils/api/moddex/public';
 import { MIN_SEARCH_LENGTH } from '@/hooks/pageQuery';
 import type { Suggestion } from '@/misc/suggest';
 import { SUGGEST_LIMIT } from '@/misc/suggest';

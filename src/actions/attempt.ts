@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { ActionResult, failed, ok } from '@/actions/result';
-import { ModdexApiError } from '@/utils/api/moddex';
+import { ModdexApiError } from '@/utils/api/moddex/client';
 import { NotAuthenticatedError, NotAuthorizedError } from '@/utils/authErrors';
 import { logger } from '@/misc/Logger';
 

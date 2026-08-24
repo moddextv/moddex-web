@@ -1,6 +1,6 @@
 import { config } from '@/config';
 import { BrowseAxis, browsePageCount, browsePagePath } from '@/misc/browsePages';
-import { getStats } from '@/utils/api/moddex';
+import { getStats } from '@/utils/api/moddex/public';
 import { logger } from '@/misc/Logger';
 import type { MetadataRoute } from 'next';
 

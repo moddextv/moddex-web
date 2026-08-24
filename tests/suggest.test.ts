@@ -2,15 +2,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const getSuggestions = vi.fn();
 
-vi.mock('@/utils/api/moddex', async () => {
-  const actual =
-    await vi.importActual<typeof import('../src/utils/api/moddex')>('../src/utils/api/moddex');
-
-  return { ModdexApiError: actual.ModdexApiError, getSuggestions };
-});
+vi.mock('@/utils/api/moddex/public', () => ({ getSuggestions }));
 
 const { fetchSuggestions } = await import('@/actions/search');
-const { ModdexApiError } = await import('@/utils/api/moddex');
+const { ModdexApiError } = await import('@/utils/api/moddex/client');
 const { SUGGEST_LIMIT } = await import('@/misc/suggest');
 
 const rows = (count: number) =>

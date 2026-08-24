@@ -10,25 +10,19 @@ process.env.STRIPE_DONATION_PRICE = 'price_test';
 const getUserProfile = vi.fn();
 const refreshUser = vi.fn();
 
-vi.mock('@/utils/api/moddex', async () => {
-  const actual =
-    await vi.importActual<typeof import('../src/utils/api/moddex')>('../src/utils/api/moddex');
-
-  return {
-    ModdexApiError: actual.ModdexApiError,
-    getUserProfile,
-    refreshUser,
-    getUserIgnored: vi.fn(),
-    getUserPermissionLevel: vi.fn()
-  };
-});
+vi.mock('@/utils/api/moddex/public', () => ({ getUserProfile }));
+vi.mock('@/utils/api/moddex/internal', () => ({ refreshUser }));
+vi.mock('@/utils/api/moddex/me', () => ({
+  getUserIgnored: vi.fn(),
+  getUserPermissionLevel: vi.fn()
+}));
 
 type GetUser = typeof import('../src/utils/user').getUser;
 let getUser: GetUser;
-let ModdexApiError: typeof import('../src/utils/api/moddex').ModdexApiError;
+let ModdexApiError: typeof import('../src/utils/api/moddex/client').ModdexApiError;
 
 beforeAll(async () => {
-  ({ ModdexApiError } = await import('../src/utils/api/moddex'));
+  ({ ModdexApiError } = await import('../src/utils/api/moddex/client'));
   ({ getUser } = await import('../src/utils/user'));
 });
 

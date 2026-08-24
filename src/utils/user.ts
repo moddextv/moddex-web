@@ -1,13 +1,10 @@
 import 'server-only';
 
 import { User } from '@/misc/account';
-import {
-  ModdexApiError,
-  getUserIgnored,
-  getUserPermissionLevel,
-  getUserProfile as apiGetUser,
-  refreshUser
-} from '@/utils/api/moddex';
+import { ModdexApiError } from '@/utils/api/moddex/client';
+import { getUserProfile as apiGetUser } from '@/utils/api/moddex/public';
+import { getUserIgnored, getUserPermissionLevel } from '@/utils/api/moddex/me';
+import { refreshUser } from '@/utils/api/moddex/internal';
 import { logger } from '@/misc/Logger';
 import { cache } from 'react';
 

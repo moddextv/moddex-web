@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { checkMembership } from '@/actions/membership';
 import { useAction } from '@/hooks/useAction';
 import { formatDayMonthYear } from '@/utils/format';
-import type { Membership } from '@/utils/api/moddex';
+import type { Membership } from '@/utils/api/moddex/public';
 
 const ROLES = [
   { key: 'mod', label: 'Mod', tone: 'text-mod', corner: 'corner-tl' },

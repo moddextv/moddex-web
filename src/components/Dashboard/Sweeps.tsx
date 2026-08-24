@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
 import { ago } from './ago';
-import type { EventsubHealth, SweepHealth } from '@/utils/api/moddex';
+import type { EventsubHealth } from '@/utils/api/moddex/public';
+import type { SweepHealth } from '@/utils/api/moddex/admin';
 
 const number = (value: number | null | undefined) =>
   value === null || value === undefined ? '·' : value.toLocaleString('en-US');

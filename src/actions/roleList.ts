@@ -2,7 +2,8 @@
 
 import { RoleType, UserType } from '@/misc/roles';
 import type { ListDirection, ListSort } from '@/hooks/pageQuery';
-import { getRolePage, ModdexApiError, type RolePage } from '@/utils/api/moddex';
+import { ModdexApiError } from '@/utils/api/moddex/client';
+import { getRolePage, type RolePage } from '@/utils/api/moddex/public';
 
 const notFound = (error: unknown) => error instanceof ModdexApiError && error.status === 404;
 

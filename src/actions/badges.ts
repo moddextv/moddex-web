@@ -1,14 +1,14 @@
 'use server';
 
+import { getBadges } from '@/utils/api/moddex/public';
 import {
   getBadgeCounts,
   getBadgeHolders,
-  getBadges,
   grantBadge,
   revokeBadge,
   type BadgeCounts,
   type BadgeHolder
-} from '@/utils/api/moddex';
+} from '@/utils/api/moddex/admin';
 import type { Badge } from '@/misc/badges';
 import { requirePermission } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';

@@ -1,6 +1,6 @@
 'use server';
 
-import { getMembership, type Membership } from '@/utils/api/moddex';
+import { getMembership, type Membership } from '@/utils/api/moddex/public';
 import { attempt } from '@/actions/attempt';
 import type { ActionResult } from '@/actions/result';
 

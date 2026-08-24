@@ -5,7 +5,8 @@ import { JobHealth } from '@/components/Dashboard/JobHealth';
 import { Runs } from '@/components/Dashboard/Runs';
 import { Sweeps } from '@/components/Dashboard/Sweeps';
 import { fetchEventsubHealth, fetchJobHealth } from '@/actions/dashboard';
-import type { EventsubHealth, SweepHealth } from '@/utils/api/moddex';
+import type { EventsubHealth } from '@/utils/api/moddex/public';
+import type { SweepHealth } from '@/utils/api/moddex/admin';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },

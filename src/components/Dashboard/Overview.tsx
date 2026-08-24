@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { ago } from './ago';
 import { backupLate, nightlyRuns, size } from '@/utils/jobHealth';
-import type { JobHealth } from '@/utils/api/moddex';
+import type { JobHealth } from '@/utils/api/moddex/admin';
 
 const Tile: FC<{
   label: string;
