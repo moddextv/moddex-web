@@ -6,7 +6,7 @@ import {
   clearUserSocial,
   setUserChatBadge,
   setUserIgnored
-} from '@/utils/api/moddex';
+} from '@/utils/api/moddex/me';
 import { requireUserId } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
 import type { ActionResult } from '@/actions/result';

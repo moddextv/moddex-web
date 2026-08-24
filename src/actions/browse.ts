@@ -1,7 +1,8 @@
 'use server';
 
 import { AccountSort, BrowsePage, ChannelSort } from '@/misc/browse';
-import { getAccounts, getChannels, ModdexApiError } from '@/utils/api/moddex';
+import { ModdexApiError } from '@/utils/api/moddex/client';
+import { getAccounts, getChannels } from '@/utils/api/moddex/public';
 
 const EMPTY: BrowsePage = { items: [], limit: 0, offset: 0, hasMore: false };
 

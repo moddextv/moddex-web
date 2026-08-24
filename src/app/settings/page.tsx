@@ -9,7 +9,7 @@ import { ConnectChannel } from '@/components/Settings/ConnectChannel';
 import { ConnectDiscord } from '@/components/Settings/ConnectDiscord';
 import { SignOutButton } from '@/components/Settings/SignOutButton';
 import { getAvailableUserChatBadges, getSelectedUserChatBadge } from '@/utils/badges';
-import { getChannelConnection } from '@/utils/api/moddex';
+import { getChannelConnection } from '@/utils/api/moddex/me';
 import { getUserById, getUserIgnoreState } from '@/utils/user';
 import { UserChatBadges } from '@/misc/badges';
 import { config } from '@/config';

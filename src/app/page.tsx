@@ -7,7 +7,7 @@ import { Mark } from '@/components/UI/Mark';
 import { config } from '@/config';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
-import { getStatsHistory } from '@/utils/api/moddex';
+import { getStatsHistory } from '@/utils/api/moddex/public';
 import { Growth } from '@/components/Home/Growth';
 import { HeroSearch } from '@/components/Home/HeroSearch';
 import { RoleCheck } from '@/components/Home/RoleCheck';

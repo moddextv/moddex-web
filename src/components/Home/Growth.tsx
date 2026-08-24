@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { formatNumber } from '@/utils/format';
-import type { HistoryPoint } from '@/utils/api/moddex';
+import type { HistoryPoint } from '@/utils/api/moddex/public';
 import { buildPath, H, W } from '@/utils/sparkline';
 
 interface Series {

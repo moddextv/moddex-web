@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { Container } from '@/components/UI/Container';
 import { LeaderRows } from '@/components/Leaderboard/LeaderRows';
-import { LeaderScale, getLeaderboard } from '@/utils/api/moddex';
+import { LeaderScale, getLeaderboard } from '@/utils/api/moddex/public';
 import { Metadata } from 'next';
 import { config } from '@/config';
 import { openGraphFor } from '@/misc/metadata';

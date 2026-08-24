@@ -1,6 +1,6 @@
 'use server';
 
-import { grantAdmin, revokeAdmin } from '@/utils/api/moddex';
+import { grantAdmin, revokeAdmin } from '@/utils/api/moddex/admin';
 import { requirePermission } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
 import type { ActionResult } from '@/actions/result';

@@ -1,6 +1,6 @@
 import type { BotRow } from '@/actions/bots';
 import type { Badge } from '@/misc/badges';
-import type { BadgeHolder } from '@/utils/api/moddex';
+import type { BadgeHolder } from '@/utils/api/moddex/admin';
 
 export interface Row {
   userId: string;

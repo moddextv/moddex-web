@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { backToSettings } from '@/utils/api/connectRedirect';
 import { auth } from '@/auth';
-import { setChannelConnection, setModeratedChannels } from '@/utils/api/moddex';
+import { setChannelConnection, setModeratedChannels } from '@/utils/api/moddex/me';
 import { logger } from '@/misc/Logger';
 import {
   SCOPES,

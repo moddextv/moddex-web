@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { getStats } from '@/utils/api/moddex';
+import { getStats } from '@/utils/api/moddex/public';
 import { formatNumberShort } from '@/utils/format';
 
 interface StatsEntry {

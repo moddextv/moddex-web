@@ -1,6 +1,7 @@
 'use server';
 
-import { flagBot, getBots, getUserProfile, unflagBot, type BotEntry } from '@/utils/api/moddex';
+import { getUserProfile } from '@/utils/api/moddex/public';
+import { flagBot, getBots, unflagBot, type BotEntry } from '@/utils/api/moddex/admin';
 import { requirePermission } from '@/utils/authz';
 import type { User } from '@/misc/account';
 import { attempt } from '@/actions/attempt';

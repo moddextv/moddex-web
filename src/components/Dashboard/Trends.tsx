@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { buildPath, H, W } from '@/utils/sparkline';
 import { duration } from '@/utils/jobHealth';
-import type { JobPoint } from '@/utils/api/moddex';
+import type { JobPoint } from '@/utils/api/moddex/admin';
 
 // the same tolerance the Runs trend uses, so the two never disagree on a word
 const STEADY = 0.1;

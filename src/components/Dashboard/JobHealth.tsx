@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { formatDate } from '@/utils/format';
 import { ago } from './ago';
 import { backupLate, clock, size } from '@/utils/jobHealth';
-import type { JobHealth as Health } from '@/utils/api/moddex';
+import type { JobHealth as Health } from '@/utils/api/moddex/admin';
 
 const Row: FC<{ label: string; children: React.ReactNode; note?: string }> = ({
   label,

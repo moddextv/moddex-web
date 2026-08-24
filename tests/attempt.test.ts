@@ -13,13 +13,13 @@ vi.mock('@/misc/Logger', () => ({
 
 type Attempt = typeof import('../src/actions/attempt').attempt;
 let attempt: Attempt;
-let ModdexApiError: typeof import('../src/utils/api/moddex').ModdexApiError;
+let ModdexApiError: typeof import('../src/utils/api/moddex/client').ModdexApiError;
 let NotAuthenticatedError: typeof import('../src/utils/authErrors').NotAuthenticatedError;
 let NotAuthorizedError: typeof import('../src/utils/authErrors').NotAuthorizedError;
 
 beforeAll(async () => {
   ({ attempt } = await import('../src/actions/attempt'));
-  ({ ModdexApiError } = await import('../src/utils/api/moddex'));
+  ({ ModdexApiError } = await import('../src/utils/api/moddex/client'));
   ({ NotAuthenticatedError, NotAuthorizedError } = await import('../src/utils/authErrors'));
 });
 

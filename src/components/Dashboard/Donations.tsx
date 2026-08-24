@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { listDonations } from '@/actions/dashboard';
 import { formatDayMonthYear } from '@/utils/format';
-import type { Ledger, LedgerEntry } from '@/utils/api/moddex';
+import type { Ledger, LedgerEntry } from '@/utils/api/moddex/admin';
 
 const money = (cents: number) =>
   (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'EUR' });

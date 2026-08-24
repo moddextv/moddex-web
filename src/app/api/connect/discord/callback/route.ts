@@ -3,7 +3,8 @@ import { backToSettings } from '@/utils/api/connectRedirect';
 import { serverConfig } from '@/serverConfig';
 import { auth } from '@/auth';
 import { exchangeCodeForUserId, isDiscordConfigured, readDiscordState } from '@/utils/api/discord';
-import { ModdexApiError, setUserSocial } from '@/utils/api/moddex';
+import { ModdexApiError } from '@/utils/api/moddex/client';
+import { setUserSocial } from '@/utils/api/moddex/me';
 
 export async function GET(request: NextRequest) {
   const session = await auth();
