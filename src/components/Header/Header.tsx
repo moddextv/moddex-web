@@ -1,9 +1,7 @@
 import { auth } from '@/auth';
 import { NavLinks } from '@/components/Header/NavLinks';
 import { NavMenu } from '@/components/Header/NavMenu';
-import { ProfileDropdown } from '@/components/Header/ProfileDropdown';
-import { ThemeToggle } from '@/components/Header/ThemeToggle';
-import { DiscordIcon } from '@/components/Icons';
+import { SignInButton } from '@/components/Header/SignInButton';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { config } from '@/config';
@@ -32,29 +30,8 @@ export const Header = async () => {
           <NavLinks />
 
           <div className="ml-auto flex items-center gap-2 shrink-0">
-            <Link href="/donate" className="hidden lg:inline-flex btn btn-soft">
-              Donate
-            </Link>
-
-            <a
-              href={config.brand.discordUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:inline-flex btn btn-discord-quiet"
-            >
-              <DiscordIcon size={18} />
-              Discord
-            </a>
-
-            <span className="hidden lg:inline-flex">
-              <ThemeToggle />
-            </span>
-
+            {!session?.user && <SignInButton />}
             <NavMenu session={session} />
-
-            <span className="hidden lg:inline-flex">
-              <ProfileDropdown session={session} />
-            </span>
           </div>
         </Container>
       </header>

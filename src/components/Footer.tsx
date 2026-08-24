@@ -63,6 +63,7 @@ export const Footer = () => {
             <p className="text-meta text-primary-400 mb-0.5">Look up</p>
             <FooterLink href="/channel">By channel</FooterLink>
             <FooterLink href="/user">By account</FooterLink>
+            <FooterLink href="/leaderboard">Leaderboard</FooterLink>
             <FooterLink href={config.brand.docsUrl} newTab>
               API docs
             </FooterLink>
