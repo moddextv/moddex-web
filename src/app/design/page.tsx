@@ -1,6 +1,7 @@
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
 import { TwitchIcon } from '@/components/Icons';
+import { Trends } from '@/components/Dashboard/Trends';
 import { ROLES, ROLE_KEYS, ACTIVE_ROLE_KEYS, roleCornerClass, roleTextClass } from '@/misc/roles';
 import { Metadata } from 'next';
 import { FC, ReactNode } from 'react';
@@ -73,6 +74,19 @@ const MOTION = [
   ['loading', '1.3s sweep, transform only'],
   ['press', '1px down on the primary button'],
   ['reduced motion', 'all of it stops']
+];
+
+// the shape the dashboard reads, with the trend that prompted the panel: role_counts
+// took 2171s over 8.2M rows and 3339s over 10.4M
+const TRENDS = {
+  role_counts: [2171, 2290, 2408, 2515, 2684, 2887, 3010, 3339],
+  snapshot: [612, 604, 618, 609, 615, 601, 610, 607]
+};
+
+const SUGGESTIONS = [
+  { login: 'nightbot', name: 'Nightbot', followers: '7,381,204' },
+  { login: 'nigapepi', name: '', followers: '412' },
+  { login: 'nigeljonestv', name: 'NigelJonesTV', followers: '1,908' }
 ];
 
 const BADGES = [
@@ -323,6 +337,61 @@ export default function DesignPage() {
                 </nav>
               </Specimen>
             </div>
+
+            <div className="border-t border-line mt-8 pt-8">
+              <p className="text-read text-primary-300 max-w-prose mb-6">
+                One picker in two sizes. <span className="text-primary-100">.role-tab</span> carries
+                a label and a count, <span className="text-primary-100">.option</span> carries
+                whatever a row of choices needs, and both come out of one declaration block.
+                DashboardNav, BadgeManager and ChatBadge each hand-rolled this before, in three
+                different heights. Under 640px they stand at 40px alongside{' '}
+                <span className="text-primary-100">.chip</span> and{' '}
+                <span className="text-primary-100">.search-inline</span>: a thumb needs more than a
+                desktop, and it has to be the same more, or a row reads as three kinds of control.
+              </p>
+
+              <div className="flex flex-wrap items-start gap-8">
+                <Specimen caption="role chips: one panel open, count at the chip">
+                  <div className="role-tabs" role="group" aria-label="Which roles to show">
+                    <button type="button" className="role-tab is-active" aria-pressed="true">
+                      <span className="corner corner-tl text-mod" aria-hidden="true" />
+                      Moderators
+                      <span className="tabular text-primary-400">225</span>
+                    </button>
+                    <button type="button" className="role-tab" aria-pressed="false">
+                      <span className="corner corner-br text-primary-600" aria-hidden="true" />
+                      VIPs
+                      <span className="tabular text-primary-400">41</span>
+                    </button>
+                    <button type="button" className="role-tab" aria-pressed="false">
+                      <span className="corner corner-bl text-primary-600" aria-hidden="true" />
+                      Founders
+                      <span className="tabular text-primary-400">25</span>
+                    </button>
+                  </div>
+                </Specimen>
+
+                <Specimen caption=".option, the same control without a count">
+                  <span className="flex gap-2">
+                    <button type="button" className="option is-active">
+                      Bots: shown
+                    </button>
+                    <button type="button" className="option">
+                      Bots: hidden
+                    </button>
+                  </span>
+                </Specimen>
+              </div>
+
+              <p className="text-read text-primary-300 max-w-prose mt-6">
+                They are pressed buttons in a group, not{' '}
+                <span className="text-primary-100">role=&quot;tab&quot;</span>: the ARIA tabs
+                pattern owes the reader arrow-key navigation, and these read as filters. The row
+                wraps because three of them measure 445px against a phone&apos;s ~350. It carried{' '}
+                <span className="text-primary-100">overflow-x: auto</span> plus a hidden scrollbar
+                once, and the founder chip was simply gone with nothing to say so.
+              </p>
+            </div>
           </Section>
 
           <Section
@@ -342,6 +411,69 @@ export default function DesignPage() {
                 />
               ))}
             </div>
+          </Section>
+
+          <Section
+            title="Search, and what it puts first"
+            blurb="One component, used by the header and by the hero. Three characters minimum, because shorter matches too much to be useful, and the answer is ranked rather than alphabetical: the login typed in full, then the best-followed accounts, then the head of the alphabet. Against 8.2 million rows an alphabetical window fills with nigel… long before it reaches nightbot, which is why the popular half exists at all."
+          >
+            <div className="search-host max-w-md mb-52">
+              <span className="search-inline w-full">
+                <span className="text-primary-400 text-ui shrink-0">Look up</span>
+                <span className="font-mono text-base text-primary-100 flex-1">nig</span>
+              </span>
+
+              <ul className="suggest" role="presentation">
+                {SUGGESTIONS.map((item, index) => (
+                  <li key={item.login}>
+                    <span className={clsx('suggest-row', index === 0 && 'is-active')}>
+                      <span className="avatar w-7 h-7 text-micro" aria-hidden="true">
+                        {item.login[0]}
+                      </span>
+                      <span className="font-mono truncate">{item.login}</span>
+                      {item.name && (
+                        <span className="text-meta text-primary-400 truncate">{item.name}</span>
+                      )}
+                      <span className="ml-auto text-meta text-primary-400 tabular shrink-0">
+                        {item.followers}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+                <li className="suggest-note">
+                  Nothing indexed starts with{' '}
+                  <span className="font-mono text-primary-200">nigx</span>. Press Enter to read it
+                  from Twitch and add it.
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-read text-primary-300 max-w-prose">
+              The list needs <span className="text-primary-100">.search-host</span> above it. Every
+              section animates <span className="text-primary-100">opacity</span> on entry, which
+              makes each one its own stacking context, and without that wrapper the suggestions draw
+              behind the cards underneath. It was reproduced on production, not theorised. A miss is
+              not an error either: an account nobody has looked up is absent rather than
+              non-existent, so the note offers to fetch it.
+            </p>
+          </Section>
+
+          <Section
+            title="Trend"
+            blurb="A sparkline per nightly job, drawn by utils/sparkline from the same code the dashboard uses rather than a copy of it. Mod green is steady, vip red is climbing past a tenth. That threshold is shared with the Runs panel, so the two never disagree on a word. A gap in the data breaks the line instead of interpolating across it, and fewer than two runs draws nothing and says so."
+          >
+            <Trends
+              days={30}
+              series={Object.fromEntries(
+                Object.entries(TRENDS).map(([job, values]) => [
+                  job,
+                  values.map((seconds, index) => ({
+                    at: `2026-08-${String(index + 1).padStart(2, '0')}`,
+                    seconds
+                  }))
+                ])
+              )}
+            />
           </Section>
 
           <section className="panel-flush">
