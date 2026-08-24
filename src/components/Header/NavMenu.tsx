@@ -8,14 +8,14 @@ import {
   DropdownSection,
   DropdownTrigger
 } from '@heroui/react';
-import { signIn, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Session } from 'next-auth';
-import { ExternalLinkIcon, MenuIcon, TwitchIcon } from '@/components/Icons';
+import { ExternalLinkIcon, MenuIcon } from '@/components/Icons';
+import { Image } from '@/components/UI/Image';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
-import { signInOptions } from '@/utils/signIn';
 
 const external = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
@@ -31,14 +31,16 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
   const isDark = useRef(false);
   isDark.current = resolvedTheme === 'dark';
 
-  const login = session?.user?.login ?? 'account';
+  const user = session?.user;
+  const login = user?.login ?? 'account';
+  const label = user?.name?.trim() || login;
 
   const here = (href: string) =>
     pathname === href
       ? { className: 'text-primary-100 font-semibold', 'aria-current': 'page' as const }
       : {};
 
-  const account = session?.user
+  const account = user
     ? [
         <DropdownItem key="profile" textValue="my profile" href={`/user/${login}`}>
           my profile
@@ -46,13 +48,18 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
         <DropdownItem key="settings" textValue="settings" href="/settings" {...here('/settings')}>
           settings
         </DropdownItem>,
-        ...((session.user.perms ?? 0) >= permissions.team
+        ...((user.perms ?? 0) >= permissions.team
           ? [
               <DropdownItem key="dashboard" textValue="dashboard" href="/dashboard">
                 dashboard
               </DropdownItem>
             ]
-          : []),
+          : [])
+      ]
+    : [];
+
+  const close = user
+    ? [
         <DropdownItem
           key="signout"
           className="text-red-500"
@@ -63,16 +70,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
           logout
         </DropdownItem>
       ]
-    : [
-        <DropdownItem
-          key="signin"
-          textValue="sign in with twitch"
-          startContent={<TwitchIcon size={16} />}
-          onPress={() => signIn('twitch', signInOptions(pathname))}
-        >
-          sign in with twitch
-        </DropdownItem>
-      ];
+    : [];
 
   return (
     <Dropdown
@@ -82,68 +80,100 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
       className="border border-primary-700"
     >
       <DropdownTrigger>
-        <button
-          type="button"
-          aria-label="Menu"
-          className="btn btn-ghost w-10 px-0 shrink-0 lg:hidden"
-        >
-          <MenuIcon size={20} />
-        </button>
+        {user ? (
+          <button
+            type="button"
+            aria-label="Menu"
+            className="btn btn-ghost shrink-0 gap-2.5 pl-1 pr-1 md:pr-3"
+          >
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt={user.name ?? 'Your Twitch avatar'}
+                width={32}
+                height={32}
+                radius="full"
+                className="w-8 h-8 bg-primary-700"
+              />
+            ) : (
+              <span className="avatar w-8 h-8 text-meta" aria-hidden="true">
+                {label.slice(0, 1)}
+              </span>
+            )}
+            <span className="hidden md:inline max-w-[14ch] truncate" title={label}>
+              {label}
+            </span>
+          </button>
+        ) : (
+          <button type="button" aria-label="Menu" className="btn btn-ghost w-10 px-0 shrink-0">
+            <MenuIcon size={20} />
+          </button>
+        )}
       </DropdownTrigger>
 
       <DropdownMenu aria-label="Menu" variant="flat">
-        <DropdownSection showDivider>{account}</DropdownSection>
+        {[
+          ...(account.length
+            ? [
+                <DropdownSection key="you" showDivider>
+                  {account}
+                </DropdownSection>
+              ]
+            : []),
 
-        <DropdownSection showDivider>
-          <DropdownItem
-            key="channels"
-            textValue="browse channels"
-            href="/channel"
-            {...here('/channel')}
-          >
-            browse channels
-          </DropdownItem>
+          <DropdownSection key="browse" showDivider>
+            <DropdownItem key="channels" textValue="channels" href="/channel" {...here('/channel')}>
+              channels
+            </DropdownItem>
 
-          <DropdownItem key="accounts" textValue="browse accounts" href="/user" {...here('/user')}>
-            browse accounts
-          </DropdownItem>
+            <DropdownItem key="accounts" textValue="accounts" href="/user" {...here('/user')}>
+              accounts
+            </DropdownItem>
 
-          <DropdownItem
-            key="leaderboard"
-            textValue="leaderboard"
-            href="/leaderboard"
-            {...here('/leaderboard')}
-          >
-            leaderboard
-          </DropdownItem>
-        </DropdownSection>
+            <DropdownItem
+              key="leaderboard"
+              textValue="leaderboard"
+              href="/leaderboard"
+              {...here('/leaderboard')}
+            >
+              leaderboard
+            </DropdownItem>
+          </DropdownSection>,
 
-        <DropdownSection showDivider>
-          <DropdownItem key="donate" textValue="donate" href="/donate" {...here('/donate')}>
-            donate
-          </DropdownItem>
+          <DropdownSection key="site" showDivider>
+            <DropdownItem key="about" textValue="about" href="/about" {...here('/about')}>
+              about
+            </DropdownItem>
 
-          <DropdownItem
-            key="discord"
-            textValue="discord"
-            href={config.brand.discordUrl}
-            endContent={<ExternalLinkIcon size={14} />}
-            {...external}
-          >
-            discord
-          </DropdownItem>
-        </DropdownSection>
+            <DropdownItem key="donate" textValue="donate" href="/donate" {...here('/donate')}>
+              donate
+            </DropdownItem>
 
-        <DropdownSection>
-          <DropdownItem
-            key="theme"
-            textValue="switch theme"
-            closeOnSelect={false}
-            onPress={() => setTheme(isDark.current ? 'light' : 'dark')}
-          >
-            switch theme
-          </DropdownItem>
-        </DropdownSection>
+            <DropdownItem
+              key="discord"
+              textValue="discord"
+              href={config.brand.discordUrl}
+              endContent={<ExternalLinkIcon size={14} />}
+              {...external}
+            >
+              discord
+            </DropdownItem>
+          </DropdownSection>,
+
+          <DropdownSection key="controls">
+            {[
+              <DropdownItem
+                key="theme"
+                textValue="switch theme"
+                closeOnSelect={false}
+                onPress={() => setTheme(isDark.current ? 'light' : 'dark')}
+              >
+                switch theme
+              </DropdownItem>,
+              ...close
+            ]}
+          </DropdownSection>
+        ]}
       </DropdownMenu>
     </Dropdown>
   );
