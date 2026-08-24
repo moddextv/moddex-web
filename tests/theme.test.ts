@@ -98,7 +98,7 @@ describe('the estate vocabulary', () => {
   const read = (scope: Record<string, string>, name: string): string | undefined => {
     const value = scope[name];
     const indirect = value?.match(/^var\((--[\w-]+)\)$/);
-    return indirect ? scope[indirect[1]] : value;
+    return indirect ? scope[String(indirect[1])] : value;
   };
 
   it.each(Object.entries(ESTATE))('%s is the estate value in both themes', (name, expected) => {

@@ -28,7 +28,7 @@ const SECTIONS = [
 ] as const;
 
 export default async function PrivacyPage() {
-  const { name, url, domain, email } = config.brand;
+  const { name, domain, email } = config.brand;
 
   return (
     <LegalPage title="Privacy" sections={SECTIONS}>

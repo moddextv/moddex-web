@@ -69,7 +69,7 @@ describe('fetchModeratedChannels', () => {
 
     await fetchModeratedChannels('token', '1');
 
-    expect(String(fetchMock.mock.calls[0][0])).toContain('first=100');
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain('first=100');
   });
 
   it('reports a short read rather than an empty list when twitch errors', async () => {

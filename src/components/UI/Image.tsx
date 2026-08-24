@@ -23,7 +23,7 @@ const local = (src: NextImageProps['src']) =>
     : src;
 
 const isSvg = (src: NextImageProps['src']) =>
-  typeof src === 'string' && src.split('?')[0].endsWith('.svg');
+  typeof src === 'string' && src.split('?')[0]?.endsWith('.svg') === true;
 
 export const Image: FC<ImageProps> = ({ alt, radius = 'none', className, src, ...props }) => {
   const resolved = local(src);

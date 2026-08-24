@@ -25,7 +25,7 @@ describe('buildPath', () => {
 
     expect(drawn).toHaveLength(4);
     expect(drawn.filter((one) => one.startsWith('M'))).toHaveLength(2);
-    expect(drawn[2].startsWith('M')).toBe(true);
+    expect(drawn[2]?.startsWith('M')).toBe(true);
   });
 
   it('keeps a gap the right width', () => {
@@ -47,7 +47,7 @@ describe('buildPath', () => {
     const path = buildPath([8_131_260, 8_500_000, 8_932_920]);
     const drawn = commands(path);
 
-    const middleY = Number(drawn[1].split(' ')[1]);
+    const middleY = Number(drawn[1]?.split(' ')[1]);
 
     expect(middleY).toBeGreaterThan(2);
     expect(middleY).toBeLessThan(H - 2);

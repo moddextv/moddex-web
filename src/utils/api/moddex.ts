@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { logger } from '@/misc/Logger';
-import type { RoleUser, User } from '@/misc/account';
+import type { User } from '@/misc/account';
 import type { Badge } from '@/misc/badges';
 import type { BrowsePage } from '@/misc/browse';
 import type { RolePage } from '@/misc/roleList';

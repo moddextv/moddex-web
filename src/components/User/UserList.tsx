@@ -315,11 +315,11 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
               itemSize={52}
               width="100%"
             >
-              {({ index, style }) => (
-                <div style={style}>
-                  <UserListItem user={visibleUsers[index]} type={type} />
-                </div>
-              )}
+              {({ index, style }) => {
+                const user = visibleUsers[index];
+
+                return <div style={style}>{user && <UserListItem user={user} type={type} />}</div>;
+              }}
             </List>
           )}
         </div>

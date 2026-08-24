@@ -10,7 +10,7 @@ const labelledCalls = (source: string) => {
 
   for (const line of source.split('\n')) {
     const declaration = /export\s+async\s+function\s+([A-Za-z0-9_]+)/.exec(line);
-    if (declaration) enclosing = declaration[1];
+    if (declaration) enclosing = declaration[1] ?? enclosing;
 
     // every attempt( is caught, not only the ones already written the right way
     // — matching `attempt('x'` alone let a template literal through silently
@@ -18,7 +18,7 @@ const labelledCalls = (source: string) => {
 
     const literal = /\battempt\('([^']+)'\s*,/.exec(line);
 
-    found.push({ label: literal ? literal[1] : line.trim(), enclosing });
+    found.push({ label: literal?.[1] ?? line.trim(), enclosing });
   }
 
   return found;

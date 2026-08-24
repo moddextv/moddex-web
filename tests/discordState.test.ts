@@ -11,6 +11,8 @@ const MALLORY = '99999';
 const parts = (state: string) => {
   const [purpose, id, nonce, signature] = state.split('.');
 
+  if (!purpose || !id || !nonce || !signature) throw new Error(`malformed state: ${state}`);
+
   return { purpose, id, nonce, signature };
 };
 

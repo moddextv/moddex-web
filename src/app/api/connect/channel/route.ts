@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { backToSettings } from '@/utils/api/connectRedirect';
-import { serverConfig } from '@/serverConfig';
 import { auth } from '@/auth';
 import { authorizeUrl, isConnectConfigured, mintConnectState } from '@/utils/api/twitchConnect';
 
