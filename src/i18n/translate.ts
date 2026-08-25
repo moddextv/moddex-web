@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, Locale, LOCALE_TAG } from './locales';
+import { Locale, localeTag } from './locales';
 
 export type Messages = Record<string, unknown>;
 export type Dictionary = Record<string, string>;
@@ -95,7 +95,7 @@ export const translator = (
   dict: Dictionary,
   fallback: Dictionary = {}
 ): Translator => {
-  const tag = LOCALE_TAG[locale] ?? LOCALE_TAG[DEFAULT_LOCALE];
+  const tag = localeTag(locale);
 
   return (key, vars = {}) => {
     const count = typeof vars.count === 'number' ? vars.count : undefined;

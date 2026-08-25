@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, FC, ReactNode, useContext, useMemo } from 'react';
-import { DEFAULT_LOCALE, Locale, localePath } from './locales';
-import { Dictionary, translator, Translator, Vars } from './translate';
+import { Locale, localePath } from './locales';
+import { Dictionary, translator, Translator } from './translate';
 import { richFrom, RichTranslator } from './rich';
 
 interface I18nValue {
@@ -45,8 +45,3 @@ export const useI18n = (): I18nValue => {
 };
 
 export const useT = (): Translator => useI18n().t;
-
-export const useLocale = (): Locale => useI18n().locale;
-
-export type { Vars };
-export { DEFAULT_LOCALE };

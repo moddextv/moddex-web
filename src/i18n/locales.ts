@@ -1,24 +1,24 @@
-export const DEFAULT_LOCALE = 'en';
+import { config } from '@/config';
 
-export const LOCALES = ['en', 'de'] as const;
+const { defaultLocale, locales } = config.i18n;
 
-export type Locale = (typeof LOCALES)[number];
+export type Locale = keyof typeof locales;
 
-// the bcp-47 tag Intl needs; the locale itself stays the short url segment
-export const LOCALE_TAG: Record<Locale, string> = {
-  en: 'en-US',
-  de: 'de-DE'
-};
+export const DEFAULT_LOCALE: Locale = defaultLocale;
 
-export const LOCALE_NAME: Record<Locale, string> = {
-  en: 'English',
-  de: 'Deutsch'
-};
+export const LOCALES = Object.keys(locales) as Locale[];
 
 export const isLocale = (value: unknown): value is Locale =>
-  typeof value === 'string' && (LOCALES as readonly string[]).includes(value);
+  typeof value === 'string' && (LOCALES as string[]).includes(value);
 
 export const asLocale = (value: unknown): Locale => (isLocale(value) ? value : DEFAULT_LOCALE);
+
+export const localeName = (locale: Locale): string => locales[asLocale(locale)].name;
+
+export const localeTag = (locale: Locale): string => locales[asLocale(locale)].tag;
+
+// open graph writes the same tag with an underscore
+export const ogLocale = (locale: Locale): string => localeTag(locale).replace('-', '_');
 
 // the default locale is served unprefixed, so its path carries no segment
 export const localePath = (locale: Locale, path: string): string => {

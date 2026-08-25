@@ -3,7 +3,10 @@ import { flatten, translator } from '@/i18n/translate';
 import {
   DEFAULT_LOCALE,
   LOCALES,
+  localeName,
   localePath,
+  localeTag,
+  ogLocale,
   asLocale,
   isLocale,
   stripLocale,
@@ -99,6 +102,14 @@ describe('locales', () => {
   it('leaves a path alone whose first segment merely looks like a locale', () => {
     expect(stripLocale('/user/de')).toBe('/user/de');
     expect(swapLocale('/c/deadmau5', 'de')).toBe('/de/c/deadmau5');
+  });
+
+  it('gives every configured locale a name and a tag Intl accepts', () => {
+    for (const locale of LOCALES) {
+      expect(localeName(locale)).toBeTruthy();
+      expect(() => new Intl.PluralRules(localeTag(locale))).not.toThrow();
+      expect(ogLocale(locale)).toMatch(/^[a-z]{2}_[A-Z]{2}$/);
+    }
   });
 
   it('recognises only the locales it ships', () => {

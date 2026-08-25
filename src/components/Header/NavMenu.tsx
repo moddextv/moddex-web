@@ -17,7 +17,7 @@ import { Image } from '@/components/UI/Image';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
 import { useI18n } from '@/i18n/context';
-import { LOCALES, LOCALE_NAME, swapLocale } from '@/i18n/locales';
+import { LOCALES, localeName, swapLocale } from '@/i18n/locales';
 
 const external = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
@@ -201,13 +201,13 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             {LOCALES.map((entry) => (
               <DropdownItem
                 key={`locale-${entry}`}
-                textValue={LOCALE_NAME[entry]}
+                textValue={localeName(entry)}
                 href={swapLocale(pathname, entry)}
                 {...(entry === locale
                   ? { className: 'text-primary-100 font-semibold', 'aria-current': 'true' as const }
                   : {})}
               >
-                {LOCALE_NAME[entry]}
+                {localeName(entry)}
               </DropdownItem>
             ))}
           </DropdownSection>,

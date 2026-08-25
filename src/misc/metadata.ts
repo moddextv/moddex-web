@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import { config } from '@/config';
-import { DEFAULT_LOCALE, Locale, LOCALES, LOCALE_TAG, localePath } from '@/i18n/locales';
+import { DEFAULT_LOCALE, Locale, LOCALES, localePath, ogLocale } from '@/i18n/locales';
 
 export const SITE_CARD = {
   url: '/og.png',
@@ -16,7 +16,7 @@ export const openGraphFor = (
   locale: Locale = DEFAULT_LOCALE
 ): Metadata['openGraph'] => ({
   type: 'website',
-  locale: LOCALE_TAG[locale].replace('-', '_'),
+  locale: ogLocale(locale),
   siteName: config.brand.name,
   images: [SITE_CARD],
   url: localePath(locale, url)

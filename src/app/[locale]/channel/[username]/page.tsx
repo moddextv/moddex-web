@@ -1,5 +1,5 @@
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale, LOCALE_TAG } from '@/i18n/locales';
+import { asLocale, ogLocale } from '@/i18n/locales';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';
@@ -50,7 +50,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     openGraph: {
       type: 'profile',
       siteName: config.brand.name,
-      locale: LOCALE_TAG[locale].replace('-', '_'),
+      locale: ogLocale(locale),
       url: `/channel/${user.login}`
     }
   };
