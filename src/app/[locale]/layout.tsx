@@ -8,15 +8,18 @@ import { Providers } from './providers';
 import { Metadata } from 'next';
 import { Insights } from '@/components/Insights';
 import { config } from '@/config';
+import { asLocale, DEFAULT_LOCALE, LOCALES } from '@/i18n/locales';
+import { dictionaryOf } from '@/i18n/dictionary';
+import { I18nProvider } from '@/i18n/context';
 
 const manrope = localFont({
-  src: [{ path: './fonts/manrope-latin.woff2', weight: '200 800', style: 'normal' }],
+  src: [{ path: '../fonts/manrope-latin.woff2', weight: '200 800', style: 'normal' }],
   display: 'swap',
   variable: '--font-manrope'
 });
 
 const jetbrains = localFont({
-  src: [{ path: './fonts/jetbrains-mono-latin.woff2', weight: '100 800', style: 'normal' }],
+  src: [{ path: '../fonts/jetbrains-mono-latin.woff2', weight: '100 800', style: 'normal' }],
   display: 'swap',
   variable: '--font-jetbrains'
 });
@@ -53,20 +56,35 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const generateStaticParams = () => LOCALES.map((locale) => ({ locale }));
+
+interface LayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}
+
+export default async function RootLayout({ children, params }: LayoutProps) {
+  const locale = asLocale((await params).locale);
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${manrope.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen overflow-y-scroll antialiased flex flex-col bg-primary-900 font-sans text-base text-primary-100">
-        <Providers>
-          <Insights />
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
+        <I18nProvider
+          locale={locale}
+          dictionary={dictionaryOf(locale)}
+          fallback={dictionaryOf(DEFAULT_LOCALE)}
+        >
+          <Providers>
+            <Insights />
+            <Header locale={locale} />
+            {children}
+            <Footer />
+          </Providers>
+        </I18nProvider>
       </body>
     </html>
   );

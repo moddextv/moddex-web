@@ -8,8 +8,8 @@ const read = (...parts: string[]) => readFileSync(join(__dirname, '..', 'src', .
 // 67 opted-out accounts relied on, so these must not drift apart again — they
 // were five hand-written copies in three files.
 const SURFACES = [
-  ['app', 'page.tsx'],
-  ['app', 'privacy', 'page.tsx'],
+  ['app', '[locale]', 'page.tsx'],
+  ['app', '[locale]', 'privacy', 'page.tsx'],
   ['components', 'Login.tsx'],
   ['components', 'Settings', 'OptOut.tsx']
 ];
@@ -17,7 +17,7 @@ const SURFACES = [
 // /tos stopped stating the effect on 2026-08-21 and points at /privacy instead:
 // one page promises this, and it is the one the promise is judged against. it
 // still has to not describe the effect in words of its own.
-const POINTS_ELSEWHERE = [['app', 'tos', 'page.tsx']];
+const POINTS_ELSEWHERE = [['app', '[locale]', 'tos', 'page.tsx']];
 
 describe('the opt-out promise', () => {
   it.each(SURFACES)('%s/%s states it through the shared component', (...parts) => {

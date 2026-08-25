@@ -78,7 +78,7 @@ describe('the bot control says the same thing everywhere', () => {
     const surfaces = [
       'components/Browse/BrowseList.tsx',
       'components/User/UserList.tsx',
-      'app/leaderboard/page.tsx'
+      'app/[locale]/leaderboard/page.tsx'
     ];
 
     for (const name of surfaces) {

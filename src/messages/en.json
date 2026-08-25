@@ -1,0 +1,53 @@
+{
+  "common": {
+    "loading": "Loading",
+    "loadMore": "Load more",
+    "search": "Search",
+    "close": "Close",
+    "back": "Back"
+  },
+  "nav": {
+    "channels": "channels",
+    "accounts": "accounts",
+    "leaderboard": "leaderboard",
+    "about": "about",
+    "donate": "donate",
+    "discord": "discord",
+    "dashboard": "dashboard",
+    "settings": "settings",
+    "profile": "my profile",
+    "signIn": "Sign in with Twitch",
+    "signOut": "logout",
+    "menu": "Menu",
+    "themeToLight": "switch to light theme",
+    "themeToDark": "switch to dark theme",
+    "language": "language",
+    "skipToContent": "Skip to content",
+    "home": "home",
+    "main": "Main",
+    "signInShort": "Sign in",
+    "channelsLink": "Channels",
+    "accountsLink": "Accounts",
+    "leaderboardLink": "Leaderboard"
+  },
+  "roles": {
+    "mod": {
+      "one": "moderator",
+      "other": "moderators"
+    },
+    "vip": {
+      "one": "VIP",
+      "other": "VIPs"
+    },
+    "founder": {
+      "one": "founder",
+      "other": "founders"
+    }
+  },
+  "legal": {
+    "englishOnly": {
+      "title": "This page is only available in English",
+      "body": "Our privacy policy and terms are kept in English on purpose. They are a contract, and a translation that drifts from the original would be worse than no translation at all."
+    }
+  }
+}

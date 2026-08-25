@@ -4,6 +4,8 @@ import { config } from '@/config';
 import { Metadata } from 'next';
 
 import { Clause, Inline, LegalPage, Para } from '@/components/Legal';
+import { LegalLanguageNotice } from '@/components/LegalLanguageNotice';
+import { asLocale } from '@/i18n/locales';
 import { OptOutEffect } from '@/components/OptOutPromise';
 
 export const metadata: Metadata = {
@@ -27,11 +29,17 @@ const SECTIONS = [
   { id: 'contact', title: '11. Changes and contact', short: '11. Contact' }
 ] as const;
 
-export default async function PrivacyPage() {
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function PrivacyPage({ params }: PageProps) {
+  const locale = asLocale((await params).locale);
   const { name, domain, email } = config.brand;
 
   return (
     <LegalPage title="Privacy" sections={SECTIONS}>
+      <LegalLanguageNotice locale={locale} />
       <Clause id="summary" title="1. The short version">
         <Para>
           We record which Twitch accounts hold moderator, VIP or founder status in which Twitch

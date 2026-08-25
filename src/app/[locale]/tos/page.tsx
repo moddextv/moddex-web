@@ -4,6 +4,8 @@ import { config } from '@/config';
 import { Metadata } from 'next';
 
 import { Clause, Inline, LegalPage, Para } from '@/components/Legal';
+import { LegalLanguageNotice } from '@/components/LegalLanguageNotice';
+import { asLocale } from '@/i18n/locales';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/tos' },
@@ -23,11 +25,17 @@ const SECTIONS = [
   { id: 'contact', title: '8. Contact', short: '8. Contact' }
 ] as const;
 
-export default async function TosPage() {
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function TosPage({ params }: PageProps) {
+  const locale = asLocale((await params).locale);
   const { name, url, domain, email } = config.brand;
 
   return (
     <LegalPage title="Terms of Service" sections={SECTIONS}>
+      <LegalLanguageNotice locale={locale} />
       <Clause id="acceptance" title="1. Acceptance">
         <Para>
           By accessing{' '}

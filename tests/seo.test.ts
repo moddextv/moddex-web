@@ -14,7 +14,7 @@ import { MAX_BROWSE_PAGE } from '@/misc/browsePages';
 import { profileGraph, siteGraph } from '@/components/JsonLd';
 
 const ROOT = join(__dirname, '..');
-const APP = join(ROOT, 'src', 'app');
+const APP = join(ROOT, 'src', 'app', '[locale]');
 
 const read = (...parts: string[]) => readFileSync(join(APP, ...parts), 'utf8');
 

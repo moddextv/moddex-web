@@ -1,0 +1,53 @@
+{
+  "common": {
+    "loading": "Lädt",
+    "loadMore": "Mehr laden",
+    "search": "Suchen",
+    "close": "Schliessen",
+    "back": "Zurück"
+  },
+  "nav": {
+    "channels": "Kanäle",
+    "accounts": "Konten",
+    "leaderboard": "Rangliste",
+    "about": "Über",
+    "donate": "Spenden",
+    "discord": "Discord",
+    "dashboard": "Verwaltung",
+    "settings": "Einstellungen",
+    "profile": "Mein Profil",
+    "signIn": "Mit Twitch anmelden",
+    "signOut": "Abmelden",
+    "menu": "Menü",
+    "themeToLight": "Zum hellen Thema wechseln",
+    "themeToDark": "Zum dunklen Thema wechseln",
+    "language": "Sprache",
+    "skipToContent": "Zum Inhalt springen",
+    "home": "Startseite",
+    "main": "Hauptmenü",
+    "signInShort": "Anmelden",
+    "channelsLink": "Kanäle",
+    "accountsLink": "Konten",
+    "leaderboardLink": "Rangliste"
+  },
+  "roles": {
+    "mod": {
+      "one": "Moderator",
+      "other": "Moderatoren"
+    },
+    "vip": {
+      "one": "VIP",
+      "other": "VIPs"
+    },
+    "founder": {
+      "one": "Gründer",
+      "other": "Gründer"
+    }
+  },
+  "legal": {
+    "englishOnly": {
+      "title": "Diese Seite gibt es nur auf Englisch",
+      "body": "Datenschutzerklärung und Nutzungsbedingungen bleiben bewusst auf Englisch. Sie sind ein Vertrag, und eine Übersetzung, die vom Original abweicht, wäre schlechter als gar keine."
+    }
+  }
+}

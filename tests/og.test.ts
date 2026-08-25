@@ -123,7 +123,7 @@ describe('a card that cannot be drawn still answers with an image', () => {
     ['channel', '[username]'],
     ['user', '[username]']
   ])('%s/%s falls back rather than throwing', (...parts) => {
-    const route = readFileSync(join(ROOT, 'src', 'app', ...parts, 'opengraph-image.tsx'), 'utf8');
+    const route = readFileSync(join(ROOT, 'src', 'app', '[locale]', ...parts, 'opengraph-image.tsx'), 'utf8');
 
     expect(route).toContain('return staticCard();');
   });
@@ -140,7 +140,7 @@ describe('a page that writes its own openGraph still ships an image', () => {
   ];
 
   it.each(pages.map((parts) => [parts.join('/'), parts]))('%s', (_name, parts) => {
-    const source = readFileSync(join(ROOT, 'src', 'app', ...(parts as string[])), 'utf8');
+    const source = readFileSync(join(ROOT, 'src', 'app', '[locale]', ...(parts as string[])), 'utf8');
 
     expect(source).toContain('openGraph: openGraphFor(');
     expect(source).not.toMatch(/openGraph: \{/);
@@ -150,7 +150,7 @@ describe('a page that writes its own openGraph still ships an image', () => {
     ['channel', '[username]'],
     ['user', '[username]']
   ])('%s/%s hands it to the card instead', (...parts) => {
-    const dir = join(ROOT, 'src', 'app', ...parts);
+    const dir = join(ROOT, 'src', 'app', '[locale]', ...parts);
 
     expect(readFileSync(join(dir, 'page.tsx'), 'utf8')).not.toMatch(/images:/);
     expect(existsSync(join(dir, 'opengraph-image.tsx'))).toBe(true);
@@ -159,7 +159,7 @@ describe('a page that writes its own openGraph still ships an image', () => {
 
 describe('both profile axes carry an image route', () => {
   it.each(['channel', 'user'])('/%s/[username] has one', (type) => {
-    const route = join(ROOT, 'src', 'app', type, '[username]', 'opengraph-image.tsx');
+    const route = join(ROOT, 'src', 'app', '[locale]', type, '[username]', 'opengraph-image.tsx');
 
     expect(existsSync(route)).toBe(true);
     expect(readFileSync(route, 'utf8')).toContain('if (!user) return brandCard()');
@@ -167,7 +167,7 @@ describe('both profile axes carry an image route', () => {
 
   it.each(['channel', 'user'])('/%s/[username] describes its card', (type) => {
     const route = readFileSync(
-      join(ROOT, 'src', 'app', type, '[username]', 'opengraph-image.tsx'),
+      join(ROOT, 'src', 'app', '[locale]', type, '[username]', 'opengraph-image.tsx'),
       'utf8'
     );
 
