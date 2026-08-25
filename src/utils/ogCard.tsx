@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- satori renders no html, so next/image has nothing to optimise */
 
+import { DEFAULT_LOCALE, getTranslator } from '@/i18n';
 import 'server-only';
 
 import { readFile } from 'node:fs/promises';
@@ -11,8 +12,6 @@ import type { ReactNode } from 'react';
 
 import { ROLES, roleByLabel, type RoleKey, type RoleType, type UserType } from '@/misc/roles';
 import { logger } from '@/misc/Logger';
-import { getTranslator } from '@/i18n/dictionary';
-import { DEFAULT_LOCALE } from '@/i18n/locales';
 import type { Badge } from '@/misc/badges';
 import type { Seed } from '@/utils/roleSeed';
 
@@ -84,8 +83,8 @@ const countSize = (count: string): number => (count.length > 5 ? 42 : 50);
 // undici implements no file: protocol, so these are read rather than fetched
 const readFonts = async () => {
   const [medium, extraBold] = await Promise.all([
-    readFile(new URL('../app/fonts/Manrope-Medium.ttf', import.meta.url)),
-    readFile(new URL('../app/fonts/Manrope-ExtraBold.ttf', import.meta.url))
+    readFile(new URL('../fonts/Manrope-Medium.ttf', import.meta.url)),
+    readFile(new URL('../fonts/Manrope-ExtraBold.ttf', import.meta.url))
   ]);
 
   return [

@@ -50,12 +50,12 @@ describe('the card repeats globals.css, because satori reads no css variable', (
 
 describe('a card cannot render without its fonts', () => {
   it.each(['Manrope-Medium.ttf', 'Manrope-ExtraBold.ttf'])('%s is committed', (file) => {
-    expect(existsSync(join(ROOT, 'src', 'app', 'fonts', file))).toBe(true);
+    expect(existsSync(join(ROOT, 'src', 'fonts', file))).toBe(true);
   });
 
   it('reads them rather than fetching them', () => {
     expect(card).not.toMatch(/fetch\(new URL\(/);
-    expect(card).toMatch(/readFile\(new URL\('\.\.\/app\/fonts\//);
+    expect(card).toMatch(/readFile\(new URL\('\.\.\/fonts\//);
   });
 
   it('does not cache a failed read for the life of the process', () => {
