@@ -2,9 +2,11 @@
 
 import { getEventsubHealth, type EventsubHealth } from '@/utils/api/moddex/public';
 import {
+  getAuditLog,
   getConnections,
   getDonationLedger,
   getJobHealth,
+  type AuditPage,
   type ChannelConnections,
   type JobHealth,
   type Ledger
@@ -43,6 +45,31 @@ export async function listDonations(cursor?: string): Promise<ActionResult<Ledge
     const { userId } = await admin();
 
     return getDonationLedger(userId, { limit: 50, ...(cursor ? { cursor } : {}) });
+  });
+}
+
+export type AuditView = 'actions' | 'logins' | 'everything';
+
+// the view decides the filter here rather than in the client, so an action id
+// cannot ask for a page the dashboard never offers
+const FILTERS: Record<AuditView, { type?: string; exclude?: string }> = {
+  actions: { exclude: 'login' },
+  logins: { type: 'login' },
+  everything: {}
+};
+
+export async function listAudit(
+  view: AuditView = 'actions',
+  cursor?: string
+): Promise<ActionResult<AuditPage>> {
+  return attempt('listAudit', async () => {
+    const { userId } = await admin();
+
+    return getAuditLog(userId, {
+      limit: 50,
+      ...(FILTERS[view] ?? FILTERS.actions),
+      ...(cursor ? { cursor } : {})
+    });
   });
 }
 

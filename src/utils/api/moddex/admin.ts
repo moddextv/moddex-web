@@ -110,6 +110,40 @@ export const getDonationLedger = (
     actor
   });
 
+export interface AuditParty {
+  id: string;
+  login: string;
+  name: string;
+  avatar: string;
+}
+
+export interface AuditEntry {
+  id: string;
+  type: string;
+  message: string;
+  createdAt: string | null;
+  actor: AuditParty | null;
+  subject: AuditParty | null;
+}
+
+export interface AuditPage {
+  items: AuditEntry[];
+  limit: number;
+  hasMore: boolean;
+  cursor: string | null;
+  total: number | null;
+  types: string[] | null;
+}
+
+export const getAuditLog = (
+  actor: string,
+  params: { limit?: number; cursor?: string; type?: string } = {}
+) =>
+  call<AuditPage>(`/v1/admin/audit${query(asParams(params))}`, {
+    authenticated: true,
+    actor
+  });
+
 interface ChannelConnection {
   id: string;
   login: string | null;
