@@ -12,3 +12,6 @@ export const refreshUser = (
     body: { ...subject, roles },
     expect: userShape
   });
+
+export const recordLogin = (id: string): Promise<{ recorded: boolean }> =>
+  call('/v1/internal/logins', { authenticated: true, method: 'POST', body: { id } });

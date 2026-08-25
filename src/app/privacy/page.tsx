@@ -84,6 +84,12 @@ export default async function PrivacyPage() {
           keep you signed in, and we don&apos;t use it for tracking or advertising.
         </Para>
         <Para>
+          We keep a record of each sign-in: your Twitch id, when it happened, and how many times
+          you&apos;ve signed in altogether. It stays internal. Moddex admins can see it, it is never
+          published and never shared, and it&apos;s there so we can tell the site is being used and
+          notice an account being misused.
+        </Para>
+        <Para>
           You can link a Discord account in <Inline href="/settings">your settings</Inline>. We
           store only the Discord account id, and only so the icon on your public profile can point
           at it. We ask for the smallest permission Discord offers: enough to read which account you
