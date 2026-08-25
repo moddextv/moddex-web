@@ -1,13 +1,4 @@
-// A list asks two different questions about a reply that is on its way back, and
-// conflating them is what left "Load more" disabled for the rest of the session
-// on 2026-08-13.
-//
-//   wanted  — does this reply still belong to the query on screen? the LIST's
-//             question. a superseded page must be dropped.
-//   newest  — is this still the most recent request? the BUTTON's question. a
-//             superseded page must STILL put the button back.
-//
-// They differ exactly when the query moves while a page is in flight.
+// wanted is the list's question, newest the button's; they differ mid-flight
 
 interface PageLoad {
   generation: number;

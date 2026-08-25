@@ -126,9 +126,7 @@ export const fetchModeratedChannels = async (
     cursor = body.pagination?.cursor ?? '';
 
     if (!cursor) {
-      // twitchdev/issues#1176: this endpoint omits the cursor for any `first`
-      // above 1, so a FULL page without one is a short read, not the end. Never
-      // reduce this to `if (!cursor) complete = true` — that is the whole bug.
+      // twitchdev/issues#1176: a full page without a cursor is a short read, not the end
       if (entries.length >= MODERATED_PAGE_SIZE) return { channels, complete: false };
 
       return { channels, complete: true };

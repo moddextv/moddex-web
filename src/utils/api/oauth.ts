@@ -10,9 +10,6 @@ interface TokenGrant {
   scopes: string[];
 }
 
-// The authorization-code exchange, which is identical at twitch and discord
-// down to the content type. Null on anything that is not a usable token; the
-// caller decides what to tell the reader.
 export const exchangeCodeForToken = async (
   tokenUrl: string,
   credentials: { clientId: string; clientSecret: string },
