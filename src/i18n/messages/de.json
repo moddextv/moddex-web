@@ -138,7 +138,7 @@
     "auditShown": "{shown} angezeigt",
     "auditShownOf": "{shown} von {total} angezeigt",
     "auditSystem": "System",
-    "auditType": "Art",
+    "auditType": "Typ",
     "auditUnreadable": "Das Audit-Log konnte nicht gelesen werden.",
     "auditWhat": "Was geschehen ist",
     "auditWho": "Wer",
@@ -222,11 +222,11 @@
     "oldestNotRevisited": "ältester Kanal, der noch nicht erneut gelesen wurde",
     "oneRunSoFar": "bisher ein Lauf",
     "overview": "Übersicht",
-    "queue": "Warteschlange",
+    "queue": "Queue",
     "ranOf": "{ran} von {total}",
     "rate": "Rate",
     "readAgo": "gelesen {ago}",
-    "roleCounts": "Rollen-Zählung",
+    "roleCounts": "Rollenzahlen",
     "runs": {
       "avg": "{avg} Durchschnitt",
       "lead": "Gegen den eigenen Sieben-Tage-Schnitt. Lesenswert ist der Trend: eine einzelne Laufzeit zeigt nicht, dass ein Job aus seinem Fenster wächst.",
@@ -247,7 +247,7 @@
     "subscribed": "Abonniert",
     "sw": {
       "discoverNote": "Accounts, die noch kein Sweep berührt hat. Daran wächst der Index",
-      "inScope": "{count} im Blick",
+      "inScope": "{count} im Rückstand",
       "live": "Live",
       "liveNote": "die Kanäle, die gerade senden, laufend durchgegangen",
       "perMinute": "/ Min.",
@@ -264,10 +264,10 @@
       "yieldNote": "ein Sweep tritt über {above} Wartenden zur Seite, aber nie lange"
     },
     "sweep": "Sweep",
-    "sweepHead": "Sweep-Kopf",
+    "sweepHead": "Sweep-Head",
     "sweeps": "Sweeps",
     "trendsTitle": "Wie sich die nächtlichen Läufe entwickeln",
-    "twitchLogin": "Twitch-Name",
+    "twitchLogin": "Twitch-Login",
     "when": "Wann",
     "yield": "Yield"
   },
@@ -285,7 +285,7 @@
     "heading": "{brandName} läuft auf einem Server und ohne Werbung",
     "holds": {
       "accounts": "Accounts",
-      "backups": "Sicherungen aufbewahrt",
+      "backups": "Backups aufbewahrt",
       "backupsValue": "14 Tage",
       "channels": "Kanäle",
       "roleRecords": "Rolleneinträge",
@@ -519,7 +519,7 @@
     "onlyBots": "Nur Bots",
     "overTime": "Im Zeitverlauf",
     "pagination": "Seitennavigation",
-    "readingIndex": "lese den Index",
+    "readingIndex": "Index wird gelesen",
     "readingIndexLong": "Der Index wird gelesen…",
     "readingIndexShort": "Der Index wird gelesen.",
     "showBots": "Bots zeigen",
@@ -638,14 +638,14 @@
       "other": "Founder"
     },
     "mod": {
-      "one": "Moderator",
-      "other": "Moderatoren"
+      "one": "Mod",
+      "other": "Mods"
     },
     "title": {
       "channel": {
         "artist": "Artists",
         "founder": "Founder",
-        "mod": "Moderatoren",
+        "mod": "Mods",
         "vip": "VIPs"
       },
       "user": {

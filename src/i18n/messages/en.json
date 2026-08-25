@@ -528,12 +528,12 @@
     "whichRoles": "Which roles to show"
   },
   "nav": {
-    "language": "language",
+    "language": "Language",
     "main": "Main",
     "menu": "Menu",
     "signIn": "Sign in with Twitch",
     "signInShort": "Sign in",
-    "signOut": "logout",
+    "signOut": "Sign out",
     "skipToContent": "Skip to content",
     "themeToDark": "switch to dark theme",
     "themeToLight": "switch to light theme",
