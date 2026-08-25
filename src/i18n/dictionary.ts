@@ -1,5 +1,5 @@
-import de from '@/messages/de.json';
-import en from '@/messages/en.json';
+import de from './messages/de.json';
+import en from './messages/en.json';
 import { DEFAULT_LOCALE, Locale, LOCALES } from './locales';
 import { Dictionary, flatten, Messages, translator, Translator } from './translate';
 import { richFrom, RichTranslator } from './rich';

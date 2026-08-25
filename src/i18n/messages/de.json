@@ -114,7 +114,9 @@
       "title": "Hier gelistet und lieber nicht?",
       "body": "Mit Twitch anmelden und den Opt-out einschalten.",
       "action": "Opt-out"
-    }
+    },
+    "try": "probier",
+    "searchPlaceholder": "Kanal oder Konto suchen"
   },
   "settings": {
     "metaTitle": "Einstellungen",
@@ -182,7 +184,17 @@
       "totalLabel": "erfasste Kanäle",
       "walk": "Oder den ganzen Index durchgehen: <link>Kanäle nach vergebenen Rollen</link>.",
       "lead": "Wer in einem Kanal Mod, VIP oder Gründer ist, und seit wann. Wer einen Kanal zum ersten Mal sucht, nimmt ihn in den Index auf."
-    }
+    },
+    "heads": {
+      "channel": "Kanal",
+      "account": "Konto",
+      "mods": "Mods",
+      "vips": "VIPs",
+      "read": "Gelesen",
+      "modding": "Moderiert",
+      "viping": "VIP in"
+    },
+    "searchInstead": "Stattdessen suchen"
   },
   "donate": {
     "metaTitle": "Spenden",
@@ -285,7 +297,8 @@
   },
   "optOut": {
     "effect": "Der Opt-out stoppt die <em>Auslieferung</em> deiner Daten: dein Profil, die Rollenlisten und die öffentliche API führen dich dann nicht mehr.",
-    "reversible": "Schalte ihn wieder aus, wann immer du willst, und dein Eintrag kommt zurück."
+    "reversible": "Schalte ihn wieder aus, wann immer du willst, und dein Eintrag kommt zurück.",
+    "modsUnaffected": "Kanäle, die du moderierst, sind davon nicht betroffen."
   },
   "notices": {
     "optedOut": {
@@ -369,7 +382,13 @@
       "checkProfile": "Profil prüfen",
       "askDiscord": "Im Discord fragen",
       "byHand": "Falls das Abzeichen in einer Stunde noch fehlt, schick uns den Stripe-Beleg und wir vergeben es von Hand."
-    }
+    },
+    "retry": "Seite erneut laden",
+    "home": "Startseite",
+    "couldNotRead": "konnte nicht gelesen werden",
+    "listUnread": "Der Index für diese Liste konnte nicht gelesen werden.",
+    "otherListsFine": "Die anderen Listen auf dieser Seite sind nicht betroffen.",
+    "tryListAgain": "Diese Liste erneut versuchen"
   },
   "login": {
     "heading": "Diese Seite braucht eine Twitch-Anmeldung",
@@ -435,12 +454,17 @@
     "refresh": "Aktualisieren",
     "refreshProfile": "Dieses Profil erneut von Twitch lesen",
     "refreshChannel": "Diesen Kanal erneut von Twitch lesen",
-    "noGrantDate": "Twitch hat für diese Rolle kein Vergabedatum geliefert"
+    "noGrantDate": "Twitch hat für diese Rolle kein Vergabedatum geliefert",
+    "missingChannel": "Fehlt ein Kanal? Er erscheint hier erst, wenn ihn jemand nachgeschlagen hat. Einmal suchen genügt, dann bleibt er im Index.",
+    "indexChannel": "Kanal indexieren"
   },
   "roleCheck": {
     "title": "Nach einem Paar fragen",
     "accountLogin": "Konto-Name",
-    "channelLogin": "Kanal-Name"
+    "channelLogin": "Kanal-Name",
+    "held": "vorhanden",
+    "notHeld": "nicht vorhanden",
+    "noDate": "kein Datum"
   },
   "optOutPanel": {
     "title": "Aus dem Index abmelden"
@@ -509,7 +533,53 @@
     "auditShown": "{shown} angezeigt",
     "auditShownOf": "{shown} von {total} angezeigt",
     "auditEmpty": "Unter diesem Filter ist noch nichts verzeichnet.",
-    "auditUnreadable": "Das Protokoll konnte nicht gelesen werden."
+    "auditUnreadable": "Das Protokoll konnte nicht gelesen werden.",
+    "job": "Job",
+    "last": "Zuletzt",
+    "rate": "Rate",
+    "when": "Wann",
+    "never": "nie",
+    "asOf": "Stand {date}",
+    "oneRunSoFar": "bisher ein Lauf",
+    "oldestNotRevisited": "ältester Kanal, der noch nicht erneut gelesen wurde",
+    "nothingRanIn": "im {slot}-Fenster lief nichts",
+    "readAgo": "gelesen {ago}",
+    "noSnapshotYet": "noch keine Aufnahme",
+    "nothingWritten": "es wurde nichts geschrieben",
+    "ranOf": "{ran} von {total}",
+    "allRan": "alle gelaufen",
+    "missedSlot": {
+      "one": "{count} hat das letzte Fenster verpasst",
+      "other": "{count} haben das letzte Fenster verpasst"
+    },
+    "backlogsCounted": "Rückstände gezählt",
+    "backlogsNotCounted": "Rückstände nicht gezählt",
+    "dueAnotherLook": "schon gelesene Kanäle, die wieder dran sind",
+    "conduitNoShard": "ein Conduit ohne Shard verwirft Ereignisse",
+    "conn": {
+      "optedOut": "abgemeldet",
+      "withdrew": "zurückgezogen",
+      "never": "nie",
+      "neverHandedOver": "nie übergeben — nur ein erneutes Verbinden ändert das",
+      "yes": "ja",
+      "none": "keine",
+      "nothingSubscribed": "verbunden, nichts abonniert"
+    },
+    "don": {
+      "who": "Wer",
+      "when": "Wann",
+      "anonymous": "anonym",
+      "noAccountLinked": "mit dieser Spende wurde kein Twitch-Konto verknüpft",
+      "summary": "{shown} angezeigt · {total} gezählt"
+    },
+    "badge": {
+      "owner": "Besitzer",
+      "optedOut": "abgemeldet",
+      "neverFetched": "nie abgerufen",
+      "protected": "geschützt",
+      "unknownCount": "eine unbekannte Anzahl",
+      "twitchOwned": "<name>{name}</name> kommt von Twitch und wird vom Sweep geschrieben, ist also eine Zahl und keine Liste: <name>{count}</name> Konten. Hier kann sie niemand vergeben, und eine Million davon aufzuzählen würde nichts beantworten."
+    }
   },
   "success": {
     "metaTitle": "Danke",
@@ -553,6 +623,12 @@
     "pagination": "Seitennavigation",
     "mostRoles": "Meiste Rollen",
     "errorHeading": "Diese Seite wurde nicht fertig geladen",
-    "adminOnly": "Nur für Admins."
+    "adminOnly": "Nur für Admins.",
+    "follower": {
+      "one": "Follower",
+      "other": "Follower"
+    },
+    "notYet": "noch nie",
+    "ofTotal": "von {total}"
   }
 }

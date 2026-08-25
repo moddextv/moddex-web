@@ -114,7 +114,9 @@
       "title": "Listed here and would rather not be?",
       "body": "Sign in with Twitch and switch the opt-out on.",
       "action": "Opt out"
-    }
+    },
+    "try": "try",
+    "searchPlaceholder": "search a channel or account"
   },
   "settings": {
     "metaTitle": "Settings",
@@ -182,7 +184,17 @@
       "totalLabel": "channels indexed",
       "walk": "Or walk the whole index: <link>channels by roles handed out</link>.",
       "lead": "Who holds mod, vip and founder in a channel, and since when. Search a channel for the first time and you add it to the index."
-    }
+    },
+    "heads": {
+      "channel": "Channel",
+      "account": "Account",
+      "mods": "Mods",
+      "vips": "VIPs",
+      "read": "Read",
+      "modding": "Modding",
+      "viping": "Viping"
+    },
+    "searchInstead": "Search instead"
   },
   "donate": {
     "metaTitle": "Donate",
@@ -285,7 +297,8 @@
   },
   "optOut": {
     "effect": "The opt-out stops your data being <em>served</em>: your profile, the role lists and the public API all cease to include you.",
-    "reversible": "Switch it back off whenever you like and your entry comes back."
+    "reversible": "Switch it back off whenever you like and your entry comes back.",
+    "modsUnaffected": "Channels you moderate are unaffected."
   },
   "notices": {
     "optedOut": {
@@ -369,7 +382,13 @@
       "checkProfile": "Check your profile",
       "askDiscord": "Ask on Discord",
       "byHand": "If the badge is still missing an hour from now, send us the Stripe receipt and we'll assign it by hand."
-    }
+    },
+    "retry": "Retry this page",
+    "home": "Home",
+    "couldNotRead": "could not be read",
+    "listUnread": "We couldn't read the index for this list.",
+    "otherListsFine": "The other lists on this page are unaffected.",
+    "tryListAgain": "Try this list again"
   },
   "login": {
     "heading": "This page needs a Twitch sign-in",
@@ -435,12 +454,17 @@
     "refresh": "Refresh",
     "refreshProfile": "Read this profile again from Twitch",
     "refreshChannel": "Read this channel again from Twitch",
-    "noGrantDate": "Twitch returned no grant date for this role"
+    "noGrantDate": "Twitch returned no grant date for this role",
+    "missingChannel": "Missing a channel? It only appears here once somebody has looked that channel up. Search for it once and it stays indexed.",
+    "indexChannel": "Index a channel"
   },
   "roleCheck": {
     "title": "Ask about one pair",
     "accountLogin": "Account login",
-    "channelLogin": "Channel login"
+    "channelLogin": "Channel login",
+    "held": "held",
+    "notHeld": "not held",
+    "noDate": "no date"
   },
   "optOutPanel": {
     "title": "Opt out of the index"
@@ -509,7 +533,53 @@
     "auditShown": "{shown} shown",
     "auditShownOf": "{shown} shown of {total}",
     "auditEmpty": "Nothing recorded under this filter yet.",
-    "auditUnreadable": "Could not read the audit log."
+    "auditUnreadable": "Could not read the audit log.",
+    "job": "Job",
+    "last": "Last",
+    "rate": "Rate",
+    "when": "When",
+    "never": "never",
+    "asOf": "as of {date}",
+    "oneRunSoFar": "one run so far",
+    "oldestNotRevisited": "oldest channel not yet revisited",
+    "nothingRanIn": "nothing ran in the {slot} slot",
+    "readAgo": "read {ago}",
+    "noSnapshotYet": "no snapshot yet",
+    "nothingWritten": "nothing has been written",
+    "ranOf": "{ran} of {total}",
+    "allRan": "all ran",
+    "missedSlot": {
+      "one": "{count} missed the last slot",
+      "other": "{count} missed the last slot"
+    },
+    "backlogsCounted": "backlogs counted",
+    "backlogsNotCounted": "backlogs not counted",
+    "dueAnotherLook": "channels read before, due another look",
+    "conduitNoShard": "a conduit with no shard discards events",
+    "conn": {
+      "optedOut": "opted out",
+      "withdrew": "withdrew",
+      "never": "never",
+      "neverHandedOver": "never handed over, and only reconnecting fixes it",
+      "yes": "yes",
+      "none": "none",
+      "nothingSubscribed": "connected, nothing subscribed"
+    },
+    "don": {
+      "who": "Who",
+      "when": "When",
+      "anonymous": "anonymous",
+      "noAccountLinked": "no twitch account was linked to this donation",
+      "summary": "{shown} shown · {total} counted"
+    },
+    "badge": {
+      "owner": "owner",
+      "optedOut": "opted out",
+      "neverFetched": "never fetched",
+      "protected": "protected",
+      "unknownCount": "an unknown number of",
+      "twitchOwned": "<name>{name}</name> comes from twitch and is written by the sweep, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out here, and listing a million of them would answer nothing."
+    }
   },
   "success": {
     "metaTitle": "Thank you",
@@ -553,6 +623,12 @@
     "pagination": "Pagination",
     "mostRoles": "Most roles",
     "errorHeading": "That page didn't finish loading",
-    "adminOnly": "Admin only."
+    "adminOnly": "Admin only.",
+    "follower": {
+      "one": "follower",
+      "other": "followers"
+    },
+    "notYet": "not yet",
+    "ofTotal": "of {total}"
   }
 }
