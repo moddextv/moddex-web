@@ -29,7 +29,7 @@ export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata>
   return {
     alternates: alternatesFor('/settings', locale),
     robots: { index: false, follow: false },
-    title: t('settings.metaTitle'),
+    title: t('pages.settings'),
     description: t('settings.metaDescription', { domain: config.brand.domain })
   };
 };

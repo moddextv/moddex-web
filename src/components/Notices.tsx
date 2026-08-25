@@ -69,10 +69,10 @@ export const TeamOnly: FC<{ login?: string }> = ({ login }) => {
 
       <div className="flex flex-wrap gap-3">
         <LocaleLink href="/" className="btn">
-          {t('notices.teamOnly.home')}
+          {t('pages.home')}
         </LocaleLink>
         <LocaleLink href="/settings" className="btn btn-soft">
-          {t('notices.teamOnly.settings')}
+          {t('pages.settings')}
         </LocaleLink>
       </div>
 
@@ -93,10 +93,10 @@ export const NoCheckout: FC = () => {
 
       <div className="flex flex-wrap gap-3">
         <LocaleLink href="/donate" className="btn">
-          {t('notices.noCheckout.donate')}
+          {t('pages.donate')}
         </LocaleLink>
         <LocaleLink href="/" className="btn btn-soft">
-          {t('notices.noCheckout.home')}
+          {t('pages.home')}
         </LocaleLink>
       </div>
 

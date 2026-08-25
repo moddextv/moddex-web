@@ -17,7 +17,9 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
   return {
     ...pageMetadata('/about', locale),
-    title: t('about.metaTitle'),
+    // absolute: the name already carries the brand, and the layout's
+    // template would otherwise print it twice
+    title: { absolute: t('pages.about', { brandName: config.brand.name }) },
     description: t('about.metaDescription', { domain: config.brand.domain })
   };
 };

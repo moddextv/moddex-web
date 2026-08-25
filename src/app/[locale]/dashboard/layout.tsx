@@ -18,7 +18,7 @@ interface LayoutProps {
 }
 
 export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadata> => ({
-  title: getTranslator(asLocale((await params).locale))('dashboard.heading'),
+  title: getTranslator(asLocale((await params).locale))('pages.dashboard'),
   robots: { index: false, follow: false }
 });
 
@@ -46,7 +46,7 @@ export default async function DashboardLayout({ children, params }: LayoutProps)
     <main id="main" className="flex-grow">
       <Container>
         <header className="enter pt-8 pb-4 sm:pt-12 sm:pb-6">
-          <h1 className="text-h1">{t('dashboard.heading')}</h1>
+          <h1 className="text-h1">{t('pages.dashboard')}</h1>
         </header>
 
         <DashboardNav isAdmin={session.user.perms >= permissions.admin} />

@@ -27,10 +27,10 @@ export const NotFoundUser: FC<{ username: string }> = ({ username }) => {
 
       <div className="flex flex-wrap gap-3 mt-8">
         <LocaleLink href="/channel" className="btn">
-          {t('errors.common.channels')}
+          {t('pages.channels')}
         </LocaleLink>
         <LocaleLink href="/" className="btn btn-soft">
-          {t('errors.common.home')}
+          {t('pages.home')}
         </LocaleLink>
       </div>
 
@@ -61,10 +61,10 @@ export const InvalidUsername: FC<{ username: string }> = ({ username }) => {
 
       <div className="flex flex-wrap gap-3 mt-8">
         <LocaleLink href="/channel" className="btn">
-          {t('errors.common.channels')}
+          {t('pages.channels')}
         </LocaleLink>
         <LocaleLink href="/" className="btn btn-soft">
-          {t('errors.common.home')}
+          {t('pages.home')}
         </LocaleLink>
       </div>
 
@@ -85,19 +85,19 @@ export const UnknownPage: FC = () => {
 
       <div className="flex flex-wrap gap-3">
         <LocaleLink href="/" className="btn">
-          {t('errors.common.home')}
+          {t('pages.home')}
         </LocaleLink>
         <LocaleLink href="/channel" className="btn btn-soft">
-          {t('errors.common.channels')}
+          {t('pages.channels')}
         </LocaleLink>
         <LocaleLink href="/user" className="btn btn-soft">
-          {t('errors.common.accounts')}
+          {t('pages.accounts')}
         </LocaleLink>
         <LocaleLink href="/donate" className="btn btn-soft">
-          {t('errors.common.donate')}
+          {t('pages.donate')}
         </LocaleLink>
         <LocaleLink href="/docs" className="btn btn-soft">
-          {t('errors.common.apiDocs')}
+          {t('pages.apiDocs')}
         </LocaleLink>
       </div>
 

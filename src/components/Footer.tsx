@@ -39,10 +39,10 @@ export const Footer: FC<{ locale: Locale }> = ({ locale }) => {
           <p className="text-ui text-primary-400 leading-relaxed">{t('footer.blurb')}</p>
           <div className="mt-5 flex flex-col items-start gap-2.5">
             <FooterLink href="/about" icon={<span className="w-[18px]" aria-hidden="true" />}>
-              {t('footer.about', { brandName: config.brand.name })}
+              {t('pages.about', { brandName: config.brand.name })}
             </FooterLink>
             <FooterLink href="/donate" icon={<span className="w-[18px]" aria-hidden="true" />}>
-              {t('footer.donate')}
+              {t('pages.donate')}
             </FooterLink>
             <FooterLink
               href={config.brand.discordUrl}
@@ -62,20 +62,20 @@ export const Footer: FC<{ locale: Locale }> = ({ locale }) => {
             <p className="text-meta text-primary-400 mb-0.5">{t('footer.lookUp')}</p>
             <FooterLink href="/channel">{t('footer.byChannel')}</FooterLink>
             <FooterLink href="/user">{t('footer.byAccount')}</FooterLink>
-            <FooterLink href="/leaderboard">{t('footer.leaderboard')}</FooterLink>
+            <FooterLink href="/leaderboard">{t('pages.leaderboard')}</FooterLink>
             <FooterLink href={config.brand.docsUrl} newTab>
-              {t('footer.apiDocs')}
+              {t('pages.apiDocs')}
             </FooterLink>
             <FooterLink href={config.brand.statusUrl} newTab>
-              {t('footer.status')}
+              {t('pages.status')}
             </FooterLink>
           </nav>
 
           <nav className="flex flex-col gap-2.5" aria-label={t('footer.yourData')}>
             <p className="text-meta text-primary-400 mb-0.5">{t('footer.yourData')}</p>
             <FooterLink href="/settings">{t('footer.optOut')}</FooterLink>
-            <FooterLink href="/privacy">{t('footer.privacy')}</FooterLink>
-            <FooterLink href="/tos">{t('footer.terms')}</FooterLink>
+            <FooterLink href="/privacy">{t('pages.privacy')}</FooterLink>
+            <FooterLink href="/tos">{t('pages.terms')}</FooterLink>
           </nav>
         </div>
       </Container>

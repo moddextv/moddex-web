@@ -227,3 +227,22 @@ describe('every word a visitor reads comes from a message file', () => {
     expect(offenders).toEqual([]);
   });
 });
+
+describe('no dash a keyboard has no key for', () => {
+  /**
+   * An em dash reads as a tic rather than as punctuation, and every one that
+   * ever appeared here came from a translation being written rather than from
+   * the source copy. A comma, a colon or a full stop always says the same thing.
+   */
+  it.each(['en', 'de'])('%s.json uses ordinary punctuation', (locale) => {
+    const file = join(__dirname, '..', 'src', 'i18n', 'messages', `${locale}.json`);
+    const messages = readFileSync(file, 'utf8');
+
+    const offenders = messages
+      .split('\n')
+      .filter((line) => /[—–]/.test(line))
+      .map((line) => line.trim());
+
+    expect(offenders).toEqual([]);
+  });
+});

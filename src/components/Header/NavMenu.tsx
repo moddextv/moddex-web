@@ -44,25 +44,25 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
 
   const account = user
     ? [
-        <DropdownItem key="profile" textValue={t('nav.profile')} href={path(`/user/${login}`)}>
-          {t('nav.profile')}
+        <DropdownItem key="profile" textValue={t('pages.profile')} href={path(`/user/${login}`)}>
+          {t('pages.profile')}
         </DropdownItem>,
         <DropdownItem
           key="settings"
-          textValue={t('nav.settings')}
+          textValue={t('pages.settings')}
           href={path('/settings')}
           {...here(path('/settings'))}
         >
-          {t('nav.settings')}
+          {t('pages.settings')}
         </DropdownItem>,
         ...((user.perms ?? 0) >= permissions.team
           ? [
               <DropdownItem
                 key="dashboard"
-                textValue={t('nav.dashboard')}
+                textValue={t('pages.dashboard')}
                 href={path('/dashboard')}
               >
-                {t('nav.dashboard')}
+                {t('pages.dashboard')}
               </DropdownItem>
             ]
           : [])
@@ -140,59 +140,59 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
           <DropdownSection key="browse" showDivider>
             <DropdownItem
               key="channels"
-              textValue={t('nav.channels')}
+              textValue={t('pages.channels')}
               href={path('/channel')}
               {...here(path('/channel'))}
             >
-              {t('nav.channels')}
+              {t('pages.channels')}
             </DropdownItem>
 
             <DropdownItem
               key="accounts"
-              textValue={t('nav.accounts')}
+              textValue={t('pages.accounts')}
               href={path('/user')}
               {...here(path('/user'))}
             >
-              {t('nav.accounts')}
+              {t('pages.accounts')}
             </DropdownItem>
 
             <DropdownItem
               key="leaderboard"
-              textValue={t('nav.leaderboard')}
+              textValue={t('pages.leaderboard')}
               href={path('/leaderboard')}
               {...here(path('/leaderboard'))}
             >
-              {t('nav.leaderboard')}
+              {t('pages.leaderboard')}
             </DropdownItem>
           </DropdownSection>,
 
           <DropdownSection key="site" showDivider>
             <DropdownItem
               key="about"
-              textValue={t('nav.about')}
+              textValue={t('pages.about', { brandName: config.brand.name })}
               href={path('/about')}
               {...here(path('/about'))}
             >
-              {t('nav.about')}
+              {t('pages.about', { brandName: config.brand.name })}
             </DropdownItem>
 
             <DropdownItem
               key="donate"
-              textValue={t('nav.donate')}
+              textValue={t('pages.donate')}
               href={path('/donate')}
               {...here(path('/donate'))}
             >
-              {t('nav.donate')}
+              {t('pages.donate')}
             </DropdownItem>
 
             <DropdownItem
               key="discord"
-              textValue={t('nav.discord')}
+              textValue={t('pages.discord')}
               href={config.brand.discordUrl}
               endContent={<ExternalLinkIcon size={14} />}
               {...external}
             >
-              {t('nav.discord')}
+              {t('pages.discord')}
             </DropdownItem>
           </DropdownSection>,
 

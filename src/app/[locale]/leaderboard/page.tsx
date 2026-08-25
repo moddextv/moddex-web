@@ -33,7 +33,7 @@ export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata>
 
   return {
     ...pageMetadata('/leaderboard', locale),
-    title: t('leaderboard.metaTitle'),
+    title: t('pages.leaderboard'),
     description: t('leaderboard.metaDescription', { brandName: config.brand.name })
   };
 };
@@ -64,7 +64,7 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
         <header className="enter pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-tl text-mod" aria-hidden="true" />
-            <h1 className="text-h1">{t('leaderboard.heading')}</h1>
+            <h1 className="text-h1">{t('pages.leaderboard')}</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">
             {t('leaderboard.lead', { brandName: config.brand.name })}

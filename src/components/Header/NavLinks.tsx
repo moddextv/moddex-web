@@ -8,9 +8,9 @@ import clsx from 'clsx';
 
 // the corners are the two axes, not decoration — a leaderboard is neither
 const LINKS = [
-  { href: '/channel', key: 'nav.channelsLink', corner: 'corner-tl', tone: 'text-mod', wide: false },
-  { href: '/user', key: 'nav.accountsLink', corner: 'corner-br', tone: 'text-vip', wide: false },
-  { href: '/leaderboard', key: 'nav.leaderboardLink', corner: null, tone: null, wide: true }
+  { href: '/channel', key: 'pages.channels', corner: 'corner-tl', tone: 'text-mod', wide: false },
+  { href: '/user', key: 'pages.accounts', corner: 'corner-br', tone: 'text-vip', wide: false },
+  { href: '/leaderboard', key: 'pages.leaderboard', corner: null, tone: null, wide: true }
 ] as const;
 
 export const NavLinks: FC = () => {

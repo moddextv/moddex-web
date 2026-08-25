@@ -22,7 +22,7 @@ export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata>
 
   return {
     ...pageMetadata('/channel', locale),
-    title: t('browse.channels.metaTitle'),
+    title: t('pages.channels'),
     description: t('browse.channels.metaDescription', { brandName: config.brand.name })
   };
 };
@@ -40,7 +40,7 @@ export default async function ChannelPage({ params }: MetaProps) {
         <header className="enter search-host pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-tl text-mod" aria-hidden="true" />
-            <h1 className="text-h1">{t('browse.channels.heading')}</h1>
+            <h1 className="text-h1">{t('pages.channels')}</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">{t('browse.channels.lead')}</p>
 

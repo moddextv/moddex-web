@@ -22,7 +22,7 @@ export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata>
 
   return {
     ...pageMetadata('/user', locale),
-    title: t('browse.accounts.metaTitle'),
+    title: t('pages.accounts'),
     description: t('browse.accounts.metaDescription', { brandName: config.brand.name })
   };
 };
@@ -43,7 +43,7 @@ export default async function UserPage({ params }: MetaProps) {
         <header className="enter search-host pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-br text-vip" aria-hidden="true" />
-            <h1 className="text-h1">{t('browse.accounts.heading')}</h1>
+            <h1 className="text-h1">{t('pages.accounts')}</h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">{t('browse.accounts.lead')}</p>
 

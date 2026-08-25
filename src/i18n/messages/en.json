@@ -20,7 +20,6 @@
     },
     "lead": "{name} records which Twitch accounts hold moderator, VIP or founder status in which channels, and the day they got it. Twitch shows a broadcaster their own list. {name} keeps the other half.",
     "metaDescription": "Who runs {domain}, where it came from, and what happened to donations made back when it was modchecker.com.",
-    "metaTitle": "About",
     "who": {
       "one": "One person, and that is the whole team. The domain, the server, the database and the code all sit in the same pair of hands, and no part of {name} is operated by anybody else.",
       "title": "Who runs it",
@@ -29,20 +28,16 @@
   },
   "browse": {
     "accounts": {
-      "heading": "Accounts",
       "lead": "Every indexed channel where an account holds mod or vip, and the day each role was granted. That's the direction Twitch won't show you.",
       "listTitle": "Accounts holding roles",
       "metaDescription": "{brandName} holds role records for these Twitch accounts. Look one up to see every channel it holds mod or vip in.",
-      "metaTitle": "Accounts",
       "totalLabel": "accounts known",
       "walk": "Or walk the whole index: <link>accounts by role count</link>."
     },
     "channels": {
-      "heading": "Channels",
       "lead": "Who holds mod, vip and founder in a channel, and since when. Search a channel for the first time and you add it to the index.",
       "listTitle": "Indexed channels",
       "metaDescription": "The Twitch channels {brandName} has indexed. Look one up to see who holds mod, vip and founder in it.",
-      "metaTitle": "Channels",
       "totalLabel": "channels indexed",
       "walk": "Or walk the whole index: <link>channels by roles handed out</link>."
     },
@@ -277,7 +272,6 @@
     "yield": "Yield"
   },
   "dashboard": {
-    "heading": "Dashboard",
     "signInBlurb": "It's team only, so moddex has to know which Twitch account is yours before it can check.",
     "signInHeading": "The dashboard needs a Twitch sign-in"
   },
@@ -299,7 +293,6 @@
     },
     "lead": "No paid tier, nothing behind a login, and the api is open. Donations are the only thing keeping it that way.",
     "metaDescription": "{brandName} runs on one server and no advertising. No paid tier, nothing behind a login, and the api is open.",
-    "metaTitle": "Donate",
     "oneTime": "one time, USD",
     "opening": "Opening Stripe",
     "signedOut": "Sign in with Twitch first and the badge lands on your profile automatically. Donating signed out works too, it just needs a message in the Discord afterward.",
@@ -350,11 +343,6 @@
       "unreadable": "Couldn't read the session"
     },
     "common": {
-      "accounts": "Accounts",
-      "apiDocs": "API docs",
-      "channels": "Channels",
-      "donate": "Donate",
-      "home": "Home",
       "lookUp": "Look up someone else"
     },
     "couldNotRead": "could not be read",
@@ -379,20 +367,13 @@
     }
   },
   "footer": {
-    "about": "About {brandName}",
-    "apiDocs": "API docs",
     "blurb": "Every channel a Twitch account holds mod or vip in, and the day they got it. Not affiliated with, endorsed by, or sponsored by Twitch Interactive.",
     "byAccount": "By account",
     "byChannel": "By channel",
-    "donate": "Donate",
     "joinDiscord": "Join the Discord",
-    "leaderboard": "Leaderboard",
     "lookUp": "Look up",
     "onGitHub": "{brandName} on GitHub",
     "optOut": "Opt out",
-    "privacy": "Privacy",
-    "status": "Status",
-    "terms": "Terms",
     "yourData": "Your data"
   },
   "home": {
@@ -446,10 +427,8 @@
   },
   "leaderboard": {
     "empty": "Nothing here yet. The daily count has not run since this list was added.",
-    "heading": "Leaderboard",
     "lead": "Who holds the most roles across every channel {brandName} has read. Updates once a day.",
     "metaDescription": "Who holds the most mod, vip and founder roles on Twitch, counted by {brandName}.",
-    "metaTitle": "Leaderboard",
     "ranked": "ranked",
     "scales": {
       "founder": {
@@ -549,22 +528,9 @@
     "whichRoles": "Which roles to show"
   },
   "nav": {
-    "about": "about",
-    "accounts": "accounts",
-    "accountsLink": "Accounts",
-    "channels": "channels",
-    "channelsLink": "Channels",
-    "dashboard": "dashboard",
-    "discord": "discord",
-    "donate": "donate",
-    "home": "home",
     "language": "language",
-    "leaderboard": "leaderboard",
-    "leaderboardLink": "Leaderboard",
     "main": "Main",
     "menu": "Menu",
-    "profile": "my profile",
-    "settings": "settings",
     "signIn": "Sign in with Twitch",
     "signInShort": "Sign in",
     "signOut": "logout",
@@ -576,9 +542,7 @@
   "notices": {
     "noCheckout": {
       "body": "This address only means something right after a Stripe checkout. You've probably come from a bookmark.",
-      "donate": "Donate page",
-      "heading": "There's no checkout to show",
-      "home": "Home"
+      "heading": "There's no checkout to show"
     },
     "optedOut": {
       "after": "Nothing went wrong, and there's nothing to retry.",
@@ -598,9 +562,7 @@
       "as": " as {login}",
       "body": "You're signed in{as}, but that account doesn't have team permission. Nothing else on the site needs it.",
       "heading": "The dashboard is team only",
-      "home": "Home",
-      "kicker": "Signed in, but not on the team",
-      "settings": "Settings"
+      "kicker": "Signed in, but not on the team"
     }
   },
   "optOut": {
@@ -615,6 +577,22 @@
   },
   "optOutPanel": {
     "title": "Opt out of the index"
+  },
+  "pages": {
+    "about": "About {brandName}",
+    "accounts": "Accounts",
+    "apiDocs": "API docs",
+    "channels": "Channels",
+    "dashboard": "Dashboard",
+    "discord": "Discord",
+    "donate": "Donate",
+    "home": "Home",
+    "leaderboard": "Leaderboard",
+    "privacy": "Privacy",
+    "profile": "My profile",
+    "settings": "Settings",
+    "status": "Status",
+    "terms": "Terms"
   },
   "profile": {
     "copyShortUrl": "Copy short url",
@@ -735,7 +713,6 @@
       "title": "Live role updates"
     },
     "metaDescription": "Opt out of {domain}, or choose which badge shows next to your name.",
-    "metaTitle": "Settings",
     "privacy": "Privacy",
     "signInHeading": "Settings need a Twitch sign-in",
     "signedInAs": "Signed in as {login}. Changes save immediately."

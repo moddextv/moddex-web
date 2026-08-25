@@ -4,7 +4,7 @@
  *   server component   const t = getTranslator(locale)
  *   client component   const t = useT()            // or useI18n() for rich/path
  *
- *   t('nav.about')                 a message, by dotted key
+ *   t('pages.about')               a message, by dotted key
  *   t('roles.mod', { count: n })   the plural form the language uses
  *   t.number(n) t.date(iso) …      anything else a locale decides
  *

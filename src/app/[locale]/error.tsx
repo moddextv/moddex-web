@@ -26,7 +26,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
               {t('errors.retry')}
             </button>
             <LocaleLink href="/" className="btn btn-soft">
-              {t('errors.common.home')}
+              {t('pages.home')}
             </LocaleLink>
           </div>
 

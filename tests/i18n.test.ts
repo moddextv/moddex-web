@@ -137,8 +137,8 @@ describe('the shipped message files', () => {
     for (const locale of LOCALES) {
       const t = getTranslator(locale);
 
-      expect(t('nav.about')).not.toBe('nav.about');
-      expect(dictionaryOf(locale)['nav.about']).toBeTruthy();
+      expect(t('pages.channels')).not.toBe('pages.channels');
+      expect(dictionaryOf(locale)['pages.channels']).toBeTruthy();
     }
   });
 });

@@ -20,7 +20,7 @@ export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata>
 
   return {
     ...pageMetadata('/donate', locale),
-    title: t('donate.metaTitle'),
+    title: t('pages.donate'),
     description: t('donate.metaDescription', { brandName: config.brand.name })
   };
 };

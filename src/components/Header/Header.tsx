@@ -23,7 +23,7 @@ export const Header = async ({ locale }: { locale: Locale }) => {
           <Link
             href={localePath(locale, '/')}
             className="brand text-primary-100"
-            aria-label={`${config.brand.name} ${t('nav.home')}`}
+            aria-label={`${config.brand.name} ${t('pages.home')}`}
           >
             <Mark size={24} split />
             <span className="hidden sm:inline text-h3 font-extrabold">{config.brand.name}</span>
