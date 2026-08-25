@@ -241,6 +241,34 @@
 		}
 	}
 
+	/* the destination is drawn by the theme itself, so it survives having no
+	   resolvedTheme on the server and never flips after hydration */
+	.theme-to-dark {
+		display: none;
+	}
+
+	.theme-to-light {
+		display: inline;
+	}
+
+	:root.light .theme-to-dark {
+		display: inline;
+	}
+
+	:root.light .theme-to-light {
+		display: none;
+	}
+
+	@media (prefers-color-scheme: light) {
+		:root:not(.dark):not(.light) .theme-to-dark {
+			display: inline;
+		}
+
+		:root:not(.dark):not(.light) .theme-to-light {
+			display: none;
+		}
+	}
+
 	.search {
 		position: relative;
 		display: flex;

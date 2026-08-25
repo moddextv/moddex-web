@@ -12,7 +12,7 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Session } from 'next-auth';
-import { ExternalLinkIcon, MenuIcon } from '@/components/Icons';
+import { ChevronDownIcon, ExternalLinkIcon, MenuIcon } from '@/components/Icons';
 import { Image } from '@/components/UI/Image';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
@@ -103,6 +103,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             <span className="hidden md:inline max-w-[14ch] truncate" title={label}>
               {label}
             </span>
+            <ChevronDownIcon size={14} color="text-primary-400 shrink-0" />
           </button>
         ) : (
           <button type="button" aria-label="Menu" className="btn btn-ghost w-10 px-0 shrink-0">
@@ -168,7 +169,8 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
                 closeOnSelect={false}
                 onPress={() => setTheme(isDark.current ? 'light' : 'dark')}
               >
-                switch theme
+                <span className="theme-to-light">switch to light theme</span>
+                <span className="theme-to-dark">switch to dark theme</span>
               </DropdownItem>,
               ...close
             ]}
