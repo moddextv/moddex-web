@@ -10,7 +10,8 @@ const TABS = [
   { href: '/dashboard/badges', label: 'Badges', adminOnly: true },
   { href: '/dashboard/channels', label: 'Channels', adminOnly: true },
   { href: '/dashboard/donations', label: 'Donations', adminOnly: true },
-  { href: '/dashboard/jobs', label: 'Jobs', adminOnly: true }
+  { href: '/dashboard/jobs', label: 'Jobs', adminOnly: true },
+  { href: '/dashboard/audit', label: 'Audit', adminOnly: true }
 ];
 
 export const DashboardNav: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {

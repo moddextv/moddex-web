@@ -43,6 +43,21 @@ export const formatDayMonthYear = (value?: string | null): string | null => {
     : null;
 };
 
+export const formatDateTime = (value?: string | null): string | null => {
+  const date = asDate(value);
+  return date
+    ? date.toLocaleString(LOCALE, {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: ZONE
+      })
+    : null;
+};
+
 export const formatRelative = (value?: string | null): string | null => {
   const date = asDate(value);
   if (!date) return null;
