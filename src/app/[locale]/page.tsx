@@ -1,6 +1,7 @@
 import { pageMetadata } from '@/misc/metadata';
 import { asLocale } from '@/i18n/locales';
 import { getRich, getTranslator } from '@/i18n/dictionary';
+import { Translator } from '@/i18n/translate';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
 import { ArrowRightIcon } from '@/components/Icons';
@@ -9,12 +10,11 @@ import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { config } from '@/config';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
-import { getFormattedStats } from '@/utils/stats';
+import { getIndexStats } from '@/utils/stats';
 import { getStatsHistory } from '@/utils/api/moddex/public';
 import { Growth } from '@/components/Home/Growth';
 import { HeroSearch } from '@/components/Home/HeroSearch';
 import { RoleCheck } from '@/components/Home/RoleCheck';
-import { formatNumber } from '@/utils/format';
 import { JsonLd, siteGraph } from '@/components/JsonLd';
 import { Metadata } from 'next';
 import { CSSProperties, FC, ReactNode } from 'react';
@@ -48,19 +48,20 @@ const Direction: FC<{
   </LocaleLink>
 );
 
-const Count: FC<{ label: string; corner: string; tone: string; value: number }> = ({
-  label,
-  corner,
-  tone,
-  value
-}) => (
+const Count: FC<{
+  label: string;
+  corner: string;
+  tone: string;
+  value: number;
+  t: Translator;
+}> = ({ label, corner, tone, value, t }) => (
   <div>
     <p className="flex items-center gap-2.5 text-ui text-primary-400 mb-2">
       <span className={`corner ${corner} ${tone}`} aria-hidden="true" />
       {label}
     </p>
     <p className={`text-[clamp(1.625rem,2.4vw,2.125rem)] font-bold leading-none tabular ${tone}`}>
-      {formatNumber(value)}
+      {t.number(value)}
     </p>
   </div>
 );
@@ -103,7 +104,7 @@ export default async function Home({ params }: MetaProps) {
   const rich = getRich(locale);
 
   const [stats, recent, holders, history] = await Promise.all([
-    getFormattedStats(),
+    getIndexStats(),
     fetchChannels('read', 5, 0),
     fetchAccounts('roles', 5, 0, true),
     getStatsHistory(30).catch(() => [])
@@ -173,13 +174,15 @@ export default async function Home({ params }: MetaProps) {
               label={t('home.stats.mods')}
               corner="corner-tl"
               tone="text-mod"
-              value={stats.mods.raw}
+              value={stats.mods}
+              t={t}
             />
             <Count
               label={t('home.stats.vips')}
               corner="corner-br"
               tone="text-vip"
-              value={stats.vips.raw}
+              value={stats.vips}
+              t={t}
             />
 
             {stats.founders && (
@@ -187,7 +190,8 @@ export default async function Home({ params }: MetaProps) {
                 label={t('home.stats.founders')}
                 corner="corner-bl"
                 tone="text-founder"
-                value={stats.founders.raw}
+                value={stats.founders}
+                t={t}
               />
             )}
 
@@ -203,8 +207,8 @@ export default async function Home({ params }: MetaProps) {
                   )
                 },
                 {
-                  channels: formatNumber(stats.channels.raw),
-                  accounts: formatNumber(stats.users.raw)
+                  channels: t.number(stats.channels),
+                  accounts: t.number(stats.users)
                 }
               )}
             </p>
@@ -222,7 +226,7 @@ export default async function Home({ params }: MetaProps) {
           >
             {recent.items.length > 0 && (
               <Live title={t('home.recent.title')} href="/channel" link={t('home.recent.link')}>
-                <BrowseRows kind="channel" items={recent.items} />
+                <BrowseRows kind="channel" items={recent.items} locale={locale} />
               </Live>
             )}
 
@@ -232,7 +236,7 @@ export default async function Home({ params }: MetaProps) {
                 href="/leaderboard"
                 link={t('home.holders.link')}
               >
-                <BrowseRows kind="account" items={holders.items} />
+                <BrowseRows kind="account" items={holders.items} locale={locale} />
               </Live>
             )}
           </section>

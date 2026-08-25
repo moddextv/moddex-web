@@ -5,7 +5,6 @@ import { useT } from '@/i18n/context';
 import clsx from 'clsx';
 
 import { RoleKey, roleCornerClass, roleTextClass } from '@/misc/roles';
-import { formatNumber } from '@/utils/format';
 
 interface RoleTab {
   key: RoleKey;
@@ -41,7 +40,7 @@ export const RoleTabs: FC<{ tabs: RoleTab[]; children: ReactNode }> = ({ tabs, c
             />
             {tab.label}
             <span className="tabular text-primary-400">
-              {tab.count === null ? '·' : formatNumber(tab.count)}
+              {tab.count === null ? '·' : t.number(tab.count)}
             </span>
           </button>
         ))}

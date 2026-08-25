@@ -1,5 +1,6 @@
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale, ogLocale } from '@/i18n/locales';
+import { asLocale, localePath, ogLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';
@@ -58,7 +59,10 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default async function UserUsernamePage({ params }: PageProps) {
-  const username = decodeURI((await params).username);
+  const { username: rawName, locale: rawLocale } = await params;
+  const username = decodeURI(rawName);
+  const locale = asLocale(rawLocale);
+  const t = getTranslator(locale);
 
   if (!isUsername(username)) {
     return <InvalidUsername username={username} />;
@@ -79,7 +83,7 @@ export default async function UserUsernamePage({ params }: PageProps) {
   }
 
   if (user.login !== username) {
-    return redirect(`/user/${user.login}`);
+    return redirect(localePath(locale, `/user/${user.login}`));
   }
 
   const seeded = await seedRoleLists(user.id, 'user', ROLES);
@@ -98,12 +102,9 @@ export default async function UserUsernamePage({ params }: PageProps) {
           </RoleTabs>
 
           <div className="panel mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
-            <p className="text-read text-primary-300 max-w-[46ch]">
-              Missing a channel? It only appears here once somebody has looked that channel up.
-              Search for it once and it stays indexed.
-            </p>
-            <Link href="/channel" className="btn btn-soft shrink-0">
-              Index a channel
+            <p className="text-read text-primary-300 max-w-[46ch]">{t('profile.missingChannel')}</p>
+            <Link href={localePath(locale, '/channel')} className="btn btn-soft shrink-0">
+              {t('profile.indexChannel')}
             </Link>
           </div>
         </section>

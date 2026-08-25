@@ -12,7 +12,6 @@ import { PAGE_SIZE, useUserListData } from '@/hooks/useUserListData';
 import { useUserListView } from '@/hooks/useUserListView';
 import { UserListProps } from '@/misc/account';
 import { ROLES, RoleKey, roleByLabel, roleCornerClass, roleTextClass } from '@/misc/roles';
-import { formatNumber } from '@/utils/format';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { FixedSizeList as List } from 'react-window';
 import clsx from 'clsx';
@@ -134,16 +133,12 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
     return (
       <div className="panel">
         <PanelHeading roleKey={roleKey} title={title} tabbed={tabbed} className="mb-4">
-          <span className="ml-auto text-ui text-vip">could not be read</span>
+          <span className="ml-auto text-ui text-vip">{t('errors.couldNotRead')}</span>
         </PanelHeading>
-        <p className="text-read text-primary-300 max-w-prose mb-2">
-          We couldn&apos;t read the index for this list.
-        </p>
-        <p className="text-ui text-primary-400 mb-5">
-          The other lists on this page are unaffected.
-        </p>
+        <p className="text-read text-primary-300 max-w-prose mb-2">{t('errors.listUnread')}</p>
+        <p className="text-ui text-primary-400 mb-5">{t('errors.otherListsFine')}</p>
         <button type="button" className="btn btn-soft" onClick={reload}>
-          Try this list again
+          {t('errors.tryListAgain')}
         </button>
       </div>
     );
@@ -177,7 +172,9 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
           <span className="text-lead text-primary-400 tabular">
             {visibleUsers.length}
             {filtered && <span className="text-ui"> of {users.length}</span>}
-            {paged && showTotal && <span className="text-ui"> of {formatNumber(total)}</span>}
+            {paged && showTotal && (
+              <span className="text-ui"> {t('misc.ofTotal', { total: t.number(total) })}</span>
+            )}
             {paged && !showTotal && <span className="text-ui"> loaded</span>}
           </span>
         )}

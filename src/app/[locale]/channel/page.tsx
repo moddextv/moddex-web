@@ -6,7 +6,7 @@ import { BrowseList } from '@/components/Browse/BrowseList';
 import { Container } from '@/components/UI/Container';
 import { config } from '@/config';
 import { fetchChannels } from '@/actions/browse';
-import { getFormattedStats } from '@/utils/stats';
+import { getIndexStats } from '@/utils/stats';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { Metadata } from 'next';
 import { CSSProperties } from 'react';
@@ -33,7 +33,7 @@ export default async function ChannelPage({ params }: MetaProps) {
   const t = getTranslator(locale);
   const rich = getRich(locale);
 
-  const [stats, initial] = await Promise.all([getFormattedStats(), fetchChannels('read', 25, 0)]);
+  const [stats, initial] = await Promise.all([getIndexStats(), fetchChannels('read', 25, 0)]);
 
   return (
     <main id="main" className="flex-grow">
@@ -52,7 +52,7 @@ export default async function ChannelPage({ params }: MetaProps) {
           <BrowseList
             kind="channel"
             title={t('browse.channels.listTitle')}
-            total={stats.channels.raw}
+            total={stats.channels}
             totalLabel={t('browse.channels.totalLabel')}
             initial={initial}
           />

@@ -2,9 +2,8 @@
 
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
-import { useT } from '@/i18n/context';
+import { useI18n } from '@/i18n/context';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';
-import { formatNumber } from '@/utils/format';
 import { FC, useRef, useState, useTransition } from 'react';
 import { beginPage, beginQuery, createPageLoad, wanted } from '@/hooks/pageLoad';
 
@@ -30,7 +29,7 @@ interface BrowseListProps {
 }
 
 export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel, initial }) => {
-  const t = useT();
+  const { t, locale } = useI18n();
   const [sort, setSort] = useState<string>(kind === 'channel' ? 'read' : 'roles');
   const [includeBots, setIncludeBots] = useState(true);
   const [items, setItems] = useState<BrowseEntry[]>(initial.items);
@@ -90,7 +89,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <h2 className="text-h2">{title}</h2>
         <span className="text-lead text-primary-400 tabular">
-          {formatNumber(total)} <span className="text-ui">{totalLabel}</span>
+          {t.number(total)} <span className="text-ui">{totalLabel}</span>
         </span>
 
         <span className="ml-auto flex items-center gap-2 flex-wrap">
@@ -138,7 +137,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
         </p>
       ) : (
         <>
-          <BrowseRows kind={kind} items={items} />
+          <BrowseRows kind={kind} items={items} locale={locale} />
 
           {hasMore && (
             <button

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Locale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
-import { formatNumber } from '@/utils/format';
 import type { HistoryPoint } from '@/utils/api/moddex/public';
 import { buildPath, H, W } from '@/utils/sparkline';
+import { Translator } from '@/i18n/translate';
 
 interface Series {
   label: string;
@@ -11,7 +11,7 @@ interface Series {
   values: (number | null)[];
 }
 
-const Spark: FC<{ series: Series }> = ({ series }) => {
+const Spark: FC<{ series: Series; t: Translator }> = ({ series, t }) => {
   const known = series.values.filter((value): value is number => value !== null);
   const latest = known.at(-1) ?? null;
   const first = known.at(0) ?? null;
@@ -24,7 +24,7 @@ const Spark: FC<{ series: Series }> = ({ series }) => {
       <p className="text-micro uppercase tracking-wider text-primary-400">{series.label}</p>
 
       <p className="text-h2 font-extrabold tabular leading-none" style={{ color: series.color }}>
-        {change === null ? '·' : `${change >= 0 ? '+' : '−'}${formatNumber(Math.abs(change))}`}
+        {change === null ? '·' : `${change >= 0 ? '+' : '−'}${t.number(Math.abs(change))}`}
       </p>
 
       {path ? (
@@ -64,17 +64,17 @@ export const Growth: FC<{ points: HistoryPoint[]; locale: Locale }> = ({ points,
 
   const series: Series[] = [
     {
-      label: 'moderator records',
+      label: t('home.stats.mods'),
       color: 'var(--mod)',
       values: points.map((point) => point.mods)
     },
     {
-      label: 'VIP records',
+      label: t('home.stats.vips'),
       color: 'var(--vip)',
       values: points.map((point) => point.vips)
     },
     {
-      label: 'founder records',
+      label: t('home.stats.founders'),
       color: 'var(--founder)',
       values: points.map((point) => point.founders)
     }
@@ -86,7 +86,7 @@ export const Growth: FC<{ points: HistoryPoint[]; locale: Locale }> = ({ points,
 
       <div className="grid gap-8 sm:grid-cols-3">
         {series.map((one) => (
-          <Spark key={one.label} series={one} />
+          <Spark key={one.label} series={one} t={t} />
         ))}
       </div>
     </div>

@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import { Locale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
-import { formatDate } from '@/utils/format';
-import { ago } from './ago';
+import { Translator } from '@/i18n/translate';
 import type { EventsubHealth } from '@/utils/api/moddex/public';
 import type { ChannelConnections } from '@/utils/api/moddex/admin';
 
-const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boolean }> = ({
-  connection,
-  subscribed
-}) => {
+const Row: FC<{
+  connection: ChannelConnections['items'][number];
+  subscribed: boolean;
+  t: Translator;
+}> = ({ connection, subscribed, t }) => {
   const { login, name, ignored, connectedAt, revokedAt, moderatedSyncedAt, id } = connection;
   const withdrew = !!revokedAt;
 
@@ -18,33 +18,31 @@ const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boo
       <span className="min-w-0">
         <span className="text-base font-bold truncate">{login ?? id}</span>
         {name && name !== login && <span className="text-micro text-primary-400"> · {name}</span>}
-        {ignored && <span className="text-micro text-vip"> · opted out</span>}
-        {withdrew && <span className="text-micro text-primary-400"> · withdrew</span>}
+        {ignored && <span className="text-micro text-vip"> · {t('dash.conn.optedOut')}</span>}
+        {withdrew && (
+          <span className="text-micro text-primary-400"> · {t('dash.conn.withdrew')}</span>
+        )}
       </span>
 
-      <span className="text-ui text-primary-300" title={formatDate(connectedAt)}>
-        {ago(connectedAt)}
+      <span className="text-ui text-primary-300" title={t.dateLong(connectedAt)}>
+        {t.ago(connectedAt)}
       </span>
 
       <span
         className="text-ui text-primary-300"
-        title={
-          moderatedSyncedAt
-            ? formatDate(moderatedSyncedAt)
-            : 'never handed over, and only reconnecting fixes it'
-        }
+        title={moderatedSyncedAt ? t.dateLong(moderatedSyncedAt) : t('dash.conn.neverHandedOver')}
       >
-        {moderatedSyncedAt ? ago(moderatedSyncedAt) : 'never'}
+        {moderatedSyncedAt ? t.ago(moderatedSyncedAt) : t('dash.conn.never')}
       </span>
 
       <span className="text-ui">
         {withdrew ? (
           <span className="text-primary-400">·</span>
         ) : subscribed ? (
-          <span className="text-primary-400">yes</span>
+          <span className="text-primary-400">{t('dash.conn.yes')}</span>
         ) : (
-          <span className="text-vip font-bold" title="connected, nothing subscribed">
-            none
+          <span className="text-vip font-bold" title={t('dash.conn.nothingSubscribed')}>
+            {t('dash.conn.none')}
           </span>
         )}
       </span>
@@ -91,7 +89,7 @@ export const Connections: FC<{
           </div>
 
           {items.map((connection) => (
-            <Row key={connection.id} connection={connection} subscribed={anySubscriptions} />
+            <Row key={connection.id} connection={connection} subscribed={anySubscriptions} t={t} />
           ))}
         </div>
       )}

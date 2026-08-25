@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import { useT } from '@/i18n/context';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { SearchBox } from '@/components/Search/SearchBox';
 
@@ -16,16 +17,16 @@ export const HeroSearch: FC = () => {
         one is the small list — /user/nightbot is 590k rows to land on by typo */}
       <SearchBox
         scope="channel"
-        placeholder="search a channel or account"
+        placeholder={t('home.searchPlaceholder')}
         label={t('misc.heroSearch')}
       />
 
       <p className="mt-4 hidden sm:flex items-center gap-2.5 flex-wrap text-ui text-primary-400">
-        <span>try</span>
+        <span>{t('home.try')}</span>
         {EXAMPLES.map((login) => (
-          <a key={login} href={`/channel/${login}`} className="chip font-mono">
+          <LocaleLink key={login} href={`/channel/${login}`} className="chip font-mono">
             {login}
-          </a>
+          </LocaleLink>
         ))}
       </p>
     </div>

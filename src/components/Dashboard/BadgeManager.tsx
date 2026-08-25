@@ -1,8 +1,8 @@
 'use client';
 
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useT } from '@/i18n/context';
-import Link from 'next/link';
+import { useI18n } from '@/i18n/context';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
 import { SearchIcon } from '@/components/Icons';
@@ -15,7 +15,6 @@ import {
   revokeUserBadge
 } from '@/actions/badges';
 import { useAction } from '@/hooks/useAction';
-import { formatDayMonthYear } from '@/utils/format';
 import type { Badge } from '@/misc/badges';
 import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
 import { SOURCES, kindOf } from './badgeRouting';
@@ -24,9 +23,9 @@ import { SOURCES, kindOf } from './badgeRouting';
 // no profile behind an id
 const Name: FC<{ login: string | null; fallback?: string }> = ({ login, fallback }) =>
   login ? (
-    <Link href={`/channel/${login}`} className="row-name text-base font-bold truncate">
+    <LocaleLink href={`/channel/${login}`} className="row-name text-base font-bold truncate">
       {login}
-    </Link>
+    </LocaleLink>
   ) : (
     <span className="text-base font-bold truncate">{fallback}</span>
   );
@@ -51,7 +50,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
   catalogue,
   counts: initialCounts
 }) => {
-  const t = useT();
+  const { t, rich } = useI18n();
   const [counts, setCounts] = useState(initialCounts);
   const [selected, setSelected] = useState(catalogue[0]?.name ?? '');
   const [rows, setRows] = useState<Row[]>([]);
@@ -165,14 +164,17 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
       {kind === 'twitch' ? (
         <p className="text-read text-primary-300 max-w-prose px-4 pb-5">
-          <span className="font-bold">{selected}</span> comes from twitch and is written by the
-          sweep, so it is a count rather than a roster:{' '}
-          <span className="font-bold">
-            {counts[selected] === null || counts[selected] === undefined
-              ? 'an unknown number of'
-              : counts[selected].toLocaleString('en-US')}
-          </span>{' '}
-          accounts. Nobody can hand it out here, and listing a million of them would answer nothing.
+          {rich(
+            'dash.badge.twitchOwned',
+            { name: (chunk) => <span className="font-bold">{chunk}</span> },
+            {
+              name: selected,
+              count:
+                counts[selected] === null || counts[selected] === undefined
+                  ? t('dash.badge.unknownCount')
+                  : t.number(counts[selected])
+            }
+          )}
         </p>
       ) : (
         <>
@@ -198,7 +200,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
               <div className="row-head cols-badges">
                 <span>{t('dash.account')}</span>
                 <span>{t('dash.givenBy')}</span>
-                <span>When</span>
+                <span>{t('dash.when')}</span>
                 <span />
               </div>
 
@@ -213,10 +215,12 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                       </span>
                       {(row.owner || row.ignored || row.known === false) && (
                         <span className="flex items-center gap-2 text-micro">
-                          {row.owner && <span className="text-mod">owner</span>}
-                          {row.ignored && <span className="text-vip">opted out</span>}
+                          {row.owner && <span className="text-mod">{t('dash.badge.owner')}</span>}
+                          {row.ignored && (
+                            <span className="text-vip">{t('dash.badge.optedOut')}</span>
+                          )}
                           {row.known === false && (
-                            <span className="text-primary-400">never fetched</span>
+                            <span className="text-primary-400">{t('dash.badge.neverFetched')}</span>
                           )}
                         </span>
                       )}
@@ -225,12 +229,12 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
                   <span className="text-ui text-primary-300 truncate">{row.byLogin ?? '·'}</span>
 
-                  <span className="text-ui text-primary-300">
-                    {row.at ? formatDayMonthYear(row.at) : '·'}
-                  </span>
+                  <span className="text-ui text-primary-300">{row.at ? t.date(row.at) : '·'}</span>
 
                   {row.owner ? (
-                    <span className="text-micro text-primary-400 justify-self-end">protected</span>
+                    <span className="text-micro text-primary-400 justify-self-end">
+                      {t('dash.badge.protected')}
+                    </span>
                   ) : (
                     <button
                       type="button"

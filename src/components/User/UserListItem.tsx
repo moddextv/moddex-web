@@ -3,9 +3,8 @@ import { useT } from '@/i18n/context';
 import { Badges } from '@/components/User/Badges';
 import { RoleUser } from '@/misc/account';
 import { UserType } from '@/misc/roles';
-import { formatDayMonthYear, formatNumber } from '@/utils/format';
 import { Avatar } from '@/components/UI/Avatar';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 interface UserListItemProps {
   user: RoleUser;
@@ -14,10 +13,10 @@ interface UserListItemProps {
 
 export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
   const t = useT();
-  const granted = formatDayMonthYear(user.grantedAt);
+  const granted = t.date(user.grantedAt);
 
   return (
-    <Link
+    <LocaleLink
       href={`/${type === 'channel' ? 'user' : 'channel'}/${user.login}`}
       className="row cols-people h-full"
     >
@@ -39,8 +38,8 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
       )}
 
       <span className="text-ui text-primary-400 tabular text-right">
-        {formatNumber(user.followers || 0)}
+        {t.number(user.followers || 0)}
       </span>
-    </Link>
+    </LocaleLink>
   );
 };

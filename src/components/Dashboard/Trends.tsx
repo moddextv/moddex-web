@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Locale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
+import { Translator } from '@/i18n/translate';
 import clsx from 'clsx';
 
 import { buildPath, H, W } from '@/utils/sparkline';
@@ -10,7 +11,7 @@ import type { JobPoint } from '@/utils/api/moddex/admin';
 // the same tolerance the Runs trend uses, so the two never disagree on a word
 const STEADY = 0.1;
 
-const Trend: FC<{ job: string; points: JobPoint[] }> = ({ job, points }) => {
+const Trend: FC<{ job: string; points: JobPoint[]; t: Translator }> = ({ job, points, t }) => {
   const values = points.map((point) => point.seconds);
   const first = values[0] ?? null;
   const last = values.at(-1) ?? null;
@@ -45,7 +46,7 @@ const Trend: FC<{ job: string; points: JobPoint[] }> = ({ job, points }) => {
             />
           </svg>
         ) : (
-          <span className="text-micro text-primary-400">one run so far</span>
+          <span className="text-micro text-primary-400">{t('dash.oneRunSoFar')}</span>
         )}
       </span>
 
@@ -82,14 +83,14 @@ export const Trends: FC<{
 
       <div className="rows">
         <div className="row-head cols-trends">
-          <span>Job</span>
-          <span>Last</span>
+          <span>{t('dash.job')}</span>
+          <span>{t('dash.last')}</span>
           <span />
           <span className="text-right">{t('dash.change')}</span>
         </div>
 
         {jobs.map(([job, points]) => (
-          <Trend key={job} job={job} points={points} />
+          <Trend key={job} job={job} points={points} t={t} />
         ))}
       </div>
     </div>

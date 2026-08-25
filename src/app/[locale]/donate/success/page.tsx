@@ -14,7 +14,6 @@ import { Mark } from '@/components/UI/Mark';
 import { logger } from '@/misc/Logger';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
-import { LOCALE } from '@/utils/format';
 import { CSSProperties, FC, ReactNode } from 'react';
 
 interface MetaProps {
@@ -87,9 +86,7 @@ export default async function SuccessPage({
   const amount = session.amount_total ?? null;
   const currency = (session.currency ?? 'usd').toUpperCase();
 
-  const amountText = amount
-    ? new Intl.NumberFormat(LOCALE, { style: 'currency', currency }).format(amount / 100)
-    : null;
+  const amountText = amount ? t.money(amount, currency) : null;
 
   if (!login) {
     return (

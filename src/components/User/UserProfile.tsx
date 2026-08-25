@@ -2,7 +2,6 @@
 
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
-import { formatMonthYearLong, formatNumber, formatRelative } from '@/utils/format';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
 import { FC, useEffect, useState } from 'react';
@@ -51,7 +50,7 @@ const DirectionTabs: FC<{ login: string; isUser: boolean }> = ({ login, isUser }
 };
 
 export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser }) => {
-  const { t } = useI18n();
+  const { t, path } = useI18n();
   const { currentUser, loading, banReason, reloadUserProfile } = useUserProfileData(user);
   const router = useRouter();
 
@@ -60,14 +59,14 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
     if (!current || current === user.login) return;
 
-    router.replace(`/${isUser ? 'user' : 'channel'}/${current}`);
-  }, [currentUser?.login, user.login, isUser, router]);
+    router.replace(path(`/${isUser ? 'user' : 'channel'}/${current}`));
+  }, [currentUser?.login, user.login, isUser, router, path]);
 
   const [lastRead, setLastRead] = useState<string | null>(null);
 
   useEffect(() => {
-    setLastRead(formatRelative(currentUser?.updatedAt));
-  }, [currentUser?.updatedAt]);
+    setLastRead(t.since(currentUser?.updatedAt));
+  }, [currentUser?.updatedAt, t]);
 
   useEffect(() => {
     if (banReason) window.location.reload();
@@ -116,7 +115,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           {currentUser?.followers !== null && (
             <span>
               <span className="tabular text-primary-100 font-bold">
-                {formatNumber(currentUser?.followers || 0)}
+                {t.number(currentUser?.followers || 0)}
               </span>{' '}
               {t('profile.followers', { count: currentUser?.followers || 0 })}
             </span>
@@ -125,9 +124,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           {currentUser?.createdAt && (
             <span>
               {t('profile.joined')}{' '}
-              <span className="tabular text-primary-200">
-                {formatMonthYearLong(currentUser.createdAt)}
-              </span>
+              <span className="tabular text-primary-200">{t.monthYear(currentUser.createdAt)}</span>
             </span>
           )}
 

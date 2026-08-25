@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import { Locale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
-import { formatDate } from '@/utils/format';
-import { ago } from './ago';
+import { Translator } from '@/i18n/translate';
 import { backupLate, clock, size } from '@/utils/jobHealth';
 import type { JobHealth as Health } from '@/utils/api/moddex/admin';
 
@@ -20,16 +19,20 @@ const Row: FC<{ label: string; children: React.ReactNode; note?: string }> = ({
   </div>
 );
 
-const Ran: FC<{ lastAt: string | null; dueSince: string; overdue: boolean }> = ({
-  lastAt,
-  dueSince,
-  overdue
-}) => (
+const Ran: FC<{
+  lastAt: string | null;
+  dueSince: string;
+  overdue: boolean;
+  t: Translator;
+}> = ({ lastAt, dueSince, overdue, t }) => (
   <>
-    <span className={overdue ? 'text-vip font-bold' : undefined}>{ago(lastAt)}</span>
+    <span className={overdue ? 'text-vip font-bold' : undefined}>{t.ago(lastAt)}</span>
     {lastAt && <span className="text-primary-400"> · {clock(lastAt)}</span>}
     {overdue && (
-      <span className="text-primary-400"> · nothing ran in the {clock(dueSince)} slot</span>
+      <span className="text-primary-400">
+        {' '}
+        · {t('dash.nothingRanIn', { slot: clock(dueSince) })}
+      </span>
     )}
   </>
 );
@@ -43,23 +46,23 @@ export const JobHealth: FC<{ health: Health; locale: Locale }> = ({ health, loca
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <h2 className="text-h2">{t('dash.scheduledWork')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
-          as of {formatDate(new Date().toISOString())}
+          {t('dash.asOf', { date: t.dateLong(new Date().toISOString()) })}
         </span>
       </div>
 
       <div className="rows">
         <div className="row-head cols-jobs">
-          <span>Job</span>
+          <span>{t('dash.job')}</span>
           <span>{t('dash.lastRun')}</span>
           <span />
         </div>
 
         <Row label={t('dash.snapshot')} note="one point a day at 03:00 UTC">
-          <Ran {...snapshot} />
+          <Ran {...snapshot} t={t} />
         </Row>
 
         <Row label={t('dash.roleCounts')} note="the browse rankings, rebuilt at 04:00 UTC">
-          <Ran {...roleCounts} />
+          <Ran {...roleCounts} t={t} />
         </Row>
 
         {backup && (
@@ -71,15 +74,15 @@ export const JobHealth: FC<{ health: Health; locale: Locale }> = ({ health, loca
                   : undefined
               }
             >
-              {ago(backup.at)}
+              {t.ago(backup.at)}
             </span>
             <span className="text-primary-400"> · {size(backup.bytes)}</span>
           </Row>
         )}
 
         {sweepHead && (
-          <Row label={t('dash.sweepHead')} note="oldest channel not yet revisited">
-            <span title={formatDate(sweepHead)}>{ago(sweepHead)}</span>
+          <Row label={t('dash.sweepHead')} note={t('dash.oldestNotRevisited')}>
+            <span title={t.dateLong(sweepHead)}>{t.ago(sweepHead)}</span>
           </Row>
         )}
       </div>

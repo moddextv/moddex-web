@@ -2,7 +2,7 @@
 
 import { FC, useState } from 'react';
 import { useT } from '@/i18n/context';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
@@ -158,9 +158,9 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
               />
             ) : null}
 
-            <Link href={`/user/${member.login}`} className="text-base font-bold">
+            <LocaleLink href={`/user/${member.login}`} className="text-base font-bold">
               {member.name || member.login}
-            </Link>
+            </LocaleLink>
 
             <Badges badges={member.badges ?? []} size={18} className="shrink-0" />
           </div>

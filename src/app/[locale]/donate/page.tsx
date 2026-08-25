@@ -5,8 +5,7 @@ import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
 import { DonateForm } from '@/components/DonateForm';
 import { config } from '@/config';
-import { getFormattedStats } from '@/utils/stats';
-import { formatNumber } from '@/utils/format';
+import { getIndexStats } from '@/utils/stats';
 import { Metadata } from 'next';
 import { CSSProperties, FC } from 'react';
 
@@ -59,8 +58,8 @@ const Held: FC<{ value: string; label: string }> = ({ value, label }) => (
 export default async function DonatePage({ params }: MetaProps) {
   const locale = asLocale((await params).locale);
   const t = getTranslator(locale);
-  const stats = await getFormattedStats();
-  const roleRecords = stats.mods.raw + stats.vips.raw;
+  const stats = await getIndexStats();
+  const roleRecords = stats.mods + stats.vips;
 
   return (
     <main id="main" className="flex-grow">
@@ -126,9 +125,9 @@ export default async function DonatePage({ params }: MetaProps) {
           <div className="panel">
             <p className="text-meta text-primary-400 mb-4">{t('donate.holds.title')}</p>
             <div className="flex flex-wrap gap-x-14 gap-y-6">
-              <Held value={formatNumber(roleRecords)} label={t('donate.holds.roleRecords')} />
-              <Held value={formatNumber(stats.users.raw)} label={t('donate.holds.accounts')} />
-              <Held value={formatNumber(stats.channels.raw)} label={t('donate.holds.channels')} />
+              <Held value={t.number(roleRecords)} label={t('donate.holds.roleRecords')} />
+              <Held value={t.number(stats.users)} label={t('donate.holds.accounts')} />
+              <Held value={t.number(stats.channels)} label={t('donate.holds.channels')} />
               <Held value={t('donate.holds.backupsValue')} label={t('donate.holds.backups')} />
             </div>
           </div>

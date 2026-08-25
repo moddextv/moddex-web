@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { Locale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 
-import { ago } from './ago';
 import type { EventsubHealth } from '@/utils/api/moddex/public';
 import type { SweepHealth } from '@/utils/api/moddex/admin';
 
@@ -37,14 +36,14 @@ export const Sweeps: FC<{
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <h2 className="text-h2">{t('dash.sweeps')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
-          {sweeps.depthCounted ? 'backlogs counted' : 'backlogs not counted'}
+          {sweeps.depthCounted ? t('dash.backlogsCounted') : t('dash.backlogsNotCounted')}
         </span>
       </div>
 
       <div className="rows">
         <div className="row-head cols-jobs">
           <span>{t('dash.sweep')}</span>
-          <span>Rate</span>
+          <span>{t('dash.rate')}</span>
           <span />
         </div>
 
@@ -52,7 +51,7 @@ export const Sweeps: FC<{
           {number(sweeps.live.perMinute)} <span className="text-primary-400">/ min</span>
         </Row>
 
-        <Row label={t('dash.stale')} note="channels read before, due another look">
+        <Row label={t('dash.stale')} note={t('dash.dueAnotherLook')}>
           {number(sweeps.stale.perMinute)} <span className="text-primary-400">/ min</span>
           {sweeps.stale.depth !== null && (
             <span className="text-primary-400"> · {number(sweeps.stale.depth)} in scope</span>
@@ -85,7 +84,7 @@ export const Sweeps: FC<{
         >
           {sweeps.yield.engaged ? (
             <span className="text-vip font-bold">
-              standing aside{sweeps.yield.since ? ` since ${ago(sweeps.yield.since)}` : ''}
+              standing aside{sweeps.yield.since ? ` since ${t.ago(sweeps.yield.since)}` : ''}
             </span>
           ) : (
             'running'
@@ -93,7 +92,7 @@ export const Sweeps: FC<{
         </Row>
 
         {eventsub && (
-          <Row label={t('dash.eventSub')} note="a conduit with no shard discards events">
+          <Row label={t('dash.eventSub')} note={t('dash.conduitNoShard')}>
             <span className={eventsub.status === 'ok' ? undefined : 'text-vip font-bold'}>
               {eventsub.eventsub}
             </span>

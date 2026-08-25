@@ -33,7 +33,7 @@ export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
       <div className="max-w-prose">
         <p className="text-base font-bold mb-2">{t('optOutPanel.title')}</p>
         <p className="text-read text-primary-300 leading-relaxed">
-          <OptOutEffect /> Channels you moderate are unaffected. <OptOutReversible />
+          <OptOutEffect /> {t('optOut.modsUnaffected')} <OptOutReversible />
         </p>
 
         {saved && !failed && (

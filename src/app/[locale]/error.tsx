@@ -3,7 +3,7 @@
 import { Container } from '@/components/UI/Container';
 import { ReloadIcon } from '@/components/Icons';
 import { config } from '@/config';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { useEffect } from 'react';
 import { useT } from '@/i18n/context';
 
@@ -27,11 +27,11 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
           <div className="flex flex-wrap gap-3">
             <button type="button" className="btn" onClick={() => reset()}>
               <ReloadIcon size={15} />
-              Retry this page
+              {t('errors.retry')}
             </button>
-            <Link href="/" className="btn btn-soft">
-              Home
-            </Link>
+            <LocaleLink href="/" className="btn btn-soft">
+              {t('errors.home')}
+            </LocaleLink>
           </div>
 
           <p className="text-ui text-primary-400 mt-8 max-w-prose">

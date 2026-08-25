@@ -3,12 +3,11 @@ import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BROWSE_PAGE_SIZE, BrowseAxis, browsePageCount } from '@/misc/browsePages';
-import { formatNumber } from '@/utils/format';
-import { getFormattedStats } from '@/utils/stats';
+import { getIndexStats } from '@/utils/stats';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CSSProperties, FC } from 'react';
-import { Locale } from '@/i18n/locales';
+import { Locale, localePath } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 
 const COPY: Record<BrowseAxis, { heading: string; corner: string; lead: string; label: string }> = {
@@ -27,9 +26,9 @@ const COPY: Record<BrowseAxis, { heading: string; corner: string; lead: string; 
 };
 
 const browseTotal = async (axis: BrowseAxis): Promise<number> => {
-  const stats = await getFormattedStats();
+  const stats = await getIndexStats();
 
-  return axis === 'channel' ? stats.channels.raw : stats.users.raw;
+  return axis === 'channel' ? stats.channels : stats.users;
 };
 
 export const BrowsePageView: FC<{ axis: BrowseAxis; page: number; locale: Locale }> = async ({
@@ -70,14 +69,18 @@ export const BrowsePageView: FC<{ axis: BrowseAxis; page: number; locale: Locale
             <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
               <h2 className="text-h2">{t('misc.mostRoles')}</h2>
               <span className="text-lead text-primary-400 tabular">
-                {formatNumber(total)} <span className="text-ui">{copy.label}</span>
+                {t.number(total)} <span className="text-ui">{copy.label}</span>
               </span>
-              <Link href={`/${axis}`} className="btn btn-soft ml-auto">
-                Search instead
+              <Link href={localePath(locale, `/${axis}`)} className="btn btn-soft ml-auto">
+                {t('browse.searchInstead')}
               </Link>
             </div>
 
-            <BrowseRows kind={axis === 'channel' ? 'channel' : 'account'} items={data.items} />
+            <BrowseRows
+              kind={axis === 'channel' ? 'channel' : 'account'}
+              items={data.items}
+              locale={locale}
+            />
           </div>
 
           <BrowsePager axis={axis} page={page} last={last} locale={locale} />

@@ -1,3 +1,4 @@
+import { Formatters, formatters } from './format';
 import { Locale, localeTag } from './locales';
 
 export type Messages = Record<string, unknown>;
@@ -86,8 +87,14 @@ export const tokenize = (text: string): Token[] => {
   return tokens;
 };
 
-export interface Translator {
+/**
+ * Everything a locale decides hangs off one handle: `t('key')` for a message,
+ * `t.number` / `t.date` / `t.since` for a value. A call site that renders text
+ * already has `t` in scope, so nothing else ever has to know the locale exists.
+ */
+export interface Translator extends Formatters {
   (key: string, vars?: Vars): string;
+  readonly locale: Locale;
 }
 
 export const translator = (
@@ -97,7 +104,7 @@ export const translator = (
 ): Translator => {
   const tag = localeTag(locale);
 
-  return (key, vars = {}) => {
+  const translate = (key: string, vars: Vars = {}): string => {
     const count = typeof vars.count === 'number' ? vars.count : undefined;
 
     const text =
@@ -112,4 +119,6 @@ export const translator = (
 
     return interpolate(text, vars);
   };
+
+  return Object.assign(translate, { locale }, formatters(tag));
 };

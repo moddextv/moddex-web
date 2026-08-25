@@ -166,7 +166,7 @@ describe('the estate has no untranslated copy left', () => {
       if (SKIP.some((skip) => file.includes(skip))) continue;
 
       const source = readFileSync(file, 'utf8');
-      const bare = source.match(/>[A-Z][a-z]+(?:\s+[a-z]+){2,}[.!?]?</g);
+      const bare = source.match(/>\s*[A-Z][a-z]+(?:\s+[A-Za-z']+){2,}[.!?]?\s*</g);
 
       if (bare) offenders.push(`${file.split('src')[1]}: ${bare[0]}`);
     }
@@ -201,6 +201,94 @@ describe('a server component never reaches for the client hook', () => {
         return !CLIENT_BY_IMPORT.some((name) => file.endsWith(name));
       })
       .map((file: string) => file.split('src')[1]);
+
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe('every key a component asks for exists', () => {
+  /**
+   * The other tests hold the two message files against each other, which says
+   * nothing about whether either matches the code. A renamed key reads as an
+   * ordinary word on the page, because a missing message renders as its own key.
+   */
+  it('finds no t() call and no key constant without a message behind it', () => {
+    const { readFileSync, readdirSync, statSync } = require('node:fs');
+    const { join } = require('node:path');
+    const root = join(__dirname, '..', 'src');
+
+    const walk = (dir: string): string[] =>
+      readdirSync(dir).flatMap((entry: string) => {
+        const full = join(dir, entry);
+
+        if (statSync(full).isDirectory()) return entry === 'messages' ? [] : walk(full);
+
+        return /\.tsx?$/.test(full) ? [full] : [];
+      });
+
+    const known = new Set(messageKeys(DEFAULT_LOCALE));
+    const groups = new Set(
+      [...known]
+        .filter((key) => /\.(one|other|zero|two|few|many)$/.test(key))
+        .map((key) => key.slice(0, key.lastIndexOf('.')))
+    );
+
+    const NAMESPACES = [...new Set([...known].map((key) => key.split('.')[0] ?? ''))].join('|');
+    const LITERAL = new RegExp(`'((?:${NAMESPACES})\\.[A-Za-z0-9.]+)'`, 'g');
+
+    const missing: string[] = [];
+
+    for (const file of walk(root)) {
+      const source: string = readFileSync(file, 'utf8');
+
+      for (const match of source.matchAll(LITERAL)) {
+        const key = match[1] ?? '';
+
+        if (known.has(key) || groups.has(key)) continue;
+        missing.push(`${file.split('src')[1]}: ${key}`);
+      }
+    }
+
+    expect([...new Set(missing)]).toEqual([]);
+  });
+});
+
+describe('an internal link keeps the reader in their language', () => {
+  /**
+   * A plain <Link href="/user/x"> sends a german reader back into the english
+   * tree, and nothing about the page looks wrong when it happens.
+   */
+  it('uses LocaleLink or localePath for every internal href', () => {
+    const { readFileSync, readdirSync, statSync } = require('node:fs');
+    const { join } = require('node:path');
+    const root = join(__dirname, '..', 'src');
+
+    const walk = (dir: string): string[] =>
+      readdirSync(dir).flatMap((entry: string) => {
+        const full = join(dir, entry);
+
+        if (statSync(full).isDirectory()) return entry === 'messages' ? [] : walk(full);
+
+        return /\.tsx?$/.test(full) ? [full] : [];
+      });
+
+    // an <a> or a <Link> whose href is a literal page path rather than a
+    // LocaleLink, and the same mistake made through the router. /api/... is
+    // exempt: those are routes, and have no locale
+    const BARE = [
+      /<(?:Link|a)\s[^>]*href=(?:"\/(?!api\/)|\{`\/(?!api\/))/gs,
+      /router\.(?:push|replace)\(\s*[`'"]\//g,
+      /\bredirect\(\s*[`'"]\//g
+    ];
+
+    const offenders = walk(root)
+      .filter((file: string) => !file.endsWith('LocaleLink.tsx'))
+      .flatMap((file: string) => {
+        const source = readFileSync(file, 'utf8') as string;
+        const found = BARE.flatMap((pattern) => source.match(pattern) ?? []);
+
+        return found.map((hit: string) => `${file.split('src')[1]}: ${hit.slice(0, 40)}`);
+      });
 
     expect(offenders).toEqual([]);
   });

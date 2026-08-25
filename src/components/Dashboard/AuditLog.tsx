@@ -2,11 +2,10 @@
 
 import { FC, useState, useTransition } from 'react';
 import { useT } from '@/i18n/context';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import clsx from 'clsx';
 
 import { listAudit, type AuditView } from '@/actions/dashboard';
-import { formatDateTime, formatNumber } from '@/utils/format';
 import type { AuditEntry, AuditPage, AuditParty } from '@/utils/api/moddex/admin';
 
 const VIEWS: { id: AuditView; key: string }[] = [
@@ -32,14 +31,14 @@ const Who: FC<{ row: AuditEntry }> = ({ row }) => {
   }
 
   return (
-    <Link
+    <LocaleLink
       href={`/user/${party.login}`}
       title={about ? t('dash.auditAbout') : t('dash.auditDidIt')}
       className={clsx('row-name text-ui truncate', !about && 'font-bold')}
     >
       {about ? '→ ' : ''}
       {party.name || party.login}
-    </Link>
+    </LocaleLink>
   );
 };
 
@@ -84,10 +83,10 @@ export const AuditLog: FC<{ initial: AuditPage }> = ({ initial }) => {
 
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
           {page.total === null
-            ? t('dash.auditShown', { shown: formatNumber(rows.length) })
+            ? t('dash.auditShown', { shown: t.number(rows.length) })
             : t('dash.auditShownOf', {
-                shown: formatNumber(rows.length),
-                total: formatNumber(page.total)
+                shown: t.number(rows.length),
+                total: t.number(page.total)
               })}
         </span>
       </div>
@@ -125,9 +124,7 @@ export const AuditLog: FC<{ initial: AuditPage }> = ({ initial }) => {
               <Who row={row} />
             </span>
 
-            <span className="text-ui text-primary-300 tabular">
-              {formatDateTime(row.createdAt)}
-            </span>
+            <span className="text-ui text-primary-300 tabular">{t.dateTime(row.createdAt)}</span>
           </div>
         ))}
 

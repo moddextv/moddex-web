@@ -1,14 +1,13 @@
 'use client';
 
 import { FC, FormEvent, KeyboardEvent, ReactNode, RefObject, useEffect, useState } from 'react';
-import { useT } from '@/i18n/context';
+import { useI18n } from '@/i18n/context';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
 import { Avatar } from '@/components/UI/Avatar';
 import { SearchIcon } from '@/components/Icons';
 import { useSuggest } from '@/hooks/useSuggest';
-import { formatNumber } from '@/utils/format';
 
 export type Scope = 'channel' | 'user';
 
@@ -29,7 +28,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
   inputRef,
   children
 }) => {
-  const t = useT();
+  const { t, path } = useI18n();
   const router = useRouter();
   const [value, setValue] = useState('');
   const [active, setActive] = useState(-1);
@@ -45,7 +44,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
 
     setValue('');
     setPicking(false);
-    router.push(`/${scope}/${encodeURIComponent(target)}`);
+    router.push(path(`/${scope}/${encodeURIComponent(target)}`));
   };
 
   const submit = (event: FormEvent) => {
@@ -127,7 +126,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
                   <span className="text-meta text-primary-400 truncate">{item.name}</span>
                 )}
                 <span className="ml-auto text-meta text-primary-400 tabular shrink-0">
-                  {formatNumber(item.followers || 0)}
+                  {t.number(item.followers || 0)}
                 </span>
               </button>
             </li>

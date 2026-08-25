@@ -6,7 +6,7 @@ import { BrowseList } from '@/components/Browse/BrowseList';
 import { Container } from '@/components/UI/Container';
 import { config } from '@/config';
 import { fetchAccounts } from '@/actions/browse';
-import { getFormattedStats } from '@/utils/stats';
+import { getIndexStats } from '@/utils/stats';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { Metadata } from 'next';
 import { CSSProperties } from 'react';
@@ -34,7 +34,7 @@ export default async function UserPage({ params }: MetaProps) {
   const rich = getRich(locale);
 
   const [stats, initial] = await Promise.all([
-    getFormattedStats(),
+    getIndexStats(),
     fetchAccounts('roles', 25, 0, true)
   ]);
 
@@ -55,7 +55,7 @@ export default async function UserPage({ params }: MetaProps) {
           <BrowseList
             kind="account"
             title={t('browse.accounts.listTitle')}
-            total={stats.users.raw}
+            total={stats.users}
             totalLabel={t('browse.accounts.totalLabel')}
             initial={initial}
           />

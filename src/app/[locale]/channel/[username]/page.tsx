@@ -1,5 +1,5 @@
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale, ogLocale } from '@/i18n/locales';
+import { asLocale, localePath, ogLocale } from '@/i18n/locales';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';
@@ -57,7 +57,9 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default async function ChannelUsernamePage({ params }: PageProps) {
-  const username = decodeURI((await params).username);
+  const { username: rawName, locale: rawLocale } = await params;
+  const username = decodeURI(rawName);
+  const locale = asLocale(rawLocale);
 
   if (!isUsername(username)) {
     return <InvalidUsername username={username} />;
@@ -78,7 +80,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   if (user.login !== username) {
-    return redirect(`/channel/${user.login}`);
+    return redirect(localePath(locale, `/channel/${user.login}`));
   }
 
   const seeded = await seedRoleLists(user.id, 'channel', ROLES);

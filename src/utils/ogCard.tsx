@@ -11,7 +11,8 @@ import type { ReactNode } from 'react';
 
 import { ROLES, roleByLabel, type RoleKey, type RoleType, type UserType } from '@/misc/roles';
 import { logger } from '@/misc/Logger';
-import { formatNumber } from '@/utils/format';
+import { getTranslator } from '@/i18n/dictionary';
+import { DEFAULT_LOCALE } from '@/i18n/locales';
 import type { Badge } from '@/misc/badges';
 import type { Seed } from '@/utils/roleSeed';
 
@@ -197,13 +198,15 @@ const Stat = ({ role, type, count }: { role: RoleKey; type: UserType; count: str
   </div>
 );
 
+// the card's own labels are english, so its numbers are too
 const countOf = (seed: Seed, role: RoleType): string | null => {
   const page = seed[role];
+  const { number } = getTranslator(DEFAULT_LOCALE);
 
   if (!page) return null;
-  if (page.total !== null) return formatNumber(page.total);
+  if (page.total !== null) return number(page.total);
 
-  return page.items.length ? `${formatNumber(page.items.length)}${page.hasMore ? '+' : ''}` : '0';
+  return page.items.length ? `${number(page.items.length)}${page.hasMore ? '+' : ''}` : '0';
 };
 
 const Frame = ({ kind, children }: { kind?: string; children: ReactNode }) => (

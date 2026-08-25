@@ -1,5 +1,4 @@
 import { CSSProperties, FC, ReactNode } from 'react';
-import Link from 'next/link';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Container } from '@/components/UI/Container';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
@@ -52,9 +51,9 @@ const OptOutPanel: FC = () => (
     <p className="text-read text-primary-300 max-w-prose mb-6">
       Sign in with Twitch and switch the opt-out on. <OptOutEffect /> <OptOutReversible />
     </p>
-    <Link href="/settings" className="btn">
+    <LocaleLink href="/settings" className="btn">
       Go to opt-out settings
-    </Link>
+    </LocaleLink>
   </div>
 );
 

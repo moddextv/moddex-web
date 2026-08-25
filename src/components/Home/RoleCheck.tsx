@@ -2,11 +2,10 @@
 
 import { FC, useState } from 'react';
 import { useT } from '@/i18n/context';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { checkMembership } from '@/actions/membership';
 import { useAction } from '@/hooks/useAction';
-import { formatDayMonthYear } from '@/utils/format';
 import type { Membership } from '@/utils/api/moddex/public';
 
 const ROLES = [
@@ -18,18 +17,19 @@ const ROLES = [
 type Asked = { account: string; channel: string };
 
 const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
+  const t = useT();
   const has = ROLES.filter(({ key }) => held[key]);
 
   return (
     <div className="pt-6">
       <p className="text-read text-primary-300 pb-4">
-        <Link href={`/user/${asked.account}`} className="text-primary-100 font-bold">
+        <LocaleLink href={`/user/${asked.account}`} className="text-primary-100 font-bold">
           {asked.account}
-        </Link>{' '}
+        </LocaleLink>{' '}
         {has.length ? 'holds' : 'holds nothing'} in{' '}
-        <Link href={`/channel/${asked.channel}`} className="text-primary-100 font-bold">
+        <LocaleLink href={`/channel/${asked.channel}`} className="text-primary-100 font-bold">
           {asked.channel}
-        </Link>
+        </LocaleLink>
       </p>
 
       <div className="flex flex-wrap gap-3">
@@ -40,7 +40,7 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
             <span
               key={key}
               className={`role-card${on ? ' is-held' : ''}`}
-              aria-label={`${label}: ${on ? 'held' : 'not held'}`}
+              aria-label={`${label}: ${on ? t('roleCheck.held') : t('roleCheck.notHeld')}`}
             >
               {on ? <span className={`corner ${corner} ${tone}`} aria-hidden="true" /> : null}
 
@@ -49,7 +49,11 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
               </span>
 
               <span className="text-micro text-primary-400">
-                {on ? (on.grantedAt ? formatDayMonthYear(on.grantedAt) : 'no date') : 'not held'}
+                {on
+                  ? on.grantedAt
+                    ? t.date(on.grantedAt)
+                    : t('roleCheck.noDate')
+                  : t('roleCheck.notHeld')}
               </span>
             </span>
           );

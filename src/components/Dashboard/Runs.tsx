@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { Locale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 
-import { ago } from './ago';
 import { duration } from '@/utils/jobHealth';
 import type { JobRun } from '@/utils/api/moddex/admin';
 
@@ -51,7 +50,7 @@ export const Runs: FC<{ runs: Record<string, JobRun>; locale: Locale }> = ({ run
 
       <div className="rows">
         <div className="row-head cols-jobs">
-          <span>Job</span>
+          <span>{t('dash.job')}</span>
           <span>{t('dash.lastRun')}</span>
           <span>vs. 7d avg</span>
         </div>
@@ -61,7 +60,7 @@ export const Runs: FC<{ runs: Record<string, JobRun>; locale: Locale }> = ({ run
             <span className="text-base font-bold">{job.replace(/_/g, ' ')}</span>
             <span className="text-ui text-primary-300">
               {duration(run.seconds)}
-              <span className="text-primary-400"> · {ago(run.at)}</span>
+              <span className="text-primary-400"> · {t.ago(run.at)}</span>
               {run.rows !== null && (
                 <span className="text-primary-400"> · {run.rows.toLocaleString('en-US')} rows</span>
               )}

@@ -9,6 +9,7 @@ interface LocaleLinkProps {
   className?: string;
   target?: string;
   rel?: string;
+  title?: string;
   children: ReactNode;
 }
 
@@ -19,12 +20,25 @@ interface LocaleLinkProps {
  * and threading the locale into every call site is what this exists to avoid.
  * An absolute or external href is passed through untouched.
  */
-export const LocaleLink: FC<LocaleLinkProps> = ({ href, className, target, rel, children }) => {
+export const LocaleLink: FC<LocaleLinkProps> = ({
+  href,
+  className,
+  target,
+  rel,
+  title,
+  children
+}) => {
   const { path } = useI18n();
   const internal = href.startsWith('/') && !href.startsWith('//');
 
   return (
-    <Link href={internal ? path(href) : href} className={className} target={target} rel={rel}>
+    <Link
+      href={internal ? path(href) : href}
+      className={className}
+      target={target}
+      rel={rel}
+      title={title}
+    >
       {children}
     </Link>
   );
