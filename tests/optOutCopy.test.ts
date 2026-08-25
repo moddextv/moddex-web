@@ -1,3 +1,4 @@
+import { dictionaryOf, LOCALES } from '@/i18n';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -8,8 +9,8 @@ const read = (...parts: string[]) => readFileSync(join(__dirname, '..', 'src', .
 // 67 opted-out accounts relied on, so these must not drift apart again — they
 // were five hand-written copies in three files.
 const SURFACES = [
-  ['app', 'page.tsx'],
-  ['app', 'privacy', 'page.tsx'],
+  ['app', '[locale]', 'page.tsx'],
+  ['app', '[locale]', 'privacy', 'page.tsx'],
   ['components', 'Login.tsx'],
   ['components', 'Settings', 'OptOut.tsx']
 ];
@@ -17,7 +18,7 @@ const SURFACES = [
 // /tos stopped stating the effect on 2026-08-21 and points at /privacy instead:
 // one page promises this, and it is the one the promise is judged against. it
 // still has to not describe the effect in words of its own.
-const POINTS_ELSEWHERE = [['app', 'tos', 'page.tsx']];
+const POINTS_ELSEWHERE = [['app', '[locale]', 'tos', 'page.tsx']];
 
 describe('the opt-out promise', () => {
   it.each(SURFACES)('%s/%s states it through the shared component', (...parts) => {
@@ -48,7 +49,17 @@ describe('the opt-out promise', () => {
     }
   );
 
+  // the emphasis is the whole distinction between "not served" and "deleted",
+  // so it has to survive translation rather than only exist in the english jsx
   it('keeps the emphasis that carries the meaning — served, not deleted', () => {
-    expect(read('components', 'OptOutPromise.tsx')).toContain('<em>served</em>');
+    expect(read('components', 'OptOutPromise.tsx')).toContain('em: (chunk) => <em>{chunk}</em>');
+
+    for (const locale of LOCALES) {
+      const effect = dictionaryOf(locale)['optOut.effect'] ?? '';
+
+      expect(effect, `${locale} dropped the emphasis from the opt-out promise`).toMatch(
+        /<em>[^<]+<\/em>/
+      );
+    }
   });
 });

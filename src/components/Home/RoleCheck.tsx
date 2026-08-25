@@ -1,11 +1,11 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC, useState } from 'react';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { checkMembership } from '@/actions/membership';
 import { useAction } from '@/hooks/useAction';
-import { formatDayMonthYear } from '@/utils/format';
 import type { Membership } from '@/utils/api/moddex/public';
 
 const ROLES = [
@@ -17,18 +17,19 @@ const ROLES = [
 type Asked = { account: string; channel: string };
 
 const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
+  const t = useT();
   const has = ROLES.filter(({ key }) => held[key]);
 
   return (
     <div className="pt-6">
       <p className="text-read text-primary-300 pb-4">
-        <Link href={`/user/${asked.account}`} className="text-primary-100 font-bold">
+        <LocaleLink href={`/user/${asked.account}`} className="text-primary-100 font-bold">
           {asked.account}
-        </Link>{' '}
-        {has.length ? 'holds' : 'holds nothing'} in{' '}
-        <Link href={`/channel/${asked.channel}`} className="text-primary-100 font-bold">
+        </LocaleLink>{' '}
+        {has.length ? t('roleCheck.holds') : t('roleCheck.holdsNothing')}{' '}
+        <LocaleLink href={`/channel/${asked.channel}`} className="text-primary-100 font-bold">
           {asked.channel}
-        </Link>
+        </LocaleLink>
       </p>
 
       <div className="flex flex-wrap gap-3">
@@ -39,7 +40,7 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
             <span
               key={key}
               className={`role-card${on ? ' is-held' : ''}`}
-              aria-label={`${label}: ${on ? 'held' : 'not held'}`}
+              aria-label={`${label}: ${on ? t('roleCheck.held') : t('roleCheck.notHeld')}`}
             >
               {on ? <span className={`corner ${corner} ${tone}`} aria-hidden="true" /> : null}
 
@@ -48,7 +49,11 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
               </span>
 
               <span className="text-micro text-primary-400">
-                {on ? (on.grantedAt ? formatDayMonthYear(on.grantedAt) : 'no date') : 'not held'}
+                {on
+                  ? on.grantedAt
+                    ? t.date(on.grantedAt)
+                    : t('roleCheck.noDate')
+                  : t('roleCheck.notHeld')}
               </span>
             </span>
           );
@@ -59,6 +64,7 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
 };
 
 export const RoleCheck: FC = () => {
+  const t = useT();
   const [account, setAccount] = useState('');
   const [channel, setChannel] = useState('');
   const [asked, setAsked] = useState<Asked | null>(null);
@@ -77,30 +83,30 @@ export const RoleCheck: FC = () => {
 
   return (
     <div className="panel">
-      <h2 className="text-h2 pb-5">Ask about one pair</h2>
+      <h2 className="text-h2 pb-5">{t('roleCheck.title')}</h2>
 
       <form onSubmit={submit} className="flex flex-wrap items-center gap-3">
-        <span className="text-lead text-primary-400">Is</span>
+        <span className="text-lead text-primary-400">{t('roleCheck.asksWhether')}</span>
 
         <label className="search w-full sm:w-52">
           <input
             value={account}
             onChange={(event) => setAccount(event.target.value)}
-            placeholder="account"
-            aria-label="Account login"
+            placeholder={t('misc.account').toLowerCase()}
+            aria-label={t('roleCheck.accountLogin')}
             autoComplete="off"
             spellCheck={false}
           />
         </label>
 
-        <span className="text-lead text-primary-400">anything in</span>
+        <span className="text-lead text-primary-400">{t('roleCheck.anythingIn')}</span>
 
         <label className="search w-full sm:w-52">
           <input
             value={channel}
             onChange={(event) => setChannel(event.target.value)}
-            placeholder="channel"
-            aria-label="Channel login"
+            placeholder={t('dash.channel').toLowerCase()}
+            aria-label={t('roleCheck.channelLogin')}
             autoComplete="off"
             spellCheck={false}
           />
@@ -111,13 +117,13 @@ export const RoleCheck: FC = () => {
           className="btn"
           disabled={check.pending || !account.trim() || !channel.trim()}
         >
-          {check.pending ? 'Checking…' : 'Check'}
+          {check.pending ? t('roleCheck.checking') : t('roleCheck.check')}
         </button>
       </form>
 
       {check.error ? (
         <p className="text-read text-primary-300 pt-5" role="status">
-          {check.code === 'opted out' ? 'That account has opted out of being listed.' : check.error}
+          {check.code === 'opted out' ? t('roleCheck.optedOut') : check.error}
         </p>
       ) : null}
 

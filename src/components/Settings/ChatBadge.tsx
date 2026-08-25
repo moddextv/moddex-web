@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC, useRef, useState } from 'react';
 import { Image } from '@/components/UI/Image';
 import { UserChatBadges } from '@/misc/badges';
@@ -15,6 +16,7 @@ interface ChatBadgeComponentProps {
 }
 
 export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }) => {
+  const t = useT();
   const [selected, setSelected] = useState(userChatBadges.selected);
 
   const rollback = useRef(selected);
@@ -39,7 +41,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
   return (
     <>
       <fieldset disabled={loading}>
-        <legend className="sr-only">Chat badge</legend>
+        <legend className="sr-only">{t('chatBadge.title')}</legend>
         <div className="flex flex-wrap gap-3">
           {userChatBadges.available.map((badge) => {
             const active = badge.name === selected;
@@ -71,10 +73,12 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
                 )}
 
                 <span className={active ? 'text-base font-bold' : 'text-base text-primary-300'}>
-                  {badge.name === 'none' ? 'No badge' : badge.name}
+                  {badge.name === 'none' ? t('chatBadge.noBadge') : badge.name}
                 </span>
 
-                {active && <span className="text-meta text-mod ml-1">Selected</span>}
+                {active && (
+                  <span className="text-meta text-mod ml-1">{t('chatBadge.selected')}</span>
+                )}
               </label>
             );
           })}
@@ -82,7 +86,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
       </fieldset>
 
       <div className="mt-7 pt-6 border-t border-primary-700/70">
-        <p className="text-meta text-primary-400 mb-3">Where the badge sits</p>
+        <p className="text-meta text-primary-400 mb-3">{t('chatBadge.where')}</p>
         <p className="flex items-center gap-2.5 rounded-md bg-primary-900 px-4 py-3">
           {preview && (
             <Image
@@ -94,7 +98,8 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
             />
           )}
           <span className="text-base text-primary-300 min-w-0 break-words">
-            <span className="font-bold text-primary-100">{login}</span>: forsen has 24 mods, wow
+            <span className="font-bold text-primary-100">{login}</span>:{' '}
+            {t('chatBadge.sampleMessage')}
           </span>
         </p>
       </div>

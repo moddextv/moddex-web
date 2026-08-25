@@ -1,24 +1,25 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
-import { BOT_MODES_LABEL } from '@/components/User/columns';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';
-import { formatNumber } from '@/utils/format';
 import { FC, useRef, useState, useTransition } from 'react';
 import { beginPage, beginQuery, createPageLoad, wanted } from '@/hooks/pageLoad';
 
 const PAGE = 25;
 
+// the label is a key, resolved where it is drawn — a constant table cannot
+// know the reader's language
 const CHANNEL_SORTS: { key: ChannelSort; label: string }[] = [
-  { key: 'read', label: 'Recently read' },
-  { key: 'roles', label: 'Most roles' },
-  { key: 'followers', label: 'Most followers' }
+  { key: 'read', label: 'browse.sort.read' },
+  { key: 'roles', label: 'browse.sort.roles' },
+  { key: 'followers', label: 'browse.sort.followers' }
 ];
 
 const ACCOUNT_SORTS: { key: AccountSort; label: string }[] = [
-  { key: 'roles', label: 'Most roles' },
-  { key: 'followers', label: 'Most followers' }
+  { key: 'roles', label: 'browse.sort.roles' },
+  { key: 'followers', label: 'browse.sort.followers' }
 ];
 
 interface BrowseListProps {
@@ -30,6 +31,7 @@ interface BrowseListProps {
 }
 
 export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel, initial }) => {
+  const { t, locale } = useI18n();
   const [sort, setSort] = useState<string>(kind === 'channel' ? 'read' : 'roles');
   const [includeBots, setIncludeBots] = useState(true);
   const [items, setItems] = useState<BrowseEntry[]>(initial.items);
@@ -89,7 +91,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <h2 className="text-h2">{title}</h2>
         <span className="text-lead text-primary-400 tabular">
-          {formatNumber(total)} <span className="text-ui">{totalLabel}</span>
+          {t.number(total)} <span className="text-ui">{totalLabel}</span>
         </span>
 
         <span className="ml-auto flex items-center gap-2 flex-wrap">
@@ -101,13 +103,15 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
               aria-pressed={sort === option.key}
               onClick={() => changeSort(option.key)}
             >
-              {option.label}
+              {t(option.label)}
             </button>
           ))}
 
           {kind === 'account' && (
             <button type="button" className="chip" aria-pressed={includeBots} onClick={toggleBots}>
-              Bots: {includeBots ? BOT_MODES_LABEL.all : BOT_MODES_LABEL.hide}
+              {t('controls.bots', {
+                state: includeBots ? t('controls.botModes.all') : t('controls.botModes.hide')
+              })}
             </button>
           )}
         </span>
@@ -115,27 +119,23 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
 
       {failed ? (
         <div className="px-4 pb-6">
-          <p className="text-read text-primary-300 max-w-prose mb-2">
-            We couldn&apos;t read this ranking. The rest of the page is unaffected.
-          </p>
+          <p className="text-read text-primary-300 max-w-prose mb-2">{t('browse.rankingUnread')}</p>
           <button
             type="button"
             className="btn btn-soft"
             disabled={pending}
             onClick={() => load(sort, includeBots, 0, false)}
           >
-            {pending ? 'Reading the index…' : 'Try again'}
+            {pending ? t('misc.readingIndexLong') : t('common.tryAgain')}
           </button>
         </div>
       ) : items.length === 0 ? (
         <p className="px-4 pb-6 text-read text-primary-300 max-w-prose">
-          {pending
-            ? 'Reading the index.'
-            : 'Nothing to show for this ordering yet. The roles ranking gets rebuilt once a day, so it stays empty until the first rebuild has run.'}
+          {pending ? t('misc.readingIndexShort') : t('browse.orderingEmpty')}
         </p>
       ) : (
         <>
-          <BrowseRows kind={kind} items={items} />
+          <BrowseRows kind={kind} items={items} locale={locale} />
 
           {hasMore && (
             <button
@@ -144,7 +144,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
               onClick={() => load(sort, includeBots, items.length, true)}
               className="w-full h-12 mt-2 rounded-md text-base font-bold text-primary-300 hover:text-primary-100 hover:bg-primary-700 transition-colors disabled:opacity-50"
             >
-              {pending ? 'Loading' : 'Load more'}
+              {pending ? t('common.loadingShort') : t('common.loadMore')}
             </button>
           )}
         </>

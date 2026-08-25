@@ -1,30 +1,28 @@
 'use client';
 
+import { Translator, useT } from '@/i18n';
 import { FC, useState } from 'react';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { listDonations } from '@/actions/dashboard';
-import { formatDayMonthYear } from '@/utils/format';
 import type { Ledger, LedgerEntry } from '@/utils/api/moddex/admin';
-
-const money = (cents: number) =>
-  (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'EUR' });
 
 // a refunded charge still wearing a donator badge is the case to catch
 const COUNTED = new Set(['paid', 'db_insertion']);
 
-const Who: FC<{ row: LedgerEntry }> = ({ row }) =>
+const Who: FC<{ row: LedgerEntry; t: Translator }> = ({ row, t }) =>
   row.login ? (
-    <Link href={`/user/${row.login}`} className="row-name text-base font-bold truncate">
+    <LocaleLink href={`/user/${row.login}`} className="row-name text-base font-bold truncate">
       {row.displayName || row.login}
-    </Link>
+    </LocaleLink>
   ) : (
-    <span className="text-base truncate" title="no twitch account was linked to this donation">
-      {row.donorName || 'anonymous'}
+    <span className="text-base truncate" title={t('dash.don.noAccountLinked')}>
+      {row.donorName || t('dash.don.anonymous')}
     </span>
   );
 
 export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
+  const t = useT();
   const [rows, setRows] = useState(initial.items);
   const [cursor, setCursor] = useState(initial.cursor);
   const [hasMore, setHasMore] = useState(initial.hasMore);
@@ -51,27 +49,27 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
   return (
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">Donations</h2>
+        <h2 className="text-h2">{t('dash.donations')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
-          {rows.length.toLocaleString('en-US')} shown · {money(total)} counted
+          {t('dash.don.summary', { shown: t.number(rows.length), total: t.money(total, 'EUR') })}
         </span>
       </div>
 
       <div className="rows">
         <div className="row-head cols-donations">
-          <span>Who</span>
-          <span>When</span>
-          <span>Status</span>
-          <span className="text-right">Amount</span>
+          <span>{t('dash.don.who')}</span>
+          <span>{t('dash.when')}</span>
+          <span>{t('dash.status')}</span>
+          <span className="text-right">{t('dash.amount')}</span>
         </div>
 
         {rows.map((row) => (
           <div key={row.id} className="row cols-donations">
             <span className="min-w-0">
-              <Who row={row} />
+              <Who row={row} t={t} />
             </span>
 
-            <span className="text-ui text-primary-300 tabular">{formatDayMonthYear(row.time)}</span>
+            <span className="text-ui text-primary-300 tabular">{t.date(row.time)}</span>
 
             <span
               className={
@@ -81,7 +79,7 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
               {row.status}
             </span>
 
-            <span className="text-ui tabular text-right">{money(row.amountCents)}</span>
+            <span className="text-ui tabular text-right">{t.money(row.amountCents, 'EUR')}</span>
           </div>
         ))}
       </div>
@@ -89,7 +87,7 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
       {hasMore ? (
         <div className="px-4 py-4">
           <button type="button" className="button" onClick={() => void more()} disabled={busy}>
-            {busy ? 'Loading…' : 'Load more'}
+            {busy ? t('dash.loading') : t('dash.loadMore')}
           </button>
         </div>
       ) : null}

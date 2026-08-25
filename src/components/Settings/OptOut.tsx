@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC, useState } from 'react';
 import { setIgnoredUser } from '@/actions/settings';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
@@ -10,6 +11,7 @@ interface OptOutProps {
 }
 
 export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
+  const t = useT();
   const [isIgnored, setIsIgnored] = useState(initialIsIgnored);
   const [saved, setSaved] = useState(false);
 
@@ -29,34 +31,34 @@ export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-start gap-6 sm:justify-between">
       <div className="max-w-prose">
-        <p className="text-base font-bold mb-2">Opt out of the index</p>
+        <p className="text-base font-bold mb-2">{t('optOutPanel.title')}</p>
         <p className="text-read text-primary-300 leading-relaxed">
-          <OptOutEffect /> Channels you moderate are unaffected. <OptOutReversible />
+          <OptOutEffect /> {t('optOut.modsUnaffected')} <OptOutReversible />
         </p>
 
         {saved && !failed && (
           <p className="flex items-center gap-3 text-read text-primary-200 mt-4">
             <span className="corner corner-tl text-mod" aria-hidden="true" />
-            {isIgnored ? 'Saved. Your entry is hidden.' : 'Saved. Your entry is listed again.'}
+            {isIgnored ? t('optOut.savedHidden') : t('optOut.savedListed')}
           </p>
         )}
 
         {failed && (
           <p className="text-read text-vip mt-4" role="alert">
-            {failed} Nothing changed.
+            {failed} {t('optOut.nothingChanged')}
           </p>
         )}
       </div>
 
       <label className="flex items-center gap-3.5 shrink-0 cursor-pointer">
         <span className={isIgnored ? 'text-ui text-primary-200' : 'text-ui text-primary-400'}>
-          {isIgnored ? 'Hidden' : 'Listed'}
+          {isIgnored ? t('optOut.hidden') : t('optOut.listed')}
         </span>
         <button
           type="button"
           role="switch"
           aria-checked={isIgnored}
-          aria-label="Opt out of the index"
+          aria-label={t('optOutPanel.title')}
           data-on={isIgnored}
           disabled={loading}
           onClick={toggle}

@@ -1,99 +1,115 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { Facts, Good, ReloadButton, StatePage, Status } from '@/components/PageState';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { config } from '@/config';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { FC } from 'react';
 
-export const NotFoundUser: FC<{ username: string }> = ({ username }) => (
-  <StatePage>
-    <h1 className="text-h1 mb-4">
-      There&apos;s no Twitch account called{' '}
-      <span className="text-primary-400 break-all">{username}</span>
-    </h1>
-    <p className="text-lead text-primary-300 max-w-prose mb-6">
-      We asked Twitch and it has no account by that name, so there was nothing to index. People
-      rename themselves a lot, so check the spelling and try again.
-    </p>
+export const NotFoundUser: FC<{ username: string }> = ({ username }) => {
+  const { t, rich } = useI18n();
 
-    <PageSearch scope="channel" />
+  return (
+    <StatePage>
+      <h1 className="text-h1 mb-4">
+        {rich(
+          'errors.notFound.heading',
+          {
+            name: (chunk) => <span className="text-primary-400 break-all">{chunk}</span>
+          },
+          { username }
+        )}
+      </h1>
+      <p className="text-lead text-primary-300 max-w-prose mb-6">{t('errors.notFound.body')}</p>
 
-    <div className="flex flex-wrap gap-3 mt-8">
-      <Link href="/channel" className="btn">
-        Channels
-      </Link>
-      <Link href="/" className="btn btn-soft">
-        Home
-      </Link>
-    </div>
+      <PageSearch scope="channel" />
 
-    <p className="text-ui text-primary-400 mt-8">
-      <Status code={404}>The index was left untouched.</Status>
-    </p>
-  </StatePage>
-);
+      <div className="flex flex-wrap gap-3 mt-8">
+        <LocaleLink href="/channel" className="btn">
+          {t('pages.channels')}
+        </LocaleLink>
+        <LocaleLink href="/" className="btn btn-soft">
+          {t('pages.home')}
+        </LocaleLink>
+      </div>
 
-export const InvalidUsername: FC<{ username: string }> = ({ username }) => (
-  <StatePage>
-    <h1 className="text-h1 mb-4">
-      <span className="text-primary-400 break-all">{username}</span> can&apos;t be a Twitch name
-    </h1>
-    <p className="text-lead text-primary-300 max-w-prose mb-6">
-      Twitch names run 1 to 25 characters and allow only letters, numbers and underscores. That one
-      can&apos;t exist, so we never asked Twitch about it.
-    </p>
+      <p className="text-ui text-primary-400 mt-8">
+        <Status code={404}>{t('errors.notFound.untouched')}</Status>
+      </p>
+    </StatePage>
+  );
+};
 
-    <PageSearch scope="channel" />
+export const InvalidUsername: FC<{ username: string }> = ({ username }) => {
+  const { t, rich } = useI18n();
 
-    <div className="flex flex-wrap gap-3 mt-8">
-      <Link href="/channel" className="btn">
-        Channels
-      </Link>
-      <Link href="/" className="btn btn-soft">
-        Home
-      </Link>
-    </div>
+  return (
+    <StatePage>
+      <h1 className="text-h1 mb-4">
+        {rich(
+          'errors.invalid.heading',
+          {
+            name: (chunk) => <span className="text-primary-400 break-all">{chunk}</span>
+          },
+          { username }
+        )}
+      </h1>
+      <p className="text-lead text-primary-300 max-w-prose mb-6">{t('errors.invalid.body')}</p>
 
-    <p className="text-ui text-primary-400 mt-8">
-      <Status code={404} />
-    </p>
-  </StatePage>
-);
+      <PageSearch scope="channel" />
 
-export const UnknownPage: FC = () => (
-  <StatePage>
-    <h1 className="text-h1 mb-4">This page doesn&apos;t exist</h1>
-    <p className="text-lead text-primary-300 max-w-prose mb-8">
-      That address doesn&apos;t lead anywhere on this site, so nothing was looked up. Everywhere
-      worth going from here is below.
-    </p>
+      <div className="flex flex-wrap gap-3 mt-8">
+        <LocaleLink href="/channel" className="btn">
+          {t('pages.channels')}
+        </LocaleLink>
+        <LocaleLink href="/" className="btn btn-soft">
+          {t('pages.home')}
+        </LocaleLink>
+      </div>
 
-    <div className="flex flex-wrap gap-3">
-      <Link href="/" className="btn">
-        Home
-      </Link>
-      <Link href="/channel" className="btn btn-soft">
-        Channels
-      </Link>
-      <Link href="/user" className="btn btn-soft">
-        Accounts
-      </Link>
-      <Link href="/donate" className="btn btn-soft">
-        Donate
-      </Link>
-      <Link href="/docs" className="btn btn-soft">
-        API docs
-      </Link>
-    </div>
+      <p className="text-ui text-primary-400 mt-8">
+        <Status code={404} />
+      </p>
+    </StatePage>
+  );
+};
 
-    <p className="text-ui text-primary-400 mt-8">
-      <Status code={404} />
-    </p>
-  </StatePage>
-);
+export const UnknownPage: FC = () => {
+  const { t } = useI18n();
+
+  return (
+    <StatePage>
+      <h1 className="text-h1 mb-4">{t('errors.unknownPage.heading')}</h1>
+      <p className="text-lead text-primary-300 max-w-prose mb-8">{t('errors.unknownPage.body')}</p>
+
+      <div className="flex flex-wrap gap-3">
+        <LocaleLink href="/" className="btn">
+          {t('pages.home')}
+        </LocaleLink>
+        <LocaleLink href="/channel" className="btn btn-soft">
+          {t('pages.channels')}
+        </LocaleLink>
+        <LocaleLink href="/user" className="btn btn-soft">
+          {t('pages.accounts')}
+        </LocaleLink>
+        <LocaleLink href="/donate" className="btn btn-soft">
+          {t('pages.donate')}
+        </LocaleLink>
+        <LocaleLink href="/docs" className="btn btn-soft">
+          {t('pages.apiDocs')}
+        </LocaleLink>
+      </div>
+
+      <p className="text-ui text-primary-400 mt-8">
+        <Status code={404} />
+      </p>
+    </StatePage>
+  );
+};
 
 export const BannedUser: FC<{ username: string; reason?: string }> = ({ username, reason }) => {
+  const { t } = useI18n();
   const kind = reason?.toLowerCase();
   const banned = kind === 'tos_banned';
   const deactivated = kind === 'deactivated';
@@ -106,14 +122,12 @@ export const BannedUser: FC<{ username: string; reason?: string }> = ({ username
         </span>
         <div className="min-w-0">
           <h1 className="text-h1 mb-3 break-all">
-            {banned && `${username} is banned on Twitch`}
-            {deactivated && `${username} deleted their account`}
-            {!banned && !deactivated && `${username} is unavailable`}
+            {banned && t('errors.banned.isBanned', { username })}
+            {deactivated && t('errors.banned.isDeleted', { username })}
+            {!banned && !deactivated && t('errors.banned.isUnavailable', { username })}
           </h1>
           <p className="text-lead text-primary-300 max-w-prose">
-            Twitch isn&apos;t serving this account, so {config.brand.name} won&apos;t serve a
-            profile for it either. Any roles it held stay in the index, just hidden for as long as
-            this lasts.
+            {t('errors.banned.body', { brandName: config.brand.name })}
           </p>
         </div>
       </div>
@@ -121,82 +135,89 @@ export const BannedUser: FC<{ username: string; reason?: string }> = ({ username
       <Facts
         rows={[
           {
-            label: 'Reason from Twitch',
+            label: t('errors.banned.reason'),
             value: (
-              <span className="text-base font-bold text-primary-100">{reason ?? 'not given'}</span>
+              <span className="text-base font-bold text-primary-100">
+                {reason ?? t('errors.banned.notGiven')}
+              </span>
             )
           },
-          { label: 'Roles retained', value: <Good>Still indexed</Good> },
-          { label: 'Roles shown', value: 'None while this lasts' }
+          {
+            label: t('errors.banned.retained'),
+            value: <Good>{t('errors.banned.stillIndexed')}</Good>
+          },
+          { label: t('errors.banned.shown'), value: t('errors.banned.noneShown') }
         ]}
       />
 
       <div className="flex flex-wrap gap-3">
-        {banned && <ReloadButton>Check again</ReloadButton>}
-        <Link href="/channel" className={banned ? 'btn btn-soft' : 'btn'}>
-          Look up someone else
-        </Link>
+        {banned && <ReloadButton>{t('errors.banned.checkAgain')}</ReloadButton>}
+        <LocaleLink href="/channel" className={banned ? 'btn btn-soft' : 'btn'}>
+          {t('errors.common.lookUp')}
+        </LocaleLink>
       </div>
 
       {banned && (
-        <p className="text-ui text-primary-400 mt-6 max-w-prose">
-          Bans get reversed sometimes, which is why this is the only state on the site that offers
-          to read again.
-        </p>
+        <p className="text-ui text-primary-400 mt-6 max-w-prose">{t('errors.banned.reversible')}</p>
       )}
       {deactivated && (
-        <p className="text-ui text-primary-400 mt-6 max-w-prose">This one usually sticks.</p>
+        <p className="text-ui text-primary-400 mt-6 max-w-prose">{t('errors.banned.sticks')}</p>
       )}
       {!banned && !deactivated && (
         <p className="text-ui text-primary-400 mt-6 max-w-prose">
-          We show you whatever Twitch said, even when we don&apos;t recognize it.
+          {t('errors.banned.unrecognized')}
         </p>
       )}
     </StatePage>
   );
 };
 
-export const CheckoutUnreadable: FC = () => (
-  <StatePage>
-    <h1 className="text-h1 mb-4">Your payment is fine. This page isn&apos;t.</h1>
-    <p className="text-lead text-primary-300 max-w-prose mb-8">
-      {config.brand.name} couldn&apos;t read the checkout session back from Stripe, so it can&apos;t
-      show you a summary. None of that touches the donation itself.
-    </p>
+export const CheckoutUnreadable: FC = () => {
+  const { t } = useI18n();
 
-    <Facts
-      rows={[
-        { label: 'Payment', value: <Good>Taken by Stripe</Good> },
-        { label: 'Receipt', value: <Good>Stripe will email it</Good> },
-        { label: 'Donator badge', value: <Good>Granted by the webhook</Good> },
-        {
-          label: 'This page',
-          value: (
-            <span className="text-ui text-founder font-semibold">
-              Couldn&apos;t read the session
-            </span>
-          )
-        }
-      ]}
-    />
+  return (
+    <StatePage>
+      <h1 className="text-h1 mb-4">{t('errors.checkout.heading')}</h1>
+      <p className="text-lead text-primary-300 max-w-prose mb-8">
+        {t('errors.checkout.body', { brandName: config.brand.name })}
+      </p>
 
-    <div className="flex flex-wrap gap-3">
-      <Link href="/settings" className="btn">
-        Check your profile
-      </Link>
-      <a
-        href={config.brand.discordUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn btn-soft"
-      >
-        Ask on Discord
-      </a>
-    </div>
+      <Facts
+        rows={[
+          { label: t('errors.checkout.payment'), value: <Good>{t('errors.checkout.taken')}</Good> },
+          {
+            label: t('errors.checkout.receipt'),
+            value: <Good>{t('errors.checkout.emailed')}</Good>
+          },
+          { label: t('errors.checkout.badge'), value: <Good>{t('errors.checkout.granted')}</Good> },
+          {
+            label: t('errors.checkout.thisPage'),
+            value: (
+              <span className="text-ui text-founder font-semibold">
+                {t('errors.checkout.unreadable')}
+              </span>
+            )
+          }
+        ]}
+      />
 
-    <p className="text-ui text-primary-400 mt-6 max-w-prose">
-      If the badge is still missing an hour from now, send us the Stripe receipt and we&apos;ll
-      assign it by hand. <Status code={400} />
-    </p>
-  </StatePage>
-);
+      <div className="flex flex-wrap gap-3">
+        <LocaleLink href="/settings" className="btn">
+          {t('errors.checkout.checkProfile')}
+        </LocaleLink>
+        <a
+          href={config.brand.discordUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-soft"
+        >
+          {t('errors.checkout.askDiscord')}
+        </a>
+      </div>
+
+      <p className="text-ui text-primary-400 mt-6 max-w-prose">
+        {t('errors.checkout.byHand')} <Status code={400} />
+      </p>
+    </StatePage>
+  );
+};

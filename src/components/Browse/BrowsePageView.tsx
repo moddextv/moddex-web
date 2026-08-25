@@ -1,10 +1,10 @@
+import { getTranslator, Locale, localePath } from '@/i18n';
 import { BrowsePager } from '@/components/Browse/BrowsePager';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BROWSE_PAGE_SIZE, BrowseAxis, browsePageCount } from '@/misc/browsePages';
-import { formatNumber } from '@/utils/format';
-import { getFormattedStats } from '@/utils/stats';
+import { getIndexStats } from '@/utils/stats';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CSSProperties, FC } from 'react';
@@ -25,12 +25,17 @@ const COPY: Record<BrowseAxis, { heading: string; corner: string; lead: string; 
 };
 
 const browseTotal = async (axis: BrowseAxis): Promise<number> => {
-  const stats = await getFormattedStats();
+  const stats = await getIndexStats();
 
-  return axis === 'channel' ? stats.channels.raw : stats.users.raw;
+  return axis === 'channel' ? stats.channels : stats.users;
 };
 
-export const BrowsePageView: FC<{ axis: BrowseAxis; page: number }> = async ({ axis, page }) => {
+export const BrowsePageView: FC<{ axis: BrowseAxis; page: number; locale: Locale }> = async ({
+  axis,
+  page,
+  locale
+}) => {
+  const t = getTranslator(locale);
   const offset = (page - 1) * BROWSE_PAGE_SIZE;
 
   const [total, data] = await Promise.all([
@@ -52,7 +57,8 @@ export const BrowsePageView: FC<{ axis: BrowseAxis; page: number }> = async ({ a
           <div className="flex items-center gap-3 mb-3">
             <span className={`corner ${copy.corner}`} aria-hidden="true" />
             <h1 className="text-h1">
-              {copy.heading} <span className="text-primary-400">· page {page}</span>
+              {copy.heading}{' '}
+              <span className="text-primary-400">· {t('browse.page', { page })}</span>
             </h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">{copy.lead}</p>
@@ -61,19 +67,23 @@ export const BrowsePageView: FC<{ axis: BrowseAxis; page: number }> = async ({ a
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
           <div className="panel-flush">
             <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-              <h2 className="text-h2">Most roles</h2>
+              <h2 className="text-h2">{t('misc.mostRoles')}</h2>
               <span className="text-lead text-primary-400 tabular">
-                {formatNumber(total)} <span className="text-ui">{copy.label}</span>
+                {t.number(total)} <span className="text-ui">{copy.label}</span>
               </span>
-              <Link href={`/${axis}`} className="btn btn-soft ml-auto">
-                Search instead
+              <Link href={localePath(locale, `/${axis}`)} className="btn btn-soft ml-auto">
+                {t('browse.searchInstead')}
               </Link>
             </div>
 
-            <BrowseRows kind={axis === 'channel' ? 'channel' : 'account'} items={data.items} />
+            <BrowseRows
+              kind={axis === 'channel' ? 'channel' : 'account'}
+              items={data.items}
+              locale={locale}
+            />
           </div>
 
-          <BrowsePager axis={axis} page={page} last={last} />
+          <BrowsePager axis={axis} page={page} last={last} locale={locale} />
         </section>
       </Container>
     </main>

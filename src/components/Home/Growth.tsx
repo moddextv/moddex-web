@@ -1,5 +1,5 @@
+import { getTranslator, Locale, Translator } from '@/i18n';
 import { FC } from 'react';
-import { formatNumber } from '@/utils/format';
 import type { HistoryPoint } from '@/utils/api/moddex/public';
 import { buildPath, H, W } from '@/utils/sparkline';
 
@@ -9,7 +9,7 @@ interface Series {
   values: (number | null)[];
 }
 
-const Spark: FC<{ series: Series }> = ({ series }) => {
+const Spark: FC<{ series: Series; t: Translator }> = ({ series, t }) => {
   const known = series.values.filter((value): value is number => value !== null);
   const latest = known.at(-1) ?? null;
   const first = known.at(0) ?? null;
@@ -22,7 +22,7 @@ const Spark: FC<{ series: Series }> = ({ series }) => {
       <p className="text-micro uppercase tracking-wider text-primary-400">{series.label}</p>
 
       <p className="text-h2 font-extrabold tabular leading-none" style={{ color: series.color }}>
-        {change === null ? '·' : `${change >= 0 ? '+' : '−'}${formatNumber(Math.abs(change))}`}
+        {change === null ? '·' : `${change >= 0 ? '+' : '−'}${t.number(Math.abs(change))}`}
       </p>
 
       {path ? (
@@ -44,34 +44,37 @@ const Spark: FC<{ series: Series }> = ({ series }) => {
         </svg>
       ) : (
         <p className="text-micro text-primary-400 h-12">
-          {known.length ? 'one day so far' : 'not measured yet'}
+          {known.length ? t('home.growth.oneDay') : t('home.growth.notMeasured')}
         </p>
       )}
 
       {/* founders were measured later, so this number differs per series */}
       <p className="text-micro text-primary-400 tabular">
-        {change === null ? 'nothing to compare yet' : `over the last ${known.length} days`}
+        {change === null
+          ? t('home.growth.nothingToCompare')
+          : t('home.growth.overLastDays', { count: known.length })}
       </p>
     </div>
   );
 };
 
-export const Growth: FC<{ points: HistoryPoint[] }> = ({ points }) => {
+export const Growth: FC<{ points: HistoryPoint[]; locale: Locale }> = ({ points, locale }) => {
+  const t = getTranslator(locale);
   if (points.length < 2) return null;
 
   const series: Series[] = [
     {
-      label: 'moderator records',
+      label: t('home.stats.mods'),
       color: 'var(--mod)',
       values: points.map((point) => point.mods)
     },
     {
-      label: 'VIP records',
+      label: t('home.stats.vips'),
       color: 'var(--vip)',
       values: points.map((point) => point.vips)
     },
     {
-      label: 'founder records',
+      label: t('home.stats.founders'),
       color: 'var(--founder)',
       values: points.map((point) => point.founders)
     }
@@ -79,11 +82,11 @@ export const Growth: FC<{ points: HistoryPoint[] }> = ({ points }) => {
 
   return (
     <div className="panel">
-      <h2 className="text-h2 mb-6">Over time</h2>
+      <h2 className="text-h2 mb-6">{t('misc.overTime')}</h2>
 
       <div className="grid gap-8 sm:grid-cols-3">
         {series.map((one) => (
-          <Spark key={one.label} series={one} />
+          <Spark key={one.label} series={one} t={t} />
         ))}
       </div>
     </div>

@@ -545,6 +545,10 @@
 		grid-template-columns: minmax(0, 1fr) 120px 110px 110px;
 	}
 
+	.cols-audit {
+		grid-template-columns: 96px minmax(0, 1fr) 150px 150px;
+	}
+
 	@media (max-width: 900px) {
 		.cols-badges {
 			grid-template-columns: minmax(0, 1fr) 86px;
@@ -583,6 +587,14 @@
 		}
 
 		.cols-donations > :nth-child(3) {
+			display: none;
+		}
+
+		.cols-audit {
+			grid-template-columns: 90px minmax(0, 1fr) 130px;
+		}
+
+		.cols-audit > :nth-child(3) {
 			display: none;
 		}
 	}

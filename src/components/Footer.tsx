@@ -1,8 +1,9 @@
+import { getTranslator, Locale } from '@/i18n';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { DiscordIcon, ExternalLinkIcon, GitHubIcon } from '@/components/Icons';
 import { config } from '@/config';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { FC, ReactNode } from 'react';
 
 const FooterLink: FC<{
@@ -11,7 +12,7 @@ const FooterLink: FC<{
   icon?: ReactNode;
   children: ReactNode;
 }> = ({ href, newTab, icon, children }) => (
-  <Link
+  <LocaleLink
     href={href}
     target={newTab ? '_blank' : undefined}
     rel={newTab ? 'noopener noreferrer' : undefined}
@@ -20,10 +21,11 @@ const FooterLink: FC<{
     {icon}
     {children}
     {!icon && newTab && <ExternalLinkIcon size={14} />}
-  </Link>
+  </LocaleLink>
 );
 
-export const Footer = () => {
+export const Footer: FC<{ locale: Locale }> = ({ locale }) => {
+  const t = getTranslator(locale);
   const year = new Date().getFullYear();
 
   return (
@@ -34,49 +36,46 @@ export const Footer = () => {
             <Mark size={20} split />
             <span className="text-h3 font-extrabold tracking-tight">{config.brand.name}</span>
           </div>
-          <p className="text-ui text-primary-400 leading-relaxed">
-            Every channel a Twitch account holds mod or vip in, and the day they got it. Not
-            affiliated with, endorsed by, or sponsored by Twitch Interactive.
-          </p>
+          <p className="text-ui text-primary-400 leading-relaxed">{t('footer.blurb')}</p>
           <div className="mt-5 flex flex-col items-start gap-2.5">
             <FooterLink href="/about" icon={<span className="w-[18px]" aria-hidden="true" />}>
-              About {config.brand.name}
+              {t('pages.about', { brandName: config.brand.name })}
             </FooterLink>
             <FooterLink href="/donate" icon={<span className="w-[18px]" aria-hidden="true" />}>
-              Donate
+              {t('pages.donate')}
             </FooterLink>
             <FooterLink
               href={config.brand.discordUrl}
               newTab
               icon={<DiscordIcon size={18} color="" />}
             >
-              Join the Discord
+              {t('footer.joinDiscord')}
             </FooterLink>
             <FooterLink href={config.brand.githubUrl} newTab icon={<GitHubIcon size={18} />}>
-              {config.brand.name} on GitHub
+              {t('footer.onGitHub', { brandName: config.brand.name })}
             </FooterLink>
           </div>
         </div>
 
         <div className="flex gap-14">
-          <nav className="flex flex-col gap-2.5" aria-label="Look up">
-            <p className="text-meta text-primary-400 mb-0.5">Look up</p>
-            <FooterLink href="/channel">By channel</FooterLink>
-            <FooterLink href="/user">By account</FooterLink>
-            <FooterLink href="/leaderboard">Leaderboard</FooterLink>
+          <nav className="flex flex-col gap-2.5" aria-label={t('footer.lookUp')}>
+            <p className="text-meta text-primary-400 mb-0.5">{t('footer.lookUp')}</p>
+            <FooterLink href="/channel">{t('footer.byChannel')}</FooterLink>
+            <FooterLink href="/user">{t('footer.byAccount')}</FooterLink>
+            <FooterLink href="/leaderboard">{t('pages.leaderboard')}</FooterLink>
             <FooterLink href={config.brand.docsUrl} newTab>
-              API docs
+              {t('pages.apiDocs')}
             </FooterLink>
             <FooterLink href={config.brand.statusUrl} newTab>
-              Status
+              {t('pages.status')}
             </FooterLink>
           </nav>
 
-          <nav className="flex flex-col gap-2.5" aria-label="Your data">
-            <p className="text-meta text-primary-400 mb-0.5">Your data</p>
-            <FooterLink href="/settings">Opt out</FooterLink>
-            <FooterLink href="/privacy">Privacy</FooterLink>
-            <FooterLink href="/tos">Terms</FooterLink>
+          <nav className="flex flex-col gap-2.5" aria-label={t('footer.yourData')}>
+            <p className="text-meta text-primary-400 mb-0.5">{t('footer.yourData')}</p>
+            <FooterLink href="/settings">{t('footer.optOut')}</FooterLink>
+            <FooterLink href="/privacy">{t('pages.privacy')}</FooterLink>
+            <FooterLink href="/tos">{t('pages.terms')}</FooterLink>
           </nav>
         </div>
       </Container>

@@ -1,7 +1,7 @@
+import { getTranslator, Locale, localePath } from '@/i18n';
 import { Avatar } from '@/components/UI/Avatar';
 import { Badges } from '@/components/User/Badges';
 import { LeaderRow } from '@/utils/api/moddex/public';
-import { formatNumber } from '@/utils/format';
 import Link from 'next/link';
 import { FC } from 'react';
 import clsx from 'clsx';
@@ -13,34 +13,43 @@ const TONE: Record<string, string> = {
   roles: 'text-primary-100'
 };
 
-export const LeaderRows: FC<{ scale: string; label: string; items: LeaderRow[] }> = ({
-  scale,
-  label,
-  items
-}) => (
-  <div className="rows">
-    <div className="row-head cols-leaders">
-      <span>#</span>
-      <span>Account</span>
-      <span className="text-right">{label}</span>
-    </div>
+export const LeaderRows: FC<{
+  scale: string;
+  label: string;
+  items: LeaderRow[];
+  locale: Locale;
+}> = ({ scale, label, items, locale }) => {
+  const t = getTranslator(locale);
 
-    {items.map((row) => (
-      <Link key={row.id} href={`/user/${row.login}`} className="row cols-leaders">
-        <span className="text-ui tabular text-primary-400">{row.place}</span>
+  return (
+    <div className="rows">
+      <div className="row-head cols-leaders">
+        <span>#</span>
+        <span>{t('misc.account')}</span>
+        <span className="text-right">{label}</span>
+      </div>
 
-        <span className="flex items-center gap-3.5 min-w-0">
-          <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />
-          <span className="flex items-center gap-2 min-w-0">
-            <span className="row-name text-base font-bold truncate">{row.name || row.login}</span>
-            <Badges badges={row.badges} size={18} className="shrink-0 flex-nowrap" />
+      {items.map((row) => (
+        <Link
+          key={row.id}
+          href={localePath(locale, `/user/${row.login}`)}
+          className="row cols-leaders"
+        >
+          <span className="text-ui tabular text-primary-400">{row.place}</span>
+
+          <span className="flex items-center gap-3.5 min-w-0">
+            <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />
+            <span className="flex items-center gap-2 min-w-0">
+              <span className="row-name text-base font-bold truncate">{row.name || row.login}</span>
+              <Badges badges={row.badges} size={18} className="shrink-0 flex-nowrap" />
+            </span>
           </span>
-        </span>
 
-        <span className={clsx('text-ui tabular text-right', TONE[scale] ?? 'text-primary-100')}>
-          {formatNumber(row.count)}
-        </span>
-      </Link>
-    ))}
-  </div>
-);
+          <span className={clsx('text-ui tabular text-right', TONE[scale] ?? 'text-primary-100')}>
+            {t.number(row.count)}
+          </span>
+        </Link>
+      ))}
+    </div>
+  );
+};

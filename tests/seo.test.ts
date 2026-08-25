@@ -14,7 +14,7 @@ import { MAX_BROWSE_PAGE } from '@/misc/browsePages';
 import { profileGraph, siteGraph } from '@/components/JsonLd';
 
 const ROOT = join(__dirname, '..');
-const APP = join(ROOT, 'src', 'app');
+const APP = join(ROOT, 'src', 'app', '[locale]');
 
 const read = (...parts: string[]) => readFileSync(join(APP, ...parts), 'utf8');
 
@@ -54,7 +54,7 @@ describe('every page carries metadata', () => {
     ({ file }) => {
       const source = readFileSync(file, 'utf8');
 
-      expect(source).toMatch(/alternates: \{ canonical|robots: \{ index: false/);
+      expect(source).toMatch(/alternatesFor\(|pageMetadata\(|robots: \{ index: false/);
     }
   );
 });

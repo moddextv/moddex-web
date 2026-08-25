@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- satori renders no html, so next/image has nothing to optimise */
 
+import { DEFAULT_LOCALE, getTranslator } from '@/i18n';
 import 'server-only';
 
 import { readFile } from 'node:fs/promises';
@@ -11,7 +12,6 @@ import type { ReactNode } from 'react';
 
 import { ROLES, roleByLabel, type RoleKey, type RoleType, type UserType } from '@/misc/roles';
 import { logger } from '@/misc/Logger';
-import { formatNumber } from '@/utils/format';
 import type { Badge } from '@/misc/badges';
 import type { Seed } from '@/utils/roleSeed';
 
@@ -83,8 +83,8 @@ const countSize = (count: string): number => (count.length > 5 ? 42 : 50);
 // undici implements no file: protocol, so these are read rather than fetched
 const readFonts = async () => {
   const [medium, extraBold] = await Promise.all([
-    readFile(new URL('../app/fonts/Manrope-Medium.ttf', import.meta.url)),
-    readFile(new URL('../app/fonts/Manrope-ExtraBold.ttf', import.meta.url))
+    readFile(new URL('../fonts/Manrope-Medium.ttf', import.meta.url)),
+    readFile(new URL('../fonts/Manrope-ExtraBold.ttf', import.meta.url))
   ]);
 
   return [
@@ -197,13 +197,15 @@ const Stat = ({ role, type, count }: { role: RoleKey; type: UserType; count: str
   </div>
 );
 
+// the card's own labels are english, so its numbers are too
 const countOf = (seed: Seed, role: RoleType): string | null => {
   const page = seed[role];
+  const { number } = getTranslator(DEFAULT_LOCALE);
 
   if (!page) return null;
-  if (page.total !== null) return formatNumber(page.total);
+  if (page.total !== null) return number(page.total);
 
-  return page.items.length ? `${formatNumber(page.items.length)}${page.hasMore ? '+' : ''}` : '0';
+  return page.items.length ? `${number(page.items.length)}${page.hasMore ? '+' : ''}` : '0';
 };
 
 const Frame = ({ kind, children }: { kind?: string; children: ReactNode }) => (

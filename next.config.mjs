@@ -1,3 +1,41 @@
+/**
+ * Every top-level path that carries a locale, listed rather than excluded.
+ *
+ * A negative lookahead would be shorter and is exactly how the visitor counter
+ * was lost once: a matcher meant to exclude something quietly caught the collect
+ * endpoint, and the failure was invisible because the script still loaded. This
+ * list cannot reach /insights, /api, /health, or any metadata file, because it
+ * never mentions them. tests/localeRouting.test.ts pins that.
+ */
+export const LOCALIZED_SEGMENTS = [
+  'about',
+  'c',
+  'channel',
+  'dashboard',
+  'design',
+  'donate',
+  'leaderboard',
+  'privacy',
+  'settings',
+  'tos',
+  'u',
+  'user'
+];
+
+// en is served unprefixed, so /en/... is a duplicate of a url that already exists
+const localeRedirects = [
+  { source: '/en', destination: '/', permanent: true },
+  { source: '/en/:path*', destination: '/:path*', permanent: true }
+];
+
+const localeRewrites = [
+  { source: '/', destination: '/en' },
+  ...LOCALIZED_SEGMENTS.flatMap((segment) => [
+    { source: `/${segment}`, destination: `/en/${segment}` },
+    { source: `/${segment}/:path*`, destination: `/en/${segment}/:path*` }
+  ])
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // the docker runner stage copies .next/standalone — without this it would
@@ -39,8 +77,14 @@ const nextConfig = {
         source: '/api',
         destination: 'https://api.moddex.tv/docs',
         permanent: true
-      }
+      },
+      ...localeRedirects
     ];
+  },
+
+  // beforeFiles, or /about would match the filesystem before it reaches the en tree
+  async rewrites() {
+    return { beforeFiles: localeRewrites, afterFiles: [], fallback: [] };
   }
 };
 

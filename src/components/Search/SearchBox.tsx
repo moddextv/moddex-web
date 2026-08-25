@@ -1,5 +1,6 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC, FormEvent, KeyboardEvent, ReactNode, RefObject, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
@@ -7,7 +8,6 @@ import clsx from 'clsx';
 import { Avatar } from '@/components/UI/Avatar';
 import { SearchIcon } from '@/components/Icons';
 import { useSuggest } from '@/hooks/useSuggest';
-import { formatNumber } from '@/utils/format';
 
 export type Scope = 'channel' | 'user';
 
@@ -28,6 +28,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
   inputRef,
   children
 }) => {
+  const { t, rich, path } = useI18n();
   const router = useRouter();
   const [value, setValue] = useState('');
   const [active, setActive] = useState(-1);
@@ -43,7 +44,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
 
     setValue('');
     setPicking(false);
-    router.push(`/${scope}/${encodeURIComponent(target)}`);
+    router.push(path(`/${scope}/${encodeURIComponent(target)}`));
   };
 
   const submit = (event: FormEvent) => {
@@ -103,7 +104,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
           className="suggest"
           id="search-suggestions"
           role="listbox"
-          aria-label="Matching accounts"
+          aria-label={t('misc.matchingAccounts')}
         >
           {items.map((item, index) => (
             <li key={item.id} role="option" aria-selected={index === active}>
@@ -125,7 +126,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
                   <span className="text-meta text-primary-400 truncate">{item.name}</span>
                 )}
                 <span className="ml-auto text-meta text-primary-400 tabular shrink-0">
-                  {formatNumber(item.followers || 0)}
+                  {t.number(item.followers || 0)}
                 </span>
               </button>
             </li>
@@ -133,7 +134,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
 
           {!items.length && loading && (
             <li className="suggest-note" aria-live="polite">
-              reading the index
+              {t('misc.readingIndex')}
             </li>
           )}
         </ul>
@@ -142,9 +143,11 @@ export const SearchBox: FC<SearchBoxProps> = ({
       {picking && !short && !loading && !items.length && (
         <ul className="suggest" role="presentation">
           <li className="suggest-note">
-            Nothing indexed starts with{' '}
-            <span className="font-mono text-primary-200">{value.trim()}</span>. Press Enter to read
-            it from Twitch and add it.
+            {rich(
+              'misc.nothingIndexedWith',
+              { name: (chunk) => <span className="font-mono text-primary-200">{chunk}</span> },
+              { query: value.trim() }
+            )}
           </li>
         </ul>
       )}

@@ -1,7 +1,8 @@
 'use client';
 
+import { Translator, useT } from '@/i18n';
 import { FC, useState } from 'react';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
@@ -24,9 +25,20 @@ const write = async (badge: string, userId: string, on: boolean) => {
   return on ? grantUserBadge(userId, badge) : revokeUserBadge(userId, badge);
 };
 
-const Face: FC<{ badge: Badge; on: boolean; note: string | null }> = ({ badge, on, note }) => (
+const Face: FC<{ badge: Badge; on: boolean; note: string | null; t: Translator }> = ({
+  badge,
+  on,
+  note,
+  t
+}) => (
   <>
-    <Image src={badge.svg} alt={`${badge.name} badge`} width={20} height={20} radius="sm" />
+    <Image
+      src={badge.svg}
+      alt={t('dash.badge.alt', { name: badge.name })}
+      width={20}
+      height={20}
+      radius="sm"
+    />
 
     <span className="min-w-0 flex-1">
       <span className={on ? 'text-ui font-bold block truncate' : 'text-ui block truncate'}>
@@ -38,11 +50,11 @@ const Face: FC<{ badge: Badge; on: boolean; note: string | null }> = ({ badge, o
 );
 
 // twitch owns these: state, not a switch nobody can move
-const Owned: FC<{ badge: Badge; on: boolean }> = ({ badge, on }) => (
+const Owned: FC<{ badge: Badge; on: boolean; t: Translator }> = ({ badge, on, t }) => (
   <div className="badge-row is-owned">
-    <Face badge={badge} on={on} note="twitch" />
+    <Face badge={badge} on={on} note="twitch" t={t} />
     <span className={on ? 'text-ui text-primary-200' : 'text-ui text-primary-400'}>
-      {on ? 'held' : '·'}
+      {on ? t('roleCheck.held') : '·'}
     </span>
   </div>
 );
@@ -53,10 +65,11 @@ const Switch: FC<{
   locked: boolean;
   note: string | null;
   busy: boolean;
+  t: Translator;
   onChange: (on: boolean) => void;
-}> = ({ badge, on, locked, note, busy, onChange }) => (
+}> = ({ badge, on, locked, note, busy, t, onChange }) => (
   <label className={`badge-row${locked ? ' is-owned' : ''}`}>
-    <Face badge={badge} on={on} note={locked ? 'owner' : note} />
+    <Face badge={badge} on={on} note={locked ? t('dash.badge.owner') : note} t={t} />
 
     <button
       type="button"
@@ -77,6 +90,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
   catalogue,
   ownerId
 }) => {
+  const t = useT();
   const [login, setLogin] = useState('');
   const [member, setMember] = useState<User | null>(null);
   const [looked, setLooked] = useState(false);
@@ -118,7 +132,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
   return (
     <div className="panel">
       <div className="px-4 pt-5 pb-4">
-        <h2 className="text-h2">Badges per account</h2>
+        <h2 className="text-h2">{t('dash.badgesPerAccount')}</h2>
       </div>
 
       <form onSubmit={search} className="flex items-center gap-3 flex-wrap px-4 pb-4">
@@ -127,19 +141,21 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
           <input
             value={login}
             onChange={(event) => setLogin(event.target.value)}
-            placeholder="twitch login"
-            aria-label="Twitch login"
+            placeholder={t('dash.twitchLogin')}
+            aria-label={t('dash.twitchLogin')}
             autoComplete="off"
           />
         </label>
 
         <button type="submit" className="btn btn-soft" disabled={lookup.pending || !login.trim()}>
-          Search
+          {t('common.search')}
         </button>
       </form>
 
       {looked && !member ? (
-        <p className="text-read text-primary-300 px-4 pb-5">No account called {login}.</p>
+        <p className="text-read text-primary-300 px-4 pb-5">
+          {t('dash.noAccountCalled', { login })}
+        </p>
       ) : null}
 
       {member ? (
@@ -156,9 +172,9 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
               />
             ) : null}
 
-            <Link href={`/user/${member.login}`} className="text-base font-bold">
+            <LocaleLink href={`/user/${member.login}`} className="text-base font-bold">
               {member.name || member.login}
-            </Link>
+            </LocaleLink>
 
             <Badges badges={member.badges ?? []} size={18} className="shrink-0" />
           </div>
@@ -168,7 +184,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
               const kind = kindOf(badge.name);
               const on = wears(member.badges, badge.name);
 
-              if (kind === 'twitch') return <Owned key={badge.id} badge={badge} on={on} />;
+              if (kind === 'twitch') return <Owned key={badge.id} badge={badge} on={on} t={t} />;
 
               return (
                 <Switch
@@ -178,6 +194,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
                   locked={kind === 'admins' && !!ownerId && member.id === ownerId}
                   note={SOURCES[badge.name] ?? null}
                   busy={busy === badge.name}
+                  t={t}
                   onChange={(next: boolean) => void toggle(badge.name, next)}
                 />
               );

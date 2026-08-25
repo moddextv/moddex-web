@@ -1,51 +1,44 @@
+import { getTranslator } from '@/i18n';
 import { describe, expect, it } from 'vitest';
-import {
-  formatDate,
-  formatDayMonthYear,
-  formatMonthYearLong,
-  formatNumber,
-  formatNumberShort
-} from '@/utils/format';
 import { signInOptions } from '@/utils/signIn';
 
-describe('formatNumberShort', () => {
-  it('leaves values under 1000 alone', () => {
-    expect(formatNumberShort(0)).toBe('0');
-    expect(formatNumberShort(999)).toBe('999');
+const en = getTranslator('en');
+const de = getTranslator('de');
+
+describe('a number carries its locale', () => {
+  it('groups thousands the way each language does', () => {
+    expect(en.number(1234567)).toBe('1,234,567');
+    expect(de.number(1234567)).toBe('1.234.567');
   });
 
-  it('scales into k/m/b', () => {
-    expect(formatNumberShort(1000)).toBe('1.0k');
-    expect(formatNumberShort(1500)).toBe('1.5k');
-    expect(formatNumberShort(1_000_000)).toBe('1.0m');
-    expect(formatNumberShort(2_500_000_000)).toBe('2.5b');
-  });
-
-  it('handles the real numbers this app shows', () => {
-    expect(formatNumberShort(8_101_526)).toBe('8.1m');
-    expect(formatNumberShort(2_751_685)).toBe('2.8m');
+  it('puts the currency where the language puts it', () => {
+    expect(en.money(2500, 'USD')).toBe('$25.00');
+    expect(de.money(2500, 'EUR')).toBe('25,00\u00a0\u20ac');
   });
 });
 
-describe('formatNumber', () => {
-  it('groups thousands', () => {
-    expect(formatNumber(1234567)).toBe('1,234,567');
+describe('a date carries its locale', () => {
+  const iso = '2019-10-09T19:02:26Z';
+
+  it('formats the short form each way round', () => {
+    expect(en.date(iso)).toBe('Oct 09, 2019');
+    expect(de.date(iso)).toBe('09. Okt. 2019');
   });
 
-  it('defaults to 0 when called with nothing', () => {
-    expect(formatNumber()).toBe('0');
+  it("names the month in the reader's language", () => {
+    expect(en.dateLong(iso)).toBe('October 9, 2019');
+    expect(de.dateLong(iso)).toBe('9. Oktober 2019');
+    expect(en.monthYear(iso)).toBe('October 2019');
+    expect(de.monthYear(iso)).toBe('Oktober 2019');
   });
-});
 
-describe('formatDate', () => {
   it('returns an empty string for missing input rather than "Invalid Date"', () => {
-    expect(formatDate()).toBe('');
-    expect(formatDate(null)).toBe('');
-    expect(formatDate('')).toBe('');
-  });
-
-  it('formats an ISO timestamp', () => {
-    expect(formatDate('2019-10-09T19:02:26Z')).toBe('October 9, 2019');
+    for (const t of [en, de]) {
+      expect(t.date()).toBe('');
+      expect(t.date(null)).toBe('');
+      expect(t.date('')).toBe('');
+      expect(t.since(null)).toBe('');
+    }
   });
 });
 
@@ -66,20 +59,20 @@ describe('a date does not depend on where it is rendered', () => {
     ['Europe/Zurich', 'December 8, 2016'],
     ['Pacific/Auckland', 'December 8, 2016'],
     ['America/Los_Angeles', 'December 8, 2016']
-  ])('formatDate in %s', (zone, expected) => {
-    expect(zoned(zone, () => formatDate('2016-12-08T23:30:00Z'))).toBe(expected);
+  ])('dateLong in %s', (zone, expected) => {
+    expect(zoned(zone, () => en.dateLong('2016-12-08T23:30:00Z'))).toBe(expected);
   });
 
   it.each([
     ['UTC', 'Dec 08, 2016'],
     ['Europe/Zurich', 'Dec 08, 2016'],
     ['Pacific/Auckland', 'Dec 08, 2016']
-  ])('formatDayMonthYear in %s', (zone, expected) => {
-    expect(zoned(zone, () => formatDayMonthYear('2016-12-08T23:30:00Z'))).toBe(expected);
+  ])('date in %s', (zone, expected) => {
+    expect(zoned(zone, () => en.date('2016-12-08T23:30:00Z'))).toBe(expected);
   });
 
-  it('formatMonthYearLong does not roll into the next month', () => {
-    expect(zoned('Pacific/Auckland', () => formatMonthYearLong('2016-11-30T23:30:00Z'))).toBe(
+  it('monthYear does not roll into the next month', () => {
+    expect(zoned('Pacific/Auckland', () => en.monthYear('2016-11-30T23:30:00Z'))).toBe(
       'November 2016'
     );
   });

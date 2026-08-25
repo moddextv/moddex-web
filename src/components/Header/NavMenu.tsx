@@ -1,5 +1,6 @@
 'use client';
 
+import { localeName, LOCALES, swapLocale, useI18n } from '@/i18n';
 import { FC, useRef } from 'react';
 import {
   Dropdown,
@@ -26,6 +27,7 @@ interface NavMenuProps {
 export const NavMenu: FC<NavMenuProps> = ({ session }) => {
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
+  const { t, locale, path } = useI18n();
 
   // heroui caches the menu, so a handler must read the theme through a ref
   const isDark = useRef(false);
@@ -42,16 +44,25 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
 
   const account = user
     ? [
-        <DropdownItem key="profile" textValue="my profile" href={`/user/${login}`}>
-          my profile
+        <DropdownItem key="profile" textValue={t('pages.profile')} href={path(`/user/${login}`)}>
+          {t('pages.profile')}
         </DropdownItem>,
-        <DropdownItem key="settings" textValue="settings" href="/settings" {...here('/settings')}>
-          settings
+        <DropdownItem
+          key="settings"
+          textValue={t('pages.settings')}
+          href={path('/settings')}
+          {...here(path('/settings'))}
+        >
+          {t('pages.settings')}
         </DropdownItem>,
         ...((user.perms ?? 0) >= permissions.team
           ? [
-              <DropdownItem key="dashboard" textValue="dashboard" href="/dashboard">
-                dashboard
+              <DropdownItem
+                key="dashboard"
+                textValue={t('pages.dashboard')}
+                href={path('/dashboard')}
+              >
+                {t('pages.dashboard')}
               </DropdownItem>
             ]
           : [])
@@ -64,10 +75,10 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
           key="signout"
           className="text-red-500"
           color="danger"
-          textValue="sign out"
+          textValue={t('nav.signOut')}
           onPress={() => signOut()}
         >
-          logout
+          {t('nav.signOut')}
         </DropdownItem>
       ]
     : [];
@@ -83,13 +94,13 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
         {user ? (
           <button
             type="button"
-            aria-label="Menu"
+            aria-label={t('nav.menu')}
             className="btn btn-ghost shrink-0 gap-2.5 pl-1 pr-1 md:pr-3"
           >
             {user.image ? (
               <Image
                 src={user.image}
-                alt={user.name ?? 'Your Twitch avatar'}
+                alt={user.name ?? t('nav.yourAvatar')}
                 width={32}
                 height={32}
                 radius="full"
@@ -106,13 +117,17 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             <ChevronDownIcon size={14} color="text-primary-400 shrink-0" />
           </button>
         ) : (
-          <button type="button" aria-label="Menu" className="btn btn-ghost w-10 px-0 shrink-0">
+          <button
+            type="button"
+            aria-label={t('nav.menu')}
+            className="btn btn-ghost w-10 px-0 shrink-0"
+          >
             <MenuIcon size={20} />
           </button>
         )}
       </DropdownTrigger>
 
-      <DropdownMenu aria-label="Menu" variant="flat">
+      <DropdownMenu aria-label={t('nav.menu')} variant="flat">
         {[
           ...(account.length
             ? [
@@ -123,42 +138,77 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             : []),
 
           <DropdownSection key="browse" showDivider>
-            <DropdownItem key="channels" textValue="channels" href="/channel" {...here('/channel')}>
-              channels
+            <DropdownItem
+              key="channels"
+              textValue={t('pages.channels')}
+              href={path('/channel')}
+              {...here(path('/channel'))}
+            >
+              {t('pages.channels')}
             </DropdownItem>
 
-            <DropdownItem key="accounts" textValue="accounts" href="/user" {...here('/user')}>
-              accounts
+            <DropdownItem
+              key="accounts"
+              textValue={t('pages.accounts')}
+              href={path('/user')}
+              {...here(path('/user'))}
+            >
+              {t('pages.accounts')}
             </DropdownItem>
 
             <DropdownItem
               key="leaderboard"
-              textValue="leaderboard"
-              href="/leaderboard"
-              {...here('/leaderboard')}
+              textValue={t('pages.leaderboard')}
+              href={path('/leaderboard')}
+              {...here(path('/leaderboard'))}
             >
-              leaderboard
+              {t('pages.leaderboard')}
             </DropdownItem>
           </DropdownSection>,
 
           <DropdownSection key="site" showDivider>
-            <DropdownItem key="about" textValue="about" href="/about" {...here('/about')}>
-              about
+            <DropdownItem
+              key="about"
+              textValue={t('pages.about', { brandName: config.brand.name })}
+              href={path('/about')}
+              {...here(path('/about'))}
+            >
+              {t('pages.about', { brandName: config.brand.name })}
             </DropdownItem>
 
-            <DropdownItem key="donate" textValue="donate" href="/donate" {...here('/donate')}>
-              donate
+            <DropdownItem
+              key="donate"
+              textValue={t('pages.donate')}
+              href={path('/donate')}
+              {...here(path('/donate'))}
+            >
+              {t('pages.donate')}
             </DropdownItem>
 
             <DropdownItem
               key="discord"
-              textValue="discord"
+              textValue={t('pages.discord')}
               href={config.brand.discordUrl}
               endContent={<ExternalLinkIcon size={14} />}
               {...external}
             >
-              discord
+              {t('pages.discord')}
             </DropdownItem>
+          </DropdownSection>,
+
+          <DropdownSection key="language" showDivider title={t('nav.language')}>
+            {LOCALES.map((entry) => (
+              <DropdownItem
+                key={`locale-${entry}`}
+                textValue={localeName(entry)}
+                href={swapLocale(pathname, entry)}
+                {...(entry === locale
+                  ? { className: 'text-primary-100 font-semibold', 'aria-current': 'true' as const }
+                  : {})}
+              >
+                {localeName(entry)}
+              </DropdownItem>
+            ))}
           </DropdownSection>,
 
           <DropdownSection key="controls">
@@ -169,8 +219,8 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
                 closeOnSelect={false}
                 onPress={() => setTheme(isDark.current ? 'light' : 'dark')}
               >
-                <span className="theme-to-light">switch to light theme</span>
-                <span className="theme-to-dark">switch to dark theme</span>
+                <span className="theme-to-light">{t('nav.themeToLight')}</span>
+                <span className="theme-to-dark">{t('nav.themeToDark')}</span>
               </DropdownItem>,
               ...close
             ]}

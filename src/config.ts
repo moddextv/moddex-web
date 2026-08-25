@@ -11,6 +11,16 @@ export const config = {
     email: 'marcel@doubt.ch'
   },
 
+  i18n: {
+    defaultLocale: 'en',
+
+    // the key is the url segment; `tag` is the bcp-47 form Intl and og want
+    locales: {
+      en: { name: 'English', tag: 'en-US' },
+      de: { name: 'Deutsch', tag: 'de-DE' }
+    }
+  } as const,
+
   stripe: {
     publishableSecretKey: process.env.NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
 

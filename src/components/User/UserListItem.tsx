@@ -1,10 +1,10 @@
+import { useT } from '@/i18n';
 import { FC } from 'react';
 import { Badges } from '@/components/User/Badges';
 import { RoleUser } from '@/misc/account';
 import { UserType } from '@/misc/roles';
-import { formatDayMonthYear, formatNumber } from '@/utils/format';
 import { Avatar } from '@/components/UI/Avatar';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 
 interface UserListItemProps {
   user: RoleUser;
@@ -12,10 +12,11 @@ interface UserListItemProps {
 }
 
 export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
-  const granted = formatDayMonthYear(user.grantedAt);
+  const t = useT();
+  const granted = t.date(user.grantedAt);
 
   return (
-    <Link
+    <LocaleLink
       href={`/${type === 'channel' ? 'user' : 'channel'}/${user.login}`}
       className="row cols-people h-full"
     >
@@ -31,17 +32,14 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
       {granted ? (
         <span className="text-ui text-primary-300 tabular text-right">{granted}</span>
       ) : (
-        <span
-          className="text-ui text-primary-400 text-right"
-          title="Twitch returned no grant date for this role"
-        >
-          no date
+        <span className="text-ui text-primary-400 text-right" title={t('profile.noGrantDate')}>
+          {t('roleCheck.noDate')}
         </span>
       )}
 
       <span className="text-ui text-primary-400 tabular text-right">
-        {formatNumber(user.followers || 0)}
+        {t.number(user.followers || 0)}
       </span>
-    </Link>
+    </LocaleLink>
   );
 };

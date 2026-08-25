@@ -1,0 +1,750 @@
+{
+  "about": {
+    "cost": {
+      "one": "Nichts. Es gibt keine Bezahlstufe, keine Werbung, nichts hinter einem Login, und die <docs>API</docs> ist offen. <donate>Spenden</donate> sind das Einzige, was das so hält, und die Badges dafür sind reine Zierde.",
+      "title": "Was es dich kostet",
+      "two": "Was über einen Account gespeichert wird und wie man das beendet, steht auf der <privacy>Datenschutzseite</privacy>. Der Opt-out ist ein Schalter und wirkt sofort. Die <tos>Nutzungsbedingungen</tos> sagen den Rest. {name} steht in keiner Verbindung zu Twitch Interactive, Inc. und wird von dort weder unterstützt noch gesponsert."
+    },
+    "donated": {
+      "badgeAlt": "Das Donator-Badge",
+      "one": "Deine Spende zählt hier weiterhin. Wir haben uns entschieden, jede Spende unter dem alten Namen anzuerkennen statt bei null anzufangen. Das Donator-Badge von damals kam mit den übrigen Daten mit und steht jetzt auf deinem Profil.",
+      "title": "Wenn du zu modchecker-Zeiten gespendet hast",
+      "two": "Das ist die wahrscheinliche Erklärung, wenn du auf einer Seite ein Badge trägst, an eine Spende dorthin aber keine Erinnerung hast. Es gibt nichts einzulösen und nichts zu erneuern, und es läuft nicht ab. Falls du damals gespendet hast und das Badge fehlt, sag es <discord>im Discord</discord> und es wird von Hand nachgetragen."
+    },
+    "heading": "Was {name} ist, und wer dahintersteht",
+    "history": {
+      "one": "{name} startete unter dem Namen modchecker.com. Im August 2026 hat sich das Projekt von dieser Domain und ihrem ursprünglichen Besitzer getrennt, ist auf {domain} umgezogen und wurde dabei in vier eigenständige Dienste zerlegt.",
+      "three": "Besitz, Hosting, Domain, Datenbank und Code liegen heute vollständig bei der Person, die diese Seite betreibt. Es gibt keine geteilte Kontrolle und keinerlei Absprache mit der alten Domain oder jemandem dahinter. Wer über einen modchecker-Link hierherkam: mehr hat sich nicht geändert.",
+      "title": "Früher war es modchecker.com",
+      "two": "Den Besitzer gewechselt hat der Name: Domain und Discord-Server gehörten dem ursprünglichen Besitzer. Die Datenbank nie. Sie lag durchgehend auf demselben Server, in denselben Händen, und ist für die Umbenennung nicht umgezogen."
+    },
+    "lead": "{name} hält fest, welche Twitch-Accounts in welchen Kanälen Mod, VIP oder Founder sind, und seit wann. Twitch zeigt einem Streamer die eigene Liste. {name} führt die andere Hälfte.",
+    "metaDescription": "Wer {domain} betreibt, woher es kommt, und was aus Spenden wurde, die noch an modchecker.com gingen.",
+    "who": {
+      "one": "Eine Person, und das ist das ganze Team. Domain, Server, Datenbank und Code liegen in denselben Händen, und kein Teil von {name} wird von jemand anderem betrieben.",
+      "title": "Wer es betreibt",
+      "two": "Mehr über die Person dahinter auf <author>maersux.dev</author>, den Code gibt es auf <github>github.com/moddextv</github>."
+    }
+  },
+  "browse": {
+    "accounts": {
+      "lead": "Jeder indexierte Kanal, in dem ein Account Mod oder VIP ist, und der Tag, an dem er die Rolle bekam. Das ist die Richtung, die Twitch nicht zeigt.",
+      "listTitle": "Accounts mit Rollen",
+      "metaDescription": "{brandName} führt Rolleneinträge zu diesen Twitch-Accounts. Schlag einen nach, um jeden Kanal zu sehen, in dem er Mod oder VIP ist.",
+      "totalLabel": "bekannte Accounts",
+      "walk": "Oder den ganzen Index durchgehen: <link>Accounts nach Rollenzahl</link>."
+    },
+    "channels": {
+      "lead": "Wer in einem Kanal Mod, VIP oder Founder ist, und seit wann. Wer einen Kanal zum ersten Mal sucht, nimmt ihn in den Index auf.",
+      "listTitle": "Indexierte Kanäle",
+      "metaDescription": "Die Twitch-Kanäle, die {brandName} indexiert hat. Schlag einen nach, um zu sehen, wer dort Mod, VIP oder Founder ist.",
+      "totalLabel": "indexierte Kanäle",
+      "walk": "Oder den ganzen Index durchgehen: <link>Kanäle nach vergebenen Rollen</link>."
+    },
+    "heads": {
+      "account": "Account",
+      "channel": "Kanal",
+      "modding": "Moderiert",
+      "mods": "Mods",
+      "read": "Gelesen",
+      "viping": "VIP",
+      "vips": "VIPs"
+    },
+    "orderingEmpty": "Für diese Sortierung gibt es noch nichts. Das Rollen-Ranking wird einmal täglich neu gebaut und bleibt bis zum ersten Lauf leer.",
+    "page": "Seite {page}",
+    "rankingUnread": "Dieses Ranking konnte nicht gelesen werden. Der Rest der Seite ist nicht betroffen.",
+    "searchInstead": "Stattdessen suchen",
+    "sort": {
+      "followers": "Meiste Follower",
+      "read": "Zuletzt gelesen",
+      "roles": "Meiste Rollen"
+    }
+  },
+  "chatBadge": {
+    "noBadge": "Kein Badge",
+    "sampleMessage": "forsen hat 24 Mods, wow",
+    "selected": "Ausgewählt",
+    "title": "Chat-Badge",
+    "where": "Wo das Badge steht"
+  },
+  "common": {
+    "back": "Zurück",
+    "clear": "Zurücksetzen",
+    "close": "Schliessen",
+    "loadMore": "Mehr laden",
+    "loading": "Lädt",
+    "loadingShort": "Lädt",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "remove": "Entfernen",
+    "removing": "Wird entfernt…",
+    "search": "Suchen",
+    "tryAgain": "Erneut versuchen"
+  },
+  "controls": {
+    "botModes": {
+      "all": "sichtbar",
+      "hide": "ausgeblendet",
+      "only": "nur Bots"
+    },
+    "bots": "Bots: {state}",
+    "botsAria": "Bots: {state}. Ändert, welche Accounts gelistet werden.",
+    "botsHidden": "ausgeblendet",
+    "botsShown": "sichtbar",
+    "clearFilters": "Filter zurücksetzen",
+    "columns": {
+      "account": "Account",
+      "channel": "Kanal",
+      "followers": {
+        "asc": "wenigste zuerst",
+        "desc": "meiste zuerst",
+        "label": "Follower"
+      },
+      "granted": {
+        "asc": "älteste zuerst",
+        "desc": "neueste zuerst",
+        "label": "Vergeben"
+      },
+      "name": {
+        "asc": "A bis Z",
+        "desc": "Z bis A",
+        "label": "Name"
+      }
+    },
+    "sort": {
+      "activeAria": "Sortiert nach {label}, {ends}. Drücken zum Umkehren.",
+      "disabledAria": "{label}. Diese Liste ist {reason}.",
+      "disabledTitle": "Diese Liste ist {reason}",
+      "idleAria": "Nach {label} sortieren",
+      "tooLong": "zu lang, um nach {label} zu sortieren",
+      "tooLongFollowers": "zu lang, um nach Followerzahl zu sortieren"
+    }
+  },
+  "dash": {
+    "account": "Account",
+    "accountsIndexed": "Indexierte Accounts",
+    "allRan": "alle gelaufen",
+    "amount": "Betrag",
+    "asOf": "Stand {date}",
+    "audit": "Audit",
+    "auditAbout": "der Account, um den es ging",
+    "auditActions": "Aktionen",
+    "auditDidIt": "wer es getan hat",
+    "auditEmpty": "Unter diesem Filter ist noch nichts verzeichnet.",
+    "auditEverything": "Alles",
+    "auditFilter": "Audit-Log-Filter",
+    "auditLog": "Audit-Log",
+    "auditLogins": "Anmeldungen",
+    "auditShown": "{shown} angezeigt",
+    "auditShownOf": "{shown} von {total} angezeigt",
+    "auditSystem": "System",
+    "auditType": "Typ",
+    "auditUnreadable": "Das Audit-Log konnte nicht gelesen werden.",
+    "auditWhat": "Was geschehen ist",
+    "auditWho": "Wer",
+    "backlogsCounted": "Rückstände gezählt",
+    "backlogsNotCounted": "Rückstände nicht gezählt",
+    "backup": "Backup",
+    "badge": {
+      "alsoWrittenBy": "{name} wird auch von {source} geschrieben. Eine Vergabe von Hand hält also, bis das erneut läuft und anders entscheidet.",
+      "alt": "Das Badge {name}",
+      "filter": "Die Liste {name} filtern",
+      "lead": "wer was trägt, und wer es vergeben darf",
+      "neverFetched": "nie abgerufen",
+      "nobodyHolds": "<name>{name}</name> trägt noch niemand.",
+      "optedOut": "abgemeldet",
+      "owner": "Besitzer",
+      "protected": "geschützt",
+      "showAll": "Alle {count} anzeigen",
+      "twitchOwned": "<name>{name}</name> kommt von Twitch und wird vom Sweep geschrieben, ist also eine Zahl und keine Liste: <name>{count}</name> Accounts. Hier kann es niemand vergeben, und eine Million davon aufzuzählen würde nichts beantworten.",
+      "unknownCount": "eine unbekannte Anzahl"
+    },
+    "badges": "Badges",
+    "badgesPerAccount": "Badges pro Account",
+    "catalogueUnreadable": "Der Katalog konnte nicht gelesen werden.",
+    "change": "Änderung",
+    "channel": "Kanal",
+    "channels": "Kanäle",
+    "conduitNoShard": "ein Conduit ohne Shard verwirft Ereignisse",
+    "conn": {
+      "never": "nie",
+      "neverHandedOver": "nie übergeben, nur ein erneutes Verbinden ändert das",
+      "nobodyConnected": "Bisher hat niemand einen Kanal verbunden. Die EventSub-Shards können in Ordnung sein, während hier nichts steht. Sie beantworten verschiedene Fragen.",
+      "none": "keine",
+      "nothingSubscribed": "verbunden, nichts abonniert",
+      "optedOut": "abgemeldet",
+      "withdrew": "zurückgezogen",
+      "yes": "ja"
+    },
+    "connected": "Verbunden",
+    "connectedChannels": "Verbundene Kanäle",
+    "connectionsUnreadable": "Die Verbindungen konnten nicht gelesen werden.",
+    "discover": "Discover",
+    "don": {
+      "anonymous": "anonym",
+      "noAccountLinked": "mit dieser Spende wurde kein Twitch-Account verknüpft",
+      "summary": "{shown} angezeigt · {total} gezählt",
+      "who": "Wer"
+    },
+    "donations": "Spenden",
+    "dueAnotherLook": "schon gelesene Kanäle, die wieder dran sind",
+    "eventSub": "EventSub",
+    "givenBy": "Vergeben von",
+    "jh": {
+      "backupNote": "nächtlicher Dump, geprüft, 14 Tage aufbewahrt",
+      "roleCountsNote": "die Rankings zum Stöbern, um 04:00 UTC neu gebaut",
+      "snapshotNote": "ein Punkt pro Tag um 03:00 UTC"
+    },
+    "job": "Job",
+    "jobHealthUnreadable": "Der Job-Zustand konnte nicht gelesen werden.",
+    "jobs": "Jobs",
+    "last": "Zuletzt",
+    "lastBackup": "Letztes Backup",
+    "lastDays": {
+      "one": "letzter {count} Tag",
+      "other": "letzte {count} Tage"
+    },
+    "lastRun": "Letzter Lauf",
+    "ledgerUnreadable": "Das Spendenbuch konnte nicht gelesen werden.",
+    "loadMore": "Mehr laden",
+    "loading": "Lädt…",
+    "missedSlot": {
+      "one": "{count} hat das letzte Fenster verpasst",
+      "other": "{count} haben das letzte Fenster verpasst"
+    },
+    "modList": "Mod-Liste",
+    "never": "nie",
+    "nightlyJobs": "Nächtliche Jobs",
+    "noAccountCalled": "Kein Account namens {login}.",
+    "noSnapshotYet": "noch kein Snapshot",
+    "nothingRanIn": "im {slot}-Fenster lief nichts",
+    "nothingWritten": "es wurde nichts geschrieben",
+    "oldestNotRevisited": "ältester Kanal, der noch nicht erneut gelesen wurde",
+    "oneRunSoFar": "bisher ein Lauf",
+    "overview": "Übersicht",
+    "queue": "Queue",
+    "ranOf": "{ran} von {total}",
+    "rate": "Rate",
+    "readAgo": "gelesen {ago}",
+    "roleCounts": "Rollenzahlen",
+    "runs": {
+      "avg": "{avg} Durchschnitt",
+      "lead": "Gegen den eigenen Sieben-Tage-Schnitt. Lesenswert ist der Trend: eine einzelne Laufzeit zeigt nicht, dass ein Job aus seinem Fenster wächst.",
+      "nothingRecorded": "Noch nichts aufgezeichnet. Die erste Zeile kommt um 03:00 UTC.",
+      "rows": {
+        "one": "{rows} Zeile",
+        "other": "{rows} Zeilen"
+      },
+      "steady": "stabil · {avg} Durchschnitt",
+      "vsAvg": "ggü. 7-Tage-Schnitt"
+    },
+    "runsTitle": "Wie lange die nächtlichen Läufe dauern",
+    "scheduledWork": "Geplante Läufe",
+    "sections": "Bereiche des Dashboards",
+    "snapshot": "Snapshot",
+    "stale": "Stale",
+    "status": "Status",
+    "subscribed": "Abonniert",
+    "sw": {
+      "discoverNote": "Accounts, die noch kein Sweep berührt hat. Daran wächst der Index",
+      "inScope": "{count} im Rückstand",
+      "live": "Live",
+      "liveNote": "die Kanäle, die gerade senden, laufend durchgegangen",
+      "perMinute": "/ Min.",
+      "queueNote": "Aktualisierungen auf Anfrage; ist die Warteschlange voll, fällt der Rest weg",
+      "queueState": "{capacity} wartend · {running} laufend",
+      "running": "läuft",
+      "shards": {
+        "one": "{enabled} / {total} Shard",
+        "other": "{enabled} / {total} Shards"
+      },
+      "standingAside": "tritt zur Seite",
+      "standingAsideSince": "tritt zur Seite seit {since}",
+      "unread": "{count} ungelesen",
+      "yieldNote": "ein Sweep tritt über {above} Wartenden zur Seite, aber nie lange"
+    },
+    "sweep": "Sweep",
+    "sweepHead": "Sweep-Head",
+    "sweeps": "Sweeps",
+    "trendsTitle": "Wie sich die nächtlichen Läufe entwickeln",
+    "twitchLogin": "Twitch-Login",
+    "when": "Wann",
+    "yield": "Yield"
+  },
+  "dashboard": {
+    "signInBlurb": "Es ist nur fürs Team, also muss moddex wissen, welcher Twitch-Account deiner ist, um das zu prüfen.",
+    "signInHeading": "Das Dashboard braucht eine Twitch-Anmeldung"
+  },
+  "donate": {
+    "badgeAlt": "Das {name}-Badge",
+    "continue": "Weiter zu Stripe",
+    "donator": {
+      "body": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spende, dauerhaft.",
+      "name": "Donator"
+    },
+    "heading": "{brandName} läuft auf einem Server und ohne Werbung",
+    "holds": {
+      "accounts": "Accounts",
+      "backups": "Backups aufbewahrt",
+      "backupsValue": "14 Tage",
+      "channels": "Kanäle",
+      "roleRecords": "Rolleneinträge",
+      "title": "Was das Geld trägt"
+    },
+    "lead": "Keine Bezahlstufe, nichts hinter einem Login, und die API ist offen. Spenden sind das Einzige, was das so hält.",
+    "metaDescription": "{brandName} läuft auf einem Server und ohne Werbung. Keine Bezahlstufe, nichts hinter einem Login, und die API ist offen.",
+    "oneTime": "einmalig, USD",
+    "opening": "Stripe wird geöffnet",
+    "signedOut": "Melde dich zuerst mit Twitch an, dann landet das Badge automatisch auf deinem Profil. Abgemeldet spenden geht auch, braucht danach aber eine Nachricht im Discord.",
+    "straight": {
+      "one": "Ein Beitrag an die Betriebskosten, kein Kauf.",
+      "three": "Grundsätzlich nicht erstattbar. Wenn etwas schiefging, schreib uns und wir klären das.",
+      "title": "Ehrlich gesagt",
+      "two": "Die Badges sind reine Zierde. Sie schalten nichts frei und haben keinen Geldwert."
+    },
+    "stripeNote": "{brandName} speichert die Zahlungsreferenz und den Betrag, sonst nichts. Stripe wickelt die Kartendaten vollständig ab.",
+    "stripeUnreachable": "Stripe war nicht erreichbar, es wurde nichts abgebucht. Bitte gleich noch einmal versuchen.",
+    "topDonator": {
+      "body": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt.",
+      "name": "Top-Donator"
+    },
+    "whatYouGet": "Was du bekommst"
+  },
+  "errors": {
+    "banned": {
+      "body": "Twitch liefert diesen Account nicht aus, also liefert {brandName} auch kein Profil dafür. Gehaltene Rollen bleiben im Index, nur verborgen, solange das andauert.",
+      "checkAgain": "Nochmal prüfen",
+      "isBanned": "{username} ist auf Twitch gesperrt",
+      "isDeleted": "{username} hat den Account gelöscht",
+      "isUnavailable": "{username} ist nicht verfügbar",
+      "noneShown": "Keine, solange das andauert",
+      "notGiven": "nicht angegeben",
+      "reason": "Begründung von Twitch",
+      "retained": "Rollen behalten",
+      "reversible": "Sperren werden manchmal aufgehoben. Deshalb ist das der einzige Zustand auf dieser Seite, der ein erneutes Nachlesen anbietet.",
+      "shown": "Rollen angezeigt",
+      "sticks": "Das bleibt meistens so.",
+      "stillIndexed": "Weiterhin im Index",
+      "unrecognized": "Wir zeigen, was Twitch gesagt hat, auch wenn wir es nicht einordnen können."
+    },
+    "checkout": {
+      "askDiscord": "Im Discord fragen",
+      "badge": "Donator-Badge",
+      "body": "{brandName} konnte den Checkout nicht von Stripe zurücklesen und kann dir deshalb keine Übersicht zeigen. Die Spende selbst berührt das nicht.",
+      "byHand": "Falls das Badge in einer Stunde noch fehlt, schick uns den Stripe-Beleg und wir vergeben es von Hand.",
+      "checkProfile": "Profil prüfen",
+      "emailed": "Stripe schickt ihn per E-Mail",
+      "granted": "Vom Webhook vergeben",
+      "heading": "Deine Zahlung ist in Ordnung. Diese Seite nicht.",
+      "payment": "Zahlung",
+      "receipt": "Beleg",
+      "taken": "Von Stripe eingezogen",
+      "thisPage": "Diese Seite",
+      "unreadable": "Konnte den Checkout nicht lesen"
+    },
+    "common": {
+      "lookUp": "Jemand anderen nachschlagen"
+    },
+    "couldNotRead": "konnte nicht gelesen werden",
+    "invalid": {
+      "body": "Twitch-Namen sind 1 bis 25 Zeichen lang und erlauben nur Buchstaben, Zahlen und Unterstriche. Dieser kann nicht existieren, wir haben Twitch also gar nicht erst gefragt.",
+      "heading": "<name>{username}</name> kann kein Twitch-Name sein"
+    },
+    "keepsHappening": "Wenn es weiter passiert, zeigt <status>{host}</status>, ob die API läuft. Sie steht auf getrennter Infrastruktur und bleibt also erreichbar, wenn diese Seite es nicht ist.",
+    "listUnread": "Der Index für diese Liste konnte nicht gelesen werden.",
+    "notFound": {
+      "body": "Wir haben Twitch gefragt, und es gibt keinen Account mit diesem Namen. Es gab also nichts zu indexieren. Leute benennen sich oft um: prüf die Schreibweise und versuch es nochmal.",
+      "heading": "Es gibt keinen Twitch-Account namens <name>{username}</name>",
+      "untouched": "Am Index hat sich nichts geändert."
+    },
+    "otherListsFine": "Die anderen Listen auf dieser Seite sind nicht betroffen.",
+    "renderFailed": "Beim Rendern der Seite ist etwas kaputtgegangen, und wir haben es protokolliert. Ein erneuter Versuch baut nur diesen Teil der Seite neu. Das hilft meistens, wenn es eine langsame Antwort war und kein echter Fehler.",
+    "retry": "Seite erneut laden",
+    "tryListAgain": "Diese Liste erneut versuchen",
+    "unknownPage": {
+      "body": "Diese Adresse führt auf dieser Seite nirgendwohin, es wurde also nichts nachgeschlagen. Alles, was sich von hier aus lohnt, steht unten.",
+      "heading": "Diese Seite gibt es nicht"
+    }
+  },
+  "footer": {
+    "blurb": "Jeder Kanal, in dem ein Twitch-Account Mod oder VIP ist, und seit wann. Steht in keiner Verbindung zu Twitch Interactive und wird von dort weder unterstützt noch gesponsert.",
+    "byAccount": "Nach Account",
+    "byChannel": "Nach Kanal",
+    "joinDiscord": "Dem Discord beitreten",
+    "lookUp": "Nachschlagen",
+    "onGitHub": "{brandName} auf GitHub",
+    "optOut": "Opt-out",
+    "yourData": "Deine Daten"
+  },
+  "home": {
+    "accountCard": {
+      "body": "Jeder indexierte Kanal, in dem ein Account eine Rolle hält. Das ist die Richtung, die Twitch nicht zeigt.",
+      "title": "Einen Account nachschlagen"
+    },
+    "channelCard": {
+      "body": "Wer in einem Kanal Mod, VIP oder Founder ist, und seit wann. Wer einen Kanal zum ersten Mal sucht, nimmt ihn in den Index auf.",
+      "title": "Einen Kanal nachschlagen"
+    },
+    "fills": {
+      "action": "Kanal indexieren",
+      "body": "Ein Kanal kommt dazu, sobald ihn jemand zum ersten Mal sucht. Diese eine Abfrage holt seine Mod- und VIP-Listen und behält sie, für alle. Einen Account braucht es dafür nicht.",
+      "title": "Der Index füllt sich durch Benutzung"
+    },
+    "growth": {
+      "notMeasured": "noch nicht gemessen",
+      "nothingToCompare": "noch nichts zu vergleichen",
+      "oneDay": "bisher ein Tag",
+      "overLastDays": {
+        "one": "über den letzten Tag",
+        "other": "über die letzten {count} Tage"
+      }
+    },
+    "heading": "Jede Mod-Liste auf Twitch, rückwärts gelesen.",
+    "holders": {
+      "link": "Leaderboard",
+      "title": "Die meisten Rollen"
+    },
+    "kicker": "<mod>Mods</mod> und <vip>VIPs</vip>, von beiden Enden indexiert",
+    "lead": "Twitch zeigt einem Streamer, wer seine eigenen Mods sind. Die Gegenrichtung verrät es nicht. {name} schon: jeder Kanal, in dem ein Account eine Rolle hat, und seit wann.",
+    "optOut": {
+      "action": "Opt-out",
+      "body": "Mit Twitch anmelden und den Opt-out einschalten.",
+      "title": "Hier gelistet und lieber nicht?"
+    },
+    "recent": {
+      "link": "Alle Kanäle",
+      "title": "Zuletzt indexiert"
+    },
+    "searchPlaceholder": "Kanal oder Account suchen",
+    "stats": {
+      "across": "über <channels>{channels}</channels> Kanäle und <accounts>{accounts}</accounts> Accounts.",
+      "founders": "Founder-Einträge",
+      "label": "Was der Index enthält",
+      "mods": "Mod-Einträge",
+      "vips": "VIP-Einträge"
+    },
+    "try": "z. B."
+  },
+  "leaderboard": {
+    "empty": "Hier ist noch nichts. Die tägliche Zählung lief seit dem Anlegen dieser Liste noch nicht.",
+    "lead": "Wer über alle von {brandName} indexierten Kanäle hinweg die meisten Rollen hält. Wird einmal täglich aktualisiert.",
+    "metaDescription": "Wer auf Twitch die meisten Mod-, VIP- und Founder-Rollen hält, gezählt von {brandName}.",
+    "ranked": "gewertet",
+    "scales": {
+      "founder": {
+        "label": "Founder-Rollen",
+        "tab": "Founder"
+      },
+      "mod": {
+        "label": "Mod-Rollen",
+        "tab": "Mod"
+      },
+      "roles": {
+        "label": "Gehaltene Rollen",
+        "tab": "Alle Rollen"
+      },
+      "vip": {
+        "label": "VIP-Rollen",
+        "tab": "VIPs"
+      }
+    },
+    "tabsLabel": "Welche Rollen gewertet werden"
+  },
+  "legal": {
+    "englishOnly": {
+      "body": "Datenschutzerklärung und Nutzungsbedingungen bleiben bewusst auf Englisch. Sie sind ein Vertrag, und eine Übersetzung, die vom Original abweicht, wäre schlechter als gar keine.",
+      "title": "Diese Seite gibt es nur auf Englisch"
+    }
+  },
+  "login": {
+    "attachDonation": "Eine Spende zuordnen",
+    "attachDonationBody": "Damit das Donator-Badge automatisch ankommt, statt von Hand vergeben zu werden.",
+    "blurb": "{brandName} muss wissen, welcher Twitch-Account deiner ist, bevor du daran etwas ändern kannst. Alles andere auf der Seite funktioniert auch abgemeldet.",
+    "canDo": "Was ein angemeldeter Account kann",
+    "continue": "Weiter mit Twitch",
+    "fullTerms": "Vollständige Bedingungen in <link>Abschnitt 4</link>.",
+    "handsOver": "Was Twitch herausgibt",
+    "heading": "Diese Seite braucht eine Twitch-Anmeldung",
+    "landBack": "Du landest wieder auf der Seite, die du erreichen wolltest.",
+    "never": "Nie",
+    "optOut": "Sich aus dem Index abmelden",
+    "pickBadge": "Ein Chat-Badge wählen",
+    "pickBadgeBody": "Wenn du mehrere hast, wähle, welches neben deinem Namen steht.",
+    "scopes": {
+      "avatar": "Avatar",
+      "behalf": "In deinem Namen handeln",
+      "chat": "Chat-Zugriff",
+      "loginName": "Login-Name",
+      "password": "Passwort",
+      "userId": "Nutzer-ID"
+    },
+    "yes": "Ja"
+  },
+  "misc": {
+    "account": "Account",
+    "adminOnly": "Nur für Admins.",
+    "allBots": "Jeder Account in dieser Liste ist ein Bot.",
+    "connectedShort": "Verbunden.",
+    "endOfList": "Das ist das Ende dieser Liste.",
+    "errorHeading": "Die Seite wurde nicht fertig geladen",
+    "findAccount": "Account finden",
+    "findChannel": "Kanal finden",
+    "follower": {
+      "one": "Follower",
+      "other": "Follower"
+    },
+    "heroSearch": "Twitch-Kanal oder -Account nachschlagen",
+    "hiddenByBots": "{hidden} von {total} durch den Bot-Filter ausgeblendet.",
+    "hiddenBySearch": "{hidden} von {total} durch die Suche ausgeblendet.",
+    "hiddenBySearchAndBots": "{hidden} von {total} durch Suche und Bot-Filter ausgeblendet.",
+    "hideBotCount": {
+      "one": "{count} Bot ausblenden",
+      "other": "{count} Bots ausblenden"
+    },
+    "hideBots": "Bots ausblenden",
+    "keepTyping": "Weitertippen, mindestens {min} Zeichen",
+    "loadMoreCount": "{count} weitere laden",
+    "loaded": "geladen",
+    "loginStartsWith": "Login beginnt mit…",
+    "matchingAccounts": "Passende Accounts",
+    "mostRoles": "Meiste Rollen",
+    "noBotsInList": "Keine Bots in dieser Liste.",
+    "noFoundersRead": "Noch nichts gelesen. Founder-Badges kommen aus einer anderen Twitch-Abfrage als Mods und VIPs, und die läuft seltener. Eine leere Liste heisst hier also: noch nicht gelesen, nicht: keine vorhanden.",
+    "noLoginStartsWith": "Kein Login in dieser Liste beginnt mit „{query}\". Diese Liste sucht am Anfang eines Logins, nicht irgendwo in einem Namen.",
+    "noneRead": "Noch nichts gelesen.",
+    "notYet": "noch nie",
+    "nothingIndexedWith": "Nichts im Index beginnt mit <name>{query}</name>. Enter drücken, um es von Twitch zu lesen und aufzunehmen.",
+    "nothingMatches": "Hier passt nichts zu „{query}\".",
+    "ofTotal": "von {total}",
+    "onlyBots": "Nur Bots",
+    "overTime": "Im Zeitverlauf",
+    "pagination": "Seitennavigation",
+    "readingIndex": "Index wird gelesen",
+    "readingIndexLong": "Der Index wird gelesen…",
+    "readingIndexShort": "Der Index wird gelesen.",
+    "showBots": "Bots zeigen",
+    "showEverything": "Alles anzeigen",
+    "whichAccounts": "Welche Accounts gelistet werden",
+    "whichRoles": "Welche Rollen gezeigt werden"
+  },
+  "nav": {
+    "language": "Sprache",
+    "main": "Hauptmenü",
+    "menu": "Menü",
+    "signIn": "Mit Twitch anmelden",
+    "signInShort": "Anmelden",
+    "signOut": "Abmelden",
+    "skipToContent": "Zum Inhalt springen",
+    "themeToDark": "Dunkles Theme",
+    "themeToLight": "Helles Theme",
+    "yourAvatar": "Dein Twitch-Avatar"
+  },
+  "notices": {
+    "noCheckout": {
+      "body": "Diese Adresse bedeutet nur direkt nach einem Stripe-Checkout etwas. Du kommst vermutlich von einem Lesezeichen.",
+      "heading": "Es gibt keinen Checkout zum Anzeigen"
+    },
+    "optedOut": {
+      "after": "Es ist nichts schiefgegangen, und es gibt nichts zu wiederholen.",
+      "body": "<name>{username}</name> hat den Opt-out eingeschaltet.",
+      "fromApi": "Von der API zurückgegeben",
+      "heading": "Dieser Account möchte nicht gelistet werden",
+      "inLists": "Erscheint in Rollenlisten",
+      "kicker": "Auf Wunsch des Accounts zurückgehalten",
+      "lookUp": "Jemand anderen nachschlagen",
+      "moderates": "Kanäle, die sie moderieren",
+      "no": "Nein",
+      "optOutYourself": "Selbst abmelden",
+      "profileServed": "Profil ausgeliefert",
+      "stillIndexed": "Weiterhin im Index"
+    },
+    "teamOnly": {
+      "as": " als {login}",
+      "body": "Du bist angemeldet{as}, aber dieser Account hat keine Team-Berechtigung. Nichts anderes auf der Seite braucht sie.",
+      "heading": "Das Dashboard ist nur fürs Team",
+      "kicker": "Angemeldet, aber nicht im Team"
+    }
+  },
+  "optOut": {
+    "effect": "Der Opt-out stoppt die <em>Auslieferung</em> deiner Daten: dein Profil, die Rollenlisten und die öffentliche API zeigen dich dann nicht mehr.",
+    "hidden": "Verborgen",
+    "listed": "Gelistet",
+    "modsUnaffected": "Kanäle, die du moderierst, sind davon nicht betroffen.",
+    "nothingChanged": "Es wurde nichts geändert.",
+    "reversible": "Schalte ihn wieder aus, wann immer du willst, und dein Eintrag kommt zurück.",
+    "savedHidden": "Gespeichert. Dein Eintrag ist verborgen.",
+    "savedListed": "Gespeichert. Dein Eintrag ist wieder gelistet."
+  },
+  "optOutPanel": {
+    "title": "Aus dem Index abmelden"
+  },
+  "pages": {
+    "about": "Über {brandName}",
+    "accounts": "Accounts",
+    "apiDocs": "API-Doku",
+    "channels": "Kanäle",
+    "dashboard": "Dashboard",
+    "discord": "Discord",
+    "donate": "Spenden",
+    "home": "Startseite",
+    "leaderboard": "Leaderboard",
+    "privacy": "Datenschutz",
+    "profile": "Mein Profil",
+    "settings": "Einstellungen",
+    "status": "Status",
+    "terms": "Nutzungsbedingungen"
+  },
+  "profile": {
+    "copyShortUrl": "Kurz-URL kopieren",
+    "directionLabel": "In welche Richtung dieser Account gelesen wird",
+    "elsewhere": "Rollen anderswo",
+    "elsewhereShort": "Anderswo",
+    "followers": {
+      "one": "Follower",
+      "other": "Follower"
+    },
+    "inChannel": "Rollen in diesem Kanal",
+    "inChannelShort": "In diesem Kanal",
+    "indexChannel": "Kanal indexieren",
+    "joined": "dabei seit",
+    "missingChannel": "Fehlt ein Kanal? Er erscheint hier erst, wenn ihn jemand nachgeschlagen hat. Einmal suchen genügt, dann bleibt er im Index.",
+    "noGrantDate": "Twitch hat für diese Rolle kein Vergabedatum geliefert",
+    "openDiscord": "Auf Discord öffnen",
+    "openDiscordOf": "{login} auf Discord öffnen",
+    "openTwitch": "Auf Twitch öffnen",
+    "refresh": "Aktualisieren",
+    "refreshChannel": "Diesen Kanal erneut von Twitch lesen",
+    "refreshProfile": "Dieses Profil erneut von Twitch lesen",
+    "rolesRead": "Rollen gelesen"
+  },
+  "roleCheck": {
+    "accountLogin": "Account-Name",
+    "anythingIn": "eine Rolle in",
+    "asksWhether": "Hat",
+    "channelLogin": "Kanal-Name",
+    "check": "Prüfen",
+    "checking": "Wird geprüft…",
+    "held": "vorhanden",
+    "holds": "hat eine Rolle in",
+    "holdsNothing": "hat keine Rolle in",
+    "noDate": "kein Datum",
+    "notHeld": "nicht vorhanden",
+    "optedOut": "Dieser Account hat sich davon abgemeldet, gelistet zu werden.",
+    "title": "Ein Paar prüfen"
+  },
+  "roles": {
+    "founder": {
+      "one": "Founder",
+      "other": "Founder"
+    },
+    "mod": {
+      "one": "Mod",
+      "other": "Mods"
+    },
+    "title": {
+      "channel": {
+        "artist": "Artists",
+        "founder": "Founder",
+        "mod": "Mods",
+        "vip": "VIPs"
+      },
+      "user": {
+        "artist": "Artist in",
+        "founder": "Founder in",
+        "mod": "Moderiert in",
+        "vip": "VIP in"
+      }
+    },
+    "vip": {
+      "one": "VIP",
+      "other": "VIPs"
+    }
+  },
+  "settings": {
+    "account": {
+      "avatarAlt": "Dein Twitch-Avatar",
+      "discord": "Discord",
+      "publicProfile": "Öffentliches Profil",
+      "signedIn": "Angemeldet als",
+      "title": "Account"
+    },
+    "badge": {
+      "body": "Wähle jetzt eines, dann steht es bereit, sobald die Chat-Anbindung kommt.",
+      "notLive": "Die Chat-Anbindung ist noch nicht aktiv",
+      "title": "Chat-Badge"
+    },
+    "channel": {
+      "again": "Diesen Kanal erneut verbinden",
+      "connect": "Diesen Kanal verbinden",
+      "live": "Mod- und VIP-Änderungen erreichen {brandName}, sobald sie passieren. Founder kommen weiterhin aus dem normalen Lesen, weil Twitch dafür kein Live-Ereignis kennt. Ein Rückzug ändert nichts an dem, was bereits aufgezeichnet ist.",
+      "noToken": "{brandName} postet nichts und behält kein Token. Die Liste der von dir moderierten Kanäle wird deshalb genau einmal gelesen, jetzt, und veraltet ab da. Zum Auffrischen neu verbinden. Zurückziehen kannst du das bei Twitch oder hier, jederzeit.",
+      "pitch": "Zwei Dinge auf einmal. Mod- und VIP-Änderungen in deinem Kanal erreichen {brandName}, sobald sie passieren, statt erst beim nächsten Sweep. Und die Kanäle, die <you>du</you> moderierst, werden direkt von Twitch gefüllt, auch solche, die hier noch nie jemand nachgeschlagen hat."
+    },
+    "channelStatus": {
+      "canceled": "Abgebrochen. An deinem Kanal hat sich nichts geändert.",
+      "connected": "Kanal verbunden. Mod- und VIP-Änderungen erreichen moddex jetzt, sobald sie passieren.",
+      "connected-nosync": "Kanal verbunden, aber die Liste der von dir moderierten Kanäle liess sich nicht speichern. Die Live-Aktualisierung läuft. Verbinde später erneut, um die Liste zu ergänzen.",
+      "exchange": "Twitch hat die Autorisierung nicht bestätigt. Versuch es nochmal.",
+      "failed": "Beim Speichern ging etwas schief, deine Einstellungen sind unverändert. Versuch es gleich nochmal.",
+      "mismatch": "Du hast das auf Twitch mit einem anderen Account bestätigt als dem, mit dem du hier angemeldet bist. Die Verbindung wurde abgelehnt.",
+      "nocode": "Twitch hat keine Autorisierung zurückgeschickt. Versuch es nochmal.",
+      "scopes": "Twitch hat eine der beiden Berechtigungen zurückgehalten. Für Mod- und VIP-Ereignisse brauchen wir beide, der Kanal blieb also unverbunden.",
+      "signin": "Deine Sitzung endete, bevor das fertig war. Melde dich an und versuch es nochmal.",
+      "state": "Dieser Link ist abgelaufen oder gehörte nicht zu dieser Sitzung. Beginne oben neu.",
+      "unconfigured": "Kanalverbindungen sind auf diesem Server noch nicht eingerichtet."
+    },
+    "connectDiscord": "Discord verbinden",
+    "disconnect": "Trennen",
+    "disconnecting": "Wird getrennt…",
+    "discordStatus": {
+      "canceled": "Abgebrochen. Es wurde kein Discord-Account verknüpft.",
+      "connected": "Discord verbunden. Es steht jetzt auf deinem öffentlichen Profil.",
+      "exchange": "Discord hat den Account nicht bestätigt. Versuch es nochmal.",
+      "failed": "Beim Speichern ging etwas schief, dein Profil ist unverändert. Versuch es gleich nochmal.",
+      "nocode": "Discord hat keine Autorisierung zurückgeschickt. Versuch es nochmal.",
+      "signin": "Deine Sitzung endete, bevor das fertig war. Melde dich an und versuch es nochmal.",
+      "state": "Dieser Link ist abgelaufen oder gehörte nicht zu dieser Sitzung. Beginne oben neu.",
+      "taken": "Dieser Discord-Account ist bereits mit einem anderen moddex-Profil verbunden. Trenne ihn zuerst dort.",
+      "unconfigured": "Discord-Verbindungen sind auf diesem Server noch nicht eingerichtet."
+    },
+    "heading": "Einstellungen",
+    "live": {
+      "body": "Für den eigenen Kanal. Optional.",
+      "title": "Live-Rollenupdates"
+    },
+    "metaDescription": "Sich von {domain} abmelden oder wählen, welches Badge neben dem Namen steht.",
+    "privacy": "Datenschutz",
+    "signInHeading": "Für die Einstellungen braucht es eine Twitch-Anmeldung",
+    "signedInAs": "Angemeldet als {login}. Änderungen werden sofort gespeichert."
+  },
+  "site": {
+    "description": "Jeder Kanal, in dem ein Twitch-Account Mod, VIP oder Founder ist, und der Tag, an dem er die Rolle bekam. Twitch zeigt einem Streamer die eigene Liste. {brandName} hält die andere Hälfte.",
+    "tagline": "Twitch-Listen für Mod, VIP und Founder"
+  },
+  "success": {
+    "amount": "Betrag",
+    "assignedTo": "Zugewiesen an",
+    "badgeGranted": "Badge vergeben",
+    "body": "Spenden sind das Einzige, was {brandName} frei lesbar hält, und es wartet keine Bezahlstufe in den Kulissen. Das Donator-Badge liegt bereits auf <login>{login}</login> und erscheint überall neben deinem Namen, wo {brandName} ihn anzeigt.",
+    "donator": "Donator",
+    "donatorAlt": "Das Donator-Badge",
+    "emailed": "Stripe schickt ihn per E-Mail",
+    "heading": "Danke, wirklich",
+    "metaTitle": "Danke",
+    "noLogin": {
+      "askDiscord": "Im Discord fragen",
+      "body": "Stripe hat keinen Twitch-Namen zurückgegeben, es gibt also kein Profil, auf das das Badge gehen könnte. Schick uns die Referenz unten samt deinem Twitch-Namen, dann vergeben wir es von Hand.",
+      "heading": "Die Zahlung hat geklappt. Das Badge braucht noch einen Schritt.",
+      "notReturned": "von Stripe nicht zurückgegeben",
+      "reference": "Zahlungsreferenz"
+    },
+    "pickBadge": "Ein Chat-Badge wählen",
+    "receipt": "Beleg",
+    "reference": "Referenz",
+    "seeProfile": "Auf deinem Profil ansehen",
+    "settled": "Zahlung abgeschlossen",
+    "topDonator": "Top-Spender",
+    "topDonatorAlt": "Das Top-Donator-Badge",
+    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt."
+  }
+}

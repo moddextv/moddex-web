@@ -1,6 +1,5 @@
+import { getTranslator, Locale, Translator } from '@/i18n';
 import { FC } from 'react';
-import { formatDate } from '@/utils/format';
-import { ago } from './ago';
 import { backupLate, clock, size } from '@/utils/jobHealth';
 import type { JobHealth as Health } from '@/utils/api/moddex/admin';
 
@@ -18,49 +17,54 @@ const Row: FC<{ label: string; children: React.ReactNode; note?: string }> = ({
   </div>
 );
 
-const Ran: FC<{ lastAt: string | null; dueSince: string; overdue: boolean }> = ({
-  lastAt,
-  dueSince,
-  overdue
-}) => (
+const Ran: FC<{
+  lastAt: string | null;
+  dueSince: string;
+  overdue: boolean;
+  t: Translator;
+}> = ({ lastAt, dueSince, overdue, t }) => (
   <>
-    <span className={overdue ? 'text-vip font-bold' : undefined}>{ago(lastAt)}</span>
+    <span className={overdue ? 'text-vip font-bold' : undefined}>{t.ago(lastAt)}</span>
     {lastAt && <span className="text-primary-400"> · {clock(lastAt)}</span>}
     {overdue && (
-      <span className="text-primary-400"> · nothing ran in the {clock(dueSince)} slot</span>
+      <span className="text-primary-400">
+        {' '}
+        · {t('dash.nothingRanIn', { slot: clock(dueSince) })}
+      </span>
     )}
   </>
 );
 
-export const JobHealth: FC<{ health: Health }> = ({ health }) => {
+export const JobHealth: FC<{ health: Health; locale: Locale }> = ({ health, locale }) => {
+  const t = getTranslator(locale);
   const { snapshot, roleCounts, sweepHead, backup } = health;
 
   return (
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">Scheduled work</h2>
+        <h2 className="text-h2">{t('dash.scheduledWork')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
-          as of {formatDate(new Date().toISOString())}
+          {t('dash.asOf', { date: t.dateLong(new Date().toISOString()) })}
         </span>
       </div>
 
       <div className="rows">
         <div className="row-head cols-jobs">
-          <span>Job</span>
-          <span>Last run</span>
+          <span>{t('dash.job')}</span>
+          <span>{t('dash.lastRun')}</span>
           <span />
         </div>
 
-        <Row label="Snapshot" note="one point a day at 03:00 UTC">
-          <Ran {...snapshot} />
+        <Row label={t('dash.snapshot')} note={t('dash.jh.snapshotNote')}>
+          <Ran {...snapshot} t={t} />
         </Row>
 
-        <Row label="Role counts" note="the browse rankings, rebuilt at 04:00 UTC">
-          <Ran {...roleCounts} />
+        <Row label={t('dash.roleCounts')} note={t('dash.jh.roleCountsNote')}>
+          <Ran {...roleCounts} t={t} />
         </Row>
 
         {backup && (
-          <Row label="Backup" note="nightly dump, verified and 14 days retained">
+          <Row label={t('dash.backup')} note={t('dash.jh.backupNote')}>
             <span
               className={
                 backupLate(backup.at, backup.expectedEverySeconds)
@@ -68,15 +72,15 @@ export const JobHealth: FC<{ health: Health }> = ({ health }) => {
                   : undefined
               }
             >
-              {ago(backup.at)}
+              {t.ago(backup.at)}
             </span>
             <span className="text-primary-400"> · {size(backup.bytes)}</span>
           </Row>
         )}
 
         {sweepHead && (
-          <Row label="Sweep head" note="oldest channel not yet revisited">
-            <span title={formatDate(sweepHead)}>{ago(sweepHead)}</span>
+          <Row label={t('dash.sweepHead')} note={t('dash.oldestNotRevisited')}>
+            <span title={t.dateLong(sweepHead)}>{t.ago(sweepHead)}</span>
           </Row>
         )}
       </div>

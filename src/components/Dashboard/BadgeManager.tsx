@@ -1,7 +1,8 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
 import { SearchIcon } from '@/components/Icons';
@@ -14,7 +15,6 @@ import {
   revokeUserBadge
 } from '@/actions/badges';
 import { useAction } from '@/hooks/useAction';
-import { formatDayMonthYear } from '@/utils/format';
 import type { Badge } from '@/misc/badges';
 import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
 import { SOURCES, kindOf } from './badgeRouting';
@@ -23,9 +23,9 @@ import { SOURCES, kindOf } from './badgeRouting';
 // no profile behind an id
 const Name: FC<{ login: string | null; fallback?: string }> = ({ login, fallback }) =>
   login ? (
-    <Link href={`/channel/${login}`} className="row-name text-base font-bold truncate">
+    <LocaleLink href={`/channel/${login}`} className="row-name text-base font-bold truncate">
       {login}
-    </Link>
+    </LocaleLink>
   ) : (
     <span className="text-base font-bold truncate">{fallback}</span>
   );
@@ -50,6 +50,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
   catalogue,
   counts: initialCounts
 }) => {
+  const { t, rich } = useI18n();
   const [counts, setCounts] = useState(initialCounts);
   const [selected, setSelected] = useState(catalogue[0]?.name ?? '');
   const [rows, setRows] = useState<Row[]>([]);
@@ -125,10 +126,8 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <span className="corner corner-tl text-mod" aria-hidden="true" />
-        <h2 className="text-h2">Badges</h2>
-        <span className="ml-auto text-ui text-primary-400">
-          who holds what, and who may hand it out
-        </span>
+        <h2 className="text-h2">{t('dash.badges')}</h2>
+        <span className="ml-auto text-ui text-primary-400">{t('dash.badge.lead')}</span>
       </div>
 
       <div className="flex flex-wrap gap-2 px-4 pb-5">
@@ -145,7 +144,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
             >
               <Image
                 src={one.svg}
-                alt={`The ${one.name} badge`}
+                alt={t('dash.badge.alt', { name: one.name })}
                 width={18}
                 height={18}
                 radius="sm"
@@ -163,14 +162,17 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
       {kind === 'twitch' ? (
         <p className="text-read text-primary-300 max-w-prose px-4 pb-5">
-          <span className="font-bold">{selected}</span> comes from twitch and is written by the
-          sweep, so it is a count rather than a roster:{' '}
-          <span className="font-bold">
-            {counts[selected] === null || counts[selected] === undefined
-              ? 'an unknown number of'
-              : counts[selected].toLocaleString('en-US')}
-          </span>{' '}
-          accounts. Nobody can hand it out here, and listing a million of them would answer nothing.
+          {rich(
+            'dash.badge.twitchOwned',
+            { name: (chunk) => <span className="font-bold">{chunk}</span> },
+            {
+              name: selected,
+              count:
+                counts[selected] === null || counts[selected] === undefined
+                  ? t('dash.badge.unknownCount')
+                  : t.number(counts[selected])
+            }
+          )}
         </p>
       ) : (
         <>
@@ -180,8 +182,8 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder={`Filter the ${selected} list`}
-                aria-label={`Filter the ${selected} list`}
+                placeholder={t('dash.badge.filter', { name: selected })}
+                aria-label={t('dash.badge.filter', { name: selected })}
                 autoComplete="off"
               />
             </label>
@@ -189,14 +191,18 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
           {rows.length === 0 ? (
             <p className="text-read text-primary-300 max-w-prose px-4 pb-4">
-              Nobody holds <span className="font-bold">{selected}</span> yet.
+              {rich(
+                'dash.badge.nobodyHolds',
+                { name: (chunk) => <span className="font-bold">{chunk}</span> },
+                { name: selected }
+              )}
             </p>
           ) : (
             <div className="rows">
               <div className="row-head cols-badges">
-                <span>Account</span>
-                <span>Given by</span>
-                <span>When</span>
+                <span>{t('dash.account')}</span>
+                <span>{t('dash.givenBy')}</span>
+                <span>{t('dash.when')}</span>
                 <span />
               </div>
 
@@ -211,10 +217,12 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                       </span>
                       {(row.owner || row.ignored || row.known === false) && (
                         <span className="flex items-center gap-2 text-micro">
-                          {row.owner && <span className="text-mod">owner</span>}
-                          {row.ignored && <span className="text-vip">opted out</span>}
+                          {row.owner && <span className="text-mod">{t('dash.badge.owner')}</span>}
+                          {row.ignored && (
+                            <span className="text-vip">{t('dash.badge.optedOut')}</span>
+                          )}
                           {row.known === false && (
-                            <span className="text-primary-400">never fetched</span>
+                            <span className="text-primary-400">{t('dash.badge.neverFetched')}</span>
                           )}
                         </span>
                       )}
@@ -223,12 +231,12 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
                   <span className="text-ui text-primary-300 truncate">{row.byLogin ?? '·'}</span>
 
-                  <span className="text-ui text-primary-300">
-                    {row.at ? formatDayMonthYear(row.at) : '·'}
-                  </span>
+                  <span className="text-ui text-primary-300">{row.at ? t.date(row.at) : '·'}</span>
 
                   {row.owner ? (
-                    <span className="text-micro text-primary-400 justify-self-end">protected</span>
+                    <span className="text-micro text-primary-400 justify-self-end">
+                      {t('dash.badge.protected')}
+                    </span>
                   ) : (
                     <button
                       type="button"
@@ -236,7 +244,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                       disabled={busy}
                       onClick={() => take(row.userId)}
                     >
-                      Remove
+                      {t('common.remove')}
                     </button>
                   )}
                 </div>
@@ -248,7 +256,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                   className="btn btn-ghost m-4"
                   onClick={() => setShowAll(true)}
                 >
-                  Show all {matched.length}
+                  {t('dash.badge.showAll', { count: matched.length })}
                 </button>
               )}
             </div>
@@ -256,8 +264,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
           {SOURCES[selected] && (
             <p className="text-read text-primary-300 max-w-prose px-4 py-4">
-              {selected} is also written by {SOURCES[selected]}, so a hand grant holds until that
-              runs again and decides otherwise.
+              {t('dash.badge.alsoWrittenBy', { name: selected, source: SOURCES[selected] ?? '' })}
             </p>
           )}
         </>

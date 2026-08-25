@@ -1,3 +1,4 @@
+import { getTranslator, Locale, Translator } from '@/i18n';
 import { FC } from 'react';
 import clsx from 'clsx';
 
@@ -8,7 +9,7 @@ import type { JobPoint } from '@/utils/api/moddex/admin';
 // the same tolerance the Runs trend uses, so the two never disagree on a word
 const STEADY = 0.1;
 
-const Trend: FC<{ job: string; points: JobPoint[] }> = ({ job, points }) => {
+const Trend: FC<{ job: string; points: JobPoint[]; t: Translator }> = ({ job, points, t }) => {
   const values = points.map((point) => point.seconds);
   const first = values[0] ?? null;
   const last = values.at(-1) ?? null;
@@ -43,7 +44,7 @@ const Trend: FC<{ job: string; points: JobPoint[] }> = ({ job, points }) => {
             />
           </svg>
         ) : (
-          <span className="text-micro text-primary-400">one run so far</span>
+          <span className="text-micro text-primary-400">{t('dash.oneRunSoFar')}</span>
         )}
       </span>
 
@@ -61,10 +62,12 @@ const Trend: FC<{ job: string; points: JobPoint[] }> = ({ job, points }) => {
   );
 };
 
-export const Trends: FC<{ series: Record<string, JobPoint[]> | null; days: number }> = ({
-  series,
-  days
-}) => {
+export const Trends: FC<{
+  series: Record<string, JobPoint[]> | null;
+  days: number;
+  locale: Locale;
+}> = ({ series, days, locale }) => {
+  const t = getTranslator(locale);
   const jobs = Object.entries(series ?? {}).filter(([, points]) => points.length > 0);
 
   if (!jobs.length) return null;
@@ -72,20 +75,20 @@ export const Trends: FC<{ series: Record<string, JobPoint[]> | null; days: numbe
   return (
     <div className="panel-flush">
       <div className="flex items-baseline gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">How the nightly work is trending</h2>
-        <span className="text-ui text-primary-400">last {days} days</span>
+        <h2 className="text-h2">{t('dash.trendsTitle')}</h2>
+        <span className="text-ui text-primary-400">{t('dash.lastDays', { count: days })}</span>
       </div>
 
       <div className="rows">
         <div className="row-head cols-trends">
-          <span>Job</span>
-          <span>Last</span>
+          <span>{t('dash.job')}</span>
+          <span>{t('dash.last')}</span>
           <span />
-          <span className="text-right">Change</span>
+          <span className="text-right">{t('dash.change')}</span>
         </div>
 
         {jobs.map(([job, points]) => (
-          <Trend key={job} job={job} points={points} />
+          <Trend key={job} job={job} points={points} t={t} />
         ))}
       </div>
     </div>

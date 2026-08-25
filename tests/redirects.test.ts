@@ -19,8 +19,21 @@ describe('the docs redirects', () => {
   // `/api` sits directly above this app's own routes, and a wildcard here would
   // take the sign-in flow down with it
   it('match exactly, so the app routes under /api are untouched', () => {
-    for (const redirect of redirects) {
+    const toDocs = redirects.filter((r) => r.destination === DOCS);
+
+    for (const redirect of toDocs) {
       expect(redirect.source).not.toMatch(/[:*(]/);
+    }
+  });
+
+  it('lets no wildcard from anywhere else reach /api either', () => {
+    const wildcards = redirects.filter((r) => /[:*(]/.test(r.source));
+
+    for (const redirect of wildcards) {
+      expect(redirect.source.startsWith('/api')).toBe(false);
+      expect('/api/auth/callback/twitch').not.toMatch(
+        new RegExp(`^${redirect.source.replace(/\/:path\*$/, '(/|$)')}`)
+      );
     }
   });
 });

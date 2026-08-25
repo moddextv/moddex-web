@@ -1,41 +1,48 @@
+import { getTranslator, Locale, localePath, Translator } from '@/i18n';
 import { Badges } from '@/components/User/Badges';
 import { Avatar } from '@/components/UI/Avatar';
 import { BrowseEntry } from '@/misc/browse';
-import { formatNumber, formatRelative, plural } from '@/utils/format';
 import Link from 'next/link';
 import { FC } from 'react';
 import clsx from 'clsx';
 
 type BrowseKind = 'channel' | 'account';
 
+// rendered from both a server page and a client list, so it takes the locale
+// rather than reaching for either half of the pair
 const HEADS: Record<BrowseKind, [string, string, string, string?]> = {
-  channel: ['Channel', 'Mods', 'VIPs', 'Read'],
-  account: ['Account', 'Modding', 'Viping']
+  channel: ['browse.heads.channel', 'browse.heads.mods', 'browse.heads.vips', 'browse.heads.read'],
+  account: ['browse.heads.account', 'browse.heads.modding', 'browse.heads.viping']
 };
 
-const Count: FC<{ value: number; tone: string }> = ({ value, tone }) => (
+const Count: FC<{ value: number; tone: string; t: Translator }> = ({ value, tone, t }) => (
   <span className={clsx('text-ui tabular text-right', value > 0 ? tone : 'text-primary-400')}>
-    {formatNumber(value)}
+    {t.number(value)}
   </span>
 );
 
-export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kind, items }) => {
+export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[]; locale: Locale }> = ({
+  kind,
+  items,
+  locale
+}) => {
+  const t = getTranslator(locale);
   const cols = kind === 'channel' ? 'cols-channels' : 'cols-holders';
   const [first, second, third, fourth] = HEADS[kind];
 
   return (
     <div className="rows">
       <div className={`row-head ${cols}`}>
-        <span>{first}</span>
-        <span className="text-right">{second}</span>
-        <span className="text-right">{third}</span>
-        {fourth && <span className="text-right">{fourth}</span>}
+        <span>{t(first)}</span>
+        <span className="text-right">{t(second)}</span>
+        <span className="text-right">{t(third)}</span>
+        {fourth && <span className="text-right">{t(fourth)}</span>}
       </div>
 
       {items.map((entry) => (
         <Link
           key={entry.id}
-          href={`/${kind === 'channel' ? 'channel' : 'user'}/${entry.login}`}
+          href={localePath(locale, `/${kind === 'channel' ? 'channel' : 'user'}/${entry.login}`)}
           className={`row ${cols}`}
         >
           <span className="flex items-center gap-3.5 min-w-0">
@@ -53,13 +60,14 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kin
                 <Badges badges={entry.badges} size={18} />
               </span>
               <span className="block text-micro text-primary-400">
-                {formatNumber(entry.followers || 0)} {plural(entry.followers || 0, 'follower')}
+                {t.number(entry.followers || 0)}{' '}
+                {t('misc.follower', { count: entry.followers || 0 })}
               </span>
             </span>
           </span>
 
-          <Count value={entry.counts.mod} tone="text-mod" />
-          <Count value={entry.counts.vip} tone="text-vip" />
+          <Count value={entry.counts.mod} tone="text-mod" t={t} />
+          <Count value={entry.counts.vip} tone="text-vip" t={t} />
 
           {kind === 'channel' && (
             <time
@@ -67,7 +75,7 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[] }> = ({ kin
               suppressHydrationWarning
               className="text-ui text-primary-400 text-right"
             >
-              {formatRelative(entry.updatedAt) ?? 'not yet'}
+              {t.since(entry.updatedAt) || t('misc.notYet')}
             </time>
           )}
         </Link>

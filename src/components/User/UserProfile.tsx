@@ -1,8 +1,8 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
-import { formatMonthYearLong, formatNumber, formatRelative, plural } from '@/utils/format';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
 import { FC, useEffect, useState } from 'react';
@@ -15,37 +15,42 @@ import Link from 'next/link';
 import { config } from '@/config';
 import clsx from 'clsx';
 
-const DirectionTabs: FC<{ login: string; isUser: boolean }> = ({ login, isUser }) => (
-  <nav className="tabs mt-8" aria-label="Which direction to read this account">
-    <Link
-      href={`/channel/${login}`}
-      className="tab tab-mod"
-      aria-current={isUser ? undefined : 'page'}
-    >
-      <span
-        aria-hidden="true"
-        className={clsx('corner corner-tl', isUser ? 'text-primary-600' : 'text-mod')}
-      />
-      <span className="sm:hidden">In this channel</span>
-      <span className="hidden sm:inline">Roles in this channel</span>
-    </Link>
+const DirectionTabs: FC<{ login: string; isUser: boolean }> = ({ login, isUser }) => {
+  const { t, path } = useI18n();
 
-    <Link
-      href={`/user/${login}`}
-      className="tab tab-vip"
-      aria-current={isUser ? 'page' : undefined}
-    >
-      <span
-        aria-hidden="true"
-        className={clsx('corner corner-br', isUser ? 'text-vip' : 'text-primary-600')}
-      />
-      <span className="sm:hidden">Elsewhere</span>
-      <span className="hidden sm:inline">Roles elsewhere</span>
-    </Link>
-  </nav>
-);
+  return (
+    <nav className="tabs mt-8" aria-label={t('profile.directionLabel')}>
+      <Link
+        href={path(`/channel/${login}`)}
+        className="tab tab-mod"
+        aria-current={isUser ? undefined : 'page'}
+      >
+        <span
+          aria-hidden="true"
+          className={clsx('corner corner-tl', isUser ? 'text-primary-600' : 'text-mod')}
+        />
+        <span className="sm:hidden">{t('profile.inChannelShort')}</span>
+        <span className="hidden sm:inline">{t('profile.inChannel')}</span>
+      </Link>
+
+      <Link
+        href={path(`/user/${login}`)}
+        className="tab tab-vip"
+        aria-current={isUser ? 'page' : undefined}
+      >
+        <span
+          aria-hidden="true"
+          className={clsx('corner corner-br', isUser ? 'text-vip' : 'text-primary-600')}
+        />
+        <span className="sm:hidden">{t('profile.elsewhereShort')}</span>
+        <span className="hidden sm:inline">{t('profile.elsewhere')}</span>
+      </Link>
+    </nav>
+  );
+};
 
 export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser }) => {
+  const { t, path } = useI18n();
   const { currentUser, loading, banReason, reloadUserProfile } = useUserProfileData(user);
   const router = useRouter();
 
@@ -54,14 +59,14 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
     if (!current || current === user.login) return;
 
-    router.replace(`/${isUser ? 'user' : 'channel'}/${current}`);
-  }, [currentUser?.login, user.login, isUser, router]);
+    router.replace(path(`/${isUser ? 'user' : 'channel'}/${current}`));
+  }, [currentUser?.login, user.login, isUser, router, path]);
 
   const [lastRead, setLastRead] = useState<string | null>(null);
 
   useEffect(() => {
-    setLastRead(formatRelative(currentUser?.updatedAt));
-  }, [currentUser?.updatedAt]);
+    setLastRead(t.since(currentUser?.updatedAt));
+  }, [currentUser?.updatedAt, t]);
 
   useEffect(() => {
     if (banReason) window.location.reload();
@@ -110,24 +115,22 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           {currentUser?.followers !== null && (
             <span>
               <span className="tabular text-primary-100 font-bold">
-                {formatNumber(currentUser?.followers || 0)}
+                {t.number(currentUser?.followers || 0)}
               </span>{' '}
-              {plural(currentUser?.followers || 0, 'follower')}
+              {t('profile.followers', { count: currentUser?.followers || 0 })}
             </span>
           )}
 
           {currentUser?.createdAt && (
             <span>
-              joined{' '}
-              <span className="tabular text-primary-200">
-                {formatMonthYearLong(currentUser.createdAt)}
-              </span>
+              {t('profile.joined')}{' '}
+              <span className="tabular text-primary-200">{t.monthYear(currentUser.createdAt)}</span>
             </span>
           )}
 
           {lastRead && (
             <span>
-              roles read <span className="text-primary-200">{lastRead}</span>
+              {t('profile.rolesRead')} <span className="text-primary-200">{lastRead}</span>
             </span>
           )}
         </div>
@@ -137,11 +140,11 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
             href={`https://twitch.tv/${login}`}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Open on Twitch"
+            aria-label={t('profile.openTwitch')}
             className="btn btn-twitch-quiet w-10 p-0 sm:w-auto sm:px-[18px]"
           >
             <TwitchIcon size={18} />
-            <span className="hidden sm:inline">Open on Twitch</span>
+            <span className="hidden sm:inline">{t('profile.openTwitch')}</span>
           </a>
 
           {currentUser?.discord && (
@@ -149,8 +152,8 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
               href={`https://discord.com/users/${currentUser.discord}`}
               target="_blank"
               rel="noopener noreferrer"
-              title={`Open ${login} on discord`}
-              aria-label="Open on Discord"
+              title={t('profile.openDiscordOf', { login })}
+              aria-label={t('profile.openDiscord')}
               className="btn btn-soft w-10 p-0"
             >
               <DiscordIcon size={18} />
@@ -158,16 +161,14 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           )}
 
           <CopyButton
-            label="Copy short url"
+            label={t('profile.copyShortUrl')}
             value={`${config.brand.url}/${isUser ? 'u' : 'c'}/${login}`}
           />
 
           <button
             type="button"
-            title={
-              isUser ? 'Read this profile again from Twitch' : 'Read this channel again from Twitch'
-            }
-            aria-label="Refresh"
+            title={isUser ? t('profile.refreshProfile') : t('profile.refreshChannel')}
+            aria-label={t('profile.refresh')}
             className="btn btn-soft w-10 p-0"
             onClick={() => reloadUserProfile(login, true, true)}
           >

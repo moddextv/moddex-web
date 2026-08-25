@@ -1,8 +1,8 @@
+import { getTranslator, Locale, localePath, Translator } from '@/i18n';
 import { FC } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 
-import { ago } from './ago';
 import { backupLate, nightlyRuns, size } from '@/utils/jobHealth';
 import type { JobHealth } from '@/utils/api/moddex/admin';
 
@@ -11,9 +11,13 @@ const Tile: FC<{
   value: string;
   note: string;
   href: string;
+  locale: Locale;
   alert?: boolean;
-}> = ({ label, value, note, href, alert }) => (
-  <Link href={href} className="panel px-4 py-4 hover:border-primary-600 transition-colors">
+}> = ({ label, value, note, href, locale, alert }) => (
+  <Link
+    href={localePath(locale, href)}
+    className="panel px-4 py-4 hover:border-primary-600 transition-colors"
+  >
     <span className="text-micro text-primary-400 block">{label}</span>
     <span className={clsx('text-h2 block pt-1 tabular', alert && 'text-vip')}>{value}</span>
     <span className={clsx('text-micro block pt-1', alert ? 'text-vip' : 'text-primary-400')}>
@@ -22,15 +26,16 @@ const Tile: FC<{
   </Link>
 );
 
-const number = (value: number | null | undefined) =>
-  value === null || value === undefined ? '·' : value.toLocaleString('en-US');
+const number = (value: number | null | undefined, t: Translator) =>
+  value === null || value === undefined ? '·' : t.number(value);
 
-export const Overview: FC<{ health: JobHealth | null }> = ({ health }) => {
+export const Overview: FC<{ health: JobHealth | null; locale: Locale }> = ({ health, locale }) => {
+  const t = getTranslator(locale);
   if (!health) {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">Could not read job health.</p>
+          <p className="text-read text-primary-300">{t('dash.jobHealthUnreadable')}</p>
         </div>
       </section>
     );
@@ -47,33 +52,41 @@ export const Overview: FC<{ health: JobHealth | null }> = ({ health }) => {
           refresh queue are on /dashboard/jobs, which is where they belong */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Tile
-          label="Accounts indexed"
-          value={number(snapshot.users)}
-          note={snapshot.lastAt ? `read ${ago(snapshot.lastAt)}` : 'no snapshot yet'}
+          label={t('dash.accountsIndexed')}
+          value={number(snapshot.users, t)}
+          note={
+            snapshot.lastAt
+              ? t('dash.readAgo', { ago: t.ago(snapshot.lastAt) })
+              : t('dash.noSnapshotYet')
+          }
           href="/dashboard/jobs"
+          locale={locale}
           alert={snapshot.overdue}
         />
 
         <Tile
-          label="Sweep head"
-          value={sweepHead ? ago(sweepHead) : 'never'}
-          note="oldest channel not yet revisited"
+          label={t('dash.sweepHead')}
+          value={sweepHead ? t.ago(sweepHead) : t('dash.never')}
+          note={t('dash.oldestNotRevisited')}
           href="/dashboard/jobs"
+          locale={locale}
         />
 
         <Tile
-          label="Last backup"
-          value={backup ? ago(backup.at) : 'never'}
-          note={backup ? size(backup.bytes) : 'nothing has been written'}
+          label={t('dash.lastBackup')}
+          value={backup ? t.ago(backup.at) : t('dash.never')}
+          note={backup ? size(backup.bytes) : t('dash.nothingWritten')}
           href="/dashboard/jobs"
+          locale={locale}
           alert={!backup || lateBackup}
         />
 
         <Tile
-          label="Nightly jobs"
-          value={`${nightly.ran} of ${nightly.total}`}
-          note={missed === 0 ? 'all ran' : `${missed} missed the last slot`}
+          label={t('dash.nightlyJobs')}
+          value={t('dash.ranOf', { ran: nightly.ran, total: nightly.total })}
+          note={missed === 0 ? t('dash.allRan') : t('dash.missedSlot', { count: missed })}
           href="/dashboard/jobs"
+          locale={locale}
           alert={missed > 0}
         />
       </div>
