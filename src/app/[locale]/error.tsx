@@ -1,14 +1,14 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { Container } from '@/components/UI/Container';
 import { ReloadIcon } from '@/components/Icons';
 import { config } from '@/config';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { useEffect } from 'react';
-import { useT } from '@/i18n/context';
 
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {
-  const t = useT();
+  const { t, rich } = useI18n();
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -18,11 +18,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
       <Container>
         <section className="enter pt-16 pb-10 max-w-2xl">
           <h1 className="text-h1 mb-4">{t('misc.errorHeading')}</h1>
-          <p className="text-lead text-primary-300 max-w-prose mb-8">
-            Something broke while the page was rendering, and we&apos;ve logged it. Retrying
-            rebuilds just this part of the page, which usually works if it was a slow response and
-            not a real bug.
-          </p>
+          <p className="text-lead text-primary-300 max-w-prose mb-8">{t('errors.renderFailed')}</p>
 
           <div className="flex flex-wrap gap-3">
             <button type="button" className="btn" onClick={() => reset()}>
@@ -30,22 +26,27 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
               {t('errors.retry')}
             </button>
             <LocaleLink href="/" className="btn btn-soft">
-              {t('errors.home')}
+              {t('errors.common.home')}
             </LocaleLink>
           </div>
 
           <p className="text-ui text-primary-400 mt-8 max-w-prose">
-            If it keeps happening,{' '}
-            <a
-              href={config.brand.statusUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-200 font-semibold hover:underline"
-            >
-              {config.brand.statusUrl.replace('https://', '')}
-            </a>{' '}
-            shows whether the api is up. It runs on separate infrastructure, so it stays up when
-            this doesn&apos;t.
+            {rich(
+              'errors.keepsHappening',
+              {
+                status: (chunk) => (
+                  <a
+                    href={config.brand.statusUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-200 font-semibold hover:underline"
+                  >
+                    {chunk}
+                  </a>
+                )
+              },
+              { host: config.brand.statusUrl.replace('https://', '') }
+            )}
           </p>
         </section>
       </Container>

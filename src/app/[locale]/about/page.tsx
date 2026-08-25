@@ -1,3 +1,4 @@
+import { asLocale, getRich, getTranslator } from '@/i18n';
 import { pageMetadata } from '@/misc/metadata';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
@@ -5,8 +6,6 @@ import { Ext, Inline } from '@/components/Legal';
 import { config } from '@/config';
 import { Metadata } from 'next';
 import { CSSProperties, FC, ReactNode } from 'react';
-import { asLocale } from '@/i18n/locales';
-import { getRich, getTranslator } from '@/i18n/dictionary';
 
 interface PageProps {
   params: Promise<{ locale: string }>;

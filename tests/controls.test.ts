@@ -1,6 +1,5 @@
+import { getTranslator, LOCALES } from '@/i18n';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { LOCALES } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';

@@ -1,10 +1,10 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { useI18n } from '@/i18n/context';
 
 const TABS = [
   { href: '/dashboard', key: 'dash.overview', adminOnly: false },

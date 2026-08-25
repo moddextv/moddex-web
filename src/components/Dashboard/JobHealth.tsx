@@ -1,7 +1,5 @@
+import { getTranslator, Locale, Translator } from '@/i18n';
 import { FC } from 'react';
-import { Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
-import { Translator } from '@/i18n/translate';
 import { backupLate, clock, size } from '@/utils/jobHealth';
 import type { JobHealth as Health } from '@/utils/api/moddex/admin';
 
@@ -57,16 +55,16 @@ export const JobHealth: FC<{ health: Health; locale: Locale }> = ({ health, loca
           <span />
         </div>
 
-        <Row label={t('dash.snapshot')} note="one point a day at 03:00 UTC">
+        <Row label={t('dash.snapshot')} note={t('dash.jh.snapshotNote')}>
           <Ran {...snapshot} t={t} />
         </Row>
 
-        <Row label={t('dash.roleCounts')} note="the browse rankings, rebuilt at 04:00 UTC">
+        <Row label={t('dash.roleCounts')} note={t('dash.jh.roleCountsNote')}>
           <Ran {...roleCounts} t={t} />
         </Row>
 
         {backup && (
-          <Row label={t('dash.backup')} note="nightly dump, verified and 14 days retained">
+          <Row label={t('dash.backup')} note={t('dash.jh.backupNote')}>
             <span
               className={
                 backupLate(backup.at, backup.expectedEverySeconds)

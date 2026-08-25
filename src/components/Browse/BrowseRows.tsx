@@ -1,9 +1,7 @@
+import { getTranslator, Locale, localePath, Translator } from '@/i18n';
 import { Badges } from '@/components/User/Badges';
 import { Avatar } from '@/components/UI/Avatar';
 import { BrowseEntry } from '@/misc/browse';
-import { getTranslator } from '@/i18n/dictionary';
-import { Locale, localePath } from '@/i18n/locales';
-import { Translator } from '@/i18n/translate';
 import Link from 'next/link';
 import { FC } from 'react';
 import clsx from 'clsx';

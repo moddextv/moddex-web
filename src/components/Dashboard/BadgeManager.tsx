@@ -1,7 +1,7 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useI18n } from '@/i18n/context';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
@@ -127,9 +127,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <span className="corner corner-tl text-mod" aria-hidden="true" />
         <h2 className="text-h2">{t('dash.badges')}</h2>
-        <span className="ml-auto text-ui text-primary-400">
-          who holds what, and who may hand it out
-        </span>
+        <span className="ml-auto text-ui text-primary-400">{t('dash.badge.lead')}</span>
       </div>
 
       <div className="flex flex-wrap gap-2 px-4 pb-5">
@@ -146,7 +144,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
             >
               <Image
                 src={one.svg}
-                alt={`The ${one.name} badge`}
+                alt={t('dash.badge.alt', { name: one.name })}
                 width={18}
                 height={18}
                 radius="sm"
@@ -184,8 +182,8 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder={`Filter the ${selected} list`}
-                aria-label={`Filter the ${selected} list`}
+                placeholder={t('dash.badge.filter', { name: selected })}
+                aria-label={t('dash.badge.filter', { name: selected })}
                 autoComplete="off"
               />
             </label>
@@ -193,7 +191,11 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
           {rows.length === 0 ? (
             <p className="text-read text-primary-300 max-w-prose px-4 pb-4">
-              Nobody holds <span className="font-bold">{selected}</span> yet.
+              {rich(
+                'dash.badge.nobodyHolds',
+                { name: (chunk) => <span className="font-bold">{chunk}</span> },
+                { name: selected }
+              )}
             </p>
           ) : (
             <div className="rows">
@@ -242,7 +244,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                       disabled={busy}
                       onClick={() => take(row.userId)}
                     >
-                      Remove
+                      {t('common.remove')}
                     </button>
                   )}
                 </div>
@@ -254,7 +256,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
                   className="btn btn-ghost m-4"
                   onClick={() => setShowAll(true)}
                 >
-                  Show all {matched.length}
+                  {t('dash.badge.showAll', { count: matched.length })}
                 </button>
               )}
             </div>
@@ -262,8 +264,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
 
           {SOURCES[selected] && (
             <p className="text-read text-primary-300 max-w-prose px-4 py-4">
-              {selected} is also written by {SOURCES[selected]}, so a hand grant holds until that
-              runs again and decides otherwise.
+              {t('dash.badge.alsoWrittenBy', { name: selected, source: SOURCES[selected] ?? '' })}
             </p>
           )}
         </>

@@ -1,7 +1,7 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC, useRef, useState } from 'react';
-import { useT } from '@/i18n/context';
 import { Image } from '@/components/UI/Image';
 import { UserChatBadges } from '@/misc/badges';
 import { setSelectedUserChatBadge } from '@/actions/settings';
@@ -73,7 +73,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
                 )}
 
                 <span className={active ? 'text-base font-bold' : 'text-base text-primary-300'}>
-                  {badge.name === 'none' ? 'No badge' : badge.name}
+                  {badge.name === 'none' ? t('chatBadge.noBadge') : badge.name}
                 </span>
 
                 {active && (
@@ -98,7 +98,8 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
             />
           )}
           <span className="text-base text-primary-300 min-w-0 break-words">
-            <span className="font-bold text-primary-100">{login}</span>: forsen has 24 mods, wow
+            <span className="font-bold text-primary-100">{login}</span>:{' '}
+            {t('chatBadge.sampleMessage')}
           </span>
         </p>
       </div>

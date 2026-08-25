@@ -1,7 +1,7 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { Children, FC, ReactNode, useState } from 'react';
-import { useT } from '@/i18n/context';
 import clsx from 'clsx';
 
 import { RoleKey, roleCornerClass, roleTextClass } from '@/misc/roles';

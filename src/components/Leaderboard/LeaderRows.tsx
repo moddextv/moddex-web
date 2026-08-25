@@ -1,10 +1,9 @@
+import { getTranslator, Locale, localePath } from '@/i18n';
 import { Avatar } from '@/components/UI/Avatar';
 import { Badges } from '@/components/User/Badges';
 import { LeaderRow } from '@/utils/api/moddex/public';
 import Link from 'next/link';
 import { FC } from 'react';
-import { Locale, localePath } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import clsx from 'clsx';
 
 const TONE: Record<string, string> = {

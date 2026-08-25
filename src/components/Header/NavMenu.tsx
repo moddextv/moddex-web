@@ -1,5 +1,6 @@
 'use client';
 
+import { localeName, LOCALES, swapLocale, useI18n } from '@/i18n';
 import { FC, useRef } from 'react';
 import {
   Dropdown,
@@ -16,8 +17,6 @@ import { ChevronDownIcon, ExternalLinkIcon, MenuIcon } from '@/components/Icons'
 import { Image } from '@/components/UI/Image';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
-import { useI18n } from '@/i18n/context';
-import { LOCALES, localeName, swapLocale } from '@/i18n/locales';
 
 const external = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
@@ -101,7 +100,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             {user.image ? (
               <Image
                 src={user.image}
-                alt={user.name ?? 'Your Twitch avatar'}
+                alt={user.name ?? t('nav.yourAvatar')}
                 width={32}
                 height={32}
                 radius="full"

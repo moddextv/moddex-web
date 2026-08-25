@@ -1,5 +1,5 @@
+import { useT } from '@/i18n';
 import { FC } from 'react';
-import { useT } from '@/i18n/context';
 import { Badges } from '@/components/User/Badges';
 import { RoleUser } from '@/misc/account';
 import { UserType } from '@/misc/roles';
@@ -33,7 +33,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type }) => {
         <span className="text-ui text-primary-300 tabular text-right">{granted}</span>
       ) : (
         <span className="text-ui text-primary-400 text-right" title={t('profile.noGrantDate')}>
-          no date
+          {t('roleCheck.noDate')}
         </span>
       )}
 

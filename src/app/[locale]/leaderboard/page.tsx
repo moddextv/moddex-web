@@ -1,6 +1,5 @@
+import { asLocale, getTranslator } from '@/i18n';
 import { CSSProperties } from 'react';
-import { asLocale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Container } from '@/components/UI/Container';
 import { LeaderRows } from '@/components/Leaderboard/LeaderRows';

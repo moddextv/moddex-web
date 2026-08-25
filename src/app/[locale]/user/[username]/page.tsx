@@ -1,6 +1,5 @@
+import { asLocale, getTranslator, localePath, ogLocale } from '@/i18n';
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale, localePath, ogLocale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';

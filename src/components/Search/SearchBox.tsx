@@ -1,7 +1,7 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC, FormEvent, KeyboardEvent, ReactNode, RefObject, useEffect, useState } from 'react';
-import { useI18n } from '@/i18n/context';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
@@ -28,7 +28,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
   inputRef,
   children
 }) => {
-  const { t, path } = useI18n();
+  const { t, rich, path } = useI18n();
   const router = useRouter();
   const [value, setValue] = useState('');
   const [active, setActive] = useState(-1);
@@ -134,7 +134,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
 
           {!items.length && loading && (
             <li className="suggest-note" aria-live="polite">
-              reading the index
+              {t('misc.readingIndex')}
             </li>
           )}
         </ul>
@@ -143,9 +143,11 @@ export const SearchBox: FC<SearchBoxProps> = ({
       {picking && !short && !loading && !items.length && (
         <ul className="suggest" role="presentation">
           <li className="suggest-note">
-            Nothing indexed starts with{' '}
-            <span className="font-mono text-primary-200">{value.trim()}</span>. Press Enter to read
-            it from Twitch and add it.
+            {rich(
+              'misc.nothingIndexedWith',
+              { name: (chunk) => <span className="font-mono text-primary-200">{chunk}</span> },
+              { query: value.trim() }
+            )}
           </li>
         </ul>
       )}

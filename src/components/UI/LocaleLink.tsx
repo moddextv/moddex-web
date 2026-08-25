@@ -1,8 +1,8 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC, ReactNode } from 'react';
 import Link from 'next/link';
-import { useI18n } from '@/i18n/context';
 
 interface LocaleLinkProps {
   href: string;

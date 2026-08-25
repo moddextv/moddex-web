@@ -1,7 +1,7 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC, useState } from 'react';
-import { useT } from '@/i18n/context';
 import { disconnectChannel } from '@/actions/settings';
 import { TwitchIcon } from '@/components/Icons';
 import { config } from '@/config';
@@ -13,7 +13,7 @@ interface ConnectChannelProps {
 }
 
 export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, everConnected }) => {
-  const t = useT();
+  const { t, rich } = useI18n();
   const { name } = config.brand;
   const [connected, setConnected] = useState(initialConnected);
 
@@ -25,20 +25,20 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
     return (
       <div className="flex flex-col gap-4">
         <p className="text-read text-primary-300 max-w-prose">
-          Two things at once. Mod and VIP changes in your channel reach {name} as they happen
-          instead of on the next sweep. And the channels <em>you</em> moderate get filled in
-          straight from Twitch, including ones nobody has ever looked up here.
+          {rich(
+            'settings.channel.pitch',
+            { you: (chunk) => <em>{chunk}</em> },
+            { brandName: name }
+          )}
         </p>
         <p className="text-read text-primary-300 max-w-prose">
-          {name} posts nothing and keeps no token, so we read the list of channels you moderate
-          once, right now, and it goes stale from then on. Reconnect to refresh it. You can withdraw
-          at Twitch or here whenever you want.
+          {t('settings.channel.noToken', { brandName: name })}
         </p>
         <span>
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href="/api/connect/channel" className="btn btn-twitch-quiet">
             <TwitchIcon size={16} />
-            {everConnected ? 'Connect this channel again' : 'Connect this channel'}
+            {everConnected ? t('settings.channel.again') : t('settings.channel.connect')}
           </a>
         </span>
       </div>
@@ -48,9 +48,8 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
   return (
     <div className="flex flex-col gap-4">
       <p className="text-read text-primary-300 max-w-prose">
-        <strong className="text-primary-100">{t('misc.connectedShort')}</strong> Mod and VIP changes
-        reach {name} as they happen. Founders still come from the normal read, because Twitch has no
-        live event for those. Withdrawing changes nothing that&apos;s already recorded.
+        <strong className="text-primary-100">{t('misc.connectedShort')}</strong>{' '}
+        {t('settings.channel.live', { brandName: name })}
       </p>
       <span className="flex items-center gap-3">
         <button
@@ -59,7 +58,7 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
           onClick={() => void disconnect.run()}
           disabled={disconnect.pending}
         >
-          {disconnect.pending ? 'Disconnecting…' : 'Disconnect'}
+          {disconnect.pending ? t('settings.disconnecting') : t('settings.disconnect')}
         </button>
         {disconnect.error && (
           <span className="text-ui text-vip" role="alert">

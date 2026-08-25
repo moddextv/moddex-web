@@ -1,10 +1,9 @@
+import { getTranslator, Locale } from '@/i18n';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { DiscordIcon, ExternalLinkIcon, GitHubIcon } from '@/components/Icons';
 import { config } from '@/config';
 import { LocaleLink } from '@/components/UI/LocaleLink';
-import { Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import { FC, ReactNode } from 'react';
 
 const FooterLink: FC<{

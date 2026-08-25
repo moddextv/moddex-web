@@ -1,8 +1,7 @@
 'use client';
 
+import { Translator, useT } from '@/i18n';
 import { FC, useState } from 'react';
-import { useT } from '@/i18n/context';
-import { Translator } from '@/i18n/translate';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { listDonations } from '@/actions/dashboard';
@@ -59,7 +58,7 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
       <div className="rows">
         <div className="row-head cols-donations">
           <span>{t('dash.don.who')}</span>
-          <span>{t('dash.don.when')}</span>
+          <span>{t('dash.when')}</span>
           <span>{t('dash.status')}</span>
           <span className="text-right">{t('dash.amount')}</span>
         </div>

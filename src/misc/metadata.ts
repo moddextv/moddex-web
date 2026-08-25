@@ -1,7 +1,7 @@
+import { DEFAULT_LOCALE, Locale, localePath, LOCALES, ogLocale } from '@/i18n';
 import type { Metadata } from 'next';
 
 import { config } from '@/config';
-import { DEFAULT_LOCALE, Locale, LOCALES, localePath, ogLocale } from '@/i18n/locales';
 
 export const SITE_CARD = {
   url: '/og.png',

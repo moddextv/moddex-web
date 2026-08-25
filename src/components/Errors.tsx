@@ -1,10 +1,10 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { Facts, Good, ReloadButton, StatePage, Status } from '@/components/PageState';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { config } from '@/config';
 import { LocaleLink } from '@/components/UI/LocaleLink';
-import { useI18n } from '@/i18n/context';
 import { FC } from 'react';
 
 export const NotFoundUser: FC<{ username: string }> = ({ username }) => {

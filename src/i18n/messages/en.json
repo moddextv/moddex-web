@@ -1,634 +1,773 @@
 {
-  "common": {
-    "loading": "Loading",
-    "loadMore": "Load more",
-    "search": "Search",
-    "close": "Close",
-    "back": "Back"
-  },
-  "nav": {
-    "channels": "channels",
-    "accounts": "accounts",
-    "leaderboard": "leaderboard",
-    "about": "about",
-    "donate": "donate",
-    "discord": "discord",
-    "dashboard": "dashboard",
-    "settings": "settings",
-    "profile": "my profile",
-    "signIn": "Sign in with Twitch",
-    "signOut": "logout",
-    "menu": "Menu",
-    "themeToLight": "switch to light theme",
-    "themeToDark": "switch to dark theme",
-    "language": "language",
-    "skipToContent": "Skip to content",
-    "home": "home",
-    "main": "Main",
-    "signInShort": "Sign in",
-    "channelsLink": "Channels",
-    "accountsLink": "Accounts",
-    "leaderboardLink": "Leaderboard"
-  },
-  "roles": {
-    "mod": {
-      "one": "moderator",
-      "other": "moderators"
-    },
-    "vip": {
-      "one": "VIP",
-      "other": "VIPs"
-    },
-    "founder": {
-      "one": "founder",
-      "other": "founders"
-    }
-  },
-  "legal": {
-    "englishOnly": {
-      "title": "This page is only available in English",
-      "body": "Our privacy policy and terms are kept in English on purpose. They are a contract, and a translation that drifts from the original would be worse than no translation at all."
-    }
-  },
   "about": {
-    "metaTitle": "About",
-    "metaDescription": "Who runs {domain}, where it came from, and what happened to donations made back when it was modchecker.com.",
-    "heading": "What {name} is, and who runs it",
-    "lead": "{name} records which Twitch accounts hold moderator, VIP or founder status in which channels, and the day they got it. Twitch shows a broadcaster their own list. {name} keeps the other half.",
-    "who": {
-      "title": "Who runs it",
-      "one": "One person, and that is the whole team. The domain, the server, the database and the code all sit in the same pair of hands, and no part of {name} is operated by anybody else.",
-      "two": "More about the person behind it at <author>maersux.dev</author>, and the code can be read at <github>github.com/moddextv</github>."
-    },
-    "history": {
-      "title": "It used to be modchecker.com",
-      "one": "{name} started out under the name modchecker.com. In August 2026 the project separated from that domain and from its original owner, moved to {domain}, and was rebuilt along the way into four separate services.",
-      "two": "What changed hands was the name: the original owner held the domain and the Discord server. The database was never theirs. It has been on the same server, in the same hands, the whole way through, and it did not move for the rename.",
-      "three": "Ownership, hosting, the domain, the database and the code now sit entirely with the person running this site. There is no shared control and no arrangement of any kind with the old domain or with anyone behind it. If you followed a modchecker link here, that is the whole of what changed."
+    "cost": {
+      "one": "Nothing. There is no paid tier, no advertising, nothing behind a login, and the <docs>api</docs> is open. <donate>Donations</donate> are the only thing keeping it that way, and the badges they carry are cosmetic.",
+      "title": "What it costs you",
+      "two": "What is held about an account, and how to make it stop, is on the <privacy>privacy page</privacy>. The opt-out is one switch and takes effect immediately. The <tos>terms</tos> say the rest. {name} is not affiliated with, endorsed by, or sponsored by Twitch Interactive, Inc."
     },
     "donated": {
-      "title": "If you donated back when it was modchecker",
       "badgeAlt": "The donator badge",
       "one": "Your donation still counts here. We decided to honor every donation made under the old name rather than start the ledger over, so the donator badge you earned then came across with the rest of the data and is on your profile now.",
+      "title": "If you donated back when it was modchecker",
       "two": "That is the likely answer if you are wearing a badge on a site you don't remember giving anything to. There is nothing to claim and nothing to renew, and it doesn't expire. If you did donate back then and the badge isn't showing, say so in <discord>the Discord</discord> and it will be put right by hand."
     },
-    "cost": {
-      "title": "What it costs you",
-      "one": "Nothing. There is no paid tier, no advertising, nothing behind a login, and the <docs>api</docs> is open. <donate>Donations</donate> are the only thing keeping it that way, and the badges they carry are cosmetic.",
-      "two": "What is held about an account, and how to make it stop, is on the <privacy>privacy page</privacy>. The opt-out is one switch and takes effect immediately. The <tos>terms</tos> say the rest. {name} is not affiliated with, endorsed by, or sponsored by Twitch Interactive, Inc."
-    }
-  },
-  "home": {
-    "kicker": "<mod>mods</mod> and <vip>vips</vip>, indexed from both ends",
-    "heading": "Every mod list on Twitch, read backwards.",
-    "lead": "Twitch shows a broadcaster who their own mods are. It won't tell you the reverse. {name} does: every channel an account has a role in, and the day they got it.",
-    "channelCard": {
-      "title": "Look up a channel",
-      "body": "Who holds mod, vip and founder in a channel, and since when. Search one for the first time and you add it to the index."
+    "heading": "What {name} is, and who runs it",
+    "history": {
+      "one": "{name} started out under the name modchecker.com. In August 2026 the project separated from that domain and from its original owner, moved to {domain}, and was rebuilt along the way into four separate services.",
+      "three": "Ownership, hosting, the domain, the database and the code now sit entirely with the person running this site. There is no shared control and no arrangement of any kind with the old domain or with anyone behind it. If you followed a modchecker link here, that is the whole of what changed.",
+      "title": "It used to be modchecker.com",
+      "two": "What changed hands was the name: the original owner held the domain and the Discord server. The database was never theirs. It has been on the same server, in the same hands, the whole way through, and it did not move for the rename."
     },
-    "accountCard": {
-      "title": "Look up an account",
-      "body": "Every indexed channel where one account holds a role. That's the direction Twitch won't show you."
-    },
-    "stats": {
-      "label": "What the index holds",
-      "mods": "moderator records",
-      "vips": "VIP records",
-      "founders": "founder records",
-      "across": "across <channels>{channels}</channels> channels and <accounts>{accounts}</accounts> accounts."
-    },
-    "recent": {
-      "title": "Recently indexed",
-      "link": "All channels"
-    },
-    "holders": {
-      "title": "Holding the most roles",
-      "link": "Leaderboard"
-    },
-    "fills": {
-      "title": "The index fills up by being used",
-      "body": "A channel gets added the first time somebody searches for it. That one lookup pulls in its mod and vip lists and keeps them, for everybody. You don't need an account.",
-      "action": "Index a channel"
-    },
-    "optOut": {
-      "title": "Listed here and would rather not be?",
-      "body": "Sign in with Twitch and switch the opt-out on.",
-      "action": "Opt out"
-    },
-    "try": "try",
-    "searchPlaceholder": "search a channel or account"
-  },
-  "settings": {
-    "metaTitle": "Settings",
-    "metaDescription": "Opt out of {domain}, or choose which badge shows next to your name.",
-    "signInHeading": "Settings need a Twitch sign-in",
-    "heading": "Settings",
-    "signedInAs": "Signed in as {login}. Changes save immediately.",
-    "privacy": "Privacy",
-    "badge": {
-      "title": "Chat badge",
-      "notLive": "Chat integration isn't live yet",
-      "body": "Pick one now and it's already set when chat integration ships."
-    },
-    "live": {
-      "title": "Live role updates",
-      "body": "For your own channel. Optional."
-    },
-    "account": {
-      "title": "Account",
-      "signedIn": "Signed in as",
-      "publicProfile": "Public profile",
-      "discord": "Discord",
-      "avatarAlt": "Your Twitch avatar"
-    },
-    "channelStatus": {
-      "connected": "Channel connected. Moderator and VIP changes now reach moddex as they happen.",
-      "connected-nosync": "Channel connected, but we couldn't save the list of channels you moderate. Live updates are working. Reconnect later to add the list.",
-      "canceled": "Canceled. Your channel is unchanged.",
-      "mismatch": "You approved that on Twitch as a different account from the one you're signed in with here, so we refused the connection.",
-      "scopes": "Twitch withheld one of the two permissions. We need both for moderator and VIP events, so the channel stayed disconnected.",
-      "state": "That link expired or didn't belong to this session. Start again from the button above.",
-      "exchange": "Twitch didn't confirm the authorization. Try again.",
-      "nocode": "Twitch sent back no authorization. Try again.",
-      "failed": "Something went wrong while saving, and your settings are unchanged. Try again in a moment.",
-      "unconfigured": "Channel connections aren't set up on this server yet.",
-      "signin": "Your session ended before this finished. Sign in and try again."
-    },
-    "discordStatus": {
-      "connected": "Discord connected. It now shows on your public profile.",
-      "canceled": "Canceled. No Discord account was linked.",
-      "taken": "That Discord account is already connected to another moddex profile. Disconnect it there first.",
-      "state": "That link expired or didn't belong to this session. Start again from the button above.",
-      "exchange": "Discord didn't confirm the account. Try again.",
-      "nocode": "Discord sent back no authorization. Try again.",
-      "failed": "Something went wrong while saving, and your profile is unchanged. Try again in a moment.",
-      "unconfigured": "Discord connections aren't set up on this server yet.",
-      "signin": "Your session ended before this finished. Sign in and try again."
+    "lead": "{name} records which Twitch accounts hold moderator, VIP or founder status in which channels, and the day they got it. Twitch shows a broadcaster their own list. {name} keeps the other half.",
+    "metaDescription": "Who runs {domain}, where it came from, and what happened to donations made back when it was modchecker.com.",
+    "metaTitle": "About",
+    "who": {
+      "one": "One person, and that is the whole team. The domain, the server, the database and the code all sit in the same pair of hands, and no part of {name} is operated by anybody else.",
+      "title": "Who runs it",
+      "two": "More about the person behind it at <author>maersux.dev</author>, and the code can be read at <github>github.com/moddextv</github>."
     }
   },
   "browse": {
     "accounts": {
-      "metaTitle": "Accounts",
-      "metaDescription": "{brandName} holds role records for these Twitch accounts. Look one up to see every channel it holds mod or vip in.",
       "heading": "Accounts",
       "lead": "Every indexed channel where an account holds mod or vip, and the day each role was granted. That's the direction Twitch won't show you.",
       "listTitle": "Accounts holding roles",
+      "metaDescription": "{brandName} holds role records for these Twitch accounts. Look one up to see every channel it holds mod or vip in.",
+      "metaTitle": "Accounts",
       "totalLabel": "accounts known",
       "walk": "Or walk the whole index: <link>accounts by role count</link>."
     },
     "channels": {
-      "metaTitle": "Channels",
-      "metaDescription": "The Twitch channels {brandName} has indexed. Look one up to see who holds mod, vip and founder in it.",
       "heading": "Channels",
+      "lead": "Who holds mod, vip and founder in a channel, and since when. Search a channel for the first time and you add it to the index.",
       "listTitle": "Indexed channels",
+      "metaDescription": "The Twitch channels {brandName} has indexed. Look one up to see who holds mod, vip and founder in it.",
+      "metaTitle": "Channels",
       "totalLabel": "channels indexed",
-      "walk": "Or walk the whole index: <link>channels by roles handed out</link>.",
-      "lead": "Who holds mod, vip and founder in a channel, and since when. Search a channel for the first time and you add it to the index."
+      "walk": "Or walk the whole index: <link>channels by roles handed out</link>."
     },
     "heads": {
-      "channel": "Channel",
       "account": "Account",
-      "mods": "Mods",
-      "vips": "VIPs",
-      "read": "Read",
+      "channel": "Channel",
       "modding": "Modding",
-      "viping": "Viping"
+      "mods": "Mods",
+      "read": "Read",
+      "viping": "Viping",
+      "vips": "VIPs"
     },
-    "searchInstead": "Search instead"
-  },
-  "donate": {
-    "metaTitle": "Donate",
-    "metaDescription": "{brandName} runs on one server and no advertising. No paid tier, nothing behind a login, and the api is open.",
-    "heading": "{brandName} runs on one server and no advertising",
-    "lead": "No paid tier, nothing behind a login, and the api is open. Donations are the only thing keeping it that way.",
-    "oneTime": "one time, USD",
-    "stripeNote": "{brandName} stores the payment reference and the amount, nothing else. Stripe handles the card details end to end.",
-    "signedOut": "Sign in with Twitch first and the badge lands on your profile automatically. Donating signed out works too, it just needs a message in the Discord afterward.",
-    "badgeAlt": "The {name} badge",
-    "whatYouGet": "What you get",
-    "donator": {
-      "name": "donator",
-      "body": "Sits beside your name everywhere moddex shows it. Any donation of $5 or more, permanently."
-    },
-    "topDonator": {
-      "name": "top donator",
-      "body": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you."
-    },
-    "straight": {
-      "title": "Being straight about it",
-      "one": "A contribution to running costs, not a purchase.",
-      "two": "The badges are cosmetic. They don't unlock anything and carry no monetary value.",
-      "three": "Generally non-refundable. If something went wrong, write and we'll sort it out."
-    },
-    "holds": {
-      "title": "What the money holds up",
-      "roleRecords": "role records",
-      "accounts": "accounts",
-      "channels": "channels",
-      "backupsValue": "14 days",
-      "backups": "of backups retained"
+    "orderingEmpty": "Nothing to show for this ordering yet. The roles ranking gets rebuilt once a day, so it stays empty until the first rebuild has run.",
+    "page": "page {page}",
+    "rankingUnread": "We couldn't read this ranking. The rest of the page is unaffected.",
+    "searchInstead": "Search instead",
+    "sort": {
+      "followers": "Most followers",
+      "read": "Recently read",
+      "roles": "Most roles"
     }
   },
-  "leaderboard": {
-    "metaTitle": "Leaderboard",
-    "metaDescription": "Who holds the most mod, vip and founder roles on Twitch, counted by {brandName}.",
-    "heading": "Leaderboard",
-    "lead": "Who holds the most roles across every channel {brandName} has read. Updates once a day.",
-    "tabsLabel": "Which roles to rank",
-    "ranked": "ranked",
-    "empty": "Nothing here yet. The daily count has not run since this list was added.",
-    "scales": {
-      "mod": {
-        "tab": "Mod",
-        "label": "Mod roles"
-      },
-      "vip": {
-        "tab": "VIPs",
-        "label": "VIP roles"
-      },
-      "founder": {
-        "tab": "Founder",
-        "label": "Founder roles"
-      },
-      "roles": {
-        "tab": "All roles",
-        "label": "Roles held"
-      }
-    }
+  "chatBadge": {
+    "noBadge": "No badge",
+    "sampleMessage": "forsen has 24 mods, wow",
+    "selected": "Selected",
+    "title": "Chat badge",
+    "where": "Where the badge sits"
+  },
+  "common": {
+    "back": "Back",
+    "clear": "Clear",
+    "close": "Close",
+    "loadMore": "Load more",
+    "loading": "Loading",
+    "loadingShort": "Loading",
+    "next": "Next",
+    "previous": "Previous",
+    "remove": "Remove",
+    "removing": "Removing…",
+    "search": "Search",
+    "tryAgain": "Try again"
   },
   "controls": {
-    "bots": "Bots: {state}",
-    "botsShown": "shown",
-    "botsHidden": "hidden",
     "botModes": {
       "all": "shown",
       "hide": "hidden",
       "only": "only"
     },
+    "bots": "Bots: {state}",
     "botsAria": "Bots: {state}. Change which accounts are listed.",
+    "botsHidden": "hidden",
+    "botsShown": "shown",
+    "clearFilters": "Clear the filters",
     "columns": {
-      "granted": {
-        "label": "Granted",
-        "desc": "newest first",
-        "asc": "oldest first"
-      },
+      "account": "Account",
+      "channel": "Channel",
       "followers": {
-        "label": "Followers",
+        "asc": "fewest first",
         "desc": "most first",
-        "asc": "fewest first"
+        "label": "Followers"
+      },
+      "granted": {
+        "asc": "oldest first",
+        "desc": "newest first",
+        "label": "Granted"
       },
       "name": {
-        "label": "Name",
+        "asc": "a to z",
         "desc": "z to a",
-        "asc": "a to z"
-      },
-      "account": "Account",
-      "channel": "Channel"
+        "label": "Name"
+      }
     },
     "sort": {
-      "tooLong": "too long to sort by {label}",
-      "disabledTitle": "This list is {reason}",
-      "disabledAria": "{label}. This list is {reason}.",
       "activeAria": "Sorted by {label}, {ends}. Press to reverse.",
+      "disabledAria": "{label}. This list is {reason}.",
+      "disabledTitle": "This list is {reason}",
       "idleAria": "Sort by {label}",
+      "tooLong": "too long to sort by {label}",
       "tooLongFollowers": "too long to sort by follower count"
-    },
-    "clearFilters": "Clear the filters"
-  },
-  "optOut": {
-    "effect": "The opt-out stops your data being <em>served</em>: your profile, the role lists and the public API all cease to include you.",
-    "reversible": "Switch it back off whenever you like and your entry comes back.",
-    "modsUnaffected": "Channels you moderate are unaffected."
-  },
-  "notices": {
-    "optedOut": {
-      "kicker": "Withheld at the account's request",
-      "heading": "This account asked not to be listed",
-      "body": "<name>{username}</name> switched the opt-out on.",
-      "after": "Nothing went wrong, and there's nothing to retry.",
-      "profileServed": "Profile served",
-      "inLists": "Appears in role lists",
-      "fromApi": "Returned by the api",
-      "moderates": "Channels they moderate",
-      "no": "No",
-      "stillIndexed": "Still indexed",
-      "lookUp": "Look up someone else",
-      "optOutYourself": "Opt out yourself"
-    },
-    "teamOnly": {
-      "kicker": "Signed in, but not on the team",
-      "heading": "The dashboard is team only",
-      "body": "You're signed in{as}, but that account doesn't have team permission. Nothing else on the site needs it.",
-      "as": " as {login}",
-      "home": "Home",
-      "settings": "Settings"
-    },
-    "noCheckout": {
-      "heading": "There's no checkout to show",
-      "body": "This address only means something right after a Stripe checkout. You've probably come from a bookmark.",
-      "donate": "Donate page",
-      "home": "Home"
     }
   },
-  "errors": {
-    "common": {
-      "channels": "Channels",
-      "home": "Home",
-      "accounts": "Accounts",
-      "donate": "Donate",
-      "apiDocs": "API docs",
-      "lookUp": "Look up someone else"
-    },
-    "notFound": {
-      "heading": "There's no Twitch account called <name>{username}</name>",
-      "body": "We asked Twitch and it has no account by that name, so there was nothing to index. People rename themselves a lot, so check the spelling and try again.",
-      "untouched": "The index was left untouched."
-    },
-    "invalid": {
-      "heading": "<name>{username}</name> can't be a Twitch name",
-      "body": "Twitch names run 1 to 25 characters and allow only letters, numbers and underscores. That one can't exist, so we never asked Twitch about it."
-    },
-    "unknownPage": {
-      "heading": "This page doesn't exist",
-      "body": "That address doesn't lead anywhere on this site, so nothing was looked up. Everywhere worth going from here is below."
-    },
-    "banned": {
-      "isBanned": "{username} is banned on Twitch",
-      "isDeleted": "{username} deleted their account",
-      "isUnavailable": "{username} is unavailable",
-      "body": "Twitch isn't serving this account, so {brandName} won't serve a profile for it either. Any roles it held stay in the index, just hidden for as long as this lasts.",
-      "reason": "Reason from Twitch",
-      "notGiven": "not given",
-      "retained": "Roles retained",
-      "stillIndexed": "Still indexed",
-      "shown": "Roles shown",
-      "noneShown": "None while this lasts",
-      "checkAgain": "Check again",
-      "reversible": "Bans get reversed sometimes, which is why this is the only state on the site that offers to read again.",
-      "sticks": "This one usually sticks.",
-      "unrecognized": "We show you whatever Twitch said, even when we don't recognize it."
-    },
-    "checkout": {
-      "heading": "Your payment is fine. This page isn't.",
-      "body": "{brandName} couldn't read the checkout session back from Stripe, so it can't show you a summary. None of that touches the donation itself.",
-      "payment": "Payment",
-      "taken": "Taken by Stripe",
-      "receipt": "Receipt",
-      "emailed": "Stripe will email it",
-      "badge": "Donator badge",
-      "granted": "Granted by the webhook",
-      "thisPage": "This page",
-      "unreadable": "Couldn't read the session",
-      "checkProfile": "Check your profile",
-      "askDiscord": "Ask on Discord",
-      "byHand": "If the badge is still missing an hour from now, send us the Stripe receipt and we'll assign it by hand."
-    },
-    "retry": "Retry this page",
-    "home": "Home",
-    "couldNotRead": "could not be read",
-    "listUnread": "We couldn't read the index for this list.",
-    "otherListsFine": "The other lists on this page are unaffected.",
-    "tryListAgain": "Try this list again"
-  },
-  "login": {
-    "heading": "This page needs a Twitch sign-in",
-    "blurb": "{brandName} has to know which Twitch account is yours before it can let you change anything about it. Everything else on the site works signed out.",
-    "continue": "Continue with Twitch",
-    "landBack": "You land back on the page you were trying to reach.",
-    "canDo": "What a signed-in account can do",
-    "optOut": "Opt out of the index",
-    "pickBadge": "Pick a chat badge",
-    "pickBadgeBody": "If you hold more than one, choose which shows next to your name.",
-    "attachDonation": "Attach a donation",
-    "attachDonationBody": "So the donator badge lands automatically instead of being assigned by hand.",
-    "handsOver": "What Twitch hands over",
-    "yes": "Yes",
-    "never": "Never",
-    "scopes": {
-      "userId": "User id",
-      "loginName": "Login name",
-      "avatar": "Avatar",
-      "password": "Password",
-      "chat": "Chat access",
-      "behalf": "Acting on your behalf"
-    },
-    "fullTerms": "Full terms in <link>section 4</link>."
-  },
-  "dashboard": {
-    "signInHeading": "The dashboard needs a Twitch sign-in",
-    "signInBlurb": "It's team only, so moddex has to know which Twitch account is yours before it can check.",
-    "heading": "Dashboard"
-  },
-  "footer": {
-    "blurb": "Every channel a Twitch account holds mod or vip in, and the day they got it. Not affiliated with, endorsed by, or sponsored by Twitch Interactive.",
-    "about": "About {brandName}",
-    "donate": "Donate",
-    "joinDiscord": "Join the Discord",
-    "onGitHub": "{brandName} on GitHub",
-    "lookUp": "Look up",
-    "byChannel": "By channel",
-    "byAccount": "By account",
-    "leaderboard": "Leaderboard",
-    "apiDocs": "API docs",
-    "status": "Status",
-    "yourData": "Your data",
-    "optOut": "Opt out",
-    "privacy": "Privacy",
-    "terms": "Terms"
-  },
-  "profile": {
-    "directionLabel": "Which direction to read this account",
-    "inChannelShort": "In this channel",
-    "inChannel": "Roles in this channel",
-    "elsewhereShort": "Elsewhere",
-    "elsewhere": "Roles elsewhere",
-    "followers": {
-      "one": "follower",
-      "other": "followers"
-    },
-    "joined": "joined",
-    "rolesRead": "roles read",
-    "openTwitch": "Open on Twitch",
-    "openDiscord": "Open on Discord",
-    "copyShortUrl": "Copy short url",
-    "refresh": "Refresh",
-    "refreshProfile": "Read this profile again from Twitch",
-    "refreshChannel": "Read this channel again from Twitch",
-    "noGrantDate": "Twitch returned no grant date for this role",
-    "missingChannel": "Missing a channel? It only appears here once somebody has looked that channel up. Search for it once and it stays indexed.",
-    "indexChannel": "Index a channel"
-  },
-  "roleCheck": {
-    "title": "Ask about one pair",
-    "accountLogin": "Account login",
-    "channelLogin": "Channel login",
-    "held": "held",
-    "notHeld": "not held",
-    "noDate": "no date"
-  },
-  "optOutPanel": {
-    "title": "Opt out of the index"
-  },
-  "chatBadge": {
-    "title": "Chat badge",
-    "selected": "Selected",
-    "where": "Where the badge sits"
-  },
   "dash": {
-    "sections": "Dashboard sections",
-    "badges": "Badges",
     "account": "Account",
-    "givenBy": "Given by",
-    "badgesPerAccount": "Badges per account",
-    "twitchLogin": "Twitch login",
-    "connectedChannels": "Connected channels",
-    "channel": "Channel",
-    "connected": "Connected",
-    "modList": "Mod list",
-    "subscribed": "Subscribed",
-    "donations": "Donations",
-    "status": "Status",
-    "amount": "Amount",
-    "scheduledWork": "Scheduled work",
-    "lastRun": "Last run",
-    "snapshot": "Snapshot",
-    "roleCounts": "Role counts",
-    "backup": "Backup",
-    "sweepHead": "Sweep head",
     "accountsIndexed": "Accounts indexed",
-    "lastBackup": "Last backup",
-    "nightlyJobs": "Nightly jobs",
-    "jobHealthUnreadable": "Could not read job health.",
-    "runsTitle": "How long the nightly work takes",
-    "trendsTitle": "How the nightly work is trending",
-    "change": "Change",
-    "sweeps": "Sweeps",
-    "sweep": "Sweep",
-    "discover": "Discover",
-    "eventSub": "EventSub",
-    "queue": "Queue",
-    "stale": "Stale",
-    "yield": "Yield",
-    "loadMore": "Load more",
-    "loading": "Loading…",
-    "overview": "Overview",
-    "channels": "Channels",
-    "jobs": "Jobs",
-    "catalogueUnreadable": "Could not read the catalogue.",
-    "connectionsUnreadable": "Could not read connections.",
-    "ledgerUnreadable": "Could not read the ledger.",
+    "allRan": "all ran",
+    "amount": "Amount",
+    "asOf": "as of {date}",
     "audit": "Audit",
-    "auditLog": "Audit log",
-    "auditFilter": "Audit log filter",
-    "auditActions": "Actions",
-    "auditLogins": "Sign-ins",
-    "auditEverything": "Everything",
-    "auditType": "Type",
-    "auditWhat": "What happened",
-    "auditWho": "Who",
-    "auditWhen": "When",
-    "auditSystem": "system",
-    "auditDidIt": "who did it",
     "auditAbout": "the account this was about",
+    "auditActions": "Actions",
+    "auditDidIt": "who did it",
+    "auditEmpty": "Nothing recorded under this filter yet.",
+    "auditEverything": "Everything",
+    "auditFilter": "Audit log filter",
+    "auditLog": "Audit log",
+    "auditLogins": "Sign-ins",
     "auditShown": "{shown} shown",
     "auditShownOf": "{shown} shown of {total}",
-    "auditEmpty": "Nothing recorded under this filter yet.",
+    "auditSystem": "system",
+    "auditType": "Type",
     "auditUnreadable": "Could not read the audit log.",
+    "auditWhat": "What happened",
+    "auditWho": "Who",
+    "backlogsCounted": "backlogs counted",
+    "backlogsNotCounted": "backlogs not counted",
+    "backup": "Backup",
+    "badge": {
+      "alsoWrittenBy": "{name} is also written by {source}, so a hand grant holds until that runs again and decides otherwise.",
+      "alt": "The {name} badge",
+      "filter": "Filter the {name} list",
+      "lead": "who holds what, and who may hand it out",
+      "neverFetched": "never fetched",
+      "nobodyHolds": "Nobody holds <name>{name}</name> yet.",
+      "optedOut": "opted out",
+      "owner": "owner",
+      "protected": "protected",
+      "showAll": "Show all {count}",
+      "twitchOwned": "<name>{name}</name> comes from twitch and is written by the sweep, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out here, and listing a million of them would answer nothing.",
+      "unknownCount": "an unknown number of"
+    },
+    "badges": "Badges",
+    "badgesPerAccount": "Badges per account",
+    "catalogueUnreadable": "Could not read the catalogue.",
+    "change": "Change",
+    "channel": "Channel",
+    "channels": "Channels",
+    "conduitNoShard": "a conduit with no shard discards events",
+    "conn": {
+      "never": "never",
+      "neverHandedOver": "never handed over, and only reconnecting fixes it",
+      "nobodyConnected": "Nobody has connected a channel yet. The eventsub shards can be healthy while this is empty. They answer different questions.",
+      "none": "none",
+      "nothingSubscribed": "connected, nothing subscribed",
+      "optedOut": "opted out",
+      "withdrew": "withdrew",
+      "yes": "yes"
+    },
+    "connected": "Connected",
+    "connectedChannels": "Connected channels",
+    "connectionsUnreadable": "Could not read connections.",
+    "discover": "Discover",
+    "don": {
+      "anonymous": "anonymous",
+      "noAccountLinked": "no twitch account was linked to this donation",
+      "summary": "{shown} shown · {total} counted",
+      "who": "Who"
+    },
+    "donations": "Donations",
+    "dueAnotherLook": "channels read before, due another look",
+    "eventSub": "EventSub",
+    "givenBy": "Given by",
+    "jh": {
+      "backupNote": "nightly dump, verified and 14 days retained",
+      "roleCountsNote": "the browse rankings, rebuilt at 04:00 UTC",
+      "snapshotNote": "one point a day at 03:00 UTC"
+    },
     "job": "Job",
+    "jobHealthUnreadable": "Could not read job health.",
+    "jobs": "Jobs",
     "last": "Last",
-    "rate": "Rate",
-    "when": "When",
-    "never": "never",
-    "asOf": "as of {date}",
-    "oneRunSoFar": "one run so far",
-    "oldestNotRevisited": "oldest channel not yet revisited",
-    "nothingRanIn": "nothing ran in the {slot} slot",
-    "readAgo": "read {ago}",
-    "noSnapshotYet": "no snapshot yet",
-    "nothingWritten": "nothing has been written",
-    "ranOf": "{ran} of {total}",
-    "allRan": "all ran",
+    "lastBackup": "Last backup",
+    "lastDays": {
+      "one": "last {count} day",
+      "other": "last {count} days"
+    },
+    "lastRun": "Last run",
+    "ledgerUnreadable": "Could not read the ledger.",
+    "loadMore": "Load more",
+    "loading": "Loading…",
     "missedSlot": {
       "one": "{count} missed the last slot",
       "other": "{count} missed the last slot"
     },
-    "backlogsCounted": "backlogs counted",
-    "backlogsNotCounted": "backlogs not counted",
-    "dueAnotherLook": "channels read before, due another look",
-    "conduitNoShard": "a conduit with no shard discards events",
-    "conn": {
-      "optedOut": "opted out",
-      "withdrew": "withdrew",
-      "never": "never",
-      "neverHandedOver": "never handed over, and only reconnecting fixes it",
-      "yes": "yes",
-      "none": "none",
-      "nothingSubscribed": "connected, nothing subscribed"
+    "modList": "Mod list",
+    "never": "never",
+    "nightlyJobs": "Nightly jobs",
+    "noAccountCalled": "No account called {login}.",
+    "noSnapshotYet": "no snapshot yet",
+    "nothingRanIn": "nothing ran in the {slot} slot",
+    "nothingWritten": "nothing has been written",
+    "oldestNotRevisited": "oldest channel not yet revisited",
+    "oneRunSoFar": "one run so far",
+    "overview": "Overview",
+    "queue": "Queue",
+    "ranOf": "{ran} of {total}",
+    "rate": "Rate",
+    "readAgo": "read {ago}",
+    "roleCounts": "Role counts",
+    "runs": {
+      "avg": "{avg} avg",
+      "lead": "Against its own seven-day average. The trend is the part worth reading, because a single duration cannot show a job outgrowing its window.",
+      "nothingRecorded": "Nothing recorded yet. The first row lands at 03:00 UTC.",
+      "rows": {
+        "one": "{rows} row",
+        "other": "{rows} rows"
+      },
+      "steady": "steady · {avg} avg",
+      "vsAvg": "vs. 7d avg"
     },
-    "don": {
-      "who": "Who",
-      "when": "When",
-      "anonymous": "anonymous",
-      "noAccountLinked": "no twitch account was linked to this donation",
-      "summary": "{shown} shown · {total} counted"
+    "runsTitle": "How long the nightly work takes",
+    "scheduledWork": "Scheduled work",
+    "sections": "Dashboard sections",
+    "snapshot": "Snapshot",
+    "stale": "Stale",
+    "status": "Status",
+    "subscribed": "Subscribed",
+    "sw": {
+      "discoverNote": "accounts no sweep has ever touched, which is what grows the index",
+      "inScope": "{count} in scope",
+      "live": "Live",
+      "liveNote": "the channels currently streaming, walked continuously",
+      "perMinute": "/ min",
+      "queueNote": "on-demand refreshes; a full queue drops the rest",
+      "queueState": "{capacity} waiting · {running} running",
+      "running": "running",
+      "shards": {
+        "one": "{enabled} / {total} shard",
+        "other": "{enabled} / {total} shards"
+      },
+      "standingAside": "standing aside",
+      "standingAsideSince": "standing aside since {since}",
+      "unread": "{count} unread",
+      "yieldNote": "a sweep stands aside above {above} waiting, but never for long"
     },
-    "badge": {
-      "owner": "owner",
-      "optedOut": "opted out",
-      "neverFetched": "never fetched",
-      "protected": "protected",
-      "unknownCount": "an unknown number of",
-      "twitchOwned": "<name>{name}</name> comes from twitch and is written by the sweep, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out here, and listing a million of them would answer nothing."
+    "sweep": "Sweep",
+    "sweepHead": "Sweep head",
+    "sweeps": "Sweeps",
+    "trendsTitle": "How the nightly work is trending",
+    "twitchLogin": "Twitch login",
+    "when": "When",
+    "yield": "Yield"
+  },
+  "dashboard": {
+    "heading": "Dashboard",
+    "signInBlurb": "It's team only, so moddex has to know which Twitch account is yours before it can check.",
+    "signInHeading": "The dashboard needs a Twitch sign-in"
+  },
+  "donate": {
+    "badgeAlt": "The {name} badge",
+    "continue": "Continue to Stripe",
+    "donator": {
+      "body": "Sits beside your name everywhere moddex shows it. Any donation of $5 or more, permanently.",
+      "name": "donator"
+    },
+    "heading": "{brandName} runs on one server and no advertising",
+    "holds": {
+      "accounts": "accounts",
+      "backups": "of backups retained",
+      "backupsValue": "14 days",
+      "channels": "channels",
+      "roleRecords": "role records",
+      "title": "What the money holds up"
+    },
+    "lead": "No paid tier, nothing behind a login, and the api is open. Donations are the only thing keeping it that way.",
+    "metaDescription": "{brandName} runs on one server and no advertising. No paid tier, nothing behind a login, and the api is open.",
+    "metaTitle": "Donate",
+    "oneTime": "one time, USD",
+    "opening": "Opening Stripe",
+    "signedOut": "Sign in with Twitch first and the badge lands on your profile automatically. Donating signed out works too, it just needs a message in the Discord afterward.",
+    "straight": {
+      "one": "A contribution to running costs, not a purchase.",
+      "three": "Generally non-refundable. If something went wrong, write and we'll sort it out.",
+      "title": "Being straight about it",
+      "two": "The badges are cosmetic. They don't unlock anything and carry no monetary value."
+    },
+    "stripeNote": "{brandName} stores the payment reference and the amount, nothing else. Stripe handles the card details end to end.",
+    "stripeUnreachable": "We couldn't reach Stripe, so nothing was charged. Try again in a moment.",
+    "topDonator": {
+      "body": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you.",
+      "name": "top donator"
+    },
+    "whatYouGet": "What you get"
+  },
+  "errors": {
+    "banned": {
+      "body": "Twitch isn't serving this account, so {brandName} won't serve a profile for it either. Any roles it held stay in the index, just hidden for as long as this lasts.",
+      "checkAgain": "Check again",
+      "isBanned": "{username} is banned on Twitch",
+      "isDeleted": "{username} deleted their account",
+      "isUnavailable": "{username} is unavailable",
+      "noneShown": "None while this lasts",
+      "notGiven": "not given",
+      "reason": "Reason from Twitch",
+      "retained": "Roles retained",
+      "reversible": "Bans get reversed sometimes, which is why this is the only state on the site that offers to read again.",
+      "shown": "Roles shown",
+      "sticks": "This one usually sticks.",
+      "stillIndexed": "Still indexed",
+      "unrecognized": "We show you whatever Twitch said, even when we don't recognize it."
+    },
+    "checkout": {
+      "askDiscord": "Ask on Discord",
+      "badge": "Donator badge",
+      "body": "{brandName} couldn't read the checkout session back from Stripe, so it can't show you a summary. None of that touches the donation itself.",
+      "byHand": "If the badge is still missing an hour from now, send us the Stripe receipt and we'll assign it by hand.",
+      "checkProfile": "Check your profile",
+      "emailed": "Stripe will email it",
+      "granted": "Granted by the webhook",
+      "heading": "Your payment is fine. This page isn't.",
+      "payment": "Payment",
+      "receipt": "Receipt",
+      "taken": "Taken by Stripe",
+      "thisPage": "This page",
+      "unreadable": "Couldn't read the session"
+    },
+    "common": {
+      "accounts": "Accounts",
+      "apiDocs": "API docs",
+      "channels": "Channels",
+      "donate": "Donate",
+      "home": "Home",
+      "lookUp": "Look up someone else"
+    },
+    "couldNotRead": "could not be read",
+    "invalid": {
+      "body": "Twitch names run 1 to 25 characters and allow only letters, numbers and underscores. That one can't exist, so we never asked Twitch about it.",
+      "heading": "<name>{username}</name> can't be a Twitch name"
+    },
+    "keepsHappening": "If it keeps happening, <status>{host}</status> shows whether the api is up. It runs on separate infrastructure, so it stays up when this does not.",
+    "listUnread": "We couldn't read the index for this list.",
+    "notFound": {
+      "body": "We asked Twitch and it has no account by that name, so there was nothing to index. People rename themselves a lot, so check the spelling and try again.",
+      "heading": "There's no Twitch account called <name>{username}</name>",
+      "untouched": "The index was left untouched."
+    },
+    "otherListsFine": "The other lists on this page are unaffected.",
+    "renderFailed": "Something broke while the page was rendering, and we've logged it. Retrying rebuilds just this part of the page, which usually works if it was a slow response and not a real bug.",
+    "retry": "Retry this page",
+    "tryListAgain": "Try this list again",
+    "unknownPage": {
+      "body": "That address doesn't lead anywhere on this site, so nothing was looked up. Everywhere worth going from here is below.",
+      "heading": "This page doesn't exist"
     }
   },
-  "success": {
-    "metaTitle": "Thank you",
-    "settled": "Payment settled",
-    "noLogin": {
-      "heading": "The payment worked. The badge needs one more step.",
-      "body": "Stripe didn't pass back a Twitch username, so there's no profile to put the badge on. Send us the reference below plus your Twitch name and we'll assign it by hand.",
-      "reference": "Payment reference",
-      "notReturned": "not returned by Stripe",
-      "askDiscord": "Ask on Discord"
+  "footer": {
+    "about": "About {brandName}",
+    "apiDocs": "API docs",
+    "blurb": "Every channel a Twitch account holds mod or vip in, and the day they got it. Not affiliated with, endorsed by, or sponsored by Twitch Interactive.",
+    "byAccount": "By account",
+    "byChannel": "By channel",
+    "donate": "Donate",
+    "joinDiscord": "Join the Discord",
+    "leaderboard": "Leaderboard",
+    "lookUp": "Look up",
+    "onGitHub": "{brandName} on GitHub",
+    "optOut": "Opt out",
+    "privacy": "Privacy",
+    "status": "Status",
+    "terms": "Terms",
+    "yourData": "Your data"
+  },
+  "home": {
+    "accountCard": {
+      "body": "Every indexed channel where one account holds a role. That's the direction Twitch won't show you.",
+      "title": "Look up an account"
     },
-    "heading": "Thank you, genuinely",
-    "body": "Donations are the only thing keeping {brandName} free to read, and there's no paid tier waiting in the wings. The donator badge is on <login>{login}</login> already, and it'll show up next to your name everywhere {brandName} prints it.",
-    "amount": "Amount",
-    "badgeGranted": "Badge granted",
-    "donatorAlt": "The donator badge",
-    "donator": "donator",
-    "assignedTo": "Assigned to",
-    "receipt": "Receipt",
-    "emailed": "Emailed by Stripe",
-    "reference": "Reference",
-    "seeProfile": "See it on your profile",
+    "channelCard": {
+      "body": "Who holds mod, vip and founder in a channel, and since when. Search one for the first time and you add it to the index.",
+      "title": "Look up a channel"
+    },
+    "fills": {
+      "action": "Index a channel",
+      "body": "A channel gets added the first time somebody searches for it. That one lookup pulls in its mod and vip lists and keeps them, for everybody. You don't need an account.",
+      "title": "The index fills up by being used"
+    },
+    "growth": {
+      "notMeasured": "not measured yet",
+      "nothingToCompare": "nothing to compare yet",
+      "oneDay": "one day so far",
+      "overLastDays": {
+        "one": "over the last day",
+        "other": "over the last {count} days"
+      }
+    },
+    "heading": "Every mod list on Twitch, read backwards.",
+    "holders": {
+      "link": "Leaderboard",
+      "title": "Holding the most roles"
+    },
+    "kicker": "<mod>mods</mod> and <vip>vips</vip>, indexed from both ends",
+    "lead": "Twitch shows a broadcaster who their own mods are. It won't tell you the reverse. {name} does: every channel an account has a role in, and the day they got it.",
+    "optOut": {
+      "action": "Opt out",
+      "body": "Sign in with Twitch and switch the opt-out on.",
+      "title": "Listed here and would rather not be?"
+    },
+    "recent": {
+      "link": "All channels",
+      "title": "Recently indexed"
+    },
+    "searchPlaceholder": "search a channel or account",
+    "stats": {
+      "across": "across <channels>{channels}</channels> channels and <accounts>{accounts}</accounts> accounts.",
+      "founders": "founder records",
+      "label": "What the index holds",
+      "mods": "moderator records",
+      "vips": "VIP records"
+    },
+    "try": "try"
+  },
+  "leaderboard": {
+    "empty": "Nothing here yet. The daily count has not run since this list was added.",
+    "heading": "Leaderboard",
+    "lead": "Who holds the most roles across every channel {brandName} has read. Updates once a day.",
+    "metaDescription": "Who holds the most mod, vip and founder roles on Twitch, counted by {brandName}.",
+    "metaTitle": "Leaderboard",
+    "ranked": "ranked",
+    "scales": {
+      "founder": {
+        "label": "Founder roles",
+        "tab": "Founder"
+      },
+      "mod": {
+        "label": "Mod roles",
+        "tab": "Mod"
+      },
+      "roles": {
+        "label": "Roles held",
+        "tab": "All roles"
+      },
+      "vip": {
+        "label": "VIP roles",
+        "tab": "VIPs"
+      }
+    },
+    "tabsLabel": "Which roles to rank"
+  },
+  "legal": {
+    "englishOnly": {
+      "body": "Our privacy policy and terms are kept in English on purpose. They are a contract, and a translation that drifts from the original would be worse than no translation at all.",
+      "title": "This page is only available in English"
+    }
+  },
+  "login": {
+    "attachDonation": "Attach a donation",
+    "attachDonationBody": "So the donator badge lands automatically instead of being assigned by hand.",
+    "blurb": "{brandName} has to know which Twitch account is yours before it can let you change anything about it. Everything else on the site works signed out.",
+    "canDo": "What a signed-in account can do",
+    "continue": "Continue with Twitch",
+    "fullTerms": "Full terms in <link>section 4</link>.",
+    "handsOver": "What Twitch hands over",
+    "heading": "This page needs a Twitch sign-in",
+    "landBack": "You land back on the page you were trying to reach.",
+    "never": "Never",
+    "optOut": "Opt out of the index",
     "pickBadge": "Pick a chat badge",
-    "topDonatorAlt": "The top donator badge",
-    "topDonator": "top donator",
-    "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you."
+    "pickBadgeBody": "If you hold more than one, choose which shows next to your name.",
+    "scopes": {
+      "avatar": "Avatar",
+      "behalf": "Acting on your behalf",
+      "chat": "Chat access",
+      "loginName": "Login name",
+      "password": "Password",
+      "userId": "User id"
+    },
+    "yes": "Yes"
   },
   "misc": {
-    "noneRead": "None read yet.",
-    "whichAccounts": "Which accounts to list",
-    "showBots": "Show bots",
-    "hideBots": "Hide bots",
-    "onlyBots": "Only bots",
-    "endOfList": "That's the end of this list.",
-    "whichRoles": "Which roles to show",
-    "connectedShort": "Connected.",
-    "matchingAccounts": "Matching accounts",
     "account": "Account",
-    "heroSearch": "Look up a Twitch channel or account",
-    "overTime": "Over time",
-    "pagination": "Pagination",
-    "mostRoles": "Most roles",
-    "errorHeading": "That page didn't finish loading",
     "adminOnly": "Admin only.",
+    "allBots": "Every account in this list is a bot.",
+    "connectedShort": "Connected.",
+    "endOfList": "That's the end of this list.",
+    "errorHeading": "That page didn't finish loading",
+    "findAccount": "Find an account",
+    "findChannel": "Find a channel",
     "follower": {
       "one": "follower",
       "other": "followers"
     },
+    "heroSearch": "Look up a Twitch channel or account",
+    "hiddenByBots": "{hidden} of {total} hidden by the bot filter.",
+    "hiddenBySearch": "{hidden} of {total} hidden by the search.",
+    "hiddenBySearchAndBots": "{hidden} of {total} hidden by the search and the bot filter.",
+    "hideBotCount": {
+      "one": "Hide {count} bot",
+      "other": "Hide {count} bots"
+    },
+    "hideBots": "Hide bots",
+    "keepTyping": "Keep typing, {min} characters minimum",
+    "loadMoreCount": "Load {count} more",
+    "loaded": "loaded",
+    "loginStartsWith": "Login starts with…",
+    "matchingAccounts": "Matching accounts",
+    "mostRoles": "Most roles",
+    "noBotsInList": "No bots in this list.",
+    "noFoundersRead": "None read yet. Founder badges come from a different Twitch query than mods and vips, and it runs on a slower schedule. So an empty list here means we haven't read them yet, not that there are none.",
+    "noLoginStartsWith": "No login in this list starts with \"{query}\". This list searches the start of a login, not any part of a name.",
+    "noneRead": "None read yet.",
     "notYet": "not yet",
-    "ofTotal": "of {total}"
+    "nothingIndexedWith": "Nothing indexed starts with <name>{query}</name>. Press Enter to read it from Twitch and add it.",
+    "nothingMatches": "Nothing here matches \"{query}\".",
+    "ofTotal": "of {total}",
+    "onlyBots": "Only bots",
+    "overTime": "Over time",
+    "pagination": "Pagination",
+    "readingIndex": "reading the index",
+    "readingIndexLong": "Reading the index…",
+    "readingIndexShort": "Reading the index.",
+    "showBots": "Show bots",
+    "showEverything": "Show everything",
+    "whichAccounts": "Which accounts to list",
+    "whichRoles": "Which roles to show"
+  },
+  "nav": {
+    "about": "about",
+    "accounts": "accounts",
+    "accountsLink": "Accounts",
+    "channels": "channels",
+    "channelsLink": "Channels",
+    "dashboard": "dashboard",
+    "discord": "discord",
+    "donate": "donate",
+    "home": "home",
+    "language": "language",
+    "leaderboard": "leaderboard",
+    "leaderboardLink": "Leaderboard",
+    "main": "Main",
+    "menu": "Menu",
+    "profile": "my profile",
+    "settings": "settings",
+    "signIn": "Sign in with Twitch",
+    "signInShort": "Sign in",
+    "signOut": "logout",
+    "skipToContent": "Skip to content",
+    "themeToDark": "switch to dark theme",
+    "themeToLight": "switch to light theme",
+    "yourAvatar": "Your Twitch avatar"
+  },
+  "notices": {
+    "noCheckout": {
+      "body": "This address only means something right after a Stripe checkout. You've probably come from a bookmark.",
+      "donate": "Donate page",
+      "heading": "There's no checkout to show",
+      "home": "Home"
+    },
+    "optedOut": {
+      "after": "Nothing went wrong, and there's nothing to retry.",
+      "body": "<name>{username}</name> switched the opt-out on.",
+      "fromApi": "Returned by the api",
+      "heading": "This account asked not to be listed",
+      "inLists": "Appears in role lists",
+      "kicker": "Withheld at the account's request",
+      "lookUp": "Look up someone else",
+      "moderates": "Channels they moderate",
+      "no": "No",
+      "optOutYourself": "Opt out yourself",
+      "profileServed": "Profile served",
+      "stillIndexed": "Still indexed"
+    },
+    "teamOnly": {
+      "as": " as {login}",
+      "body": "You're signed in{as}, but that account doesn't have team permission. Nothing else on the site needs it.",
+      "heading": "The dashboard is team only",
+      "home": "Home",
+      "kicker": "Signed in, but not on the team",
+      "settings": "Settings"
+    }
+  },
+  "optOut": {
+    "effect": "The opt-out stops your data being <em>served</em>: your profile, the role lists and the public API all cease to include you.",
+    "hidden": "Hidden",
+    "listed": "Listed",
+    "modsUnaffected": "Channels you moderate are unaffected.",
+    "nothingChanged": "Nothing changed.",
+    "reversible": "Switch it back off whenever you like and your entry comes back.",
+    "savedHidden": "Saved. Your entry is hidden.",
+    "savedListed": "Saved. Your entry is listed again."
+  },
+  "optOutPanel": {
+    "title": "Opt out of the index"
+  },
+  "profile": {
+    "copyShortUrl": "Copy short url",
+    "directionLabel": "Which direction to read this account",
+    "elsewhere": "Roles elsewhere",
+    "elsewhereShort": "Elsewhere",
+    "followers": {
+      "one": "follower",
+      "other": "followers"
+    },
+    "inChannel": "Roles in this channel",
+    "inChannelShort": "In this channel",
+    "indexChannel": "Index a channel",
+    "joined": "joined",
+    "missingChannel": "Missing a channel? It only appears here once somebody has looked that channel up. Search for it once and it stays indexed.",
+    "noGrantDate": "Twitch returned no grant date for this role",
+    "openDiscord": "Open on Discord",
+    "openDiscordOf": "Open {login} on discord",
+    "openTwitch": "Open on Twitch",
+    "refresh": "Refresh",
+    "refreshChannel": "Read this channel again from Twitch",
+    "refreshProfile": "Read this profile again from Twitch",
+    "rolesRead": "roles read"
+  },
+  "roleCheck": {
+    "accountLogin": "Account login",
+    "anythingIn": "anything in",
+    "asksWhether": "Is",
+    "channelLogin": "Channel login",
+    "check": "Check",
+    "checking": "Checking…",
+    "held": "held",
+    "holds": "holds",
+    "holdsNothing": "holds nothing in",
+    "noDate": "no date",
+    "notHeld": "not held",
+    "optedOut": "That account has opted out of being listed.",
+    "title": "Ask about one pair"
+  },
+  "roles": {
+    "founder": {
+      "one": "founder",
+      "other": "founders"
+    },
+    "mod": {
+      "one": "moderator",
+      "other": "moderators"
+    },
+    "title": {
+      "channel": {
+        "artist": "Artists",
+        "founder": "Founders",
+        "mod": "Moderators",
+        "vip": "VIPs"
+      },
+      "user": {
+        "artist": "Holding artist",
+        "founder": "Founding",
+        "mod": "Moderating",
+        "vip": "Holding VIP"
+      }
+    },
+    "vip": {
+      "one": "VIP",
+      "other": "VIPs"
+    }
+  },
+  "settings": {
+    "account": {
+      "avatarAlt": "Your Twitch avatar",
+      "discord": "Discord",
+      "publicProfile": "Public profile",
+      "signedIn": "Signed in as",
+      "title": "Account"
+    },
+    "badge": {
+      "body": "Pick one now and it's already set when chat integration ships.",
+      "notLive": "Chat integration isn't live yet",
+      "title": "Chat badge"
+    },
+    "channel": {
+      "again": "Connect this channel again",
+      "connect": "Connect this channel",
+      "live": "Mod and VIP changes reach {brandName} as they happen. Founders still come from the normal read, because Twitch has no live event for those. Withdrawing changes nothing that is already recorded.",
+      "noToken": "{brandName} posts nothing and keeps no token, so we read the list of channels you moderate once, right now, and it goes stale from then on. Reconnect to refresh it. You can withdraw at Twitch or here whenever you want.",
+      "pitch": "Two things at once. Mod and VIP changes in your channel reach {brandName} as they happen instead of on the next sweep. And the channels <you>you</you> moderate get filled in straight from Twitch, including ones nobody has ever looked up here."
+    },
+    "channelStatus": {
+      "canceled": "Canceled. Your channel is unchanged.",
+      "connected": "Channel connected. Moderator and VIP changes now reach moddex as they happen.",
+      "connected-nosync": "Channel connected, but we couldn't save the list of channels you moderate. Live updates are working. Reconnect later to add the list.",
+      "exchange": "Twitch didn't confirm the authorization. Try again.",
+      "failed": "Something went wrong while saving, and your settings are unchanged. Try again in a moment.",
+      "mismatch": "You approved that on Twitch as a different account from the one you're signed in with here, so we refused the connection.",
+      "nocode": "Twitch sent back no authorization. Try again.",
+      "scopes": "Twitch withheld one of the two permissions. We need both for moderator and VIP events, so the channel stayed disconnected.",
+      "signin": "Your session ended before this finished. Sign in and try again.",
+      "state": "That link expired or didn't belong to this session. Start again from the button above.",
+      "unconfigured": "Channel connections aren't set up on this server yet."
+    },
+    "connectDiscord": "Connect Discord",
+    "disconnect": "Disconnect",
+    "disconnecting": "Disconnecting…",
+    "discordStatus": {
+      "canceled": "Canceled. No Discord account was linked.",
+      "connected": "Discord connected. It now shows on your public profile.",
+      "exchange": "Discord didn't confirm the account. Try again.",
+      "failed": "Something went wrong while saving, and your profile is unchanged. Try again in a moment.",
+      "nocode": "Discord sent back no authorization. Try again.",
+      "signin": "Your session ended before this finished. Sign in and try again.",
+      "state": "That link expired or didn't belong to this session. Start again from the button above.",
+      "taken": "That Discord account is already connected to another moddex profile. Disconnect it there first.",
+      "unconfigured": "Discord connections aren't set up on this server yet."
+    },
+    "heading": "Settings",
+    "live": {
+      "body": "For your own channel. Optional.",
+      "title": "Live role updates"
+    },
+    "metaDescription": "Opt out of {domain}, or choose which badge shows next to your name.",
+    "metaTitle": "Settings",
+    "privacy": "Privacy",
+    "signInHeading": "Settings need a Twitch sign-in",
+    "signedInAs": "Signed in as {login}. Changes save immediately."
+  },
+  "site": {
+    "description": "Every channel a Twitch account holds mod, vip or founder in, and the day they got it. Twitch shows a broadcaster their own list. {brandName} keeps the other half.",
+    "tagline": "Twitch mod, vip and founder lists"
+  },
+  "success": {
+    "amount": "Amount",
+    "assignedTo": "Assigned to",
+    "badgeGranted": "Badge granted",
+    "body": "Donations are the only thing keeping {brandName} free to read, and there's no paid tier waiting in the wings. The donator badge is on <login>{login}</login> already, and it'll show up next to your name everywhere {brandName} prints it.",
+    "donator": "donator",
+    "donatorAlt": "The donator badge",
+    "emailed": "Emailed by Stripe",
+    "heading": "Thank you, genuinely",
+    "metaTitle": "Thank you",
+    "noLogin": {
+      "askDiscord": "Ask on Discord",
+      "body": "Stripe didn't pass back a Twitch username, so there's no profile to put the badge on. Send us the reference below plus your Twitch name and we'll assign it by hand.",
+      "heading": "The payment worked. The badge needs one more step.",
+      "notReturned": "not returned by Stripe",
+      "reference": "Payment reference"
+    },
+    "pickBadge": "Pick a chat badge",
+    "receipt": "Receipt",
+    "reference": "Reference",
+    "seeProfile": "See it on your profile",
+    "settled": "Payment settled",
+    "topDonator": "top donator",
+    "topDonatorAlt": "The top donator badge",
+    "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you."
   }
 }

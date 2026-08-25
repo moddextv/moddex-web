@@ -1,6 +1,5 @@
+import { DEFAULT_LOCALE, getTranslator, Locale } from '@/i18n';
 import { FC } from 'react';
-import { DEFAULT_LOCALE, Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 
 // the contract stays in one language, so every other locale says so rather than
 // leaving the reader to assume the page simply was not translated yet

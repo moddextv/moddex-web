@@ -1,3 +1,4 @@
+import { asLocale, getTranslator } from '@/i18n';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
 
@@ -7,8 +8,6 @@ import { DashboardNav } from '@/components/Dashboard/DashboardNav';
 import { Login } from '@/components/Login';
 import { TeamOnly } from '@/components/Notices';
 import { permissions } from '@/utils/permissions';
-import { asLocale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 
 // none of this may be baked at build
 export const dynamic = 'force-dynamic';

@@ -1,11 +1,10 @@
+import { getRich, getTranslator, Locale } from '@/i18n';
 import { signIn } from '@/auth';
 import { Container } from '@/components/UI/Container';
 import { TwitchIcon } from '@/components/Icons';
 import { config } from '@/config';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
 import { LocaleLink } from '@/components/UI/LocaleLink';
-import { Locale } from '@/i18n/locales';
-import { getRich, getTranslator } from '@/i18n/dictionary';
 import { FC, ReactNode } from 'react';
 
 interface LoginProps {

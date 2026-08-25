@@ -1,5 +1,5 @@
+import { asLocale, localePath } from '@/i18n';
 import { permanentRedirect } from 'next/navigation';
-import { asLocale, localePath } from '@/i18n/locales';
 
 interface PageProps {
   params: Promise<{ username: string; locale: string }>;

@@ -1,6 +1,5 @@
+import { dictionaryOf, LOCALES } from '@/i18n';
 import { readFileSync } from 'node:fs';
-import { LOCALES } from '@/i18n/locales';
-import { dictionaryOf } from '@/i18n/dictionary';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 

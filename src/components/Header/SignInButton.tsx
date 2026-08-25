@@ -1,12 +1,12 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC } from 'react';
 import { signIn } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
 import { TwitchIcon } from '@/components/Icons';
 import { signInOptions } from '@/utils/signIn';
-import { useT } from '@/i18n/context';
 
 export const SignInButton: FC = () => {
   const pathname = usePathname();

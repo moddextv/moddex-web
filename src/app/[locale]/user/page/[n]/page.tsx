@@ -1,5 +1,5 @@
+import { asLocale } from '@/i18n';
 import { BrowsePageView } from '@/components/Browse/BrowsePageView';
-import { asLocale } from '@/i18n/locales';
 import { config } from '@/config';
 import { browsePagePath, parseBrowsePage } from '@/misc/browsePages';
 import { alternatesFor, openGraphFor } from '@/misc/metadata';

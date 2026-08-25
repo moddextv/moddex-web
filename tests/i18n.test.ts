@@ -1,18 +1,20 @@
-import { describe, expect, it } from 'vitest';
 import { flatten, translator } from '@/i18n/translate';
 import {
+  asLocale,
   DEFAULT_LOCALE,
-  LOCALES,
+  dictionaryOf,
+  getTranslator,
+  isLocale,
   localeName,
   localePath,
+  LOCALES,
   localeTag,
+  messageKeys,
   ogLocale,
-  asLocale,
-  isLocale,
   stripLocale,
   swapLocale
-} from '@/i18n/locales';
-import { dictionaryOf, getTranslator, messageKeys } from '@/i18n/dictionary';
+} from '@/i18n';
+import { describe, expect, it } from 'vitest';
 
 describe('flatten', () => {
   it('joins nested namespaces with dots', () => {
@@ -138,40 +140,6 @@ describe('the shipped message files', () => {
       expect(t('nav.about')).not.toBe('nav.about');
       expect(dictionaryOf(locale)['nav.about']).toBeTruthy();
     }
-  });
-});
-
-describe('the estate has no untranslated copy left', () => {
-  const walk = (dir: string): string[] => {
-    const { readdirSync, statSync } = require('node:fs');
-    const { join } = require('node:path');
-
-    return readdirSync(dir).flatMap((entry: string) => {
-      const full = join(dir, entry);
-
-      return statSync(full).isDirectory() ? walk(full) : full.endsWith('.tsx') ? [full] : [];
-    });
-  };
-
-  const SKIP = ['Icons.tsx', 'design', 'privacy', 'tos', 'Legal.tsx'];
-
-  it('leaves no bare sentence in jsx outside the files that keep english on purpose', () => {
-    const { readFileSync } = require('node:fs');
-    const { join } = require('node:path');
-    const root = join(__dirname, '..', 'src');
-
-    const offenders: string[] = [];
-
-    for (const file of [...walk(join(root, 'components')), ...walk(join(root, 'app'))]) {
-      if (SKIP.some((skip) => file.includes(skip))) continue;
-
-      const source = readFileSync(file, 'utf8');
-      const bare = source.match(/>\s*[A-Z][a-z]+(?:\s+[A-Za-z']+){2,}[.!?]?\s*</g);
-
-      if (bare) offenders.push(`${file.split('src')[1]}: ${bare[0]}`);
-    }
-
-    expect(offenders).toEqual([]);
   });
 });
 

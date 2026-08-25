@@ -1,6 +1,5 @@
+import { getTranslator, Locale } from '@/i18n';
 import { FC } from 'react';
-import { Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 
 import type { EventsubHealth } from '@/utils/api/moddex/public';
 import type { SweepHealth } from '@/utils/api/moddex/admin';
@@ -47,47 +46,59 @@ export const Sweeps: FC<{
           <span />
         </div>
 
-        <Row label="Live" note="the channels currently streaming, walked continuously">
-          {number(sweeps.live.perMinute)} <span className="text-primary-400">/ min</span>
+        <Row label={t('dash.sw.live')} note={t('dash.sw.liveNote')}>
+          {number(sweeps.live.perMinute)}{' '}
+          <span className="text-primary-400">{t('dash.sw.perMinute')}</span>
         </Row>
 
         <Row label={t('dash.stale')} note={t('dash.dueAnotherLook')}>
-          {number(sweeps.stale.perMinute)} <span className="text-primary-400">/ min</span>
+          {number(sweeps.stale.perMinute)}{' '}
+          <span className="text-primary-400">{t('dash.sw.perMinute')}</span>
           {sweeps.stale.depth !== null && (
-            <span className="text-primary-400"> · {number(sweeps.stale.depth)} in scope</span>
+            <span className="text-primary-400">
+              {' '}
+              · {t('dash.sw.inScope', { count: number(sweeps.stale.depth) })}
+            </span>
           )}
         </Row>
 
-        <Row
-          label={t('dash.discover')}
-          note="accounts no sweep has ever touched, which is what grows the index"
-        >
-          {number(sweeps.discover.perMinute)} <span className="text-primary-400">/ min</span>
+        <Row label={t('dash.discover')} note={t('dash.sw.discoverNote')}>
+          {number(sweeps.discover.perMinute)}{' '}
+          <span className="text-primary-400">{t('dash.sw.perMinute')}</span>
           {sweeps.discover.depth !== null && (
-            <span className="text-primary-400"> · {number(sweeps.discover.depth)} unread</span>
+            <span className="text-primary-400">
+              {' '}
+              · {t('dash.sw.unread', { count: number(sweeps.discover.depth) })}
+            </span>
           )}
         </Row>
 
-        <Row label={t('dash.queue')} note="on-demand refreshes; a full queue drops the rest">
+        <Row label={t('dash.queue')} note={t('dash.sw.queueNote')}>
           <span className={pressure > 80 ? 'text-vip font-bold' : undefined}>
             {number(queue.waiting)}
           </span>
           <span className="text-primary-400">
             {' '}
-            / {number(queue.capacity)} waiting · {number(queue.running)} running
+            /{' '}
+            {t('dash.sw.queueState', {
+              capacity: number(queue.capacity),
+              running: number(queue.running)
+            })}
           </span>
         </Row>
 
         <Row
           label={t('dash.yield')}
-          note={`a sweep stands aside above ${number(queue.yieldAbove)} waiting, but never for long`}
+          note={t('dash.sw.yieldNote', { above: number(queue.yieldAbove) })}
         >
           {sweeps.yield.engaged ? (
             <span className="text-vip font-bold">
-              standing aside{sweeps.yield.since ? ` since ${t.ago(sweeps.yield.since)}` : ''}
+              {sweeps.yield.since
+                ? t('dash.sw.standingAsideSince', { since: t.ago(sweeps.yield.since) })
+                : t('dash.sw.standingAside')}
             </span>
           ) : (
-            'running'
+            t('dash.sw.running')
           )}
         </Row>
 
@@ -99,7 +110,12 @@ export const Sweeps: FC<{
             {eventsub.totalShards !== undefined && (
               <span className="text-primary-400">
                 {' '}
-                · {number(eventsub.enabledShards)} / {number(eventsub.totalShards)} shard(s)
+                ·{' '}
+                {t('dash.sw.shards', {
+                  count: eventsub.totalShards,
+                  enabled: number(eventsub.enabledShards),
+                  total: number(eventsub.totalShards)
+                })}
               </span>
             )}
           </Row>

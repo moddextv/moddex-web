@@ -1,3 +1,4 @@
+import { getTranslator, Locale, localePath } from '@/i18n';
 import { auth } from '@/auth';
 import { NavLinks } from '@/components/Header/NavLinks';
 import { NavMenu } from '@/components/Header/NavMenu';
@@ -6,8 +7,6 @@ import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { config } from '@/config';
 import Link from 'next/link';
-import { Locale, localePath } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 
 export const Header = async ({ locale }: { locale: Locale }) => {
   const session = await auth();

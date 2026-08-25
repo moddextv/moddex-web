@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FormEvent, useState } from 'react';
 import { startCheckout } from '@/actions/checkout';
 import { useAction } from '@/hooks/useAction';
@@ -8,6 +9,7 @@ import { Mark } from '@/components/UI/Mark';
 import { logger } from '@/misc/Logger';
 
 export const DonateForm = () => {
+  const t = useT();
   const [stripeFailed, setStripeFailed] = useState(false);
 
   const checkout = useAction(startCheckout, {
@@ -42,18 +44,14 @@ export const DonateForm = () => {
         {loading ? (
           <>
             <Mark size={15} className="animate-pulse" />
-            Opening Stripe
+            {t('donate.opening')}
           </>
         ) : (
-          'Continue to Stripe'
+          t('donate.continue')
         )}
       </button>
 
-      {failed && (
-        <p className="text-ui text-vip mt-3">
-          We couldn&apos;t reach Stripe, so nothing was charged. Try again in a moment.
-        </p>
-      )}
+      {failed && <p className="text-ui text-vip mt-3">{t('donate.stripeUnreachable')}</p>}
     </form>
   );
 };

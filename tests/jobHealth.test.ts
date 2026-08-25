@@ -1,6 +1,6 @@
+import { getTranslator } from '@/i18n';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { backupLate, clock, nightlyRuns, size } from '@/utils/jobHealth';
-import { getTranslator } from '@/i18n/dictionary';
 
 const AT = '2026-08-14T03:00:00.000Z';
 

@@ -1,7 +1,7 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { FC } from 'react';
-import { useI18n } from '@/i18n/context';
 
 // a client component so the server pages that state this promise can still
 // render it without threading a locale through every one of them

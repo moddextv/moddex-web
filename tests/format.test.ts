@@ -1,5 +1,5 @@
+import { getTranslator } from '@/i18n';
 import { describe, expect, it } from 'vitest';
-import { getTranslator } from '@/i18n/dictionary';
 import { signInOptions } from '@/utils/signIn';
 
 const en = getTranslator('en');

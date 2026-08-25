@@ -1,9 +1,7 @@
+import { getTranslator, Locale, Translator } from '@/i18n';
 import { FC } from 'react';
-import { Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import type { HistoryPoint } from '@/utils/api/moddex/public';
 import { buildPath, H, W } from '@/utils/sparkline';
-import { Translator } from '@/i18n/translate';
 
 interface Series {
   label: string;
@@ -46,13 +44,15 @@ const Spark: FC<{ series: Series; t: Translator }> = ({ series, t }) => {
         </svg>
       ) : (
         <p className="text-micro text-primary-400 h-12">
-          {known.length ? 'one day so far' : 'not measured yet'}
+          {known.length ? t('home.growth.oneDay') : t('home.growth.notMeasured')}
         </p>
       )}
 
       {/* founders were measured later, so this number differs per series */}
       <p className="text-micro text-primary-400 tabular">
-        {change === null ? 'nothing to compare yet' : `over the last ${known.length} days`}
+        {change === null
+          ? t('home.growth.nothingToCompare')
+          : t('home.growth.overLastDays', { count: known.length })}
       </p>
     </div>
   );

@@ -1,5 +1,5 @@
+import { asLocale } from '@/i18n';
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale } from '@/i18n/locales';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
 import { TwitchIcon } from '@/components/Icons';

@@ -1,7 +1,5 @@
+import { getTranslator, Locale, localePath, Translator } from '@/i18n';
 import { FC } from 'react';
-import { Locale, localePath } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
-import { Translator } from '@/i18n/translate';
 import Link from 'next/link';
 import clsx from 'clsx';
 

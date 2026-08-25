@@ -1,6 +1,5 @@
+import { asLocale, getTranslator } from '@/i18n';
 import { pageMetadata } from '@/misc/metadata';
-import { asLocale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
 import { DonateForm } from '@/components/DonateForm';

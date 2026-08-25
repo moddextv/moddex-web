@@ -1,8 +1,7 @@
+import { getTranslator, Locale, localePath } from '@/i18n';
 import { BrowseAxis, browsePagePath } from '@/misc/browsePages';
 import Link from 'next/link';
 import { FC } from 'react';
-import { Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 import clsx from 'clsx';
 
 const WINDOW = 2;
@@ -36,8 +35,12 @@ export const BrowsePager: FC<BrowsePagerProps> = ({ axis, page, last, locale }) 
       aria-label={t('misc.pagination')}
     >
       {page > 1 && (
-        <Link href={browsePagePath(axis, page - 1)} rel="prev" className="btn btn-soft">
-          Previous
+        <Link
+          href={localePath(locale, browsePagePath(axis, page - 1))}
+          rel="prev"
+          className="btn btn-soft"
+        >
+          {t('common.previous')}
         </Link>
       )}
 
@@ -50,7 +53,7 @@ export const BrowsePager: FC<BrowsePagerProps> = ({ axis, page, last, locale }) 
           )}
 
           <Link
-            href={browsePagePath(axis, number)}
+            href={localePath(locale, browsePagePath(axis, number))}
             aria-current={number === page ? 'page' : undefined}
             className={clsx(
               'chip tabular',
@@ -63,8 +66,12 @@ export const BrowsePager: FC<BrowsePagerProps> = ({ axis, page, last, locale }) 
       ))}
 
       {page < last && (
-        <Link href={browsePagePath(axis, page + 1)} rel="next" className="btn btn-soft">
-          Next
+        <Link
+          href={localePath(locale, browsePagePath(axis, page + 1))}
+          rel="next"
+          className="btn btn-soft"
+        >
+          {t('common.next')}
         </Link>
       )}
     </nav>

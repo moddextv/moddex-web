@@ -1,23 +1,25 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
-import { useI18n } from '@/i18n/context';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';
 import { FC, useRef, useState, useTransition } from 'react';
 import { beginPage, beginQuery, createPageLoad, wanted } from '@/hooks/pageLoad';
 
 const PAGE = 25;
 
+// the label is a key, resolved where it is drawn — a constant table cannot
+// know the reader's language
 const CHANNEL_SORTS: { key: ChannelSort; label: string }[] = [
-  { key: 'read', label: 'Recently read' },
-  { key: 'roles', label: 'Most roles' },
-  { key: 'followers', label: 'Most followers' }
+  { key: 'read', label: 'browse.sort.read' },
+  { key: 'roles', label: 'browse.sort.roles' },
+  { key: 'followers', label: 'browse.sort.followers' }
 ];
 
 const ACCOUNT_SORTS: { key: AccountSort; label: string }[] = [
-  { key: 'roles', label: 'Most roles' },
-  { key: 'followers', label: 'Most followers' }
+  { key: 'roles', label: 'browse.sort.roles' },
+  { key: 'followers', label: 'browse.sort.followers' }
 ];
 
 interface BrowseListProps {
@@ -101,7 +103,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
               aria-pressed={sort === option.key}
               onClick={() => changeSort(option.key)}
             >
-              {option.label}
+              {t(option.label)}
             </button>
           ))}
 
@@ -117,23 +119,19 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
 
       {failed ? (
         <div className="px-4 pb-6">
-          <p className="text-read text-primary-300 max-w-prose mb-2">
-            We couldn&apos;t read this ranking. The rest of the page is unaffected.
-          </p>
+          <p className="text-read text-primary-300 max-w-prose mb-2">{t('browse.rankingUnread')}</p>
           <button
             type="button"
             className="btn btn-soft"
             disabled={pending}
             onClick={() => load(sort, includeBots, 0, false)}
           >
-            {pending ? 'Reading the index…' : 'Try again'}
+            {pending ? t('misc.readingIndexLong') : t('common.tryAgain')}
           </button>
         </div>
       ) : items.length === 0 ? (
         <p className="px-4 pb-6 text-read text-primary-300 max-w-prose">
-          {pending
-            ? 'Reading the index.'
-            : 'Nothing to show for this ordering yet. The roles ranking gets rebuilt once a day, so it stays empty until the first rebuild has run.'}
+          {pending ? t('misc.readingIndexShort') : t('browse.orderingEmpty')}
         </p>
       ) : (
         <>
@@ -146,7 +144,7 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
               onClick={() => load(sort, includeBots, items.length, true)}
               className="w-full h-12 mt-2 rounded-md text-base font-bold text-primary-300 hover:text-primary-100 hover:bg-primary-700 transition-colors disabled:opacity-50"
             >
-              {pending ? 'Loading' : 'Load more'}
+              {pending ? t('common.loadingShort') : t('common.loadMore')}
             </button>
           )}
         </>

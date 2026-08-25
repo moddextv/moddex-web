@@ -1,9 +1,9 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { Facts, Good, StatePage, Status } from '@/components/PageState';
 import { OptOutEffect } from '@/components/OptOutPromise';
 import { LocaleLink } from '@/components/UI/LocaleLink';
-import { useI18n } from '@/i18n/context';
 import { FC } from 'react';
 
 export const OptedOut: FC<{ username: string }> = ({ username }) => {

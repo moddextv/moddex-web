@@ -1,11 +1,11 @@
 'use client';
 
+import { useI18n } from '@/i18n';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
 import { FC, useEffect, useState } from 'react';
-import { useI18n } from '@/i18n/context';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { CopyButton } from '@/components/UI/CopyButton';
 import { UserProfileLoading } from '@/components/User/UserProfileLoading';
@@ -152,7 +152,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
               href={`https://discord.com/users/${currentUser.discord}`}
               target="_blank"
               rel="noopener noreferrer"
-              title={`Open ${login} on discord`}
+              title={t('profile.openDiscordOf', { login })}
               aria-label={t('profile.openDiscord')}
               className="btn btn-soft w-10 p-0"
             >

@@ -1,6 +1,5 @@
+import { asLocale, getRich, getTranslator } from '@/i18n';
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale } from '@/i18n/locales';
-import { getRich, getTranslator } from '@/i18n/dictionary';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import Stripe from 'stripe';
 import { config } from '@/config';

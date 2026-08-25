@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC, useState } from 'react';
 import { disconnect } from '@/actions/settings';
 import { DiscordIcon } from '@/components/Icons';
@@ -10,6 +11,7 @@ interface ConnectDiscordProps {
 }
 
 export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) => {
+  const t = useT();
   const [discordId, setDiscordId] = useState(initialDiscordId);
 
   const remove = useAction(disconnect, {
@@ -22,7 +24,7 @@ export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) =>
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a href="/api/connect/discord" className="btn btn-discord-quiet">
           <DiscordIcon size={16} />
-          Connect Discord
+          {t('settings.connectDiscord')}
         </a>
       </span>
     );
@@ -41,7 +43,7 @@ export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) =>
         onClick={() => void remove.run('discord')}
         disabled={remove.pending}
       >
-        {remove.pending ? 'Removing…' : 'Remove'}
+        {remove.pending ? t('common.removing') : t('common.remove')}
       </button>
 
       {remove.error && (

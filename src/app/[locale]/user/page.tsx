@@ -1,6 +1,5 @@
+import { asLocale, getRich, getTranslator } from '@/i18n';
 import { pageMetadata } from '@/misc/metadata';
-import { asLocale } from '@/i18n/locales';
-import { getRich, getTranslator } from '@/i18n/dictionary';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { BrowseList } from '@/components/Browse/BrowseList';
 import { Container } from '@/components/UI/Container';

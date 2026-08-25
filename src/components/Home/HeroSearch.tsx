@@ -1,7 +1,7 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC } from 'react';
-import { useT } from '@/i18n/context';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { SearchBox } from '@/components/Search/SearchBox';

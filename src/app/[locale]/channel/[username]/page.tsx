@@ -1,5 +1,5 @@
+import { asLocale, localePath, ogLocale } from '@/i18n';
 import { alternatesFor } from '@/misc/metadata';
-import { asLocale, localePath, ogLocale } from '@/i18n/locales';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';

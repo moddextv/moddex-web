@@ -1,3 +1,4 @@
+import { getTranslator, Locale, localePath } from '@/i18n';
 import { BrowsePager } from '@/components/Browse/BrowsePager';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';
@@ -7,8 +8,6 @@ import { getIndexStats } from '@/utils/stats';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CSSProperties, FC } from 'react';
-import { Locale, localePath } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
 
 const COPY: Record<BrowseAxis, { heading: string; corner: string; lead: string; label: string }> = {
   channel: {
@@ -58,7 +57,8 @@ export const BrowsePageView: FC<{ axis: BrowseAxis; page: number; locale: Locale
           <div className="flex items-center gap-3 mb-3">
             <span className={`corner ${copy.corner}`} aria-hidden="true" />
             <h1 className="text-h1">
-              {copy.heading} <span className="text-primary-400">· page {page}</span>
+              {copy.heading}{' '}
+              <span className="text-primary-400">· {t('browse.page', { page })}</span>
             </h1>
           </div>
           <p className="text-lead text-primary-300 max-w-prose">{copy.lead}</p>

@@ -1,7 +1,7 @@
 'use client';
 
+import { useT } from '@/i18n';
 import { FC, useState, useTransition } from 'react';
-import { useT } from '@/i18n/context';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import clsx from 'clsx';
 
@@ -111,7 +111,7 @@ export const AuditLog: FC<{ initial: AuditPage }> = ({ initial }) => {
           <span>{t('dash.auditType')}</span>
           <span>{t('dash.auditWhat')}</span>
           <span>{t('dash.auditWho')}</span>
-          <span>{t('dash.auditWhen')}</span>
+          <span>{t('dash.when')}</span>
         </div>
 
         {rows.map((row) => (

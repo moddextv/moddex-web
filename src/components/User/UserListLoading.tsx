@@ -1,6 +1,6 @@
+import { useT } from '@/i18n';
 import { UserType } from '@/misc/roles';
 import { FC } from 'react';
-import { useT } from '@/i18n/context';
 
 const ROWS = [
   ['w-24', 'w-16', 'w-14'],
@@ -17,7 +17,7 @@ export const UserListLoading: FC<{ type: UserType }> = ({ type }) => {
   return (
     <div className="rows">
       <div className="row-head cols-people">
-        <span>{type === 'channel' ? 'Account' : 'Channel'}</span>
+        <span>{type === 'channel' ? t('misc.account') : t('dash.channel')}</span>
         <span className="text-right">{t('controls.columns.granted.label')}</span>
         <span className="text-right">{t('controls.columns.followers.label')}</span>
       </div>

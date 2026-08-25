@@ -1,7 +1,5 @@
+import { getTranslator, Locale, Translator } from '@/i18n';
 import { FC } from 'react';
-import { Locale } from '@/i18n/locales';
-import { getTranslator } from '@/i18n/dictionary';
-import { Translator } from '@/i18n/translate';
 import type { EventsubHealth } from '@/utils/api/moddex/public';
 import type { ChannelConnections } from '@/utils/api/moddex/admin';
 
@@ -76,8 +74,7 @@ export const Connections: FC<{
 
       {items.length === 0 ? (
         <p className="text-read text-primary-300 max-w-prose px-4 pb-4">
-          Nobody has connected a channel yet. The eventsub shards can be healthy while this is
-          empty. They answer different questions.
+          {t('dash.conn.nobodyConnected')}
         </p>
       ) : (
         <div className="rows">

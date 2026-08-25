@@ -1,6 +1,6 @@
+import { DEFAULT_LOCALE, LOCALES } from '@/i18n';
 import { describe, expect, it } from 'vitest';
 import nextConfig, { LOCALIZED_SEGMENTS } from '../next.config.mjs';
-import { LOCALES, DEFAULT_LOCALE } from '@/i18n/locales';
 import { alternatesFor, openGraphFor } from '@/misc/metadata';
 
 const rewrites = async () => {

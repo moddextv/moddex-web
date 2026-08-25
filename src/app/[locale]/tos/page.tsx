@@ -1,3 +1,4 @@
+import { asLocale } from '@/i18n';
 import { pageMetadata } from '@/misc/metadata';
 import { HELD_FIELDS } from '@/misc/held';
 import { config } from '@/config';
@@ -5,7 +6,6 @@ import { Metadata } from 'next';
 
 import { Clause, Inline, LegalPage, Para } from '@/components/Legal';
 import { LegalLanguageNotice } from '@/components/LegalLanguageNotice';
-import { asLocale } from '@/i18n/locales';
 
 interface PageProps {
   params: Promise<{ locale: string }>;
