@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useT } from '@/i18n/context';
 import Link from 'next/link';
 
 import { listDonations } from '@/actions/dashboard';
@@ -25,6 +26,7 @@ const Who: FC<{ row: LedgerEntry }> = ({ row }) =>
   );
 
 export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
+  const t = useT();
   const [rows, setRows] = useState(initial.items);
   const [cursor, setCursor] = useState(initial.cursor);
   const [hasMore, setHasMore] = useState(initial.hasMore);
@@ -51,7 +53,7 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
   return (
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">Donations</h2>
+        <h2 className="text-h2">{t('dash.donations')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
           {rows.length.toLocaleString('en-US')} shown · {money(total)} counted
         </span>
@@ -61,8 +63,8 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
         <div className="row-head cols-donations">
           <span>Who</span>
           <span>When</span>
-          <span>Status</span>
-          <span className="text-right">Amount</span>
+          <span>{t('dash.status')}</span>
+          <span className="text-right">{t('dash.amount')}</span>
         </div>
 
         {rows.map((row) => (
@@ -89,7 +91,7 @@ export const Donations: FC<{ initial: Ledger }> = ({ initial }) => {
       {hasMore ? (
         <div className="px-4 py-4">
           <button type="button" className="button" onClick={() => void more()} disabled={busy}>
-            {busy ? 'Loading…' : 'Load more'}
+            {busy ? t('dash.loading') : t('dash.loadMore')}
           </button>
         </div>
       ) : null}

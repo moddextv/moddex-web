@@ -129,3 +129,68 @@ describe('the shipped message files', () => {
     }
   });
 });
+
+describe('the estate has no untranslated copy left', () => {
+  const walk = (dir: string): string[] => {
+    const { readdirSync, statSync } = require('node:fs');
+    const { join } = require('node:path');
+
+    return readdirSync(dir).flatMap((entry: string) => {
+      const full = join(dir, entry);
+
+      return statSync(full).isDirectory() ? walk(full) : full.endsWith('.tsx') ? [full] : [];
+    });
+  };
+
+  const SKIP = ['Icons.tsx', 'design', 'privacy', 'tos', 'Legal.tsx'];
+
+  it('leaves no bare sentence in jsx outside the files that keep english on purpose', () => {
+    const { readFileSync } = require('node:fs');
+    const { join } = require('node:path');
+    const root = join(__dirname, '..', 'src');
+
+    const offenders: string[] = [];
+
+    for (const file of [...walk(join(root, 'components')), ...walk(join(root, 'app'))]) {
+      if (SKIP.some((skip) => file.includes(skip))) continue;
+
+      const source = readFileSync(file, 'utf8');
+      const bare = source.match(/>[A-Z][a-z]+(?:\s+[a-z]+){2,}[.!?]?</g);
+
+      if (bare) offenders.push(`${file.split('src')[1]}: ${bare[0]}`);
+    }
+
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe('a server component never reaches for the client hook', () => {
+  it('every useT/useI18n caller is a client component or imported by one', () => {
+    const { readFileSync, readdirSync, statSync } = require('node:fs');
+    const { join } = require('node:path');
+    const root = join(__dirname, '..', 'src');
+
+    const walkAll = (dir: string): string[] =>
+      readdirSync(dir).flatMap((entry: string) => {
+        const full = join(dir, entry);
+
+        return statSync(full).isDirectory() ? walkAll(full) : full.endsWith('.tsx') ? [full] : [];
+      });
+
+    // these two are only ever rendered from UserList, which is 'use client'
+    const CLIENT_BY_IMPORT = ['UserListItem.tsx', 'UserListLoading.tsx'];
+
+    const offenders = walkAll(root)
+      .filter((file: string) => {
+        const source = readFileSync(file, 'utf8');
+
+        if (!/\buseT\(\)|\buseI18n\(\)/.test(source)) return false;
+        if (source.startsWith("'use client'")) return false;
+
+        return !CLIENT_BY_IMPORT.some((name) => file.endsWith(name));
+      })
+      .map((file: string) => file.split('src')[1]);
+
+    expect(offenders).toEqual([]);
+  });
+});

@@ -1,4 +1,4 @@
-import { openGraphFor } from '@/misc/metadata';
+import { pageMetadata } from '@/misc/metadata';
 import { HELD_FIELDS } from '@/misc/held';
 import { config } from '@/config';
 import { Metadata } from 'next';
@@ -8,12 +8,15 @@ import { LegalLanguageNotice } from '@/components/LegalLanguageNotice';
 import { asLocale } from '@/i18n/locales';
 import { OptOutEffect } from '@/components/OptOutPromise';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/privacy' },
-  openGraph: openGraphFor('/privacy'),
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => ({
+  ...pageMetadata('/privacy', asLocale((await params).locale)),
   title: 'Privacy',
   description: `What ${config.brand.domain} holds about an account, where it comes from, how long it is kept, and how to make it stop.`
-};
+});
 
 const SECTIONS = [
   { id: 'summary', title: '1. The short version', short: '1. Short version' },
@@ -28,10 +31,6 @@ const SECTIONS = [
   { id: 'processors', title: '10. Who else sees it', short: '10. Third parties' },
   { id: 'contact', title: '11. Changes and contact', short: '11. Contact' }
 ] as const;
-
-interface PageProps {
-  params: Promise<{ locale: string }>;
-}
 
 export default async function PrivacyPage({ params }: PageProps) {
   const locale = asLocale((await params).locale);

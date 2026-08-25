@@ -1,16 +1,28 @@
+import { alternatesFor } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { Metadata } from 'next';
 
 import { BadgeManager } from '@/components/Dashboard/BadgeManager';
 import { MemberBadges } from '@/components/Dashboard/MemberBadges';
 import { listBadgeCatalogue, listBadgeCounts, listBadgeHolders } from '@/actions/badges';
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-  alternates: { canonical: '/dashboard/badges' },
-  title: 'Badges · Dashboard'
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+
+  return {
+    alternates: alternatesFor('/dashboard/badges', locale),
+    robots: { index: false, follow: false },
+    title: 'Badges · Dashboard'
+  };
 };
 
-export default async function BadgesPage() {
+export default async function BadgesPage({ params }: MetaProps) {
+  const t = getTranslator(asLocale((await params).locale));
   const [catalogueResult, countsResult, adminsResult] = await Promise.all([
     listBadgeCatalogue(),
     listBadgeCounts(),
@@ -28,7 +40,7 @@ export default async function BadgesPage() {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">Could not read the catalogue.</p>
+          <p className="text-read text-primary-300">{t('dash.catalogueUnreadable')}</p>
         </div>
       </section>
     );

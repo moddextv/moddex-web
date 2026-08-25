@@ -1,3 +1,8 @@
+import { alternatesFor } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
+import { optional } from '@/i18n/translate';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { Container } from '@/components/UI/Container';
@@ -13,46 +18,22 @@ import { getChannelConnection } from '@/utils/api/moddex/me';
 import { getUserById, getUserIgnoreState } from '@/utils/user';
 import { UserChatBadges } from '@/misc/badges';
 import { config } from '@/config';
-import Link from 'next/link';
 import { CSSProperties, FC, ReactNode } from 'react';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/settings' },
-  robots: { index: false, follow: false },
-  title: 'Settings',
-  description: `Opt out of ${config.brand.domain}, or choose which badge shows next to your name.`
-};
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
 
-const CHANNEL_MESSAGES: Record<string, string> = {
-  connected: 'Channel connected. Moderator and VIP changes now reach moddex as they happen.',
-  'connected-nosync':
-    "Channel connected, but we couldn't save the list of channels you moderate. Live updates are working. Reconnect later to add the list.",
-  canceled: 'Canceled. Your channel is unchanged.',
-  mismatch:
-    "You approved that on Twitch as a different account from the one you're signed in with here, so we refused the connection.",
-  scopes:
-    'Twitch withheld one of the two permissions. We need both for moderator and VIP events, so the channel stayed disconnected.',
-  state: "That link expired or didn't belong to this session. Start again from the button above.",
-  exchange: "Twitch didn't confirm the authorization. Try again.",
-  nocode: 'Twitch sent back no authorization. Try again.',
-  failed:
-    'Something went wrong while saving, and your settings are unchanged. Try again in a moment.',
-  unconfigured: "Channel connections aren't set up on this server yet.",
-  signin: 'Your session ended before this finished. Sign in and try again.'
-};
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
 
-const DISCORD_MESSAGES: Record<string, string> = {
-  connected: 'Discord connected. It now shows on your public profile.',
-  canceled: 'Canceled. No Discord account was linked.',
-  taken:
-    'That Discord account is already connected to another moddex profile. Disconnect it there first.',
-  state: "That link expired or didn't belong to this session. Start again from the button above.",
-  exchange: "Discord didn't confirm the account. Try again.",
-  nocode: 'Discord sent back no authorization. Try again.',
-  failed:
-    'Something went wrong while saving, and your profile is unchanged. Try again in a moment.',
-  unconfigured: "Discord connections aren't set up on this server yet.",
-  signin: 'Your session ended before this finished. Sign in and try again.'
+  return {
+    alternates: alternatesFor('/settings', locale),
+    robots: { index: false, follow: false },
+    title: t('settings.metaTitle'),
+    description: t('settings.metaDescription', { domain: config.brand.domain })
+  };
 };
 
 const Fact: FC<{ label: string; children: ReactNode }> = ({ label, children }) => (
@@ -63,15 +44,21 @@ const Fact: FC<{ label: string; children: ReactNode }> = ({ label, children }) =
 );
 
 export default async function SettingsPage({
+  params,
   searchParams
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ discord?: string; channel?: string }>;
 }) {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
   const { discord: discordStatus, channel: channelStatus } = await searchParams;
+  const channelMessage = optional(t, channelStatus && `settings.channelStatus.${channelStatus}`);
+  const discordMessage = optional(t, discordStatus && `settings.discordStatus.${discordStatus}`);
   const session = await auth();
 
   if (!session?.user?.id) {
-    return <Login heading="Settings need a Twitch sign-in" redirectTo="/settings" />;
+    return <Login locale={locale} heading={t('settings.signInHeading')} redirectTo="/settings" />;
   }
 
   const userId = session.user.id;
@@ -97,10 +84,8 @@ export default async function SettingsPage({
     <main id="main" className="flex-grow">
       <Container>
         <header className="enter pt-12 pb-8">
-          <h1 className="text-h1 mb-2">Settings</h1>
-          <p className="text-ui text-primary-400">
-            Signed in as {login}. Changes save immediately.
-          </p>
+          <h1 className="text-h1 mb-2">{t('settings.heading')}</h1>
+          <p className="text-ui text-primary-400">{t('settings.signedInAs', { login })}</p>
         </header>
 
         <section
@@ -112,7 +97,7 @@ export default async function SettingsPage({
             <div className="flex items-center gap-3 mb-5">
               <span className="corner corner-tl text-mod" aria-hidden="true" />
               <h2 id="settings-privacy" className="text-h2">
-                Privacy
+                {t('settings.privacy')}
               </h2>
             </div>
 
@@ -130,15 +115,11 @@ export default async function SettingsPage({
               <div className="flex items-center gap-3 flex-wrap mb-2">
                 <span className="corner corner-br text-vip" aria-hidden="true" />
                 <h2 id="settings-badge" className="text-h2">
-                  Chat badge
+                  {t('settings.badge.title')}
                 </h2>
-                <span className="ml-auto text-ui text-founder">
-                  Chat integration isn&apos;t live yet
-                </span>
+                <span className="ml-auto text-ui text-founder">{t('settings.badge.notLive')}</span>
               </div>
-              <p className="text-read text-primary-300 mb-6">
-                Pick one now and it&apos;s already set when chat integration ships.
-              </p>
+              <p className="text-read text-primary-300 mb-6">{t('settings.badge.body')}</p>
 
               <ChatBadge userChatBadges={userChatBadges} login={login} />
             </div>
@@ -152,19 +133,17 @@ export default async function SettingsPage({
         >
           <div className="panel">
             <h2 id="settings-channel" className="text-h2 mb-1">
-              Live role updates
+              {t('settings.live.title')}
             </h2>
-            <p className="text-ui text-primary-400 mb-5">For your own channel. Optional.</p>
+            <p className="text-ui text-primary-400 mb-5">{t('settings.live.body')}</p>
 
             <ConnectChannel
               initialConnected={connection.connected}
               everConnected={connection.everConnected}
             />
 
-            {CHANNEL_MESSAGES[channelStatus ?? ''] && (
-              <p className="mt-5 text-ui text-primary-300 max-w-prose">
-                {CHANNEL_MESSAGES[channelStatus ?? '']}
-              </p>
+            {channelMessage && (
+              <p className="mt-5 text-ui text-primary-300 max-w-prose">{channelMessage}</p>
             )}
           </div>
         </section>
@@ -176,16 +155,16 @@ export default async function SettingsPage({
         >
           <div className="panel-flush">
             <h2 id="settings-account" className="text-h2 px-4 pb-5">
-              Account
+              {t('settings.account.title')}
             </h2>
 
             <div className="rows">
-              <Fact label="Signed in as">
+              <Fact label={t('settings.account.signedIn')}>
                 <span className="flex items-center gap-3">
                   {session.user.image ? (
                     <Image
                       src={session.user.image}
-                      alt={session.user.name ?? 'Your Twitch avatar'}
+                      alt={session.user.name ?? t('settings.account.avatarAlt')}
                       width={32}
                       height={32}
                       radius="full"
@@ -200,23 +179,21 @@ export default async function SettingsPage({
                 </span>
               </Fact>
 
-              <Fact label="Public profile">
-                <Link
+              <Fact label={t('settings.account.publicProfile')}>
+                <LocaleLink
                   href={`/user/${login}`}
                   className="text-base text-primary-100 font-semibold hover:underline"
                 >
                   {config.brand.domain}/u/{login}
-                </Link>
+                </LocaleLink>
               </Fact>
 
-              <Fact label="Discord">
+              <Fact label={t('settings.account.discord')}>
                 <ConnectDiscord initialDiscordId={discordId} />
               </Fact>
 
-              {DISCORD_MESSAGES[discordStatus ?? ''] && (
-                <p className="px-4 py-3 text-ui text-primary-300 max-w-prose">
-                  {DISCORD_MESSAGES[discordStatus ?? '']}
-                </p>
+              {discordMessage && (
+                <p className="px-4 py-3 text-ui text-primary-300 max-w-prose">{discordMessage}</p>
               )}
             </div>
 

@@ -5,8 +5,10 @@ import { ReloadIcon } from '@/components/Icons';
 import { config } from '@/config';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useT } from '@/i18n/context';
 
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+  const t = useT();
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -15,7 +17,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
     <main id="main" className="flex-grow">
       <Container>
         <section className="enter pt-16 pb-10 max-w-2xl">
-          <h1 className="text-h1 mb-4">That page didn&apos;t finish loading</h1>
+          <h1 className="text-h1 mb-4">{t('misc.errorHeading')}</h1>
           <p className="text-lead text-primary-300 max-w-prose mb-8">
             Something broke while the page was rendering, and we&apos;ve logged it. Retrying
             rebuilds just this part of the page, which usually works if it was a slow response and

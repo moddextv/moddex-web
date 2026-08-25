@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useT } from '@/i18n/context';
 import Link from 'next/link';
 
 import { Badges } from '@/components/User/Badges';
@@ -77,6 +78,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
   catalogue,
   ownerId
 }) => {
+  const t = useT();
   const [login, setLogin] = useState('');
   const [member, setMember] = useState<User | null>(null);
   const [looked, setLooked] = useState(false);
@@ -118,7 +120,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
   return (
     <div className="panel">
       <div className="px-4 pt-5 pb-4">
-        <h2 className="text-h2">Badges per account</h2>
+        <h2 className="text-h2">{t('dash.badgesPerAccount')}</h2>
       </div>
 
       <form onSubmit={search} className="flex items-center gap-3 flex-wrap px-4 pb-4">
@@ -128,7 +130,7 @@ export const MemberBadges: FC<{ catalogue: Badge[]; ownerId?: string }> = ({
             value={login}
             onChange={(event) => setLogin(event.target.value)}
             placeholder="twitch login"
-            aria-label="Twitch login"
+            aria-label={t('dash.twitchLogin')}
             autoComplete="off"
           />
         </label>

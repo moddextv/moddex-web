@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useT } from '@/i18n/context';
 import Link from 'next/link';
 
 import { checkMembership } from '@/actions/membership';
@@ -59,6 +60,7 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
 };
 
 export const RoleCheck: FC = () => {
+  const t = useT();
   const [account, setAccount] = useState('');
   const [channel, setChannel] = useState('');
   const [asked, setAsked] = useState<Asked | null>(null);
@@ -77,7 +79,7 @@ export const RoleCheck: FC = () => {
 
   return (
     <div className="panel">
-      <h2 className="text-h2 pb-5">Ask about one pair</h2>
+      <h2 className="text-h2 pb-5">{t('roleCheck.title')}</h2>
 
       <form onSubmit={submit} className="flex flex-wrap items-center gap-3">
         <span className="text-lead text-primary-400">Is</span>
@@ -87,7 +89,7 @@ export const RoleCheck: FC = () => {
             value={account}
             onChange={(event) => setAccount(event.target.value)}
             placeholder="account"
-            aria-label="Account login"
+            aria-label={t('roleCheck.accountLogin')}
             autoComplete="off"
             spellCheck={false}
           />
@@ -100,7 +102,7 @@ export const RoleCheck: FC = () => {
             value={channel}
             onChange={(event) => setChannel(event.target.value)}
             placeholder="channel"
-            aria-label="Channel login"
+            aria-label={t('roleCheck.channelLogin')}
             autoComplete="off"
             spellCheck={false}
           />

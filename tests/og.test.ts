@@ -123,7 +123,10 @@ describe('a card that cannot be drawn still answers with an image', () => {
     ['channel', '[username]'],
     ['user', '[username]']
   ])('%s/%s falls back rather than throwing', (...parts) => {
-    const route = readFileSync(join(ROOT, 'src', 'app', '[locale]', ...parts, 'opengraph-image.tsx'), 'utf8');
+    const route = readFileSync(
+      join(ROOT, 'src', 'app', '[locale]', ...parts, 'opengraph-image.tsx'),
+      'utf8'
+    );
 
     expect(route).toContain('return staticCard();');
   });
@@ -140,9 +143,12 @@ describe('a page that writes its own openGraph still ships an image', () => {
   ];
 
   it.each(pages.map((parts) => [parts.join('/'), parts]))('%s', (_name, parts) => {
-    const source = readFileSync(join(ROOT, 'src', 'app', '[locale]', ...(parts as string[])), 'utf8');
+    const source = readFileSync(
+      join(ROOT, 'src', 'app', '[locale]', ...(parts as string[])),
+      'utf8'
+    );
 
-    expect(source).toContain('openGraph: openGraphFor(');
+    expect(source).toMatch(/openGraph: openGraphFor\(|pageMetadata\(/);
     expect(source).not.toMatch(/openGraph: \{/);
   });
 

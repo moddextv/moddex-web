@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useT } from '@/i18n/context';
 import { setIgnoredUser } from '@/actions/settings';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
 import { useAction } from '@/hooks/useAction';
@@ -10,6 +11,7 @@ interface OptOutProps {
 }
 
 export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
+  const t = useT();
   const [isIgnored, setIsIgnored] = useState(initialIsIgnored);
   const [saved, setSaved] = useState(false);
 
@@ -29,7 +31,7 @@ export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-start gap-6 sm:justify-between">
       <div className="max-w-prose">
-        <p className="text-base font-bold mb-2">Opt out of the index</p>
+        <p className="text-base font-bold mb-2">{t('optOutPanel.title')}</p>
         <p className="text-read text-primary-300 leading-relaxed">
           <OptOutEffect /> Channels you moderate are unaffected. <OptOutReversible />
         </p>
@@ -56,7 +58,7 @@ export const OptOut: FC<OptOutProps> = ({ initialIsIgnored }) => {
           type="button"
           role="switch"
           aria-checked={isIgnored}
-          aria-label="Opt out of the index"
+          aria-label={t('optOutPanel.title')}
           data-on={isIgnored}
           disabled={loading}
           onClick={toggle}

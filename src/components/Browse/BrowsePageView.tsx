@@ -8,6 +8,8 @@ import { getFormattedStats } from '@/utils/stats';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CSSProperties, FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 
 const COPY: Record<BrowseAxis, { heading: string; corner: string; lead: string; label: string }> = {
   channel: {
@@ -30,7 +32,12 @@ const browseTotal = async (axis: BrowseAxis): Promise<number> => {
   return axis === 'channel' ? stats.channels.raw : stats.users.raw;
 };
 
-export const BrowsePageView: FC<{ axis: BrowseAxis; page: number }> = async ({ axis, page }) => {
+export const BrowsePageView: FC<{ axis: BrowseAxis; page: number; locale: Locale }> = async ({
+  axis,
+  page,
+  locale
+}) => {
+  const t = getTranslator(locale);
   const offset = (page - 1) * BROWSE_PAGE_SIZE;
 
   const [total, data] = await Promise.all([
@@ -61,7 +68,7 @@ export const BrowsePageView: FC<{ axis: BrowseAxis; page: number }> = async ({ a
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
           <div className="panel-flush">
             <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-              <h2 className="text-h2">Most roles</h2>
+              <h2 className="text-h2">{t('misc.mostRoles')}</h2>
               <span className="text-lead text-primary-400 tabular">
                 {formatNumber(total)} <span className="text-ui">{copy.label}</span>
               </span>
@@ -73,7 +80,7 @@ export const BrowsePageView: FC<{ axis: BrowseAxis; page: number }> = async ({ a
             <BrowseRows kind={axis === 'channel' ? 'channel' : 'account'} items={data.items} />
           </div>
 
-          <BrowsePager axis={axis} page={page} last={last} />
+          <BrowsePager axis={axis} page={page} last={last} locale={locale} />
         </section>
       </Container>
     </main>

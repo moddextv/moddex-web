@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useT } from '@/i18n/context';
 import { disconnectChannel } from '@/actions/settings';
 import { TwitchIcon } from '@/components/Icons';
 import { config } from '@/config';
@@ -12,6 +13,7 @@ interface ConnectChannelProps {
 }
 
 export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, everConnected }) => {
+  const t = useT();
   const { name } = config.brand;
   const [connected, setConnected] = useState(initialConnected);
 
@@ -46,9 +48,9 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
   return (
     <div className="flex flex-col gap-4">
       <p className="text-read text-primary-300 max-w-prose">
-        <strong className="text-primary-100">Connected.</strong> Mod and VIP changes reach {name} as
-        they happen. Founders still come from the normal read, because Twitch has no live event for
-        those. Withdrawing changes nothing that&apos;s already recorded.
+        <strong className="text-primary-100">{t('misc.connectedShort')}</strong> Mod and VIP changes
+        reach {name} as they happen. Founders still come from the normal read, because Twitch has no
+        live event for those. Withdrawing changes nothing that&apos;s already recorded.
       </p>
       <span className="flex items-center gap-3">
         <button

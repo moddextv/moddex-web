@@ -1,4 +1,6 @@
 import { readFileSync } from 'node:fs';
+import { LOCALES } from '@/i18n/locales';
+import { dictionaryOf } from '@/i18n/dictionary';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
@@ -48,7 +50,17 @@ describe('the opt-out promise', () => {
     }
   );
 
+  // the emphasis is the whole distinction between "not served" and "deleted",
+  // so it has to survive translation rather than only exist in the english jsx
   it('keeps the emphasis that carries the meaning — served, not deleted', () => {
-    expect(read('components', 'OptOutPromise.tsx')).toContain('<em>served</em>');
+    expect(read('components', 'OptOutPromise.tsx')).toContain('em: (chunk) => <em>{chunk}</em>');
+
+    for (const locale of LOCALES) {
+      const effect = dictionaryOf(locale)['optOut.effect'] ?? '';
+
+      expect(effect, `${locale} dropped the emphasis from the opt-out promise`).toMatch(
+        /<em>[^<]+<\/em>/
+      );
+    }
   });
 });

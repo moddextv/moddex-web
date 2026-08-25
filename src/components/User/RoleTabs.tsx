@@ -1,6 +1,7 @@
 'use client';
 
 import { Children, FC, ReactNode, useState } from 'react';
+import { useT } from '@/i18n/context';
 import clsx from 'clsx';
 
 import { RoleKey, roleCornerClass, roleTextClass } from '@/misc/roles';
@@ -13,6 +14,7 @@ interface RoleTab {
 }
 
 export const RoleTabs: FC<{ tabs: RoleTab[]; children: ReactNode }> = ({ tabs, children }) => {
+  const t = useT();
   const [active, setActive] = useState(0);
   const panels = Children.toArray(children);
 
@@ -20,7 +22,7 @@ export const RoleTabs: FC<{ tabs: RoleTab[]; children: ReactNode }> = ({ tabs, c
     <div>
       {/* a group of pressed buttons, not role="tab": the ARIA tabs pattern owes
           the reader arrow-key navigation, and these read as filter chips */}
-      <div className="role-tabs" role="group" aria-label="Which roles to show">
+      <div className="role-tabs" role="group" aria-label={t('misc.whichRoles')}>
         {tabs.map((tab, index) => (
           <button
             key={tab.key}

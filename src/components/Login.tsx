@@ -3,10 +3,13 @@ import { Container } from '@/components/UI/Container';
 import { TwitchIcon } from '@/components/Icons';
 import { config } from '@/config';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
+import { Locale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
 import { FC, ReactNode } from 'react';
 
 interface LoginProps {
+  locale: Locale;
   heading?: string;
   blurb?: string;
   redirectTo?: string;
@@ -22,78 +25,87 @@ const Can: FC<{ title: string; children: ReactNode }> = ({ title, children }) =>
   </li>
 );
 
-const Scope: FC<{ label: string; granted: boolean }> = ({ label, granted }) => (
+const Scope: FC<{ label: string; granted: boolean; yes: string; never: string }> = ({
+  label,
+  granted,
+  yes,
+  never
+}) => (
   <div className="row" style={{ gridTemplateColumns: 'minmax(0, 1fr) auto', minHeight: '44px' }}>
     <span className={granted ? 'text-base' : 'text-base text-primary-400'}>{label}</span>
     <span className={granted ? 'text-ui text-mod font-bold' : 'text-ui text-primary-400'}>
-      {granted ? 'Yes' : 'Never'}
+      {granted ? yes : never}
     </span>
   </div>
 );
 
-export const Login: FC<LoginProps> = ({
-  heading = 'This page needs a Twitch sign-in',
-  blurb = `${config.brand.name} has to know which Twitch account is yours before it can let you change anything about it. Everything else on the site works signed out.`,
-  redirectTo
-}) => (
-  <main id="main" className="flex-grow">
-    <Container>
-      <section className="enter pt-16 pb-8 max-w-2xl">
-        <h1 className="text-h1 mb-4 max-w-[20ch]">{heading}</h1>
-        <p className="text-lead text-primary-300 max-w-prose mb-8">{blurb}</p>
+export const Login: FC<LoginProps> = ({ locale, heading, blurb, redirectTo }) => {
+  const t = getTranslator(locale);
+  const rich = getRich(locale);
+  const yes = t('login.yes');
+  const never = t('login.never');
 
-        <form
-          action={async () => {
-            'use server';
-            await signIn('twitch', redirectTo ? { redirectTo } : undefined);
-          }}
-        >
-          <button type="submit" className="btn btn-twitch">
-            <TwitchIcon size={16} color="text-white" />
-            Continue with Twitch
-          </button>
-        </form>
-
-        <p className="text-ui text-primary-400 mt-4">
-          You land back on the page you were trying to reach.
-        </p>
-      </section>
-
-      <section className="enter grid gap-6 md:grid-cols-2 pb-4">
-        <div className="panel">
-          <h2 className="text-h2 mb-5">What a signed-in account can do</h2>
-          <ul className="flex flex-col gap-5">
-            <Can title="Opt out of the index">
-              <OptOutEffect /> <OptOutReversible />
-            </Can>
-            <Can title="Pick a chat badge">
-              If you hold more than one, choose which shows next to your name.
-            </Can>
-            <Can title="Attach a donation">
-              So the donator badge lands automatically instead of being assigned by hand.
-            </Can>
-          </ul>
-        </div>
-
-        <div className="panel-flush">
-          <h2 className="text-h2 px-4 pb-5">What Twitch hands over</h2>
-          <div className="rows">
-            <Scope label="User id" granted />
-            <Scope label="Login name" granted />
-            <Scope label="Avatar" granted />
-            <Scope label="Password" granted={false} />
-            <Scope label="Chat access" granted={false} />
-            <Scope label="Acting on your behalf" granted={false} />
-          </div>
-          <p className="text-ui text-primary-400 px-4 py-4">
-            Full terms in{' '}
-            <Link href="/tos#accounts" className="text-primary-200 font-semibold hover:underline">
-              section 4
-            </Link>
-            .
+  return (
+    <main id="main" className="flex-grow">
+      <Container>
+        <section className="enter pt-16 pb-8 max-w-2xl">
+          <h1 className="text-h1 mb-4 max-w-[20ch]">{heading ?? t('login.heading')}</h1>
+          <p className="text-lead text-primary-300 max-w-prose mb-8">
+            {blurb ?? t('login.blurb', { brandName: config.brand.name })}
           </p>
-        </div>
-      </section>
-    </Container>
-  </main>
-);
+
+          <form
+            action={async () => {
+              'use server';
+              await signIn('twitch', redirectTo ? { redirectTo } : undefined);
+            }}
+          >
+            <button type="submit" className="btn btn-twitch">
+              <TwitchIcon size={16} color="text-white" />
+              {t('login.continue')}
+            </button>
+          </form>
+
+          <p className="text-ui text-primary-400 mt-4">{t('login.landBack')}</p>
+        </section>
+
+        <section className="enter grid gap-6 md:grid-cols-2 pb-4">
+          <div className="panel">
+            <h2 className="text-h2 mb-5">{t('login.canDo')}</h2>
+            <ul className="flex flex-col gap-5">
+              <Can title={t('login.optOut')}>
+                <OptOutEffect /> <OptOutReversible />
+              </Can>
+              <Can title={t('login.pickBadge')}>{t('login.pickBadgeBody')}</Can>
+              <Can title={t('login.attachDonation')}>{t('login.attachDonationBody')}</Can>
+            </ul>
+          </div>
+
+          <div className="panel-flush">
+            <h2 className="text-h2 px-4 pb-5">{t('login.handsOver')}</h2>
+            <div className="rows">
+              <Scope label={t('login.scopes.userId')} granted yes={yes} never={never} />
+              <Scope label={t('login.scopes.loginName')} granted yes={yes} never={never} />
+              <Scope label={t('login.scopes.avatar')} granted yes={yes} never={never} />
+              <Scope label={t('login.scopes.password')} granted={false} yes={yes} never={never} />
+              <Scope label={t('login.scopes.chat')} granted={false} yes={yes} never={never} />
+              <Scope label={t('login.scopes.behalf')} granted={false} yes={yes} never={never} />
+            </div>
+            <p className="text-ui text-primary-400 px-4 py-4">
+              {rich('login.fullTerms', {
+                link: (chunk) => (
+                  <LocaleLink
+                    href="/tos#accounts"
+                    className="text-primary-200 font-semibold hover:underline"
+                  >
+                    {chunk}
+                  </LocaleLink>
+                )
+              })}
+            </p>
+          </div>
+        </section>
+      </Container>
+    </main>
+  );
+};

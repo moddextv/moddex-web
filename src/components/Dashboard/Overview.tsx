@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import Link from 'next/link';
 import clsx from 'clsx';
 
@@ -25,12 +27,13 @@ const Tile: FC<{
 const number = (value: number | null | undefined) =>
   value === null || value === undefined ? '·' : value.toLocaleString('en-US');
 
-export const Overview: FC<{ health: JobHealth | null }> = ({ health }) => {
+export const Overview: FC<{ health: JobHealth | null; locale: Locale }> = ({ health, locale }) => {
+  const t = getTranslator(locale);
   if (!health) {
     return (
       <section className="enter pb-6">
         <div className="panel">
-          <p className="text-read text-primary-300">Could not read job health.</p>
+          <p className="text-read text-primary-300">{t('dash.jobHealthUnreadable')}</p>
         </div>
       </section>
     );
@@ -47,7 +50,7 @@ export const Overview: FC<{ health: JobHealth | null }> = ({ health }) => {
           refresh queue are on /dashboard/jobs, which is where they belong */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Tile
-          label="Accounts indexed"
+          label={t('dash.accountsIndexed')}
           value={number(snapshot.users)}
           note={snapshot.lastAt ? `read ${ago(snapshot.lastAt)}` : 'no snapshot yet'}
           href="/dashboard/jobs"
@@ -55,14 +58,14 @@ export const Overview: FC<{ health: JobHealth | null }> = ({ health }) => {
         />
 
         <Tile
-          label="Sweep head"
+          label={t('dash.sweepHead')}
           value={sweepHead ? ago(sweepHead) : 'never'}
           note="oldest channel not yet revisited"
           href="/dashboard/jobs"
         />
 
         <Tile
-          label="Last backup"
+          label={t('dash.lastBackup')}
           value={backup ? ago(backup.at) : 'never'}
           note={backup ? size(backup.bytes) : 'nothing has been written'}
           href="/dashboard/jobs"
@@ -70,7 +73,7 @@ export const Overview: FC<{ health: JobHealth | null }> = ({ health }) => {
         />
 
         <Tile
-          label="Nightly jobs"
+          label={t('dash.nightlyJobs')}
           value={`${nightly.ran} of ${nightly.total}`}
           note={missed === 0 ? 'all ran' : `${missed} missed the last slot`}
           href="/dashboard/jobs"

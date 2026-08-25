@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 
 import { ago } from './ago';
 import type { EventsubHealth } from '@/utils/api/moddex/public';
@@ -21,17 +23,19 @@ const Row: FC<{ label: string; note: string; children: React.ReactNode }> = ({
   </div>
 );
 
-export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }> = ({
-  sweeps,
-  eventsub
-}) => {
+export const Sweeps: FC<{
+  sweeps: SweepHealth;
+  eventsub: EventsubHealth | null;
+  locale: Locale;
+}> = ({ sweeps, eventsub, locale }) => {
+  const t = getTranslator(locale);
   const { queue } = sweeps;
   const pressure = queue.capacity ? Math.round((queue.waiting / queue.capacity) * 100) : 0;
 
   return (
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">Sweeps</h2>
+        <h2 className="text-h2">{t('dash.sweeps')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
           {sweeps.depthCounted ? 'backlogs counted' : 'backlogs not counted'}
         </span>
@@ -39,7 +43,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
 
       <div className="rows">
         <div className="row-head cols-jobs">
-          <span>Sweep</span>
+          <span>{t('dash.sweep')}</span>
           <span>Rate</span>
           <span />
         </div>
@@ -48,7 +52,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
           {number(sweeps.live.perMinute)} <span className="text-primary-400">/ min</span>
         </Row>
 
-        <Row label="Stale" note="channels read before, due another look">
+        <Row label={t('dash.stale')} note="channels read before, due another look">
           {number(sweeps.stale.perMinute)} <span className="text-primary-400">/ min</span>
           {sweeps.stale.depth !== null && (
             <span className="text-primary-400"> · {number(sweeps.stale.depth)} in scope</span>
@@ -56,7 +60,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
         </Row>
 
         <Row
-          label="Discover"
+          label={t('dash.discover')}
           note="accounts no sweep has ever touched, which is what grows the index"
         >
           {number(sweeps.discover.perMinute)} <span className="text-primary-400">/ min</span>
@@ -65,7 +69,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
           )}
         </Row>
 
-        <Row label="Queue" note="on-demand refreshes; a full queue drops the rest">
+        <Row label={t('dash.queue')} note="on-demand refreshes; a full queue drops the rest">
           <span className={pressure > 80 ? 'text-vip font-bold' : undefined}>
             {number(queue.waiting)}
           </span>
@@ -76,7 +80,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
         </Row>
 
         <Row
-          label="Yield"
+          label={t('dash.yield')}
           note={`a sweep stands aside above ${number(queue.yieldAbove)} waiting, but never for long`}
         >
           {sweeps.yield.engaged ? (
@@ -89,7 +93,7 @@ export const Sweeps: FC<{ sweeps: SweepHealth; eventsub: EventsubHealth | null }
         </Row>
 
         {eventsub && (
-          <Row label="EventSub" note="a conduit with no shard discards events">
+          <Row label={t('dash.eventSub')} note="a conduit with no shard discards events">
             <span className={eventsub.status === 'ok' ? undefined : 'text-vip font-bold'}>
               {eventsub.eventsub}
             </span>

@@ -8,7 +8,8 @@ import { Providers } from './providers';
 import { Metadata } from 'next';
 import { Insights } from '@/components/Insights';
 import { config } from '@/config';
-import { asLocale, DEFAULT_LOCALE, LOCALES } from '@/i18n/locales';
+import { DEFAULT_LOCALE, isLocale, LOCALES } from '@/i18n/locales';
+import { notFound } from 'next/navigation';
 import { dictionaryOf } from '@/i18n/dictionary';
 import { I18nProvider } from '@/i18n/context';
 
@@ -64,7 +65,12 @@ interface LayoutProps {
 }
 
 export default async function RootLayout({ children, params }: LayoutProps) {
-  const locale = asLocale((await params).locale);
+  const requested = (await params).locale;
+
+  // an unknown first segment is a wrong url, not a locale to fall back from
+  if (!isLocale(requested)) notFound();
+
+  const locale = requested;
 
   return (
     <html
@@ -82,7 +88,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
             <Insights />
             <Header locale={locale} />
             {children}
-            <Footer />
+            <Footer locale={locale} />
           </Providers>
         </I18nProvider>
       </body>

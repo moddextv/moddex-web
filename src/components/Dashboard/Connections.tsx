@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { formatDate } from '@/utils/format';
 import { ago } from './ago';
 import type { EventsubHealth } from '@/utils/api/moddex/public';
@@ -53,7 +55,9 @@ const Row: FC<{ connection: ChannelConnections['items'][number]; subscribed: boo
 export const Connections: FC<{
   connections: ChannelConnections;
   eventsub?: EventsubHealth | null;
-}> = ({ connections, eventsub = null }) => {
+  locale: Locale;
+}> = ({ connections, eventsub = null, locale }) => {
+  const t = getTranslator(locale);
   const { items, total } = connections;
   const live = items.filter((connection) => !connection.revokedAt).length;
 
@@ -65,7 +69,7 @@ export const Connections: FC<{
   return (
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">Connected channels</h2>
+        <h2 className="text-h2">{t('dash.connectedChannels')}</h2>
         <span className="ml-auto text-ui text-primary-400">
           {capped ? `${items.length} of ${total}, newest first` : `${live} live`}
           {!capped && items.length !== live && ` · ${items.length - live} withdrew`}
@@ -80,10 +84,10 @@ export const Connections: FC<{
       ) : (
         <div className="rows">
           <div className="row-head cols-connections">
-            <span>Channel</span>
-            <span>Connected</span>
-            <span>Mod list</span>
-            <span>Subscribed</span>
+            <span>{t('dash.channel')}</span>
+            <span>{t('dash.connected')}</span>
+            <span>{t('dash.modList')}</span>
+            <span>{t('dash.subscribed')}</span>
           </div>
 
           {items.map((connection) => (

@@ -4,32 +4,35 @@ import { FC } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import { useI18n } from '@/i18n/context';
 
 const TABS = [
-  { href: '/dashboard', label: 'Overview', adminOnly: false },
-  { href: '/dashboard/badges', label: 'Badges', adminOnly: true },
-  { href: '/dashboard/channels', label: 'Channels', adminOnly: true },
-  { href: '/dashboard/donations', label: 'Donations', adminOnly: true },
-  { href: '/dashboard/jobs', label: 'Jobs', adminOnly: true }
+  { href: '/dashboard', key: 'dash.overview', adminOnly: false },
+  { href: '/dashboard/badges', key: 'dash.badges', adminOnly: true },
+  { href: '/dashboard/channels', key: 'dash.channels', adminOnly: true },
+  { href: '/dashboard/donations', key: 'dash.donations', adminOnly: true },
+  { href: '/dashboard/jobs', key: 'dash.jobs', adminOnly: true }
 ];
 
 export const DashboardNav: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
-  const path = usePathname();
+  const pathname = usePathname();
+  const { t, path } = useI18n();
   const tabs = TABS.filter((tab) => isAdmin || !tab.adminOnly);
 
   return (
-    <nav aria-label="Dashboard sections" className="enter flex flex-wrap gap-2 pb-4 sm:pb-6">
+    <nav aria-label={t('dash.sections')} className="enter flex flex-wrap gap-2 pb-4 sm:pb-6">
       {tabs.map((tab) => {
-        const active = path === tab.href;
+        const href = path(tab.href);
+        const active = pathname === href;
 
         return (
           <Link
             key={tab.href}
-            href={tab.href}
+            href={href}
             aria-current={active ? 'page' : undefined}
             className={clsx('option', active && 'is-active')}
           >
-            {tab.label}
+            {t(tab.key)}
           </Link>
         );
       })}

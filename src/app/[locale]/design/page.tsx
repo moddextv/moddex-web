@@ -1,3 +1,5 @@
+import { alternatesFor } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
 import { TwitchIcon } from '@/components/Icons';
@@ -7,10 +9,18 @@ import { Metadata } from 'next';
 import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/design' },
-  title: 'Components',
-  robots: { index: false, follow: false }
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+
+  return {
+    alternates: alternatesFor('/design', locale),
+    title: 'Components',
+    robots: { index: false, follow: false }
+  };
 };
 
 const Section: FC<{ title: string; children: ReactNode; blurb?: string }> = ({
@@ -100,7 +110,8 @@ const BADGES = [
   'booster'
 ];
 
-export default function DesignPage() {
+export default async function DesignPage({ params }: MetaProps) {
+  const locale = asLocale((await params).locale);
   return (
     <main id="main" className="flex-grow">
       <Container>
@@ -463,6 +474,7 @@ export default function DesignPage() {
             blurb="A sparkline per nightly job, drawn by utils/sparkline from the same code the dashboard uses rather than a copy of it. Mod green is steady, vip red is climbing past a tenth. That threshold is shared with the Runs panel, so the two never disagree on a word. A gap in the data breaks the line instead of interpolating across it, and fewer than two runs draws nothing and says so."
           >
             <Trends
+              locale={locale}
               days={30}
               series={Object.fromEntries(
                 Object.entries(TRENDS).map(([job, values]) => [

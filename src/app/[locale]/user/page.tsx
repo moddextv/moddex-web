@@ -1,4 +1,7 @@
-import { openGraphFor } from '@/misc/metadata';
+import { pageMetadata } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { BrowseList } from '@/components/Browse/BrowseList';
 import { Container } from '@/components/UI/Container';
 import { config } from '@/config';
@@ -6,19 +9,30 @@ import { fetchAccounts } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/user' },
-  openGraph: openGraphFor('/user'),
-  title: 'Accounts',
-  description: `The Twitch accounts ${config.brand.name} holds role records for. Look one up to see every channel it holds mod or vip in.`
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+
+  return {
+    ...pageMetadata('/user', locale),
+    title: t('browse.accounts.metaTitle'),
+    description: t('browse.accounts.metaDescription', { brandName: config.brand.name })
+  };
 };
 
-export default async function UserPage() {
+export default async function UserPage({ params }: MetaProps) {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+  const rich = getRich(locale);
+
   const [stats, initial] = await Promise.all([
     getFormattedStats(),
     fetchAccounts('roles', 25, 0, true)
@@ -30,12 +44,9 @@ export default async function UserPage() {
         <header className="enter search-host pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-br text-vip" aria-hidden="true" />
-            <h1 className="text-h1">Accounts</h1>
+            <h1 className="text-h1">{t('browse.accounts.heading')}</h1>
           </div>
-          <p className="text-lead text-primary-300 max-w-prose">
-            Every indexed channel where an account holds mod or vip, and the day each role was
-            granted. That&apos;s the direction Twitch won&apos;t show you.
-          </p>
+          <p className="text-lead text-primary-300 max-w-prose">{t('browse.accounts.lead')}</p>
 
           <PageSearch scope="user" />
         </header>
@@ -43,18 +54,23 @@ export default async function UserPage() {
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
           <BrowseList
             kind="account"
-            title="Accounts holding roles"
+            title={t('browse.accounts.listTitle')}
             total={stats.users.raw}
-            totalLabel="accounts known"
+            totalLabel={t('browse.accounts.totalLabel')}
             initial={initial}
           />
 
           <p className="pt-6 text-read text-primary-300">
-            Or walk the whole index:{' '}
-            <Link href="/user/page/1" className="text-primary-200 font-semibold hover:underline">
-              accounts by role count
-            </Link>
-            .
+            {rich('browse.accounts.walk', {
+              link: (chunk) => (
+                <LocaleLink
+                  href="/user/page/1"
+                  className="text-primary-200 font-semibold hover:underline"
+                >
+                  {chunk}
+                </LocaleLink>
+              )
+            })}
           </p>
         </section>
       </Container>

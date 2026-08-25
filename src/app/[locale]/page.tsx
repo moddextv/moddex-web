@@ -1,4 +1,7 @@
-import { openGraphFor } from '@/misc/metadata';
+import { pageMetadata } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
 import { ArrowRightIcon } from '@/components/Icons';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
@@ -13,7 +16,6 @@ import { HeroSearch } from '@/components/Home/HeroSearch';
 import { RoleCheck } from '@/components/Home/RoleCheck';
 import { formatNumber } from '@/utils/format';
 import { JsonLd, siteGraph } from '@/components/JsonLd';
-import Link from 'next/link';
 import { Metadata } from 'next';
 import { CSSProperties, FC, ReactNode } from 'react';
 
@@ -28,7 +30,7 @@ const Direction: FC<{
   example: string;
   children: string;
 }> = ({ href, corner, tone, hover, title, example, children }) => (
-  <Link
+  <LocaleLink
     href={href}
     className="panel group hover:bg-primary-700/25 transition-colors flex flex-col h-full"
   >
@@ -43,7 +45,7 @@ const Direction: FC<{
       {example}
       <ArrowRightIcon size={14} />
     </span>
-  </Link>
+  </LocaleLink>
 );
 
 const Count: FC<{ label: string; corner: string; tone: string; value: number }> = ({
@@ -72,23 +74,34 @@ const Live: FC<{ title: string; href: string; link: string; children: ReactNode 
   <div className="panel-flush">
     <div className="flex items-baseline gap-3 px-4 pb-5">
       <h2 className="text-h2">{title}</h2>
-      <Link
+      <LocaleLink
         href={href}
         className="ml-auto text-ui font-semibold text-primary-300 hover:text-primary-100 transition-colors"
       >
         {link}
-      </Link>
+      </LocaleLink>
     </div>
     {children}
   </div>
 );
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/' },
-  openGraph: openGraphFor('/')
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+
+  return {
+    ...pageMetadata('/', locale)
+  };
 };
 
-export default async function Home() {
+export default async function Home({ params }: MetaProps) {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+  const rich = getRich(locale);
+
   const [stats, recent, holders, history] = await Promise.all([
     getFormattedStats(),
     fetchChannels('read', 5, 0),
@@ -104,19 +117,17 @@ export default async function Home() {
           <p className="flex items-center gap-3 text-ui text-primary-400 mb-5">
             <Mark size={18} split />
             <span>
-              <span className="text-mod font-semibold">mods</span> and{' '}
-              <span className="text-vip font-semibold">vips</span>, indexed from both ends
+              {rich('home.kicker', {
+                mod: (chunk) => <span className="text-mod font-semibold">{chunk}</span>,
+                vip: (chunk) => <span className="text-vip font-semibold">{chunk}</span>
+              })}
             </span>
           </p>
 
-          <h1 className="text-display max-w-[18ch] mb-5">
-            Every mod list on Twitch, read backwards.
-          </h1>
+          <h1 className="text-display max-w-[18ch] mb-5">{t('home.heading')}</h1>
 
           <p className="text-lead text-primary-300 max-w-prose mb-8">
-            Twitch shows a broadcaster who their own mods are. It won&apos;t tell you the reverse.{' '}
-            {config.brand.name} does: every channel an account has a role in, and the day they got
-            it.
+            {t('home.lead', { name: config.brand.name })}
           </p>
 
           <HeroSearch />
@@ -131,11 +142,10 @@ export default async function Home() {
             corner="corner-tl"
             tone="text-mod"
             hover="group-hover:text-mod"
-            title="Look up a channel"
+            title={t('home.channelCard.title')}
             example={`${config.brand.domain}/c/forsen`}
           >
-            Who holds mod, vip and founder in a channel, and since when. Search one for the first
-            time and you add it to the index.
+            {t('home.channelCard.body')}
           </Direction>
 
           <Direction
@@ -143,11 +153,10 @@ export default async function Home() {
             corner="corner-br"
             tone="text-vip"
             hover="group-hover:text-vip"
-            title="Look up an account"
+            title={t('home.accountCard.title')}
             example={`${config.brand.domain}/u/nymn`}
           >
-            Every indexed channel where one account holds a role. That&apos;s the direction Twitch
-            won&apos;t show you.
+            {t('home.accountCard.body')}
           </Direction>
         </section>
         <section className="enter pb-12" style={{ '--i': 2 } as CSSProperties}>
@@ -157,20 +166,25 @@ export default async function Home() {
         <section
           className="enter pb-14"
           style={{ '--i': 3 } as CSSProperties}
-          aria-label="What the index holds"
+          aria-label={t('home.stats.label')}
         >
           <div className="flex flex-wrap items-end gap-x-12 gap-y-7">
             <Count
-              label="moderator records"
+              label={t('home.stats.mods')}
               corner="corner-tl"
               tone="text-mod"
               value={stats.mods.raw}
             />
-            <Count label="VIP records" corner="corner-br" tone="text-vip" value={stats.vips.raw} />
+            <Count
+              label={t('home.stats.vips')}
+              corner="corner-br"
+              tone="text-vip"
+              value={stats.vips.raw}
+            />
 
             {stats.founders && (
               <Count
-                label="founder records"
+                label={t('home.stats.founders')}
                 corner="corner-bl"
                 tone="text-founder"
                 value={stats.founders.raw}
@@ -178,21 +192,27 @@ export default async function Home() {
             )}
 
             <p className="text-read text-primary-400 max-w-[30ch] leading-relaxed">
-              across{' '}
-              <span className="text-primary-100 font-bold tabular">
-                {formatNumber(stats.channels.raw)}
-              </span>{' '}
-              channels and{' '}
-              <span className="text-primary-100 font-bold tabular">
-                {formatNumber(stats.users.raw)}
-              </span>{' '}
-              accounts.
+              {rich(
+                'home.stats.across',
+                {
+                  channels: (chunk) => (
+                    <span className="text-primary-100 font-bold tabular">{chunk}</span>
+                  ),
+                  accounts: (chunk) => (
+                    <span className="text-primary-100 font-bold tabular">{chunk}</span>
+                  )
+                },
+                {
+                  channels: formatNumber(stats.channels.raw),
+                  accounts: formatNumber(stats.users.raw)
+                }
+              )}
             </p>
           </div>
         </section>
 
         <section className="enter pb-12" style={{ '--i': 4 } as CSSProperties}>
-          <Growth points={history} />
+          <Growth points={history} locale={locale} />
         </section>
 
         {(recent.items.length > 0 || holders.items.length > 0) && (
@@ -201,13 +221,17 @@ export default async function Home() {
             style={{ '--i': 5 } as CSSProperties}
           >
             {recent.items.length > 0 && (
-              <Live title="Recently indexed" href="/channel" link="All channels">
+              <Live title={t('home.recent.title')} href="/channel" link={t('home.recent.link')}>
                 <BrowseRows kind="channel" items={recent.items} />
               </Live>
             )}
 
             {holders.items.length > 0 && (
-              <Live title="Holding the most roles" href="/leaderboard" link="Leaderboard">
+              <Live
+                title={t('home.holders.title')}
+                href="/leaderboard"
+                link={t('home.holders.link')}
+              >
                 <BrowseRows kind="account" items={holders.items} />
               </Live>
             )}
@@ -219,24 +243,21 @@ export default async function Home() {
           style={{ '--i': 6 } as CSSProperties}
         >
           <div className="panel flex flex-col h-full">
-            <h2 className="text-h2 mb-3">The index fills up by being used</h2>
-            <p className="text-read text-primary-300 max-w-[46ch] mb-5">
-              A channel gets added the first time somebody searches for it. That one lookup pulls in
-              its mod and vip lists and keeps them, for everybody. You don&apos;t need an account.
-            </p>
-            <Link href="/channel" className="mt-auto self-start btn btn-soft">
-              Index a channel
-            </Link>
+            <h2 className="text-h2 mb-3">{t('home.fills.title')}</h2>
+            <p className="text-read text-primary-300 max-w-[46ch] mb-5">{t('home.fills.body')}</p>
+            <LocaleLink href="/channel" className="mt-auto self-start btn btn-soft">
+              {t('home.fills.action')}
+            </LocaleLink>
           </div>
 
           <div className="panel flex flex-col h-full">
-            <h2 className="text-h2 mb-3">Listed here and would rather not be?</h2>
+            <h2 className="text-h2 mb-3">{t('home.optOut.title')}</h2>
             <p className="text-read text-primary-300 max-w-[46ch] mb-5">
-              Sign in with Twitch and switch the opt-out on. <OptOutEffect /> <OptOutReversible />
+              {t('home.optOut.body')} <OptOutEffect /> <OptOutReversible />
             </p>
-            <Link href="/settings" className="mt-auto self-start btn btn-soft">
-              Opt out
-            </Link>
+            <LocaleLink href="/settings" className="mt-auto self-start btn btn-soft">
+              {t('home.optOut.action')}
+            </LocaleLink>
           </div>
         </section>
       </Container>

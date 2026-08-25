@@ -3,10 +3,12 @@
 import { createContext, FC, ReactNode, useContext, useMemo } from 'react';
 import { DEFAULT_LOCALE, Locale, localePath } from './locales';
 import { Dictionary, translator, Translator, Vars } from './translate';
+import { richFrom, RichTranslator } from './rich';
 
 interface I18nValue {
   locale: Locale;
   t: Translator;
+  rich: RichTranslator;
   path: (to: string) => string;
 }
 
@@ -20,14 +22,16 @@ interface I18nProviderProps {
 }
 
 export const I18nProvider: FC<I18nProviderProps> = ({ locale, dictionary, fallback, children }) => {
-  const value = useMemo<I18nValue>(
-    () => ({
+  const value = useMemo<I18nValue>(() => {
+    const t = translator(locale, dictionary, fallback);
+
+    return {
       locale,
-      t: translator(locale, dictionary, fallback),
+      t,
+      rich: richFrom(t),
       path: (to: string) => localePath(locale, to)
-    }),
-    [locale, dictionary, fallback]
-  );
+    };
+  }, [locale, dictionary, fallback]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };

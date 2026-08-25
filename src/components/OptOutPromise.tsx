@@ -1,12 +1,18 @@
+'use client';
+
 import { FC } from 'react';
+import { useI18n } from '@/i18n/context';
 
-export const OptOutEffect: FC = () => (
-  <>
-    The opt-out stops your data being <em>served</em>: your profile, the role lists and the public
-    API all cease to include you.
-  </>
-);
+// a client component so the server pages that state this promise can still
+// render it without threading a locale through every one of them
+export const OptOutEffect: FC = () => {
+  const { rich } = useI18n();
 
-export const OptOutReversible: FC = () => (
-  <>Switch it back off whenever you like and your entry comes back.</>
-);
+  return <>{rich('optOut.effect', { em: (chunk) => <em>{chunk}</em> })}</>;
+};
+
+export const OptOutReversible: FC = () => {
+  const { t } = useI18n();
+
+  return <>{t('optOut.reversible')}</>;
+};

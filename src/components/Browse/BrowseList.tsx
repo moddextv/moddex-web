@@ -2,7 +2,7 @@
 
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
-import { BOT_MODES_LABEL } from '@/components/User/columns';
+import { useT } from '@/i18n/context';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';
 import { formatNumber } from '@/utils/format';
 import { FC, useRef, useState, useTransition } from 'react';
@@ -30,6 +30,7 @@ interface BrowseListProps {
 }
 
 export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel, initial }) => {
+  const t = useT();
   const [sort, setSort] = useState<string>(kind === 'channel' ? 'read' : 'roles');
   const [includeBots, setIncludeBots] = useState(true);
   const [items, setItems] = useState<BrowseEntry[]>(initial.items);
@@ -107,7 +108,9 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
 
           {kind === 'account' && (
             <button type="button" className="chip" aria-pressed={includeBots} onClick={toggleBots}>
-              Bots: {includeBots ? BOT_MODES_LABEL.all : BOT_MODES_LABEL.hide}
+              {t('controls.bots', {
+                state: includeBots ? t('controls.botModes.all') : t('controls.botModes.hide')
+              })}
             </button>
           )}
         </span>

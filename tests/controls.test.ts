@@ -1,4 +1,6 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { LOCALES } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
@@ -74,7 +76,8 @@ describe('a control row may not hide what it cannot fit', () => {
 });
 
 describe('the bot control says the same thing everywhere', () => {
-  it('every surface labels it "Bots: <state>"', () => {
+  // the literal moved into the message file, so the shared thing is now the key
+  it('every surface reaches for the same message key', () => {
     const surfaces = [
       'components/Browse/BrowseList.tsx',
       'components/User/UserList.tsx',
@@ -84,7 +87,18 @@ describe('the bot control says the same thing everywhere', () => {
     for (const name of surfaces) {
       const file = FILES.find((entry) => entry.name === name);
       expect(file, `${name} moved`).toBeTruthy();
-      expect(file!.source, `${name} labels the bot control its own way`).toMatch(/Bots: /);
+      expect(file!.source, `${name} labels the bot control its own way`).toMatch(
+        /'controls\.bots'/
+      );
+    }
+  });
+
+  it('and that key exists in every language', () => {
+    for (const locale of LOCALES) {
+      const t = getTranslator(locale);
+
+      expect(t('controls.bots', { state: t('controls.botsShown') })).not.toBe('controls.bots');
+      expect(t('controls.botsHidden')).not.toBe('controls.botsHidden');
     }
   });
 

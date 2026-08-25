@@ -54,7 +54,7 @@ describe('every page carries metadata', () => {
     ({ file }) => {
       const source = readFileSync(file, 'utf8');
 
-      expect(source).toMatch(/alternates: \{ canonical|robots: \{ index: false/);
+      expect(source).toMatch(/alternatesFor\(|pageMetadata\(|robots: \{ index: false/);
     }
   );
 });

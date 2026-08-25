@@ -2,7 +2,8 @@
 
 import { FC, ReactNode } from 'react';
 import { ChevronDownIcon, SearchIcon } from '@/components/Icons';
-import { BOT_MODES_LABEL, BotMode, COLUMNS, ColumnKey, Direction } from '@/components/User/columns';
+import { BotMode, ColumnKey, Direction } from '@/components/User/columns';
+import { useT } from '@/i18n/context';
 import { showListTotal } from '@/components/User/listCount';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
@@ -26,7 +27,8 @@ const SortHeader: FC<{
   disabled?: boolean;
   disabledReason?: string;
 }> = ({ column, label, align, active, direction, onSort, disabled, disabledReason }) => {
-  const reason = disabledReason ?? `too long to sort by ${label.toLowerCase()}`;
+  const t = useT();
+  const reason = disabledReason ?? t('controls.sort.tooLong', { label: label.toLowerCase() });
   const isActive = active === column && !disabled;
 
   return (
@@ -35,13 +37,16 @@ const SortHeader: FC<{
         type="button"
         disabled={disabled}
         className={clsx('col-sort', isActive && 'is-active', disabled && 'is-disabled')}
-        title={disabled ? `This list is ${reason}` : undefined}
+        title={disabled ? t('controls.sort.disabledTitle', { reason }) : undefined}
         aria-label={
           disabled
-            ? `${label}. This list is ${reason}.`
+            ? t('controls.sort.disabledAria', { label, reason })
             : isActive
-              ? `Sorted by ${label.toLowerCase()}, ${COLUMNS[column].ends[direction]}. Press to reverse.`
-              : `Sort by ${label.toLowerCase()}`
+              ? t('controls.sort.activeAria', {
+                  label: label.toLowerCase(),
+                  ends: t(`controls.columns.${column}.${direction}`)
+                })
+              : t('controls.sort.idleAria', { label: label.toLowerCase() })
         }
         onClick={() => onSort(column)}
       >
@@ -78,6 +83,7 @@ const PanelHeading: FC<{
 );
 
 export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed }) => {
+  const t = useT();
   const {
     users,
     isLoading,
@@ -157,7 +163,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             not that there are none.
           </p>
         ) : (
-          <p className="text-read text-primary-300 max-w-prose">None read yet.</p>
+          <p className="text-read text-primary-300 max-w-prose">{t('misc.noneRead')}</p>
         )}
       </div>
     );
@@ -211,14 +217,14 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
                 <button
                   type="button"
                   className="chip"
-                  aria-label={`Bots: ${BOT_MODES_LABEL[botMode]}. Change which accounts are listed.`}
+                  aria-label={t('controls.botsAria', { state: t(`controls.botModes.${botMode}`) })}
                 >
-                  Bots: {BOT_MODES_LABEL[botMode]}
+                  {t('controls.bots', { state: t(`controls.botModes.${botMode}`) })}
                   <ChevronDownIcon size={11} />
                 </button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label="Which accounts to list"
+                aria-label={t('misc.whichAccounts')}
                 selectionMode="single"
                 disallowEmptySelection
                 selectedKeys={new Set([botMode])}
@@ -227,13 +233,13 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
                   if (next) setBotMode(next as BotMode);
                 }}
               >
-                <DropdownItem key="all" textValue="Show bots">
+                <DropdownItem key="all" textValue={t('misc.showBots')}>
                   Show bots
                 </DropdownItem>
-                <DropdownItem key="hide" textValue="Hide bots">
+                <DropdownItem key="hide" textValue={t('misc.hideBots')}>
                   Hide {botCount} {botCount === 1 ? 'bot' : 'bots'}
                 </DropdownItem>
-                <DropdownItem key="only" textValue="Only bots">
+                <DropdownItem key="only" textValue={t('misc.onlyBots')}>
                   Only bots
                 </DropdownItem>
               </DropdownMenu>
@@ -267,7 +273,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             className="text-primary-200 font-semibold hover:underline"
             onClick={clear}
           >
-            Clear the filters
+            {t('controls.clearFilters')}
           </button>
         </p>
       ) : (
@@ -275,7 +281,9 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
           <div className="row-head cols-people">
             <SortHeader
               column="name"
-              label={type === 'channel' ? 'Account' : 'Channel'}
+              label={
+                type === 'channel' ? t('controls.columns.account') : t('controls.columns.channel')
+              }
               active={column}
               direction={direction}
               onSort={chooseColumn}
@@ -283,7 +291,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             />
             <SortHeader
               column="granted"
-              label="Granted"
+              label={t('controls.columns.granted.label')}
               align="right"
               active={column}
               direction={direction}
@@ -291,13 +299,13 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             />
             <SortHeader
               column="followers"
-              label="Followers"
+              label={t('controls.columns.followers.label')}
               align="right"
               active={column}
               direction={direction}
               onSort={chooseColumn}
               disabled={paged && type === 'channel'}
-              disabledReason="too long to sort by follower count"
+              disabledReason={t('controls.sort.tooLongFollowers')}
             />
           </div>
 
@@ -337,7 +345,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
               {isLoadingMore ? 'Loading…' : `Load ${PAGE_SIZE} more`}
             </button>
           ) : (
-            <span className="text-ui text-primary-400">That&apos;s the end of this list.</span>
+            <span className="text-ui text-primary-400">{t('misc.endOfList')}</span>
           )}
         </div>
       )}

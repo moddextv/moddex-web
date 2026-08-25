@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { formatDate } from '@/utils/format';
 import { ago } from './ago';
 import { backupLate, clock, size } from '@/utils/jobHealth';
@@ -32,13 +34,14 @@ const Ran: FC<{ lastAt: string | null; dueSince: string; overdue: boolean }> = (
   </>
 );
 
-export const JobHealth: FC<{ health: Health }> = ({ health }) => {
+export const JobHealth: FC<{ health: Health; locale: Locale }> = ({ health, locale }) => {
+  const t = getTranslator(locale);
   const { snapshot, roleCounts, sweepHead, backup } = health;
 
   return (
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">Scheduled work</h2>
+        <h2 className="text-h2">{t('dash.scheduledWork')}</h2>
         <span className="w-full sm:w-auto sm:ml-auto text-ui text-primary-400">
           as of {formatDate(new Date().toISOString())}
         </span>
@@ -47,20 +50,20 @@ export const JobHealth: FC<{ health: Health }> = ({ health }) => {
       <div className="rows">
         <div className="row-head cols-jobs">
           <span>Job</span>
-          <span>Last run</span>
+          <span>{t('dash.lastRun')}</span>
           <span />
         </div>
 
-        <Row label="Snapshot" note="one point a day at 03:00 UTC">
+        <Row label={t('dash.snapshot')} note="one point a day at 03:00 UTC">
           <Ran {...snapshot} />
         </Row>
 
-        <Row label="Role counts" note="the browse rankings, rebuilt at 04:00 UTC">
+        <Row label={t('dash.roleCounts')} note="the browse rankings, rebuilt at 04:00 UTC">
           <Ran {...roleCounts} />
         </Row>
 
         {backup && (
-          <Row label="Backup" note="nightly dump, verified and 14 days retained">
+          <Row label={t('dash.backup')} note="nightly dump, verified and 14 days retained">
             <span
               className={
                 backupLate(backup.at, backup.expectedEverySeconds)
@@ -75,7 +78,7 @@ export const JobHealth: FC<{ health: Health }> = ({ health }) => {
         )}
 
         {sweepHead && (
-          <Row label="Sweep head" note="oldest channel not yet revisited">
+          <Row label={t('dash.sweepHead')} note="oldest channel not yet revisited">
             <span title={formatDate(sweepHead)}>{ago(sweepHead)}</span>
           </Row>
         )}

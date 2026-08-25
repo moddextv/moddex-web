@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { formatNumber } from '@/utils/format';
 import type { HistoryPoint } from '@/utils/api/moddex/public';
 import { buildPath, H, W } from '@/utils/sparkline';
@@ -56,7 +58,8 @@ const Spark: FC<{ series: Series }> = ({ series }) => {
   );
 };
 
-export const Growth: FC<{ points: HistoryPoint[] }> = ({ points }) => {
+export const Growth: FC<{ points: HistoryPoint[]; locale: Locale }> = ({ points, locale }) => {
+  const t = getTranslator(locale);
   if (points.length < 2) return null;
 
   const series: Series[] = [
@@ -79,7 +82,7 @@ export const Growth: FC<{ points: HistoryPoint[] }> = ({ points }) => {
 
   return (
     <div className="panel">
-      <h2 className="text-h2 mb-6">Over time</h2>
+      <h2 className="text-h2 mb-6">{t('misc.overTime')}</h2>
 
       <div className="grid gap-8 sm:grid-cols-3">
         {series.map((one) => (

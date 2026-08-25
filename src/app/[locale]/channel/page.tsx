@@ -1,4 +1,7 @@
-import { openGraphFor } from '@/misc/metadata';
+import { pageMetadata } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { BrowseList } from '@/components/Browse/BrowseList';
 import { Container } from '@/components/UI/Container';
 import { config } from '@/config';
@@ -6,19 +9,30 @@ import { fetchChannels } from '@/actions/browse';
 import { getFormattedStats } from '@/utils/stats';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/channel' },
-  openGraph: openGraphFor('/channel'),
-  title: 'Channels',
-  description: `The Twitch channels ${config.brand.name} has indexed. Look one up to see who holds mod, vip and founder in it.`
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+
+  return {
+    ...pageMetadata('/channel', locale),
+    title: t('browse.channels.metaTitle'),
+    description: t('browse.channels.metaDescription', { brandName: config.brand.name })
+  };
 };
 
-export default async function ChannelPage() {
+export default async function ChannelPage({ params }: MetaProps) {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+  const rich = getRich(locale);
+
   const [stats, initial] = await Promise.all([getFormattedStats(), fetchChannels('read', 25, 0)]);
 
   return (
@@ -27,12 +41,9 @@ export default async function ChannelPage() {
         <header className="enter search-host pt-12 pb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="corner corner-tl text-mod" aria-hidden="true" />
-            <h1 className="text-h1">Channels</h1>
+            <h1 className="text-h1">{t('browse.channels.heading')}</h1>
           </div>
-          <p className="text-lead text-primary-300 max-w-prose">
-            Who holds mod, vip and founder in a channel, and since when. Search a channel for the
-            first time and you add it to the index.
-          </p>
+          <p className="text-lead text-primary-300 max-w-prose">{t('browse.channels.lead')}</p>
 
           <PageSearch scope="channel" />
         </header>
@@ -40,18 +51,23 @@ export default async function ChannelPage() {
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
           <BrowseList
             kind="channel"
-            title="Indexed channels"
+            title={t('browse.channels.listTitle')}
             total={stats.channels.raw}
-            totalLabel="channels indexed"
+            totalLabel={t('browse.channels.totalLabel')}
             initial={initial}
           />
 
           <p className="pt-6 text-read text-primary-300">
-            Or walk the whole index:{' '}
-            <Link href="/channel/page/1" className="text-primary-200 font-semibold hover:underline">
-              channels by role count
-            </Link>
-            .
+            {rich('browse.channels.walk', {
+              link: (chunk) => (
+                <LocaleLink
+                  href="/channel/page/1"
+                  className="text-primary-200 font-semibold hover:underline"
+                >
+                  {chunk}
+                </LocaleLink>
+              )
+            })}
           </p>
         </section>
       </Container>

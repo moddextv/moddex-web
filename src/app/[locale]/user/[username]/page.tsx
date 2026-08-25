@@ -1,3 +1,5 @@
+import { alternatesFor } from '@/misc/metadata';
+import { asLocale, LOCALE_TAG } from '@/i18n/locales';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';
@@ -23,11 +25,13 @@ const USER_TABS = [
 ] as const;
 
 interface PageProps {
-  params: Promise<{ username: string }>;
+  params: Promise<{ username: string; locale: string }>;
 }
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
-  const username = decodeURI((await params).username);
+  const { username: rawName, locale: rawLocale } = await params;
+  const locale = asLocale(rawLocale);
+  const username = decodeURI(rawName);
 
   if (!isUsername(username)) return { title: username, robots: { index: false, follow: false } };
 
@@ -43,11 +47,11 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description: `Every indexed Twitch channel where ${title} holds mod, vip or founder, and the date each role was granted.`,
-    alternates: { canonical: `/user/${user.login}` },
+    alternates: alternatesFor(`/user/${user.login}`, locale),
     openGraph: {
       type: 'profile',
       siteName: config.brand.name,
-      locale: 'en_US',
+      locale: LOCALE_TAG[locale].replace('-', '_'),
       url: `/user/${user.login}`
     }
   };

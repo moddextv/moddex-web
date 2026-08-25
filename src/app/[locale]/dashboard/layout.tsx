@@ -7,23 +7,33 @@ import { DashboardNav } from '@/components/Dashboard/DashboardNav';
 import { Login } from '@/components/Login';
 import { TeamOnly } from '@/components/Notices';
 import { permissions } from '@/utils/permissions';
+import { asLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 
 // none of this may be baked at build
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  robots: { index: false, follow: false }
-};
+interface LayoutProps {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+}
 
-export default async function DashboardLayout({ children }: { children: ReactNode }) {
+export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadata> => ({
+  title: getTranslator(asLocale((await params).locale))('dashboard.heading'),
+  robots: { index: false, follow: false }
+});
+
+export default async function DashboardLayout({ children, params }: LayoutProps) {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
   const session = await auth();
 
   if (!session) {
     return (
       <Login
-        heading="The dashboard needs a Twitch sign-in"
-        blurb="It's team only, so moddex has to know which Twitch account is yours before it can check."
+        locale={locale}
+        heading={t('dashboard.signInHeading')}
+        blurb={t('dashboard.signInBlurb')}
         redirectTo="/dashboard"
       />
     );
@@ -37,7 +47,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     <main id="main" className="flex-grow">
       <Container>
         <header className="enter pt-8 pb-4 sm:pt-12 sm:pb-6">
-          <h1 className="text-h1">Dashboard</h1>
+          <h1 className="text-h1">{t('dashboard.heading')}</h1>
         </header>
 
         <DashboardNav isAdmin={session.user.perms >= permissions.admin} />

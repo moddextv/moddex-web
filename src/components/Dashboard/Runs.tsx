@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 
 import { ago } from './ago';
 import { duration } from '@/utils/jobHealth';
@@ -23,7 +25,8 @@ const Trend: FC<{ run: JobRun }> = ({ run }) => {
   );
 };
 
-export const Runs: FC<{ runs: Record<string, JobRun> }> = ({ runs }) => {
+export const Runs: FC<{ runs: Record<string, JobRun>; locale: Locale }> = ({ runs, locale }) => {
+  const t = getTranslator(locale);
   const entries = Object.entries(runs);
 
   if (!entries.length) {
@@ -39,7 +42,7 @@ export const Runs: FC<{ runs: Record<string, JobRun> }> = ({ runs }) => {
   return (
     <div className="panel-flush">
       <div className="px-4 pb-5">
-        <h2 className="text-h2">How long the nightly work takes</h2>
+        <h2 className="text-h2">{t('dash.runsTitle')}</h2>
         <p className="text-read text-primary-300 max-w-prose pt-1">
           Against its own seven-day average. The trend is the part worth reading, because a single
           duration cannot show a job outgrowing its window.
@@ -49,7 +52,7 @@ export const Runs: FC<{ runs: Record<string, JobRun> }> = ({ runs }) => {
       <div className="rows">
         <div className="row-head cols-jobs">
           <span>Job</span>
-          <span>Last run</span>
+          <span>{t('dash.lastRun')}</span>
           <span>vs. 7d avg</span>
         </div>
 

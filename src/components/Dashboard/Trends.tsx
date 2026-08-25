@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import clsx from 'clsx';
 
 import { buildPath, H, W } from '@/utils/sparkline';
@@ -61,10 +63,12 @@ const Trend: FC<{ job: string; points: JobPoint[] }> = ({ job, points }) => {
   );
 };
 
-export const Trends: FC<{ series: Record<string, JobPoint[]> | null; days: number }> = ({
-  series,
-  days
-}) => {
+export const Trends: FC<{
+  series: Record<string, JobPoint[]> | null;
+  days: number;
+  locale: Locale;
+}> = ({ series, days, locale }) => {
+  const t = getTranslator(locale);
   const jobs = Object.entries(series ?? {}).filter(([, points]) => points.length > 0);
 
   if (!jobs.length) return null;
@@ -72,7 +76,7 @@ export const Trends: FC<{ series: Record<string, JobPoint[]> | null; days: numbe
   return (
     <div className="panel-flush">
       <div className="flex items-baseline gap-3 flex-wrap px-4 pb-5">
-        <h2 className="text-h2">How the nightly work is trending</h2>
+        <h2 className="text-h2">{t('dash.trendsTitle')}</h2>
         <span className="text-ui text-primary-400">last {days} days</span>
       </div>
 
@@ -81,7 +85,7 @@ export const Trends: FC<{ series: Record<string, JobPoint[]> | null; days: numbe
           <span>Job</span>
           <span>Last</span>
           <span />
-          <span className="text-right">Change</span>
+          <span className="text-right">{t('dash.change')}</span>
         </div>
 
         {jobs.map(([job, points]) => (

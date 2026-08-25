@@ -1,11 +1,12 @@
 import { permanentRedirect } from 'next/navigation';
+import { asLocale, localePath } from '@/i18n/locales';
 
 interface PageProps {
-  params: Promise<{ username: string }>;
+  params: Promise<{ username: string; locale: string }>;
 }
 
 export default async function ShortUserPage({ params }: PageProps) {
-  const { username } = await params;
+  const { username, locale } = await params;
 
-  permanentRedirect(`/user/${username}`);
+  permanentRedirect(localePath(asLocale(locale), `/user/${username}`));
 }

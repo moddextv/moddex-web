@@ -1,3 +1,7 @@
+import { alternatesFor } from '@/misc/metadata';
+import { asLocale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import Stripe from 'stripe';
 import { config } from '@/config';
 import { serverConfig } from '@/serverConfig';
@@ -11,13 +15,21 @@ import { logger } from '@/misc/Logger';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
 import { LOCALE } from '@/utils/format';
-import Link from 'next/link';
 import { CSSProperties, FC, ReactNode } from 'react';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/donate/success' },
-  title: 'Thank you',
-  robots: { index: false, follow: false }
+interface MetaProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata> => {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+
+  return {
+    alternates: alternatesFor('/donate/success', locale),
+    title: t('success.metaTitle'),
+    robots: { index: false, follow: false }
+  };
 };
 
 const stripe = new Stripe(serverConfig.stripe.secretKey);
@@ -30,10 +42,15 @@ const Row: FC<{ label: string; children: ReactNode }> = ({ label, children }) =>
 );
 
 export default async function SuccessPage({
+  params,
   searchParams
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ session_id: string }>;
 }) {
+  const locale = asLocale((await params).locale);
+  const t = getTranslator(locale);
+  const rich = getRich(locale);
   const { session_id: sessionId } = await searchParams;
 
   if (!sessionId) {
@@ -81,21 +98,21 @@ export default async function SuccessPage({
           <section className="enter pt-12 pb-6 max-w-3xl">
             <div className="flex items-center gap-3.5 mb-5">
               <Mark size={26} split />
-              <span className="text-ui text-primary-400">Payment settled</span>
+              <span className="text-ui text-primary-400">{t('success.settled')}</span>
             </div>
 
-            <h1 className="text-h1 mb-3">The payment worked. The badge needs one more step.</h1>
+            <h1 className="text-h1 mb-3">{t('success.noLogin.heading')}</h1>
             <p className="text-lead text-primary-300 max-w-prose mb-6">
-              Stripe didn&apos;t pass back a Twitch username, so there&apos;s no profile to put the
-              badge on. Send us the reference below plus your Twitch name and we&apos;ll assign it
-              by hand.
+              {t('success.noLogin.body')}
             </p>
 
             <div className="panel flex flex-col sm:flex-row sm:items-end gap-4 sm:justify-between">
               <div className="min-w-0">
-                <p className="text-meta text-primary-400 mb-1.5">Payment reference</p>
+                <p className="text-meta text-primary-400 mb-1.5">
+                  {t('success.noLogin.reference')}
+                </p>
                 <code className="text-base text-primary-100 break-all select-all">
-                  {reference || 'not returned by Stripe'}
+                  {reference || t('success.noLogin.notReturned')}
                 </code>
               </div>
               <a
@@ -104,7 +121,7 @@ export default async function SuccessPage({
                 rel="noopener noreferrer"
                 className="btn btn-soft shrink-0"
               >
-                Ask on Discord
+                {t('success.noLogin.askDiscord')}
               </a>
             </div>
           </section>
@@ -119,48 +136,51 @@ export default async function SuccessPage({
         <section className="enter pt-12 pb-6 max-w-3xl">
           <div className="flex items-center gap-3.5 mb-5">
             <Mark size={26} split />
-            <span className="text-ui text-primary-400">Payment settled</span>
+            <span className="text-ui text-primary-400">{t('success.settled')}</span>
           </div>
 
-          <h1 className="text-h1 mb-4">Thank you, genuinely</h1>
+          <h1 className="text-h1 mb-4">{t('success.heading')}</h1>
           <p className="text-lead text-primary-300 max-w-prose mb-8">
-            Donations are the only thing keeping {config.brand.name} free to read, and there&apos;s
-            no paid tier waiting in the wings. The donator badge is on{' '}
-            <span className="text-primary-100 font-bold">{login}</span> already, and it&apos;ll show
-            up next to your name everywhere {config.brand.name} prints it.
+            {rich(
+              'success.body',
+              {
+                login: (chunk) => <span className="text-primary-100 font-bold">{chunk}</span>
+              },
+              { brandName: config.brand.name, login }
+            )}
           </p>
 
           <div className="panel-flush mb-6">
             <div className="rows">
               {amountText && (
-                <Row label="Amount">
+                <Row label={t('success.amount')}>
                   <span className="text-base font-bold tabular">{amountText}</span>
                 </Row>
               )}
 
-              <Row label="Badge granted">
+              <Row label={t('success.badgeGranted')}>
                 <span className="flex items-center gap-2.5">
                   <Image
                     src="/badges/donator.svg"
-                    alt="The donator badge"
+                    alt={t('success.donatorAlt')}
                     width={18}
                     height={18}
                     radius="sm"
                   />
-                  <span className="text-base font-bold">donator</span>
+                  <span className="text-base font-bold">{t('success.donator')}</span>
                 </span>
               </Row>
 
-              <Row label="Assigned to">
+              <Row label={t('success.assignedTo')}>
                 <span className="text-base font-bold">{login}</span>
               </Row>
 
-              <Row label="Receipt">
-                <span className="text-ui text-primary-300">Emailed by Stripe</span>
+              <Row label={t('success.receipt')}>
+                <span className="text-ui text-primary-300">{t('success.emailed')}</span>
               </Row>
 
               {reference && (
-                <Row label="Reference">
+                <Row label={t('success.reference')}>
                   <span className="text-ui text-primary-300 select-all break-all">{reference}</span>
                 </Row>
               )}
@@ -168,12 +188,12 @@ export default async function SuccessPage({
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link href={`/user/${login}`} className="btn">
-              See it on your profile
-            </Link>
-            <Link href="/settings" className="btn btn-soft">
-              Pick a chat badge
-            </Link>
+            <LocaleLink href={`/user/${login}`} className="btn">
+              {t('success.seeProfile')}
+            </LocaleLink>
+            <LocaleLink href="/settings" className="btn btn-soft">
+              {t('success.pickBadge')}
+            </LocaleLink>
           </div>
         </section>
 
@@ -181,17 +201,16 @@ export default async function SuccessPage({
           <div className="panel flex items-start gap-4">
             <Image
               src="/badges/top_donator.svg"
-              alt="The top donator badge"
+              alt={t('success.topDonatorAlt')}
               width={42}
               height={42}
               radius="sm"
               className="shrink-0"
             />
             <div>
-              <p className="text-base font-bold mb-1">top donator</p>
+              <p className="text-base font-bold mb-1">{t('success.topDonator')}</p>
               <p className="text-ui text-primary-300 leading-relaxed max-w-prose">
-                Held by exactly one account at a time, whoever has given the most. It moves when
-                somebody passes you.
+                {t('success.topDonatorBody')}
               </p>
             </div>
           </div>

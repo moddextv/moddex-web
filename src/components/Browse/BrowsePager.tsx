@@ -1,6 +1,8 @@
 import { BrowseAxis, browsePagePath } from '@/misc/browsePages';
 import Link from 'next/link';
 import { FC } from 'react';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import clsx from 'clsx';
 
 const WINDOW = 2;
@@ -19,15 +21,20 @@ interface BrowsePagerProps {
   axis: BrowseAxis;
   page: number;
   last: number;
+  locale: Locale;
 }
 
-export const BrowsePager: FC<BrowsePagerProps> = ({ axis, page, last }) => {
+export const BrowsePager: FC<BrowsePagerProps> = ({ axis, page, last, locale }) => {
+  const t = getTranslator(locale);
   if (last < 2) return null;
 
   const numbers = windowed(page, last);
 
   return (
-    <nav className="flex items-center justify-center gap-2 flex-wrap pt-6" aria-label="Pagination">
+    <nav
+      className="flex items-center justify-center gap-2 flex-wrap pt-6"
+      aria-label={t('misc.pagination')}
+    >
       {page > 1 && (
         <Link href={browsePagePath(axis, page - 1)} rel="prev" className="btn btn-soft">
           Previous

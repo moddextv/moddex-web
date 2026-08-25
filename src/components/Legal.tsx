@@ -1,5 +1,6 @@
 import { CSSProperties, FC, ReactNode } from 'react';
 import Link from 'next/link';
+import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Container } from '@/components/UI/Container';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
 import { config } from '@/config';
@@ -15,9 +16,9 @@ export const Para: FC<{ children: ReactNode }> = ({ children }) => (
 );
 
 export const Inline: FC<{ href: string; children: ReactNode }> = ({ href, children }) => (
-  <Link href={href} className="text-primary-100 font-semibold hover:underline">
+  <LocaleLink href={href} className="text-primary-100 font-semibold hover:underline">
     {children}
-  </Link>
+  </LocaleLink>
 );
 
 export const Ext: FC<{ href: string; children: ReactNode }> = ({ href, children }) => (

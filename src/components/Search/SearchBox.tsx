@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, FormEvent, KeyboardEvent, ReactNode, RefObject, useEffect, useState } from 'react';
+import { useT } from '@/i18n/context';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
@@ -28,6 +29,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
   inputRef,
   children
 }) => {
+  const t = useT();
   const router = useRouter();
   const [value, setValue] = useState('');
   const [active, setActive] = useState(-1);
@@ -103,7 +105,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
           className="suggest"
           id="search-suggestions"
           role="listbox"
-          aria-label="Matching accounts"
+          aria-label={t('misc.matchingAccounts')}
         >
           {items.map((item, index) => (
             <li key={item.id} role="option" aria-selected={index === active}>

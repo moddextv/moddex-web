@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { useT } from '@/i18n/context';
 import Link from 'next/link';
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
@@ -50,6 +51,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
   catalogue,
   counts: initialCounts
 }) => {
+  const t = useT();
   const [counts, setCounts] = useState(initialCounts);
   const [selected, setSelected] = useState(catalogue[0]?.name ?? '');
   const [rows, setRows] = useState<Row[]>([]);
@@ -125,7 +127,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
     <div className="panel-flush">
       <div className="flex items-center gap-3 flex-wrap px-4 pb-5">
         <span className="corner corner-tl text-mod" aria-hidden="true" />
-        <h2 className="text-h2">Badges</h2>
+        <h2 className="text-h2">{t('dash.badges')}</h2>
         <span className="ml-auto text-ui text-primary-400">
           who holds what, and who may hand it out
         </span>
@@ -194,8 +196,8 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
           ) : (
             <div className="rows">
               <div className="row-head cols-badges">
-                <span>Account</span>
-                <span>Given by</span>
+                <span>{t('dash.account')}</span>
+                <span>{t('dash.givenBy')}</span>
                 <span>When</span>
                 <span />
               </div>

@@ -1,4 +1,4 @@
-import { openGraphFor } from '@/misc/metadata';
+import { pageMetadata } from '@/misc/metadata';
 import { HELD_FIELDS } from '@/misc/held';
 import { config } from '@/config';
 import { Metadata } from 'next';
@@ -7,12 +7,15 @@ import { Clause, Inline, LegalPage, Para } from '@/components/Legal';
 import { LegalLanguageNotice } from '@/components/LegalLanguageNotice';
 import { asLocale } from '@/i18n/locales';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/tos' },
-  openGraph: openGraphFor('/tos'),
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => ({
+  ...pageMetadata('/tos', asLocale((await params).locale)),
   title: 'Terms of Service',
   description: `The terms for using ${config.brand.domain}, what data it holds about a listed account, and how to opt out.`
-};
+});
 
 const SECTIONS = [
   { id: 'acceptance', title: '1. Acceptance', short: '1. Acceptance' },
@@ -24,10 +27,6 @@ const SECTIONS = [
   { id: 'changes', title: '7. Changes', short: '7. Changes' },
   { id: 'contact', title: '8. Contact', short: '8. Contact' }
 ] as const;
-
-interface PageProps {
-  params: Promise<{ locale: string }>;
-}
 
 export default async function TosPage({ params }: PageProps) {
   const locale = asLocale((await params).locale);

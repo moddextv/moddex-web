@@ -48,6 +48,44 @@ const pluralOf = (
   return dict[`${key}.${form}`] ?? dict[`${key}.other`];
 };
 
+/**
+ * For a key that comes from a url or an api rather than from the code, where
+ * "no such message" is an ordinary answer and printing the key would be wrong.
+ */
+export const optional = (t: Translator, key: string | undefined | null): string | null => {
+  if (!key) return null;
+
+  const text = t(key);
+
+  return text === key ? null : text;
+};
+
+export type Token = { text: string } | { tag: string; text: string };
+
+/**
+ * Splits `a <link>b</link> c` into its parts so a translator can move the
+ * linked words inside the sentence instead of the sentence being cut into
+ * three keys around them. One level, no nesting — anything more belongs in
+ * markup rather than in a message.
+ */
+export const tokenize = (text: string): Token[] => {
+  const tokens: Token[] = [];
+  const pattern = /<(\w+)>([\s\S]*?)<\/\1>/g;
+  let last = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > last) tokens.push({ text: text.slice(last, match.index) });
+
+    tokens.push({ tag: match[1] as string, text: match[2] as string });
+    last = match.index + match[0].length;
+  }
+
+  if (last < text.length) tokens.push({ text: text.slice(last) });
+
+  return tokens;
+};
+
 export interface Translator {
   (key: string, vars?: Vars): string;
 }
