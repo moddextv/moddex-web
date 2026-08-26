@@ -1,0 +1,78 @@
+import { arrayOf, bool, id, nullable, num, object, str } from '@/utils/api/shape';
+
+export const userShape = object({ id, login: str, badges: arrayOf(object({})) });
+const usersShape = arrayOf(userShape);
+
+const roleUserShape = object({
+  id,
+  login: str,
+  badges: arrayOf(object({})),
+  grantedAt: nullable(str)
+});
+const roleUsersShape = arrayOf(roleUserShape);
+
+// the catalogue, which carries both drawings and no top-level svg. The lean
+// badge that rides on a user is the other shape, and it is the one with `svg`
+export const badgesShape = arrayOf(
+  object({
+    id: num,
+    slug: str,
+    name: str,
+    chatName: nullable(str),
+    order: nullable(num),
+    wearable: bool,
+    images: object({
+      icon: object({ svg: str, png: str }),
+      chat: object({ 1: str, 2: str, 4: str })
+    })
+  })
+);
+
+export const statsShape = object({
+  channels: num,
+  users: num,
+  mods: num,
+  vips: num,
+  founders: nullable(num),
+  takenAt: nullable(str)
+});
+
+export const historyShape = arrayOf(
+  object({ day: str, channels: num, users: num, mods: num, vips: num, founders: nullable(num) })
+);
+
+export const rolePageShape = object({
+  items: roleUsersShape,
+  hasMore: bool,
+  cursor: nullable(str),
+  total: nullable(num)
+});
+
+export const suggestShape = object({ items: usersShape });
+
+export const browsePageShape = object({
+  items: arrayOf(object({ id, login: str, counts: object({ mod: num, vip: num }) })),
+  hasMore: bool
+});
+
+export const leaderboardShape = object({
+  role: str,
+  computedAt: nullable(str),
+  depth: num,
+  of: nullable(num),
+  items: arrayOf(
+    object({
+      place: num,
+      count: num,
+      id,
+      login: str,
+      name: nullable(str),
+      avatar: nullable(str),
+      bot: bool,
+      badges: arrayOf(object({}))
+    })
+  ),
+  limit: num,
+  hasMore: bool,
+  after: nullable(num)
+});

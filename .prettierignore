@@ -1,0 +1,13 @@
+# prettier reads .gitignore as well, so .next/ and node_modules/ need no repeat
+# here. This file is only for what git tracks but prettier must not rewrite.
+
+# npm owns this file and rewrites it on every install
+package-lock.json
+
+# prettier is not idempotent on this one. Its deeply nested list items carry
+# continuation paragraphs that prettier re-reads as one level deeper than it
+# just wrote them, so every run indents them four spaces further — 30, 34, 38,
+# 42 and onwards, without settling. `--check` could never go green on it.
+# Formatting it by hand is the cost of keeping it; do not remove this line
+# without running prettier over it twice and comparing.
+docs/NEXT-STEPS.md

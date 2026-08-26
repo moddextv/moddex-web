@@ -1,0 +1,431 @@
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('@/utils/api/moddex', () => ({
+  getStats: vi.fn(async () => ({ channels: 1_220_000, users: 8_200_000 }))
+}));
+
+import robots from '@/app/robots';
+import { DEFAULT_LOCALE, LOCALES, localePath } from '@/i18n/locales';
+import manifest from '@/app/manifest';
+import sitemap from '@/app/sitemap';
+import { MAX_BROWSE_PAGE } from '@/misc/browsePages';
+import { profileGraph, siteGraph } from '@/components/JsonLd';
+
+const ROOT = join(__dirname, '..');
+const APP = join(ROOT, 'src', 'app', '[locale]');
+
+const read = (...parts: string[]) => readFileSync(join(APP, ...parts), 'utf8');
+
+const pages = (dir = APP, prefix = ''): { route: string; file: string }[] =>
+  readdirSync(dir).flatMap((entry) => {
+    const path = join(dir, entry);
+
+    if (statSync(path).isDirectory()) {
+      return entry === 'api' || entry === 'fonts' ? [] : pages(path, `${prefix}/${entry}`);
+    }
+
+    return entry === 'page.tsx' ? [{ route: prefix || '/', file: path }] : [];
+  });
+
+const ROUTES = pages();
+
+// /c and /u only call permanentRedirect, so they render nothing to describe
+const REDIRECTS = ['/c/[username]', '/u/[username]'];
+
+describe('every page carries metadata', () => {
+  it('found the route tree', () => {
+    expect(ROUTES.map((page) => page.route)).toContain('/');
+    expect(ROUTES.length).toBeGreaterThan(10);
+  });
+
+  it.each(ROUTES.filter((page) => !REDIRECTS.includes(page.route)))(
+    '$route declares a title',
+    ({ file }) => {
+      const source = readFileSync(file, 'utf8');
+
+      expect(source).toMatch(/export const metadata|generateMetadata/);
+    }
+  );
+
+  it.each(ROUTES.filter((page) => !REDIRECTS.includes(page.route)))(
+    '$route declares a canonical or is deliberately noindex',
+    ({ file }) => {
+      const source = readFileSync(file, 'utf8');
+
+      expect(source).toMatch(/alternatesFor\(|pageMetadata\(|robots: \{ index: false/);
+    }
+  );
+});
+
+describe('robots.txt', () => {
+  const rules = robots();
+  const disallow = (rules.rules as { disallow: string[] }).disallow;
+
+  it('points at the sitemap on the canonical host', () => {
+    expect(rules.sitemap).toBe('https://moddex.tv/sitemap.xml');
+  });
+
+  it.each(['/dashboard', '/settings', '/insights', '/donate/success', '/design'])(
+    'keeps %s out',
+    (path) => {
+      expect(disallow).toContain(path);
+    }
+  );
+
+  // the same page under three languages is three urls, and the translated slug
+  // means /de/spenden/success is not something a reader of this list can guess
+  it.each(['/dashboard', '/settings', '/donate/success', '/design'])(
+    'keeps %s out in every language too',
+    (path) => {
+      for (const locale of LOCALES) {
+        expect(disallow, `${locale} ${path}`).toContain(localePath(locale, path));
+      }
+    }
+  );
+
+  // /insights is served by caddy and /api by the api. naming a locale beside
+  // either is the mistake the allowlist exists to prevent
+  it('never invents a locale for a path that is not a page', () => {
+    for (const rule of disallow) {
+      expect(rule, rule).not.toMatch(/^\/[a-z]{2}\/(insights|api)/);
+    }
+  });
+
+  it.each(['/', '/channel', '/user', '/leaderboard', '/donate', '/about', '/privacy', '/tos'])(
+    'allows %s',
+    (path) => {
+      expect(disallow.some((rule) => path === rule || path.startsWith(`${rule}/`))).toBe(false);
+    }
+  );
+});
+
+describe('a page disallowed in robots.txt also sends noindex', () => {
+  it.each([
+    ['dashboard', 'page.tsx'],
+    ['settings', 'page.tsx'],
+    ['design', 'page.tsx'],
+    ['donate', 'success', 'page.tsx']
+  ])('%s/%s', (...parts) => {
+    expect(read(...parts)).toContain('robots: { index: false, follow: false }');
+  });
+});
+
+describe('the profile routes cannot serve a soft 404', () => {
+  it.each([
+    ['channel', '[username]', 'page.tsx'],
+    ['user', '[username]', 'page.tsx']
+  ])('%s/%s answers noindex when there is no row', (...parts) => {
+    const source = read(...parts);
+
+    expect(source).toContain(
+      'if (!user) return { title, robots: { index: false, follow: false } }'
+    );
+    expect(source).toContain('if (!isUsername(username))');
+  });
+});
+
+describe('the sitemap lists pages, not rows', () => {
+  const entries = async () => await sitemap();
+  const paths = async () =>
+    (await entries()).map((entry) => entry.url.replace('https://moddex.tv', ''));
+
+  it.each(['/', '/channel', '/user', '/leaderboard', '/donate', '/about', '/privacy', '/tos'])(
+    'carries %s',
+    async (path) => {
+      expect(await paths()).toContain(path);
+    }
+  );
+
+  it('carries no profile', async () => {
+    const profiles = (await paths()).filter((path) => /^\/(channel|user)\/(?!page\/)./.test(path));
+
+    expect(profiles).toEqual([]);
+  });
+
+  it('carries browse pages, which are pages this site publishes', async () => {
+    const browse = (await paths()).filter((path) => /^\/(channel|user)\/page\/[0-9]+$/.test(path));
+
+    expect(browse).toContain('/channel/page/1');
+    expect(browse).toContain('/user/page/1');
+  });
+
+  it('stops at the page the api can still serve', async () => {
+    const numbers = (await paths())
+      .map((path) => /^\/(?:channel|user)\/page\/([0-9]+)$/.exec(path)?.[1])
+      .filter(Boolean)
+      .map(Number);
+
+    expect(Math.max(...numbers)).toBeLessThanOrEqual(MAX_BROWSE_PAGE);
+  });
+
+  // the point was never "only url": it is that lastmod, changefreq and priority
+  // are read by nobody. `alternates` is read, which is why it was allowed in
+  it('carries no field a search engine ignores', async () => {
+    const keys = new Set((await entries()).flatMap((entry) => Object.keys(entry)));
+
+    for (const ignored of ['lastModified', 'changeFrequency', 'priority']) {
+      expect([...keys], `${ignored} is read by nobody`).not.toContain(ignored);
+    }
+
+    expect([...keys].sort()).toEqual(['alternates', 'url']);
+  });
+
+  it('lists every language version as its own entry', async () => {
+    const all = await paths();
+
+    for (const path of ['/leaderboard', '/about', '/channel/page/1']) {
+      for (const locale of LOCALES) {
+        expect(all, `${locale} ${path}`).toContain(localePath(locale, path));
+      }
+    }
+  });
+
+  /**
+   * Google wants the whole set on every entry, itself included. An entry that
+   * names only the others announces a translation without giving it a place.
+   */
+  it('gives every entry the full set of alternates, itself included', async () => {
+    const all = await entries();
+
+    expect(all.length).toBe(new Set(all.map((entry) => entry.url)).size);
+
+    for (const entry of all.slice(0, 40)) {
+      const languages = entry.alternates?.languages ?? {};
+
+      for (const locale of LOCALES) {
+        expect(languages[locale], `${entry.url} misses ${locale}`).toBeTruthy();
+      }
+
+      expect(Object.values(languages)).toContain(entry.url);
+      expect(languages['x-default']).toBe(languages[DEFAULT_LOCALE]);
+    }
+  });
+});
+
+describe('every image says what it is', () => {
+  const tsx = (dir: string, out: string[] = []): string[] => {
+    for (const entry of readdirSync(dir)) {
+      const path = join(dir, entry);
+      if (statSync(path).isDirectory()) tsx(path, out);
+      else if (entry.endsWith('.tsx')) out.push(path);
+    }
+    return out;
+  };
+
+  const RENDERED_BY_SATORI_NOT_HTML = 'ogCard.tsx';
+  const sources = tsx(join(ROOT, 'src')).filter(
+    (file) => !file.endsWith(RENDERED_BY_SATORI_NOT_HTML)
+  );
+
+  it('found the components', () => {
+    expect(sources.length).toBeGreaterThan(30);
+  });
+
+  it.each(sources.map((file) => [file.replace(/\\/g, '/').split('/src/')[1], file]))(
+    '%s',
+    (_name, file) => {
+      const source = readFileSync(file, 'utf8');
+      const tags = [...source.matchAll(/<(?:Image|img)\s[\s\S]{0,400}?\/>/g)].map((m) => m[0]);
+
+      for (const tag of tags) {
+        expect(tag, `an image here has no alt`).toMatch(/\salt=/);
+
+        // an empty alt is right for an image that sits beside its own label —
+        // the flag next to a language name. saying so out loud is the price
+        if (/\salt=""/.test(tag)) {
+          expect(tag, `an empty alt needs aria-hidden to say it is decorative`).toMatch(
+            /\saria-hidden=/
+          );
+        }
+      }
+    }
+  );
+});
+
+describe('a profile puts its role lists in the html', () => {
+  it.each([
+    ['channel', ['mods', 'vips', 'founders']],
+    ['user', ['modding', 'viping', 'founding']]
+  ] as const)('%s/[username] seeds every list on the server', (kind, roles) => {
+    const source = read(kind, '[username]', 'page.tsx');
+
+    expect(source).toContain('await seedRoleLists(user.id');
+
+    for (const role of roles) {
+      expect(source).toContain(`initial={seeded.${role}}`);
+    }
+  });
+
+  it('the hook renders the seed instead of refetching it', () => {
+    const source = readFileSync(join(ROOT, 'src', 'hooks', 'useUserListData.tsx'), 'utf8');
+
+    expect(source).toContain('useState<RoleUser[]>(initial?.items ?? [])');
+    expect(source).toContain('const seeded = useRef(Boolean(initial))');
+  });
+
+  it('one page of rows is not virtualised, or the server html holds ten of them', () => {
+    const source = readFileSync(join(ROOT, 'src', 'components', 'User', 'UserList.tsx'), 'utf8');
+
+    expect(source).toContain('visibleUsers.length <= PAGE_SIZE ?');
+  });
+
+  // the tabs hide two lists of three from a reader, and a crawler that got the
+  // open one only would be back where the seeded lists started: one link out
+  it('the role tabs render every panel and hide the closed ones with css', () => {
+    const source = readFileSync(join(ROOT, 'src', 'components', 'User', 'RoleTabs.tsx'), 'utf8');
+
+    expect(source).toContain('panels.map');
+    expect(source).toContain("index !== active && 'hidden'");
+    expect(source).not.toMatch(/panels\[active\]|index === active &&\s*panel/);
+  });
+});
+
+describe('the home page carries the thing it tells you to use', () => {
+  const home = read('page.tsx');
+
+  it('renders the search itself rather than pointing at the nav', () => {
+    expect(home).toContain('<HeroSearch />');
+  });
+
+  // the header carries no search at all now, so "the bar above" points at
+  // nothing on every page and every width, not just below lg
+  it('no page sends the reader to a bar that is not there', () => {
+    const src = join(ROOT, 'src');
+
+    const walk = (dir: string, out: string[] = []): string[] => {
+      for (const name of readdirSync(dir)) {
+        const full = join(dir, name);
+        if (statSync(full).isDirectory()) walk(full, out);
+        else if (name.endsWith('.tsx')) out.push(full);
+      }
+
+      return out;
+    };
+
+    const offenders = walk(src)
+      .filter((file) => /bar above/i.test(readFileSync(file, 'utf8')))
+      .map((file) =>
+        file
+          .slice(src.length + 1)
+          .split('\\')
+          .join('/')
+      );
+
+    expect(offenders, 'the header has no search bar to point at').toEqual([]);
+  });
+
+  it('every page that tells you to search carries a field to search in', () => {
+    for (const page of ['channel', 'user']) {
+      expect(read(page, 'page.tsx'), `${page} asks for a lookup`).toContain('<PageSearch');
+    }
+
+    expect(
+      readFileSync(join(ROOT, 'src', 'components', 'Errors.tsx'), 'utf8'),
+      'a typo is exactly where a second try belongs'
+    ).toContain('<PageSearch');
+  });
+
+  // /design exists so the specimen cannot go stale, and the one value it types
+  // out by hand went stale the day the display step moved
+  it('the styleguide quotes the display step the config actually ships', () => {
+    const config = readFileSync(join(ROOT, 'tailwind.config.mjs'), 'utf8');
+    const design = read('design', 'page.tsx');
+
+    const shipped = config.match(/display:\s*\[\s*'(clamp\([^']+\))'/);
+    expect(shipped, 'the display step has moved or changed shape').toBeTruthy();
+
+    expect(design).toContain(shipped![1]);
+  });
+
+  it('does not let a counter outgrow the headline', () => {
+    const config = readFileSync(join(ROOT, 'tailwind.config.mjs'), 'utf8');
+
+    const display = config.match(/display:\s*\[\s*'clamp\([^,]+,[^,]+,\s*([\d.]+)rem\)/);
+    const counter = home.match(/text-\[clamp\([^,]+,[^,]+,([\d.]+)rem\)\]/);
+
+    expect(display, 'the display step has moved or changed shape').toBeTruthy();
+    expect(counter, 'the home counters have moved or changed shape').toBeTruthy();
+    expect(Number(counter![1])).toBeLessThan(Number(display![1]));
+  });
+});
+
+describe('structured data', () => {
+  it('names the site and its publisher', () => {
+    const graph = JSON.stringify(siteGraph());
+
+    expect(graph).toContain('"WebSite"');
+    expect(graph).toContain('"Organization"');
+    expect(graph).toContain('https://moddex.tv');
+  });
+
+  it('describes a profile and where it sits', () => {
+    const graph = JSON.stringify(profileGraph('channel', 'forsen', 'forsen'));
+
+    expect(graph).toContain('"ProfilePage"');
+    expect(graph).toContain('"BreadcrumbList"');
+    expect(graph).toContain('https://moddex.tv/channel/forsen');
+  });
+
+  it('cannot be closed by a hostile name', () => {
+    const source = readFileSync(join(ROOT, 'src', 'components', 'JsonLd.tsx'), 'utf8');
+
+    expect(source).toContain(String.raw`replace(/</g, '\\u003c')`);
+  });
+});
+
+describe('the brand images exist at the sizes the tags claim', () => {
+  it.each([
+    ['public/og.png', 1200, 630],
+    ['public/icon-512.png', 512, 512],
+    ['public/icon-192.png', 192, 192],
+    ['src/app/apple-icon.png', 180, 180]
+  ])('%s', async (file, width, height) => {
+    const path = join(ROOT, file);
+    expect(existsSync(path), `${file} is missing — run npm run og`).toBe(true);
+
+    // png header: width and height are big-endian uint32 at byte 16 and 20
+    const header = readFileSync(path).subarray(16, 24);
+    expect([header.readUInt32BE(0), header.readUInt32BE(4)]).toEqual([width, height]);
+  });
+
+  it('the manifest points at icons that are there', () => {
+    for (const icon of manifest().icons ?? []) {
+      expect(existsSync(join(ROOT, 'public', icon.src!)), `${icon.src} is missing`).toBe(true);
+    }
+  });
+});
+
+/**
+ * /design keeps its own list of badge names, and the generator keeps another.
+ * Two lists of the same thing drift, so this holds them against what is actually
+ * on disk — which is also the check that would have caught the bot-2.svg that
+ * sat in public/badges unreferenced, because badges:check ignores extra files.
+ */
+describe('the design page shows every badge that exists', () => {
+  const onDisk = readdirSync(join(ROOT, 'public', 'badges'), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+
+  const listed = [
+    ...(
+      readFileSync(join(APP, 'design', 'page.tsx'), 'utf8').match(
+        /const BADGES = \[([\s\S]*?)\]/
+      )?.[1] ?? ''
+    ).matchAll(/'([a-z0-9-]+)'/g)
+  ]
+    .map((match) => match[1])
+    .sort();
+
+  it('found both lists', () => {
+    expect(onDisk.length).toBeGreaterThan(5);
+    expect(listed.length).toBeGreaterThan(5);
+  });
+
+  it('lists exactly the generated set, with nothing extra on disk', () => {
+    expect(listed).toEqual(onDisk);
+  });
+});
