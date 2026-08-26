@@ -8,7 +8,7 @@ vi.mock('@/utils/api/moddex', () => ({
 }));
 
 import robots from '@/app/robots';
-import { LOCALES, localePath } from '@/i18n/locales';
+import { DEFAULT_LOCALE, LOCALES, localePath } from '@/i18n/locales';
 import manifest from '@/app/manifest';
 import sitemap from '@/app/sitemap';
 import { MAX_BROWSE_PAGE } from '@/misc/browsePages';
@@ -161,10 +161,47 @@ describe('the sitemap lists pages, not rows', () => {
     expect(Math.max(...numbers)).toBeLessThanOrEqual(MAX_BROWSE_PAGE);
   });
 
+  // the point was never "only url": it is that lastmod, changefreq and priority
+  // are read by nobody. `alternates` is read, which is why it was allowed in
   it('carries no field a search engine ignores', async () => {
-    const keys = (await entries()).flatMap((entry) => Object.keys(entry));
+    const keys = new Set((await entries()).flatMap((entry) => Object.keys(entry)));
 
-    expect([...new Set(keys)]).toEqual(['url']);
+    for (const ignored of ['lastModified', 'changeFrequency', 'priority']) {
+      expect([...keys], `${ignored} is read by nobody`).not.toContain(ignored);
+    }
+
+    expect([...keys].sort()).toEqual(['alternates', 'url']);
+  });
+
+  it('lists every language version as its own entry', async () => {
+    const all = await paths();
+
+    for (const path of ['/leaderboard', '/about', '/channel/page/1']) {
+      for (const locale of LOCALES) {
+        expect(all, `${locale} ${path}`).toContain(localePath(locale, path));
+      }
+    }
+  });
+
+  /**
+   * Google wants the whole set on every entry, itself included. An entry that
+   * names only the others announces a translation without giving it a place.
+   */
+  it('gives every entry the full set of alternates, itself included', async () => {
+    const all = await entries();
+
+    expect(all.length).toBe(new Set(all.map((entry) => entry.url)).size);
+
+    for (const entry of all.slice(0, 40)) {
+      const languages = entry.alternates?.languages ?? {};
+
+      for (const locale of LOCALES) {
+        expect(languages[locale], `${entry.url} misses ${locale}`).toBeTruthy();
+      }
+
+      expect(Object.values(languages)).toContain(entry.url);
+      expect(languages['x-default']).toBe(languages[DEFAULT_LOCALE]);
+    }
   });
 });
 
