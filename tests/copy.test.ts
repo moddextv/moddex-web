@@ -109,7 +109,8 @@ const TECHNICAL = new Set([
 ]);
 
 // english on purpose, and why. the legal pages carry their own notice
-const ENGLISH_ON_PURPOSE = /Icons\.tsx|\/design\/|\/privacy\/|\/tos\/|Legal\.tsx|ogCard\.tsx/;
+const ENGLISH_ON_PURPOSE =
+  /Icons\.tsx|[\\/]design[\\/]|[\\/]privacy[\\/]|[\\/]tos[\\/]|Legal\.tsx|ogCard\.tsx/;
 
 // a name is not copy: nothing below is translatable in any language
 const NAMES = new Set(['moddex', 'twitch', 'HTTP', '&copy;']);

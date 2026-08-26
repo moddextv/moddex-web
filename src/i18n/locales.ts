@@ -1,4 +1,5 @@
 import { config } from '@/config';
+import { routeFor, slugFor } from './routes.mjs';
 
 const { defaultLocale, locales } = config.i18n;
 
@@ -17,24 +18,48 @@ export const localeName = (locale: Locale): string => locales[asLocale(locale)].
 
 export const localeTag = (locale: Locale): string => locales[asLocale(locale)].tag;
 
+export const localeFlag = (locale: Locale): string =>
+  `/flags/${locales[asLocale(locale)].flag}.svg`;
+
 // open graph writes the same tag with an underscore
 export const ogLocale = (locale: Locale): string => localeTag(locale).replace('-', '_');
 
-// the default locale is served unprefixed, so its path carries no segment
-export const localePath = (locale: Locale, path: string): string => {
-  const clean = path.startsWith('/') ? path : `/${path}`;
+// a query string would otherwise ride along on the segment and stop it matching
+const splitSuffix = (path: string): [string, string] => {
+  const at = path.search(/[?#]/);
 
-  if (locale === DEFAULT_LOCALE) return clean;
-
-  return clean === '/' ? `/${locale}` : `/${locale}${clean}`;
+  return at === -1 ? [path, ''] : [path.slice(0, at), path.slice(at)];
 };
 
+// a path in this codebase is always the english one; localePath renders it
+export const localePath = (locale: Locale, path: string): string => {
+  const [bare, suffix] = splitSuffix(path.startsWith('/') ? path : `/${path}`);
+  const [, first, ...deeper] = bare.split('/');
+  const translated = first ? [slugFor(locale, first), ...deeper].join('/') : '';
+
+  const rendered =
+    locale === DEFAULT_LOCALE
+      ? translated
+        ? `/${translated}`
+        : '/'
+      : translated
+        ? `/${locale}/${translated}`
+        : `/${locale}`;
+
+  return `${rendered}${suffix}`;
+};
+
+// and back: a url the reader sees becomes the english path the code passes round
 export const stripLocale = (path: string): string => {
-  const [, first, ...rest] = path.split('/');
+  const [bare, suffix] = splitSuffix(path);
+  const [, first, ...rest] = bare.split('/');
 
   if (!isLocale(first)) return path;
+  if (!rest.length) return `/${suffix}`;
 
-  return rest.length ? `/${rest.join('/')}` : '/';
+  const [slug, ...deeper] = rest;
+
+  return `/${[routeFor(first, slug ?? ''), ...deeper].join('/')}${suffix}`;
 };
 
 // the same page in another language, from a pathname that may already carry one

@@ -4,6 +4,7 @@ import { cache } from 'react';
 
 import { fetchUserListPage } from '@/actions/roleList';
 import { logger } from '@/misc/Logger';
+import type { Translator } from '@/i18n/translate';
 import { PAGE_SIZE, type RolePage } from '@/misc/roleList';
 import type { RoleKey, RoleType, UserType } from '@/misc/roles';
 
@@ -40,10 +41,11 @@ export const isEmpty = (seed: Seed): boolean =>
 // counts its own rows and a long one reports what the api said
 export const roleTabs = (
   seed: Seed,
-  tabs: readonly { key: RoleKey; label: string; role: RoleType }[]
+  tabs: readonly { key: RoleKey; label: string; role: RoleType }[],
+  t: Translator
 ) =>
   tabs.map(({ key, label, role }) => {
     const page = seed[role];
 
-    return { key, label, count: page ? (page.total ?? page.items.length) : null };
+    return { key, label: t(label), count: page ? (page.total ?? page.items.length) : null };
   });

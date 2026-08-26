@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- satori renders no html, so next/image has nothing to optimise */
 
-import { DEFAULT_LOCALE, getTranslator } from '@/i18n';
+import { DEFAULT_LOCALE } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import 'server-only';
 
 import { readFile } from 'node:fs/promises';

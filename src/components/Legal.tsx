@@ -2,6 +2,7 @@ import { CSSProperties, FC, ReactNode } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Container } from '@/components/UI/Container';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';
+import { DEFAULT_LOCALE } from '@/i18n/locales';
 import { config } from '@/config';
 
 export interface Section {
@@ -49,7 +50,8 @@ const OptOutPanel: FC = () => (
       <h2 className="text-h2">You can opt out at any time</h2>
     </div>
     <p className="text-read text-primary-300 max-w-prose mb-6">
-      Sign in with Twitch and switch the opt-out on. <OptOutEffect /> <OptOutReversible />
+      Sign in with Twitch and switch the opt-out on. <OptOutEffect locale={DEFAULT_LOCALE} />{' '}
+      <OptOutReversible locale={DEFAULT_LOCALE} />
     </p>
     <LocaleLink href="/settings" className="btn">
       Go to opt-out settings

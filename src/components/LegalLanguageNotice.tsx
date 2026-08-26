@@ -1,4 +1,5 @@
-import { DEFAULT_LOCALE, getTranslator, Locale } from '@/i18n';
+import { DEFAULT_LOCALE, Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { FC } from 'react';
 
 // the contract stays in one language, so every other locale says so rather than

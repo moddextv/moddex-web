@@ -1,4 +1,6 @@
-import { asLocale, getRich, getTranslator, Translator } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { Translator } from '@/i18n/translate';
+import { getRich, getTranslator } from '@/i18n/dictionary';
 import { pageMetadata } from '@/misc/metadata';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';

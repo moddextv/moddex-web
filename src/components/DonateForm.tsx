@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FormEvent, useState } from 'react';
 import { startCheckout } from '@/actions/checkout';
 import { useAction } from '@/hooks/useAction';

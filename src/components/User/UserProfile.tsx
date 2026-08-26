@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/i18n';
+import { useI18n } from '@/i18n/context';
 import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
 import { displayBio } from '@/utils/text';

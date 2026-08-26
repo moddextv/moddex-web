@@ -6,7 +6,6 @@
       "two": "What is held about an account, and how to make it stop, is on the <privacy>privacy page</privacy>. The opt-out is one switch and takes effect immediately. The <tos>terms</tos> say the rest. {name} is not affiliated with, endorsed by, or sponsored by Twitch Interactive, Inc."
     },
     "donated": {
-      "badgeAlt": "The donator badge",
       "one": "Your donation still counts here. We decided to honor every donation made under the old name rather than start the ledger over, so the donator badge you earned then came across with the rest of the data and is on your profile now.",
       "title": "If you donated back when it was modchecker",
       "two": "That is the likely answer if you are wearing a badge on a site you don't remember giving anything to. There is nothing to claim and nothing to renew, and it doesn't expire. If you did donate back then and the badge isn't showing, say so in <discord>the Discord</discord> and it will be put right by hand."
@@ -25,6 +24,13 @@
       "title": "Who runs it",
       "two": "More about the person behind it at <author>maersux.dev</author>, and the code can be read at <github>github.com/moddextv</github>."
     }
+  },
+  "badges": {
+    "alt": "The {name} badge",
+    "donator": "donator",
+    "donatorBody": "Sits beside your name everywhere moddex shows it. Any donation of $5 or more, permanently.",
+    "topDonator": "top donator",
+    "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you."
   },
   "browse": {
     "accounts": {
@@ -147,7 +153,6 @@
     "backup": "Backup",
     "badge": {
       "alsoWrittenBy": "{name} is also written by {source}, so a hand grant holds until that runs again and decides otherwise.",
-      "alt": "The {name} badge",
       "filter": "Filter the {name} list",
       "lead": "who holds what, and who may hand it out",
       "neverFetched": "never fetched",
@@ -276,12 +281,7 @@
     "signInHeading": "The dashboard needs a Twitch sign-in"
   },
   "donate": {
-    "badgeAlt": "The {name} badge",
     "continue": "Continue to Stripe",
-    "donator": {
-      "body": "Sits beside your name everywhere moddex shows it. Any donation of $5 or more, permanently.",
-      "name": "donator"
-    },
     "heading": "{brandName} runs on one server and no advertising",
     "holds": {
       "accounts": "accounts",
@@ -304,10 +304,6 @@
     },
     "stripeNote": "{brandName} stores the payment reference and the amount, nothing else. Stripe handles the card details end to end.",
     "stripeUnreachable": "We couldn't reach Stripe, so nothing was charged. Try again in a moment.",
-    "topDonator": {
-      "body": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you.",
-      "name": "top donator"
-    },
     "whatYouGet": "What you get"
   },
   "errors": {
@@ -528,6 +524,7 @@
     "whichRoles": "Which roles to show"
   },
   "nav": {
+    "backToMenu": "Back",
     "language": "Language",
     "main": "Main",
     "menu": "Menu",
@@ -535,8 +532,7 @@
     "signInShort": "Sign in",
     "signOut": "Sign out",
     "skipToContent": "Skip to content",
-    "themeToDark": "switch to dark theme",
-    "themeToLight": "switch to light theme",
+    "themeToggle": "Switch theme",
     "yourAvatar": "Your Twitch avatar"
   },
   "notices": {
@@ -625,7 +621,7 @@
     "check": "Check",
     "checking": "Checking…",
     "held": "held",
-    "holds": "holds",
+    "holds": "holds a role in",
     "holdsNothing": "holds nothing in",
     "noDate": "no date",
     "notHeld": "not held",
@@ -640,6 +636,11 @@
     "mod": {
       "one": "moderator",
       "other": "moderators"
+    },
+    "short": {
+      "founder": "Founder",
+      "mod": "Mod",
+      "vip": "VIP"
     },
     "title": {
       "channel": {
@@ -726,8 +727,6 @@
     "assignedTo": "Assigned to",
     "badgeGranted": "Badge granted",
     "body": "Donations are the only thing keeping {brandName} free to read, and there's no paid tier waiting in the wings. The donator badge is on <login>{login}</login> already, and it'll show up next to your name everywhere {brandName} prints it.",
-    "donator": "donator",
-    "donatorAlt": "The donator badge",
     "emailed": "Emailed by Stripe",
     "heading": "Thank you, genuinely",
     "metaTitle": "Thank you",
@@ -742,9 +741,6 @@
     "receipt": "Receipt",
     "reference": "Reference",
     "seeProfile": "See it on your profile",
-    "settled": "Payment settled",
-    "topDonator": "top donator",
-    "topDonatorAlt": "The top donator badge",
-    "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you."
+    "settled": "Payment settled"
   }
 }

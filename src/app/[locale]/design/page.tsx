@@ -1,4 +1,4 @@
-import { asLocale } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
 import { alternatesFor } from '@/misc/metadata';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
@@ -107,7 +107,8 @@ const BADGES = [
   'top_donator',
   'admin',
   'bot',
-  'booster'
+  'booster',
+  'translator'
 ];
 
 export default async function DesignPage({ params }: MetaProps) {
@@ -407,7 +408,7 @@ export default async function DesignPage({ params }: MetaProps) {
 
           <Section
             title="Badges"
-            blurb="Awarded, not decorative. 18px beside a name in a row, 24px on a profile. Drawn by scripts/build-badges.mjs from one description, so this row is the generated set rather than a copy of it; run npm run badges:check before trusting a file in public/badges."
+            blurb="Awarded, not decorative. 16px in the dashboard, 18px beside a name in a row, 24px on a profile. Drawn by scripts/build-badges.mjs, and this row is a second list of the same names, which is why a test holds it against the files in public/badges; run npm run badges:check before trusting one of those files."
           >
             <div className="flex flex-wrap items-center gap-5">
               {BADGES.map((badge) => (

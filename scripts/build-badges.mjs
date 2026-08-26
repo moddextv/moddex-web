@@ -56,6 +56,12 @@ const glyphs = {
     `<g fill="none" stroke="${ink}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">` +
     `<path d="M40 62 L64 40 L88 62"/><path d="M40 92 L64 70 L88 92"/></g>`,
 
+  // carved rather than drawn: the grid is wide negative space, so it holds at 16px
+  globe: (ink, fill) =>
+    `<circle cx="64" cy="64" r="36" fill="${ink}"/>` +
+    `<g fill="none" stroke="${fill}" stroke-width="11">` +
+    `<path d="M28 64 H100"/><ellipse cx="64" cy="64" rx="18" ry="36"/></g>`,
+
   mark: (ink) => mark(ink)
 };
 
@@ -67,7 +73,8 @@ const BADGES = [
   { name: 'top_donator', fill: '#FACC15', ink: INK, glyph: 'crown' },
   { name: 'admin', fill: '#F87171', ink: INK, glyph: 'mark' },
   { name: 'bot', fill: '#008585', ink: PAPER, glyph: 'robot' },
-  { name: 'booster', fill: '#FF73FA', ink: INK, glyph: 'boost' }
+  { name: 'booster', fill: '#FF73FA', ink: INK, glyph: 'boost' },
+  { name: 'translator', fill: '#2563EB', ink: PAPER, glyph: 'globe' }
 ];
 
 const srgb = (v) => {

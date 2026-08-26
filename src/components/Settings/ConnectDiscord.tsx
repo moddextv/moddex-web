@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { disconnect } from '@/actions/settings';
 import { DiscordIcon } from '@/components/Icons';

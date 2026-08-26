@@ -1,4 +1,4 @@
-import { asLocale, localePath } from '@/i18n';
+import { asLocale, localePath } from '@/i18n/locales';
 import { permanentRedirect } from 'next/navigation';
 
 interface PageProps {

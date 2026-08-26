@@ -1,14 +1,12 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC, useRef, useState } from 'react';
 import { Image } from '@/components/UI/Image';
 import { UserChatBadges } from '@/misc/badges';
 import { setSelectedUserChatBadge } from '@/actions/settings';
 import { useAction } from '@/hooks/useAction';
 import clsx from 'clsx';
-
-const badgeAlt = (name: string) => `The ${name} badge`;
 
 interface ChatBadgeComponentProps {
   userChatBadges: UserChatBadges;
@@ -60,7 +58,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
                 {badge.webp ? (
                   <Image
                     src={badge.webp}
-                    alt={badgeAlt(badge.name)}
+                    alt={t('badges.alt', { name: badge.name })}
                     width={20}
                     height={20}
                     radius="sm"
@@ -91,7 +89,7 @@ export const ChatBadge: FC<ChatBadgeComponentProps> = ({ userChatBadges, login }
           {preview && (
             <Image
               src={preview.webp}
-              alt={badgeAlt(preview.name)}
+              alt={t('badges.alt', { name: preview.name })}
               width={18}
               height={18}
               radius="sm"

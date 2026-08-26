@@ -8,6 +8,7 @@ vi.mock('@/utils/api/moddex', () => ({
 }));
 
 import robots from '@/app/robots';
+import { LOCALES, localePath } from '@/i18n/locales';
 import manifest from '@/app/manifest';
 import sitemap from '@/app/sitemap';
 import { MAX_BROWSE_PAGE } from '@/misc/browsePages';
@@ -73,6 +74,25 @@ describe('robots.txt', () => {
       expect(disallow).toContain(path);
     }
   );
+
+  // the same page under three languages is three urls, and the translated slug
+  // means /de/spenden/success is not something a reader of this list can guess
+  it.each(['/dashboard', '/settings', '/donate/success', '/design'])(
+    'keeps %s out in every language too',
+    (path) => {
+      for (const locale of LOCALES) {
+        expect(disallow, `${locale} ${path}`).toContain(localePath(locale, path));
+      }
+    }
+  );
+
+  // /insights is served by caddy and /api by the api. naming a locale beside
+  // either is the mistake the allowlist exists to prevent
+  it('never invents a locale for a path that is not a page', () => {
+    for (const rule of disallow) {
+      expect(rule, rule).not.toMatch(/^\/[a-z]{2}\/(insights|api)/);
+    }
+  });
 
   it.each(['/', '/channel', '/user', '/leaderboard', '/donate', '/about', '/privacy', '/tos'])(
     'allows %s',
@@ -175,7 +195,14 @@ describe('every image says what it is', () => {
 
       for (const tag of tags) {
         expect(tag, `an image here has no alt`).toMatch(/\salt=/);
-        expect(tag, `an image here has an empty alt`).not.toMatch(/\salt=""/);
+
+        // an empty alt is right for an image that sits beside its own label —
+        // the flag next to a language name. saying so out loud is the price
+        if (/\salt=""/.test(tag)) {
+          expect(tag, `an empty alt needs aria-hidden to say it is decorative`).toMatch(
+            /\saria-hidden=/
+          );
+        }
       }
     }
   );
@@ -331,5 +358,37 @@ describe('the brand images exist at the sizes the tags claim', () => {
     for (const icon of manifest().icons ?? []) {
       expect(existsSync(join(ROOT, 'public', icon.src!)), `${icon.src} is missing`).toBe(true);
     }
+  });
+});
+
+/**
+ * /design keeps its own list of badge names, and the generator keeps another.
+ * Two lists of the same thing drift, so this holds them against what is actually
+ * on disk — which is also the check that would have caught the bot-2.svg that
+ * sat in public/badges unreferenced, because badges:check ignores extra files.
+ */
+describe('the design page shows every badge that exists', () => {
+  const onDisk = readdirSync(join(ROOT, 'public', 'badges'))
+    .filter((file) => file.endsWith('.svg'))
+    .map((file) => file.replace(/\.svg$/, ''))
+    .sort();
+
+  const listed = [
+    ...(
+      readFileSync(join(APP, 'design', 'page.tsx'), 'utf8').match(
+        /const BADGES = \[([\s\S]*?)\]/
+      )?.[1] ?? ''
+    ).matchAll(/'([a-z_]+)'/g)
+  ]
+    .map((match) => match[1])
+    .sort();
+
+  it('found both lists', () => {
+    expect(onDisk.length).toBeGreaterThan(5);
+    expect(listed.length).toBeGreaterThan(5);
+  });
+
+  it('lists exactly the generated set, with nothing extra on disk', () => {
+    expect(listed).toEqual(onDisk);
   });
 });

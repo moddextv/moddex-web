@@ -1,4 +1,5 @@
-import { getTranslator, LOCALES } from '@/i18n';
+import { LOCALES } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 

@@ -1,13 +1,6 @@
-import {
-  asLocale,
-  DEFAULT_LOCALE,
-  dictionaryOf,
-  getTranslator,
-  I18nProvider,
-  isLocale,
-  LOCALES,
-  ogLocale
-} from '@/i18n';
+import { asLocale, DEFAULT_LOCALE, isLocale, LOCALES, ogLocale } from '@/i18n/locales';
+import { dictionaryOf, getTranslator } from '@/i18n/dictionary';
+import { I18nProvider } from '@/i18n/context';
 import '@/styles/globals.css';
 import { SITE_CARD } from '@/misc/metadata';
 import { Footer } from '@/components/Footer';

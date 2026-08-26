@@ -1,4 +1,5 @@
-import { getTranslator, Locale, localePath } from '@/i18n';
+import { Locale, localePath } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { BrowsePager } from '@/components/Browse/BrowsePager';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';

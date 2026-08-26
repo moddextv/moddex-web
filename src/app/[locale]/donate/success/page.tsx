@@ -1,4 +1,5 @@
-import { asLocale, getRich, getTranslator } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
 import { alternatesFor } from '@/misc/metadata';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import Stripe from 'stripe';
@@ -158,12 +159,12 @@ export default async function SuccessPage({
                 <span className="flex items-center gap-2.5">
                   <Image
                     src="/badges/donator.svg"
-                    alt={t('success.donatorAlt')}
+                    alt={t('badges.alt', { name: t('badges.donator') })}
                     width={18}
                     height={18}
                     radius="sm"
                   />
-                  <span className="text-base font-bold">{t('success.donator')}</span>
+                  <span className="text-base font-bold">{t('badges.donator')}</span>
                 </span>
               </Row>
 
@@ -197,16 +198,16 @@ export default async function SuccessPage({
           <div className="panel flex items-start gap-4">
             <Image
               src="/badges/top_donator.svg"
-              alt={t('success.topDonatorAlt')}
+              alt={t('badges.alt', { name: t('badges.topDonator') })}
               width={42}
               height={42}
               radius="sm"
               className="shrink-0"
             />
             <div>
-              <p className="text-base font-bold mb-1">{t('success.topDonator')}</p>
+              <p className="text-base font-bold mb-1">{t('badges.topDonator')}</p>
               <p className="text-ui text-primary-300 leading-relaxed max-w-prose">
-                {t('success.topDonatorBody')}
+                {t('badges.topDonatorBody')}
               </p>
             </div>
           </div>

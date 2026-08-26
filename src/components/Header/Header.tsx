@@ -1,4 +1,5 @@
-import { getTranslator, Locale, localePath } from '@/i18n';
+import { Locale, localePath } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { auth } from '@/auth';
 import { NavLinks } from '@/components/Header/NavLinks';
 import { NavMenu } from '@/components/Header/NavMenu';

@@ -1,4 +1,5 @@
-import { asLocale, getTranslator, Locale } from '@/i18n';
+import { asLocale, Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { alternatesFor } from '@/misc/metadata';
 import { Metadata } from 'next';
 import { FC, Suspense } from 'react';

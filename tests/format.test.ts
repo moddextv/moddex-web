@@ -1,4 +1,4 @@
-import { getTranslator } from '@/i18n';
+import { getTranslator } from '@/i18n/dictionary';
 import { describe, expect, it } from 'vitest';
 import { signInOptions } from '@/utils/signIn';
 

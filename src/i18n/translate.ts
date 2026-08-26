@@ -49,10 +49,7 @@ const pluralOf = (
   return dict[`${key}.${form}`] ?? dict[`${key}.other`];
 };
 
-/**
- * For a key that comes from a url or an api rather than from the code, where
- * "no such message" is an ordinary answer and printing the key would be wrong.
- */
+// for a key out of a url or the api, where "no such message" is an ordinary answer
 export const optional = (t: Translator, key: string | undefined | null): string | null => {
   if (!key) return null;
 
@@ -63,12 +60,7 @@ export const optional = (t: Translator, key: string | undefined | null): string 
 
 export type Token = { text: string } | { tag: string; text: string };
 
-/**
- * Splits `a <link>b</link> c` into its parts so a translator can move the
- * linked words inside the sentence instead of the sentence being cut into
- * three keys around them. One level, no nesting — anything more belongs in
- * markup rather than in a message.
- */
+// one level, no nesting — a translator moves the linked words inside the sentence
 export const tokenize = (text: string): Token[] => {
   const tokens: Token[] = [];
   const pattern = /<(\w+)>([\s\S]*?)<\/\1>/g;
@@ -87,11 +79,6 @@ export const tokenize = (text: string): Token[] => {
   return tokens;
 };
 
-/**
- * Everything a locale decides hangs off one handle: `t('key')` for a message,
- * `t.number` / `t.date` / `t.since` for a value. A call site that renders text
- * already has `t` in scope, so nothing else ever has to know the locale exists.
- */
 export interface Translator extends Formatters {
   (key: string, vars?: Vars): string;
   readonly locale: Locale;

@@ -1,4 +1,5 @@
-import { asLocale, getTranslator } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
 

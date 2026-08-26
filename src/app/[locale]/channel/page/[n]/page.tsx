@@ -1,4 +1,4 @@
-import { asLocale } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
 import { BrowsePageView } from '@/components/Browse/BrowsePageView';
 import { config } from '@/config';
 import { browsePagePath, parseBrowsePage } from '@/misc/browsePages';

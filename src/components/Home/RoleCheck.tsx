@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 
@@ -9,9 +9,9 @@ import { useAction } from '@/hooks/useAction';
 import type { Membership } from '@/utils/api/moddex/public';
 
 const ROLES = [
-  { key: 'mod', label: 'Mod', tone: 'text-mod', corner: 'corner-tl' },
-  { key: 'vip', label: 'VIP', tone: 'text-vip', corner: 'corner-br' },
-  { key: 'founder', label: 'Founder', tone: 'text-founder', corner: 'corner-bl' }
+  { key: 'mod', label: 'roles.short.mod', tone: 'text-mod', corner: 'corner-tl' },
+  { key: 'vip', label: 'roles.short.vip', tone: 'text-vip', corner: 'corner-br' },
+  { key: 'founder', label: 'roles.short.founder', tone: 'text-founder', corner: 'corner-bl' }
 ] as const;
 
 type Asked = { account: string; channel: string };
@@ -40,12 +40,12 @@ const Verdict: FC<{ asked: Asked; held: Membership }> = ({ asked, held }) => {
             <span
               key={key}
               className={`role-card${on ? ' is-held' : ''}`}
-              aria-label={`${label}: ${on ? t('roleCheck.held') : t('roleCheck.notHeld')}`}
+              aria-label={`${t(label)}: ${on ? t('roleCheck.held') : t('roleCheck.notHeld')}`}
             >
               {on ? <span className={`corner ${corner} ${tone}`} aria-hidden="true" /> : null}
 
               <span className={on ? `text-ui font-bold ${tone}` : 'text-ui text-primary-400'}>
-                {label}
+                {t(label)}
               </span>
 
               <span className="text-micro text-primary-400">

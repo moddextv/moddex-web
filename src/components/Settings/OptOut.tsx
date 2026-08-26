@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { setIgnoredUser } from '@/actions/settings';
 import { OptOutEffect, OptOutReversible } from '@/components/OptOutPromise';

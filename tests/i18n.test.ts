@@ -2,18 +2,17 @@ import { flatten, translator } from '@/i18n/translate';
 import {
   asLocale,
   DEFAULT_LOCALE,
-  dictionaryOf,
-  getTranslator,
   isLocale,
+  localeFlag,
   localeName,
   localePath,
   LOCALES,
   localeTag,
-  messageKeys,
   ogLocale,
   stripLocale,
   swapLocale
-} from '@/i18n';
+} from '@/i18n/locales';
+import { dictionaryOf, getTranslator, messageKeys } from '@/i18n/dictionary';
 import { describe, expect, it } from 'vitest';
 
 describe('flatten', () => {
@@ -80,9 +79,17 @@ describe('translator', () => {
 });
 
 describe('locales', () => {
+  // /settings keeps one name in every language, so this is the prefix alone
   it('serves the default locale unprefixed and the others under a segment', () => {
+    expect(localePath('en', '/settings')).toBe('/settings');
+    expect(localePath('de', '/settings')).toBe('/de/settings');
+  });
+
+  // and this one is the prefix plus the translated slug. localeRouting.test.ts
+  // holds the whole table; these two are here because they read as one rule
+  it('renames a route that has its own name in a language', () => {
     expect(localePath('en', '/user/maersux')).toBe('/user/maersux');
-    expect(localePath('de', '/user/maersux')).toBe('/de/user/maersux');
+    expect(localePath('de', '/user/maersux')).toBe('/de/account/maersux');
   });
 
   it('does not leave a bare trailing slash on the root', () => {
@@ -91,9 +98,9 @@ describe('locales', () => {
   });
 
   it('swaps the locale of a path that already carries one', () => {
-    expect(swapLocale('/de/user/maersux', 'en')).toBe('/user/maersux');
-    expect(swapLocale('/user/maersux', 'de')).toBe('/de/user/maersux');
-    expect(swapLocale('/de/user/maersux', 'de')).toBe('/de/user/maersux');
+    expect(swapLocale('/de/account/maersux', 'en')).toBe('/user/maersux');
+    expect(swapLocale('/user/maersux', 'de')).toBe('/de/account/maersux');
+    expect(swapLocale('/de/account/maersux', 'de')).toBe('/de/account/maersux');
   });
 
   it('swaps the root in both directions without a trailing slash', () => {
@@ -114,10 +121,24 @@ describe('locales', () => {
     }
   });
 
+  // a language added to config without a flag renders a broken image in the picker
+  it('ships a flag file for every configured locale', () => {
+    const { existsSync } = require('node:fs');
+    const { join } = require('node:path');
+
+    for (const locale of LOCALES) {
+      const file = localeFlag(locale);
+
+      expect(file).toMatch(/^\/flags\/[a-z]{2}\.svg$/);
+      expect(existsSync(join(__dirname, '..', 'public', file)), `missing ${file}`).toBe(true);
+    }
+  });
+
+  // zz is unassigned in iso 639-1, so this stays a non-locale however many ship
   it('recognises only the locales it ships', () => {
     expect(isLocale('de')).toBe(true);
-    expect(isLocale('fr')).toBe(false);
-    expect(asLocale('fr')).toBe(DEFAULT_LOCALE);
+    expect(isLocale('zz')).toBe(false);
+    expect(asLocale('zz')).toBe(DEFAULT_LOCALE);
     expect(asLocale(undefined)).toBe(DEFAULT_LOCALE);
   });
 });
@@ -140,6 +161,74 @@ describe('the shipped message files', () => {
       expect(t('pages.channels')).not.toBe('pages.channels');
       expect(dictionaryOf(locale)['pages.channels']).toBeTruthy();
     }
+  });
+
+  /**
+   * JSON.parse keeps the last of two identical keys and says nothing, so a
+   * message written twice in one file silently loses one of its values. The
+   * key-parity test cannot see it either: both files still parse to the same
+   * key set. Prettier puts one key per line, which is what makes counting work.
+   */
+  it.each(['en', 'de', 'fr'])('%s.json defines no key twice', (locale) => {
+    const { readFileSync } = require('node:fs');
+    const { join } = require('node:path');
+
+    const raw: string = readFileSync(
+      join(__dirname, '..', 'src', 'i18n', 'messages', `${locale}.json`),
+      'utf8'
+    );
+
+    const count = (value: unknown): number =>
+      Object.values(value as Record<string, unknown>).reduce(
+        (total: number, child) =>
+          total +
+          1 +
+          (child && typeof child === 'object' && !Array.isArray(child) ? count(child) : 0),
+        0
+      );
+
+    expect(count(JSON.parse(raw))).toBe((raw.match(/^\s*"[^"]+":/gm) ?? []).length);
+  });
+
+  it('translates one english string the same way everywhere it is defined twice', () => {
+    const base = dictionaryOf(DEFAULT_LOCALE);
+    const group = (key: string) => key.replace(/\.(zero|one|two|few|many|other)$/, '');
+
+    const sameText = new Map<string, string[]>();
+
+    for (const [key, text] of Object.entries(base)) {
+      if (!sameText.has(text)) sameText.set(text, []);
+      sameText.get(text)?.push(key);
+    }
+
+    const drifted: string[] = [];
+
+    for (const locale of LOCALES) {
+      if (locale === DEFAULT_LOCALE) continue;
+
+      const dict = dictionaryOf(locale);
+
+      for (const [text, keys] of sameText) {
+        // a plural group says one thing in english and two in german — by design
+        const byGroup = new Map<string, string>();
+
+        for (const key of keys) {
+          if (!byGroup.has(group(key))) byGroup.set(group(key), key);
+        }
+
+        const spread = [...byGroup.values()];
+
+        if (spread.length < 2) continue;
+
+        const answers = new Set(spread.map((key) => dict[key]));
+
+        if (answers.size > 1) {
+          drifted.push(`${locale}: ${JSON.stringify(text.slice(0, 40))} — ${spread.join(', ')}`);
+        }
+      }
+    }
+
+    expect(drifted).toEqual([]);
   });
 });
 

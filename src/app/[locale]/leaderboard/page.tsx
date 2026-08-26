@@ -1,4 +1,5 @@
-import { asLocale, getTranslator } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { CSSProperties } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Container } from '@/components/UI/Container';

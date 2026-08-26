@@ -1,6 +1,7 @@
 'use client';
 
-import { Translator, useT } from '@/i18n';
+import { Translator } from '@/i18n/translate';
+import { useT } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 
@@ -34,7 +35,7 @@ const Face: FC<{ badge: Badge; on: boolean; note: string | null; t: Translator }
   <>
     <Image
       src={badge.svg}
-      alt={t('dash.badge.alt', { name: badge.name })}
+      alt={t('badges.alt', { name: badge.name })}
       width={20}
       height={20}
       radius="sm"

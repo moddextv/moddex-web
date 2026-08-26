@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/i18n';
+import { useI18n } from '@/i18n/context';
 import { Facts, Good, ReloadButton, StatePage, Status } from '@/components/PageState';
 import { PageSearch } from '@/components/Search/PageSearch';
 import { config } from '@/config';

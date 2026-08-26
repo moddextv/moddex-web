@@ -1,4 +1,4 @@
-import { getTranslator } from '@/i18n';
+import { getTranslator } from '@/i18n/dictionary';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { backupLate, clock, nightlyRuns, size } from '@/utils/jobHealth';
 

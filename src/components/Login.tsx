@@ -1,4 +1,5 @@
-import { getRich, getTranslator, Locale } from '@/i18n';
+import { Locale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
 import { signIn } from '@/auth';
 import { Container } from '@/components/UI/Container';
 import { TwitchIcon } from '@/components/Icons';

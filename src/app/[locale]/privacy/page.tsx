@@ -1,4 +1,4 @@
-import { asLocale } from '@/i18n';
+import { asLocale, DEFAULT_LOCALE } from '@/i18n/locales';
 import { pageMetadata } from '@/misc/metadata';
 import { HELD_FIELDS } from '@/misc/held';
 import { config } from '@/config';
@@ -163,10 +163,11 @@ export default async function PrivacyPage({ params }: PageProps) {
           seen.
         </Para>
         <Para>
-          Two things you shouldn&apos;t have to find out the hard way. <OptOutEffect /> Since you
-          can switch it back off, the underlying rows still exist while it&apos;s on. And the
-          database is backed up nightly, with backups kept for fourteen days, so a deletion only
-          reaches the backups once that window has passed.
+          Two things you shouldn&apos;t have to find out the hard way.{' '}
+          <OptOutEffect locale={DEFAULT_LOCALE} /> Since you can switch it back off, the underlying
+          rows still exist while it&apos;s on. And the database is backed up nightly, with backups
+          kept for fourteen days, so a deletion only reaches the backups once that window has
+          passed.
         </Para>
         <Para>
           If you want your data removed outright instead of hidden, just ask. The address is below.

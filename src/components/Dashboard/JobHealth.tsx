@@ -1,4 +1,6 @@
-import { getTranslator, Locale, Translator } from '@/i18n';
+import { Locale } from '@/i18n/locales';
+import { Translator } from '@/i18n/translate';
+import { getTranslator } from '@/i18n/dictionary';
 import { FC } from 'react';
 import { backupLate, clock, size } from '@/utils/jobHealth';
 import type { JobHealth as Health } from '@/utils/api/moddex/admin';

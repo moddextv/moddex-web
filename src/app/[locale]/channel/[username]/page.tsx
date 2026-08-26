@@ -1,4 +1,5 @@
-import { asLocale, localePath, ogLocale } from '@/i18n';
+import { asLocale, localePath, ogLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { alternatesFor } from '@/misc/metadata';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
@@ -18,9 +19,9 @@ import { CSSProperties } from 'react';
 const ROLES = ['mods', 'vips', 'founders'] as const;
 
 const CHANNEL_TABS = [
-  { key: 'mod', label: 'Moderators', role: 'mods' },
-  { key: 'vip', label: 'VIPs', role: 'vips' },
-  { key: 'founder', label: 'Founders', role: 'founders' }
+  { key: 'mod', label: 'roles.title.channel.mod', role: 'mods' },
+  { key: 'vip', label: 'roles.title.channel.vip', role: 'vips' },
+  { key: 'founder', label: 'roles.title.channel.founder', role: 'founders' }
 ] as const;
 
 interface PageProps {
@@ -65,6 +66,8 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
     return <InvalidUsername username={username} />;
   }
 
+  const t = getTranslator(locale);
+
   const { user, banReason, optedOut } = await getUser(username);
 
   if (banReason) {
@@ -92,7 +95,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
         <UserProfile user={user} />
 
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
-          <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS)}>
+          <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS, t)}>
             <UserList type="channel" role="mods" user={user} initial={seeded.mods} tabbed />
             <UserList type="channel" role="vips" user={user} initial={seeded.vips} tabbed />
             <UserList type="channel" role="founders" user={user} initial={seeded.founders} tabbed />

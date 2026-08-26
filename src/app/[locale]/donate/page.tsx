@@ -1,4 +1,5 @@
-import { asLocale, getTranslator } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { pageMetadata } from '@/misc/metadata';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
@@ -95,17 +96,17 @@ export default async function DonatePage({ params }: MetaProps) {
             <div className="flex flex-col gap-6">
               <Badge
                 src="/badges/donator.svg"
-                name={t('donate.donator.name')}
-                alt={t('donate.badgeAlt', { name: t('donate.donator.name') })}
+                name={t('badges.donator')}
+                alt={t('badges.alt', { name: t('badges.donator') })}
               >
-                {t('donate.donator.body')}
+                {t('badges.donatorBody')}
               </Badge>
               <Badge
                 src="/badges/top_donator.svg"
-                name={t('donate.topDonator.name')}
-                alt={t('donate.badgeAlt', { name: t('donate.topDonator.name') })}
+                name={t('badges.topDonator')}
+                alt={t('badges.alt', { name: t('badges.topDonator') })}
               >
-                {t('donate.topDonator.body')}
+                {t('badges.topDonatorBody')}
               </Badge>
             </div>
           </div>
