@@ -691,8 +691,7 @@
       "nocode": "Twitch hat keine Autorisierung zurückgeschickt. Versuch es nochmal.",
       "scopes": "Twitch hat eine der beiden Berechtigungen zurückgehalten. Für Mod- und VIP-Ereignisse brauchen wir beide, der Kanal blieb also unverbunden.",
       "signin": "Deine Sitzung endete, bevor das fertig war. Melde dich an und versuch es nochmal.",
-      "state": "Dieser Link ist abgelaufen oder gehörte nicht zu dieser Sitzung. Beginne oben neu.",
-      "unconfigured": "Kanalverbindungen sind auf diesem Server noch nicht eingerichtet."
+      "state": "Dieser Link ist abgelaufen oder gehörte nicht zu dieser Sitzung. Beginne oben neu."
     },
     "connectDiscord": "Discord verbinden",
     "disconnect": "Trennen",

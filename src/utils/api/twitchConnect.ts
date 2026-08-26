@@ -13,14 +13,9 @@ const MODERATED_CHANNELS = 'https://api.twitch.tv/helix/moderation/channels';
 
 const PURPOSE = purposeOf('channel');
 
-export const SCOPES = ['moderation:read', 'channel:read:vips'] as const;
+export const REQUIRED_SCOPES = ['moderation:read', 'channel:read:vips'] as const;
 
 const OPTIONAL_SCOPES = ['user:read:moderated_channels'] as const;
-
-const clientId = () => process.env.AUTH_TWITCH_ID ?? '';
-const clientSecret = () => process.env.AUTH_TWITCH_SECRET ?? '';
-
-export const isConnectConfigured = (): boolean => Boolean(clientId() && clientSecret());
 
 export const redirectUri = (baseUrl: string): string => callbackUrl(baseUrl, 'channel');
 
@@ -31,10 +26,10 @@ export const readConnectState = (state: string | null, twitchId: string): boolea
 
 export const authorizeUrl = (state: string): string => {
   const params = new URLSearchParams({
-    client_id: clientId(),
+    client_id: serverConfig.twitch.clientId,
     redirect_uri: redirectUri(serverConfig.baseUrl),
     response_type: 'code',
-    scope: [...SCOPES, ...OPTIONAL_SCOPES].join(' '),
+    scope: [...REQUIRED_SCOPES, ...OPTIONAL_SCOPES].join(' '),
     state,
     force_verify: 'true'
   });
@@ -51,7 +46,7 @@ interface ConnectResult {
 export const exchangeCode = async (code: string): Promise<ConnectResult | null> => {
   const grant = await exchangeCodeForToken(
     TOKEN,
-    { clientId: clientId(), clientSecret: clientSecret() },
+    serverConfig.twitch,
     code,
     redirectUri(serverConfig.baseUrl)
   );
@@ -61,7 +56,7 @@ export const exchangeCode = async (code: string): Promise<ConnectResult | null> 
   const meResponse = await fetch(USERS, {
     headers: {
       Authorization: `Bearer ${grant.accessToken}`,
-      'Client-Id': clientId()
+      'Client-Id': serverConfig.twitch.clientId
     }
   });
 
@@ -100,7 +95,10 @@ export const fetchModeratedChannels = async (
     try {
       response = await fetch(`${MODERATED_CHANNELS}?${params.toString()}`, {
         signal: AbortSignal.timeout(15_000),
-        headers: { Authorization: `Bearer ${accessToken}`, 'Client-Id': clientId() }
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Client-Id': serverConfig.twitch.clientId
+        }
       });
     } catch {
       return { channels, complete: false };

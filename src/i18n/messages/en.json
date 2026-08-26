@@ -691,8 +691,7 @@
       "nocode": "Twitch sent back no authorization. Try again.",
       "scopes": "Twitch withheld one of the two permissions. We need both for moderator and VIP events, so the channel stayed disconnected.",
       "signin": "Your session ended before this finished. Sign in and try again.",
-      "state": "That link expired or didn't belong to this session. Start again from the button above.",
-      "unconfigured": "Channel connections aren't set up on this server yet."
+      "state": "That link expired or didn't belong to this session. Start again from the button above."
     },
     "connectDiscord": "Connect Discord",
     "disconnect": "Disconnect",

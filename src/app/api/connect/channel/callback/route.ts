@@ -3,19 +3,13 @@ import { backToSettings } from '@/utils/api/connectRedirect';
 import { auth } from '@/auth';
 import { setChannelConnection, setModeratedChannels } from '@/utils/api/moddex/me';
 import { logger } from '@/misc/Logger';
-import {
-  SCOPES,
-  exchangeCode,
-  isConnectConfigured,
-  readConnectState
-} from '@/utils/api/twitchConnect';
+import { REQUIRED_SCOPES, exchangeCode, readConnectState } from '@/utils/api/twitchConnect';
 
 export async function GET(request: NextRequest) {
   const session = await auth();
   const twitchId = session?.user?.id;
 
   if (!twitchId) return backToSettings('channel', 'signin');
-  if (!isConnectConfigured()) return backToSettings('channel', 'unconfigured');
 
   const params = request.nextUrl.searchParams;
 
@@ -32,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     if (result.userId !== twitchId) return backToSettings('channel', 'mismatch');
 
-    const missing = SCOPES.filter((scope) => !result.scopes.includes(scope));
+    const missing = REQUIRED_SCOPES.filter((scope) => !result.scopes.includes(scope));
     if (missing.length) return backToSettings('channel', 'scopes');
 
     await setChannelConnection(twitchId, result.scopes);

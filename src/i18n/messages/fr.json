@@ -691,8 +691,7 @@
       "nocode": "Twitch n'a renvoyé aucune autorisation. Réessaie.",
       "scopes": "Twitch a retenu l'une des deux permissions. Il nous faut les deux pour les évènements de modérateur et de VIP, la chaîne est donc restée déconnectée.",
       "signin": "Ta session s'est terminée avant la fin. Connecte-toi et réessaie.",
-      "state": "Ce lien a expiré ou n'appartenait pas à cette session. Recommence depuis le bouton ci-dessus.",
-      "unconfigured": "Les connexions de chaîne ne sont pas encore configurées sur ce serveur."
+      "state": "Ce lien a expiré ou n'appartenait pas à cette session. Recommence depuis le bouton ci-dessus."
     },
     "connectDiscord": "Connecter Discord",
     "disconnect": "Déconnecter",

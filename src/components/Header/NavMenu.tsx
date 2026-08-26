@@ -259,7 +259,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
                 </DropdownItem>
               </DropdownSection>,
 
-              <DropdownSection key="controls" showDivider={Boolean(close.length)}>
+              <DropdownSection key="controls">
                 {[
                   <DropdownItem
                     key="preferences"
