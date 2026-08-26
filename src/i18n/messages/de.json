@@ -76,7 +76,7 @@
   "common": {
     "back": "Zurück",
     "clear": "Zurücksetzen",
-    "close": "Schliessen",
+    "close": "Schließen",
     "loadMore": "Mehr laden",
     "loading": "Lädt",
     "loadingShort": "Lädt",
@@ -91,7 +91,7 @@
     "botModes": {
       "all": "sichtbar",
       "hide": "ausgeblendet",
-      "only": "nur Bots"
+      "only": "nur"
     },
     "bots": "Bots: {state}",
     "botsAria": "Bots: {state}. Ändert, welche Accounts gelistet werden.",
@@ -157,7 +157,7 @@
       "lead": "wer was trägt, und wer es vergeben darf",
       "neverFetched": "nie abgerufen",
       "nobodyHolds": "<name>{name}</name> trägt noch niemand.",
-      "optedOut": "abgemeldet",
+      "optedOut": "ausgetragen",
       "owner": "Besitzer",
       "protected": "geschützt",
       "showAll": "Alle {count} anzeigen",
@@ -177,7 +177,7 @@
       "nobodyConnected": "Bisher hat niemand einen Kanal verbunden. Die EventSub-Shards können in Ordnung sein, während hier nichts steht. Sie beantworten verschiedene Fragen.",
       "none": "keine",
       "nothingSubscribed": "verbunden, nichts abonniert",
-      "optedOut": "abgemeldet",
+      "optedOut": "ausgetragen",
       "withdrew": "zurückgezogen",
       "yes": "ja"
     },
@@ -252,7 +252,7 @@
     "subscribed": "Abonniert",
     "sw": {
       "discoverNote": "Accounts, die noch kein Sweep berührt hat. Daran wächst der Index",
-      "inScope": "{count} im Rückstand",
+      "inScope": "{count} erfasst",
       "live": "Live",
       "liveNote": "die Kanäle, die gerade senden, laufend durchgegangen",
       "perMinute": "/ Min.",
@@ -299,7 +299,7 @@
     "straight": {
       "one": "Ein Beitrag an die Betriebskosten, kein Kauf.",
       "three": "Grundsätzlich nicht erstattbar. Wenn etwas schiefging, schreib uns und wir klären das.",
-      "title": "Ehrlich gesagt",
+      "title": "Klartext",
       "two": "Die Badges sind reine Zierde. Sie schalten nichts frei und haben keinen Geldwert."
     },
     "stripeNote": "{brandName} speichert die Zahlungsreferenz und den Betrag, sonst nichts. Stripe wickelt die Kartendaten vollständig ab.",
@@ -463,7 +463,7 @@
     "heading": "Diese Seite braucht eine Twitch-Anmeldung",
     "landBack": "Du landest wieder auf der Seite, die du erreichen wolltest.",
     "never": "Nie",
-    "optOut": "Aus dem Index abmelden",
+    "optOut": "Aus dem Index austragen",
     "pickBadge": "Ein Chat-Badge wählen",
     "pickBadgeBody": "Wenn du mehrere hast, wähle, welches neben deinem Namen steht.",
     "scopes": {
@@ -505,12 +505,12 @@
     "matchingAccounts": "Passende Accounts",
     "mostRoles": "Meiste Rollen",
     "noBotsInList": "Keine Bots in dieser Liste.",
-    "noFoundersRead": "Noch nichts gelesen. Founder-Badges kommen aus einer anderen Twitch-Abfrage als Mods und VIPs, und die läuft seltener. Eine leere Liste heisst hier also: noch nicht gelesen, nicht: keine vorhanden.",
-    "noLoginStartsWith": "Kein Login in dieser Liste beginnt mit „{query}\". Diese Liste sucht am Anfang eines Logins, nicht irgendwo in einem Namen.",
+    "noFoundersRead": "Noch nichts gelesen. Founder-Badges kommen aus einer anderen Twitch-Abfrage als Mods und VIPs, und die läuft seltener. Eine leere Liste heißt hier also: noch nicht gelesen, nicht: keine vorhanden.",
+    "noLoginStartsWith": "Kein Login in dieser Liste beginnt mit „{query}“. Diese Liste sucht am Anfang eines Logins, nicht irgendwo in einem Namen.",
     "noneRead": "Noch nichts gelesen.",
     "notYet": "noch nie",
     "nothingIndexedWith": "Nichts im Index beginnt mit <name>{query}</name>. Enter drücken, um es von Twitch zu lesen und aufzunehmen.",
-    "nothingMatches": "Hier passt nichts zu „{query}\".",
+    "nothingMatches": "Hier passt nichts zu „{query}“.",
     "ofTotal": "von {total}",
     "onlyBots": "Nur Bots",
     "overTime": "Im Zeitverlauf",
@@ -550,7 +550,7 @@
       "lookUp": "Jemand anderen nachschlagen",
       "moderates": "Kanäle, die sie moderieren",
       "no": "Nein",
-      "optOutYourself": "Selbst abmelden",
+      "optOutYourself": "Selbst austragen",
       "profileServed": "Profil ausgeliefert",
       "stillIndexed": "Weiterhin im Index"
     },
@@ -572,7 +572,7 @@
     "savedListed": "Gespeichert. Dein Eintrag ist wieder gelistet."
   },
   "optOutPanel": {
-    "title": "Aus dem Index abmelden"
+    "title": "Aus dem Index austragen"
   },
   "pages": {
     "about": "Über {brandName}",
@@ -625,7 +625,7 @@
     "holdsNothing": "hat keine Rolle in",
     "noDate": "kein Datum",
     "notHeld": "nicht vorhanden",
-    "optedOut": "Dieser Account hat sich davon abgemeldet, gelistet zu werden.",
+    "optedOut": "Dieser Account hat sich aus dem Index ausgetragen.",
     "title": "Ein Paar prüfen"
   },
   "roles": {
@@ -684,7 +684,7 @@
     "channelStatus": {
       "canceled": "Abgebrochen. An deinem Kanal hat sich nichts geändert.",
       "connected": "Kanal verbunden. Mod- und VIP-Änderungen erreichen moddex jetzt, sobald sie passieren.",
-      "connected-nosync": "Kanal verbunden, aber die Liste der von dir moderierten Kanäle liess sich nicht speichern. Die Live-Aktualisierung läuft. Verbinde später erneut, um die Liste zu ergänzen.",
+      "connected-nosync": "Kanal verbunden, aber die Liste der von dir moderierten Kanäle ließ sich nicht speichern. Die Live-Aktualisierung läuft. Verbinde später erneut, um die Liste zu ergänzen.",
       "exchange": "Twitch hat die Autorisierung nicht bestätigt. Versuch es nochmal.",
       "failed": "Beim Speichern ging etwas schief, deine Einstellungen sind unverändert. Versuch es gleich nochmal.",
       "mismatch": "Du hast das auf Twitch mit einem anderen Account bestätigt als dem, mit dem du hier angemeldet bist. Die Verbindung wurde abgelehnt.",
@@ -713,7 +713,7 @@
       "body": "Für den eigenen Kanal. Optional.",
       "title": "Live-Rollenupdates"
     },
-    "metaDescription": "Sich von {domain} abmelden oder wählen, welches Badge neben dem Namen steht.",
+    "metaDescription": "Sich bei {domain} austragen oder wählen, welches Badge neben dem Namen steht.",
     "privacy": "Datenschutz",
     "signInHeading": "Für die Einstellungen braucht es eine Twitch-Anmeldung",
     "signedInAs": "Angemeldet als {login}. Änderungen werden sofort gespeichert."
@@ -726,7 +726,7 @@
     "amount": "Betrag",
     "assignedTo": "Zugewiesen an",
     "badgeGranted": "Badge vergeben",
-    "body": "Spenden sind das Einzige, was {brandName} frei lesbar hält, und es wartet keine Bezahlstufe in den Kulissen. Das Donator-Badge liegt bereits auf <login>{login}</login> und erscheint überall neben deinem Namen, wo {brandName} ihn anzeigt.",
+    "body": "Spenden sind das Einzige, was {brandName} frei lesbar hält, und es steht auch keine Bezahlstufe in den Startlöchern. Das Donator-Badge liegt bereits auf <login>{login}</login> und erscheint überall neben deinem Namen, wo {brandName} ihn anzeigt.",
     "emailed": "Stripe schickt ihn per E-Mail",
     "heading": "Danke, wirklich",
     "metaTitle": "Danke",

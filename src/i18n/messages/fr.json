@@ -2,18 +2,18 @@
   "about": {
     "cost": {
       "one": "Rien. Il n'y a pas d'offre payante, pas de publicité, rien derrière une connexion, et l'<docs>api</docs> est ouverte. Les <donate>dons</donate> sont la seule chose qui maintient cela, et les badges qu'ils rapportent sont purement décoratifs.",
-      "title": "Ce que ça vous coûte",
+      "title": "Ce que ça te coûte",
       "two": "Ce qui est conservé sur un compte, et comment y mettre fin, se trouve sur la <privacy>page de confidentialité</privacy>. Le retrait tient en un interrupteur et prend effet immédiatement. Les <tos>conditions</tos> disent le reste. {name} n'est ni affilié à Twitch Interactive, Inc., ni approuvé ni sponsorisé par eux."
     },
     "donated": {
-      "one": "Votre don compte toujours ici. Nous avons choisi d'honorer chaque don fait sous l'ancien nom plutôt que de repartir de zéro : le badge de donateur gagné à l'époque a suivi avec le reste des données et figure aujourd'hui sur votre profil.",
-      "title": "Si vous avez fait un don du temps de modchecker",
-      "two": "C'est l'explication la plus probable si vous portez un badge sur un site auquel vous ne vous souvenez pas avoir donné. Il n'y a rien à réclamer, rien à renouveler, et cela n'expire pas. Si vous aviez donné à l'époque et que le badge manque, dites-le sur <discord>le Discord</discord> et il sera attribué à la main."
+      "one": "Ton don compte toujours ici. Nous avons choisi d'honorer chaque don fait sous l'ancien nom plutôt que de repartir de zéro : le badge de donateur gagné à l'époque a suivi avec le reste des données et figure aujourd'hui sur ton profil.",
+      "title": "Si tu as fait un don du temps de modchecker",
+      "two": "C'est l'explication la plus probable si tu portes un badge sur un site auquel tu ne te souviens pas avoir donné. Il n'y a rien à réclamer, rien à renouveler, et cela n'expire pas. Si tu avais donné à l'époque et que le badge manque, dis-le sur <discord>le Discord</discord> et il sera attribué à la main."
     },
     "heading": "Ce qu'est {name}, et qui le fait tourner",
     "history": {
       "one": "{name} a commencé sous le nom modchecker.com. En août 2026, le projet s'est séparé de ce domaine et de son propriétaire d'origine, a déménagé vers {domain}, et a été reconstruit en chemin en quatre services distincts.",
-      "three": "La propriété, l'hébergement, le domaine, la base de données et le code sont désormais entièrement entre les mains de la personne qui fait tourner ce site. Il n'y a aucun contrôle partagé ni aucun arrangement d'aucune sorte avec l'ancien domaine ou avec qui que ce soit derrière lui. Si un lien modchecker vous a mené ici, c'est là tout ce qui a changé.",
+      "three": "La propriété, l'hébergement, le domaine, la base de données et le code sont désormais entièrement entre les mains de la personne qui fait tourner ce site. Il n'y a aucun contrôle partagé ni aucun arrangement d'aucune sorte avec l'ancien domaine ou avec qui que ce soit derrière lui. Si un lien modchecker t'a mené ici, c'est là tout ce qui a changé.",
       "title": "C'était modchecker.com autrefois",
       "two": "Ce qui a changé de mains, c'est le nom : le propriétaire d'origine détenait le domaine et le serveur Discord. La base de données ne lui a jamais appartenu. Elle est restée sur le même serveur, dans les mêmes mains, tout du long, et elle n'a pas bougé pour le changement de nom."
     },
@@ -27,25 +27,25 @@
   },
   "badges": {
     "alt": "Le badge {name}",
-    "donator": "donator",
-    "donatorBody": "Apparaît à côté de votre nom partout où moddex l'affiche. À partir de 5 $ de don, définitivement.",
-    "topDonator": "top donator",
-    "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un vous dépasse."
+    "donator": "donateur",
+    "donatorBody": "Apparaît à côté de ton nom partout où moddex l'affiche. À partir de 5 $ de don, définitivement.",
+    "topDonator": "top donateur",
+    "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un te dépasse."
   },
   "browse": {
     "accounts": {
-      "lead": "Toutes les chaînes indexées où un compte est mod ou vip, et le jour où chaque rôle a été accordé. C'est la direction que Twitch ne vous montre pas.",
+      "lead": "Toutes les chaînes indexées où un compte est mod ou vip, et le jour où chaque rôle a été accordé. C'est la direction que Twitch ne te montre pas.",
       "listTitle": "Comptes détenant des rôles",
-      "metaDescription": "{brandName} conserve des enregistrements de rôles pour ces comptes Twitch. Cherchez-en un pour voir toutes les chaînes où il est mod ou vip.",
+      "metaDescription": "{brandName} conserve des enregistrements de rôles pour ces comptes Twitch. Cherche-en un pour voir toutes les chaînes où il est mod ou vip.",
       "totalLabel": "comptes connus",
-      "walk": "Ou parcourez tout l'index : <link>comptes par nombre de rôles</link>."
+      "walk": "Ou parcours tout l'index : <link>comptes par nombre de rôles</link>."
     },
     "channels": {
-      "lead": "Qui est mod, vip et fondateur dans une chaîne, et depuis quand. Cherchez une chaîne pour la première fois et vous l'ajoutez à l'index.",
+      "lead": "Qui est mod, vip et fondateur dans une chaîne, et depuis quand. Cherche une chaîne pour la première fois et tu l'ajoutes à l'index.",
       "listTitle": "Chaînes indexées",
-      "metaDescription": "Les chaînes Twitch que {brandName} a indexées. Cherchez-en une pour voir qui y est mod, vip et fondateur.",
+      "metaDescription": "Les chaînes Twitch que {brandName} a indexées. Cherche-en une pour voir qui y est mod, vip et fondateur.",
       "totalLabel": "chaînes indexées",
-      "walk": "Ou parcourez tout l'index : <link>chaînes par rôles accordés</link>."
+      "walk": "Ou parcours tout l'index : <link>chaînes par rôles accordés</link>."
     },
     "heads": {
       "account": "Compte",
@@ -118,7 +118,7 @@
       }
     },
     "sort": {
-      "activeAria": "Trié par {label}, {ends}. Appuyez pour inverser.",
+      "activeAria": "Trié par {label}, {ends}. Appuie pour inverser.",
       "disabledAria": "{label}. Cette liste est {reason}.",
       "disabledTitle": "Cette liste est {reason}",
       "idleAria": "Trier par {label}",
@@ -167,7 +167,7 @@
     "badges": "Badges",
     "badgesPerAccount": "Badges par compte",
     "catalogueUnreadable": "Impossible de lire le catalogue.",
-    "change": "Changer",
+    "change": "Variation",
     "channel": "Chaîne",
     "channels": "Chaînes",
     "conduitNoShard": "un conduit sans shard jette les évènements",
@@ -277,7 +277,7 @@
     "yield": "Retrait"
   },
   "dashboard": {
-    "signInBlurb": "C'est réservé à l'équipe, donc moddex doit savoir quel compte Twitch est le vôtre avant de pouvoir vérifier.",
+    "signInBlurb": "C'est réservé à l'équipe, donc moddex doit savoir quel compte Twitch est le tien avant de pouvoir vérifier.",
     "signInHeading": "Le tableau de bord demande une connexion Twitch"
   },
   "donate": {
@@ -295,16 +295,16 @@
     "metaDescription": "{brandName} tourne sur un seul serveur et sans publicité. Pas d'offre payante, rien derrière une connexion, et l'api est ouverte.",
     "oneTime": "une fois, USD",
     "opening": "Ouverture de Stripe",
-    "signedOut": "Connectez-vous d'abord avec Twitch et le badge arrive automatiquement sur votre profil. Donner sans être connecté fonctionne aussi, il faut juste un message sur le Discord ensuite.",
+    "signedOut": "Connecte-toi d'abord avec Twitch et le badge arrive automatiquement sur ton profil. Donner sans être connecté fonctionne aussi, il faut juste un message sur le Discord ensuite.",
     "straight": {
       "one": "Une contribution aux frais de fonctionnement, pas un achat.",
-      "three": "En général non remboursable. Si quelque chose s'est mal passé, écrivez-nous et on arrangera ça.",
+      "three": "En général non remboursable. Si quelque chose s'est mal passé, écris-nous et on arrangera ça.",
       "title": "Pour être clair",
       "two": "Les badges sont décoratifs. Ils ne débloquent rien et n'ont aucune valeur monétaire."
     },
     "stripeNote": "{brandName} conserve la référence de paiement et le montant, rien d'autre. Stripe gère les données de carte de bout en bout.",
-    "stripeUnreachable": "Nous n'avons pas pu joindre Stripe, donc rien n'a été débité. Réessayez dans un instant.",
-    "whatYouGet": "Ce que vous recevez"
+    "stripeUnreachable": "Nous n'avons pas pu joindre Stripe, donc rien n'a été débité. Réessaie dans un instant.",
+    "whatYouGet": "Ce que tu reçois"
   },
   "errors": {
     "banned": {
@@ -326,12 +326,12 @@
     "checkout": {
       "askDiscord": "Demander sur Discord",
       "badge": "Badge de donateur",
-      "body": "{brandName} n'a pas pu relire la session de paiement depuis Stripe, il ne peut donc pas vous montrer de récapitulatif. Rien de tout cela ne touche au don lui-même.",
-      "byHand": "Si le badge manque encore dans une heure, envoyez-nous le reçu Stripe et nous l'attribuerons à la main.",
-      "checkProfile": "Vérifier votre profil",
+      "body": "{brandName} n'a pas pu relire la session de paiement depuis Stripe, il ne peut donc pas te montrer de récapitulatif. Rien de tout cela ne touche au don lui-même.",
+      "byHand": "Si le badge manque encore dans une heure, envoie-nous le reçu Stripe et nous l'attribuerons à la main.",
+      "checkProfile": "Vérifier ton profil",
       "emailed": "Stripe l'enverra par e-mail",
       "granted": "Attribué par le webhook",
-      "heading": "Votre paiement va bien. Cette page, non.",
+      "heading": "Ton paiement va bien. Cette page, non.",
       "payment": "Paiement",
       "receipt": "Reçu",
       "taken": "Encaissé par Stripe",
@@ -349,7 +349,7 @@
     "keepsHappening": "Si cela persiste, <status>{host}</status> indique si l'api est en ligne. Elle tourne sur une infrastructure séparée, donc elle reste debout quand ceci ne l'est pas.",
     "listUnread": "Nous n'avons pas pu lire l'index pour cette liste.",
     "notFound": {
-      "body": "Nous avons demandé à Twitch et il n'a aucun compte de ce nom, il n'y avait donc rien à indexer. Les gens se renomment souvent : vérifiez l'orthographe et réessayez.",
+      "body": "Nous avons demandé à Twitch et il n'a aucun compte de ce nom, il n'y avait donc rien à indexer. Les gens se renomment souvent : vérifie l'orthographe et réessaie.",
       "heading": "Il n'existe aucun compte Twitch nommé <name>{username}</name>",
       "untouched": "L'index n'a pas été modifié."
     },
@@ -370,15 +370,15 @@
     "lookUp": "Rechercher",
     "onGitHub": "{brandName} sur GitHub",
     "optOut": "Se retirer",
-    "yourData": "Vos données"
+    "yourData": "Tes données"
   },
   "home": {
     "accountCard": {
-      "body": "Toutes les chaînes indexées où un compte détient un rôle. C'est la direction que Twitch ne vous montre pas.",
+      "body": "Toutes les chaînes indexées où un compte détient un rôle. C'est la direction que Twitch ne te montre pas.",
       "title": "Chercher un compte"
     },
     "channelCard": {
-      "body": "Qui est mod, vip et fondateur dans une chaîne, et depuis quand. Cherchez-en une pour la première fois et vous l'ajoutez à l'index.",
+      "body": "Qui est mod, vip et fondateur dans une chaîne, et depuis quand. Cherche-en une pour la première fois et tu l'ajoutes à l'index.",
       "title": "Chercher une chaîne"
     },
     "fills": {
@@ -401,11 +401,11 @@
       "title": "Détiennent le plus de rôles"
     },
     "kicker": "<mod>mods</mod> et <vip>vips</vip>, indexés des deux côtés",
-    "lead": "Twitch montre à un streamer qui sont ses propres mods. Il ne vous dira pas l'inverse. {name}, si : toutes les chaînes où un compte détient un rôle, et le jour où il l'a obtenu.",
+    "lead": "Twitch montre à un streamer qui sont ses propres mods. Il ne te dira pas l'inverse. {name}, si : toutes les chaînes où un compte détient un rôle, et le jour où il l'a obtenu.",
     "optOut": {
       "action": "Se retirer",
-      "body": "Connectez-vous avec Twitch et activez le retrait.",
-      "title": "Listé ici et vous préféreriez ne pas l'être ?"
+      "body": "Connecte-toi avec Twitch et active le retrait.",
+      "title": "Listé ici et tu préférerais ne pas l'être ?"
     },
     "recent": {
       "link": "Toutes les chaînes",
@@ -419,7 +419,7 @@
       "mods": "enregistrements modérateur",
       "vips": "enregistrements VIP"
     },
-    "try": "essayez"
+    "try": "essaie"
   },
   "leaderboard": {
     "empty": "Rien ici pour l'instant. Le décompte quotidien n'a pas tourné depuis l'ajout de cette liste.",
@@ -455,20 +455,20 @@
   "login": {
     "attachDonation": "Rattacher un don",
     "attachDonationBody": "Pour que le badge de donateur arrive automatiquement au lieu d'être attribué à la main.",
-    "blurb": "{brandName} doit savoir quel compte Twitch est le vôtre avant de vous laisser y changer quoi que ce soit. Tout le reste du site fonctionne sans connexion.",
+    "blurb": "{brandName} doit savoir quel compte Twitch est le tien avant de te laisser y changer quoi que ce soit. Tout le reste du site fonctionne sans connexion.",
     "canDo": "Ce qu'un compte connecté peut faire",
     "continue": "Continuer avec Twitch",
     "fullTerms": "Conditions complètes à la <link>section 4</link>.",
     "handsOver": "Ce que Twitch transmet",
     "heading": "Cette page demande une connexion Twitch",
-    "landBack": "Vous revenez sur la page que vous vouliez atteindre.",
+    "landBack": "Tu reviens sur la page que tu voulais atteindre.",
     "never": "Jamais",
     "optOut": "Se retirer de l'index",
     "pickBadge": "Choisir un badge de chat",
-    "pickBadgeBody": "Si vous en détenez plusieurs, choisissez celui qui s'affiche à côté de votre nom.",
+    "pickBadgeBody": "Si tu en détiens plusieurs, choisis celui qui s'affiche à côté de ton nom.",
     "scopes": {
       "avatar": "Avatar",
-      "behalf": "Agir en votre nom",
+      "behalf": "Agir en ton nom",
       "chat": "Accès au chat",
       "loginName": "Identifiant",
       "password": "Mot de passe",
@@ -498,7 +498,7 @@
       "other": "Masquer {count} bots"
     },
     "hideBots": "Masquer les bots",
-    "keepTyping": "Continuez à taper, {min} caractères minimum",
+    "keepTyping": "Continue à taper, {min} caractères minimum",
     "loadMoreCount": "Charger {count} de plus",
     "loaded": "chargés",
     "loginStartsWith": "L'identifiant commence par…",
@@ -509,7 +509,7 @@
     "noLoginStartsWith": "Aucun identifiant de cette liste ne commence par « {query} ». Cette liste cherche le début d'un identifiant, pas une partie quelconque d'un nom.",
     "noneRead": "Aucun lu pour l'instant.",
     "notYet": "pas encore",
-    "nothingIndexedWith": "Rien d'indexé ne commence par <name>{query}</name>. Appuyez sur Entrée pour le lire depuis Twitch et l'ajouter.",
+    "nothingIndexedWith": "Rien d'indexé ne commence par <name>{query}</name>. Appuie sur Entrée pour le lire depuis Twitch et l'ajouter.",
     "nothingMatches": "Rien ici ne correspond à « {query} ».",
     "ofTotal": "sur {total}",
     "onlyBots": "Bots uniquement",
@@ -533,11 +533,11 @@
     "signOut": "Déconnexion",
     "skipToContent": "Aller au contenu",
     "themeToggle": "Changer de thème",
-    "yourAvatar": "Votre avatar Twitch"
+    "yourAvatar": "Ton avatar Twitch"
   },
   "notices": {
     "noCheckout": {
-      "body": "Cette adresse n'a de sens que juste après un paiement Stripe. Vous venez probablement d'un favori.",
+      "body": "Cette adresse n'a de sens que juste après un paiement Stripe. Tu viens probablement d'un favori.",
       "heading": "Il n'y a aucun paiement à afficher"
     },
     "optedOut": {
@@ -550,26 +550,26 @@
       "lookUp": "Chercher quelqu'un d'autre",
       "moderates": "Chaînes qu'il modère",
       "no": "Non",
-      "optOutYourself": "Vous retirer vous-même",
+      "optOutYourself": "Te retirer toi-même",
       "profileServed": "Profil servi",
       "stillIndexed": "Toujours indexé"
     },
     "teamOnly": {
       "as": " en tant que {login}",
-      "body": "Vous êtes connecté{as}, mais ce compte n'a pas la permission d'équipe. Rien d'autre sur le site n'en a besoin.",
+      "body": "Tu es connecté{as}, mais ce compte n'a pas la permission d'équipe. Rien d'autre sur le site n'en a besoin.",
       "heading": "Le tableau de bord est réservé à l'équipe",
       "kicker": "Connecté, mais pas dans l'équipe"
     }
   },
   "optOut": {
-    "effect": "Le retrait empêche vos données d'être <em>servies</em> : votre profil, les listes de rôles et l'API publique cessent tous de vous inclure.",
+    "effect": "Le retrait empêche tes données d'être <em>servies</em> : ton profil, les listes de rôles et l'API publique cessent tous de t'inclure.",
     "hidden": "Masqué",
     "listed": "Listé",
-    "modsUnaffected": "Les chaînes que vous modérez ne sont pas affectées.",
+    "modsUnaffected": "Les chaînes que tu modères ne sont pas affectées.",
     "nothingChanged": "Rien n'a changé.",
-    "reversible": "Désactivez-le quand vous voulez et votre entrée revient.",
-    "savedHidden": "Enregistré. Votre entrée est masquée.",
-    "savedListed": "Enregistré. Votre entrée est de nouveau listée."
+    "reversible": "Désactive-le quand tu veux et ton entrée revient.",
+    "savedHidden": "Enregistré. Ton entrée est masquée.",
+    "savedListed": "Enregistré. Ton entrée est de nouveau listée."
   },
   "optOutPanel": {
     "title": "Se retirer de l'index"
@@ -603,7 +603,7 @@
     "inChannelShort": "Dans cette chaîne",
     "indexChannel": "Indexer une chaîne",
     "joined": "inscrit en",
-    "missingChannel": "Une chaîne manque ? Elle n'apparaît ici qu'une fois que quelqu'un l'a cherchée. Cherchez-la une fois et elle reste indexée.",
+    "missingChannel": "Une chaîne manque ? Elle n'apparaît ici qu'une fois que quelqu'un l'a cherchée. Cherche-la une fois et elle reste indexée.",
     "noGrantDate": "Twitch n'a renvoyé aucune date d'attribution pour ce rôle",
     "openDiscord": "Ouvrir sur Discord",
     "openDiscordOf": "Ouvrir {login} sur discord",
@@ -615,18 +615,18 @@
   },
   "roleCheck": {
     "accountLogin": "Identifiant du compte",
-    "anythingIn": "un rôle dans",
+    "anythingIn": "détient un rôle dans",
     "asksWhether": "Est-ce que",
     "channelLogin": "Identifiant de la chaîne",
     "check": "Vérifier",
     "checking": "Vérification…",
     "held": "détenu",
     "holds": "détient un rôle dans",
-    "holdsNothing": "ne détient rien dans",
+    "holdsNothing": "ne détient aucun rôle dans",
     "noDate": "aucune date",
     "notHeld": "non détenu",
     "optedOut": "Ce compte s'est retiré de l'index.",
-    "title": "Poser la question sur une paire"
+    "title": "Vérifier une paire"
   },
   "roles": {
     "founder": {
@@ -663,14 +663,14 @@
   },
   "settings": {
     "account": {
-      "avatarAlt": "Votre avatar Twitch",
+      "avatarAlt": "Ton avatar Twitch",
       "discord": "Discord",
       "publicProfile": "Profil public",
       "signedIn": "Connecté en tant que",
       "title": "Compte"
     },
     "badge": {
-      "body": "Choisissez-en un maintenant et il sera déjà réglé quand l'intégration au chat arrivera.",
+      "body": "Choisis-en un maintenant et il sera déjà réglé quand l'intégration au chat arrivera.",
       "notLive": "L'intégration au chat n'est pas encore active",
       "title": "Badge de chat"
     },
@@ -678,20 +678,20 @@
       "again": "Reconnecter cette chaîne",
       "connect": "Connecter cette chaîne",
       "live": "Les changements de mod et de VIP arrivent à {brandName} au moment où ils se produisent. Les fondateurs viennent toujours de la lecture normale, car Twitch n'a pas d'évènement en direct pour eux. Se retirer ne change rien à ce qui est déjà enregistré.",
-      "noToken": "{brandName} ne publie rien et ne conserve aucun jeton : nous lisons donc la liste des chaînes que vous modérez une seule fois, maintenant, et elle vieillit à partir de là. Reconnectez-vous pour la rafraîchir. Vous pouvez vous retirer chez Twitch ou ici quand vous voulez.",
-      "pitch": "Deux choses à la fois. Les changements de mod et de VIP dans votre chaîne arrivent à {brandName} au moment où ils se produisent, au lieu du prochain balayage. Et les chaînes que <you>vous</you> modérez sont remplies directement depuis Twitch, y compris celles que personne n'a jamais cherchées ici."
+      "noToken": "{brandName} ne publie rien et ne conserve aucun jeton : nous lisons donc la liste des chaînes que tu modères une seule fois, maintenant, et elle vieillit à partir de là. Reconnecte-toi pour la rafraîchir. Tu peux te retirer chez Twitch ou ici quand tu veux.",
+      "pitch": "Deux choses à la fois. Les changements de mod et de VIP dans ta chaîne arrivent à {brandName} au moment où ils se produisent, au lieu du prochain balayage. Et les chaînes que <you>tu</you> modères sont remplies directement depuis Twitch, y compris celles que personne n'a jamais cherchées ici."
     },
     "channelStatus": {
-      "canceled": "Annulé. Votre chaîne est inchangée.",
+      "canceled": "Annulé. Ta chaîne est inchangée.",
       "connected": "Chaîne connectée. Les changements de modérateur et de VIP arrivent désormais à moddex au moment où ils se produisent.",
-      "connected-nosync": "Chaîne connectée, mais nous n'avons pas pu enregistrer la liste des chaînes que vous modérez. Les mises à jour en direct fonctionnent. Reconnectez-vous plus tard pour ajouter la liste.",
-      "exchange": "Twitch n'a pas confirmé l'autorisation. Réessayez.",
-      "failed": "Quelque chose s'est mal passé pendant l'enregistrement, et vos paramètres sont inchangés. Réessayez dans un instant.",
-      "mismatch": "Vous avez approuvé cela sur Twitch avec un compte différent de celui avec lequel vous êtes connecté ici, nous avons donc refusé la connexion.",
-      "nocode": "Twitch n'a renvoyé aucune autorisation. Réessayez.",
+      "connected-nosync": "Chaîne connectée, mais nous n'avons pas pu enregistrer la liste des chaînes que tu modères. Les mises à jour en direct fonctionnent. Reconnecte-toi plus tard pour ajouter la liste.",
+      "exchange": "Twitch n'a pas confirmé l'autorisation. Réessaie.",
+      "failed": "Quelque chose s'est mal passé pendant l'enregistrement, et tes paramètres sont inchangés. Réessaie dans un instant.",
+      "mismatch": "Tu as approuvé cela sur Twitch avec un compte différent de celui avec lequel tu es connecté ici, nous avons donc refusé la connexion.",
+      "nocode": "Twitch n'a renvoyé aucune autorisation. Réessaie.",
       "scopes": "Twitch a retenu l'une des deux permissions. Il nous faut les deux pour les évènements de modérateur et de VIP, la chaîne est donc restée déconnectée.",
-      "signin": "Votre session s'est terminée avant la fin. Connectez-vous et réessayez.",
-      "state": "Ce lien a expiré ou n'appartenait pas à cette session. Recommencez depuis le bouton ci-dessus.",
+      "signin": "Ta session s'est terminée avant la fin. Connecte-toi et réessaie.",
+      "state": "Ce lien a expiré ou n'appartenait pas à cette session. Recommence depuis le bouton ci-dessus.",
       "unconfigured": "Les connexions de chaîne ne sont pas encore configurées sur ce serveur."
     },
     "connectDiscord": "Connecter Discord",
@@ -699,21 +699,21 @@
     "disconnecting": "Déconnexion…",
     "discordStatus": {
       "canceled": "Annulé. Aucun compte Discord n'a été lié.",
-      "connected": "Discord connecté. Il apparaît désormais sur votre profil public.",
-      "exchange": "Discord n'a pas confirmé le compte. Réessayez.",
-      "failed": "Quelque chose s'est mal passé pendant l'enregistrement, et votre profil est inchangé. Réessayez dans un instant.",
-      "nocode": "Discord n'a renvoyé aucune autorisation. Réessayez.",
-      "signin": "Votre session s'est terminée avant la fin. Connectez-vous et réessayez.",
-      "state": "Ce lien a expiré ou n'appartenait pas à cette session. Recommencez depuis le bouton ci-dessus.",
-      "taken": "Ce compte Discord est déjà connecté à un autre profil moddex. Déconnectez-le là-bas d'abord.",
+      "connected": "Discord connecté. Il apparaît désormais sur ton profil public.",
+      "exchange": "Discord n'a pas confirmé le compte. Réessaie.",
+      "failed": "Quelque chose s'est mal passé pendant l'enregistrement, et ton profil est inchangé. Réessaie dans un instant.",
+      "nocode": "Discord n'a renvoyé aucune autorisation. Réessaie.",
+      "signin": "Ta session s'est terminée avant la fin. Connecte-toi et réessaie.",
+      "state": "Ce lien a expiré ou n'appartenait pas à cette session. Recommence depuis le bouton ci-dessus.",
+      "taken": "Ce compte Discord est déjà connecté à un autre profil moddex. Déconnecte-le là-bas d'abord.",
       "unconfigured": "Les connexions Discord ne sont pas encore configurées sur ce serveur."
     },
     "heading": "Paramètres",
     "live": {
-      "body": "Pour votre propre chaîne. Facultatif.",
+      "body": "Pour ta propre chaîne. Facultatif.",
       "title": "Mises à jour de rôles en direct"
     },
-    "metaDescription": "Se retirer de {domain}, ou choisir quel badge s'affiche à côté de votre nom.",
+    "metaDescription": "Se retirer de {domain}, ou choisir quel badge s'affiche à côté de ton nom.",
     "privacy": "Confidentialité",
     "signInHeading": "Les paramètres demandent une connexion Twitch",
     "signedInAs": "Connecté en tant que {login}. Les changements sont enregistrés immédiatement."
@@ -726,13 +726,13 @@
     "amount": "Montant",
     "assignedTo": "Attribué à",
     "badgeGranted": "Badge attribué",
-    "body": "Les dons sont la seule chose qui garde {brandName} librement consultable, et aucune offre payante n'attend en coulisses. Le badge de donateur est déjà sur <login>{login}</login>, et il apparaîtra à côté de votre nom partout où {brandName} l'affiche.",
+    "body": "Les dons sont la seule chose qui garde {brandName} librement consultable, et aucune offre payante n'attend en coulisses. Le badge de donateur est déjà sur <login>{login}</login>, et il apparaîtra à côté de ton nom partout où {brandName} l'affiche.",
     "emailed": "Envoyé par e-mail par Stripe",
     "heading": "Merci, sincèrement",
     "metaTitle": "Merci",
     "noLogin": {
       "askDiscord": "Demander sur Discord",
-      "body": "Stripe n'a pas renvoyé de nom Twitch, il n'y a donc pas de profil sur lequel poser le badge. Envoyez-nous la référence ci-dessous avec votre nom Twitch et nous l'attribuerons à la main.",
+      "body": "Stripe n'a pas renvoyé de nom Twitch, il n'y a donc pas de profil sur lequel poser le badge. Envoie-nous la référence ci-dessous avec ton nom Twitch et nous l'attribuerons à la main.",
       "heading": "Le paiement a fonctionné. Le badge demande une étape de plus.",
       "notReturned": "non renvoyé par Stripe",
       "reference": "Référence de paiement"
@@ -740,7 +740,7 @@
     "pickBadge": "Choisir un badge de chat",
     "receipt": "Reçu",
     "reference": "Référence",
-    "seeProfile": "Le voir sur votre profil",
+    "seeProfile": "Le voir sur ton profil",
     "settled": "Paiement réglé"
   }
 }

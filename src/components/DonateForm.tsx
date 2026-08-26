@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n/context';
+import { useI18n } from '@/i18n/context';
 import { FormEvent, useState } from 'react';
 import { startCheckout } from '@/actions/checkout';
 import { useAction } from '@/hooks/useAction';
@@ -9,7 +9,7 @@ import { Mark } from '@/components/UI/Mark';
 import { logger } from '@/misc/Logger';
 
 export const DonateForm = () => {
-  const t = useT();
+  const { t, locale } = useI18n();
   const [stripeFailed, setStripeFailed] = useState(false);
 
   const checkout = useAction(startCheckout, {
@@ -31,7 +31,7 @@ export const DonateForm = () => {
     event.preventDefault();
     setStripeFailed(false);
 
-    void checkout.run();
+    void checkout.run(locale);
   };
 
   return (
