@@ -74,9 +74,7 @@
     "where": "Where the badge sits"
   },
   "common": {
-    "back": "Back",
     "clear": "Clear",
-    "close": "Close",
     "loadMore": "Load more",
     "loading": "Loading",
     "loadingShort": "Loading",
@@ -528,7 +526,6 @@
     "language": "Language",
     "main": "Main",
     "menu": "Menu",
-    "signIn": "Sign in with Twitch",
     "signInShort": "Sign in",
     "signOut": "Sign out",
     "skipToContent": "Skip to content",

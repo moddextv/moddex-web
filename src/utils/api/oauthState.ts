@@ -2,11 +2,10 @@ import 'server-only';
 
 import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import type { ConnectPurpose } from '@/utils/api/connectFlow';
-
-const secret = () => process.env.AUTH_SECRET ?? '';
+import { serverConfig } from '@/serverConfig';
 
 const sign = (payload: string): string =>
-  createHmac('sha256', secret()).update(payload).digest('hex');
+  createHmac('sha256', serverConfig.authSecret).update(payload).digest('hex');
 
 export const mintState = (purpose: ConnectPurpose, twitchId: string): string => {
   const nonce = randomBytes(16).toString('hex');

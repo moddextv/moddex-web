@@ -74,9 +74,7 @@
     "where": "Où le badge apparaît"
   },
   "common": {
-    "back": "Retour",
     "clear": "Effacer",
-    "close": "Fermer",
     "loadMore": "Charger plus",
     "loading": "Chargement",
     "loadingShort": "Chargement",
@@ -528,7 +526,6 @@
     "language": "Langue",
     "main": "Principal",
     "menu": "Menu",
-    "signIn": "Se connecter avec Twitch",
     "signInShort": "Connexion",
     "signOut": "Déconnexion",
     "skipToContent": "Aller au contenu",
