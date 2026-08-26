@@ -1,4 +1,4 @@
-import { asLocale } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
 import { pageMetadata } from '@/misc/metadata';
 import { HELD_FIELDS } from '@/misc/held';
 import { config } from '@/config';

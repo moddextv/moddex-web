@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, Locale, localePath, LOCALES, ogLocale } from '@/i18n';
+import { DEFAULT_LOCALE, Locale, localePath, LOCALES, ogLocale } from '@/i18n/locales';
 import type { Metadata } from 'next';
 
 import { config } from '@/config';

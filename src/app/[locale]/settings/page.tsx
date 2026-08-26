@@ -1,4 +1,6 @@
-import { asLocale, getTranslator, optional } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { optional } from '@/i18n/translate';
+import { getTranslator } from '@/i18n/dictionary';
 import { alternatesFor } from '@/misc/metadata';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Metadata } from 'next';

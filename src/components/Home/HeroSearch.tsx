@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 

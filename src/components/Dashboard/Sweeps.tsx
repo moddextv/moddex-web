@@ -1,4 +1,5 @@
-import { getTranslator, Locale } from '@/i18n';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { FC } from 'react';
 
 import type { EventsubHealth } from '@/utils/api/moddex/public';

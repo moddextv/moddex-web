@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { Children, FC, ReactNode, useState } from 'react';
 import clsx from 'clsx';
 

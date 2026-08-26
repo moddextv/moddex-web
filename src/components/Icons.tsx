@@ -195,3 +195,70 @@ export const GitHubIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
     />
   </svg>
 );
+
+export const SunIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="1.8"
+    viewBox="0 0 24 24"
+  >
+    <g stroke="currentColor">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </g>
+  </svg>
+);
+
+export const MoonIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="1.8"
+    viewBox="0 0 24 24"
+  >
+    <path stroke="currentColor" d="M20 14.5A8.5 8.5 0 0 1 9.5 4a7 7 0 1 0 10.5 10.5z" />
+  </svg>
+);
+
+export const ChevronRightIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2.2"
+    viewBox="0 0 24 24"
+  >
+    <path stroke="currentColor" d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+export const ChevronLeftIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2.2"
+    viewBox="0 0 24 24"
+  >
+    <path stroke="currentColor" d="M15 5l-7 7 7 7" />
+  </svg>
+);

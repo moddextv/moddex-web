@@ -1,7 +1,8 @@
 'use client';
 
-import { localeName, LOCALES, swapLocale, useI18n } from '@/i18n';
-import { FC, useRef } from 'react';
+import { localeFlag, localeName, LOCALES, swapLocale } from '@/i18n/locales';
+import { useI18n } from '@/i18n/context';
+import { FC, useRef, useState } from 'react';
 import {
   Dropdown,
   DropdownItem,
@@ -13,7 +14,16 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Session } from 'next-auth';
-import { ChevronDownIcon, ExternalLinkIcon, MenuIcon } from '@/components/Icons';
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ExternalLinkIcon,
+  MenuIcon,
+  MoonIcon,
+  SunIcon
+} from '@/components/Icons';
 import { Image } from '@/components/UI/Image';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
@@ -28,6 +38,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { t, locale, path } = useI18n();
+  const [view, setView] = useState<'main' | 'language'>('main');
 
   // heroui caches the menu, so a handler must read the theme through a ref
   const isDark = useRef(false);
@@ -89,6 +100,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
       placement="bottom-end"
       shouldBlockScroll={false}
       className="border border-primary-700"
+      onClose={() => setView('main')}
     >
       <DropdownTrigger>
         {user ? (
@@ -128,104 +140,173 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
       </DropdownTrigger>
 
       <DropdownMenu aria-label={t('nav.menu')} variant="flat">
-        {[
-          ...(account.length
-            ? [
-                <DropdownSection key="you" showDivider>
-                  {account}
-                </DropdownSection>
-              ]
-            : []),
+        {view === 'language'
+          ? [
+              <DropdownSection key="back" showDivider>
+                <DropdownItem
+                  key="back"
+                  isReadOnly
+                  closeOnSelect={false}
+                  textValue={t('nav.backToMenu')}
+                  className="cursor-default p-0 data-[hover=true]:bg-transparent"
+                >
+                  <button type="button" className="menu-back" onClick={() => setView('main')}>
+                    <ChevronLeftIcon size={13} color="text-primary-400 shrink-0" />
+                    {t('nav.backToMenu')}
+                  </button>
+                </DropdownItem>
+              </DropdownSection>,
 
-          <DropdownSection key="browse" showDivider>
-            <DropdownItem
-              key="channels"
-              textValue={t('pages.channels')}
-              href={path('/channel')}
-              {...here(path('/channel'))}
-            >
-              {t('pages.channels')}
-            </DropdownItem>
+              <DropdownSection key="locales" title={t('nav.language')}>
+                {LOCALES.map((entry) => (
+                  <DropdownItem
+                    key={`locale-${entry}`}
+                    href={swapLocale(pathname, entry)}
+                    hrefLang={entry}
+                    lang={entry}
+                    textValue={localeName(entry)}
+                    startContent={
+                      <Image
+                        src={localeFlag(entry)}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={14}
+                        radius="sm"
+                        className="locale-flag"
+                      />
+                    }
+                    endContent={
+                      entry === locale ? <CheckIcon size={14} color="text-mod" /> : undefined
+                    }
+                    {...(entry === locale
+                      ? {
+                          className: 'text-primary-100 font-semibold',
+                          'aria-current': 'true' as const
+                        }
+                      : {})}
+                  >
+                    {localeName(entry)}
+                  </DropdownItem>
+                ))}
+              </DropdownSection>
+            ]
+          : [
+              ...(account.length
+                ? [
+                    <DropdownSection key="you" showDivider>
+                      {account}
+                    </DropdownSection>
+                  ]
+                : []),
 
-            <DropdownItem
-              key="accounts"
-              textValue={t('pages.accounts')}
-              href={path('/user')}
-              {...here(path('/user'))}
-            >
-              {t('pages.accounts')}
-            </DropdownItem>
+              <DropdownSection key="browse" showDivider>
+                <DropdownItem
+                  key="channels"
+                  textValue={t('pages.channels')}
+                  href={path('/channel')}
+                  {...here(path('/channel'))}
+                >
+                  {t('pages.channels')}
+                </DropdownItem>
 
-            <DropdownItem
-              key="leaderboard"
-              textValue={t('pages.leaderboard')}
-              href={path('/leaderboard')}
-              {...here(path('/leaderboard'))}
-            >
-              {t('pages.leaderboard')}
-            </DropdownItem>
-          </DropdownSection>,
+                <DropdownItem
+                  key="accounts"
+                  textValue={t('pages.accounts')}
+                  href={path('/user')}
+                  {...here(path('/user'))}
+                >
+                  {t('pages.accounts')}
+                </DropdownItem>
 
-          <DropdownSection key="site" showDivider>
-            <DropdownItem
-              key="about"
-              textValue={t('pages.about', { brandName: config.brand.name })}
-              href={path('/about')}
-              {...here(path('/about'))}
-            >
-              {t('pages.about', { brandName: config.brand.name })}
-            </DropdownItem>
+                <DropdownItem
+                  key="leaderboard"
+                  textValue={t('pages.leaderboard')}
+                  href={path('/leaderboard')}
+                  {...here(path('/leaderboard'))}
+                >
+                  {t('pages.leaderboard')}
+                </DropdownItem>
+              </DropdownSection>,
 
-            <DropdownItem
-              key="donate"
-              textValue={t('pages.donate')}
-              href={path('/donate')}
-              {...here(path('/donate'))}
-            >
-              {t('pages.donate')}
-            </DropdownItem>
+              <DropdownSection key="site" showDivider>
+                <DropdownItem
+                  key="about"
+                  textValue={t('pages.about', { brandName: config.brand.name })}
+                  href={path('/about')}
+                  {...here(path('/about'))}
+                >
+                  {t('pages.about', { brandName: config.brand.name })}
+                </DropdownItem>
 
-            <DropdownItem
-              key="discord"
-              textValue={t('pages.discord')}
-              href={config.brand.discordUrl}
-              endContent={<ExternalLinkIcon size={14} />}
-              {...external}
-            >
-              {t('pages.discord')}
-            </DropdownItem>
-          </DropdownSection>,
+                <DropdownItem
+                  key="donate"
+                  textValue={t('pages.donate')}
+                  href={path('/donate')}
+                  {...here(path('/donate'))}
+                >
+                  {t('pages.donate')}
+                </DropdownItem>
 
-          <DropdownSection key="language" showDivider title={t('nav.language')}>
-            {LOCALES.map((entry) => (
-              <DropdownItem
-                key={`locale-${entry}`}
-                textValue={localeName(entry)}
-                href={swapLocale(pathname, entry)}
-                {...(entry === locale
-                  ? { className: 'text-primary-100 font-semibold', 'aria-current': 'true' as const }
-                  : {})}
-              >
-                {localeName(entry)}
-              </DropdownItem>
-            ))}
-          </DropdownSection>,
+                <DropdownItem
+                  key="discord"
+                  textValue={t('pages.discord')}
+                  href={config.brand.discordUrl}
+                  endContent={<ExternalLinkIcon size={14} />}
+                  {...external}
+                >
+                  {t('pages.discord')}
+                </DropdownItem>
+              </DropdownSection>,
 
-          <DropdownSection key="controls">
-            {[
-              <DropdownItem
-                key="theme"
-                textValue="switch theme"
-                closeOnSelect={false}
-                onPress={() => setTheme(isDark.current ? 'light' : 'dark')}
-              >
-                <span className="theme-to-light">{t('nav.themeToLight')}</span>
-                <span className="theme-to-dark">{t('nav.themeToDark')}</span>
-              </DropdownItem>,
-              ...close
+              <DropdownSection key="controls" showDivider={Boolean(close.length)}>
+                {[
+                  <DropdownItem
+                    key="preferences"
+                    isReadOnly
+                    closeOnSelect={false}
+                    textValue={t('nav.language')}
+                    className="cursor-default data-[hover=true]:bg-transparent"
+                  >
+                    <div className="menu-controls">
+                      <button
+                        type="button"
+                        className="locale-trigger"
+                        aria-label={t('nav.language')}
+                        onClick={() => setView('language')}
+                      >
+                        <Image
+                          src={localeFlag(locale)}
+                          alt=""
+                          aria-hidden="true"
+                          width={20}
+                          height={14}
+                          radius="sm"
+                          className="locale-flag"
+                        />
+                        <span className="truncate">{localeName(locale)}</span>
+                        <ChevronRightIcon size={13} color="text-primary-400 shrink-0" />
+                      </button>
+
+                      <button
+                        type="button"
+                        className="theme-toggle"
+                        aria-label={t('nav.themeToggle')}
+                        onClick={() => setTheme(isDark.current ? 'light' : 'dark')}
+                      >
+                        <span className="theme-to-light">
+                          <SunIcon size={17} />
+                        </span>
+                        <span className="theme-to-dark">
+                          <MoonIcon size={17} />
+                        </span>
+                      </button>
+                    </div>
+                  </DropdownItem>,
+                  ...close
+                ]}
+              </DropdownSection>
             ]}
-          </DropdownSection>
-        ]}
       </DropdownMenu>
     </Dropdown>
   );

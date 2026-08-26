@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/i18n';
+import { useI18n } from '@/i18n/context';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Badges } from '@/components/User/Badges';
@@ -144,7 +144,7 @@ export const BadgeManager: FC<{ catalogue: Badge[]; counts: Record<string, numbe
             >
               <Image
                 src={one.svg}
-                alt={t('dash.badge.alt', { name: one.name })}
+                alt={t('badges.alt', { name: one.name })}
                 width={18}
                 height={18}
                 radius="sm"

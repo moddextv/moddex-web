@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/i18n';
+import { useI18n } from '@/i18n/context';
 import { FC } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

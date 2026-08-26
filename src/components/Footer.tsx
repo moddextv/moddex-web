@@ -1,4 +1,5 @@
-import { getTranslator, Locale } from '@/i18n';
+import { Locale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { DiscordIcon, ExternalLinkIcon, GitHubIcon } from '@/components/Icons';

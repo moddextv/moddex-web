@@ -1,6 +1,7 @@
 'use client';
 
-import { Translator, useT } from '@/i18n';
+import { Translator } from '@/i18n/translate';
+import { useT } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 

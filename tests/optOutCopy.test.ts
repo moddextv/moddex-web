@@ -1,4 +1,5 @@
-import { dictionaryOf, LOCALES } from '@/i18n';
+import { LOCALES } from '@/i18n/locales';
+import { dictionaryOf } from '@/i18n/dictionary';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -21,11 +22,13 @@ const SURFACES = [
 const POINTS_ELSEWHERE = [['app', '[locale]', 'tos', 'page.tsx']];
 
 describe('the opt-out promise', () => {
+  // the legal pages pass locale={DEFAULT_LOCALE} because they are english
+  // whatever you read them in, so this matches the tag rather than the string
   it.each(SURFACES)('%s/%s states it through the shared component', (...parts) => {
     const source = read(...parts);
 
     expect(source).toContain("from '@/components/OptOutPromise'");
-    expect(source).toContain('<OptOutEffect />');
+    expect(source).toMatch(/<OptOutEffect[\s/]/);
   });
 
   it.each(POINTS_ELSEWHERE)('%s/%s sends the reader to the page that promises it', (...parts) => {

@@ -241,6 +241,88 @@
 		}
 	}
 
+	.menu-controls {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		width: 100%;
+	}
+
+	.locale-trigger {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		min-width: 0;
+		height: 30px;
+		padding: 0 8px;
+		border: 0;
+		border-radius: var(--radius-md);
+		background: var(--raised);
+		color: var(--text-alt);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			color var(--duration) var(--ease),
+			background-color var(--duration) var(--ease);
+	}
+
+	.locale-trigger:hover {
+		background: var(--line);
+		color: var(--text);
+	}
+
+	.menu-back {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		width: 100%;
+		padding: 6px 8px;
+		border: 0;
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--text-alt);
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-align: left;
+		cursor: pointer;
+		transition: color var(--duration) var(--ease);
+	}
+
+	.menu-back:hover {
+		color: var(--text);
+	}
+
+	/* a flag is mostly flat colour, so it needs its own edge against either theme */
+	.locale-flag {
+		flex-shrink: 0;
+		box-shadow: inset 0 0 0 1px rgb(var(--base-rgb) / 0.25);
+		outline: 1px solid var(--line);
+		outline-offset: -1px;
+	}
+
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		border: 0;
+		border-radius: var(--radius-md);
+		background: transparent;
+		color: var(--text-alt);
+		cursor: pointer;
+		transition:
+			color var(--duration) var(--ease),
+			background-color var(--duration) var(--ease);
+	}
+
+	.theme-toggle:hover {
+		background: var(--raised);
+		color: var(--text);
+	}
+
 	/* the destination is drawn by the theme itself, so it survives having no
 	   resolvedTheme on the server and never flips after hydration */
 	.theme-to-dark {

@@ -1,4 +1,5 @@
-import { asLocale, getRich, getTranslator } from '@/i18n';
+import { asLocale } from '@/i18n/locales';
+import { getRich, getTranslator } from '@/i18n/dictionary';
 import { pageMetadata } from '@/misc/metadata';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
@@ -81,7 +82,7 @@ export default async function AboutPage({ params }: PageProps) {
             icon={
               <Image
                 src="/badges/donator.svg"
-                alt={t('about.donated.badgeAlt')}
+                alt={t('badges.alt', { name: t('badges.donator') })}
                 width={28}
                 height={28}
                 radius="sm"

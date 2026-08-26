@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC, ReactNode } from 'react';
 import { ChevronDownIcon, SearchIcon } from '@/components/Icons';
 import { BotMode, ColumnKey, Direction } from '@/components/User/columns';

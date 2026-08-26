@@ -6,7 +6,6 @@
       "two": "Was über einen Account gespeichert wird und wie man das beendet, steht auf der <privacy>Datenschutzseite</privacy>. Der Opt-out ist ein Schalter und wirkt sofort. Die <tos>Nutzungsbedingungen</tos> sagen den Rest. {name} steht in keiner Verbindung zu Twitch Interactive, Inc. und wird von dort weder unterstützt noch gesponsert."
     },
     "donated": {
-      "badgeAlt": "Das Donator-Badge",
       "one": "Deine Spende zählt hier weiterhin. Wir haben uns entschieden, jede Spende unter dem alten Namen anzuerkennen statt bei null anzufangen. Das Donator-Badge von damals kam mit den übrigen Daten mit und steht jetzt auf deinem Profil.",
       "title": "Wenn du zu modchecker-Zeiten gespendet hast",
       "two": "Das ist die wahrscheinliche Erklärung, wenn du auf einer Seite ein Badge trägst, an eine Spende dorthin aber keine Erinnerung hast. Es gibt nichts einzulösen und nichts zu erneuern, und es läuft nicht ab. Falls du damals gespendet hast und das Badge fehlt, sag es <discord>im Discord</discord> und es wird von Hand nachgetragen."
@@ -25,6 +24,13 @@
       "title": "Wer es betreibt",
       "two": "Mehr über die Person dahinter auf <author>maersux.dev</author>, den Code gibt es auf <github>github.com/moddextv</github>."
     }
+  },
+  "badges": {
+    "alt": "Das Badge {name}",
+    "donator": "Donator",
+    "donatorBody": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spende, dauerhaft.",
+    "topDonator": "Top-Donator",
+    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt."
   },
   "browse": {
     "accounts": {
@@ -147,7 +153,6 @@
     "backup": "Backup",
     "badge": {
       "alsoWrittenBy": "{name} wird auch von {source} geschrieben. Eine Vergabe von Hand hält also, bis das erneut läuft und anders entscheidet.",
-      "alt": "Das Badge {name}",
       "filter": "Die Liste {name} filtern",
       "lead": "wer was trägt, und wer es vergeben darf",
       "neverFetched": "nie abgerufen",
@@ -276,12 +281,7 @@
     "signInHeading": "Das Dashboard braucht eine Twitch-Anmeldung"
   },
   "donate": {
-    "badgeAlt": "Das {name}-Badge",
     "continue": "Weiter zu Stripe",
-    "donator": {
-      "body": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spende, dauerhaft.",
-      "name": "Donator"
-    },
     "heading": "{brandName} läuft auf einem Server und ohne Werbung",
     "holds": {
       "accounts": "Accounts",
@@ -304,10 +304,6 @@
     },
     "stripeNote": "{brandName} speichert die Zahlungsreferenz und den Betrag, sonst nichts. Stripe wickelt die Kartendaten vollständig ab.",
     "stripeUnreachable": "Stripe war nicht erreichbar, es wurde nichts abgebucht. Bitte gleich noch einmal versuchen.",
-    "topDonator": {
-      "body": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt.",
-      "name": "Top-Donator"
-    },
     "whatYouGet": "Was du bekommst"
   },
   "errors": {
@@ -467,7 +463,7 @@
     "heading": "Diese Seite braucht eine Twitch-Anmeldung",
     "landBack": "Du landest wieder auf der Seite, die du erreichen wolltest.",
     "never": "Nie",
-    "optOut": "Sich aus dem Index abmelden",
+    "optOut": "Aus dem Index abmelden",
     "pickBadge": "Ein Chat-Badge wählen",
     "pickBadgeBody": "Wenn du mehrere hast, wähle, welches neben deinem Namen steht.",
     "scopes": {
@@ -528,6 +524,7 @@
     "whichRoles": "Welche Rollen gezeigt werden"
   },
   "nav": {
+    "backToMenu": "Zurück",
     "language": "Sprache",
     "main": "Hauptmenü",
     "menu": "Menü",
@@ -535,8 +532,7 @@
     "signInShort": "Anmelden",
     "signOut": "Abmelden",
     "skipToContent": "Zum Inhalt springen",
-    "themeToDark": "Dunkles Theme",
-    "themeToLight": "Helles Theme",
+    "themeToggle": "Theme wechseln",
     "yourAvatar": "Dein Twitch-Avatar"
   },
   "notices": {
@@ -641,6 +637,11 @@
       "one": "Mod",
       "other": "Mods"
     },
+    "short": {
+      "founder": "Founder",
+      "mod": "Mod",
+      "vip": "VIP"
+    },
     "title": {
       "channel": {
         "artist": "Artists",
@@ -726,8 +727,6 @@
     "assignedTo": "Zugewiesen an",
     "badgeGranted": "Badge vergeben",
     "body": "Spenden sind das Einzige, was {brandName} frei lesbar hält, und es wartet keine Bezahlstufe in den Kulissen. Das Donator-Badge liegt bereits auf <login>{login}</login> und erscheint überall neben deinem Namen, wo {brandName} ihn anzeigt.",
-    "donator": "Donator",
-    "donatorAlt": "Das Donator-Badge",
     "emailed": "Stripe schickt ihn per E-Mail",
     "heading": "Danke, wirklich",
     "metaTitle": "Danke",
@@ -742,9 +741,6 @@
     "receipt": "Beleg",
     "reference": "Referenz",
     "seeProfile": "Auf deinem Profil ansehen",
-    "settled": "Zahlung abgeschlossen",
-    "topDonator": "Top-Spender",
-    "topDonatorAlt": "Das Top-Donator-Badge",
-    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt."
+    "settled": "Zahlung abgeschlossen"
   }
 }

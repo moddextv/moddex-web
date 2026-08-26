@@ -1,4 +1,4 @@
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC } from 'react';
 import { Badges } from '@/components/User/Badges';
 import { RoleUser } from '@/misc/account';

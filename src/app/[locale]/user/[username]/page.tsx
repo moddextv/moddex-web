@@ -1,4 +1,5 @@
-import { asLocale, getTranslator, localePath, ogLocale } from '@/i18n';
+import { asLocale, localePath, ogLocale } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { alternatesFor } from '@/misc/metadata';
 import { config } from '@/config';
 import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
@@ -19,9 +20,9 @@ import { CSSProperties } from 'react';
 const ROLES = ['modding', 'viping', 'founding'] as const;
 
 const USER_TABS = [
-  { key: 'mod', label: 'Moderating', role: 'modding' },
-  { key: 'vip', label: 'Holding VIP', role: 'viping' },
-  { key: 'founder', label: 'Founding', role: 'founding' }
+  { key: 'mod', label: 'roles.title.user.mod', role: 'modding' },
+  { key: 'vip', label: 'roles.title.user.vip', role: 'viping' },
+  { key: 'founder', label: 'roles.title.user.founder', role: 'founding' }
 ] as const;
 
 interface PageProps {
@@ -94,7 +95,7 @@ export default async function UserUsernamePage({ params }: PageProps) {
         <UserProfile user={user} isUser={true} />
 
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
-          <RoleTabs tabs={roleTabs(seeded, USER_TABS)}>
+          <RoleTabs tabs={roleTabs(seeded, USER_TABS, t)}>
             <UserList type="user" role="modding" user={user} initial={seeded.modding} tabbed />
             <UserList type="user" role="viping" user={user} initial={seeded.viping} tabbed />
             <UserList type="user" role="founding" user={user} initial={seeded.founding} tabbed />

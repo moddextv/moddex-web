@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/i18n';
+import { useI18n } from '@/i18n/context';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';

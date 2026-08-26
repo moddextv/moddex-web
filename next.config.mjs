@@ -1,31 +1,26 @@
-/**
- * Every top-level path that carries a locale, listed rather than excluded.
- *
- * A negative lookahead would be shorter and is exactly how the visitor counter
- * was lost once: a matcher meant to exclude something quietly caught the collect
- * endpoint, and the failure was invisible because the script still loaded. This
- * list cannot reach /insights, /api, /health, or any metadata file, because it
- * never mentions them. tests/localeRouting.test.ts pins that.
- */
-export const LOCALIZED_SEGMENTS = [
-  'about',
-  'c',
-  'channel',
-  'dashboard',
-  'design',
-  'donate',
-  'leaderboard',
-  'privacy',
-  'settings',
-  'tos',
-  'u',
-  'user'
-];
+import { LOCALIZED_SEGMENTS, ROUTE_SLUGS } from './src/i18n/routes.mjs';
+
+export { LOCALIZED_SEGMENTS, ROUTE_SLUGS };
+
+// [locale, route, slug] for every route a language renames, and only those
+const translated = Object.entries(ROUTE_SLUGS).flatMap(([route, byLocale]) =>
+  Object.entries(byLocale).map(([locale, slug]) => [locale, route, slug])
+);
 
 // en is served unprefixed, so /en/... is a duplicate of a url that already exists
 const localeRedirects = [
   { source: '/en', destination: '/', permanent: true },
-  { source: '/en/:path*', destination: '/:path*', permanent: true }
+  { source: '/en/:path*', destination: '/:path*', permanent: true },
+
+  // and the english slug under a prefix is a second address for a page that has one
+  ...translated.flatMap(([locale, route, slug]) => [
+    { source: `/${locale}/${route}`, destination: `/${locale}/${slug}`, permanent: true },
+    {
+      source: `/${locale}/${route}/:path*`,
+      destination: `/${locale}/${slug}/:path*`,
+      permanent: true
+    }
+  ])
 ];
 
 const localeRewrites = [
@@ -33,6 +28,12 @@ const localeRewrites = [
   ...LOCALIZED_SEGMENTS.flatMap((segment) => [
     { source: `/${segment}`, destination: `/en/${segment}` },
     { source: `/${segment}/:path*`, destination: `/en/${segment}/:path*` }
+  ]),
+
+  // the translated slug is what the reader sees; the route folder is english
+  ...translated.flatMap(([locale, route, slug]) => [
+    { source: `/${locale}/${slug}`, destination: `/${locale}/${route}` },
+    { source: `/${locale}/${slug}/:path*`, destination: `/${locale}/${route}/:path*` }
   ])
 ];
 

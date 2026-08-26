@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC } from 'react';
 import { signIn } from 'next-auth/react';
 import { usePathname } from 'next/navigation';

@@ -1,4 +1,5 @@
-import { getTranslator, Locale, localePath } from '@/i18n';
+import { Locale, localePath } from '@/i18n/locales';
+import { getTranslator } from '@/i18n/dictionary';
 import { Avatar } from '@/components/UI/Avatar';
 import { Badges } from '@/components/User/Badges';
 import { LeaderRow } from '@/utils/api/moddex/public';

@@ -14,10 +14,13 @@ export const config = {
   i18n: {
     defaultLocale: 'en',
 
-    // the key is the url segment; `tag` is the bcp-47 form Intl and og want
+    // the key is the url segment; `tag` is the bcp-47 form Intl and og want.
+    // `flag` names a file in public/flags and is a separate choice on purpose:
+    // a language is not a country, so it may disagree with the tag's region
     locales: {
-      en: { name: 'English', tag: 'en-US' },
-      de: { name: 'Deutsch', tag: 'de-DE' }
+      en: { name: 'English', tag: 'en-US', flag: 'gb' },
+      de: { name: 'Deutsch', tag: 'de-DE', flag: 'de' },
+      fr: { name: 'Français', tag: 'fr-FR', flag: 'fr' }
     }
   } as const,
 

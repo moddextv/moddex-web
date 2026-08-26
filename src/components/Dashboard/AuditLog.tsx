@@ -1,6 +1,6 @@
 'use client';
 
-import { useT } from '@/i18n';
+import { useT } from '@/i18n/context';
 import { FC, useState, useTransition } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import clsx from 'clsx';

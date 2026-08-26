@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/i18n';
+import { useI18n } from '@/i18n/context';
 import { Facts, Good, StatePage, Status } from '@/components/PageState';
 import { OptOutEffect } from '@/components/OptOutPromise';
 import { LocaleLink } from '@/components/UI/LocaleLink';
