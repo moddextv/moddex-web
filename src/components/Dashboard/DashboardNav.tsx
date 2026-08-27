@@ -12,6 +12,7 @@ const TABS = [
   { href: '/dashboard/channels', key: 'dash.channels', adminOnly: true },
   { href: '/dashboard/donations', key: 'dash.donations', adminOnly: true },
   { href: '/dashboard/jobs', key: 'dash.jobs', adminOnly: true },
+  { href: '/dashboard/keys', key: 'dash.keys.tab', adminOnly: true },
   { href: '/dashboard/audit', key: 'dash.audit', adminOnly: true }
 ];
 

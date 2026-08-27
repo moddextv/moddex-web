@@ -272,7 +272,27 @@
     "trendsTitle": "How the nightly work is trending",
     "twitchLogin": "Twitch login",
     "when": "When",
-    "yield": "Yield"
+    "yield": "Yield",
+    "keys": {
+      "tab": "Keys",
+      "heading": "Bot keys",
+      "blurb": "A key raises a bot out of the shared per-address rate limit and lets it ask for a channel to be re-indexed. It buys throughput and that one request, never trust: a keyed bot still sees exactly what the public sees.",
+      "label": "What it is for",
+      "labelHint": "susgeebot in chat",
+      "account": "Twitch account, optional",
+      "accountHint": "susgeebot",
+      "create": "Create key",
+      "createFailed": "The key could not be created.",
+      "revoke": "Revoke",
+      "revokeFailed": "The key could not be revoked.",
+      "shownOnce": "Copy this now. It is shown once and cannot be read back.",
+      "hide": "Done",
+      "none": "No keys yet.",
+      "lastUsed": "last used {when}",
+      "neverUsed": "never used",
+      "revokedAt": "revoked {when}",
+      "unreadable": "The keys could not be read."
+    }
   },
   "dashboard": {
     "signInBlurb": "It's team only, so moddex has to know which Twitch account is yours before it can check.",

@@ -2,6 +2,10 @@
 
 import { getEventsubHealth, type EventsubHealth } from '@/utils/api/moddex/public';
 import {
+  createClientKey,
+  getClientKeys,
+  revokeClientKey,
+  type ClientKeyEntry,
   getAuditLog,
   getConnections,
   getDonationLedger,
@@ -78,5 +82,32 @@ export async function listConnections(): Promise<ActionResult<ChannelConnections
     const { userId } = await admin();
 
     return getConnections(userId);
+  });
+}
+
+export async function listClientKeys(): Promise<ActionResult<{ items: ClientKeyEntry[] }>> {
+  return attempt('listClientKeys', async () => {
+    const { userId } = await admin();
+
+    return getClientKeys(userId);
+  });
+}
+
+export async function mintClientKey(
+  label: string,
+  login?: string
+): Promise<ActionResult<{ id: number; prefix: string; label: string; key: string }>> {
+  return attempt('mintClientKey', async () => {
+    const { userId } = await admin();
+
+    return createClientKey(userId, label, login);
+  });
+}
+
+export async function killClientKey(id: number): Promise<ActionResult<{ revoked: boolean }>> {
+  return attempt('killClientKey', async () => {
+    const { userId } = await admin();
+
+    return revokeClientKey(userId, id);
   });
 }

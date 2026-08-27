@@ -211,3 +211,32 @@ export const getJobHealth = (actor: string, withDepth = false, historyDays?: num
 
   return call<JobHealth>(`/v1/admin/jobs${params}`, { authenticated: true, actor });
 };
+
+export interface ClientKeyEntry {
+  id: number;
+  prefix: string;
+  label: string;
+  userId: string | null;
+  login: string | null;
+  createdBy: string;
+  createdAt: string;
+  lastUsedAt: string | null;
+  revokedAt: string | null;
+}
+
+export const getClientKeys = (actor: string) =>
+  call<{ items: ClientKeyEntry[] }>('/v1/admin/client-keys', { authenticated: true, actor });
+
+/** The reply carries `key` and it is the only time it exists — it is not stored. */
+export const createClientKey = (actor: string, label: string, login?: string) =>
+  call<{ id: number; prefix: string; label: string; userId: string | null; key: string }>(
+    '/v1/admin/client-keys',
+    { authenticated: true, method: 'POST', actor, body: { label, login } }
+  );
+
+export const revokeClientKey = (actor: string, id: number) =>
+  call<{ id: number; revoked: boolean }>(`/v1/admin/client-keys/${id}`, {
+    authenticated: true,
+    method: 'DELETE',
+    actor
+  });

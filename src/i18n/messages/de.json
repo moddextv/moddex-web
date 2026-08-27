@@ -272,7 +272,27 @@
     "trendsTitle": "Wie sich die nächtlichen Läufe entwickeln",
     "twitchLogin": "Twitch-Login",
     "when": "Wann",
-    "yield": "Yield"
+    "yield": "Yield",
+    "keys": {
+      "tab": "Schlüssel",
+      "heading": "Bot-Schlüssel",
+      "blurb": "Ein Schlüssel hebt einen Bot aus dem gemeinsamen Limit pro Adresse und erlaubt ihm, einen Kanal neu indexieren zu lassen. Er kauft Durchsatz und diese eine Anfrage, niemals Vertrauen: ein Bot mit Schlüssel sieht genau das, was die Öffentlichkeit sieht.",
+      "label": "Wofür er ist",
+      "labelHint": "susgeebot im Chat",
+      "account": "Twitch-Konto, optional",
+      "accountHint": "susgeebot",
+      "create": "Schlüssel erstellen",
+      "createFailed": "Der Schlüssel konnte nicht erstellt werden.",
+      "revoke": "Widerrufen",
+      "revokeFailed": "Der Schlüssel konnte nicht widerrufen werden.",
+      "shownOnce": "Jetzt kopieren. Er wird einmal gezeigt und ist danach nicht mehr lesbar.",
+      "hide": "Fertig",
+      "none": "Noch keine Schlüssel.",
+      "lastUsed": "zuletzt benutzt {when}",
+      "neverUsed": "nie benutzt",
+      "revokedAt": "widerrufen {when}",
+      "unreadable": "Die Schlüssel konnten nicht gelesen werden."
+    }
   },
   "dashboard": {
     "signInBlurb": "Es ist nur fürs Team, also muss moddex wissen, welcher Twitch-Account deiner ist, um das zu prüfen.",

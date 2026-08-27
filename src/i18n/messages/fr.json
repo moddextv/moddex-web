@@ -272,7 +272,27 @@
     "trendsTitle": "Comment évolue le travail nocturne",
     "twitchLogin": "Identifiant Twitch",
     "when": "Quand",
-    "yield": "Retrait"
+    "yield": "Retrait",
+    "keys": {
+      "tab": "Clés",
+      "heading": "Clés de bot",
+      "blurb": "Une clé sort un bot de la limite partagée par adresse et lui permet de demander la réindexation d une chaîne. Elle achète du débit et cette seule requête, jamais de la confiance : un bot avec clé voit exactement ce que voit le public.",
+      "label": "À quoi elle sert",
+      "labelHint": "susgeebot dans le chat",
+      "account": "Compte Twitch, facultatif",
+      "accountHint": "susgeebot",
+      "create": "Créer la clé",
+      "createFailed": "La clé n a pas pu être créée.",
+      "revoke": "Révoquer",
+      "revokeFailed": "La clé n a pas pu être révoquée.",
+      "shownOnce": "Copiez-la maintenant. Elle est affichée une seule fois et ne peut plus être relue.",
+      "hide": "Terminé",
+      "none": "Aucune clé pour l instant.",
+      "lastUsed": "utilisée {when}",
+      "neverUsed": "jamais utilisée",
+      "revokedAt": "révoquée {when}",
+      "unreadable": "Les clés n ont pas pu être lues."
+    }
   },
   "dashboard": {
     "signInBlurb": "C'est réservé à l'équipe, donc moddex doit savoir quel compte Twitch est le tien avant de pouvoir vérifier.",
