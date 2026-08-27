@@ -82,11 +82,16 @@ export const fetchModeratedChannels = async (
 ): Promise<{ channels: { id: string; login: string }[]; complete: boolean }> => {
   const channels: { id: string; login: string }[] = [];
   let cursor = '';
+  let size = MODERATED_PAGE_SIZE;
+  let reread = false;
 
-  for (let page = 0; page < 100; page += 1) {
+  for (let page = 0; page < 200; page += 1) {
+    const at = cursor;
+    const before = channels.length;
+
     const params = new URLSearchParams({
       user_id: userId,
-      first: String(MODERATED_PAGE_SIZE)
+      first: String(size)
     });
     if (cursor) params.set('after', cursor);
 
@@ -123,12 +128,19 @@ export const fetchModeratedChannels = async (
 
     cursor = body.pagination?.cursor ?? '';
 
-    if (!cursor) {
-      // a full page without a cursor is a short read, not the end
-      if (entries.length >= MODERATED_PAGE_SIZE) return { channels, complete: false };
+    if (cursor) continue;
 
-      return { channels, complete: true };
-    }
+    if (entries.length < size) return { channels, complete: true };
+
+    // a full page without a cursor either ends on an exact multiple of the page
+    // size or is a short read. one remainder cannot fill two different sizes, so
+    // walk the same position again one narrower rather than call it complete
+    if (reread) return { channels, complete: false };
+
+    reread = true;
+    size -= 1;
+    cursor = at;
+    channels.length = before;
   }
 
   return { channels, complete: false };

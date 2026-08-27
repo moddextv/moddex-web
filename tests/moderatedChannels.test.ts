@@ -30,7 +30,32 @@ afterEach(() => {
 });
 
 describe('fetchModeratedChannels', () => {
-  it('refuses to call a full page without a cursor complete', async () => {
+  /**
+   * Somebody moderating exactly 100, 200 or 300 channels produces a genuinely
+   * complete last page that is full, which is byte for byte what a dropped
+   * cursor produces. Nothing was ever revoked for them. There is no next page to
+   * ask for without a cursor, so the second read is the same position one
+   * narrower: a remainder that exactly fills 100 cannot also exactly fill 99.
+   */
+  it('settles an exact multiple of the page size by reading it again one narrower', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(page(100))
+      .mockResolvedValueOnce(page(99, 'c1'))
+      .mockResolvedValueOnce(page(1));
+
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await fetchModeratedChannels('token', '778353697');
+
+    expect(result.channels).toHaveLength(100);
+    expect(result.complete).toBe(true);
+    expect(String(fetchMock.mock.calls[1]?.[0])).toContain('first=99');
+    // 100 rather than 200: the re-read replaces the rewound page, it does not add to it
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it('refuses to call a full page without a cursor complete, even after the narrower read', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(page(100)));
 
     const result = await fetchModeratedChannels('token', '778353697');
