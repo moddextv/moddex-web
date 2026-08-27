@@ -371,6 +371,21 @@
     "otherListsFine": "Die anderen Listen auf dieser Seite sind nicht betroffen.",
     "renderFailed": "Beim Rendern der Seite ist etwas kaputtgegangen, und wir haben es protokolliert. Ein erneuter Versuch baut nur diesen Teil der Seite neu. Das hilft meistens, wenn es eine langsame Antwort war und kein echter Fehler.",
     "retry": "Seite erneut laden",
+    "signIn": {
+      "account": "Dein Twitch-Konto",
+      "body": "Twitch hat dich zurückgeschickt, aber {brandName} konnte die Anmeldung nicht abschliessen. Du bist also nicht angemeldet. Hier wurde nichts geschrieben und an deinem Twitch-Konto hat sich nichts geändert. Eine Anmeldung, die zu lange halb fertig liegen bleibt, läuft ab. Das ist die übliche Ursache, und ein neuer Versuch räumt sie weg.",
+      "browse": "Lieber weiterschauen",
+      "denied": "Du hast den Zugriff nicht erlaubt",
+      "deniedBody": "Twitch hat gefragt, ob {brandName} sehen darf, welches Konto deines ist, und die Antwort war nein. Es wurde nichts übergeben und nichts gespeichert. Alles auf dieser Seite ausser deinen eigenen Einstellungen funktioniert auch abgemeldet.",
+      "handedOver": "Was Twitch übergeben hat",
+      "heading": "Diese Anmeldung wurde nicht fertig",
+      "no": "Nein",
+      "nothingKept": "Nichts, was behalten wurde",
+      "reported": "Gemeldet als",
+      "signedIn": "Angemeldet",
+      "tryAgain": "Erneut anmelden",
+      "untouched": "Unberührt"
+    },
     "tryListAgain": "Diese Liste erneut versuchen",
     "unknownPage": {
       "body": "Diese Adresse führt auf dieser Seite nirgendwohin, es wurde also nichts nachgeschlagen. Alles, was sich von hier aus lohnt, steht unten.",

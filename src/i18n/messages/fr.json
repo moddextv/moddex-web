@@ -371,6 +371,21 @@
     "otherListsFine": "Les autres listes de cette page ne sont pas affectées.",
     "renderFailed": "Quelque chose a cassé pendant le rendu de la page, et nous l'avons consigné. Réessayer reconstruit seulement cette partie de la page, ce qui suffit en général s'il s'agissait d'une réponse lente et non d'un vrai bug.",
     "retry": "Réessayer cette page",
+    "signIn": {
+      "account": "Ton compte Twitch",
+      "body": "Twitch t'a renvoyé ici, mais {brandName} n'a pas pu terminer la connexion, donc tu n'es pas connecté. Rien n'a été écrit ici et rien n'a changé sur ton compte Twitch. Une connexion laissée à moitié faite trop longtemps expire, c'est la cause habituelle, et la relancer suffit.",
+      "browse": "Continuer sans se connecter",
+      "denied": "Tu n'as pas accordé l'accès",
+      "deniedBody": "Twitch a demandé si {brandName} peut voir quel compte est le tien, et la réponse a été non. Rien n'a été transmis et rien n'a été enregistré. Tout sur ce site fonctionne déconnecté, sauf tes propres réglages.",
+      "handedOver": "Ce que Twitch a transmis",
+      "heading": "Cette connexion n'est pas allée au bout",
+      "no": "Non",
+      "nothingKept": "Rien qui ait été conservé",
+      "reported": "Signalé comme",
+      "signedIn": "Connecté",
+      "tryAgain": "Réessayer la connexion",
+      "untouched": "Intact"
+    },
     "tryListAgain": "Réessayer cette liste",
     "unknownPage": {
       "body": "Cette adresse ne mène nulle part sur ce site, rien n'a donc été cherché. Tout ce qui vaut le détour d'ici se trouve ci-dessous.",

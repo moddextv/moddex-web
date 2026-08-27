@@ -371,6 +371,21 @@
     "otherListsFine": "The other lists on this page are unaffected.",
     "renderFailed": "Something broke while the page was rendering, and we've logged it. Retrying rebuilds just this part of the page, which usually works if it was a slow response and not a real bug.",
     "retry": "Retry this page",
+    "signIn": {
+      "account": "Your Twitch account",
+      "body": "Twitch sent you back, but {brandName} could not finish the sign-in, so you are not signed in. Nothing was written here and nothing changed on your Twitch account. A sign-in left half finished for too long expires, which is the ordinary cause, and starting it again clears it.",
+      "browse": "Look around instead",
+      "denied": "You did not grant access",
+      "deniedBody": "Twitch asked whether {brandName} may see which account is yours, and the answer was no. Nothing was handed over and nothing was saved. Everything on this site except your own settings works signed out.",
+      "handedOver": "What Twitch handed over",
+      "heading": "That sign-in did not finish",
+      "no": "No",
+      "nothingKept": "Nothing that was kept",
+      "reported": "Reported as",
+      "signedIn": "Signed in",
+      "tryAgain": "Try signing in again",
+      "untouched": "Untouched"
+    },
     "tryListAgain": "Try this list again",
     "unknownPage": {
       "body": "That address doesn't lead anywhere on this site, so nothing was looked up. Everywhere worth going from here is below.",

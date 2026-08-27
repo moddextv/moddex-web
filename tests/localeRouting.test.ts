@@ -294,6 +294,40 @@ describe('the 404 body is a page, not a thrown notFound', () => {
     expect(source).not.toContain('notFound(');
   });
 
+  /**
+   * next-auth ships its own error page and serves it at /api/auth/error, outside
+   * the locale tree, unstyled and in english whatever the reader speaks. It told
+   * a visitor to check the server logs while their sign-in had in fact worked,
+   * which is what pages.error exists to replace.
+   */
+  it('answers a failed sign-in with a page of ours rather than next-auth', async () => {
+    const { existsSync, readFileSync } = await import('fs');
+    const auth = readFileSync(new URL('../src/auth.ts', import.meta.url), 'utf8');
+
+    expect(auth).toMatch(/pages:\s*\{[^}]*error:\s*'\/login-failed'/);
+    expect(existsSync(new URL('../src/app/[locale]/login-failed/page.tsx', import.meta.url))).toBe(
+      true
+    );
+  });
+
+  /**
+   * A replayed callback finds the one-time pkce check already spent and reports
+   * a failure for a sign-in that succeeded a second earlier. A session is the
+   * only thing that settles it, so the page asks before it accuses.
+   */
+  it('treats a session as proof the sign-in worked, whatever the error says', async () => {
+    const { readFileSync } = await import('fs');
+    const page = readFileSync(
+      new URL('../src/app/[locale]/login-failed/page.tsx', import.meta.url),
+      'utf8'
+    );
+
+    expect(page).toContain('await auth()');
+    expect(page).toMatch(/if \(session\?\.user\?\.id\) \{\s*redirect\(/);
+    expect(page).toContain("localePath(locale, '/settings')");
+    expect(page).toContain('index: false');
+  });
+
   it('sends a nonsense first segment to noindex too, since the layout draws the same body', async () => {
     const { readFileSync } = await import('fs');
     const layout = readFileSync(new URL('../src/app/[locale]/layout.tsx', import.meta.url), 'utf8');

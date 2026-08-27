@@ -7,6 +7,8 @@ import { serverConfig } from '@/serverConfig';
 
 export const { handlers, auth, signIn } = NextAuth({
   secret: serverConfig.authSecret,
+  // without this next-auth serves its own unstyled, untranslated page
+  pages: { error: '/login-failed' },
   providers: [
     Twitch({
       clientId: serverConfig.twitch.clientId,

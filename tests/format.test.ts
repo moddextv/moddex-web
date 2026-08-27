@@ -98,4 +98,20 @@ describe('signInOptions', () => {
   it('does not treat a lookalike route as a donation page', () => {
     expect(signInOptions('/user/donatello')).toEqual({ redirectTo: '/settings' });
   });
+
+  it('lands the reader back in the language they were reading', () => {
+    expect(signInOptions('/de/kanal/forsen')).toEqual({ redirectTo: '/de/settings' });
+    expect(signInOptions('/fr/classement')).toEqual({ redirectTo: '/fr/settings' });
+  });
+
+  /**
+   * usePathname answers the rendered url, so the donation page reads /de/spenden
+   * and a startsWith against the english route missed it: a german reader was
+   * taken off the checkout to settings, mid donation.
+   */
+  it('recognises the donation page under its translated slug', () => {
+    expect(signInOptions('/de/spenden')).toBeUndefined();
+    expect(signInOptions('/de/spenden/success')).toBeUndefined();
+    expect(signInOptions('/fr/don')).toBeUndefined();
+  });
 });

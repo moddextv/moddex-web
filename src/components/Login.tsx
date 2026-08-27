@@ -1,4 +1,4 @@
-import { Locale } from '@/i18n/locales';
+import { Locale, localePath } from '@/i18n/locales';
 import { getRich, getTranslator } from '@/i18n/dictionary';
 import { signIn } from '@/auth';
 import { Container } from '@/components/UI/Container';
@@ -57,7 +57,10 @@ export const Login: FC<LoginProps> = ({ locale, heading, blurb, redirectTo }) =>
           <form
             action={async () => {
               'use server';
-              await signIn('twitch', redirectTo ? { redirectTo } : undefined);
+              await signIn(
+                'twitch',
+                redirectTo ? { redirectTo: localePath(locale, redirectTo) } : undefined
+              );
             }}
           >
             <button type="submit" className="btn btn-twitch">

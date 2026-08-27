@@ -18,6 +18,7 @@ export const LOCALIZED_SEGMENTS = [
   'design',
   'donate',
   'leaderboard',
+  'login-failed',
   'privacy',
   'settings',
   'tos',
@@ -34,6 +35,8 @@ export const LOCALIZED_SEGMENTS = [
  *                 purpose and the same in every language
  *   dashboard     signed in, team only, and never linked publicly
  *   design        internal, noindex
+ *   login-failed  next-auth builds this url itself and knows no locale, so the
+ *                 english address is the only one it can send anybody to
  *   settings      signed in
  *   privacy, tos  the contract, english whatever you read it in. a translated
  *                 slug would promise a translation the page does not have
