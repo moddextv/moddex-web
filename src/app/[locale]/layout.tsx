@@ -55,6 +55,10 @@ export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadat
 
 export const generateStaticParams = () => LOCALES.map((locale) => ({ locale }));
 
+// a first segment that is not a locale must miss the router entirely, or it
+// reaches this layout and every page below reads it through a silent fallback
+export const dynamicParams = false;
+
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -63,7 +67,8 @@ interface LayoutProps {
 export default async function RootLayout({ children, params }: LayoutProps) {
   const requested = (await params).locale;
 
-  // an unknown first segment is a wrong url, not a locale to fall back from
+  // dynamicParams above should have stopped this; kept because every page below
+  // reads its locale through asLocale, which falls back silently
   if (!isLocale(requested)) notFound();
 
   const locale = requested;

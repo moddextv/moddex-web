@@ -262,3 +262,35 @@ describe('a translated url is served, and the english one under a prefix is not'
     }
   });
 });
+
+/**
+ * The 404 for an unmatched url is composed by next at the routing level, not by
+ * `not-found.tsx`, and only while the flag is on. Turn the flag off and the page
+ * is still there, still correct, and never reached — which reads exactly like a
+ * working 404 until somebody types a wrong url.
+ */
+describe('the global 404 is wired up, not merely written', () => {
+  it('keeps the flag that makes next use it at all', () => {
+    expect(nextConfig.experimental?.globalNotFound).toBe(true);
+  });
+
+  it('has the file the flag points at', async () => {
+    const { existsSync } = await import('fs');
+
+    expect(existsSync(new URL('../src/app/global-not-found.tsx', import.meta.url))).toBe(true);
+  });
+
+  // it bypasses the layout, so nothing else brings the stylesheet or the fonts
+  it('mounts its own styles, fonts and dictionary, because no layout runs', async () => {
+    const { readFileSync } = await import('fs');
+    const source = readFileSync(
+      new URL('../src/app/global-not-found.tsx', import.meta.url),
+      'utf8'
+    );
+
+    expect(source).toContain('globals.css');
+    expect(source).toContain('@/fonts');
+    expect(source).toContain('I18nProvider');
+    expect(source).toContain('<html');
+  });
+});

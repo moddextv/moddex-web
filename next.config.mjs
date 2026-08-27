@@ -41,6 +41,8 @@ const localeRewrites = [
 const nextConfig = {
   // the docker runner stage copies .next/standalone — without this it would
   // carry all of node_modules
+
+  experimental: { globalNotFound: true },
   output: 'standalone',
   compress: true,
   images: {
