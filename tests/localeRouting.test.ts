@@ -56,7 +56,10 @@ describe('the locale rewrite is an allowlist', () => {
     });
 
     const folders = entries
-      .filter((entry) => entry.isDirectory() && entry.name !== 'fonts')
+      // [...rest] is the 404 body for an unmatched path, not a page to localise
+      .filter(
+        (entry) => entry.isDirectory() && entry.name !== 'fonts' && entry.name !== '[...rest]'
+      )
       .map((entry) => entry.name);
 
     expect([...folders].sort()).toEqual([...LOCALIZED_SEGMENTS].sort());

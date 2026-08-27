@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 import { Insights } from '@/components/Insights';
 import { config } from '@/config';
 import { jetbrains, manrope } from '@/fonts';
-import { notFound } from 'next/navigation';
+import { UnknownPage } from '@/components/Errors';
 
 /**
  * A layout may not export a static `metadata` here: the title, the description
@@ -19,7 +19,8 @@ import { notFound } from 'next/navigation';
  * would put english ones on every german page.
  */
 export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadata> => {
-  const locale = asLocale((await params).locale);
+  const requested = (await params).locale;
+  const locale = asLocale(requested);
   const t = getTranslator(locale);
 
   return {
@@ -35,11 +36,14 @@ export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadat
       url: config.brand.authorUrl
     },
     other: { 'darkreader-lock': 'true' },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true, 'max-image-preview': 'large' }
-    },
+    // a nonsense first segment renders the 404 body, so it must not be indexed
+    robots: isLocale(requested)
+      ? {
+          index: true,
+          follow: true,
+          googleBot: { index: true, follow: true, 'max-image-preview': 'large' }
+        }
+      : { index: false, follow: false },
     // no title or description here: they are inherited, and every page would share the home card
     openGraph: {
       type: 'website',
@@ -63,11 +67,12 @@ interface LayoutProps {
 export default async function RootLayout({ children, params }: LayoutProps) {
   const requested = (await params).locale;
 
-  // load-bearing: every page below reads its locale through asLocale, which
-  // falls back silently, so /nonsense/user/maersux would serve a real profile
-  if (!isLocale(requested)) notFound();
+  const known = isLocale(requested);
 
-  const locale = requested;
+  // withholding children is load-bearing: every page below reads its locale
+  // through asLocale, which falls back silently, so /nonsense/user/maersux
+  // would otherwise serve a real profile under a nonsense prefix
+  const locale = known ? requested : DEFAULT_LOCALE;
 
   return (
     <html
@@ -84,7 +89,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
           <Providers>
             <Insights />
             <Header locale={locale} />
-            {children}
+            {known ? children : <UnknownPage />}
             <Footer locale={locale} />
           </Providers>
         </I18nProvider>
