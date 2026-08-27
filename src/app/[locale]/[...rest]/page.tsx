@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { UnknownPage } from '@/components/Errors';
 
-// rendered rather than thrown: notFound() would answer 404 with an empty body,
-// and a streamed 404 is a 200 with noindex either way — next's own docs
+// drawn rather than thrown: a thrown not-found answers with an empty body in
+// this tree, and a streamed 404 is a 200 carrying noindex anyway
 export const metadata: Metadata = {
   title: 'not found',
   robots: { index: false, follow: false }

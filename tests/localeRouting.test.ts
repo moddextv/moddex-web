@@ -267,33 +267,38 @@ describe('a translated url is served, and the english one under a prefix is not'
 });
 
 /**
- * The 404 for an unmatched url is composed by next at the routing level, not by
- * `not-found.tsx`, and only while the flag is on. Turn the flag off and the page
- * is still there, still correct, and never reached — which reads exactly like a
- * working 404 until somebody types a wrong url.
+ * Every path matches something: `[locale]` takes a single segment and
+ * `[locale]/[...rest]` takes the rest, so nothing reaches next's own default
+ * 404 — and deleting the catch-all brings that black-on-black page straight
+ * back, on a site that otherwise looks finished.
  */
-describe('the global 404 is wired up, not merely written', () => {
-  it('keeps the flag that makes next use it at all', () => {
-    expect(nextConfig.experimental?.globalNotFound).toBe(true);
-  });
-
-  it('has the file the flag points at', async () => {
+describe('the 404 body is a page, not a thrown notFound', () => {
+  it('has the catch-all that every unmatched path under a locale lands on', async () => {
     const { existsSync } = await import('fs');
 
-    expect(existsSync(new URL('../src/app/global-not-found.tsx', import.meta.url))).toBe(true);
+    expect(existsSync(new URL('../src/app/[locale]/[...rest]/page.tsx', import.meta.url))).toBe(
+      true
+    );
   });
 
-  // it bypasses the layout, so nothing else brings the stylesheet or the fonts
-  it('mounts its own styles, fonts and dictionary, because no layout runs', async () => {
+  // notFound() answers with an empty body in this tree, measured
+  it('renders the body rather than throwing it, and hides itself from crawlers', async () => {
     const { readFileSync } = await import('fs');
     const source = readFileSync(
-      new URL('../src/app/global-not-found.tsx', import.meta.url),
+      new URL('../src/app/[locale]/[...rest]/page.tsx', import.meta.url),
       'utf8'
     );
 
-    expect(source).toContain('globals.css');
-    expect(source).toContain('@/fonts');
-    expect(source).toContain('I18nProvider');
-    expect(source).toContain('<html');
+    expect(source).toContain('UnknownPage');
+    expect(source).toContain('index: false');
+    expect(source).not.toContain('notFound(');
+  });
+
+  it('sends a nonsense first segment to noindex too, since the layout draws the same body', async () => {
+    const { readFileSync } = await import('fs');
+    const layout = readFileSync(new URL('../src/app/[locale]/layout.tsx', import.meta.url), 'utf8');
+
+    expect(layout).toContain('index: false');
+    expect(layout).toContain('known ? children');
   });
 });
