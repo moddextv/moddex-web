@@ -6,6 +6,8 @@ import { dictionaryOf } from '@/i18n/dictionary';
 import { DEFAULT_LOCALE } from '@/i18n/locales';
 import { jetbrains, manrope } from '@/fonts';
 import { Providers } from './[locale]/providers';
+import { Header } from '@/components/Header/Header';
+import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'not found | moddex'
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
  * locale to read. Styles, fonts and the theme have to be mounted here for the
  * same reason — the layout that normally does it never runs.
  */
-export default function GlobalNotFound() {
+export default async function GlobalNotFound() {
   const dictionary = dictionaryOf(DEFAULT_LOCALE);
 
   return (
@@ -37,7 +39,9 @@ export default function GlobalNotFound() {
       <body className="min-h-screen antialiased flex flex-col bg-primary-900 font-sans text-base text-primary-100">
         <I18nProvider locale={DEFAULT_LOCALE} dictionary={dictionary} fallback={dictionary}>
           <Providers>
+            <Header locale={DEFAULT_LOCALE} />
             <UnknownPage />
+            <Footer locale={DEFAULT_LOCALE} />
           </Providers>
         </I18nProvider>
       </body>
