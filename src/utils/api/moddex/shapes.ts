@@ -58,11 +58,13 @@ export const browsePageShape = object({
 export const leaderboardShape = object({
   role: str,
   computedAt: nullable(str),
+  comparedTo: nullable(str),
   depth: num,
   of: nullable(num),
   items: arrayOf(
     object({
       place: num,
+      moved: nullable(num),
       count: num,
       id,
       login: str,

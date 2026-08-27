@@ -455,6 +455,8 @@
     "empty": "Hier ist noch nichts. Die tägliche Zählung lief seit dem Anlegen dieser Liste noch nicht.",
     "lead": "Wer über alle von {brandName} indexierten Kanäle hinweg die meisten Rollen hält. Wird einmal täglich aktualisiert.",
     "metaDescription": "Wer auf Twitch die meisten Mod-, VIP- und Founder-Rollen hält, gezählt von {brandName}.",
+    "movedHead": "7 Tage",
+    "movedNote": "Die letzte Spalte markiert die Konten, deren Platz sich in der vergangenen Woche verändert hat, nach oben oder unten. Wo sie leer ist, ist der Platz geblieben, und sie bleibt überall leer, solange es keine eine Woche alte Rangliste zum Vergleich gibt.",
     "ranked": "gewertet",
     "scales": {
       "founder": {

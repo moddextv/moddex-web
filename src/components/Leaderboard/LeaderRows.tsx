@@ -2,6 +2,7 @@ import { Locale, localePath } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 import { Avatar } from '@/components/UI/Avatar';
 import { Badges } from '@/components/User/Badges';
+import { ChevronDownIcon, ChevronUpIcon } from '@/components/Icons';
 import { LeaderRow } from '@/utils/api/moddex/public';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -12,6 +13,25 @@ const TONE: Record<string, string> = {
   vip: 'text-vip',
   founder: 'text-founder',
   roles: 'text-primary-100'
+};
+
+// nothing for a place that held: a column of "no change" buries the few that moved
+const Moved: FC<{ places: number | null; size: number }> = ({ places, size }) => {
+  if (!places) return null;
+
+  const up = places > 0;
+
+  return (
+    <span
+      className={clsx(
+        'inline-flex items-center gap-0.5 justify-end',
+        up ? 'text-mod' : 'text-founder'
+      )}
+    >
+      {up ? <ChevronUpIcon size={size} /> : <ChevronDownIcon size={size} />}
+      {Math.abs(places)}
+    </span>
+  );
 };
 
 export const LeaderRows: FC<{
@@ -27,6 +47,7 @@ export const LeaderRows: FC<{
       <div className="row-head cols-leaders">
         <span>#</span>
         <span>{t('misc.account')}</span>
+        <span className="moved-slot text-right">{t('leaderboard.movedHead')}</span>
         <span className="text-right">{label}</span>
       </div>
 
@@ -44,6 +65,10 @@ export const LeaderRows: FC<{
               <span className="row-name text-base font-bold truncate">{row.name || row.login}</span>
               <Badges badges={row.badges} size={18} className="shrink-0 flex-nowrap" />
             </span>
+          </span>
+
+          <span className="moved-slot text-ui tabular text-right">
+            <Moved places={row.moved} size={13} />
           </span>
 
           <span className={clsx('text-ui tabular text-right', TONE[scale] ?? 'text-primary-100')}>

@@ -108,6 +108,21 @@ export const ChevronDownIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => 
   </svg>
 );
 
+export const ChevronUpIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    strokeWidth="3"
+    strokeLinecap="round"
+  >
+    <path stroke="currentColor" d="m6 15 6-6 6 6" />
+  </svg>
+);
+
 export const ReloadIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

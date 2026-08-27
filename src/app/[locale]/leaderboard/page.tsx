@@ -126,6 +126,12 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
               <p className="px-4 pb-6 text-ui text-primary-400">{t('leaderboard.empty')}</p>
             )}
           </div>
+
+          {board.items.length ? (
+            <p className="text-ui text-primary-400 mt-6 max-w-prose">
+              {t('leaderboard.movedNote')}
+            </p>
+          ) : null}
         </section>
       </Container>
     </main>

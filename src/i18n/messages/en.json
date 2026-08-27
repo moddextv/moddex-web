@@ -455,6 +455,8 @@
     "empty": "Nothing here yet. The daily count has not run since this list was added.",
     "lead": "Who holds the most roles across every channel {brandName} has read. Updates once a day.",
     "metaDescription": "Who holds the most mod, vip and founder roles on Twitch, counted by {brandName}.",
+    "movedHead": "7 days",
+    "movedNote": "The last column marks the accounts whose place changed in the past week, up or down. Anywhere it is blank, the place held, and it stays blank everywhere until there is a board a week old to compare against.",
     "ranked": "ranked",
     "scales": {
       "founder": {

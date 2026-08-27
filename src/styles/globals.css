@@ -611,7 +611,7 @@
 	}
 
 	.cols-leaders {
-		grid-template-columns: 56px minmax(0, 1fr) 120px;
+		grid-template-columns: 56px minmax(0, 1fr) 76px 120px;
 	}
 
 	.row-head.cols-badges {
@@ -749,7 +749,8 @@
 		}
 
 		.cols-leaders .avatar-slot,
-		.cols-leaders .badges {
+		.cols-leaders .badges,
+		.cols-leaders .moved-slot {
 			display: none;
 		}
 	}

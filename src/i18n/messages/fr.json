@@ -455,6 +455,8 @@
     "empty": "Rien ici pour l'instant. Le décompte quotidien n'a pas tourné depuis l'ajout de cette liste.",
     "lead": "Qui détient le plus de rôles sur toutes les chaînes que {brandName} a lues. Mis à jour une fois par jour.",
     "metaDescription": "Qui détient le plus de rôles mod, vip et fondateur sur Twitch, compté par {brandName}.",
+    "movedHead": "7 jours",
+    "movedNote": "La dernière colonne signale les comptes dont la place a changé au cours de la semaine écoulée, vers le haut ou vers le bas. Là où elle est vide, la place n'a pas bougé, et elle reste vide partout tant qu'aucun classement d'une semaine n'existe pour la comparaison.",
     "ranked": "classés",
     "scales": {
       "founder": {

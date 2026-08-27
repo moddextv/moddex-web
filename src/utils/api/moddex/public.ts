@@ -113,6 +113,7 @@ export type LeaderScale = 'mod' | 'vip' | 'founder' | 'roles';
 
 export interface LeaderRow {
   place: number;
+  moved: number | null;
   count: number;
   id: string;
   login: string;
@@ -124,6 +125,7 @@ export interface LeaderRow {
 
 export interface Leaderboard {
   role: string;
+  comparedTo: string | null;
   computedAt: string | null;
   depth: number;
   of: number | null;
