@@ -177,7 +177,7 @@ export const BadgeManager: FC<{
       ) : (
         <>
           <div className="flex items-center gap-3 flex-wrap px-4 pb-4">
-            <label className="search w-full sm:w-72">
+            <label className="search search-md w-full sm:w-72">
               <SearchIcon size={16} color="text-primary-400" />
               <input
                 value={query}
