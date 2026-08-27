@@ -124,7 +124,7 @@ export const fetchModeratedChannels = async (
     cursor = body.pagination?.cursor ?? '';
 
     if (!cursor) {
-      // twitchdev/issues#1176: a full page without a cursor is a short read, not the end
+      // a full page without a cursor is a short read, not the end
       if (entries.length >= MODERATED_PAGE_SIZE) return { channels, complete: false };
 
       return { channels, complete: true };
