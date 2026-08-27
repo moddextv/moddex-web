@@ -277,10 +277,8 @@
       "tab": "Schlüssel",
       "heading": "Bot-Schlüssel",
       "blurb": "Ein Schlüssel hebt einen Bot aus dem gemeinsamen Limit pro Adresse und erlaubt ihm, einen Kanal neu indexieren zu lassen. Er kauft Durchsatz und diese eine Anfrage, niemals Vertrauen: ein Bot mit Schlüssel sieht genau das, was die Öffentlichkeit sieht.",
-      "label": "Wofür er ist",
+      "label": "Wofür dieser Schlüssel ist",
       "labelHint": "susgeebot im Chat",
-      "account": "Twitch-Konto, optional",
-      "accountHint": "susgeebot",
       "create": "Schlüssel erstellen",
       "createFailed": "Der Schlüssel konnte nicht erstellt werden.",
       "revoke": "Widerrufen",
@@ -290,8 +288,8 @@
       "none": "Noch keine Schlüssel.",
       "lastUsed": "zuletzt benutzt {when}",
       "neverUsed": "nie benutzt",
-      "revokedAt": "widerrufen {when}",
-      "unreadable": "Die Schlüssel konnten nicht gelesen werden."
+      "unreadable": "Die Schlüssel konnten nicht gelesen werden.",
+      "copy": "Schlüssel kopieren"
     }
   },
   "dashboard": {

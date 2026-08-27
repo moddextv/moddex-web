@@ -1,10 +1,13 @@
 'use client';
 
-import { FC, useState, useTransition } from 'react';
+import { FC, useRef, useState, useTransition } from 'react';
 
+import { CopyButton } from '@/components/UI/CopyButton';
 import { killClientKey, listClientKeys, mintClientKey } from '@/actions/dashboard';
 import { useI18n } from '@/i18n/context';
 import type { ClientKeyEntry } from '@/utils/api/moddex/admin';
+
+const ENTER = 'Enter';
 
 interface ClientKeysProps {
   keys: ClientKeyEntry[];
@@ -14,10 +17,10 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
   const { t } = useI18n();
   const [keys, setKeys] = useState(initial);
   const [label, setLabel] = useState('');
-  const [login, setLogin] = useState('');
-  const [minted, setMinted] = useState<{ prefix: string; key: string } | null>(null);
+  const [minted, setMinted] = useState<string | null>(null);
   const [problem, setProblem] = useState('');
   const [pending, start] = useTransition();
+  const secret = useRef<HTMLElement>(null);
 
   const reload = async () => {
     const result = await listClientKeys();
@@ -29,16 +32,12 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
     start(async () => {
       setProblem('');
 
-      const result = await mintClientKey(label.trim(), login.trim() || undefined);
+      const result = await mintClientKey(label.trim());
 
-      if (!result.ok) {
-        setProblem(t('dash.keys.createFailed'));
-        return;
-      }
+      if (!result.ok) return setProblem(t('dash.keys.createFailed'));
 
-      setMinted({ prefix: result.data.prefix, key: result.data.key });
+      setMinted(result.data.key);
       setLabel('');
-      setLogin('');
       await reload();
     });
 
@@ -48,39 +47,41 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
 
       const result = await killClientKey(id);
 
-      if (!result.ok) {
-        setProblem(t('dash.keys.revokeFailed'));
-        return;
-      }
+      if (!result.ok) return setProblem(t('dash.keys.revokeFailed'));
 
       await reload();
     });
+
+  const submitOnEnter = (event: { key: string }) => {
+    if (event.key === ENTER && label.trim()) create();
+  };
+
+  // one click selects the whole key, because half a key looks like a whole one
+  const selectAll = () => {
+    if (!secret.current) return;
+
+    const range = document.createRange();
+    range.selectNodeContents(secret.current);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+  };
 
   return (
     <div className="panel">
       <h2 className="text-h2 mb-2">{t('dash.keys.heading')}</h2>
       <p className="text-read text-primary-300 max-w-prose mb-6">{t('dash.keys.blurb')}</p>
 
-      <div className="flex flex-wrap items-end gap-3 mb-6">
-        <label className="flex flex-col gap-1">
-          <span className="text-ui text-primary-300">{t('dash.keys.label')}</span>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
+        <label className="search flex-1 sm:max-w-md">
           <input
-            className="input"
             value={label}
             maxLength={80}
             onChange={(event) => setLabel(event.target.value)}
+            onKeyDown={submitOnEnter}
             placeholder={t('dash.keys.labelHint')}
-          />
-        </label>
-
-        <label className="flex flex-col gap-1">
-          <span className="text-ui text-primary-300">{t('dash.keys.account')}</span>
-          <input
-            className="input"
-            value={login}
-            maxLength={25}
-            onChange={(event) => setLogin(event.target.value)}
-            placeholder={t('dash.keys.accountHint')}
+            aria-label={t('dash.keys.label')}
+            autoComplete="off"
           />
         </label>
 
@@ -92,29 +93,42 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
       {problem ? <p className="text-ui text-donator mb-4">{problem}</p> : null}
 
       {minted ? (
-        <div className="panel-inset mb-6">
-          <p className="text-ui text-primary-100 mb-2">{t('dash.keys.shownOnce')}</p>
-          <code className="block break-all text-read tabular">{minted.key}</code>
-          <button className="btn btn-soft mt-3" onClick={() => setMinted(null)}>
-            {t('dash.keys.hide')}
-          </button>
+        <div className="rounded-lg border border-mod/40 bg-mod/5 p-4 mb-6">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <p className="text-ui text-primary-100">{t('dash.keys.shownOnce')}</p>
+
+            <button className="btn btn-ghost shrink-0 -mt-2 -mr-2" onClick={() => setMinted(null)}>
+              {t('dash.keys.hide')}
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <pre className="flex-1 min-w-0 overflow-x-auto rounded-md border border-primary-700/70 bg-primary-900/60 px-3 py-2">
+              <code
+                ref={secret}
+                onClick={selectAll}
+                className="text-read tabular cursor-pointer select-all whitespace-nowrap"
+              >
+                {minted}
+              </code>
+            </pre>
+
+            <CopyButton value={minted} label={t('dash.keys.copy')} />
+          </div>
         </div>
       ) : null}
 
       {keys.length === 0 ? (
         <p className="text-read text-primary-300">{t('dash.keys.none')}</p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col">
           {keys.map((key) => (
             <li
               key={key.id}
-              className="flex flex-wrap items-center justify-between gap-3 border-t border-primary-700/70 pt-3"
+              className="flex flex-wrap items-center justify-between gap-3 border-t border-primary-700/70 py-3"
             >
-              <span className="flex flex-col">
-                <span className="text-base font-bold">
-                  {key.label}
-                  {key.login ? <span className="text-primary-300"> · {key.login}</span> : null}
-                </span>
+              <span className="flex flex-col min-w-0">
+                <span className="text-base font-bold truncate">{key.label}</span>
                 <span className="text-ui text-primary-400 tabular">
                   {key.prefix}… ·{' '}
                   {key.lastUsedAt
@@ -123,15 +137,9 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
                 </span>
               </span>
 
-              {key.revokedAt ? (
-                <span className="text-ui text-primary-400">
-                  {t('dash.keys.revokedAt', { when: t.date(key.revokedAt) })}
-                </span>
-              ) : (
-                <button className="btn btn-soft" disabled={pending} onClick={() => revoke(key.id)}>
-                  {t('dash.keys.revoke')}
-                </button>
-              )}
+              <button className="btn btn-ghost" disabled={pending} onClick={() => revoke(key.id)}>
+                {t('dash.keys.revoke')}
+              </button>
             </li>
           ))}
         </ul>

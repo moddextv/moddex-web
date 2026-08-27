@@ -277,10 +277,8 @@
       "tab": "Keys",
       "heading": "Bot keys",
       "blurb": "A key raises a bot out of the shared per-address rate limit and lets it ask for a channel to be re-indexed. It buys throughput and that one request, never trust: a keyed bot still sees exactly what the public sees.",
-      "label": "What it is for",
+      "label": "What this key is for",
       "labelHint": "susgeebot in chat",
-      "account": "Twitch account, optional",
-      "accountHint": "susgeebot",
       "create": "Create key",
       "createFailed": "The key could not be created.",
       "revoke": "Revoke",
@@ -290,8 +288,8 @@
       "none": "No keys yet.",
       "lastUsed": "last used {when}",
       "neverUsed": "never used",
-      "revokedAt": "revoked {when}",
-      "unreadable": "The keys could not be read."
+      "unreadable": "The keys could not be read.",
+      "copy": "Copy the key"
     }
   },
   "dashboard": {

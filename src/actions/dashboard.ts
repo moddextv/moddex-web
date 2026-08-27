@@ -94,13 +94,12 @@ export async function listClientKeys(): Promise<ActionResult<{ items: ClientKeyE
 }
 
 export async function mintClientKey(
-  label: string,
-  login?: string
+  label: string
 ): Promise<ActionResult<{ id: number; prefix: string; label: string; key: string }>> {
   return attempt('mintClientKey', async () => {
     const { userId } = await admin();
 
-    return createClientKey(userId, label, login);
+    return createClientKey(userId, label);
   });
 }
 
