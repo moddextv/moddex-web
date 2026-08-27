@@ -392,6 +392,24 @@
 		}
 	}
 
+	/* the same field at button height, for a form that is not the hero */
+	.search-md {
+		height: 40px;
+		padding: 0 8px 0 14px;
+		border-radius: var(--radius-md);
+	}
+
+	.search-md input {
+		font-size: 0.9375rem;
+	}
+
+	@media (max-width: 640px) {
+		.search-md {
+			height: 40px;
+			padding: 0 8px 0 14px;
+		}
+	}
+
 	.suggest {
 		position: absolute;
 		top: calc(100% + 8px);

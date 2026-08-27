@@ -73,13 +73,13 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
       <p className="text-read text-primary-300 max-w-prose mb-6">{t('dash.keys.blurb')}</p>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-        <label className="search flex-1 sm:max-w-md">
+        <label className="search search-md flex-1 sm:max-w-md">
           <input
             value={label}
             maxLength={80}
             onChange={(event) => setLabel(event.target.value)}
             onKeyDown={submitOnEnter}
-            placeholder={t('dash.keys.labelHint')}
+            placeholder={t('dash.keys.label')}
             aria-label={t('dash.keys.label')}
             autoComplete="off"
           />

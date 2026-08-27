@@ -88,7 +88,7 @@ export const RoleCheck: FC = () => {
       <form onSubmit={submit} className="flex flex-wrap items-center gap-3">
         <span className="text-lead text-primary-400">{t('roleCheck.asksWhether')}</span>
 
-        <label className="search w-full sm:w-52">
+        <label className="search search-md w-full sm:w-52">
           <input
             value={account}
             onChange={(event) => setAccount(event.target.value)}
@@ -101,7 +101,7 @@ export const RoleCheck: FC = () => {
 
         <span className="text-lead text-primary-400">{t('roleCheck.anythingIn')}</span>
 
-        <label className="search w-full sm:w-52">
+        <label className="search search-md w-full sm:w-52">
           <input
             value={channel}
             onChange={(event) => setChannel(event.target.value)}
