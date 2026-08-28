@@ -233,6 +233,17 @@ export const createClientKey = (actor: string, label: string) =>
     body: { label }
   });
 
+/** Same row, new secret. The old one stops working the moment this returns. */
+export const rotateClientKey = (actor: string, id: number) =>
+  call<{ id: number; prefix: string; label: string; key: string }>(
+    `/v1/admin/client-keys/${id}/rotate`,
+    {
+      authenticated: true,
+      method: 'POST',
+      actor
+    }
+  );
+
 export const revokeClientKey = (actor: string, id: number) =>
   call<{ id: number; revoked: boolean }>(`/v1/admin/client-keys/${id}`, {
     authenticated: true,

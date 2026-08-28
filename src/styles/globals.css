@@ -42,6 +42,7 @@
 	--text-alt: rgb(var(--text-alt-rgb));
 	--text-dim: rgb(var(--text-dim-rgb));
 	--text-faint: rgb(var(--text-rgb) / 0.45);
+	--scrim: rgb(11 11 12 / 0.62);
 
 	--mod: rgb(var(--mod-rgb));
 	--vip: rgb(var(--vip-rgb));
@@ -802,6 +803,19 @@
 		background: var(--raised);
 		border-radius: var(--radius-lg);
 		padding: 24px;
+	}
+
+	.dialog {
+		background: var(--raised);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-lg);
+		padding: 0;
+		color: var(--text);
+		max-width: min(26rem, calc(100vw - 32px));
+	}
+
+	.dialog::backdrop {
+		background: var(--scrim);
 	}
 
 	.panel-flush {

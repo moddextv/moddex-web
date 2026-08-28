@@ -5,6 +5,7 @@ import {
   createClientKey,
   getClientKeys,
   revokeClientKey,
+  rotateClientKey,
   type ClientKeyEntry,
   getAuditLog,
   getConnections,
@@ -100,6 +101,16 @@ export async function mintClientKey(
     const { userId } = await admin();
 
     return createClientKey(userId, label);
+  });
+}
+
+export async function swapClientKey(
+  id: number
+): Promise<ActionResult<{ id: number; prefix: string; label: string; key: string }>> {
+  return attempt('swapClientKey', async () => {
+    const { userId } = await admin();
+
+    return rotateClientKey(userId, id);
   });
 }
 

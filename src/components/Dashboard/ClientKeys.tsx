@@ -2,12 +2,15 @@
 
 import { FC, useRef, useState, useTransition } from 'react';
 
+import { ConfirmDialog } from '@/components/UI/ConfirmDialog';
 import { CopyButton } from '@/components/UI/CopyButton';
-import { killClientKey, listClientKeys, mintClientKey } from '@/actions/dashboard';
+import { killClientKey, listClientKeys, mintClientKey, swapClientKey } from '@/actions/dashboard';
 import { useI18n } from '@/i18n/context';
 import type { ClientKeyEntry } from '@/utils/api/moddex/admin';
 
 const ENTER = 'Enter';
+
+type Asked = { kind: 'revoke' | 'rotate'; key: ClientKeyEntry };
 
 interface ClientKeysProps {
   keys: ClientKeyEntry[];
@@ -19,6 +22,7 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
   const [label, setLabel] = useState('');
   const [minted, setMinted] = useState<string | null>(null);
   const [problem, setProblem] = useState('');
+  const [asked, setAsked] = useState<Asked | null>(null);
   const [pending, start] = useTransition();
   const secret = useRef<HTMLElement>(null);
 
@@ -44,6 +48,7 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
   const revoke = (id: number) =>
     start(async () => {
       setProblem('');
+      setAsked(null);
 
       const result = await killClientKey(id);
 
@@ -51,6 +56,25 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
 
       await reload();
     });
+
+  const rotate = (id: number) =>
+    start(async () => {
+      setProblem('');
+      setAsked(null);
+
+      const result = await swapClientKey(id);
+
+      if (!result.ok) return setProblem(t('dash.keys.rotateFailed'));
+
+      setMinted(result.data.key);
+      await reload();
+    });
+
+  const confirm = () => {
+    if (!asked) return;
+
+    return asked.kind === 'revoke' ? revoke(asked.key.id) : rotate(asked.key.id);
+  };
 
   const submitOnEnter = (event: { key: string }) => {
     if (event.key === ENTER && label.trim()) create();
@@ -137,13 +161,42 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
                 </span>
               </span>
 
-              <button className="btn btn-ghost" disabled={pending} onClick={() => revoke(key.id)}>
-                {t('dash.keys.revoke')}
-              </button>
+              <span className="flex items-center gap-2 shrink-0">
+                <button
+                  className="btn btn-ghost"
+                  disabled={pending}
+                  onClick={() => setAsked({ kind: 'rotate', key })}
+                >
+                  {t('dash.keys.rotate')}
+                </button>
+
+                <button
+                  className="btn btn-ghost"
+                  disabled={pending}
+                  onClick={() => setAsked({ kind: 'revoke', key })}
+                >
+                  {t('dash.keys.revoke')}
+                </button>
+              </span>
             </li>
           ))}
         </ul>
       )}
+
+      <ConfirmDialog
+        open={asked !== null}
+        pending={pending}
+        title={asked?.kind === 'rotate' ? t('dash.keys.rotateTitle') : t('dash.keys.revokeTitle')}
+        body={
+          asked?.kind === 'rotate'
+            ? t('dash.keys.rotateBody', { label: asked.key.label })
+            : t('dash.keys.revokeBody', { label: asked?.key.label ?? '' })
+        }
+        confirm={asked?.kind === 'rotate' ? t('dash.keys.rotate') : t('dash.keys.revoke')}
+        cancel={t('dash.keys.cancel')}
+        onConfirm={confirm}
+        onCancel={() => setAsked(null)}
+      />
     </div>
   );
 };
