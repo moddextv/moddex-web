@@ -3,6 +3,7 @@
 import { useT } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { disconnect } from '@/actions/settings';
+import { ConfirmDialog } from '@/components/UI/ConfirmDialog';
 import { DiscordIcon } from '@/components/Icons';
 import { useAction } from '@/hooks/useAction';
 
@@ -13,10 +14,16 @@ interface ConnectDiscordProps {
 export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) => {
   const t = useT();
   const [discordId, setDiscordId] = useState(initialDiscordId);
+  const [asked, setAsked] = useState(false);
 
   const remove = useAction(disconnect, {
     onSuccess: () => setDiscordId(null)
   });
+
+  const confirm = () => {
+    setAsked(false);
+    void remove.run('discord');
+  };
 
   if (!discordId) {
     return (
@@ -40,7 +47,7 @@ export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) =>
       <button
         type="button"
         className="chip"
-        onClick={() => void remove.run('discord')}
+        onClick={() => setAsked(true)}
         disabled={remove.pending}
       >
         {remove.pending ? t('common.removing') : t('common.remove')}
@@ -51,6 +58,17 @@ export const ConnectDiscord: FC<ConnectDiscordProps> = ({ initialDiscordId }) =>
           {remove.error}
         </span>
       )}
+
+      <ConfirmDialog
+        open={asked}
+        pending={remove.pending}
+        title={t('settings.discordRemoveTitle')}
+        body={t('settings.discordRemoveBody')}
+        confirm={t('common.remove')}
+        cancel={t('common.cancel')}
+        onConfirm={confirm}
+        onCancel={() => setAsked(false)}
+      />
     </span>
   );
 };

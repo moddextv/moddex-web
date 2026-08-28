@@ -193,7 +193,7 @@ export const ClientKeys: FC<ClientKeysProps> = ({ keys: initial }) => {
             : t('dash.keys.revokeBody', { label: asked?.key.label ?? '' })
         }
         confirm={asked?.kind === 'rotate' ? t('dash.keys.rotate') : t('dash.keys.revoke')}
-        cancel={t('dash.keys.cancel')}
+        cancel={t('common.cancel')}
         onConfirm={confirm}
         onCancel={() => setAsked(null)}
       />

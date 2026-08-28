@@ -74,6 +74,7 @@
     "where": "Où le badge apparaît"
   },
   "common": {
+    "cancel": "Annuler",
     "clear": "Effacer",
     "loadMore": "Charger plus",
     "loading": "Chargement",
@@ -288,7 +289,6 @@
       "rotateFailed": "La clé n a pas pu être renouvelée.",
       "rotateTitle": "Renouveler cette clé ?",
       "rotateBody": "{label} reçoit un nouveau secret et l ancienne cesse aussitôt de fonctionner. Tout client qui envoie encore l ancienne clé sera refusé jusqu à ce que vous saisissiez la nouvelle.",
-      "cancel": "Annuler",
       "shownOnce": "Copiez-la maintenant. Elle est affichée une seule fois et ne peut plus être relue.",
       "hide": "Terminé",
       "none": "Aucune clé pour l instant.",
@@ -715,6 +715,8 @@
     "channel": {
       "again": "Reconnecter cette chaîne",
       "connect": "Connecter cette chaîne",
+      "disconnectBody": "Les changements de mod et de VIP ne parviendront plus à moddex en temps réel. Rien de ce qui est déjà enregistré ne sera perdu, et la chaîne reste lue au rythme normal. Se reconnecter demande de repasser par Twitch.",
+      "disconnectTitle": "Arrêter les mises à jour de rôles en direct ?",
       "live": "Les changements de mod et de VIP arrivent à {brandName} au moment où ils se produisent. Les fondateurs viennent toujours de la lecture normale, car Twitch n'a pas d'évènement en direct pour eux. Se retirer ne change rien à ce qui est déjà enregistré.",
       "noToken": "{brandName} ne publie rien et ne conserve aucun jeton : nous lisons donc la liste des chaînes que tu modères une seule fois, maintenant, et elle vieillit à partir de là. Reconnecte-toi pour la rafraîchir. Tu peux te retirer chez Twitch ou ici quand tu veux.",
       "pitch": "Deux choses à la fois. Les changements de mod et de VIP dans ta chaîne arrivent à {brandName} au moment où ils se produisent, au lieu du prochain balayage. Et les chaînes que <you>tu</you> modères sont remplies directement depuis Twitch, y compris celles que personne n'a jamais cherchées ici."
@@ -734,6 +736,8 @@
     "connectDiscord": "Connecter Discord",
     "disconnect": "Déconnecter",
     "disconnecting": "Déconnexion…",
+    "discordRemoveBody": "Ton compte Twitch et ton compte Discord ne seront plus liés. Tout rôle Discord que moddex attribue depuis un badge, booster compris, sera retiré au prochain rapprochement. Refaire le lien demande de repasser par Discord.",
+    "discordRemoveTitle": "Retirer le lien Discord ?",
     "discordStatus": {
       "canceled": "Annulé. Aucun compte Discord n'a été lié.",
       "connected": "Discord connecté. Il apparaît désormais sur ton profil public.",

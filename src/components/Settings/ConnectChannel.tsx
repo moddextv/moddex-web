@@ -3,6 +3,7 @@
 import { useI18n } from '@/i18n/context';
 import { FC, useState } from 'react';
 import { disconnectChannel } from '@/actions/settings';
+import { ConfirmDialog } from '@/components/UI/ConfirmDialog';
 import { TwitchIcon } from '@/components/Icons';
 import { config } from '@/config';
 import { useAction } from '@/hooks/useAction';
@@ -16,10 +17,16 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
   const { t, rich } = useI18n();
   const { name } = config.brand;
   const [connected, setConnected] = useState(initialConnected);
+  const [asked, setAsked] = useState(false);
 
   const disconnect = useAction(disconnectChannel, {
     onSuccess: () => setConnected(false)
   });
+
+  const confirm = () => {
+    setAsked(false);
+    void disconnect.run();
+  };
 
   if (!connected) {
     return (
@@ -55,7 +62,7 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
         <button
           type="button"
           className="btn btn-soft"
-          onClick={() => void disconnect.run()}
+          onClick={() => setAsked(true)}
           disabled={disconnect.pending}
         >
           {disconnect.pending ? t('settings.disconnecting') : t('settings.disconnect')}
@@ -65,6 +72,17 @@ export const ConnectChannel: FC<ConnectChannelProps> = ({ initialConnected, ever
             {disconnect.error}
           </span>
         )}
+
+        <ConfirmDialog
+          open={asked}
+          pending={disconnect.pending}
+          title={t('settings.channel.disconnectTitle')}
+          body={t('settings.channel.disconnectBody')}
+          confirm={t('settings.disconnect')}
+          cancel={t('common.cancel')}
+          onConfirm={confirm}
+          onCancel={() => setAsked(false)}
+        />
       </span>
     </div>
   );

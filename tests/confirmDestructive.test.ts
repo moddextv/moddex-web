@@ -7,6 +7,12 @@ const SRC = join(__dirname, '..', 'src');
 const keys = readFileSync(join(SRC, 'components', 'Dashboard', 'ClientKeys.tsx'), 'utf8');
 const dialog = readFileSync(join(SRC, 'components', 'UI', 'ConfirmDialog.tsx'), 'utf8');
 
+// /settings is the one of these a member of the public actually uses
+const SETTINGS = [
+  ['ConnectDiscord.tsx', "remove.run('discord')"],
+  ['ConnectChannel.tsx', 'disconnect.run()']
+] as const;
+
 const messages = (locale: string) =>
   JSON.parse(readFileSync(join(SRC, 'i18n', 'messages', `${locale}.json`), 'utf8'));
 
@@ -39,6 +45,38 @@ describe('a destructive key action asks first', () => {
   });
 });
 
+describe('settings asks before undoing a connection', () => {
+  it.each(SETTINGS)('%s opens the dialog rather than acting', (file) => {
+    const source = readFileSync(join(SRC, 'components', 'Settings', file), 'utf8');
+
+    expect(source).toContain('ConfirmDialog');
+    expect(source).toContain('onClick={() => setAsked(true)}');
+  });
+
+  // both are recoverable only by walking the whole oauth flow again
+  it.each(SETTINGS)('%s reaches its action only through the confirm', (file, call) => {
+    const source = readFileSync(join(SRC, 'components', 'Settings', file), 'utf8');
+    const confirmed = /const confirm = \(\) => \{[\s\S]*?\n  \};/.exec(source)?.[0] ?? '';
+
+    expect(confirmed).toContain(call);
+    expect(source).not.toContain(`onClick={() => void ${call}}`);
+    expect(source).toContain('onConfirm={confirm}');
+  });
+});
+
+describe('one destination has one name', () => {
+  it('takes the shared cancel from common, not from the keys panel', () => {
+    const settings = SETTINGS.map(([file]) =>
+      readFileSync(join(SRC, 'components', 'Settings', file), 'utf8')
+    );
+
+    for (const source of [keys, ...settings]) {
+      expect(source).toContain("t('common.cancel')");
+      expect(source).not.toContain("t('dash.keys.cancel')");
+    }
+  });
+});
+
 describe('the dialog is the platform one, not a library modal', () => {
   // HeroUI's Modal never completed its exit here, so isOpen=false left it mounted,
   // and it never moved focus into the dialog. TRAPS.md 252
@@ -67,8 +105,20 @@ describe('the dialog stays translatable', () => {
   it.each(['en', 'de', 'fr'])('%s names both consequences, not just the action', (locale) => {
     const copy = messages(locale).dash.keys;
 
-    for (const key of ['revokeTitle', 'revokeBody', 'rotateTitle', 'rotateBody', 'cancel']) {
-      expect(copy[key], `${locale}.${key}`).toBeTruthy();
+    for (const key of ['revokeTitle', 'revokeBody', 'rotateTitle', 'rotateBody']) {
+      expect(copy[key], `${locale}.dash.keys.${key}`).toBeTruthy();
+    }
+
+    const all = messages(locale);
+
+    expect(all.common.cancel, `${locale}.common.cancel`).toBeTruthy();
+
+    for (const key of ['discordRemoveTitle', 'discordRemoveBody']) {
+      expect(all.settings[key], `${locale}.settings.${key}`).toBeTruthy();
+    }
+
+    for (const key of ['disconnectTitle', 'disconnectBody']) {
+      expect(all.settings.channel[key], `${locale}.settings.channel.${key}`).toBeTruthy();
     }
 
     expect(copy.rotateBody).toContain('{label}');

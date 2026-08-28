@@ -74,6 +74,7 @@
     "where": "Wo das Badge steht"
   },
   "common": {
+    "cancel": "Abbrechen",
     "clear": "Zurücksetzen",
     "loadMore": "Mehr laden",
     "loading": "Lädt",
@@ -288,7 +289,6 @@
       "rotateFailed": "Der Schlüssel konnte nicht rotiert werden.",
       "rotateTitle": "Schlüssel rotieren?",
       "rotateBody": "{label} bekommt ein neues Geheimnis, das alte gilt sofort nicht mehr. Jeder Client, der den alten Schlüssel noch sendet, wird abgewiesen, bis du den neuen einträgst.",
-      "cancel": "Abbrechen",
       "shownOnce": "Jetzt kopieren. Er wird einmal gezeigt und ist danach nicht mehr lesbar.",
       "hide": "Fertig",
       "none": "Noch keine Schlüssel.",
@@ -715,6 +715,8 @@
     "channel": {
       "again": "Diesen Kanal erneut verbinden",
       "connect": "Diesen Kanal verbinden",
+      "disconnectBody": "Mod- und VIP-Änderungen erreichen moddex dann nicht mehr sofort. Nichts bereits Erfasstes geht verloren, und der Kanal wird weiterhin im normalen Takt gelesen. Neu verbinden heisst, noch einmal über Twitch zu gehen.",
+      "disconnectTitle": "Live-Rollenupdates beenden?",
       "live": "Mod- und VIP-Änderungen erreichen {brandName}, sobald sie passieren. Founder kommen weiterhin aus dem normalen Lesen, weil Twitch dafür kein Live-Ereignis kennt. Ein Rückzug ändert nichts an dem, was bereits aufgezeichnet ist.",
       "noToken": "{brandName} postet nichts und behält kein Token. Die Liste der von dir moderierten Kanäle wird deshalb genau einmal gelesen, jetzt, und veraltet ab da. Zum Auffrischen neu verbinden. Zurückziehen kannst du das bei Twitch oder hier, jederzeit.",
       "pitch": "Zwei Dinge auf einmal. Mod- und VIP-Änderungen in deinem Kanal erreichen {brandName}, sobald sie passieren, statt erst beim nächsten Sweep. Und die Kanäle, die <you>du</you> moderierst, werden direkt von Twitch gefüllt, auch solche, die hier noch nie jemand nachgeschlagen hat."
@@ -734,6 +736,8 @@
     "connectDiscord": "Discord verbinden",
     "disconnect": "Trennen",
     "disconnecting": "Wird getrennt…",
+    "discordRemoveBody": "Dein Twitch- und dein Discord-Konto sind danach nicht mehr verknüpft. Jede Discord-Rolle, die moddex aus einem Badge vergibt, Booster eingeschlossen, wird beim nächsten Abgleich entzogen. Neu verknüpfen heisst, noch einmal über Discord zu gehen.",
+    "discordRemoveTitle": "Discord-Verknüpfung entfernen?",
     "discordStatus": {
       "canceled": "Abgebrochen. Es wurde kein Discord-Account verknüpft.",
       "connected": "Discord verbunden. Es steht jetzt auf deinem öffentlichen Profil.",
