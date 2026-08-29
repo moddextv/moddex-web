@@ -708,8 +708,9 @@
       "title": "Account"
     },
     "badge": {
-      "body": "Wähle jetzt eines, dann steht es bereit, sobald die Chat-Anbindung kommt.",
-      "notLive": "Die Chat-Anbindung ist noch nicht aktiv",
+      "body": "Wähle eines aus, dann steht es im Twitch-Chat neben deinem Namen, für alle mit FrankerFaceZ und dem moddex-Add-on.",
+      "how": "Um es selbst zu sehen, und die der anderen: <ffz>FrankerFaceZ</ffz> installieren und moddex unter Add-Ons einschalten.",
+      "needs": "Braucht FrankerFaceZ",
       "title": "Chat-Badge"
     },
     "channel": {

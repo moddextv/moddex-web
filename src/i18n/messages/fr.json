@@ -708,8 +708,9 @@
       "title": "Compte"
     },
     "badge": {
-      "body": "Choisis-en un maintenant et il sera déjà réglé quand l'intégration au chat arrivera.",
-      "notLive": "L'intégration au chat n'est pas encore active",
+      "body": "Choisis-en un et il apparaît à côté de ton nom dans le chat Twitch, pour toutes les personnes qui utilisent FrankerFaceZ avec l'add-on moddex.",
+      "how": "Pour le voir toi-même, et ceux des autres : installe <ffz>FrankerFaceZ</ffz> et active moddex sous Add-Ons.",
+      "needs": "Nécessite FrankerFaceZ",
       "title": "Badge de chat"
     },
     "channel": {

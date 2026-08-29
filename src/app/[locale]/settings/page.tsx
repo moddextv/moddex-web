@@ -1,8 +1,9 @@
 import { asLocale } from '@/i18n/locales';
 import { optional } from '@/i18n/translate';
-import { getTranslator } from '@/i18n/dictionary';
+import { getRich, getTranslator } from '@/i18n/dictionary';
 import { alternatesFor } from '@/misc/metadata';
 import { LocaleLink } from '@/components/UI/LocaleLink';
+import { Ext } from '@/components/Legal';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { Container } from '@/components/UI/Container';
@@ -52,6 +53,7 @@ export default async function SettingsPage({
 }) {
   const locale = asLocale((await params).locale);
   const t = getTranslator(locale);
+  const rich = getRich(locale);
   const { discord: discordStatus, channel: channelStatus } = await searchParams;
   const channelMessage = optional(t, channelStatus && `settings.channelStatus.${channelStatus}`);
   const discordMessage = optional(t, discordStatus && `settings.discordStatus.${discordStatus}`);
@@ -120,9 +122,14 @@ export default async function SettingsPage({
                 <h2 id="settings-badge" className="text-h2">
                   {t('settings.badge.title')}
                 </h2>
-                <span className="ml-auto text-ui text-founder">{t('settings.badge.notLive')}</span>
+                <span className="ml-auto text-ui text-founder">{t('settings.badge.needs')}</span>
               </div>
-              <p className="text-read text-primary-300 mb-6">{t('settings.badge.body')}</p>
+              <p className="text-read text-primary-300 mb-2">{t('settings.badge.body')}</p>
+              <p className="text-ui text-primary-400 mb-6 max-w-prose">
+                {rich('settings.badge.how', {
+                  ffz: (chunk) => <Ext href={config.brand.ffzUrl}>{chunk}</Ext>
+                })}
+              </p>
 
               <ChatBadge userChatBadges={userChatBadges} login={login} />
             </div>

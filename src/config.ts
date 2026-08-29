@@ -7,6 +7,7 @@ export const config = {
     docsUrl: 'https://api.moddex.tv/docs',
     githubUrl: 'https://github.com/moddextv',
     authorUrl: 'https://maersux.dev',
+    ffzUrl: 'https://www.frankerfacez.com',
     discordUrl: 'https://discord.gg/qhJEfAwRJ9',
     email: 'marcel@doubt.ch'
   },

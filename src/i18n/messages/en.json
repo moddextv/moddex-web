@@ -708,8 +708,9 @@
       "title": "Account"
     },
     "badge": {
-      "body": "Pick one now and it's already set when chat integration ships.",
-      "notLive": "Chat integration isn't live yet",
+      "body": "Pick one and it sits next to your name in Twitch chat, for everyone running FrankerFaceZ with the moddex add-on.",
+      "how": "To see it yourself, and everyone else's, install <ffz>FrankerFaceZ</ffz> and turn on moddex under Add-Ons.",
+      "needs": "Needs FrankerFaceZ",
       "title": "Chat badge"
     },
     "channel": {
