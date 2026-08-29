@@ -1,8 +1,28 @@
 import { getTranslator } from '@/i18n/dictionary';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { backupLate, clock, nightlyRuns, size } from '@/utils/jobHealth';
+import { backupLate, clock, nightlyRuns, size, slot } from '@/utils/jobHealth';
 
 const AT = '2026-08-14T03:00:00.000Z';
+
+// the schedule notes used to spell a time out, and both were a full hour wrong
+// from the day the jobs moved until 2026-08-29
+describe('slot', () => {
+  it('names the time and never the day, whatever date the slot fell on', () => {
+    expect(slot(AT)).toBe('03:00 UTC');
+    expect(slot('2026-01-05T23:30:00.000Z')).toBe('23:30 UTC');
+  });
+
+  it('is what the schedule notes print, so a moved job moves the copy', () => {
+    const t = getTranslator('en');
+
+    expect(t('dash.jh.snapshotNote', { slot: slot('2026-08-29T02:00:00.000Z') })).toBe(
+      'one point a day at 02:00 UTC'
+    );
+    expect(t('dash.jh.roleCountsNote', { slot: slot('2026-08-29T02:30:00.000Z') })).toBe(
+      'the browse rankings, rebuilt at 02:30 UTC'
+    );
+  });
+});
 
 describe('clock', () => {
   it('shows only the time when the slot is today', () => {

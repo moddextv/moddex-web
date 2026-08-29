@@ -196,8 +196,8 @@
     "givenBy": "Vergeben von",
     "jh": {
       "backupNote": "nächtlicher Dump, geprüft, 14 Tage aufbewahrt",
-      "roleCountsNote": "die Rankings zum Stöbern, um 04:00 UTC neu gebaut",
-      "snapshotNote": "ein Punkt pro Tag um 03:00 UTC"
+      "roleCountsNote": "die Rankings zum Stöbern, um {slot} neu gebaut",
+      "snapshotNote": "ein Punkt pro Tag um {slot}"
     },
     "job": "Job",
     "jobHealthUnreadable": "Der Job-Zustand konnte nicht gelesen werden.",
@@ -234,7 +234,7 @@
     "runs": {
       "avg": "{avg} Durchschnitt",
       "lead": "Gegen den eigenen Sieben-Tage-Schnitt. Lesenswert ist der Trend: eine einzelne Laufzeit zeigt nicht, dass ein Job aus seinem Fenster wächst.",
-      "nothingRecorded": "Noch nichts aufgezeichnet. Die erste Zeile kommt um 03:00 UTC.",
+      "nothingRecorded": "Noch nichts aufgezeichnet. Die erste Zeile kommt, sobald die Nachtjobs einmal gelaufen sind.",
       "rows": {
         "one": "{rows} Zeile",
         "other": "{rows} Zeilen"

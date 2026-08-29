@@ -196,8 +196,8 @@
     "givenBy": "Donné par",
     "jh": {
       "backupNote": "dump nocturne, vérifié et conservé 14 jours",
-      "roleCountsNote": "les classements de navigation, reconstruits à 04:00 UTC",
-      "snapshotNote": "un point par jour à 03:00 UTC"
+      "roleCountsNote": "les classements de navigation, reconstruits à {slot}",
+      "snapshotNote": "un point par jour à {slot}"
     },
     "job": "Tâche",
     "jobHealthUnreadable": "Impossible de lire l'état des tâches.",
@@ -234,7 +234,7 @@
     "runs": {
       "avg": "{avg} en moyenne",
       "lead": "Comparé à sa propre moyenne sur sept jours. C'est la tendance qui vaut la lecture, car une durée isolée ne peut pas montrer une tâche qui déborde de sa fenêtre.",
-      "nothingRecorded": "Rien d'enregistré pour l'instant. La première ligne arrive à 03:00 UTC.",
+      "nothingRecorded": "Rien d'enregistré pour l'instant. La première ligne arrive une fois que les tâches nocturnes ont tourné.",
       "rows": {
         "one": "{rows} ligne",
         "other": "{rows} lignes"

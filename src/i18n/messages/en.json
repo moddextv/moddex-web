@@ -196,8 +196,8 @@
     "givenBy": "Given by",
     "jh": {
       "backupNote": "nightly dump, verified and 14 days retained",
-      "roleCountsNote": "the browse rankings, rebuilt at 04:00 UTC",
-      "snapshotNote": "one point a day at 03:00 UTC"
+      "roleCountsNote": "the browse rankings, rebuilt at {slot}",
+      "snapshotNote": "one point a day at {slot}"
     },
     "job": "Job",
     "jobHealthUnreadable": "Could not read job health.",
@@ -234,7 +234,7 @@
     "runs": {
       "avg": "{avg} avg",
       "lead": "Against its own seven-day average. The trend is the part worth reading, because a single duration cannot show a job outgrowing its window.",
-      "nothingRecorded": "Nothing recorded yet. The first row lands at 03:00 UTC.",
+      "nothingRecorded": "Nothing recorded yet. The first row lands once the nightly jobs have run.",
       "rows": {
         "one": "{rows} row",
         "other": "{rows} rows"

@@ -1,10 +1,16 @@
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const clock = (iso: string, now: Date = new Date()): string => {
+export const slot = (iso: string): string => {
   const at = new Date(iso);
   const hours = String(at.getUTCHours()).padStart(2, '0');
   const minutes = String(at.getUTCMinutes()).padStart(2, '0');
-  const time = `${hours}:${minutes} UTC`;
+
+  return `${hours}:${minutes} UTC`;
+};
+
+export const clock = (iso: string, now: Date = new Date()): string => {
+  const at = new Date(iso);
+  const time = slot(iso);
 
   const sameDay = now.toISOString().slice(0, 10) === iso.slice(0, 10);
 

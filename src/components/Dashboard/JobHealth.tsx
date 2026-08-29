@@ -2,7 +2,7 @@ import { Locale } from '@/i18n/locales';
 import { Translator } from '@/i18n/translate';
 import { getTranslator } from '@/i18n/dictionary';
 import { FC } from 'react';
-import { backupLate, clock, size } from '@/utils/jobHealth';
+import { backupLate, clock, size, slot } from '@/utils/jobHealth';
 import type { JobHealth as Health } from '@/utils/api/moddex/admin';
 
 const Row: FC<{ label: string; children: React.ReactNode; note?: string }> = ({
@@ -57,11 +57,17 @@ export const JobHealth: FC<{ health: Health; locale: Locale }> = ({ health, loca
           <span />
         </div>
 
-        <Row label={t('dash.snapshot')} note={t('dash.jh.snapshotNote')}>
+        <Row
+          label={t('dash.snapshot')}
+          note={t('dash.jh.snapshotNote', { slot: slot(snapshot.dueSince) })}
+        >
           <Ran {...snapshot} t={t} />
         </Row>
 
-        <Row label={t('dash.roleCounts')} note={t('dash.jh.roleCountsNote')}>
+        <Row
+          label={t('dash.roleCounts')}
+          note={t('dash.jh.roleCountsNote', { slot: slot(roleCounts.dueSince) })}
+        >
           <Ran {...roleCounts} t={t} />
         </Row>
 
