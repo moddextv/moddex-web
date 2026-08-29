@@ -1,24 +1,16 @@
 import { getTranslator } from '@/i18n/dictionary';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { backupLate, clock, nightlyRuns, size, slot } from '@/utils/jobHealth';
+import { backupLate, clock, nightlyRuns, size } from '@/utils/jobHealth';
 
 const AT = '2026-08-14T03:00:00.000Z';
+const en = getTranslator('en');
 
-// the schedule notes used to spell a time out, and both were a full hour wrong
-// from the day the jobs moved until 2026-08-29
-describe('slot', () => {
-  it('names the time and never the day, whatever date the slot fell on', () => {
-    expect(slot(AT)).toBe('03:00 UTC');
-    expect(slot('2026-01-05T23:30:00.000Z')).toBe('23:30 UTC');
-  });
-
-  it('is what the schedule notes print, so a moved job moves the copy', () => {
-    const t = getTranslator('en');
-
-    expect(t('dash.jh.snapshotNote', { slot: slot('2026-08-29T02:00:00.000Z') })).toBe(
+describe('the schedule notes name a time the api sent', () => {
+  it('prints the slot the job is actually due at', () => {
+    expect(en('dash.jh.snapshotNote', { slot: en.time('2026-08-29T02:00:00.000Z') })).toBe(
       'one point a day at 02:00 UTC'
     );
-    expect(t('dash.jh.roleCountsNote', { slot: slot('2026-08-29T02:30:00.000Z') })).toBe(
+    expect(en('dash.jh.roleCountsNote', { slot: en.time('2026-08-29T02:30:00.000Z') })).toBe(
       'the browse rankings, rebuilt at 02:30 UTC'
     );
   });
@@ -26,23 +18,32 @@ describe('slot', () => {
 
 describe('clock', () => {
   it('shows only the time when the slot is today', () => {
-    expect(clock(AT, new Date('2026-08-14T21:40:00.000Z'))).toBe('03:00 UTC');
+    expect(clock(AT, en, new Date('2026-08-14T21:40:00.000Z'))).toBe('03:00 UTC');
   });
 
   it('adds the day once the slot is not today', () => {
-    expect(clock(AT, new Date('2026-08-15T00:10:00.000Z'))).toBe('14 Aug 03:00 UTC');
+    expect(clock(AT, en, new Date('2026-08-15T00:10:00.000Z'))).toBe('Aug 14, 03:00 UTC');
   });
 
   it('reads in UTC, not the reader’s zone — the jobs are scheduled in UTC', () => {
-    expect(clock('2026-01-05T23:30:00.000Z', new Date('2026-02-01T00:00:00.000Z'))).toBe(
-      '5 Jan 23:30 UTC'
+    expect(clock('2026-01-05T23:30:00.000Z', en, new Date('2026-02-01T00:00:00.000Z'))).toBe(
+      'Jan 5, 23:30 UTC'
     );
   });
 
   it('pads both halves', () => {
-    expect(clock('2026-08-14T04:05:00.000Z', new Date('2026-08-14T09:00:00.000Z'))).toBe(
+    expect(clock('2026-08-14T04:05:00.000Z', en, new Date('2026-08-14T09:00:00.000Z'))).toBe(
       '04:05 UTC'
     );
+  });
+
+  // a hand-written month table printed "14 Mar" on the german dashboard
+  it('names the month in the language the dashboard is read in', () => {
+    const notToday = new Date('2026-03-20T00:00:00.000Z');
+    const march = '2026-03-14T03:00:00.000Z';
+
+    expect(clock(march, getTranslator('de'), notToday)).toBe('14. März, 03:00 UTC');
+    expect(clock(march, getTranslator('fr'), notToday)).toBe('14 mars, 03:00 UTC');
   });
 });
 
