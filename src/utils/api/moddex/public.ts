@@ -1,8 +1,11 @@
+import { headers } from 'next/headers';
+
 import type { User } from '@/misc/account';
 import type { Badge, BadgeCatalogueEntry } from '@/misc/badges';
 import type { BrowsePage } from '@/misc/browse';
 import type { RolePage } from '@/misc/roleList';
 import { asParams, call, query } from '@/utils/api/moddex/client';
+import { isCrawler } from '@/misc/crawler';
 import {
   badgesShape,
   browsePageShape,
@@ -54,9 +57,26 @@ const roleParams = ({ role, ...rest }: RoleQuery): Record<string, string | undef
   );
 };
 
-export const getRolePage = (params: RoleQuery & { limit: number }): Promise<RolePage> =>
+/**
+ * A stale channel read queues a scrape, and the queue's depth is what tells the
+ * sweeps that people are waiting. A crawler walking every profile fills it with
+ * demand nobody is waiting on, so the api is told to serve the read and queue
+ * nothing. Only moddex-web knows the visitor's agent; the api cannot see it.
+ */
+const crawlerHeaders = async (): Promise<Record<string, string>> => {
+  try {
+    const agent = (await headers()).get('user-agent') ?? '';
+
+    return isCrawler(agent) ? { 'x-moddex-refresh': 'skip' } : {};
+  } catch {
+    return {};
+  }
+};
+
+export const getRolePage = async (params: RoleQuery & { limit: number }): Promise<RolePage> =>
   call(`${subjectPath(params)}/${params.role}${query(roleParams(params))}`, {
-    expect: rolePageShape
+    expect: rolePageShape,
+    headers: await crawlerHeaders()
   });
 
 export const getUserProfile = (params: UserQuery, actor?: string): Promise<User> =>

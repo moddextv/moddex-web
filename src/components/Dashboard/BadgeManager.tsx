@@ -6,6 +6,7 @@ import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
 import { SearchIcon } from '@/components/Icons';
+import { avatarVariant } from '@/misc/avatar';
 import { flagAccountAsBot, listBots, unflagAccountAsBot } from '@/actions/bots';
 import { makeAdmin, removeAdmin } from '@/actions/admins';
 import {
@@ -33,11 +34,12 @@ const Name: FC<{ login: string | null; fallback?: string }> = ({ login, fallback
 const Avatar: FC<{ src: string | null; name: string }> = ({ src, name }) =>
   src ? (
     <Image
-      src={src}
+      src={avatarVariant(src, 28)}
       alt={name}
       width={28}
       height={28}
       radius="full"
+      unoptimized
       className="w-7 h-7 bg-primary-700 shrink-0"
     />
   ) : (

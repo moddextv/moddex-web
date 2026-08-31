@@ -29,10 +29,19 @@ type Options = {
   actor?: string;
   revalidate?: number;
   expect?: Check<unknown>;
+  headers?: Record<string, string>;
 };
 
 export async function call<T>(path: string, options: Options = {}): Promise<T> {
-  const { authenticated = false, method = 'GET', body, revalidate, actor, expect } = options;
+  const {
+    authenticated = false,
+    method = 'GET',
+    body,
+    revalidate,
+    actor,
+    expect,
+    headers: extra
+  } = options;
 
   if (authenticated && !token()) {
     throw new ModdexApiError(0, path, 'INTERNAL_API_TOKEN is not set, see .env.example');
@@ -43,7 +52,8 @@ export async function call<T>(path: string, options: Options = {}): Promise<T> {
     headers: {
       ...(body ? { 'content-type': 'application/json' } : {}),
       ...(token() ? { authorization: `Bearer ${token()}` } : {}),
-      ...(actor ? { 'x-moddex-actor': actor } : {})
+      ...(actor ? { 'x-moddex-actor': actor } : {}),
+      ...extra
     },
     body: body ? JSON.stringify(body) : undefined,
     next: revalidate === undefined ? { revalidate: 0 } : { revalidate }
