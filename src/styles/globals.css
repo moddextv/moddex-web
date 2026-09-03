@@ -533,7 +533,7 @@
 		align-items: center;
 		gap: 20px;
 		min-height: var(--row-h);
-		padding: 0 16px;
+		padding: 8px 16px;
 		border-radius: var(--radius-md);
 		transition: background-color var(--duration) var(--ease);
 	}
@@ -834,7 +834,7 @@
 		}
 
 		.row {
-			padding: 0 12px;
+			padding: 8px 12px;
 		}
 
 		.row-head {

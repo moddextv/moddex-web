@@ -15,8 +15,8 @@ const Row: FC<{
 
   return (
     <div className={`row cols-connections${withdrew ? ' opacity-60' : ''}`}>
-      <span className="min-w-0">
-        <span className="text-base font-bold truncate">{login ?? id}</span>
+      <span className="min-w-0 truncate">
+        <span className="text-base font-bold">{login ?? id}</span>
         {name && name !== login && <span className="text-micro text-primary-400"> · {name}</span>}
         {ignored && <span className="text-micro text-vip"> · {t('dash.conn.optedOut')}</span>}
         {withdrew && (

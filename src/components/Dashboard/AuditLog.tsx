@@ -24,7 +24,7 @@ const Who: FC<{ row: AuditEntry }> = ({ row }) => {
 
   if (!party.login) {
     return (
-      <span className="text-ui text-primary-300 tabular truncate" title={party.id}>
+      <span className="text-ui text-primary-300 tabular" title={party.id}>
         {party.id}
       </span>
     );
@@ -34,7 +34,7 @@ const Who: FC<{ row: AuditEntry }> = ({ row }) => {
     <LocaleLink
       href={`/user/${party.login}`}
       title={about ? t('dash.auditAbout') : t('dash.auditDidIt')}
-      className={clsx('row-name text-ui truncate', !about && 'font-bold')}
+      className={clsx('row-name text-ui', !about && 'font-bold')}
     >
       {about ? '→ ' : ''}
       {party.name || party.login}
@@ -120,7 +120,7 @@ export const AuditLog: FC<{ initial: AuditPage }> = ({ initial }) => {
 
             <span className="text-ui min-w-0 break-words">{row.message}</span>
 
-            <span className="min-w-0">
+            <span className="min-w-0 truncate">
               <Who row={row} />
             </span>
 
