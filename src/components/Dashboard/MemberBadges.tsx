@@ -147,8 +147,8 @@ export const MemberBadges: FC<{ catalogue: BadgeCatalogueEntry[]; ownerId?: stri
   };
 
   return (
-    <div className="panel">
-      <div className="px-4 pt-5 pb-4">
+    <div className="panel-flush">
+      <div className="px-4 pb-4">
         <h2 className="text-h2">{t('dash.badgesPerAccount')}</h2>
       </div>
 
