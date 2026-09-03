@@ -98,7 +98,9 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
         <div className="profile-identity min-w-0">
           <div className="flex items-center gap-3 flex-wrap min-w-0">
-            <h1 className="text-h1 min-w-0 break-words">{name}</h1>
+            <h1 className="text-h1 min-w-0 truncate" title={name}>
+              {name}
+            </h1>
             <Badges badges={currentUser?.badges || []} />
           </div>
           <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">

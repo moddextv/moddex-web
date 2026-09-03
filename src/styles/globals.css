@@ -744,6 +744,18 @@
 			padding: 10px 12px;
 		}
 
+		/* gestapelt statt in ~96px umgebrochen: ein langer Login passt in keine
+		   Spalte, die neben Typ und Datum noch übrig bleibt */
+		.cols-audit {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 2px;
+		}
+
+		/* eine gestapelte Zeile hat keine Spalten, die eine Kopfzeile benennt */
+		.row-head.cols-audit {
+			display: none;
+		}
+
 		/* the name needs the width more than a 36px avatar and its badges do */
 		.cols-leaders {
 			grid-template-columns: 34px minmax(0, 1fr) 84px;
@@ -920,22 +932,25 @@
 	}
 
 	@media (max-width: 640px) {
+		/* der Name bekommt die ganze Breite statt der Spalte neben dem Avatar */
 		.profile-head {
-			grid-template-columns: auto minmax(0, 1fr);
+			grid-template-columns: minmax(0, 1fr);
 			grid-template-areas:
-				'avatar identity'
-				'facts facts'
-				'actions actions';
+				'avatar'
+				'identity'
+				'facts'
+				'actions';
 			column-gap: 16px;
 			row-gap: 12px;
 		}
 
 		.profile-head.has-bio {
 			grid-template-areas:
-				'avatar identity'
-				'bio bio'
-				'facts facts'
-				'actions actions';
+				'avatar'
+				'identity'
+				'bio'
+				'facts'
+				'actions';
 		}
 	}
 
