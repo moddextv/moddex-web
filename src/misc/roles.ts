@@ -50,6 +50,17 @@ export const ACTIVE_ROLE_KEYS: RoleKey[] = ['mod', 'vip', 'founder'];
 export const roleByLabel = (label: string): RoleKey | undefined =>
   ROLE_KEYS.find((key) => ROLES[key].channelLabel === label || ROLES[key].userLabel === label);
 
+export const roleSegment = (key: RoleKey): string => ROLES[key].channelLabel;
+
+// the optional segment after a profile login: /channel/forsen/vips opens a tab
+export const roleTabIndex = (segment: string | undefined): number | null => {
+  if (segment === undefined) return 0;
+
+  const index = ACTIVE_ROLE_KEYS.findIndex((key) => roleSegment(key) === segment);
+
+  return index === -1 ? null : index;
+};
+
 export const roleCornerClass: Record<RoleKey, string> = {
   mod: 'corner-tl',
   vip: 'corner-br',

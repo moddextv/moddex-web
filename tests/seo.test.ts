@@ -33,7 +33,12 @@ const pages = (dir = APP, prefix = ''): { route: string; file: string }[] =>
 const ROUTES = pages();
 
 // /c and /u only call permanentRedirect, so they render nothing to describe
-const REDIRECTS = ['/c/[username]', '/u/[username]'];
+const REDIRECTS = ['/c/[username]/[[...role]]', '/u/[username]/[[...role]]'];
+
+// the tab urls re-export the profile page, metadata included
+const INHERITED = ['/channel/[username]/[role]', '/user/[username]/[role]'];
+
+const OWN = ROUTES.filter((page) => !REDIRECTS.includes(page.route));
 
 describe('every page carries metadata', () => {
   it('found the route tree', () => {
@@ -41,16 +46,13 @@ describe('every page carries metadata', () => {
     expect(ROUTES.length).toBeGreaterThan(10);
   });
 
-  it.each(ROUTES.filter((page) => !REDIRECTS.includes(page.route)))(
-    '$route declares a title',
-    ({ file }) => {
-      const source = readFileSync(file, 'utf8');
+  it.each(OWN)('$route declares a title', ({ file }) => {
+    const source = readFileSync(file, 'utf8');
 
-      expect(source).toMatch(/export const metadata|generateMetadata/);
-    }
-  );
+    expect(source).toMatch(/export const metadata|generateMetadata/);
+  });
 
-  it.each(ROUTES.filter((page) => !REDIRECTS.includes(page.route)))(
+  it.each(OWN.filter((page) => !INHERITED.includes(page.route)))(
     '$route declares a canonical or is deliberately noindex',
     ({ file }) => {
       const source = readFileSync(file, 'utf8');

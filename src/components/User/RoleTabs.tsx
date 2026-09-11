@@ -10,12 +10,25 @@ interface RoleTab {
   key: RoleKey;
   label: string;
   count: number | null;
+  href: string;
 }
 
-export const RoleTabs: FC<{ tabs: RoleTab[]; children: ReactNode }> = ({ tabs, children }) => {
+export const RoleTabs: FC<{ tabs: RoleTab[]; initial?: number; children: ReactNode }> = ({
+  tabs,
+  initial = 0,
+  children
+}) => {
   const t = useT();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(initial);
   const panels = Children.toArray(children);
+
+  const select = (index: number) => {
+    setActive(index);
+
+    const href = tabs[index]?.href;
+
+    if (href) window.history.replaceState(null, '', href);
+  };
 
   return (
     <div>
@@ -28,7 +41,7 @@ export const RoleTabs: FC<{ tabs: RoleTab[]; children: ReactNode }> = ({ tabs, c
             type="button"
             aria-pressed={index === active}
             className={clsx('role-tab', index === active && 'is-active')}
-            onClick={() => setActive(index)}
+            onClick={() => select(index)}
           >
             <span
               aria-hidden="true"

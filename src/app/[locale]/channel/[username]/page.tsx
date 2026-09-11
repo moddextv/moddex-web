@@ -8,6 +8,7 @@ import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
+import { roleTabIndex } from '@/misc/roles';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Container } from '@/components/UI/Container';
@@ -25,18 +26,21 @@ const CHANNEL_TABS = [
 ] as const;
 
 interface PageProps {
-  params: Promise<{ username: string; locale: string }>;
+  params: Promise<{ username: string; locale: string; role?: string }>;
 }
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
-  const { username: rawName, locale: rawLocale } = await params;
+  const { username: rawName, locale: rawLocale, role } = await params;
   const locale = asLocale(rawLocale);
   const username = decodeURI(rawName);
 
   if (!isUsername(username)) return { title: username, robots: { index: false, follow: false } };
 
   const { user } = await getUser(username);
-  const title = user?.name || username;
+  const name = user?.name || username;
+  const tab = roleTabIndex(role);
+  const label = tab !== null && role ? CHANNEL_TABS[tab]?.label : undefined;
+  const title = label ? `${name} · ${getTranslator(locale)(label)}` : name;
 
   if (!user) return { title, robots: { index: false, follow: false } };
 
@@ -46,7 +50,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
   return {
     title,
-    description: `Everyone holding mod, vip or founder in ${title}'s Twitch channel, and the date each role was granted.`,
+    description: `Everyone holding mod, vip or founder in ${name}'s Twitch channel, and the date each role was granted.`,
     alternates: alternatesFor(`/channel/${user.login}`, locale),
     openGraph: {
       type: 'profile',
@@ -58,7 +62,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default async function ChannelUsernamePage({ params }: PageProps) {
-  const { username: rawName, locale: rawLocale } = await params;
+  const { username: rawName, locale: rawLocale, role } = await params;
   const username = decodeURI(rawName);
   const locale = asLocale(rawLocale);
 
@@ -66,6 +70,13 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
     return <InvalidUsername username={username} />;
   }
 
+  const tab = roleTabIndex(role);
+
+  if (tab === null) {
+    return redirect(localePath(locale, `/channel/${username}`));
+  }
+
+  const segment = role ? `/${role}` : '';
   const t = getTranslator(locale);
 
   const { user, banReason, optedOut } = await getUser(username);
@@ -83,10 +94,11 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
   }
 
   if (user.login !== username) {
-    return redirect(localePath(locale, `/channel/${user.login}`));
+    return redirect(localePath(locale, `/channel/${user.login}${segment}`));
   }
 
   const seeded = await seedRoleLists(user.id, 'channel', ROLES);
+  const path = localePath(locale, `/channel/${user.login}`);
 
   return (
     <main id="main" className="flex-grow">
@@ -95,7 +107,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
         <UserProfile user={user} />
 
         <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
-          <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS, t)}>
+          <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS, t, path)} initial={tab}>
             <UserList type="channel" role="mods" user={user} initial={seeded.mods} tabbed />
             <UserList type="channel" role="vips" user={user} initial={seeded.vips} tabbed />
             <UserList type="channel" role="founders" user={user} initial={seeded.founders} tabbed />
