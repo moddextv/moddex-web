@@ -6,6 +6,18 @@ import type { MetadataRoute } from 'next';
 // a dashboard on this domain rather than a subdomain, so it reads as a page
 const PRIVATE = ['/insights', '/dashboard', '/settings', '/donate/success', '/design', '/api/'];
 
+// /u and /c redirect into the same profiles, so a list naming one needs both
+const PROFILES = ['/user', '/channel', '/u', '/c'];
+
+/**
+ * Crawlers that walk the profile graph rather than reading the site. Profiles
+ * are in no sitemap and a profile without roles is already noindex, so what
+ * they collect is nothing this site asked to publish. Measured 2026-09-15:
+ * ClaudeBot and Applebot together made 99 % of all traffic, ~17k requests an
+ * hour, each url visited once, which is a full server render per request.
+ */
+const PROFILE_CRAWLERS = ['ClaudeBot', 'Applebot'];
+
 /**
  * The same page under three languages is three urls, and a crawler told about
  * one of them learns nothing about the other two. Only paths that actually
@@ -21,13 +33,22 @@ const localized = (path: string): string[] => {
   return LOCALES.map((locale) => localePath(locale, path));
 };
 
+const expand = (paths: string[]): string[] => [...new Set(paths.flatMap(localized))];
+
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: [...new Set(PRIVATE.flatMap(localized))]
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: expand(PRIVATE)
+      },
+      // a named group replaces the wildcard one rather than adding to it
+      {
+        userAgent: PROFILE_CRAWLERS,
+        disallow: expand([...PRIVATE, ...PROFILES])
+      }
+    ],
     sitemap: `${config.brand.url}/sitemap.xml`,
     host: config.brand.url
   };

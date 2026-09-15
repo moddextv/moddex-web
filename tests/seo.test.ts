@@ -63,11 +63,17 @@ describe('every page carries metadata', () => {
 });
 
 describe('robots.txt', () => {
-  const rules = robots();
-  const disallow = (rules.rules as { disallow: string[] }).disallow;
+  const rules = robots().rules as { userAgent: string | string[]; disallow: string[] }[];
+  const group = (agent: string) =>
+    rules.find((rule) =>
+      Array.isArray(rule.userAgent) ? rule.userAgent.includes(agent) : rule.userAgent === agent
+    )!;
+
+  const disallow = group('*').disallow;
+  const crawler = group('ClaudeBot').disallow;
 
   it('points at the sitemap on the canonical host', () => {
-    expect(rules.sitemap).toBe('https://moddex.tv/sitemap.xml');
+    expect(robots().sitemap).toBe('https://moddex.tv/sitemap.xml');
   });
 
   it.each(['/dashboard', '/settings', '/insights', '/donate/success', '/design'])(
@@ -91,7 +97,7 @@ describe('robots.txt', () => {
   // /insights is served by caddy and /api by the api. naming a locale beside
   // either is the mistake the allowlist exists to prevent
   it('never invents a locale for a path that is not a page', () => {
-    for (const rule of disallow) {
+    for (const rule of rules.flatMap((entry) => entry.disallow)) {
       expect(rule, rule).not.toMatch(/^\/[a-z]{2}\/(insights|api)/);
     }
   });
@@ -102,6 +108,37 @@ describe('robots.txt', () => {
       expect(disallow.some((rule) => path === rule || path.startsWith(`${rule}/`))).toBe(false);
     }
   );
+
+  describe('the crawlers that walk profiles instead of reading the site', () => {
+    it('names them in one group rather than one each', () => {
+      expect(group('ClaudeBot')).toBe(group('Applebot'));
+    });
+
+    // /u and /c redirect into the same rows, so a list naming one needs both
+    it.each(['/user', '/channel', '/u', '/c'])('keeps %s out in every language', (path) => {
+      for (const locale of LOCALES) {
+        expect(crawler, `${locale} ${path}`).toContain(localePath(locale, path));
+      }
+    });
+
+    /**
+     * A named group replaces the wildcard one rather than adding to it, so a
+     * crawler listed here reads its own group and nothing else. Leaving the
+     * private paths out of it would open the dashboard to exactly the agents
+     * this group exists to hold back.
+     */
+    it('carries everything the wildcard group disallows', () => {
+      for (const path of disallow) {
+        expect(crawler, path).toContain(path);
+      }
+    });
+
+    it('leaves the profiles open to everybody else', () => {
+      for (const path of ['/user', '/channel', '/u', '/c']) {
+        expect(disallow).not.toContain(path);
+      }
+    });
+  });
 });
 
 describe('a page disallowed in robots.txt also sends noindex', () => {
