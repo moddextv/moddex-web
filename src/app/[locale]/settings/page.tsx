@@ -6,7 +6,7 @@ import { LocaleLink } from '@/components/UI/LocaleLink';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { Container } from '@/components/UI/Container';
-import { Image } from '@/components/UI/Image';
+import { Avatar } from '@/components/UI/Avatar';
 import { Login } from '@/components/Login';
 import { OptOut } from '@/components/Settings/OptOut';
 import { ChatBadge } from '@/components/Settings/ChatBadge';
@@ -165,13 +165,11 @@ export default async function SettingsPage({
               <Fact label={t('settings.account.signedIn')}>
                 <span className="flex items-center gap-3">
                   {session.user.image ? (
-                    <Image
+                    <Avatar
                       src={session.user.image}
-                      alt={session.user.name ?? t('settings.account.avatarAlt')}
-                      width={32}
-                      height={32}
-                      radius="full"
-                      className="w-8 h-8 bg-primary-700"
+                      name={session.user.name ?? t('settings.account.avatarAlt')}
+                      size={32}
+                      className="w-8 h-8"
                     />
                   ) : (
                     <span className="avatar w-8 h-8 text-meta" aria-hidden="true">

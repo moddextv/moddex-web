@@ -14,6 +14,7 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Session } from 'next-auth';
+import { Avatar } from '@/components/UI/Avatar';
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -110,13 +111,11 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
             className="btn btn-ghost shrink-0 gap-2.5 pl-1 pr-1 md:pr-3"
           >
             {user.image ? (
-              <Image
+              <Avatar
                 src={user.image}
-                alt={user.name ?? t('nav.yourAvatar')}
-                width={32}
-                height={32}
-                radius="full"
-                className="w-8 h-8 bg-primary-700"
+                name={user.name ?? t('nav.yourAvatar')}
+                size={32}
+                className="w-8 h-8"
               />
             ) : (
               <span className="avatar w-8 h-8 text-meta" aria-hidden="true">

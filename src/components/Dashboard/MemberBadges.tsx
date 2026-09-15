@@ -7,6 +7,7 @@ import { LocaleLink } from '@/components/UI/LocaleLink';
 
 import { Badges } from '@/components/User/Badges';
 import { Image } from '@/components/UI/Image';
+import { Avatar } from '@/components/UI/Avatar';
 import { SearchIcon } from '@/components/Icons';
 import { findAccount, flagAccountAsBot, unflagAccountAsBot } from '@/actions/bots';
 import { makeAdmin, removeAdmin } from '@/actions/admins';
@@ -179,14 +180,7 @@ export const MemberBadges: FC<{ catalogue: BadgeCatalogueEntry[]; ownerId?: stri
         <>
           <div className="flex items-center gap-3 px-4 pb-4">
             {member.avatar ? (
-              <Image
-                src={member.avatar}
-                alt={member.login}
-                width={36}
-                height={36}
-                radius="full"
-                className="w-9 h-9 bg-primary-700"
-              />
+              <Avatar src={member.avatar} name={member.login} size={36} className="w-9 h-9" />
             ) : null}
 
             <LocaleLink href={`/user/${member.login}`} className="text-base font-bold">

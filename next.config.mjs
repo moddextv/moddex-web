@@ -44,11 +44,24 @@ const nextConfig = {
 
   output: 'standalone',
   compress: true,
+  /**
+   * The host alone let anybody run any twitch image through our optimizer, and
+   * nothing here needs it: avatars are requested at the size they draw and
+   * rendered unoptimized. Both paths are avatars — user-default-pictures-uv is
+   * what an account without its own picture gets, and misc/avatar.ts knows it
+   * as the one that exists at 150 alone.
+   */
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'static-cdn.jtvnw.net'
+        hostname: 'static-cdn.jtvnw.net',
+        pathname: '/jtv_user_pictures/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'static-cdn.jtvnw.net',
+        pathname: '/user-default-pictures-uv/**'
       }
     ]
   },
