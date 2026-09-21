@@ -1,5 +1,4 @@
 import { asLocale } from '@/i18n/locales';
-import { Translator } from '@/i18n/translate';
 import { getRich, getTranslator } from '@/i18n/dictionary';
 import { pageMetadata } from '@/misc/metadata';
 import { LocaleLink } from '@/components/UI/LocaleLink';
@@ -8,6 +7,7 @@ import { ArrowRightIcon } from '@/components/Icons';
 import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
+import { CountUp } from '@/components/UI/CountUp';
 import { config } from '@/config';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { getIndexStats } from '@/utils/stats';
@@ -53,15 +53,14 @@ const Count: FC<{
   corner: string;
   tone: string;
   value: number;
-  t: Translator;
-}> = ({ label, corner, tone, value, t }) => (
+}> = ({ label, corner, tone, value }) => (
   <div>
     <p className="flex items-center gap-2.5 text-ui text-primary-400 mb-2">
       <span className={`corner ${corner} ${tone}`} aria-hidden="true" />
       {label}
     </p>
     <p className={`text-[clamp(1.625rem,2.4vw,2.125rem)] font-bold leading-none tabular ${tone}`}>
-      {t.number(value)}
+      <CountUp value={value} />
     </p>
   </div>
 );
@@ -175,14 +174,12 @@ export default async function Home({ params }: MetaProps) {
               corner="corner-tl"
               tone="text-mod"
               value={stats.mods}
-              t={t}
             />
             <Count
               label={t('home.stats.vips')}
               corner="corner-br"
               tone="text-vip"
               value={stats.vips}
-              t={t}
             />
 
             {stats.founders && (
@@ -191,7 +188,6 @@ export default async function Home({ params }: MetaProps) {
                 corner="corner-bl"
                 tone="text-founder"
                 value={stats.founders}
-                t={t}
               />
             )}
 
