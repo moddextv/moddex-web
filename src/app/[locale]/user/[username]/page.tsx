@@ -107,7 +107,13 @@ export default async function UserUsernamePage({ params }: PageProps) {
       <JsonLd data={profileGraph('user', user.login, user.name || user.login)} />
       <Container>
         <UserProfile user={user} isUser={true} />
-        <ClaimPanel locale={locale} type="user" userId={user.id} login={user.login} />
+        <ClaimPanel
+          locale={locale}
+          type="user"
+          userId={user.id}
+          login={user.login}
+          connected={!!user.connected}
+        />
 
         <section className="enter pb-6" style={{ '--i': 2 } as CSSProperties}>
           <RoleTabs tabs={roleTabs(seeded, USER_TABS, t, path)} initial={tab}>

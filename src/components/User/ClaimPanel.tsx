@@ -1,7 +1,6 @@
 import { auth, signIn } from '@/auth';
 import { Locale, localePath } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
-import { getChannelConnection } from '@/utils/api/moddex/me';
 import { claimState } from '@/utils/claim';
 import { TwitchIcon } from '@/components/Icons';
 import { UserType } from '@/misc/roles';
@@ -12,6 +11,7 @@ interface ClaimPanelProps {
   type: UserType;
   userId: string;
   login: string;
+  connected: boolean;
 }
 
 const COPY = {
@@ -29,16 +29,9 @@ const COPY = {
   }
 } as const;
 
-export const ClaimPanel = async ({ locale, type, userId, login }: ClaimPanelProps) => {
+export const ClaimPanel = async ({ locale, type, userId, login, connected }: ClaimPanelProps) => {
   const session = await auth();
-  const viewerId = session?.user?.id;
-  const connected =
-    viewerId === userId
-      ? await getChannelConnection(userId)
-          .then((connection) => connection.connected)
-          .catch(() => false)
-      : false;
-  const state = claimState(viewerId, userId, connected);
+  const state = claimState(session?.user?.id, userId, connected);
 
   if (!state) return null;
 

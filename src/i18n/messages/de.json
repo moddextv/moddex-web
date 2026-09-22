@@ -656,6 +656,7 @@
     "inChannelShort": "In diesem Kanal",
     "indexChannel": "Kanal indexieren",
     "joined": "dabei seit",
+    "connected": "verbunden",
     "missingChannel": "Fehlt ein Kanal? Er erscheint hier erst, wenn ihn jemand nachgeschlagen hat. Einmal suchen genügt, dann bleibt er im Index.",
     "noGrantDate": "Twitch hat für diese Rolle kein Vergabedatum geliefert",
     "openDiscord": "Auf Discord öffnen",

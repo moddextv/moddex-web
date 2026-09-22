@@ -108,7 +108,8 @@ const BADGES = [
   'admin',
   'bot',
   'booster',
-  'translator'
+  'translator',
+  'verified'
 ];
 
 export default async function DesignPage({ params }: MetaProps) {

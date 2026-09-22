@@ -92,9 +92,10 @@ export default async function PrivacyPage({ params }: PageProps) {
         </Para>
         <Para>
           We keep a record of each sign-in: your Twitch id, when it happened, and how many times
-          you&apos;ve signed in altogether. It stays internal. Moddex admins can see it, it is never
-          published and never shared, and it&apos;s there so we can tell the site is being used and
-          notice an account being misused.
+          you&apos;ve signed in altogether. One thing is public: an account that has signed in
+          carries the verified badge on its profile. When and how often stays internal. Moddex
+          admins can see it, it is never shared, and it&apos;s there so we can tell the site is
+          being used and notice an account being misused.
         </Para>
         <Para>
           You can link a Discord account in <Inline href="/settings">your settings</Inline>. We

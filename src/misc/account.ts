@@ -33,6 +33,7 @@ export interface User extends Account {
   updatedAt?: string | null;
   banned?: Banned | null;
   optedOut?: boolean;
+  connected?: boolean;
 }
 
 export interface UserListProps {

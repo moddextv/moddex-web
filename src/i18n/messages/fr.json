@@ -656,6 +656,7 @@
     "inChannelShort": "Dans cette chaîne",
     "indexChannel": "Indexer une chaîne",
     "joined": "inscrit en",
+    "connected": "connectée",
     "missingChannel": "Une chaîne manque ? Elle n'apparaît ici qu'une fois que quelqu'un l'a cherchée. Cherche-la une fois et elle reste indexée.",
     "noGrantDate": "Twitch n'a renvoyé aucune date d'attribution pour ce rôle",
     "openDiscord": "Ouvrir sur Discord",

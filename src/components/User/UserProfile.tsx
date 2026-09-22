@@ -135,6 +135,10 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
               {t('profile.rolesRead')} <span className="text-primary-200">{lastRead}</span>
             </span>
           )}
+
+          {!isUser && currentUser?.connected && (
+            <span className="text-mod font-bold">{t('profile.connected')}</span>
+          )}
         </div>
 
         <div className="profile-actions flex items-center gap-2 flex-wrap">

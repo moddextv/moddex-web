@@ -106,7 +106,13 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
       <JsonLd data={profileGraph('channel', user.login, user.name || user.login)} />
       <Container>
         <UserProfile user={user} />
-        <ClaimPanel locale={locale} type="channel" userId={user.id} login={user.login} />
+        <ClaimPanel
+          locale={locale}
+          type="channel"
+          userId={user.id}
+          login={user.login}
+          connected={!!user.connected}
+        />
 
         <section className="enter pb-6" style={{ '--i': 2 } as CSSProperties}>
           <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS, t, path)} initial={tab}>

@@ -62,6 +62,14 @@ const glyphs = {
     `<g fill="none" stroke="${fill}" stroke-width="11">` +
     `<path d="M28 64 H100"/><ellipse cx="64" cy="64" rx="18" ry="36"/></g>`,
 
+  // a fingerprint: a real person, ridges and a whorl
+  fingerprint: (ink) =>
+    `<g fill="none" stroke="${ink}" stroke-width="9" stroke-linecap="round">` +
+    `<path d="M34 96 V62 A30 30 0 0 1 94 62 V80"/>` +
+    `<path d="M50 100 V64 A14 14 0 0 1 78 64 V96"/>` +
+    `<path d="M64 100 V70"/>` +
+    `</g>`,
+
   mark: (ink) => mark(ink)
 };
 
@@ -75,7 +83,8 @@ const BADGES = [
   { slug: 'admin', fill: '#F87171', ink: INK, glyph: 'mark' },
   { slug: 'bot', fill: '#008585', ink: PAPER, glyph: 'robot' },
   { slug: 'booster', fill: '#FF73FA', ink: INK, glyph: 'boost' },
-  { slug: 'translator', fill: '#2563EB', ink: PAPER, glyph: 'globe' }
+  { slug: 'translator', fill: '#2563EB', ink: PAPER, glyph: 'globe' },
+  { slug: 'verified', fill: '#0EA5E9', ink: INK, glyph: 'fingerprint' }
 ];
 
 const srgb = (v) => {
