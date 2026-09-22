@@ -110,8 +110,17 @@ describe('robots.txt', () => {
   );
 
   describe('the crawlers that walk profiles instead of reading the site', () => {
-    it('names them in one group rather than one each', () => {
-      expect(group('ClaudeBot')).toBe(group('Applebot'));
+    // measured 2026-09-22: every one of these walked profiles at hundreds an hour
+    it.each([
+      'Applebot',
+      'PerplexityBot',
+      'GPTBot',
+      'Claude-SearchBot',
+      'meta-externalagent',
+      'Amazonbot',
+      'ShapBot'
+    ])('names %s in the same group as ClaudeBot rather than one each', (agent) => {
+      expect(group(agent)).toBe(group('ClaudeBot'));
     });
 
     // /u and /c redirect into the same rows, so a list naming one needs both
@@ -131,6 +140,10 @@ describe('robots.txt', () => {
       for (const path of disallow) {
         expect(crawler, path).toContain(path);
       }
+    });
+
+    it('shuts the seo crawler out entirely', () => {
+      expect(group('AhrefsBot').disallow).toBe('/');
     });
 
     it('leaves the profiles open to everybody else', () => {

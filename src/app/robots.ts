@@ -16,7 +16,19 @@ const PROFILES = ['/user', '/channel', '/u', '/c'];
  * ClaudeBot and Applebot together made 99 % of all traffic, ~17k requests an
  * hour, each url visited once, which is a full server render per request.
  */
-const PROFILE_CRAWLERS = ['ClaudeBot', 'Applebot'];
+const PROFILE_CRAWLERS = [
+  'ClaudeBot',
+  'Applebot',
+  'PerplexityBot',
+  'GPTBot',
+  'Claude-SearchBot',
+  'meta-externalagent',
+  'Amazonbot',
+  'ShapBot'
+];
+
+// an seo crawler brings no visitor, so it gets nothing at all
+const BLOCKED_CRAWLERS = ['AhrefsBot'];
 
 /**
  * The same page under three languages is three urls, and a crawler told about
@@ -47,6 +59,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: PROFILE_CRAWLERS,
         disallow: expand([...PRIVATE, ...PROFILES])
+      },
+      {
+        userAgent: BLOCKED_CRAWLERS,
+        disallow: '/'
       }
     ],
     sitemap: `${config.brand.url}/sitemap.xml`,
