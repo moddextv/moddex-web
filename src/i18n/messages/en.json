@@ -73,6 +73,21 @@
     "title": "Chat badge",
     "where": "Where the badge sits"
   },
+  "claim": {
+    "channel": {
+      "ask": "Your channel?",
+      "connect": "Connect it and mod and VIP changes arrive live. No token kept.",
+      "signIn": "Sign in and connect it. Mod and VIP changes then arrive live.",
+      "yours": "Your channel"
+    },
+    "connect": "Connect with Twitch",
+    "user": {
+      "ask": "Is this you?",
+      "connect": "Connect once and your moderated channels come straight from Twitch. No token kept.",
+      "signIn": "Sign in and your moderated channels come straight from Twitch.",
+      "yours": "Your account"
+    }
+  },
   "common": {
     "cancel": "Cancel",
     "clear": "Clear",

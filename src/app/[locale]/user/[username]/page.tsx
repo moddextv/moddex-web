@@ -6,6 +6,7 @@ import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
+import { ClaimPanel } from '@/components/User/ClaimPanel';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
 import { roleTabIndex } from '@/misc/roles';
@@ -106,8 +107,9 @@ export default async function UserUsernamePage({ params }: PageProps) {
       <JsonLd data={profileGraph('user', user.login, user.name || user.login)} />
       <Container>
         <UserProfile user={user} isUser={true} />
+        <ClaimPanel locale={locale} type="user" userId={user.id} login={user.login} />
 
-        <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
+        <section className="enter pb-6" style={{ '--i': 2 } as CSSProperties}>
           <RoleTabs tabs={roleTabs(seeded, USER_TABS, t, path)} initial={tab}>
             <UserList type="user" role="modding" user={user} initial={seeded.modding} tabbed />
             <UserList type="user" role="viping" user={user} initial={seeded.viping} tabbed />

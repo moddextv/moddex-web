@@ -73,6 +73,21 @@
     "title": "Chat-Badge",
     "where": "Wo das Badge steht"
   },
+  "claim": {
+    "channel": {
+      "ask": "Dein Kanal?",
+      "connect": "Verbinde ihn, und Mod- und VIP-Änderungen kommen live. Kein Token gespeichert.",
+      "signIn": "Melde dich an und verbinde ihn. Mod- und VIP-Änderungen kommen dann live.",
+      "yours": "Dein Kanal"
+    },
+    "connect": "Mit Twitch verbinden",
+    "user": {
+      "ask": "Bist du das?",
+      "connect": "Einmal verbinden, und deine moderierten Kanäle kommen direkt von Twitch. Kein Token gespeichert.",
+      "signIn": "Melde dich an, und deine moderierten Kanäle kommen direkt von Twitch.",
+      "yours": "Dein Konto"
+    }
+  },
   "common": {
     "cancel": "Abbrechen",
     "clear": "Zurücksetzen",

@@ -73,6 +73,21 @@
     "title": "Badge de chat",
     "where": "Où le badge apparaît"
   },
+  "claim": {
+    "channel": {
+      "ask": "Ta chaîne ?",
+      "connect": "Relie-la et les changements de mod et de VIP arrivent en direct. Aucun jeton conservé.",
+      "signIn": "Connecte-toi et relie-la. Les changements de mod et de VIP arrivent alors en direct.",
+      "yours": "Ta chaîne"
+    },
+    "connect": "Relier avec Twitch",
+    "user": {
+      "ask": "C'est toi ?",
+      "connect": "Relie-le une fois et tes chaînes modérées arrivent directement de Twitch. Aucun jeton conservé.",
+      "signIn": "Connecte-toi et tes chaînes modérées arrivent directement de Twitch.",
+      "yours": "Ton compte"
+    }
+  },
   "common": {
     "cancel": "Annuler",
     "clear": "Effacer",

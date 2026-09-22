@@ -6,6 +6,7 @@ import { BannedUser, InvalidUsername, NotFoundUser } from '@/components/Errors';
 import { OptedOut } from '@/components/Notices';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
+import { ClaimPanel } from '@/components/User/ClaimPanel';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
 import { roleTabIndex } from '@/misc/roles';
@@ -105,8 +106,9 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
       <JsonLd data={profileGraph('channel', user.login, user.name || user.login)} />
       <Container>
         <UserProfile user={user} />
+        <ClaimPanel locale={locale} type="channel" userId={user.id} login={user.login} />
 
-        <section className="enter pb-6" style={{ '--i': 1 } as CSSProperties}>
+        <section className="enter pb-6" style={{ '--i': 2 } as CSSProperties}>
           <RoleTabs tabs={roleTabs(seeded, CHANNEL_TABS, t, path)} initial={tab}>
             <UserList type="channel" role="mods" user={user} initial={seeded.mods} tabbed />
             <UserList type="channel" role="vips" user={user} initial={seeded.vips} tabbed />
