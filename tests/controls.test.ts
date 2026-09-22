@@ -79,26 +79,31 @@ describe('the bot control says the same thing everywhere', () => {
   // the literal moved into the message file, so the shared thing is now the key.
   // the role lists fold the bot control into their filter menu since 2026-09-22,
   // where the three states keep their words and the chip label is the group's
-  it('every surface reaches for the same message key', () => {
-    const surfaces: [string, RegExp][] = [
-      ['components/Browse/BrowseList.tsx', /'controls\.bots'/],
-      ['components/User/ListFilters.tsx', /controls\.botModes\./],
-      ['app/[locale]/leaderboard/page.tsx', /'controls\.bots'/]
+  it('every surface reaches for the same message key, through the one menu', () => {
+    const surfaces = [
+      'components/Browse/BrowseList.tsx',
+      'components/User/ListFilters.tsx',
+      'app/[locale]/leaderboard/page.tsx'
     ];
 
-    for (const [name, key] of surfaces) {
+    for (const name of surfaces) {
       const file = FILES.find((entry) => entry.name === name);
       expect(file, `${name} moved`).toBeTruthy();
-      expect(file!.source, `${name} labels the bot control its own way`).toMatch(key);
+      expect(file!.source, `${name} labels the bot control its own way`).toMatch(
+        /controls\.botModes\./
+      );
+      expect(file!.source, `${name} draws its own menu`).toContain('<FilterMenu');
     }
   });
 
-  it('and that key exists in every language', () => {
+  it('and those keys exist in every language', () => {
     for (const locale of LOCALES) {
       const t = getTranslator(locale);
 
-      expect(t('controls.bots', { state: t('controls.botsShown') })).not.toBe('controls.bots');
-      expect(t('controls.botsHidden')).not.toBe('controls.botsHidden');
+      for (const mode of ['all', 'hide', 'only']) {
+        expect(t(`controls.botModes.${mode}`)).not.toBe(`controls.botModes.${mode}`);
+      }
+      expect(t('controls.groups.bots')).not.toBe('controls.groups.bots');
     }
   });
 

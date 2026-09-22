@@ -6,6 +6,7 @@ import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { AccountSort, BrowseEntry, BrowsePage, ChannelSort } from '@/misc/browse';
 import { FC, useRef, useState, useTransition } from 'react';
 import { beginPage, beginQuery, createPageLoad, wanted } from '@/hooks/pageLoad';
+import { FilterChoice, FilterGroup, FilterMenu } from '@/components/UI/FilterMenu';
 
 const PAGE = 25;
 
@@ -108,11 +109,16 @@ export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel
           ))}
 
           {kind === 'account' && (
-            <button type="button" className="chip" aria-pressed={includeBots} onClick={toggleBots}>
-              {t('controls.bots', {
-                state: includeBots ? t('controls.botModes.all') : t('controls.botModes.hide')
-              })}
-            </button>
+            <FilterMenu active={includeBots ? 0 : 1}>
+              <FilterGroup label={t('controls.groups.bots')}>
+                <FilterChoice pressed={includeBots} onClick={() => !includeBots && toggleBots()}>
+                  {t('controls.botModes.all')}
+                </FilterChoice>
+                <FilterChoice pressed={!includeBots} onClick={() => includeBots && toggleBots()}>
+                  {t('controls.botModes.hide')}
+                </FilterChoice>
+              </FilterGroup>
+            </FilterMenu>
           )}
         </span>
       </div>

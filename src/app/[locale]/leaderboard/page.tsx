@@ -2,6 +2,7 @@ import { asLocale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 import { CSSProperties } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
+import { FilterChoice, FilterGroup, FilterMenu } from '@/components/UI/FilterMenu';
 import { Container } from '@/components/UI/Container';
 import { LeaderRows } from '@/components/Leaderboard/LeaderRows';
 import { LeaderScale, getLeaderboard } from '@/utils/api/moddex/public';
@@ -108,15 +109,16 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
               </span>
 
               <span className="ml-auto flex items-center gap-2 flex-wrap">
-                <LocaleLink
-                  href={href({ bots: bots === 'exclude' ? 'include' : 'exclude' })}
-                  className="chip"
-                  aria-pressed={bots === 'exclude'}
-                >
-                  {t('controls.bots', {
-                    state: bots === 'exclude' ? t('controls.botsHidden') : t('controls.botsShown')
-                  })}
-                </LocaleLink>
+                <FilterMenu active={bots === 'exclude' ? 1 : 0}>
+                  <FilterGroup label={t('controls.groups.bots')}>
+                    <FilterChoice pressed={bots === 'include'} href={href({ bots: 'include' })}>
+                      {t('controls.botModes.all')}
+                    </FilterChoice>
+                    <FilterChoice pressed={bots === 'exclude'} href={href({ bots: 'exclude' })}>
+                      {t('controls.botModes.hide')}
+                    </FilterChoice>
+                  </FilterGroup>
+                </FilterMenu>
               </span>
             </div>
 

@@ -107,10 +107,6 @@
       "hide": "ausgeblendet",
       "only": "nur"
     },
-    "bots": "Bots: {state}",
-    "botsAria": "Bots: {state}. Ändert, welche Accounts gelistet werden.",
-    "botsHidden": "ausgeblendet",
-    "botsShown": "sichtbar",
     "clearFilters": "Filter zurücksetzen",
     "columns": {
       "account": "Account",

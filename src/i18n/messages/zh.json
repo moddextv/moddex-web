@@ -107,10 +107,6 @@
       "hide": "隱藏",
       "only": "只看"
     },
-    "bots": "機器人：{state}",
-    "botsAria": "機器人：{state}。變更列出哪些帳號。",
-    "botsHidden": "隱藏",
-    "botsShown": "顯示",
     "clearFilters": "清除篩選",
     "columns": {
       "account": "帳號",
