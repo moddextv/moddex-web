@@ -131,6 +131,20 @@
         "label": "Name"
       }
     },
+    "filter": "Filter",
+    "filterAria": "Filter the list, {count} active",
+    "groups": {
+      "banned": "Banned",
+      "bots": "Bots",
+      "only": "Only"
+    },
+    "hideBanned": "Hide banned",
+    "kinds": {
+      "affiliate": "Affiliates",
+      "partner": "Partners",
+      "staff": "Staff",
+      "verified": "Verified"
+    },
     "sort": {
       "activeAria": "Sorted by {label}, {ends}. Press to reverse.",
       "disabledAria": "{label}. This list is {reason}.",
@@ -542,7 +556,7 @@
   "misc": {
     "account": "Account",
     "adminOnly": "Admin only.",
-    "allBots": "Every account in this list is a bot.",
+    "banned": "banned",
     "connectedShort": "Connected.",
     "endOfList": "That's the end of this list.",
     "errorHeading": "That page didn't finish loading",
@@ -553,37 +567,29 @@
       "other": "followers"
     },
     "heroSearch": "Look up a Twitch channel or account",
-    "hiddenByBots": "{hidden} of {total} hidden by the bot filter.",
+    "hiddenByFilters": "{hidden} of {total} hidden by the filters.",
     "hiddenBySearch": "{hidden} of {total} hidden by the search.",
-    "hiddenBySearchAndBots": "{hidden} of {total} hidden by the search and the bot filter.",
-    "hideBotCount": {
-      "one": "Hide {count} bot",
-      "other": "Hide {count} bots"
-    },
-    "hideBots": "Hide bots",
+    "hiddenBySearchAndFilters": "{hidden} of {total} hidden by the search and the filters.",
     "keepTyping": "Keep typing, {min} characters minimum",
     "loadMoreCount": "Load {count} more",
     "loaded": "loaded",
     "loginStartsWith": "Login starts with…",
     "matchingAccounts": "Matching accounts",
     "mostRoles": "Most roles",
-    "noBotsInList": "No bots in this list.",
     "noFoundersRead": "None read yet. Founder badges come from a different Twitch query than mods and vips, and it runs on a slower schedule. So an empty list here means we haven't read them yet, not that there are none.",
     "noLoginStartsWith": "No login in this list starts with \"{query}\". This list searches the start of a login, not any part of a name.",
     "noneRead": "None read yet.",
     "notYet": "not yet",
     "nothingIndexedWith": "Nothing indexed starts with <name>{query}</name>. Press Enter to read it from Twitch and add it.",
     "nothingMatches": "Nothing here matches \"{query}\".",
+    "nothingMatchesFilters": "Nothing here matches the filters.",
     "ofTotal": "of {total}",
-    "onlyBots": "Only bots",
     "overTime": "Over time",
     "pagination": "Pagination",
     "readingIndex": "reading the index",
     "readingIndexLong": "Reading the index…",
     "readingIndexShort": "Reading the index.",
-    "showBots": "Show bots",
     "showEverything": "Show everything",
-    "whichAccounts": "Which accounts to list",
     "whichRoles": "Which roles to show"
   },
   "nav": {
@@ -653,6 +659,7 @@
     "terms": "Terms"
   },
   "profile": {
+    "connected": "connected",
     "copyShortUrl": "Copy short url",
     "directionLabel": "Which direction to read this account",
     "elsewhere": "Roles elsewhere",
@@ -661,16 +668,19 @@
       "one": "follower",
       "other": "followers"
     },
+    "hide": "Hide from my profile",
+    "hideOf": "Hide {login} from my profile",
     "inChannel": "Roles in this channel",
     "inChannelShort": "In this channel",
     "indexChannel": "Index a channel",
     "joined": "joined",
-    "connected": "connected",
     "missingChannel": "Missing a channel? It only appears here once somebody has looked that channel up. Search for it once and it stays indexed.",
     "noGrantDate": "Twitch returned no grant date for this role",
     "openDiscord": "Open on Discord",
     "openDiscordOf": "Open {login} on discord",
     "openTwitch": "Open on Twitch",
+    "reach": "reach",
+    "reachTitle": "Followers of every channel this account holds a role in, added up",
     "refresh": "Refresh",
     "refreshChannel": "Read this channel again from Twitch",
     "refreshProfile": "Read this profile again from Twitch",
@@ -775,6 +785,13 @@
       "unconfigured": "Discord connections aren't set up on this server yet."
     },
     "heading": "Settings",
+    "hidden": {
+      "body": "Hidden from your profile, its counts and the api. The channel’s own list still shows you. Hide one from the eye beside a row on your profile.",
+      "none": "Nothing hidden.",
+      "show": "Show again",
+      "showing": "Showing…",
+      "title": "Hidden channels"
+    },
     "live": {
       "body": "For your own channel. Optional.",
       "title": "Live role updates"

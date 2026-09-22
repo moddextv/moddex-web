@@ -4,8 +4,10 @@ import { revalidatePath } from 'next/cache';
 import {
   clearChannelConnection,
   clearUserSocial,
+  hideChannelFor,
   setUserChatBadge,
-  setUserIgnored
+  setUserIgnored,
+  unhideChannelFor
 } from '@/utils/api/moddex/me';
 import { requireUserId } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
@@ -42,6 +44,34 @@ export async function disconnect(network: Network): Promise<ActionResult> {
     const userId = await requireUserId();
 
     await clearUserSocial(userId, network);
+
+    revalidatePath('/settings');
+  });
+}
+
+const isTwitchId = (value: unknown): value is string =>
+  typeof value === 'string' && /^[0-9]{1,20}$/.test(value);
+
+// a channel hidden from the signed-in person's own profile; the channel's list is untouched
+export async function hideChannel(channelId: string): Promise<ActionResult> {
+  return attempt('hideChannel', async () => {
+    if (!isTwitchId(channelId)) throw new RangeError('the channel id must be a twitch id');
+
+    const userId = await requireUserId();
+
+    await hideChannelFor(userId, channelId);
+
+    revalidatePath('/settings');
+  });
+}
+
+export async function unhideChannel(channelId: string): Promise<ActionResult> {
+  return attempt('unhideChannel', async () => {
+    if (!isTwitchId(channelId)) throw new RangeError('the channel id must be a twitch id');
+
+    const userId = await requireUserId();
+
+    await unhideChannelFor(userId, channelId);
 
     revalidatePath('/settings');
   });

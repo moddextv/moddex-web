@@ -139,6 +139,15 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           {!isUser && currentUser?.connected && (
             <span className="text-mod font-bold">{t('profile.connected')}</span>
           )}
+
+          {isUser && !!(currentUser?.reach ?? user.reach) && (
+            <span title={t('profile.reachTitle')}>
+              <span className="tabular text-primary-100 font-bold">
+                {t.number(currentUser?.reach ?? user.reach ?? 0)}
+              </span>{' '}
+              {t('profile.reach')}
+            </span>
+          )}
         </div>
 
         <div className="profile-actions flex items-center gap-2 flex-wrap">

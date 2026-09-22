@@ -131,6 +131,20 @@
         "label": "名稱"
       }
     },
+    "filter": "篩選",
+    "filterAria": "篩選清單，{count} 個啟用中",
+    "groups": {
+      "banned": "停權",
+      "bots": "機器人",
+      "only": "只看"
+    },
+    "hideBanned": "隱藏已停權",
+    "kinds": {
+      "affiliate": "聯盟",
+      "partner": "夥伴",
+      "staff": "員工",
+      "verified": "已驗證"
+    },
     "sort": {
       "activeAria": "依{label}排序，{ends}。按下以反轉。",
       "disabledAria": "{label}。這個清單{reason}。",
@@ -542,7 +556,7 @@
   "misc": {
     "account": "帳號",
     "adminOnly": "限管理員。",
-    "allBots": "這個清單裡的每個帳號都是機器人。",
+    "banned": "已停權",
     "connectedShort": "已連結。",
     "endOfList": "這個清單到此結束。",
     "errorHeading": "這個頁面沒有載入完成",
@@ -553,37 +567,29 @@
       "other": "位追隨者"
     },
     "heroSearch": "查詢 Twitch 頻道或帳號",
-    "hiddenByBots": "{total} 個之中有 {hidden} 個被機器人篩選隱藏。",
+    "hiddenByFilters": "{total} 個之中有 {hidden} 個被篩選隱藏。",
     "hiddenBySearch": "{total} 個之中有 {hidden} 個被搜尋隱藏。",
-    "hiddenBySearchAndBots": "{total} 個之中有 {hidden} 個被搜尋和機器人篩選隱藏。",
-    "hideBotCount": {
-      "one": "隱藏 {count} 個機器人",
-      "other": "隱藏 {count} 個機器人"
-    },
-    "hideBots": "隱藏機器人",
+    "hiddenBySearchAndFilters": "{total} 個之中有 {hidden} 個被搜尋和篩選隱藏。",
     "keepTyping": "繼續輸入，至少 {min} 個字元",
     "loadMoreCount": "再載入 {count} 個",
     "loaded": "已載入",
     "loginStartsWith": "登入名稱開頭是…",
     "matchingAccounts": "符合的帳號",
     "mostRoles": "身分最多",
-    "noBotsInList": "這個清單裡沒有機器人。",
     "noFoundersRead": "還沒讀取。創始人徽章來自和版主、VIP 不同的 Twitch 查詢，而且排程比較慢。所以這裡是空的表示我們還沒讀取，不代表沒有。",
     "noLoginStartsWith": "這個清單裡沒有登入名稱以「{query}」開頭。這裡搜尋的是登入名稱的開頭，不是名稱的任何部分。",
     "noneRead": "還沒讀取。",
     "notYet": "還沒有",
     "nothingIndexedWith": "索引裡沒有以 <name>{query}</name> 開頭的內容。按 Enter 從 Twitch 讀取並加入。",
     "nothingMatches": "這裡沒有符合「{query}」的內容。",
+    "nothingMatchesFilters": "這裡沒有符合篩選的內容。",
     "ofTotal": "共 {total} 個",
-    "onlyBots": "只看機器人",
     "overTime": "隨時間變化",
     "pagination": "分頁",
     "readingIndex": "讀取索引中",
     "readingIndexLong": "正在讀取索引…",
     "readingIndexShort": "正在讀取索引。",
-    "showBots": "顯示機器人",
     "showEverything": "顯示全部",
-    "whichAccounts": "要列出哪些帳號",
     "whichRoles": "要顯示哪些身分"
   },
   "nav": {
@@ -653,6 +659,7 @@
     "terms": "條款"
   },
   "profile": {
+    "connected": "已連結",
     "copyShortUrl": "複製短網址",
     "directionLabel": "從哪個方向讀這個帳號",
     "elsewhere": "在其他地方的身分",
@@ -661,16 +668,19 @@
       "one": "位追隨者",
       "other": "位追隨者"
     },
+    "hide": "在我的個人頁隱藏",
+    "hideOf": "在我的個人頁隱藏 {login}",
     "inChannel": "這個頻道裡的身分",
     "inChannelShort": "這個頻道",
     "indexChannel": "索引一個頻道",
     "joined": "加入於",
-    "connected": "已連結",
     "missingChannel": "少了一個頻道？它要等有人查過那個頻道才會出現在這裡。搜尋一次，它就會留在索引裡。",
     "noGrantDate": "Twitch 沒有回傳這個身分的授予日期",
     "openDiscord": "在 Discord 開啟",
     "openDiscordOf": "在 Discord 開啟 {login}",
     "openTwitch": "在 Twitch 開啟",
+    "reach": "觸及",
+    "reachTitle": "這個帳號擁有身分的所有頻道的追隨者總和",
     "refresh": "重新整理",
     "refreshChannel": "從 Twitch 重新讀取這個頻道",
     "refreshProfile": "從 Twitch 重新讀取這個個人頁",
@@ -775,6 +785,13 @@
       "unconfigured": "這台伺服器還沒有設定 Discord 連結。"
     },
     "heading": "設定",
+    "hidden": {
+      "body": "從你的個人頁、它的數字和 API 中隱藏。頻道自己的名單仍會顯示你。在你的個人頁上，用每一列旁邊的眼睛圖示來隱藏。",
+      "none": "沒有隱藏任何頻道。",
+      "show": "重新顯示",
+      "showing": "顯示中…",
+      "title": "隱藏的頻道"
+    },
     "live": {
       "body": "給你自己的頻道。可選。",
       "title": "即時身分更新"

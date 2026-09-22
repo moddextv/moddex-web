@@ -14,7 +14,8 @@ import { ConnectChannel } from '@/components/Settings/ConnectChannel';
 import { ConnectDiscord } from '@/components/Settings/ConnectDiscord';
 import { SignOutButton } from '@/components/Settings/SignOutButton';
 import { getAvailableUserChatBadges, getSelectedUserChatBadge } from '@/utils/badges';
-import { getChannelConnection } from '@/utils/api/moddex/me';
+import { getChannelConnection, getHiddenChannels } from '@/utils/api/moddex/me';
+import { HiddenChannels } from '@/components/Settings/HiddenChannels';
 import { getUserById, getUserIgnoreState } from '@/utils/user';
 import { NO_CHAT_BADGE, UserChatBadges } from '@/misc/badges';
 import { config } from '@/config';
@@ -66,11 +67,12 @@ export default async function SettingsPage({
 
   const userChatBadges: UserChatBadges = { available: [], selected: '' };
 
-  const [isIgnored, availableUserChatBadges, self, connection] = await Promise.all([
+  const [isIgnored, availableUserChatBadges, self, connection, hidden] = await Promise.all([
     getUserIgnoreState(userId),
     getAvailableUserChatBadges(userId),
     getUserById(userId, userId).catch(() => null),
-    getChannelConnection(userId).catch(() => ({ connected: false, everConnected: false }))
+    getChannelConnection(userId).catch(() => ({ connected: false, everConnected: false })),
+    getHiddenChannels(userId).catch(() => ({ items: [] }))
   ]);
 
   const discordId = self?.discord ?? null;
@@ -105,6 +107,14 @@ export default async function SettingsPage({
             </div>
 
             <OptOut initialIsIgnored={isIgnored} />
+
+            <div className="mt-8 pt-6 border-t border-primary-700/70">
+              <h3 className="text-h3 mb-1">{t('settings.hidden.title')}</h3>
+              <p className="text-ui text-primary-400 mb-4 max-w-prose">
+                {t('settings.hidden.body')}
+              </p>
+              <HiddenChannels initial={hidden.items} />
+            </div>
           </div>
         </section>
 

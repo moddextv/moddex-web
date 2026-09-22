@@ -19,6 +19,7 @@ export interface Account {
 
 export interface RoleUser extends Account {
   grantedAt: string | null;
+  banned?: Banned | null;
 }
 
 export interface User extends Account {
@@ -34,6 +35,7 @@ export interface User extends Account {
   banned?: Banned | null;
   optedOut?: boolean;
   connected?: boolean;
+  reach?: number | null;
 }
 
 export interface UserListProps {

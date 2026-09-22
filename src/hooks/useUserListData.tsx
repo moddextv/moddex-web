@@ -133,8 +133,14 @@ export const useUserListData = (
     setReloadToken((token) => token + 1);
   };
 
+  // a row the owner just hid leaves the list without a round trip
+  const dismiss = useCallback((id: string) => {
+    setUsers((previous) => previous.filter((entry) => entry.id !== id));
+  }, []);
+
   return {
     users,
+    dismiss,
     isLoading,
     isLoadingMore,
     error,

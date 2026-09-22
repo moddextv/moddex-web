@@ -76,20 +76,20 @@ describe('a control row may not hide what it cannot fit', () => {
 });
 
 describe('the bot control says the same thing everywhere', () => {
-  // the literal moved into the message file, so the shared thing is now the key
+  // the literal moved into the message file, so the shared thing is now the key.
+  // the role lists fold the bot control into their filter menu since 2026-09-22,
+  // where the three states keep their words and the chip label is the group's
   it('every surface reaches for the same message key', () => {
-    const surfaces = [
-      'components/Browse/BrowseList.tsx',
-      'components/User/UserList.tsx',
-      'app/[locale]/leaderboard/page.tsx'
+    const surfaces: [string, RegExp][] = [
+      ['components/Browse/BrowseList.tsx', /'controls\.bots'/],
+      ['components/User/ListFilters.tsx', /controls\.botModes\./],
+      ['app/[locale]/leaderboard/page.tsx', /'controls\.bots'/]
     ];
 
-    for (const name of surfaces) {
+    for (const [name, key] of surfaces) {
       const file = FILES.find((entry) => entry.name === name);
       expect(file, `${name} moved`).toBeTruthy();
-      expect(file!.source, `${name} labels the bot control its own way`).toMatch(
-        /'controls\.bots'/
-      );
+      expect(file!.source, `${name} labels the bot control its own way`).toMatch(key);
     }
   });
 

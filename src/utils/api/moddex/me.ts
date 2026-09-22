@@ -46,6 +46,32 @@ export const clearUserSocial = (userId: string, network: string) =>
     { authenticated: true, method: 'DELETE', actor: userId }
   );
 
+export interface HiddenChannel {
+  id: string;
+  login: string | null;
+  name: string | null;
+  avatar: string | null;
+  hiddenAt: string | null;
+}
+
+export const getHiddenChannels = (userId: string) =>
+  call<{ userId: string; items: HiddenChannel[] }>('/v1/me/hidden-channels', {
+    authenticated: true,
+    actor: userId
+  });
+
+export const hideChannelFor = (userId: string, channelId: string) =>
+  call<{ userId: string; channelId: string; hidden: boolean }>(
+    `/v1/me/hidden-channels/${encodeURIComponent(channelId)}`,
+    { authenticated: true, method: 'PUT', actor: userId }
+  );
+
+export const unhideChannelFor = (userId: string, channelId: string) =>
+  call<{ userId: string; channelId: string; hidden: boolean; removed: boolean }>(
+    `/v1/me/hidden-channels/${encodeURIComponent(channelId)}`,
+    { authenticated: true, method: 'DELETE', actor: userId }
+  );
+
 export const getChannelConnection = (channelId: string) =>
   call<{
     channelId: string;

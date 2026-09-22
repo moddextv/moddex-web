@@ -183,6 +183,12 @@ export default async function PrivacyPage({ params }: PageProps) {
           immediately, and you can undo it.
         </Para>
         <Para>
+          <strong className="text-primary-100">Hide single channels</strong> from your own profile,
+          from the eye beside a row on it or in your settings. A hidden channel leaves your lists,
+          your counts and the api. The channel&apos;s own list is the channel&apos;s and still shows
+          you.
+        </Para>
+        <Para>
           <strong className="text-primary-100">Unlink Discord</strong> in the same place. That
           deletes the record.
         </Para>

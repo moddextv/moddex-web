@@ -3,7 +3,31 @@
 import { useEffect, useMemo, useState } from 'react';
 import { RoleUser } from '@/misc/account';
 import { type ListDirection, type ListSort } from '@/hooks/pageQuery';
-import { BotMode, COLUMNS, ColumnKey, Direction, matches } from '@/components/User/columns';
+import {
+  COLUMNS,
+  ColumnKey,
+  Direction,
+  Filters,
+  KINDS,
+  Kind,
+  NO_FILTERS,
+  hasKind,
+  isFiltering,
+  matches,
+  passesFilters
+} from '@/components/User/columns';
+
+export interface FilterCounts {
+  bots: number;
+  banned: number;
+  kinds: Record<Kind, number>;
+}
+
+const EMPTY_COUNTS: FilterCounts = {
+  bots: 0,
+  banned: 0,
+  kinds: { partner: 0, affiliate: 0, staff: 0, verified: 0 }
+};
 
 export const useUserListView = (
   users: RoleUser[],
@@ -15,35 +39,40 @@ export const useUserListView = (
   const [column, setColumn] = useState<ColumnKey>(type === 'channel' ? 'granted' : 'followers');
   const [direction, setDirection] = useState<Direction>('desc');
 
-  const [botMode, setBotMode] = useState<BotMode>('all');
+  const [filters, setFilters] = useState<Filters>(NO_FILTERS);
   const [query, setQuery] = useState('');
 
-  const botCount = useMemo(
-    () => (paged ? 0 : users.filter((entry) => entry.bot).length),
-    [users, paged]
-  );
+  // a paged list is filtered by the server, so the browser offers nothing
+  const counts = useMemo<FilterCounts>(() => {
+    if (paged) return EMPTY_COUNTS;
+
+    return {
+      bots: users.filter((entry) => entry.bot).length,
+      banned: users.filter((entry) => entry.banned).length,
+      kinds: Object.fromEntries(
+        KINDS.map((kind) => [kind, users.filter((entry) => hasKind(entry, kind)).length])
+      ) as Record<Kind, number>
+    };
+  }, [users, paged]);
 
   const visibleUsers = useMemo(() => {
     if (paged) return users;
 
-    const filtered = users.filter(
-      (entry) =>
-        matches(entry, query) &&
-        (botMode === 'all' || (botMode === 'only' ? entry.bot : !entry.bot))
-    );
+    const kept = users.filter((entry) => matches(entry, query) && passesFilters(entry, filters));
 
     const compare = COLUMNS[column].compare;
-    const sorted = [...filtered].sort(compare);
+    const sorted = [...kept].sort(compare);
 
     return direction === 'desc' ? sorted.reverse() : sorted;
-  }, [users, query, botMode, column, direction, paged]);
+  }, [users, query, filters, column, direction, paged]);
 
   const searching = query.trim().length > 0;
-  const filtered = !paged && (searching || botMode !== 'all');
+  const filtering = !paged && isFiltering(filters);
+  const filtered = !paged && (searching || filtering);
 
   // filtered asks whether THIS component is hiding rows, canClear whether the
   // person has anything to undo — a paged list is filtered by the server
-  const canClear = searching || botMode !== 'all';
+  const canClear = searching || isFiltering(filters);
 
   useEffect(() => {
     if (!paged) return;
@@ -61,7 +90,7 @@ export const useUserListView = (
 
   const clear = () => {
     setQuery('');
-    setBotMode('all');
+    setFilters(NO_FILTERS);
   };
 
   const chooseColumn = (next: ColumnKey) => {
@@ -79,13 +108,14 @@ export const useUserListView = (
   return {
     column,
     direction,
-    botMode,
-    setBotMode,
+    filters,
+    setFilters,
+    counts,
     query,
     setQuery,
-    botCount,
     visibleUsers,
     searching,
+    filtering,
     filtered,
     canClear,
     clear,

@@ -2,17 +2,20 @@
 
 import { useT } from '@/i18n/context';
 import { FC, ReactNode } from 'react';
-import { ChevronDownIcon, SearchIcon } from '@/components/Icons';
-import { BotMode, ColumnKey, Direction } from '@/components/User/columns';
+import { SearchIcon } from '@/components/Icons';
+import { ColumnKey, Direction } from '@/components/User/columns';
+import { ListFilters } from '@/components/User/ListFilters';
 import { showListTotal } from '@/components/User/listCount';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
 import { MIN_SEARCH_LENGTH } from '@/hooks/pageQuery';
 import { PAGE_SIZE, useUserListData } from '@/hooks/useUserListData';
 import { useUserListView } from '@/hooks/useUserListView';
+import { useAction } from '@/hooks/useAction';
+import { hideChannel } from '@/actions/settings';
 import { UserListProps } from '@/misc/account';
 import { RoleKey, roleByLabel, roleCornerClass, roleTextClass } from '@/misc/roles';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
+import { useSession } from 'next-auth/react';
 import { FixedSizeList as List } from 'react-window';
 import clsx from 'clsx';
 
@@ -83,16 +86,17 @@ const PanelHeading: FC<{
 
 // three whole sentences rather than four fragments glued together, because
 // the pieces do not survive a translation in that order
-const hiddenByKey = (searching: boolean, bots: boolean): string => {
-  if (searching && bots) return 'misc.hiddenBySearchAndBots';
+const hiddenByKey = (searching: boolean, filtering: boolean): string => {
+  if (searching && filtering) return 'misc.hiddenBySearchAndFilters';
 
-  return searching ? 'misc.hiddenBySearch' : 'misc.hiddenByBots';
+  return searching ? 'misc.hiddenBySearch' : 'misc.hiddenByFilters';
 };
 
 export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed }) => {
   const t = useT();
   const {
     users,
+    dismiss,
     isLoading,
     isLoadingMore,
     error,
@@ -112,18 +116,31 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
   const {
     column,
     direction,
-    botMode,
-    setBotMode,
+    filters,
+    setFilters,
+    counts,
     query,
     setQuery,
-    botCount,
     visibleUsers,
     searching,
+    filtering,
     filtered,
     canClear,
     clear,
     chooseColumn
   } = useUserListView(users, paged, type, setServerSort, setServerSearch);
+
+  // the owner of the account, on the axis that is theirs: a row may be hidden
+  const { data: session } = useSession();
+  const owner = type === 'user' && !!session?.user?.id && session.user.id === user.id;
+  const hide = useAction(hideChannel);
+  const onHide = owner
+    ? (id: string) => {
+        void hide.run(id).then((result) => {
+          if (result?.ok) dismiss(id);
+        });
+      }
+    : undefined;
 
   const showTotal = showListTotal(total, visibleUsers.length);
 
@@ -187,6 +204,13 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
         )}
 
         <span className="ml-auto flex items-center gap-2 flex-wrap justify-end">
+          {/* on the left, so the filter chip and the popover it anchors never move */}
+          {canClear && (
+            <button type="button" className="chip" onClick={clear}>
+              {t('common.clear')}
+            </button>
+          )}
+
           <label className="search-inline">
             <SearchIcon size={13} color="text-primary-400" />
             <input
@@ -215,46 +239,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             </span>
           )}
 
-          {botCount > 0 && (
-            <Dropdown type="listbox" placement="bottom-end" shouldBlockScroll={false}>
-              <DropdownTrigger>
-                <button
-                  type="button"
-                  className="chip"
-                  aria-label={t('controls.botsAria', { state: t(`controls.botModes.${botMode}`) })}
-                >
-                  {t('controls.bots', { state: t(`controls.botModes.${botMode}`) })}
-                  <ChevronDownIcon size={11} />
-                </button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label={t('misc.whichAccounts')}
-                selectionMode="single"
-                disallowEmptySelection
-                selectedKeys={new Set([botMode])}
-                onSelectionChange={(keys) => {
-                  const [next] = Array.from(keys as Set<string>);
-                  if (next) setBotMode(next as BotMode);
-                }}
-              >
-                <DropdownItem key="all" textValue={t('misc.showBots')}>
-                  {t('misc.showBots')}
-                </DropdownItem>
-                <DropdownItem key="hide" textValue={t('misc.hideBots')}>
-                  {t('misc.hideBotCount', { count: botCount })}
-                </DropdownItem>
-                <DropdownItem key="only" textValue={t('misc.onlyBots')}>
-                  {t('misc.onlyBots')}
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )}
-
-          {canClear && (
-            <button type="button" className="chip" onClick={clear}>
-              {t('common.clear')}
-            </button>
-          )}
+          {!paged && <ListFilters filters={filters} counts={counts} onChange={setFilters} />}
         </span>
       </PanelHeading>
 
@@ -264,9 +249,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
             ? t('misc.noLoginStartsWith', { query: query.trim() })
             : searching
               ? t('misc.nothingMatches', { query: query.trim() })
-              : botMode === 'only'
-                ? t('misc.noBotsInList')
-                : t('misc.allBots')}{' '}
+              : t('misc.nothingMatchesFilters')}{' '}
           <button
             type="button"
             className="text-primary-200 font-semibold hover:underline"
@@ -277,7 +260,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
         </p>
       ) : (
         <div className="rows">
-          <div className="row-head cols-people">
+          <div className={clsx('row-head cols-people', onHide && 'pr-14')}>
             <SortHeader
               column="name"
               label={
@@ -312,7 +295,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
           {visibleUsers.length <= PAGE_SIZE ? (
             <div>
               {visibleUsers.map((entry) => (
-                <UserListItem key={entry.id} user={entry} type={type} />
+                <UserListItem key={entry.id} user={entry} type={type} onHide={onHide} />
               ))}
             </div>
           ) : (
@@ -325,7 +308,11 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
               {({ index, style }) => {
                 const user = visibleUsers[index];
 
-                return <div style={style}>{user && <UserListItem user={user} type={type} />}</div>;
+                return (
+                  <div style={style}>
+                    {user && <UserListItem user={user} type={type} onHide={onHide} />}
+                  </div>
+                );
               }}
             </List>
           )}
@@ -351,7 +338,7 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
 
       {filtered && visibleUsers.length > 0 && (
         <p className="px-4 py-4 text-ui text-primary-400">
-          {t(hiddenByKey(searching, botMode !== 'all'), {
+          {t(hiddenByKey(searching, filtering), {
             hidden: users.length - visibleUsers.length,
             total: users.length
           })}{' '}

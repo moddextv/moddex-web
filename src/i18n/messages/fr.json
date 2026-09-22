@@ -131,6 +131,20 @@
         "label": "Nom"
       }
     },
+    "filter": "Filtrer",
+    "filterAria": "Filtrer la liste, {count} actifs",
+    "groups": {
+      "banned": "Bannis",
+      "bots": "Bots",
+      "only": "Seulement"
+    },
+    "hideBanned": "Masquer les bannis",
+    "kinds": {
+      "affiliate": "Affiliés",
+      "partner": "Partenaires",
+      "staff": "Staff",
+      "verified": "Vérifiés"
+    },
     "sort": {
       "activeAria": "Trié par {label}, {ends}. Appuie pour inverser.",
       "disabledAria": "{label}. Cette liste est {reason}.",
@@ -542,7 +556,7 @@
   "misc": {
     "account": "Compte",
     "adminOnly": "Administrateurs uniquement.",
-    "allBots": "Tous les comptes de cette liste sont des bots.",
+    "banned": "banni",
     "connectedShort": "Connectée.",
     "endOfList": "C'est la fin de cette liste.",
     "errorHeading": "Cette page n'a pas fini de charger",
@@ -553,37 +567,29 @@
       "other": "followers"
     },
     "heroSearch": "Chercher une chaîne ou un compte Twitch",
-    "hiddenByBots": "{hidden} sur {total} masqués par le filtre à bots.",
+    "hiddenByFilters": "{hidden} sur {total} masqués par les filtres.",
     "hiddenBySearch": "{hidden} sur {total} masqués par la recherche.",
-    "hiddenBySearchAndBots": "{hidden} sur {total} masqués par la recherche et le filtre à bots.",
-    "hideBotCount": {
-      "one": "Masquer {count} bot",
-      "other": "Masquer {count} bots"
-    },
-    "hideBots": "Masquer les bots",
+    "hiddenBySearchAndFilters": "{hidden} sur {total} masqués par la recherche et les filtres.",
     "keepTyping": "Continue à taper, {min} caractères minimum",
     "loadMoreCount": "Charger {count} de plus",
     "loaded": "chargés",
     "loginStartsWith": "L'identifiant commence par…",
     "matchingAccounts": "Comptes correspondants",
     "mostRoles": "Le plus de rôles",
-    "noBotsInList": "Aucun bot dans cette liste.",
     "noFoundersRead": "Aucun lu pour l'instant. Les badges fondateur viennent d'une requête Twitch différente de celle des mods et des vips, et elle tourne moins souvent. Une liste vide ici veut donc dire que nous ne les avons pas encore lus, pas qu'il n'y en a aucun.",
     "noLoginStartsWith": "Aucun identifiant de cette liste ne commence par « {query} ». Cette liste cherche le début d'un identifiant, pas une partie quelconque d'un nom.",
     "noneRead": "Aucun lu pour l'instant.",
     "notYet": "pas encore",
     "nothingIndexedWith": "Rien d'indexé ne commence par <name>{query}</name>. Appuie sur Entrée pour le lire depuis Twitch et l'ajouter.",
     "nothingMatches": "Rien ici ne correspond à « {query} ».",
+    "nothingMatchesFilters": "Rien ici ne correspond aux filtres.",
     "ofTotal": "sur {total}",
-    "onlyBots": "Bots uniquement",
     "overTime": "Dans le temps",
     "pagination": "Pagination",
     "readingIndex": "lecture de l'index",
     "readingIndexLong": "Lecture de l'index…",
     "readingIndexShort": "Lecture de l'index.",
-    "showBots": "Afficher les bots",
     "showEverything": "Tout afficher",
-    "whichAccounts": "Quels comptes lister",
     "whichRoles": "Quels rôles afficher"
   },
   "nav": {
@@ -653,6 +659,7 @@
     "terms": "Conditions"
   },
   "profile": {
+    "connected": "connectée",
     "copyShortUrl": "Copier l'url courte",
     "directionLabel": "Dans quel sens lire ce compte",
     "elsewhere": "Rôles ailleurs",
@@ -661,16 +668,19 @@
       "one": "follower",
       "other": "followers"
     },
+    "hide": "Masquer de mon profil",
+    "hideOf": "Masquer {login} de mon profil",
     "inChannel": "Rôles dans cette chaîne",
     "inChannelShort": "Dans cette chaîne",
     "indexChannel": "Indexer une chaîne",
     "joined": "inscrit en",
-    "connected": "connectée",
     "missingChannel": "Une chaîne manque ? Elle n'apparaît ici qu'une fois que quelqu'un l'a cherchée. Cherche-la une fois et elle reste indexée.",
     "noGrantDate": "Twitch n'a renvoyé aucune date d'attribution pour ce rôle",
     "openDiscord": "Ouvrir sur Discord",
     "openDiscordOf": "Ouvrir {login} sur discord",
     "openTwitch": "Ouvrir sur Twitch",
+    "reach": "de portée",
+    "reachTitle": "Les followers de toutes les chaînes où ce compte a un rôle, additionnés",
     "refresh": "Rafraîchir",
     "refreshChannel": "Relire cette chaîne depuis Twitch",
     "refreshProfile": "Relire ce profil depuis Twitch",
@@ -775,6 +785,13 @@
       "unconfigured": "Les connexions Discord ne sont pas encore configurées sur ce serveur."
     },
     "heading": "Paramètres",
+    "hidden": {
+      "body": "Masquées de ton profil, de ses chiffres et de l’API. La liste de la chaîne elle-même te montre toujours. Masque une chaîne depuis l’œil à côté d’une ligne sur ton profil.",
+      "none": "Rien de masqué.",
+      "show": "Réafficher",
+      "showing": "Réaffichage…",
+      "title": "Chaînes masquées"
+    },
     "live": {
       "body": "Pour ta propre chaîne. Facultatif.",
       "title": "Mises à jour de rôles en direct"
