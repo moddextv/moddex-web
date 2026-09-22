@@ -1,4 +1,4 @@
-import { asLocale, DEFAULT_LOCALE, isLocale, LOCALES, ogLocale } from '@/i18n/locales';
+import { asLocale, DEFAULT_LOCALE, isLocale, LOCALES, localeTag, ogLocale } from '@/i18n/locales';
 import { dictionaryOf, getTranslator } from '@/i18n/dictionary';
 import { I18nProvider } from '@/i18n/context';
 import '@/styles/globals.css';
@@ -76,7 +76,8 @@ export default async function RootLayout({ children, params }: LayoutProps) {
 
   return (
     <html
-      lang={locale}
+      // the full tag, so a browser picks traditional glyphs for zh rather than simplified ones
+      lang={localeTag(locale)}
       className={`${manrope.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
