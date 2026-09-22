@@ -1,13 +1,13 @@
 import de from './messages/de.json';
 import fr from './messages/fr.json';
 import en from './messages/en.json';
-import zhTW from './messages/zh-TW.json';
+import zh from './messages/zh.json';
 import { DEFAULT_LOCALE, Locale, LOCALES } from './locales';
 import { Dictionary, flatten, Messages, translator, Translator } from './translate';
 import { richFrom, RichTranslator } from './rich';
 
 // imported rather than read from disk, so the messages are bundled into the image
-const SOURCES: Record<Locale, Messages> = { en, de, fr, 'zh-TW': zhTW };
+const SOURCES: Record<Locale, Messages> = { en, de, fr, zh };
 
 const DICTIONARIES = Object.fromEntries(
   LOCALES.map((locale) => [locale, flatten(SOURCES[locale])])
