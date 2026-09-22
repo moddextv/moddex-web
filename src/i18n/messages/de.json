@@ -13,9 +13,7 @@
     "heading": "Was {name} ist, und wer dahintersteht",
     "history": {
       "one": "{name} startete unter dem Namen modchecker.com. Im August 2026 hat sich das Projekt von dieser Domain und ihrem ursprünglichen Besitzer getrennt, ist auf {domain} umgezogen und wurde dabei in vier eigenständige Dienste zerlegt.",
-      "three": "Besitz, Hosting, Domain, Datenbank und Code liegen heute vollständig bei der Person, die diese Seite betreibt. Es gibt keine geteilte Kontrolle und keinerlei Absprache mit der alten Domain oder jemandem dahinter. Wer über einen modchecker-Link hierherkam: mehr hat sich nicht geändert.",
-      "title": "Früher war es modchecker.com",
-      "two": "Den Besitzer gewechselt hat der Name: Domain und Discord-Server gehörten dem ursprünglichen Besitzer. Die Datenbank nie. Sie lag durchgehend auf demselben Server, in denselben Händen, und ist für die Umbenennung nicht umgezogen."
+      "title": "Früher war es modchecker.com"
     },
     "lead": "{name} hält fest, welche Twitch-Accounts in welchen Kanälen Mod, VIP oder Founder sind, und seit wann. Twitch zeigt einem Streamer die eigene Liste. {name} führt die andere Hälfte.",
     "metaDescription": "Wer {domain} betreibt, woher es kommt, und was aus Spenden wurde, die noch an modchecker.com gingen.",
@@ -30,7 +28,8 @@
     "donator": "Donator",
     "donatorBody": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spende, dauerhaft.",
     "topDonator": "Top-Donator",
-    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt."
+    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt.",
+    "verifiedTooltip": "verifiziert: auf moddex angemeldet"
   },
   "browse": {
     "accounts": {
@@ -50,10 +49,11 @@
     "heads": {
       "account": "Account",
       "channel": "Kanal",
-      "modding": "Moderiert",
+      "founding": "Founder in",
+      "modding": "Mod in",
       "mods": "Mods",
       "read": "Gelesen",
-      "viping": "VIP",
+      "viping": "VIP in",
       "vips": "VIPs"
     },
     "orderingEmpty": "Für diese Sortierung gibt es noch nichts. Das Rollen-Ranking wird einmal täglich neu gebaut und bleibt bis zum ersten Lauf leer.",
@@ -467,10 +467,6 @@
       }
     },
     "heading": "Jede Mod-Liste auf Twitch, rückwärts gelesen.",
-    "holders": {
-      "link": "Leaderboard",
-      "title": "Die meisten Rollen"
-    },
     "kicker": "<mod>Mods</mod> und <vip>VIPs</vip>, von beiden Enden indexiert",
     "lead": "Twitch zeigt einem Streamer, wer seine eigenen Mods sind. Die Gegenrichtung verrät es nicht. {name} schon: jeder Kanal, in dem ein Account eine Rolle hat, und seit wann.",
     "optOut": {
@@ -497,7 +493,7 @@
     "lead": "Wer über alle von {brandName} indexierten Kanäle hinweg die meisten Rollen hält. Wird einmal täglich aktualisiert.",
     "metaDescription": "Wer auf Twitch die meisten Mod-, VIP- und Founder-Rollen hält, gezählt von {brandName}.",
     "movedHead": "7 Tage",
-    "movedNote": "Die letzte Spalte markiert die Konten, deren Platz sich in der vergangenen Woche verändert hat, nach oben oder unten. Wo sie leer ist, ist der Platz geblieben, und sie bleibt überall leer, solange es keine eine Woche alte Rangliste zum Vergleich gibt.",
+    "movedNote": "Die letzte Spalte markiert die Konten, deren Platz sich in der vergangenen Woche verändert hat, nach oben oder unten. Leer heisst: Platz gehalten.",
     "ranked": "gewertet",
     "scales": {
       "founder": {
@@ -506,7 +502,7 @@
       },
       "mod": {
         "label": "Mod-Rollen",
-        "tab": "Mod"
+        "tab": "Mods"
       },
       "roles": {
         "label": "Gehaltene Rollen",
@@ -675,6 +671,8 @@
     "openDiscord": "Auf Discord öffnen",
     "openDiscordOf": "{login} auf Discord öffnen",
     "openTwitch": "Auf Twitch öffnen",
+    "rank": "#{rank} von {of}",
+    "rankTitle": "Platz nach gehaltenen Rollen, einmal pro Nacht gezählt",
     "reach": "Reichweite",
     "reachTitle": "Follower aller Kanäle, in denen dieser Account eine Rolle hat, zusammengezählt",
     "refresh": "Aktualisieren",

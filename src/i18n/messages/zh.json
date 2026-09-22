@@ -13,9 +13,7 @@
     "heading": "{name} 是什麼，由誰經營",
     "history": {
       "one": "{name} 最初叫做 modchecker.com。2026 年 8 月，專案與那個網域及其原持有人分開，搬到了 {domain}，並在過程中重建為四個獨立的服務。",
-      "three": "所有權、主機、網域、資料庫和程式碼現在全部由經營這個網站的人掌握。與舊網域或其背後的任何人沒有共同控制，也沒有任何形式的協議。如果你是從 modchecker 的連結過來的，改變的就只有這些。",
-      "title": "它以前叫 modchecker.com",
-      "two": "換手的是名稱：原持有人擁有網域和 Discord 伺服器。資料庫從來不是他的。它一直在同一台伺服器上、同一雙手裡，改名時也沒有搬動。"
+      "title": "它以前叫 modchecker.com"
     },
     "lead": "{name} 記錄哪些 Twitch 帳號在哪些頻道擁有版主、VIP 或創始人身分，以及取得的日期。Twitch 只給實況主看自己的名單。{name} 保存另一半。",
     "metaDescription": "誰經營 {domain}、它從哪裡來，以及 modchecker.com 時期的贊助後來怎麼了。",
@@ -30,7 +28,8 @@
     "donator": "贊助者",
     "donatorBody": "在 moddex 顯示你名字的每個地方，都會出現在名字旁邊。贊助 5 美元以上即可，永久有效。",
     "topDonator": "頂級贊助者",
-    "topDonatorBody": "同一時間只有一個帳號持有：贊助最多的那一位。有人超過你時就會轉移。"
+    "topDonatorBody": "同一時間只有一個帳號持有：贊助最多的那一位。有人超過你時就會轉移。",
+    "verifiedTooltip": "已驗證：曾在 moddex 登入"
   },
   "browse": {
     "accounts": {
@@ -50,10 +49,11 @@
     "heads": {
       "account": "帳號",
       "channel": "頻道",
-      "modding": "擔任版主",
+      "founding": "創始人於",
+      "modding": "版主於",
       "mods": "版主",
       "read": "讀取",
-      "viping": "擔任 VIP",
+      "viping": "VIP 於",
       "vips": "VIP"
     },
     "orderingEmpty": "這個排序還沒有內容。身分排名每天重建一次，在第一次重建完成前會是空的。",
@@ -467,10 +467,6 @@
       }
     },
     "heading": "Twitch 上的每份版主名單，倒過來讀。",
-    "holders": {
-      "link": "排行榜",
-      "title": "擁有最多身分"
-    },
     "kicker": "<mod>版主</mod>和 <vip>VIP</vip>，從兩端索引",
     "lead": "Twitch 給實況主看自己的版主是誰，卻不告訴你反過來的方向。{name} 會：一個帳號擁有身分的每個頻道，以及取得的日期。",
     "optOut": {
@@ -497,7 +493,7 @@
     "lead": "在 {brandName} 讀過的所有頻道中，誰擁有最多身分。每天更新一次。",
     "metaDescription": "Twitch 上誰擁有最多版主、VIP 和創始人身分，由 {brandName} 計算。",
     "movedHead": "7 天",
-    "movedNote": "最後一欄標記過去一週名次有變動的帳號，上升或下降。空白的地方表示名次沒變，在有一週前的榜單可以比較之前，全部都會是空白。",
+    "movedNote": "最後一欄標記過去一週名次有變動的帳號，上升或下降。空白表示名次沒變。",
     "ranked": "已排名",
     "scales": {
       "founder": {
@@ -675,6 +671,8 @@
     "openDiscord": "在 Discord 開啟",
     "openDiscordOf": "在 Discord 開啟 {login}",
     "openTwitch": "在 Twitch 開啟",
+    "rank": "第 {rank} 名，共 {of}",
+    "rankTitle": "依持有身分數排名，每晚計算一次",
     "reach": "觸及",
     "reachTitle": "這個帳號擁有身分的所有頻道的追隨者總和",
     "refresh": "重新整理",

@@ -10,7 +10,7 @@ import { Mark } from '@/components/UI/Mark';
 import { CountUp } from '@/components/UI/CountUp';
 import { CopyButton } from '@/components/UI/CopyButton';
 import { config } from '@/config';
-import { fetchAccounts, fetchChannels } from '@/actions/browse';
+import { fetchChannels } from '@/actions/browse';
 import { getIndexStats } from '@/utils/stats';
 import { getStatsHistory } from '@/utils/api/moddex/public';
 import { Growth } from '@/components/Home/Growth';
@@ -117,10 +117,9 @@ export default async function Home({ params }: MetaProps) {
   const t = getTranslator(locale);
   const rich = getRich(locale);
 
-  const [stats, recent, holders, history] = await Promise.all([
+  const [stats, recent, history] = await Promise.all([
     getIndexStats(),
     fetchChannels('read', 5, 0),
-    fetchAccounts('roles', 5, 0, true),
     getStatsHistory(30).catch(() => [])
   ]);
 
@@ -279,26 +278,11 @@ export default async function Home({ params }: MetaProps) {
           <Growth points={history} locale={locale} />
         </section>
 
-        {(recent.items.length > 0 || holders.items.length > 0) && (
-          <section
-            className="enter grid items-start gap-6 lg:grid-cols-2 pb-12"
-            style={{ '--i': 5 } as CSSProperties}
-          >
-            {recent.items.length > 0 && (
-              <Live title={t('home.recent.title')} href="/channel" link={t('home.recent.link')}>
-                <BrowseRows kind="channel" items={recent.items} locale={locale} />
-              </Live>
-            )}
-
-            {holders.items.length > 0 && (
-              <Live
-                title={t('home.holders.title')}
-                href="/leaderboard"
-                link={t('home.holders.link')}
-              >
-                <BrowseRows kind="account" items={holders.items} locale={locale} />
-              </Live>
-            )}
+        {recent.items.length > 0 && (
+          <section className="enter pb-12" style={{ '--i': 5 } as CSSProperties}>
+            <Live title={t('home.recent.title')} href="/channel" link={t('home.recent.link')}>
+              <BrowseRows kind="channel" items={recent.items} locale={locale} />
+            </Live>
           </section>
         )}
 

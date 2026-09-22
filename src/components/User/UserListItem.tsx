@@ -1,6 +1,6 @@
 import { useT } from '@/i18n/context';
 import { FC } from 'react';
-import { Badges } from '@/components/User/Badges';
+import { Badges, explainBadge } from '@/components/User/Badges';
 import { RoleUser } from '@/misc/account';
 import { UserType } from '@/misc/roles';
 import { Avatar } from '@/components/UI/Avatar';
@@ -29,7 +29,12 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
 
           <span className="flex items-center gap-2 min-w-0">
             <span className="row-name text-base font-bold truncate">{user.name || user.login}</span>
-            <Badges badges={user.badges} size={18} className="shrink-0 flex-nowrap" />
+            <Badges
+              badges={user.badges}
+              size={18}
+              className="shrink-0 flex-nowrap"
+              explain={explainBadge(t)}
+            />
             {user.banned && (
               <span
                 className="text-micro font-semibold uppercase tracking-wide text-vip shrink-0"

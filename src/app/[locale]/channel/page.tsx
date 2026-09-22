@@ -33,7 +33,7 @@ export default async function ChannelPage({ params }: MetaProps) {
   const t = getTranslator(locale);
   const rich = getRich(locale);
 
-  const [stats, initial] = await Promise.all([getIndexStats(), fetchChannels('read', 25, 0)]);
+  const [stats, initial] = await Promise.all([getIndexStats(), fetchChannels('roles', 25, 0)]);
 
   return (
     <main id="main" className="flex-grow">

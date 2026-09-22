@@ -80,19 +80,20 @@ describe('the bot control says the same thing everywhere', () => {
   // the role lists fold the bot control into their filter menu since 2026-09-22,
   // where the three states keep their words and the chip label is the group's
   it('every surface reaches for the same message key, through the one menu', () => {
-    const surfaces = [
-      'components/Browse/BrowseList.tsx',
-      'components/User/ListFilters.tsx',
-      'app/[locale]/leaderboard/page.tsx'
+    // the leaderboard keeps its one switch in the open, drawn with the menu's own chips
+    const surfaces: [string, string][] = [
+      ['components/Browse/BrowseList.tsx', '<FilterMenu'],
+      ['components/User/ListFilters.tsx', '<FilterMenu'],
+      ['app/[locale]/leaderboard/page.tsx', '<FilterChoice']
     ];
 
-    for (const name of surfaces) {
+    for (const [name, control] of surfaces) {
       const file = FILES.find((entry) => entry.name === name);
       expect(file, `${name} moved`).toBeTruthy();
       expect(file!.source, `${name} labels the bot control its own way`).toMatch(
         /controls\.botModes\./
       );
-      expect(file!.source, `${name} draws its own menu`).toContain('<FilterMenu');
+      expect(file!.source, `${name} draws its own control`).toContain(control);
     }
   });
 

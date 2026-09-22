@@ -1,7 +1,7 @@
 import { Locale, localePath } from '@/i18n/locales';
 import { Translator } from '@/i18n/translate';
 import { getTranslator } from '@/i18n/dictionary';
-import { Badges } from '@/components/User/Badges';
+import { Badges, explainBadge } from '@/components/User/Badges';
 import { Avatar } from '@/components/UI/Avatar';
 import { BrowseEntry } from '@/misc/browse';
 import Link from 'next/link';
@@ -14,7 +14,12 @@ type BrowseKind = 'channel' | 'account';
 // rather than reaching for either half of the pair
 const HEADS: Record<BrowseKind, [string, string, string, string?]> = {
   channel: ['browse.heads.channel', 'browse.heads.mods', 'browse.heads.vips', 'browse.heads.read'],
-  account: ['browse.heads.account', 'browse.heads.modding', 'browse.heads.viping']
+  account: [
+    'browse.heads.account',
+    'browse.heads.modding',
+    'browse.heads.viping',
+    'browse.heads.founding'
+  ]
 };
 
 const Count: FC<{ value: number; tone: string; t: Translator }> = ({ value, tone, t }) => (
@@ -59,7 +64,7 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[]; locale: Lo
                 <span className="row-name text-base font-bold truncate">
                   {entry.name || entry.login}
                 </span>
-                <Badges badges={entry.badges} size={18} />
+                <Badges badges={entry.badges} size={18} explain={explainBadge(t)} />
               </span>
               <span className="block text-micro text-primary-400">
                 {t.number(entry.followers || 0)}{' '}
@@ -70,6 +75,10 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[]; locale: Lo
 
           <Count value={entry.counts.mod} tone="text-mod" t={t} />
           <Count value={entry.counts.vip} tone="text-vip" t={t} />
+
+          {kind === 'account' && (
+            <Count value={entry.counts.founder ?? 0} tone="text-founder" t={t} />
+          )}
 
           {kind === 'channel' && (
             <time

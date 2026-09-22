@@ -2,7 +2,7 @@ import { asLocale } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 import { CSSProperties } from 'react';
 import { LocaleLink } from '@/components/UI/LocaleLink';
-import { FilterChoice, FilterGroup, FilterMenu } from '@/components/UI/FilterMenu';
+import { FilterChoice } from '@/components/UI/FilterMenu';
 import { Container } from '@/components/UI/Container';
 import { LeaderRows } from '@/components/Leaderboard/LeaderRows';
 import { LeaderScale, getLeaderboard } from '@/utils/api/moddex/public';
@@ -50,12 +50,14 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
   const t = getTranslator(locale);
   const params = await searchParams;
   const scale = params.scale && isScale(params.scale) ? params.scale : 'mod';
-  const bots = params.bots === 'exclude' ? 'exclude' : 'include';
+  // people first: the mod and vip scales are almost entirely chat bots, and the
+  // api keeps `include` as its own default so a bot's rank stays what it is
+  const bots = params.bots === 'include' ? 'include' : 'exclude';
   const activeLabel = t(`leaderboard.scales.${scale}.label`);
 
   const board = await getLeaderboard(scale, { limit: 50, bots });
   const href = (next: Partial<{ scale: string; bots: string }>) => {
-    const query = new URLSearchParams({ scale, ...(bots === 'exclude' ? { bots } : {}), ...next });
+    const query = new URLSearchParams({ scale, ...(bots === 'include' ? { bots } : {}), ...next });
 
     return `/leaderboard?${query.toString()}`;
   };
@@ -108,17 +110,15 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
                 {board.items.length} <span className="text-ui">{t('leaderboard.ranked')}</span>
               </span>
 
+              {/* the one switch that decides what this board is, so it sits in the open */}
               <span className="ml-auto flex items-center gap-2 flex-wrap">
-                <FilterMenu active={bots === 'exclude' ? 1 : 0}>
-                  <FilterGroup label={t('controls.groups.bots')}>
-                    <FilterChoice pressed={bots === 'include'} href={href({ bots: 'include' })}>
-                      {t('controls.botModes.all')}
-                    </FilterChoice>
-                    <FilterChoice pressed={bots === 'exclude'} href={href({ bots: 'exclude' })}>
-                      {t('controls.botModes.hide')}
-                    </FilterChoice>
-                  </FilterGroup>
-                </FilterMenu>
+                <span className="text-meta text-primary-400 mr-1">{t('controls.groups.bots')}</span>
+                <FilterChoice pressed={bots === 'exclude'} href={href({ bots: 'exclude' })}>
+                  {t('controls.botModes.hide')}
+                </FilterChoice>
+                <FilterChoice pressed={bots === 'include'} href={href({ bots: 'include' })}>
+                  {t('controls.botModes.all')}
+                </FilterChoice>
               </span>
             </div>
 

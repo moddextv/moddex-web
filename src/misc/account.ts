@@ -6,6 +6,12 @@ interface Banned {
   reason: string;
 }
 
+export interface RoleScale {
+  count: number;
+  rank: number | null;
+  of: number | null;
+}
+
 export interface Account {
   id: string;
   login: string;
@@ -24,11 +30,8 @@ export interface RoleUser extends Account {
 
 export interface User extends Account {
   bio?: string | null;
-  roles?: {
-    isAffiliate: boolean;
-    isPartner: boolean;
-    isStaff?: boolean;
-  } | null;
+  // the account axis only: counts, nightly ranks and the size of each scale
+  roles?: Record<'mod' | 'vip' | 'founder' | 'total', RoleScale> | null;
   discord?: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;

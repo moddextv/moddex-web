@@ -596,7 +596,7 @@
 
 	.cols-people,
 	.cols-holders {
-		grid-template-columns: minmax(0, 1fr) 110px 110px;
+		grid-template-columns: minmax(0, 1fr) 100px 100px 100px;
 	}
 
 	.cols-fact {

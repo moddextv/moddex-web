@@ -33,7 +33,8 @@ interface BrowseListProps {
 
 export const BrowseList: FC<BrowseListProps> = ({ kind, title, total, totalLabel, initial }) => {
   const { t, locale } = useI18n();
-  const [sort, setSort] = useState<string>(kind === 'channel' ? 'read' : 'roles');
+  // by roles on both axes: "recently read" put one-follower channels on the first screen
+  const [sort, setSort] = useState<string>('roles');
   const [includeBots, setIncludeBots] = useState(true);
   const [items, setItems] = useState<BrowseEntry[]>(initial.items);
   const [hasMore, setHasMore] = useState(initial.hasMore);

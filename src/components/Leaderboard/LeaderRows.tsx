@@ -1,7 +1,7 @@
 import { Locale, localePath } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 import { Avatar } from '@/components/UI/Avatar';
-import { Badges } from '@/components/User/Badges';
+import { Badges, explainBadge } from '@/components/User/Badges';
 import { ChevronDownIcon, ChevronUpIcon } from '@/components/Icons';
 import { LeaderRow } from '@/utils/api/moddex/public';
 import Link from 'next/link';
@@ -63,7 +63,12 @@ export const LeaderRows: FC<{
             <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />
             <span className="flex items-center gap-2 min-w-0">
               <span className="row-name text-base font-bold truncate">{row.name || row.login}</span>
-              <Badges badges={row.badges} size={18} className="shrink-0 flex-nowrap" />
+              <Badges
+                badges={row.badges}
+                size={18}
+                className="shrink-0 flex-nowrap"
+                explain={explainBadge(t)}
+              />
             </span>
           </span>
 

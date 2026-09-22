@@ -73,8 +73,6 @@ export default async function AboutPage({ params }: PageProps) {
 
           <Panel title={t('about.history.title')}>
             <Para>{t('about.history.one', { name, domain })}</Para>
-            <Para>{t('about.history.two')}</Para>
-            <Para>{t('about.history.three')}</Para>
           </Panel>
 
           <Panel

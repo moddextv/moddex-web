@@ -199,6 +199,10 @@ const Stat = ({ role, type, count }: { role: RoleKey; type: UserType; count: str
   </div>
 );
 
+// 3.3M rather than 3,322,053: the card has one line for a rank and its scale
+const compact = (value: number): string =>
+  new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
+
 // the card's own labels are english, so its numbers are too
 const countOf = (seed: Seed, role: RoleType): string | null => {
   const page = seed[role];
@@ -292,6 +296,8 @@ interface CardProps {
   badges: Badge[];
   roles: readonly RoleType[];
   seed: Seed;
+  // the account's place by roles held, the line a moderator screenshots
+  rank?: { rank: number | null; of: number | null } | null;
 }
 
 export const profileCard = async ({
@@ -301,8 +307,10 @@ export const profileCard = async ({
   avatar,
   badges: worn,
   roles,
-  seed
+  seed,
+  rank
 }: CardProps): Promise<Response> => {
+  const standing = rank?.rank && rank.of ? `#${compact(rank.rank)} of ${compact(rank.of)}` : null;
   const [fonts, picture, drawn] = await Promise.all([
     loadFonts(),
     loadAvatar(avatar),
@@ -368,6 +376,19 @@ export const profileCard = async ({
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 22, flexShrink: 0 }}>
+              {standing ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    fontSize: 28,
+                    fontWeight: 700,
+                    color: TEXT_ALT
+                  }}
+                >
+                  {standing}
+                </div>
+              ) : null}
               {stats.map((stat) => (
                 <Stat key={stat.key} role={stat.key} type={type} count={stat.count} />
               ))}

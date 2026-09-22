@@ -3,6 +3,7 @@ import type { Account } from '@/misc/account';
 interface BrowseCounts {
   mod: number;
   vip: number;
+  founder: number;
   total: number;
 }
 

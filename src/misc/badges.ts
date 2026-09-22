@@ -16,6 +16,7 @@ export interface BadgesProps {
   badges?: Badge[];
   size?: number;
   className?: string;
+  explain?: (slug: string) => string | undefined;
 }
 
 /**

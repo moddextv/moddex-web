@@ -31,6 +31,7 @@ export default async function Image({ params }: ImageProps) {
       avatar: user.avatar,
       badges: user.badges,
       roles: ROLES,
+      rank: user.roles?.total ?? null,
       seed: await seedRoleLists(user.id, 'user', ROLES)
     });
   } catch (error) {

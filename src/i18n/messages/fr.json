@@ -13,9 +13,7 @@
     "heading": "Ce qu'est {name}, et qui le fait tourner",
     "history": {
       "one": "{name} a commencé sous le nom modchecker.com. En août 2026, le projet s'est séparé de ce domaine et de son propriétaire d'origine, a déménagé vers {domain}, et a été reconstruit en chemin en quatre services distincts.",
-      "three": "La propriété, l'hébergement, le domaine, la base de données et le code sont désormais entièrement entre les mains de la personne qui fait tourner ce site. Il n'y a aucun contrôle partagé ni aucun arrangement d'aucune sorte avec l'ancien domaine ou avec qui que ce soit derrière lui. Si un lien modchecker t'a mené ici, c'est là tout ce qui a changé.",
-      "title": "C'était modchecker.com autrefois",
-      "two": "Ce qui a changé de mains, c'est le nom : le propriétaire d'origine détenait le domaine et le serveur Discord. La base de données ne lui a jamais appartenu. Elle est restée sur le même serveur, dans les mêmes mains, tout du long, et elle n'a pas bougé pour le changement de nom."
+      "title": "C'était modchecker.com autrefois"
     },
     "lead": "{name} enregistre quels comptes Twitch sont modérateur, VIP ou fondateur dans quelles chaînes, et depuis quel jour. Twitch montre à un streamer sa propre liste. {name} garde l'autre moitié.",
     "metaDescription": "Qui fait tourner {domain}, d'où ça vient, et ce que sont devenus les dons faits du temps de modchecker.com.",
@@ -30,7 +28,8 @@
     "donator": "donateur",
     "donatorBody": "Apparaît à côté de ton nom partout où moddex l'affiche. À partir de 5 $ de don, définitivement.",
     "topDonator": "top donateur",
-    "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un te dépasse."
+    "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un te dépasse.",
+    "verifiedTooltip": "vérifié : connecté sur moddex"
   },
   "browse": {
     "accounts": {
@@ -50,7 +49,8 @@
     "heads": {
       "account": "Compte",
       "channel": "Chaîne",
-      "modding": "Modère",
+      "founding": "Fondateur dans",
+      "modding": "Mod dans",
       "mods": "Mods",
       "read": "Lu",
       "viping": "VIP dans",
@@ -467,10 +467,6 @@
       }
     },
     "heading": "Toutes les listes de mods de Twitch, lues à l'envers.",
-    "holders": {
-      "link": "Classement",
-      "title": "Détiennent le plus de rôles"
-    },
     "kicker": "<mod>mods</mod> et <vip>vips</vip>, indexés des deux côtés",
     "lead": "Twitch montre à un streamer qui sont ses propres mods. Il ne te dira pas l'inverse. {name}, si : toutes les chaînes où un compte détient un rôle, et le jour où il l'a obtenu.",
     "optOut": {
@@ -497,16 +493,16 @@
     "lead": "Qui détient le plus de rôles sur toutes les chaînes que {brandName} a lues. Mis à jour une fois par jour.",
     "metaDescription": "Qui détient le plus de rôles mod, vip et fondateur sur Twitch, compté par {brandName}.",
     "movedHead": "7 jours",
-    "movedNote": "La dernière colonne signale les comptes dont la place a changé au cours de la semaine écoulée, vers le haut ou vers le bas. Là où elle est vide, la place n'a pas bougé, et elle reste vide partout tant qu'aucun classement d'une semaine n'existe pour la comparaison.",
+    "movedNote": "La dernière colonne signale les comptes dont la place a changé au cours de la semaine écoulée, vers le haut ou vers le bas. Vide : la place a tenu.",
     "ranked": "classés",
     "scales": {
       "founder": {
         "label": "Rôles fondateur",
-        "tab": "Fondateur"
+        "tab": "Fondateurs"
       },
       "mod": {
         "label": "Rôles mod",
-        "tab": "Mod"
+        "tab": "Mods"
       },
       "roles": {
         "label": "Rôles détenus",
@@ -675,6 +671,8 @@
     "openDiscord": "Ouvrir sur Discord",
     "openDiscordOf": "Ouvrir {login} sur discord",
     "openTwitch": "Ouvrir sur Twitch",
+    "rank": "#{rank} sur {of}",
+    "rankTitle": "Place selon les rôles détenus, comptée une fois par nuit",
     "reach": "de portée",
     "reachTitle": "Les followers de toutes les chaînes où ce compte a un rôle, additionnés",
     "refresh": "Rafraîchir",

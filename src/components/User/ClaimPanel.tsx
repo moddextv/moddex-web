@@ -2,6 +2,7 @@ import { auth, signIn } from '@/auth';
 import { Locale, localePath } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 import { claimState } from '@/utils/claim';
+import { Once } from '@/components/UI/Once';
 import { TwitchIcon } from '@/components/Icons';
 import { UserType } from '@/misc/roles';
 import { CSSProperties } from 'react';
@@ -39,7 +40,7 @@ export const ClaimPanel = async ({ locale, type, userId, login, connected }: Cla
   const copy = COPY[type];
   const back = localePath(locale, `/${type}/${login}`);
 
-  return (
+  const panel = (
     <section className="enter pt-6" style={{ '--i': 1 } as CSSProperties} aria-labelledby="claim">
       <div className="panel flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
         <div className="min-w-0">
@@ -73,4 +74,7 @@ export const ClaimPanel = async ({ locale, type, userId, login, connected }: Cla
       </div>
     </section>
   );
+
+  // a stranger's profile asks once per visit; the owner's own keeps asking until connected
+  return state === 'signIn' ? <Once id="claim">{panel}</Once> : panel;
 };

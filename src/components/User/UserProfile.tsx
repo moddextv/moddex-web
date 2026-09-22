@@ -1,11 +1,11 @@
 'use client';
 
 import { useI18n } from '@/i18n/context';
-import { Badges } from '@/components/User/Badges';
+import { Badges, explainBadge } from '@/components/User/Badges';
 import { User } from '@/misc/account';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { CopyButton } from '@/components/UI/CopyButton';
 import { UserProfileLoading } from '@/components/User/UserProfileLoading';
@@ -62,11 +62,9 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
     router.replace(path(`/${isUser ? 'user' : 'channel'}/${current}`));
   }, [currentUser?.login, user.login, isUser, router, path]);
 
-  const [lastRead, setLastRead] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLastRead(t.since(currentUser?.updatedAt));
-  }, [currentUser?.updatedAt, t]);
+  // rendered on the server too, so a crawler and a first paint carry the freshness
+  const lastRead = t.since(currentUser?.updatedAt);
+  const standing = currentUser?.roles?.total ?? user.roles?.total;
 
   useEffect(() => {
     if (banReason) window.location.reload();
@@ -101,7 +99,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
             <h1 className="text-h1 min-w-0 truncate" title={name}>
               {name}
             </h1>
-            <Badges badges={currentUser?.badges || []} />
+            <Badges badges={currentUser?.badges || []} explain={explainBadge(t)} />
           </div>
           <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">
             <span className="text-base font-mono text-primary-300 min-w-0 break-all">@{login}</span>
@@ -131,8 +129,16 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           )}
 
           {lastRead && (
-            <span>
+            <span suppressHydrationWarning>
               {t('profile.rolesRead')} <span className="text-primary-200">{lastRead}</span>
+            </span>
+          )}
+
+          {isUser && standing?.rank && standing.of && (
+            <span title={t('profile.rankTitle')} className="cursor-help">
+              <span className="tabular text-primary-100 font-bold">
+                {t('profile.rank', { rank: t.number(standing.rank), of: t.number(standing.of) })}
+              </span>
             </span>
           )}
 
@@ -141,11 +147,13 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
           )}
 
           {isUser && !!(currentUser?.reach ?? user.reach) && (
-            <span title={t('profile.reachTitle')}>
+            <span title={t('profile.reachTitle')} className="cursor-help">
               <span className="tabular text-primary-100 font-bold">
                 {t.number(currentUser?.reach ?? user.reach ?? 0)}
               </span>{' '}
-              {t('profile.reach')}
+              <span className="underline decoration-dotted underline-offset-4">
+                {t('profile.reach')}
+              </span>
             </span>
           )}
         </div>
