@@ -106,10 +106,14 @@ export default async function AboutPage({ params }: PageProps) {
               })}
             </Para>
             <Para>
-              {rich('about.cost.two', {
-                privacy: (chunk) => <Inline href="/privacy">{chunk}</Inline>,
-                tos: (chunk) => <Inline href="/tos">{chunk}</Inline>
-              })}
+              {rich(
+                'about.cost.two',
+                {
+                  privacy: (chunk) => <Inline href="/privacy">{chunk}</Inline>,
+                  tos: (chunk) => <Inline href="/tos">{chunk}</Inline>
+                },
+                { name }
+              )}
             </Para>
           </Panel>
         </section>
