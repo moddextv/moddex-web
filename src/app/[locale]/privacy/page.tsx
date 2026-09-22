@@ -116,10 +116,11 @@ export default async function PrivacyPage({ params }: PageProps) {
 
       <Clause id="not-collected" title="6. What is never collected">
         <Para>
-          Chat messages, private messages, Twitch email addresses, and anything else that isn&apos;t
-          publicly visible on Twitch. There are no advertising trackers on this site, nothing here
-          follows you elsewhere, and we don&apos;t sell or share data for marketing. We do count
-          page views, which is the next section.
+          Chat messages, private messages, Twitch email addresses, who follows whom, and anything
+          else that isn&apos;t publicly visible on Twitch. No Twitch token is kept: a sign-in hands
+          over an id and a name, and a channel connection leaves the grant at Twitch. There are no
+          advertising trackers on this site, nothing here follows you elsewhere, and we don&apos;t
+          sell or share data for marketing. We do count page views, which is the next section.
         </Para>
       </Clause>
 

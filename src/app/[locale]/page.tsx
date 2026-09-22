@@ -8,6 +8,7 @@ import { BrowseRows } from '@/components/Browse/BrowseRows';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { CountUp } from '@/components/UI/CountUp';
+import { CopyButton } from '@/components/UI/CopyButton';
 import { config } from '@/config';
 import { fetchAccounts, fetchChannels } from '@/actions/browse';
 import { getIndexStats } from '@/utils/stats';
@@ -20,6 +21,20 @@ import { Metadata } from 'next';
 import { CSSProperties, FC, ReactNode } from 'react';
 
 export const dynamic = 'force-dynamic';
+
+// nightbot's variables; streamelements and fossabot take the same address with their own
+const COMMANDS = [
+  {
+    name: '!mods',
+    says: 'home.chat.mods',
+    fetch: `$(channel) has $(urlfetch ${config.brand.apiUrl}/v1/chat/channels/$(channel)/mods) mods`
+  },
+  {
+    name: '!modof',
+    says: 'home.chat.modof',
+    fetch: `$(1) moderates $(urlfetch ${config.brand.apiUrl}/v1/chat/users/$(1)/mods) channels`
+  }
+] as const;
 
 const Direction: FC<{
   href: string;
@@ -161,6 +176,55 @@ export default async function Home({ params }: MetaProps) {
         </section>
         <section className="enter pb-12" style={{ '--i': 2 } as CSSProperties}>
           <RoleCheck />
+        </section>
+
+        <section
+          className="enter pb-12"
+          style={{ '--i': 3 } as CSSProperties}
+          aria-labelledby="home-chat"
+        >
+          <div className="panel">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="corner corner-bl text-founder" aria-hidden="true" />
+              <h2 id="home-chat" className="text-h2">
+                {t('home.chat.title')}
+              </h2>
+            </div>
+            <p className="text-read text-primary-300 max-w-prose mb-5">{t('home.chat.body')}</p>
+
+            <div className="flex flex-col gap-3">
+              {COMMANDS.map((command) => (
+                <div
+                  key={command.name}
+                  className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4"
+                >
+                  <span className="font-mono text-base font-bold text-primary-100 sm:w-20 shrink-0">
+                    {command.name}
+                  </span>
+                  <span className="text-ui text-primary-400 sm:w-56 shrink-0">
+                    {t(command.says)}
+                  </span>
+                  <code className="font-mono text-ui text-primary-200 break-all flex-1">
+                    {command.fetch}
+                  </code>
+                  <CopyButton label={t('home.chat.copy')} value={command.fetch} />
+                </div>
+              ))}
+            </div>
+
+            <p className="text-ui text-primary-400 mt-5">
+              {rich('home.chat.docs', {
+                link: (chunk) => (
+                  <a
+                    href={config.brand.docsUrl}
+                    className="text-primary-200 font-semibold hover:underline"
+                  >
+                    {chunk}
+                  </a>
+                )
+              })}
+            </p>
+          </div>
         </section>
 
         <section

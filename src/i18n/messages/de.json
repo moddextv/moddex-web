@@ -422,6 +422,7 @@
     "lookUp": "Nachschlagen",
     "onGitHub": "{brandName} auf GitHub",
     "optOut": "Opt-out",
+    "removal": "Löschanfragen",
     "yourData": "Deine Daten"
   },
   "home": {
@@ -432,6 +433,14 @@
     "channelCard": {
       "body": "Wer in einem Kanal Mod, VIP oder Founder ist, und seit wann. Wer einen Kanal zum ersten Mal sucht, nimmt ihn in den Index auf.",
       "title": "Einen Kanal nachschlagen"
+    },
+    "chat": {
+      "body": "Die API antwortet mit einer nackten Zahl. Den Satz formulierst du selbst, in Nightbot, StreamElements oder Fossabot.",
+      "copy": "Kopieren",
+      "docs": "Ränge und alles andere, was die API beantwortet, stehen in den <link>Docs</link>.",
+      "modof": "Kanäle, die ein Name moderiert",
+      "mods": "Mods in einem Kanal",
+      "title": "Für deinen Chat-Bot"
     },
     "fills": {
       "action": "Kanal indexieren",

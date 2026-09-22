@@ -422,6 +422,7 @@
     "lookUp": "Rechercher",
     "onGitHub": "{brandName} sur GitHub",
     "optOut": "Se retirer",
+    "removal": "Demandes de suppression",
     "yourData": "Tes données"
   },
   "home": {
@@ -432,6 +433,14 @@
     "channelCard": {
       "body": "Qui est mod, vip et fondateur dans une chaîne, et depuis quand. Cherche-en une pour la première fois et tu l'ajoutes à l'index.",
       "title": "Chercher une chaîne"
+    },
+    "chat": {
+      "body": "L'API répond par un simple nombre. La phrase, tu l'écris toi-même, dans Nightbot, StreamElements ou Fossabot.",
+      "copy": "Copier",
+      "docs": "Les rangs et tout le reste que répond l'API sont dans la <link>documentation</link>.",
+      "modof": "chaînes qu'un nom modère",
+      "mods": "mods dans une chaîne",
+      "title": "Pour ton bot de chat"
     },
     "fills": {
       "action": "Indexer une chaîne",

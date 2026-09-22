@@ -1,0 +1,812 @@
+{
+  "about": {
+    "cost": {
+      "one": "不用錢。沒有付費方案、沒有廣告、沒有東西鎖在登入後面，而且 <docs>API</docs> 是開放的。<donate>贊助</donate>是唯一讓它維持這樣的東西，附帶的徽章純粹是裝飾。",
+      "title": "你要付出什麼",
+      "two": "關於一個帳號會保存什麼、以及怎麼讓它停止，都在<privacy>隱私頁</privacy>。退出索引只是一個開關，立即生效。<tos>使用條款</tos>說明其餘的部分。{name} 與 Twitch Interactive, Inc. 沒有任何隸屬、背書或贊助關係。"
+    },
+    "donated": {
+      "one": "你的贊助在這裡仍然算數。我們決定承認舊名稱時期的每一筆贊助，而不是把帳本歸零，所以你當時獲得的贊助者徽章跟著其他資料一起搬過來，現在就在你的個人頁上。",
+      "title": "如果你在 modchecker 時期贊助過",
+      "two": "如果你在一個不記得贊助過的網站上戴著徽章，這大概就是原因。不用申請、不用續期，也不會過期。如果你當時真的贊助過但徽章沒出現，到 <discord>Discord</discord> 說一聲，我們會手動補上。"
+    },
+    "heading": "{name} 是什麼，由誰經營",
+    "history": {
+      "one": "{name} 最初叫做 modchecker.com。2026 年 8 月，專案與那個網域及其原持有人分開，搬到了 {domain}，並在過程中重建為四個獨立的服務。",
+      "three": "所有權、主機、網域、資料庫和程式碼現在全部由經營這個網站的人掌握。與舊網域或其背後的任何人沒有共同控制，也沒有任何形式的協議。如果你是從 modchecker 的連結過來的，改變的就只有這些。",
+      "title": "它以前叫 modchecker.com",
+      "two": "換手的是名稱：原持有人擁有網域和 Discord 伺服器。資料庫從來不是他的。它一直在同一台伺服器上、同一雙手裡，改名時也沒有搬動。"
+    },
+    "lead": "{name} 記錄哪些 Twitch 帳號在哪些頻道擁有版主、VIP 或創始人身分，以及取得的日期。Twitch 只給實況主看自己的名單。{name} 保存另一半。",
+    "metaDescription": "誰經營 {domain}、它從哪裡來，以及 modchecker.com 時期的贊助後來怎麼了。",
+    "who": {
+      "one": "一個人，這就是整個團隊。網域、伺服器、資料庫和程式碼都在同一雙手裡，{name} 沒有任何部分由其他人營運。",
+      "title": "誰在經營",
+      "two": "關於這個人的更多資訊在 <author>maersux.dev</author>，程式碼可以在 <github>github.com/moddextv</github> 閱讀。"
+    }
+  },
+  "badges": {
+    "alt": "{name} 徽章",
+    "donator": "贊助者",
+    "donatorBody": "在 moddex 顯示你名字的每個地方，都會出現在名字旁邊。贊助 5 美元以上即可，永久有效。",
+    "topDonator": "頂級贊助者",
+    "topDonatorBody": "同一時間只有一個帳號持有：贊助最多的那一位。有人超過你時就會轉移。"
+  },
+  "browse": {
+    "accounts": {
+      "lead": "一個帳號擁有版主或 VIP 身分的每個已索引頻道，以及每個身分取得的日期。這是 Twitch 不會給你看的方向。",
+      "listTitle": "擁有身分的帳號",
+      "metaDescription": "{brandName} 保存這些 Twitch 帳號的身分紀錄。查一個帳號，看看它在哪些頻道是版主或 VIP。",
+      "totalLabel": "已知帳號",
+      "walk": "或者瀏覽整個索引：<link>依身分數量排列的帳號</link>。"
+    },
+    "channels": {
+      "lead": "一個頻道裡誰是版主、VIP 和創始人，以及從什麼時候開始。第一次搜尋一個頻道，就把它加進索引。",
+      "listTitle": "已索引的頻道",
+      "metaDescription": "{brandName} 已索引的 Twitch 頻道。查一個頻道，看看誰在裡面是版主、VIP 和創始人。",
+      "totalLabel": "已索引頻道",
+      "walk": "或者瀏覽整個索引：<link>依授予身分數量排列的頻道</link>。"
+    },
+    "heads": {
+      "account": "帳號",
+      "channel": "頻道",
+      "modding": "擔任版主",
+      "mods": "版主",
+      "read": "讀取",
+      "viping": "擔任 VIP",
+      "vips": "VIP"
+    },
+    "orderingEmpty": "這個排序還沒有內容。身分排名每天重建一次，在第一次重建完成前會是空的。",
+    "page": "第 {page} 頁",
+    "rankingUnread": "無法讀取這個排名。頁面的其他部分不受影響。",
+    "searchInstead": "改用搜尋",
+    "sort": {
+      "followers": "追隨者最多",
+      "read": "最近讀取",
+      "roles": "身分最多"
+    }
+  },
+  "chatBadge": {
+    "noBadge": "不用徽章",
+    "sampleMessage": "forsen 有 24 個版主，哇",
+    "selected": "已選擇",
+    "title": "聊天徽章",
+    "where": "徽章顯示的位置"
+  },
+  "claim": {
+    "channel": {
+      "ask": "這是你的頻道？",
+      "connect": "連結它，版主和 VIP 的變動就會即時送達。不保存權杖。",
+      "signIn": "登入並連結它。版主和 VIP 的變動就會即時送達。",
+      "yours": "你的頻道"
+    },
+    "connect": "用 Twitch 連結",
+    "user": {
+      "ask": "這是你嗎？",
+      "connect": "連結一次，你擔任版主的頻道就直接來自 Twitch。不保存權杖。",
+      "signIn": "登入後，你擔任版主的頻道就直接來自 Twitch。",
+      "yours": "你的帳號"
+    }
+  },
+  "common": {
+    "cancel": "取消",
+    "clear": "清除",
+    "loadMore": "載入更多",
+    "loading": "載入中",
+    "loadingShort": "載入中",
+    "next": "下一頁",
+    "previous": "上一頁",
+    "remove": "移除",
+    "removing": "移除中…",
+    "search": "搜尋",
+    "tryAgain": "再試一次"
+  },
+  "controls": {
+    "botModes": {
+      "all": "顯示",
+      "hide": "隱藏",
+      "only": "只看"
+    },
+    "bots": "機器人：{state}",
+    "botsAria": "機器人：{state}。變更列出哪些帳號。",
+    "botsHidden": "隱藏",
+    "botsShown": "顯示",
+    "clearFilters": "清除篩選",
+    "columns": {
+      "account": "帳號",
+      "channel": "頻道",
+      "followers": {
+        "asc": "最少的在前",
+        "desc": "最多的在前",
+        "label": "追隨者"
+      },
+      "granted": {
+        "asc": "最舊的在前",
+        "desc": "最新的在前",
+        "label": "授予"
+      },
+      "name": {
+        "asc": "a 到 z",
+        "desc": "z 到 a",
+        "label": "名稱"
+      }
+    },
+    "sort": {
+      "activeAria": "依{label}排序，{ends}。按下以反轉。",
+      "disabledAria": "{label}。這個清單{reason}。",
+      "disabledTitle": "這個清單{reason}",
+      "idleAria": "依{label}排序",
+      "tooLong": "太長，無法依{label}排序",
+      "tooLongFollowers": "太長，無法依追隨者數排序"
+    }
+  },
+  "dash": {
+    "account": "帳號",
+    "accountsIndexed": "已索引帳號",
+    "allRan": "全部執行",
+    "amount": "金額",
+    "asOf": "截至 {date}",
+    "audit": "稽核",
+    "auditAbout": "這件事涉及的帳號",
+    "auditActions": "操作",
+    "auditDidIt": "操作者",
+    "auditEmpty": "這個篩選下還沒有紀錄。",
+    "auditEverything": "全部",
+    "auditFilter": "稽核紀錄篩選",
+    "auditLog": "稽核紀錄",
+    "auditLogins": "登入",
+    "auditShown": "顯示 {shown} 筆",
+    "auditShownOf": "顯示 {shown} 筆，共 {total} 筆",
+    "auditSystem": "系統",
+    "auditType": "類型",
+    "auditUnreadable": "無法讀取稽核紀錄。",
+    "auditWhat": "發生了什麼",
+    "auditWho": "誰",
+    "backlogsCounted": "積壓已計數",
+    "backlogsNotCounted": "積壓未計數",
+    "backup": "備份",
+    "badge": {
+      "alsoWrittenBy": "{name} 也由 {source} 寫入，所以手動授予會維持到它下次執行並另作決定為止。",
+      "filter": "篩選 {name} 清單",
+      "lead": "誰持有什麼，誰可以授予",
+      "neverFetched": "從未取得",
+      "nobodyHolds": "還沒有人持有 <name>{name}</name>。",
+      "optedOut": "已退出",
+      "owner": "擁有者",
+      "protected": "受保護",
+      "showAll": "顯示全部 {count} 個",
+      "twitchOwned": "<name>{name}</name> 來自 Twitch，由掃描寫入，所以它是一個數字而不是名單：<name>{count}</name> 個帳號。沒有人能在這裡授予它，列出上百萬個也回答不了任何問題。",
+      "unknownCount": "數量不明的"
+    },
+    "badges": "徽章",
+    "badgesPerAccount": "每個帳號的徽章",
+    "catalogueUnreadable": "無法讀取目錄。",
+    "change": "變更",
+    "channel": "頻道",
+    "channels": "頻道",
+    "conduitNoShard": "沒有分片的管道會丟棄事件",
+    "conn": {
+      "never": "從未",
+      "neverHandedOver": "從未交付，只有重新連結才能修正",
+      "nobodyConnected": "還沒有人連結頻道。這裡是空的時候 EventSub 分片仍可能正常，兩者回答的是不同問題。",
+      "none": "無",
+      "nothingSubscribed": "已連結，沒有訂閱",
+      "optedOut": "已退出",
+      "withdrew": "已撤回",
+      "yes": "是"
+    },
+    "connected": "已連結",
+    "connectedChannels": "已連結的頻道",
+    "connectionsUnreadable": "無法讀取連結。",
+    "discover": "探索",
+    "don": {
+      "anonymous": "匿名",
+      "noAccountLinked": "這筆贊助沒有連結任何 Twitch 帳號",
+      "summary": "顯示 {shown} 筆 · 計數 {total} 筆",
+      "who": "誰"
+    },
+    "donations": "贊助",
+    "dueAnotherLook": "讀取過、該再看一次的頻道",
+    "eventSub": "EventSub",
+    "givenBy": "授予者",
+    "jh": {
+      "backupNote": "每晚傾印，已驗證並保留 14 天",
+      "roleCountsNote": "瀏覽排名，在 {slot} 重建",
+      "snapshotNote": "每天一個資料點，在 {slot}"
+    },
+    "job": "工作",
+    "jobHealthUnreadable": "無法讀取工作狀態。",
+    "jobs": "工作",
+    "last": "上次",
+    "lastBackup": "上次備份",
+    "lastDays": {
+      "one": "最近 {count} 天",
+      "other": "最近 {count} 天"
+    },
+    "lastRun": "上次執行",
+    "ledgerUnreadable": "無法讀取帳本。",
+    "loadMore": "載入更多",
+    "loading": "載入中…",
+    "missedSlot": {
+      "one": "{count} 個錯過了上一個時段",
+      "other": "{count} 個錯過了上一個時段"
+    },
+    "modList": "版主清單",
+    "never": "從未",
+    "nightlyJobs": "每晚工作",
+    "noAccountCalled": "沒有叫做 {login} 的帳號。",
+    "noSnapshotYet": "還沒有快照",
+    "nothingRanIn": "{slot} 時段沒有執行任何工作",
+    "nothingWritten": "還沒有寫入任何東西",
+    "oldestNotRevisited": "最久沒有重新造訪的頻道",
+    "oneRunSoFar": "目前執行過一次",
+    "overview": "總覽",
+    "queue": "佇列",
+    "ranOf": "{ran} / {total}",
+    "rate": "速率",
+    "readAgo": "{ago}讀取",
+    "roleCounts": "身分計數",
+    "runs": {
+      "avg": "平均 {avg}",
+      "lead": "與自己的七天平均相比。值得看的是趨勢，因為單次時長看不出一個工作正在超出它的時段。",
+      "nothingRecorded": "還沒有紀錄。每晚工作執行後會出現第一列。",
+      "rows": {
+        "one": "{rows} 列",
+        "other": "{rows} 列"
+      },
+      "steady": "穩定 · 平均 {avg}",
+      "vsAvg": "相對 7 天平均"
+    },
+    "runsTitle": "每晚工作需要多久",
+    "scheduledWork": "排程工作",
+    "sections": "儀表板分區",
+    "snapshot": "快照",
+    "stale": "過期",
+    "status": "狀態",
+    "subscribed": "已訂閱",
+    "sw": {
+      "discoverNote": "任何掃描都沒碰過的帳號，索引就是靠這個成長",
+      "inScope": "{count} 個在範圍內",
+      "live": "直播中",
+      "liveNote": "正在直播的頻道，持續巡查",
+      "perMinute": "/ 分鐘",
+      "queueNote": "隨需重新整理；佇列滿了就丟棄其餘的",
+      "queueState": "{capacity} 個等待 · {running} 個執行中",
+      "running": "執行中",
+      "shards": {
+        "one": "{enabled} / {total} 個分片",
+        "other": "{enabled} / {total} 個分片"
+      },
+      "standingAside": "暫停讓路",
+      "standingAsideSince": "自 {since} 起暫停讓路",
+      "unread": "{count} 個未讀取",
+      "yieldNote": "等待超過 {above} 個時掃描會讓路，但不會太久"
+    },
+    "sweep": "掃描",
+    "sweepHead": "掃描前端",
+    "sweeps": "掃描",
+    "trendsTitle": "每晚工作的趨勢",
+    "twitchLogin": "Twitch 登入名稱",
+    "when": "時間",
+    "yield": "讓路",
+    "keys": {
+      "tab": "金鑰",
+      "heading": "機器人金鑰",
+      "blurb": "金鑰讓機器人脫離共用的每位址速率限制，並可以要求重新索引一個頻道。它買到的是流量和那一個請求，從來不是信任：有金鑰的機器人看到的和公眾完全一樣。",
+      "label": "金鑰名稱",
+      "create": "建立金鑰",
+      "createFailed": "無法建立金鑰。",
+      "revoke": "撤銷",
+      "revokeFailed": "無法撤銷金鑰。",
+      "revokeTitle": "撤銷這把金鑰？",
+      "revokeBody": "{label} 會立即失效。只保存雜湊，所以金鑰既無法讀回也無法復原。",
+      "rotate": "輪替",
+      "rotateFailed": "無法輪替金鑰。",
+      "rotateTitle": "輪替這把金鑰？",
+      "rotateBody": "{label} 會得到新的密鑰，舊的立即失效。仍在送出舊金鑰的客戶端會被拒絕，直到你填入新的為止。",
+      "shownOnce": "現在就複製。它只顯示一次，無法讀回。",
+      "hide": "完成",
+      "none": "還沒有金鑰。",
+      "lastUsed": "上次使用 {when}",
+      "neverUsed": "從未使用",
+      "unreadable": "無法讀取金鑰。",
+      "copy": "複製金鑰"
+    }
+  },
+  "dashboard": {
+    "signInBlurb": "這裡只限團隊，所以 moddex 必須先知道哪個 Twitch 帳號是你的才能確認。",
+    "signInHeading": "儀表板需要 Twitch 登入"
+  },
+  "donate": {
+    "continue": "前往 Stripe",
+    "heading": "{brandName} 靠一台伺服器運作，沒有廣告",
+    "holds": {
+      "accounts": "個帳號",
+      "backups": "的備份保留",
+      "backupsValue": "14 天",
+      "channels": "個頻道",
+      "roleRecords": "筆身分紀錄",
+      "title": "這些錢撐起什麼"
+    },
+    "lead": "沒有付費方案，沒有東西鎖在登入後面，API 是開放的。贊助是唯一讓它維持這樣的東西。",
+    "metaDescription": "{brandName} 靠一台伺服器運作，沒有廣告。沒有付費方案，沒有東西鎖在登入後面，API 是開放的。",
+    "oneTime": "一次性，美元",
+    "opening": "正在開啟 Stripe",
+    "signedOut": "先用 Twitch 登入，徽章就會自動放到你的個人頁上。未登入贊助也可以，只是之後要在 Discord 留個訊息。",
+    "straight": {
+      "one": "這是對營運成本的貢獻，不是購買。",
+      "three": "原則上不退款。如果出了問題，寫信給我們，我們會處理。",
+      "title": "把話說清楚",
+      "two": "徽章是裝飾。它們不會解鎖任何東西，也沒有金錢價值。"
+    },
+    "stripeNote": "{brandName} 只保存付款參考編號和金額，其他都不存。卡片資料全程由 Stripe 處理。",
+    "stripeUnreachable": "我們連不上 Stripe，所以沒有扣款。請稍後再試。",
+    "whatYouGet": "你會得到什麼"
+  },
+  "errors": {
+    "banned": {
+      "body": "Twitch 不再提供這個帳號，所以 {brandName} 也不會顯示它的個人頁。它持有的身分仍留在索引中，只是在這段期間隱藏。",
+      "checkAgain": "再檢查一次",
+      "isBanned": "{username} 在 Twitch 上被停權",
+      "isDeleted": "{username} 刪除了帳號",
+      "isUnavailable": "{username} 無法使用",
+      "noneShown": "這段期間不顯示",
+      "notGiven": "未提供",
+      "reason": "Twitch 給的原因",
+      "retained": "保留的身分",
+      "reversible": "停權有時會被撤銷，所以這是網站上唯一提供重新讀取的狀態。",
+      "shown": "顯示的身分",
+      "sticks": "這種通常不會改變。",
+      "stillIndexed": "仍在索引中",
+      "unrecognized": "我們照原樣顯示 Twitch 說的內容，就算我們不認得它。"
+    },
+    "checkout": {
+      "askDiscord": "到 Discord 詢問",
+      "badge": "贊助者徽章",
+      "body": "{brandName} 無法從 Stripe 讀回結帳工作階段，所以無法顯示摘要。這不影響贊助本身。",
+      "byHand": "如果一小時後徽章還是沒出現，把 Stripe 收據寄給我們，我們會手動指派。",
+      "checkProfile": "查看你的個人頁",
+      "emailed": "Stripe 會寄送",
+      "granted": "由 webhook 授予",
+      "heading": "你的付款沒問題。有問題的是這個頁面。",
+      "payment": "付款",
+      "receipt": "收據",
+      "taken": "由 Stripe 收取",
+      "thisPage": "這個頁面",
+      "unreadable": "無法讀取工作階段"
+    },
+    "common": {
+      "lookUp": "查別人"
+    },
+    "couldNotRead": "無法讀取",
+    "invalid": {
+      "body": "Twitch 名稱長度是 1 到 25 個字元，只能有字母、數字和底線。這個不可能存在，所以我們沒有去問 Twitch。",
+      "heading": "<name>{username}</name> 不可能是 Twitch 名稱"
+    },
+    "keepsHappening": "如果一直發生，<status>{host}</status> 會顯示 API 是否正常。它跑在獨立的基礎設施上，所以這裡掛了它還在。",
+    "listUnread": "無法讀取這個清單的索引。",
+    "notFound": {
+      "body": "我們問過 Twitch，沒有這個名稱的帳號，所以沒有東西可以索引。大家很常改名，檢查一下拼法再試一次。",
+      "heading": "沒有叫做 <name>{username}</name> 的 Twitch 帳號",
+      "untouched": "索引沒有變動。"
+    },
+    "otherListsFine": "這個頁面上的其他清單不受影響。",
+    "renderFailed": "頁面繪製時出了問題，我們已經記錄下來。重試只會重建這一部分，如果只是回應太慢而不是真的錯誤，通常會成功。",
+    "retry": "重試這個頁面",
+    "signIn": {
+      "account": "你的 Twitch 帳號",
+      "body": "Twitch 把你送了回來，但 {brandName} 無法完成登入，所以你沒有登入。這裡什麼都沒寫入，你的 Twitch 帳號也沒有變動。登入流程放太久會過期，這是最常見的原因，重新開始就會清除。",
+      "browse": "先四處看看",
+      "denied": "你沒有授予存取權",
+      "deniedBody": "Twitch 問你是否允許 {brandName} 知道哪個帳號是你的，而答案是否。什麼都沒交出，什麼都沒保存。除了你自己的設定，網站上的一切不登入也能用。",
+      "handedOver": "Twitch 交出了什麼",
+      "heading": "這次登入沒有完成",
+      "no": "否",
+      "nothingKept": "沒有保留任何東西",
+      "reported": "回報為",
+      "signedIn": "已登入",
+      "tryAgain": "再試著登入一次",
+      "untouched": "未變動"
+    },
+    "tryListAgain": "再試一次這個清單",
+    "unknownPage": {
+      "body": "這個網址在這個網站上不通往任何地方，所以沒有查詢任何東西。從這裡值得去的地方都在下面。",
+      "heading": "這個頁面不存在"
+    }
+  },
+  "footer": {
+    "blurb": "一個 Twitch 帳號擁有版主或 VIP 身分的每個頻道，以及取得的日期。與 Twitch Interactive 沒有任何隸屬、背書或贊助關係。",
+    "byAccount": "依帳號",
+    "byChannel": "依頻道",
+    "joinDiscord": "加入 Discord",
+    "lookUp": "查詢",
+    "onGitHub": "{brandName} 的 GitHub",
+    "optOut": "退出索引",
+    "removal": "移除申請",
+    "yourData": "你的資料"
+  },
+  "home": {
+    "accountCard": {
+      "body": "一個帳號擁有身分的每個已索引頻道。這是 Twitch 不會給你看的方向。",
+      "title": "查一個帳號"
+    },
+    "channelCard": {
+      "body": "一個頻道裡誰是版主、VIP 和創始人，以及從什麼時候開始。第一次搜尋，就把它加進索引。",
+      "title": "查一個頻道"
+    },
+    "chat": {
+      "body": "API 只回傳一個數字。句子由你自己寫，在 Nightbot、StreamElements 或 Fossabot 裡。",
+      "copy": "複製",
+      "docs": "排名和 API 其他能回答的內容都在<link>文件</link>裡。",
+      "modof": "某個名字擔任版主的頻道數",
+      "mods": "一個頻道的版主數",
+      "title": "給你的聊天機器人"
+    },
+    "fills": {
+      "action": "索引一個頻道",
+      "body": "有人第一次搜尋一個頻道時，它就會被加進來。那一次查詢會抓取它的版主和 VIP 名單並保存，給所有人用。不需要帳號。",
+      "title": "索引靠使用而成長"
+    },
+    "growth": {
+      "notMeasured": "尚未測量",
+      "nothingToCompare": "還沒有可比較的資料",
+      "oneDay": "目前只有一天",
+      "overLastDays": {
+        "one": "最近一天",
+        "other": "最近 {count} 天"
+      }
+    },
+    "heading": "Twitch 上的每份版主名單，倒過來讀。",
+    "holders": {
+      "link": "排行榜",
+      "title": "擁有最多身分"
+    },
+    "kicker": "<mod>版主</mod>和 <vip>VIP</vip>，從兩端索引",
+    "lead": "Twitch 給實況主看自己的版主是誰，卻不告訴你反過來的方向。{name} 會：一個帳號擁有身分的每個頻道，以及取得的日期。",
+    "optOut": {
+      "action": "退出索引",
+      "body": "用 Twitch 登入，把退出索引打開。",
+      "title": "被列在這裡但不想被列出？"
+    },
+    "recent": {
+      "link": "所有頻道",
+      "title": "最近索引"
+    },
+    "searchPlaceholder": "搜尋頻道或帳號",
+    "stats": {
+      "across": "遍布 <channels>{channels}</channels> 個頻道和 <accounts>{accounts}</accounts> 個帳號。",
+      "founders": "筆創始人紀錄",
+      "label": "索引裡有什麼",
+      "mods": "筆版主紀錄",
+      "vips": "筆 VIP 紀錄"
+    },
+    "try": "試試"
+  },
+  "leaderboard": {
+    "empty": "還沒有內容。自這個清單加入以來，每日計數還沒執行過。",
+    "lead": "在 {brandName} 讀過的所有頻道中，誰擁有最多身分。每天更新一次。",
+    "metaDescription": "Twitch 上誰擁有最多版主、VIP 和創始人身分，由 {brandName} 計算。",
+    "movedHead": "7 天",
+    "movedNote": "最後一欄標記過去一週名次有變動的帳號，上升或下降。空白的地方表示名次沒變，在有一週前的榜單可以比較之前，全部都會是空白。",
+    "ranked": "已排名",
+    "scales": {
+      "founder": {
+        "label": "創始人身分",
+        "tab": "創始人"
+      },
+      "mod": {
+        "label": "版主身分",
+        "tab": "版主"
+      },
+      "roles": {
+        "label": "持有的身分",
+        "tab": "所有身分"
+      },
+      "vip": {
+        "label": "VIP 身分",
+        "tab": "VIP"
+      }
+    },
+    "tabsLabel": "要排名哪些身分"
+  },
+  "legal": {
+    "englishOnly": {
+      "body": "我們的隱私政策和使用條款刻意只用英文。它們是一份契約，一份偏離原文的翻譯比沒有翻譯更糟。",
+      "title": "這個頁面只有英文版"
+    }
+  },
+  "login": {
+    "attachDonation": "附加贊助",
+    "attachDonationBody": "這樣贊助者徽章會自動出現，而不用手動指派。",
+    "blurb": "{brandName} 必須先知道哪個 Twitch 帳號是你的，才能讓你變更它的任何內容。網站上的其他一切不登入也能用。",
+    "canDo": "登入後的帳號可以做什麼",
+    "continue": "使用 Twitch 繼續",
+    "fullTerms": "完整條款見<link>第 4 節</link>。",
+    "handsOver": "Twitch 會交出什麼",
+    "heading": "這個頁面需要 Twitch 登入",
+    "landBack": "你會回到原本想去的頁面。",
+    "never": "從不",
+    "optOut": "退出索引",
+    "pickBadge": "選一個聊天徽章",
+    "pickBadgeBody": "如果你持有不只一個，選擇哪一個顯示在你的名字旁邊。",
+    "scopes": {
+      "avatar": "頭像",
+      "behalf": "代替你操作",
+      "chat": "聊天室存取",
+      "loginName": "登入名稱",
+      "password": "密碼",
+      "userId": "使用者 ID"
+    },
+    "yes": "是"
+  },
+  "misc": {
+    "account": "帳號",
+    "adminOnly": "限管理員。",
+    "allBots": "這個清單裡的每個帳號都是機器人。",
+    "connectedShort": "已連結。",
+    "endOfList": "這個清單到此結束。",
+    "errorHeading": "這個頁面沒有載入完成",
+    "findAccount": "找一個帳號",
+    "findChannel": "找一個頻道",
+    "follower": {
+      "one": "位追隨者",
+      "other": "位追隨者"
+    },
+    "heroSearch": "查詢 Twitch 頻道或帳號",
+    "hiddenByBots": "{total} 個之中有 {hidden} 個被機器人篩選隱藏。",
+    "hiddenBySearch": "{total} 個之中有 {hidden} 個被搜尋隱藏。",
+    "hiddenBySearchAndBots": "{total} 個之中有 {hidden} 個被搜尋和機器人篩選隱藏。",
+    "hideBotCount": {
+      "one": "隱藏 {count} 個機器人",
+      "other": "隱藏 {count} 個機器人"
+    },
+    "hideBots": "隱藏機器人",
+    "keepTyping": "繼續輸入，至少 {min} 個字元",
+    "loadMoreCount": "再載入 {count} 個",
+    "loaded": "已載入",
+    "loginStartsWith": "登入名稱開頭是…",
+    "matchingAccounts": "符合的帳號",
+    "mostRoles": "身分最多",
+    "noBotsInList": "這個清單裡沒有機器人。",
+    "noFoundersRead": "還沒讀取。創始人徽章來自和版主、VIP 不同的 Twitch 查詢，而且排程比較慢。所以這裡是空的表示我們還沒讀取，不代表沒有。",
+    "noLoginStartsWith": "這個清單裡沒有登入名稱以「{query}」開頭。這裡搜尋的是登入名稱的開頭，不是名稱的任何部分。",
+    "noneRead": "還沒讀取。",
+    "notYet": "還沒有",
+    "nothingIndexedWith": "索引裡沒有以 <name>{query}</name> 開頭的內容。按 Enter 從 Twitch 讀取並加入。",
+    "nothingMatches": "這裡沒有符合「{query}」的內容。",
+    "ofTotal": "共 {total} 個",
+    "onlyBots": "只看機器人",
+    "overTime": "隨時間變化",
+    "pagination": "分頁",
+    "readingIndex": "讀取索引中",
+    "readingIndexLong": "正在讀取索引…",
+    "readingIndexShort": "正在讀取索引。",
+    "showBots": "顯示機器人",
+    "showEverything": "顯示全部",
+    "whichAccounts": "要列出哪些帳號",
+    "whichRoles": "要顯示哪些身分"
+  },
+  "nav": {
+    "backToMenu": "返回",
+    "language": "語言",
+    "main": "主要",
+    "menu": "選單",
+    "signInShort": "登入",
+    "signOut": "登出",
+    "skipToContent": "跳到內容",
+    "themeToggle": "切換主題",
+    "yourAvatar": "你的 Twitch 頭像"
+  },
+  "notices": {
+    "noCheckout": {
+      "body": "這個網址只有在 Stripe 結帳之後才有意義。你大概是從書籤過來的。",
+      "heading": "沒有結帳可以顯示"
+    },
+    "optedOut": {
+      "after": "沒有出錯，也沒有東西需要重試。",
+      "body": "<name>{username}</name> 打開了退出索引。",
+      "fromApi": "由 API 回傳",
+      "heading": "這個帳號要求不被列出",
+      "inLists": "出現在身分清單中",
+      "kicker": "應帳號要求而保留",
+      "lookUp": "查別人",
+      "moderates": "他們擔任版主的頻道",
+      "no": "否",
+      "optOutYourself": "自己退出索引",
+      "profileServed": "提供個人頁",
+      "stillIndexed": "仍在索引中"
+    },
+    "teamOnly": {
+      "as": "為 {login}",
+      "body": "你已登入{as}，但這個帳號沒有團隊權限。網站上的其他部分不需要它。",
+      "heading": "儀表板只限團隊",
+      "kicker": "已登入，但不在團隊中"
+    }
+  },
+  "optOut": {
+    "effect": "退出索引會停止<em>提供</em>你的資料：你的個人頁、身分清單和公開 API 都不再包含你。",
+    "hidden": "已隱藏",
+    "listed": "已列出",
+    "modsUnaffected": "你擔任版主的頻道不受影響。",
+    "nothingChanged": "沒有任何變動。",
+    "reversible": "隨時可以再關掉，你的項目就會回來。",
+    "savedHidden": "已儲存。你的項目已隱藏。",
+    "savedListed": "已儲存。你的項目再次列出。"
+  },
+  "optOutPanel": {
+    "title": "退出索引"
+  },
+  "pages": {
+    "about": "關於 {brandName}",
+    "accounts": "帳號",
+    "apiDocs": "API 文件",
+    "channels": "頻道",
+    "dashboard": "儀表板",
+    "discord": "Discord",
+    "donate": "贊助",
+    "home": "首頁",
+    "leaderboard": "排行榜",
+    "privacy": "隱私",
+    "profile": "我的個人頁",
+    "settings": "設定",
+    "status": "狀態",
+    "terms": "條款"
+  },
+  "profile": {
+    "copyShortUrl": "複製短網址",
+    "directionLabel": "從哪個方向讀這個帳號",
+    "elsewhere": "在其他地方的身分",
+    "elsewhereShort": "其他地方",
+    "followers": {
+      "one": "位追隨者",
+      "other": "位追隨者"
+    },
+    "inChannel": "這個頻道裡的身分",
+    "inChannelShort": "這個頻道",
+    "indexChannel": "索引一個頻道",
+    "joined": "加入於",
+    "connected": "已連結",
+    "missingChannel": "少了一個頻道？它要等有人查過那個頻道才會出現在這裡。搜尋一次，它就會留在索引裡。",
+    "noGrantDate": "Twitch 沒有回傳這個身分的授予日期",
+    "openDiscord": "在 Discord 開啟",
+    "openDiscordOf": "在 Discord 開啟 {login}",
+    "openTwitch": "在 Twitch 開啟",
+    "refresh": "重新整理",
+    "refreshChannel": "從 Twitch 重新讀取這個頻道",
+    "refreshProfile": "從 Twitch 重新讀取這個個人頁",
+    "rolesRead": "身分讀取於"
+  },
+  "roleCheck": {
+    "accountLogin": "帳號登入名稱",
+    "anythingIn": "任何身分於",
+    "asksWhether": "是否",
+    "channelLogin": "頻道登入名稱",
+    "check": "查詢",
+    "checking": "查詢中…",
+    "held": "持有",
+    "holds": "擁有身分於",
+    "holdsNothing": "沒有任何身分於",
+    "noDate": "無日期",
+    "notHeld": "未持有",
+    "optedOut": "那個帳號已退出索引。",
+    "title": "查一組配對"
+  },
+  "roles": {
+    "founder": {
+      "one": "創始人",
+      "other": "創始人"
+    },
+    "mod": {
+      "one": "版主",
+      "other": "版主"
+    },
+    "short": {
+      "founder": "創始人",
+      "mod": "版主",
+      "vip": "VIP"
+    },
+    "title": {
+      "channel": {
+        "artist": "藝術家",
+        "founder": "創始人",
+        "mod": "版主",
+        "vip": "VIP"
+      },
+      "user": {
+        "artist": "擔任藝術家",
+        "founder": "擔任創始人",
+        "mod": "擔任版主",
+        "vip": "擔任 VIP"
+      }
+    },
+    "vip": {
+      "one": "VIP",
+      "other": "VIP"
+    }
+  },
+  "settings": {
+    "account": {
+      "avatarAlt": "你的 Twitch 頭像",
+      "discord": "Discord",
+      "publicProfile": "公開個人頁",
+      "signedIn": "登入身分",
+      "title": "帳號"
+    },
+    "badge": {
+      "body": "現在先選好，聊天整合上線時就已經設定完成。",
+      "notLive": "聊天整合尚未上線",
+      "title": "聊天徽章"
+    },
+    "channel": {
+      "again": "再次連結這個頻道",
+      "connect": "連結這個頻道",
+      "disconnectBody": "版主和 VIP 的變動不再即時送達 moddex。已記錄的內容不會遺失，頻道也會照正常排程繼續讀取。重新連結需要再走一次 Twitch 流程。",
+      "disconnectTitle": "停止即時身分更新？",
+      "live": "版主和 VIP 的變動會即時送達 {brandName}。創始人仍來自正常讀取，因為 Twitch 沒有對應的即時事件。撤回不會影響已記錄的內容。",
+      "noToken": "{brandName} 不會發文，也不保存權杖，所以我們只在現在讀取一次你擔任版主的頻道清單，之後它會逐漸過時。重新連結就能更新。你隨時可以在 Twitch 或這裡撤回。",
+      "pitch": "一舉兩得。你頻道裡版主和 VIP 的變動會即時送達 {brandName}，而不是等下一次掃描。而且<you>你</you>擔任版主的頻道會直接從 Twitch 填入，包括這裡從沒有人查過的頻道。"
+    },
+    "channelStatus": {
+      "canceled": "已取消。你的頻道沒有變動。",
+      "connected": "頻道已連結。版主和 VIP 的變動現在會即時送達 moddex。",
+      "connected-nosync": "頻道已連結，但我們無法保存你擔任版主的頻道清單。即時更新正常運作。之後重新連結即可加入清單。",
+      "exchange": "Twitch 沒有確認授權。請再試一次。",
+      "failed": "儲存時出了問題，你的設定沒有變動。請稍後再試。",
+      "mismatch": "你在 Twitch 上核准的帳號和你在這裡登入的帳號不同，所以我們拒絕了這次連結。",
+      "nocode": "Twitch 沒有回傳授權。請再試一次。",
+      "scopes": "Twitch 保留了兩個權限中的一個。版主和 VIP 事件兩個都需要，所以頻道維持未連結。",
+      "signin": "你的工作階段在完成前結束了。請登入後再試一次。",
+      "state": "那個連結已過期或不屬於這個工作階段。請從上方的按鈕重新開始。"
+    },
+    "connectDiscord": "連結 Discord",
+    "disconnect": "取消連結",
+    "disconnecting": "取消連結中…",
+    "discordRemoveBody": "你的 Twitch 和 Discord 帳號將不再連結。moddex 依徽章授予的任何 Discord 身分組，包括加成者，會在下次同步時移除。再次連結需要再走一次 Discord 流程。",
+    "discordRemoveTitle": "移除 Discord 連結？",
+    "discordStatus": {
+      "canceled": "已取消。沒有連結任何 Discord 帳號。",
+      "connected": "Discord 已連結。它現在會顯示在你的公開個人頁上。",
+      "exchange": "Discord 沒有確認帳號。請再試一次。",
+      "failed": "儲存時出了問題，你的個人頁沒有變動。請稍後再試。",
+      "nocode": "Discord 沒有回傳授權。請再試一次。",
+      "signin": "你的工作階段在完成前結束了。請登入後再試一次。",
+      "state": "那個連結已過期或不屬於這個工作階段。請從上方的按鈕重新開始。",
+      "taken": "那個 Discord 帳號已經連結到另一個 moddex 個人頁。請先在那邊取消連結。",
+      "unconfigured": "這台伺服器還沒有設定 Discord 連結。"
+    },
+    "heading": "設定",
+    "live": {
+      "body": "給你自己的頻道。可選。",
+      "title": "即時身分更新"
+    },
+    "metaDescription": "退出 {domain} 的索引，或選擇哪個徽章顯示在你的名字旁邊。",
+    "privacy": "隱私",
+    "signInHeading": "設定需要 Twitch 登入",
+    "signedInAs": "以 {login} 登入。變更會立即儲存。"
+  },
+  "site": {
+    "description": "一個 Twitch 帳號擁有版主、VIP 或創始人身分的每個頻道，以及取得的日期。Twitch 給實況主看自己的名單。{brandName} 保存另一半。",
+    "tagline": "Twitch 版主、VIP 和創始人名單"
+  },
+  "success": {
+    "amount": "金額",
+    "assignedTo": "指派給",
+    "badgeGranted": "徽章已授予",
+    "body": "贊助是唯一讓 {brandName} 免費閱讀的東西，也沒有付費方案在等著上線。贊助者徽章已經在 <login>{login}</login> 上，{brandName} 顯示你名字的每個地方都會出現。",
+    "emailed": "由 Stripe 寄送",
+    "heading": "真心感謝你",
+    "metaTitle": "謝謝你",
+    "noLogin": {
+      "askDiscord": "到 Discord 詢問",
+      "body": "Stripe 沒有回傳 Twitch 使用者名稱，所以沒有個人頁可以放徽章。把下面的參考編號和你的 Twitch 名稱寄給我們，我們會手動指派。",
+      "heading": "付款成功。徽章還需要一個步驟。",
+      "notReturned": "Stripe 沒有回傳",
+      "reference": "付款參考編號"
+    },
+    "pickBadge": "選一個聊天徽章",
+    "receipt": "收據",
+    "reference": "參考編號",
+    "seeProfile": "在你的個人頁上查看",
+    "settled": "付款完成"
+  }
+}

@@ -22,6 +22,30 @@ const flags = {
     `<rect width="${n(W / 3)}" height="${H}" fill="#002395"/>` +
     `<rect x="${n((W / 3) * 2)}" width="${n(W / 3)}" height="${H}" fill="#ED2939"/>`,
 
+  // the sun's twelve rays, one path; the canton is the upper hoist quarter
+  tw: () => {
+    const cx = n(W / 4);
+    const cy = n(H / 4);
+    const rays = Array.from({ length: 12 }, (_, k) => {
+      const a = (k * Math.PI) / 6;
+      const b = a + Math.PI / 12;
+      const c = a - Math.PI / 12;
+      return (
+        `M${n(cx + 2.4 * Math.cos(a))},${n(cy + 2.4 * Math.sin(a))} ` +
+        `L${n(cx + 1.25 * Math.cos(b))},${n(cy + 1.25 * Math.sin(b))} ` +
+        `L${n(cx + 1.25 * Math.cos(c))},${n(cy + 1.25 * Math.sin(c))} Z`
+      );
+    }).join(' ');
+
+    return (
+      `<rect width="${W}" height="${H}" fill="#FE0000"/>` +
+      `<rect width="${n(W / 2)}" height="${n(H / 2)}" fill="#000095"/>` +
+      `<path d="${rays}" fill="#FFFFFF"/>` +
+      `<circle cx="${cx}" cy="${cy}" r="1.35" fill="#000095"/>` +
+      `<circle cx="${cx}" cy="${cy}" r="1.1" fill="#FFFFFF"/>`
+    );
+  },
+
   gb: () =>
     `<clipPath id="c"><path d="M10,7 h10 v7 z v7 h-10 z h-10 v-7 z v-7 h10 z"/></clipPath>` +
     `<rect width="${W}" height="${H}" fill="#012169"/>` +

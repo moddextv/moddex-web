@@ -77,6 +77,7 @@ export const Footer: FC<{ locale: Locale }> = ({ locale }) => {
             <FooterLink href="/settings">{t('footer.optOut')}</FooterLink>
             <FooterLink href="/privacy">{t('pages.privacy')}</FooterLink>
             <FooterLink href="/tos">{t('pages.terms')}</FooterLink>
+            <FooterLink href={`mailto:${config.brand.email}`}>{t('footer.removal')}</FooterLink>
           </nav>
         </div>
       </Container>

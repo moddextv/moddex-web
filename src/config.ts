@@ -4,6 +4,7 @@ export const config = {
     domain: 'moddex.tv',
     url: 'https://moddex.tv',
     statusUrl: 'https://status.moddex.tv',
+    apiUrl: 'https://api.moddex.tv',
     docsUrl: 'https://api.moddex.tv/docs',
     githubUrl: 'https://github.com/moddextv',
     authorUrl: 'https://maersux.dev',
@@ -20,7 +21,8 @@ export const config = {
     locales: {
       en: { name: 'English', tag: 'en-US', flag: 'gb' },
       de: { name: 'Deutsch', tag: 'de-DE', flag: 'de' },
-      fr: { name: 'Français', tag: 'fr-FR', flag: 'fr' }
+      fr: { name: 'Français', tag: 'fr-FR', flag: 'fr' },
+      'zh-TW': { name: '繁體中文', tag: 'zh-TW', flag: 'tw' }
     }
   } as const,
 

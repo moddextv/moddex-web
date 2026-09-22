@@ -422,6 +422,7 @@
     "lookUp": "Look up",
     "onGitHub": "{brandName} on GitHub",
     "optOut": "Opt out",
+    "removal": "Removal requests",
     "yourData": "Your data"
   },
   "home": {
@@ -432,6 +433,14 @@
     "channelCard": {
       "body": "Who holds mod, vip and founder in a channel, and since when. Search one for the first time and you add it to the index.",
       "title": "Look up a channel"
+    },
+    "chat": {
+      "body": "The api answers a bare number. Phrase the message yourself, in Nightbot, StreamElements or Fossabot.",
+      "copy": "Copy",
+      "docs": "Ranks and everything else the api answers are in the <link>docs</link>.",
+      "modof": "channels a name moderates",
+      "mods": "mods in a channel",
+      "title": "For your chat bot"
     },
     "fills": {
       "action": "Index a channel",
