@@ -185,6 +185,7 @@
       "owner": "擁有者",
       "protected": "受保護",
       "showAll": "顯示全部 {count} 個",
+      "signInFlag": "<name>{name}</name> 會在帳號的持有者首次在這裡登入時設定，所以這是一個數字而不是名單：<name>{count}</name> 個帳號。沒有人能把它發出去，因為登入就是它所表達的全部。",
       "twitchOwned": "<name>{name}</name> 來自 Twitch，由掃描寫入，所以它是一個數字而不是名單：<name>{count}</name> 個帳號。沒有人能在這裡授予它，列出上百萬個也回答不了任何問題。",
       "unknownCount": "數量不明的"
     },

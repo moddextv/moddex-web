@@ -185,6 +185,7 @@
       "owner": "Besitzer",
       "protected": "geschützt",
       "showAll": "Alle {count} anzeigen",
+      "signInFlag": "<name>{name}</name> wird gesetzt, sobald sich der Besitzer eines Kontos hier zum ersten Mal anmeldet, also ist es eine Zahl und keine Liste: <name>{count}</name> Konten. Vergeben kann es niemand, denn die Anmeldung ist genau das, was es aussagt.",
       "twitchOwned": "<name>{name}</name> kommt von Twitch und wird vom Sweep geschrieben, ist also eine Zahl und keine Liste: <name>{count}</name> Accounts. Hier kann es niemand vergeben, und eine Million davon aufzuzählen würde nichts beantworten.",
       "unknownCount": "eine unbekannte Anzahl"
     },

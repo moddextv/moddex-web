@@ -185,6 +185,7 @@
       "owner": "propriétaire",
       "protected": "protégé",
       "showAll": "Afficher les {count}",
+      "signInFlag": "<name>{name}</name> est posé la première fois que le titulaire d'un compte se connecte ici, donc c'est un décompte et non une liste : <name>{count}</name> comptes. Personne ne peut l'attribuer, car se connecter est tout ce qu'il affirme.",
       "twitchOwned": "<name>{name}</name> vient de twitch et est écrit par le balayage : c'est donc un décompte plutôt qu'une liste, <name>{count}</name> comptes. Personne ne peut l'attribuer ici, et en lister un million ne répondrait à rien.",
       "unknownCount": "un nombre inconnu de"
     },

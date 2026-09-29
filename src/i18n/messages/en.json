@@ -185,6 +185,7 @@
       "owner": "owner",
       "protected": "protected",
       "showAll": "Show all {count}",
+      "signInFlag": "<name>{name}</name> is set the first time an account's owner signs in here, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out, because signing in is the whole claim it makes.",
       "twitchOwned": "<name>{name}</name> comes from twitch and is written by the sweep, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out here, and listing a million of them would answer nothing.",
       "unknownCount": "an unknown number of"
     },

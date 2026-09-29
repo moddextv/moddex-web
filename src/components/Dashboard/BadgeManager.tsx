@@ -18,7 +18,7 @@ import {
 import { useAction } from '@/hooks/useAction';
 import type { BadgeCatalogueEntry } from '@/misc/badges';
 import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
-import { SOURCES, kindOf } from './badgeRouting';
+import { SOURCES, flagCopyFor, kindOf } from './badgeRouting';
 
 // a bot flagged before anybody looked it up has an id and no login, and there is
 // no profile behind an id
@@ -64,7 +64,7 @@ export const BadgeManager: FC<{
   const load = useCallback(async (name: string) => {
     const which = kindOf(name);
 
-    if (which === 'twitch') return [];
+    if (which === 'flag') return [];
     if (which === 'bots') {
       const result = await listBots();
       return result.ok ? result.data.map(toBotRow) : [];
@@ -162,10 +162,10 @@ export const BadgeManager: FC<{
         })}
       </div>
 
-      {kind === 'twitch' ? (
+      {kind === 'flag' ? (
         <p className="text-read text-primary-300 max-w-prose px-4 pb-5">
           {rich(
-            'dash.badge.twitchOwned',
+            flagCopyFor(selected),
             { name: (chunk) => <span className="font-bold">{chunk}</span> },
             {
               name: selected,

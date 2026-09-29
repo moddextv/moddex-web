@@ -51,14 +51,15 @@ const Face: FC<{ badge: BadgeCatalogueEntry; on: boolean; note: string | null; t
   </>
 );
 
-// twitch owns these: state, not a switch nobody can move
-const Owned: FC<{ badge: BadgeCatalogueEntry; on: boolean; t: Translator }> = ({
-  badge,
-  on,
-  t
-}) => (
+// a flag on the account: state, not a switch nobody can move
+const Owned: FC<{
+  badge: BadgeCatalogueEntry;
+  on: boolean;
+  note: string | null;
+  t: Translator;
+}> = ({ badge, on, note, t }) => (
   <div className="badge-row is-owned">
-    <Face badge={badge} on={on} note="twitch" t={t} />
+    <Face badge={badge} on={on} note={note} t={t} />
     <span className={on ? 'text-ui text-primary-200' : 'text-ui text-primary-400'}>
       {on ? t('roleCheck.held') : '·'}
     </span>
@@ -195,7 +196,16 @@ export const MemberBadges: FC<{ catalogue: BadgeCatalogueEntry[]; ownerId?: stri
               const kind = kindOf(badge.name);
               const on = wears(member.badges, badge.name);
 
-              if (kind === 'twitch') return <Owned key={badge.id} badge={badge} on={on} t={t} />;
+              if (kind === 'flag')
+                return (
+                  <Owned
+                    key={badge.id}
+                    badge={badge}
+                    on={on}
+                    note={SOURCES[badge.name] ?? null}
+                    t={t}
+                  />
+                );
 
               return (
                 <Switch
