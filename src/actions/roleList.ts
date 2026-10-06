@@ -24,6 +24,7 @@ export async function fetchUserListPage(
     sort: ListSort;
     dir: ListDirection;
     search?: string;
+    enqueue?: boolean;
   }
 ): Promise<RolePage> {
   const endpoint = ROLE_FOR[type]?.[role];
@@ -36,15 +37,18 @@ export async function fetchUserListPage(
   const axis = type === 'channel' ? { channel_id: userId } : { user_id: userId };
 
   try {
-    const page = await getRolePage({
-      role: endpoint,
-      ...axis,
-      limit: options.limit,
-      sort,
-      dir: options.dir,
-      cursor: options.cursor ?? undefined,
-      q: searching ? options.search?.trim() : undefined
-    });
+    const page = await getRolePage(
+      {
+        role: endpoint,
+        ...axis,
+        limit: options.limit,
+        sort,
+        dir: options.dir,
+        cursor: options.cursor ?? undefined,
+        q: searching ? options.search?.trim() : undefined
+      },
+      { enqueue: options.enqueue ?? true }
+    );
 
     return {
       items: page.items,
@@ -56,5 +60,16 @@ export async function fetchUserListPage(
     if (notFound(error)) return EMPTY_PAGE;
 
     throw error;
+  }
+}
+
+// the one read that may queue a stale channel, sent from the browser after hydration
+export async function signalDemand(channelId: string): Promise<void> {
+  if (!/^[0-9]{1,20}$/.test(channelId)) return;
+
+  try {
+    await getRolePage({ role: 'mods', channel_id: channelId, limit: 1 });
+  } catch {
+    // a lost signal costs one queued scrape, never the page
   }
 }

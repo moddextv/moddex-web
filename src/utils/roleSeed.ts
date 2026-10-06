@@ -18,7 +18,8 @@ export const seedRoleLists = cache(
           const page = await fetchUserListPage(userId, type, role, {
             limit: PAGE_SIZE,
             sort: 'granted',
-            dir: 'desc'
+            dir: 'desc',
+            enqueue: false
           });
 
           return [role, page] as const;

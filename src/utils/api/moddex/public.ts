@@ -73,10 +73,14 @@ const crawlerHeaders = async (): Promise<Record<string, string>> => {
   }
 };
 
-export const getRolePage = async (params: RoleQuery & { limit: number }): Promise<RolePage> =>
+// a server render never queues; only a browser running DemandSignal does
+export const getRolePage = async (
+  params: RoleQuery & { limit: number },
+  { enqueue = true }: { enqueue?: boolean } = {}
+): Promise<RolePage> =>
   call(`${subjectPath(params)}/${params.role}${query(roleParams(params))}`, {
     expect: rolePageShape,
-    headers: await crawlerHeaders()
+    headers: enqueue ? await crawlerHeaders() : { 'x-moddex-refresh': 'skip' }
   });
 
 export const getUserProfile = (params: UserQuery, actor?: string): Promise<User> =>

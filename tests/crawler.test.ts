@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { isCrawler } from '../src/misc/crawler';
 
 // the agent applebot actually sent while it was filling the refresh queue
@@ -36,5 +39,21 @@ describe('the crawler test', () => {
     ['nothing at all', '']
   ])('leaves %s alone', (_name, agent) => {
     expect(isCrawler(agent)).toBe(false);
+  });
+});
+
+// 7896 profile reads from 7313 addresses in 12 minutes, every agent a plain chrome
+describe('the demand signal', () => {
+  const src = (path: string) => readFileSync(join(__dirname, '..', 'src', path), 'utf8');
+
+  it('never queues from a server render', () => {
+    expect(src('utils/roleSeed.ts')).toContain('enqueue: false');
+  });
+
+  it('queues from the browser, after the channel page hydrates', () => {
+    expect(src('components/User/DemandSignal.tsx')).toMatch(/^'use client'/);
+    expect(src('app/[locale]/channel/[username]/page.tsx')).toContain(
+      '<DemandSignal channelId={user.id} />'
+    );
   });
 });

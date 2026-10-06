@@ -7,6 +7,7 @@ import { OptedOut } from '@/components/Notices';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { ClaimPanel } from '@/components/User/ClaimPanel';
+import { DemandSignal } from '@/components/User/DemandSignal';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
 import { roleTabIndex } from '@/misc/roles';
@@ -106,6 +107,7 @@ export default async function ChannelUsernamePage({ params }: PageProps) {
       <JsonLd data={profileGraph('channel', user.login, user.name || user.login)} />
       <Container>
         <UserProfile user={user} />
+        <DemandSignal channelId={user.id} />
         <ClaimPanel
           locale={locale}
           type="channel"
