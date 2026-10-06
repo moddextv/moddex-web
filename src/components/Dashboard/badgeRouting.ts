@@ -20,6 +20,9 @@ const KINDS: Record<string, Kind> = {
 
 export const kindOf = (badge: string): Kind => KINDS[badge] ?? 'badge';
 
+// a flag few enough to list, read-only, through its own index
+export const listsHolders = (badge: string): boolean => badge === 'verified';
+
 // which sentence says who writes it, since a flag badge is not twitch's by definition
 const FLAG_COPY: Record<string, string> = {
   verified: 'dash.badge.signInFlag',

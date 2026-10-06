@@ -9,9 +9,9 @@ import { listAudit, type AuditView } from '@/actions/dashboard';
 import type { AuditEntry, AuditPage, AuditParty } from '@/utils/api/moddex/admin';
 
 const VIEWS: { id: AuditView; key: string }[] = [
+  { id: 'everything', key: 'dash.auditEverything' },
   { id: 'actions', key: 'dash.auditActions' },
-  { id: 'logins', key: 'dash.auditLogins' },
-  { id: 'everything', key: 'dash.auditEverything' }
+  { id: 'logins', key: 'dash.auditLogins' }
 ];
 
 const Who: FC<{ row: AuditEntry }> = ({ row }) => {
@@ -44,7 +44,7 @@ const Who: FC<{ row: AuditEntry }> = ({ row }) => {
 
 export const AuditLog: FC<{ initial: AuditPage }> = ({ initial }) => {
   const t = useT();
-  const [view, setView] = useState<AuditView>('actions');
+  const [view, setView] = useState<AuditView>('everything');
   const [page, setPage] = useState(initial);
   const [rows, setRows] = useState(initial.items);
   const [busy, setBusy] = useState(false);

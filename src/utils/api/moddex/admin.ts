@@ -67,6 +67,7 @@ export interface BadgeHolder {
   grantedAt: string | null;
   grantedByLogin: string | null;
   owner: boolean;
+  signedIn?: boolean;
 }
 
 export const getBadgeHolders = (actor: string, badge: string) =>

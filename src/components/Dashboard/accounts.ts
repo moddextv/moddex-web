@@ -13,6 +13,7 @@ export interface Row {
   owner?: boolean;
   ignored?: boolean;
   known?: boolean;
+  signedIn?: boolean;
 }
 
 export const CAP = 40;
@@ -48,5 +49,6 @@ export const toHolderRow = (holder: BadgeHolder): Row => ({
   byLogin: holder.grantedByLogin,
   at: holder.grantedAt,
   ignored: holder.ignored,
-  owner: holder.owner
+  owner: holder.owner,
+  signedIn: holder.signedIn
 });

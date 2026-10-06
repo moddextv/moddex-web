@@ -177,6 +177,7 @@
     "backup": "Sauvegarde",
     "badge": {
       "alsoWrittenBy": "{name} est aussi écrit par {source} : une attribution manuelle tient jusqu'à la prochaine exécution, qui peut en décider autrement.",
+      "byHand": "posé à la main",
       "filter": "Filtrer la liste {name}",
       "lead": "qui détient quoi, et qui peut l'attribuer",
       "neverFetched": "jamais récupéré",
@@ -185,7 +186,8 @@
       "owner": "propriétaire",
       "protected": "protégé",
       "showAll": "Afficher les {count}",
-      "signInFlag": "<name>{name}</name> est posé la première fois que le titulaire d'un compte se connecte ici, donc c'est un décompte et non une liste : <name>{count}</name> comptes. Personne ne peut l'attribuer, car se connecter est tout ce qu'il affirme.",
+      "signedIn": "connecté",
+      "signInFlag": "<name>{name}</name> est posé la première fois que le titulaire d'un compte se connecte ici : <name>{count}</name> comptes. On ne peut pas l'attribuer ici, car se connecter est tout ce qu'il affirme.",
       "twitchOwned": "<name>{name}</name> vient de twitch et est écrit par le balayage : c'est donc un décompte plutôt qu'une liste, <name>{count}</name> comptes. Personne ne peut l'attribuer ici, et en lister un million ne répondrait à rien.",
       "unknownCount": "un nombre inconnu de"
     },

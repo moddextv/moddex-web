@@ -22,7 +22,7 @@ export const generateMetadata = async ({ params }: MetaProps): Promise<Metadata>
 
 export default async function AuditPage({ params }: MetaProps) {
   const t = getTranslator(asLocale((await params).locale));
-  const result = await listAudit();
+  const result = await listAudit('everything');
 
   if (!result.ok) {
     return (

@@ -177,6 +177,7 @@
     "backup": "Backup",
     "badge": {
       "alsoWrittenBy": "{name} is also written by {source}, so a hand grant holds until that runs again and decides otherwise.",
+      "byHand": "set by hand",
       "filter": "Filter the {name} list",
       "lead": "who holds what, and who may hand it out",
       "neverFetched": "never fetched",
@@ -185,7 +186,8 @@
       "owner": "owner",
       "protected": "protected",
       "showAll": "Show all {count}",
-      "signInFlag": "<name>{name}</name> is set the first time an account's owner signs in here, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out, because signing in is the whole claim it makes.",
+      "signedIn": "signed in",
+      "signInFlag": "<name>{name}</name> is set the first time an account's owner signs in here: <name>{count}</name> accounts. Nobody can hand it out here, because signing in is the whole claim it makes.",
       "twitchOwned": "<name>{name}</name> comes from twitch and is written by the sweep, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out here, and listing a million of them would answer nothing.",
       "unknownCount": "an unknown number of"
     },

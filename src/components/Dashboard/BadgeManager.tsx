@@ -18,7 +18,7 @@ import {
 import { useAction } from '@/hooks/useAction';
 import type { BadgeCatalogueEntry } from '@/misc/badges';
 import { toBotRow, toHolderRow, visibleRows, type Row } from './accounts';
-import { SOURCES, flagCopyFor, kindOf } from './badgeRouting';
+import { SOURCES, flagCopyFor, kindOf, listsHolders } from './badgeRouting';
 
 // a bot flagged before anybody looked it up has an id and no login, and there is
 // no profile behind an id
@@ -60,11 +60,12 @@ export const BadgeManager: FC<{
   const [showAll, setShowAll] = useState(false);
 
   const kind = kindOf(selected);
+  const readOnly = kind === 'flag';
 
   const load = useCallback(async (name: string) => {
     const which = kindOf(name);
 
-    if (which === 'flag') return [];
+    if (which === 'flag' && !listsHolders(name)) return [];
     if (which === 'bots') {
       const result = await listBots();
       return result.ok ? result.data.map(toBotRow) : [];
@@ -162,7 +163,7 @@ export const BadgeManager: FC<{
         })}
       </div>
 
-      {kind === 'flag' ? (
+      {readOnly && (
         <p className="text-read text-primary-300 max-w-prose px-4 pb-5">
           {rich(
             flagCopyFor(selected),
@@ -176,7 +177,9 @@ export const BadgeManager: FC<{
             }
           )}
         </p>
-      ) : (
+      )}
+
+      {(!readOnly || listsHolders(selected)) && (
         <>
           <div className="flex items-center gap-3 flex-wrap px-4 pb-4">
             <label className="search search-md w-full sm:w-72">
@@ -231,11 +234,17 @@ export const BadgeManager: FC<{
                     </span>
                   </span>
 
-                  <span className="text-ui text-primary-300 truncate">{row.byLogin ?? '·'}</span>
+                  <span className="text-ui text-primary-300 truncate">
+                    {row.signedIn === undefined
+                      ? (row.byLogin ?? '·')
+                      : t(row.signedIn ? 'dash.badge.signedIn' : 'dash.badge.byHand')}
+                  </span>
 
                   <span className="text-ui text-primary-300">{row.at ? t.date(row.at) : '·'}</span>
 
-                  {row.owner ? (
+                  {readOnly ? (
+                    <span />
+                  ) : row.owner ? (
                     <span className="text-micro text-primary-400 justify-self-end">
                       {t('dash.badge.protected')}
                     </span>
@@ -264,7 +273,7 @@ export const BadgeManager: FC<{
             </div>
           )}
 
-          {SOURCES[selected] && (
+          {!readOnly && SOURCES[selected] && (
             <p className="text-read text-primary-300 max-w-prose px-4 py-4">
               {t('dash.badge.alsoWrittenBy', { name: selected, source: SOURCES[selected] ?? '' })}
             </p>

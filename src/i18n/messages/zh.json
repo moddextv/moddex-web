@@ -177,6 +177,7 @@
     "backup": "備份",
     "badge": {
       "alsoWrittenBy": "{name} 也由 {source} 寫入，所以手動授予會維持到它下次執行並另作決定為止。",
+      "byHand": "手動設定",
       "filter": "篩選 {name} 清單",
       "lead": "誰持有什麼，誰可以授予",
       "neverFetched": "從未取得",
@@ -185,7 +186,8 @@
       "owner": "擁有者",
       "protected": "受保護",
       "showAll": "顯示全部 {count} 個",
-      "signInFlag": "<name>{name}</name> 會在帳號的持有者首次在這裡登入時設定，所以這是一個數字而不是名單：<name>{count}</name> 個帳號。沒有人能把它發出去，因為登入就是它所表達的全部。",
+      "signedIn": "已登入",
+      "signInFlag": "<name>{name}</name> 會在帳號的持有者首次在這裡登入時設定：<name>{count}</name> 個帳號。這裡無法發放它，因為登入就是它所表達的全部。",
       "twitchOwned": "<name>{name}</name> 來自 Twitch，由掃描寫入，所以它是一個數字而不是名單：<name>{count}</name> 個帳號。沒有人能在這裡授予它，列出上百萬個也回答不了任何問題。",
       "unknownCount": "數量不明的"
     },

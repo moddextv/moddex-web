@@ -65,3 +65,15 @@ describe('the badge doors', () => {
     expect(wears(undefined, 'verified')).toBe(false);
   });
 });
+
+describe('the verified roster', () => {
+  it('lists verified read-only, and no twitch flag', async () => {
+    const { listsHolders } = await import('@/components/Dashboard/badgeRouting');
+
+    expect(listsHolders('verified')).toBe(true);
+
+    for (const badge of ['staff', 'partner', 'affiliate', 'donator']) {
+      expect(listsHolders(badge)).toBe(false);
+    }
+  });
+});
