@@ -62,6 +62,7 @@ export const LeaderRows: FC<{
           key={row.id}
           href={localePath(locale, `/user/${row.login}`)}
           className="row cols-leaders"
+          data-morph={row.id}
         >
           <span className="text-ui tabular text-primary-400">{row.place}</span>
 

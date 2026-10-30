@@ -52,6 +52,7 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[]; locale: Lo
           key={entry.id}
           href={localePath(locale, `/${kind === 'channel' ? 'channel' : 'user'}/${entry.login}`)}
           className={`row ${cols}`}
+          data-morph={entry.id}
         >
           <span className="flex items-center gap-3.5 min-w-0">
             <Morph id={entry.id} part="avatar">

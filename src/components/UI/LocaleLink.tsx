@@ -11,6 +11,7 @@ interface LocaleLinkProps {
   rel?: string;
   title?: string;
   'aria-pressed'?: boolean;
+  'data-morph'?: string;
   children: ReactNode;
 }
 
@@ -28,6 +29,7 @@ export const LocaleLink: FC<LocaleLinkProps> = ({
   rel,
   title,
   'aria-pressed': pressed,
+  'data-morph': morph,
   children
 }) => {
   const { path } = useI18n();
@@ -41,6 +43,7 @@ export const LocaleLink: FC<LocaleLinkProps> = ({
       rel={rel}
       title={title}
       aria-pressed={pressed}
+      data-morph={morph}
     >
       {children}
     </Link>

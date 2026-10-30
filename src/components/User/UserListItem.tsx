@@ -24,6 +24,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
       <LocaleLink
         href={`/${type === 'channel' ? 'user' : 'channel'}/${user.login}`}
         className={clsx('row cols-people h-full', onHide && 'pr-14')}
+        data-morph={user.id}
       >
         <span className="flex items-center gap-3.5 min-w-0">
           <Morph id={user.id} part="avatar">

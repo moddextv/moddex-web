@@ -88,7 +88,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
   return (
     <section className="enter pt-10">
       <div className={clsx('profile-head', bio && 'has-bio')}>
-        <Morph id={String(id)} part="avatar">
+        <Morph id={String(id)} part="avatar" always>
           <Avatar
             src={currentUser?.avatar}
             name={currentUser?.name || currentUser?.login || ''}
@@ -99,7 +99,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
 
         <div className="profile-identity min-w-0">
           <div className="flex items-center gap-3 flex-wrap min-w-0">
-            <Morph id={String(id)} part="name">
+            <Morph id={String(id)} part="name" always>
               <h1 className="text-h1 min-w-0 truncate" title={name}>
                 {name}
               </h1>
