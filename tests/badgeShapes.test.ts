@@ -27,6 +27,7 @@ const CATALOGUE = {
   wearable: true,
   variantOf: null,
   unlockCents: null,
+  holders: 1,
   images: {
     icon: {
       svg: 'https://moddex.tv/badges/top-donator/icon.svg',

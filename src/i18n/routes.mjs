@@ -14,6 +14,7 @@ export const LOCALIZED_SEGMENTS = [
   'about',
   'c',
   'channel',
+  'compare',
   'dashboard',
   'design',
   'donate',
@@ -47,6 +48,7 @@ export const LOCALIZED_SEGMENTS = [
 export const ROUTE_SLUGS = {
   about: { de: 'ueber-moddex', fr: 'a-propos' },
   channel: { de: 'kanal', fr: 'chaine' },
+  compare: { de: 'vergleich', fr: 'comparer' },
   donate: { de: 'spenden', fr: 'don' },
   leaderboard: { de: 'rangliste', fr: 'classement' },
   user: { de: 'account', fr: 'compte' }

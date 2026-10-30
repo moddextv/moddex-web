@@ -17,6 +17,7 @@ interface SearchBoxProps {
   placeholder?: string;
   label?: string;
   inputRef?: RefObject<HTMLInputElement | null>;
+  onPick?: (login: string) => void;
   children?: ReactNode;
 }
 
@@ -26,6 +27,7 @@ export const SearchBox: FC<SearchBoxProps> = ({
   placeholder,
   label,
   inputRef,
+  onPick,
   children
 }) => {
   const { t, rich, path } = useI18n();
@@ -44,6 +46,9 @@ export const SearchBox: FC<SearchBoxProps> = ({
 
     setValue('');
     setPicking(false);
+
+    if (onPick) return onPick(target);
+
     router.push(path(`/${scope}/${encodeURIComponent(target)}`));
   };
 

@@ -16,6 +16,7 @@ const entry = (
   wearable: true,
   variantOf,
   unlockCents,
+  holders: null,
   images: {
     icon: { svg: `/badges/${slug}/icon.svg`, png: '' },
     chat: { 1: '', 2: `/badges/${slug}/2x.webp`, 4: '' }

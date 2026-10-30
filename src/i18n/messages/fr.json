@@ -27,9 +27,12 @@
     "alt": "Le badge {name}",
     "donator": "donateur",
     "donatorBody": "Apparaît à côté de ton nom partout où moddex l'affiche. À partir de 5 $ de dons au total, définitivement.",
+    "holders": {
+      "one": "{n} détenteur",
+      "other": "{n} détenteurs"
+    },
     "topDonator": "top donateur",
-    "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un te dépasse.",
-    "verifiedTooltip": "vérifié : connecté sur moddex"
+    "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un te dépasse."
   },
   "browse": {
     "accounts": {
@@ -66,6 +69,30 @@
       "roles": "Le plus de rôles"
     }
   },
+  "career": {
+    "became": {
+      "founders": "devenu fondateur",
+      "mods": "devenu mod",
+      "vips": "devenu VIP"
+    },
+    "capped": "Ceci commence par les 100 premiers de chaque rôle ; les listes ci-dessus les ont tous.",
+    "count": {
+      "founders": {
+        "one": "{n} fondateur",
+        "other": "{n} fondateur"
+      },
+      "mods": {
+        "one": "{n} mod",
+        "other": "{n} mod"
+      },
+      "vips": {
+        "one": "{n} VIP",
+        "other": "{n} VIP"
+      }
+    },
+    "since": "premier rôle en {date}",
+    "title": "Parcours"
+  },
   "chatBadge": {
     "noBadge": "Aucun badge",
     "sampleMessage": "forsen a 24 mods, wow",
@@ -100,6 +127,41 @@
     "removing": "Retrait…",
     "search": "Rechercher",
     "tryAgain": "Réessayer"
+  },
+  "compare": {
+    "back": "Retour à {login}",
+    "both": "les deux",
+    "button": "Comparer",
+    "heading": "Rôles en commun",
+    "inCommon": {
+      "founders": {
+        "one": "fondateur en commun",
+        "other": "fondateurs en commun"
+      },
+      "mods": {
+        "one": "mod en commun",
+        "other": "mods en commun"
+      },
+      "vips": {
+        "one": "VIP en commun",
+        "other": "VIP en commun"
+      }
+    },
+    "missing": "Une de ces chaînes n'est pas dans l'index moddex, ou a refusé d'y figurer.",
+    "none": {
+      "founders": "Personne n'est fondateur des deux chaînes.",
+      "mods": "Personne ne modère les deux chaînes.",
+      "vips": "Personne n'est VIP des deux chaînes."
+    },
+    "only": "seulement {login}",
+    "pick": "Comparer {login} avec…",
+    "roles": {
+      "founders": "Fondateurs",
+      "mods": "Mods",
+      "vips": "VIP"
+    },
+    "same": "C'est deux fois la même chaîne. Choisis-en une autre à comparer.",
+    "title": "{channel} et {other}"
   },
   "controls": {
     "botModes": {
@@ -186,8 +248,8 @@
       "owner": "propriétaire",
       "protected": "protégé",
       "showAll": "Afficher les {count}",
-      "signedIn": "connecté",
       "signInFlag": "<name>{name}</name> est posé la première fois que le titulaire d'un compte se connecte ici : <name>{count}</name> comptes. On ne peut pas l'attribuer ici, car se connecter est tout ce qu'il affirme.",
+      "signedIn": "connecté",
       "twitchOwned": "<name>{name}</name> vient de twitch et est écrit par le balayage : c'est donc un décompte plutôt qu'une liste, <name>{count}</name> comptes. Personne ne peut l'attribuer ici, et en lister un million ne répondrait à rien.",
       "unknownCount": "un nombre inconnu de"
     },
@@ -230,6 +292,29 @@
     "job": "Tâche",
     "jobHealthUnreadable": "Impossible de lire l'état des tâches.",
     "jobs": "Tâches",
+    "keys": {
+      "blurb": "Une clé sort un bot de la limite partagée par adresse et lui permet de demander la réindexation d une chaîne. Elle achète du débit et cette seule requête, jamais de la confiance : un bot avec clé voit exactement ce que voit le public.",
+      "copy": "Copier la clé",
+      "create": "Créer la clé",
+      "createFailed": "La clé n a pas pu être créée.",
+      "heading": "Clés de bot",
+      "hide": "Terminé",
+      "label": "Nom de la clé",
+      "lastUsed": "utilisée {when}",
+      "neverUsed": "jamais utilisée",
+      "none": "Aucune clé pour l instant.",
+      "revoke": "Révoquer",
+      "revokeBody": "{label} cesse aussitôt de fonctionner. Seule l empreinte est stockée, la clé ne peut donc être ni relue ni restaurée.",
+      "revokeFailed": "La clé n a pas pu être révoquée.",
+      "revokeTitle": "Révoquer cette clé ?",
+      "rotate": "Renouveler",
+      "rotateBody": "{label} reçoit un nouveau secret et l ancienne cesse aussitôt de fonctionner. Tout client qui envoie encore l ancienne clé sera refusé jusqu à ce que vous saisissiez la nouvelle.",
+      "rotateFailed": "La clé n a pas pu être renouvelée.",
+      "rotateTitle": "Renouveler cette clé ?",
+      "shownOnce": "Copiez-la maintenant. Elle est affichée une seule fois et ne peut plus être relue.",
+      "tab": "Clés",
+      "unreadable": "Les clés n ont pas pu être lues."
+    },
     "last": "Dernier",
     "lastBackup": "Dernière sauvegarde",
     "lastDays": {
@@ -301,30 +386,7 @@
     "trendsTitle": "Comment évolue le travail nocturne",
     "twitchLogin": "Identifiant Twitch",
     "when": "Quand",
-    "yield": "Retrait",
-    "keys": {
-      "tab": "Clés",
-      "heading": "Clés de bot",
-      "blurb": "Une clé sort un bot de la limite partagée par adresse et lui permet de demander la réindexation d une chaîne. Elle achète du débit et cette seule requête, jamais de la confiance : un bot avec clé voit exactement ce que voit le public.",
-      "label": "Nom de la clé",
-      "create": "Créer la clé",
-      "createFailed": "La clé n a pas pu être créée.",
-      "revoke": "Révoquer",
-      "revokeFailed": "La clé n a pas pu être révoquée.",
-      "revokeTitle": "Révoquer cette clé ?",
-      "revokeBody": "{label} cesse aussitôt de fonctionner. Seule l empreinte est stockée, la clé ne peut donc être ni relue ni restaurée.",
-      "rotate": "Renouveler",
-      "rotateFailed": "La clé n a pas pu être renouvelée.",
-      "rotateTitle": "Renouveler cette clé ?",
-      "rotateBody": "{label} reçoit un nouveau secret et l ancienne cesse aussitôt de fonctionner. Tout client qui envoie encore l ancienne clé sera refusé jusqu à ce que vous saisissiez la nouvelle.",
-      "shownOnce": "Copiez-la maintenant. Elle est affichée une seule fois et ne peut plus être relue.",
-      "hide": "Terminé",
-      "none": "Aucune clé pour l instant.",
-      "lastUsed": "utilisée {when}",
-      "neverUsed": "jamais utilisée",
-      "unreadable": "Les clés n ont pas pu être lues.",
-      "copy": "Copier la clé"
-    }
+    "yield": "Retrait"
   },
   "dashboard": {
     "signInBlurb": "C'est réservé à l'équipe, donc moddex doit savoir quel compte Twitch est le tien avant de pouvoir vérifier.",

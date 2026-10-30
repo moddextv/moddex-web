@@ -23,6 +23,7 @@ export const badgesShape = arrayOf(
     wearable: bool,
     variantOf: nullable(str),
     unlockCents: nullable(num),
+    holders: nullable(num),
     images: object({
       icon: object({ svg: str, png: str }),
       chat: object({ 1: str, 2: str, 4: str })
@@ -81,4 +82,12 @@ export const leaderboardShape = object({
   limit: num,
   hasMore: bool,
   after: nullable(num)
+});
+
+const sharedRoleShape = object({ only: num, shared: num, otherOnly: num, items: usersShape });
+
+export const sharedRolesShape = object({
+  channel: object({ id, login: str }),
+  other: object({ id, login: str }),
+  roles: object({ mods: sharedRoleShape, vips: sharedRoleShape, founders: sharedRoleShape })
 });

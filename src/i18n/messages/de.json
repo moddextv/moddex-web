@@ -27,9 +27,12 @@
     "alt": "Das Badge {name}",
     "donator": "Donator",
     "donatorBody": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spenden insgesamt, dauerhaft.",
+    "holders": {
+      "one": "{n} Träger",
+      "other": "{n} Träger"
+    },
     "topDonator": "Top-Donator",
-    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt.",
-    "verifiedTooltip": "verifiziert: auf moddex angemeldet"
+    "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt."
   },
   "browse": {
     "accounts": {
@@ -66,6 +69,30 @@
       "roles": "Meiste Rollen"
     }
   },
+  "career": {
+    "became": {
+      "founders": "wurde Founder",
+      "mods": "wurde Mod",
+      "vips": "wurde VIP"
+    },
+    "capped": "Das beginnt mit den frühesten 100 jeder Rolle; die Listen oben haben alle.",
+    "count": {
+      "founders": {
+        "one": "{n} Founder",
+        "other": "{n} Founder"
+      },
+      "mods": {
+        "one": "{n} Mod",
+        "other": "{n} Mod"
+      },
+      "vips": {
+        "one": "{n} VIP",
+        "other": "{n} VIP"
+      }
+    },
+    "since": "erste Rolle im {date}",
+    "title": "Laufbahn"
+  },
   "chatBadge": {
     "noBadge": "Kein Badge",
     "sampleMessage": "forsen hat 24 Mods, wow",
@@ -100,6 +127,41 @@
     "removing": "Wird entfernt…",
     "search": "Suchen",
     "tryAgain": "Erneut versuchen"
+  },
+  "compare": {
+    "back": "Zurück zu {login}",
+    "both": "beide",
+    "button": "Vergleichen",
+    "heading": "Gemeinsame Rollen",
+    "inCommon": {
+      "founders": {
+        "one": "gemeinsamer Founder",
+        "other": "gemeinsame Founder"
+      },
+      "mods": {
+        "one": "gemeinsamer Mod",
+        "other": "gemeinsame Mods"
+      },
+      "vips": {
+        "one": "gemeinsamer VIP",
+        "other": "gemeinsame VIPs"
+      }
+    },
+    "missing": "Einer dieser Kanäle ist nicht im moddex-Index oder hat der Auflistung widersprochen.",
+    "none": {
+      "founders": "Niemand ist in beiden Kanälen Founder.",
+      "mods": "Niemand moderiert beide Kanäle.",
+      "vips": "Niemand ist in beiden Kanälen VIP."
+    },
+    "only": "nur {login}",
+    "pick": "{login} vergleichen mit…",
+    "roles": {
+      "founders": "Founder",
+      "mods": "Mods",
+      "vips": "VIPs"
+    },
+    "same": "Das ist zweimal derselbe Kanal. Wähle einen anderen zum Vergleichen.",
+    "title": "{channel} und {other}"
   },
   "controls": {
     "botModes": {
@@ -186,8 +248,8 @@
       "owner": "Besitzer",
       "protected": "geschützt",
       "showAll": "Alle {count} anzeigen",
-      "signedIn": "angemeldet",
       "signInFlag": "<name>{name}</name> wird gesetzt, sobald sich der Besitzer eines Kontos hier zum ersten Mal anmeldet: <name>{count}</name> Konten. Vergeben kann man es hier nicht, denn die Anmeldung ist genau das, was es aussagt.",
+      "signedIn": "angemeldet",
       "twitchOwned": "<name>{name}</name> kommt von Twitch und wird vom Sweep geschrieben, ist also eine Zahl und keine Liste: <name>{count}</name> Accounts. Hier kann es niemand vergeben, und eine Million davon aufzuzählen würde nichts beantworten.",
       "unknownCount": "eine unbekannte Anzahl"
     },
@@ -230,6 +292,29 @@
     "job": "Job",
     "jobHealthUnreadable": "Der Job-Zustand konnte nicht gelesen werden.",
     "jobs": "Jobs",
+    "keys": {
+      "blurb": "Ein Schlüssel hebt einen Bot aus dem gemeinsamen Limit pro Adresse und erlaubt ihm, einen Kanal neu indexieren zu lassen. Er kauft Durchsatz und diese eine Anfrage, niemals Vertrauen: ein Bot mit Schlüssel sieht genau das, was die Öffentlichkeit sieht.",
+      "copy": "Schlüssel kopieren",
+      "create": "Schlüssel erstellen",
+      "createFailed": "Der Schlüssel konnte nicht erstellt werden.",
+      "heading": "Bot-Schlüssel",
+      "hide": "Fertig",
+      "label": "Name des Schlüssels",
+      "lastUsed": "zuletzt benutzt {when}",
+      "neverUsed": "nie benutzt",
+      "none": "Noch keine Schlüssel.",
+      "revoke": "Widerrufen",
+      "revokeBody": "{label} gilt sofort nicht mehr. Gespeichert ist nur der Hash, der Schlüssel lässt sich also weder auslesen noch wiederherstellen.",
+      "revokeFailed": "Der Schlüssel konnte nicht widerrufen werden.",
+      "revokeTitle": "Schlüssel widerrufen?",
+      "rotate": "Rotieren",
+      "rotateBody": "{label} bekommt ein neues Geheimnis, das alte gilt sofort nicht mehr. Jeder Client, der den alten Schlüssel noch sendet, wird abgewiesen, bis du den neuen einträgst.",
+      "rotateFailed": "Der Schlüssel konnte nicht rotiert werden.",
+      "rotateTitle": "Schlüssel rotieren?",
+      "shownOnce": "Jetzt kopieren. Er wird einmal gezeigt und ist danach nicht mehr lesbar.",
+      "tab": "Schlüssel",
+      "unreadable": "Die Schlüssel konnten nicht gelesen werden."
+    },
     "last": "Zuletzt",
     "lastBackup": "Letztes Backup",
     "lastDays": {
@@ -301,30 +386,7 @@
     "trendsTitle": "Wie sich die nächtlichen Läufe entwickeln",
     "twitchLogin": "Twitch-Login",
     "when": "Wann",
-    "yield": "Yield",
-    "keys": {
-      "tab": "Schlüssel",
-      "heading": "Bot-Schlüssel",
-      "blurb": "Ein Schlüssel hebt einen Bot aus dem gemeinsamen Limit pro Adresse und erlaubt ihm, einen Kanal neu indexieren zu lassen. Er kauft Durchsatz und diese eine Anfrage, niemals Vertrauen: ein Bot mit Schlüssel sieht genau das, was die Öffentlichkeit sieht.",
-      "label": "Name des Schlüssels",
-      "create": "Schlüssel erstellen",
-      "createFailed": "Der Schlüssel konnte nicht erstellt werden.",
-      "revoke": "Widerrufen",
-      "revokeFailed": "Der Schlüssel konnte nicht widerrufen werden.",
-      "revokeTitle": "Schlüssel widerrufen?",
-      "revokeBody": "{label} gilt sofort nicht mehr. Gespeichert ist nur der Hash, der Schlüssel lässt sich also weder auslesen noch wiederherstellen.",
-      "rotate": "Rotieren",
-      "rotateFailed": "Der Schlüssel konnte nicht rotiert werden.",
-      "rotateTitle": "Schlüssel rotieren?",
-      "rotateBody": "{label} bekommt ein neues Geheimnis, das alte gilt sofort nicht mehr. Jeder Client, der den alten Schlüssel noch sendet, wird abgewiesen, bis du den neuen einträgst.",
-      "shownOnce": "Jetzt kopieren. Er wird einmal gezeigt und ist danach nicht mehr lesbar.",
-      "hide": "Fertig",
-      "none": "Noch keine Schlüssel.",
-      "lastUsed": "zuletzt benutzt {when}",
-      "neverUsed": "nie benutzt",
-      "unreadable": "Die Schlüssel konnten nicht gelesen werden.",
-      "copy": "Schlüssel kopieren"
-    }
+    "yield": "Yield"
   },
   "dashboard": {
     "signInBlurb": "Es ist nur fürs Team, also muss moddex wissen, welcher Twitch-Account deiner ist, um das zu prüfen.",

@@ -14,6 +14,7 @@ import {
   rolePageShape,
   statsShape,
   suggestShape,
+  sharedRolesShape,
   topDonationShape,
   userShape
 } from '@/utils/api/moddex/shapes';
@@ -207,3 +208,22 @@ export const getTopDonation = () =>
     expect: topDonationShape,
     revalidate: 300
   });
+
+export interface SharedRole {
+  only: number;
+  shared: number;
+  otherOnly: number;
+  items: User[];
+}
+
+export interface SharedRoles {
+  channel: Pick<User, 'id' | 'login' | 'name' | 'avatar'>;
+  other: Pick<User, 'id' | 'login' | 'name' | 'avatar'>;
+  roles: Record<Role, SharedRole>;
+}
+
+export const getSharedRoles = (login: string, other: string) =>
+  call<SharedRoles>(
+    `/v1/channels/${encodeURIComponent(login)}/shared/${encodeURIComponent(other)}`,
+    { revalidate: 300, expect: sharedRolesShape }
+  );

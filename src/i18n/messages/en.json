@@ -27,9 +27,12 @@
     "alt": "The {name} badge",
     "donator": "donator",
     "donatorBody": "Sits beside your name everywhere moddex shows it. A donation total of $5 or more, permanently.",
+    "holders": {
+      "one": "{n} holder",
+      "other": "{n} holders"
+    },
     "topDonator": "top donator",
-    "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you.",
-    "verifiedTooltip": "verified: signed in on moddex"
+    "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you."
   },
   "browse": {
     "accounts": {
@@ -66,6 +69,30 @@
       "roles": "Most roles"
     }
   },
+  "career": {
+    "became": {
+      "founders": "became founder",
+      "mods": "became mod",
+      "vips": "became VIP"
+    },
+    "capped": "This starts with the earliest 100 of each role; the lists above have every one.",
+    "count": {
+      "founders": {
+        "one": "{n} founder",
+        "other": "{n} founder"
+      },
+      "mods": {
+        "one": "{n} mod",
+        "other": "{n} mod"
+      },
+      "vips": {
+        "one": "{n} VIP",
+        "other": "{n} VIP"
+      }
+    },
+    "since": "first role in {date}",
+    "title": "Career"
+  },
   "chatBadge": {
     "noBadge": "No badge",
     "sampleMessage": "forsen has 24 mods, wow",
@@ -100,6 +127,41 @@
     "removing": "Removing…",
     "search": "Search",
     "tryAgain": "Try again"
+  },
+  "compare": {
+    "back": "Back to {login}",
+    "both": "both",
+    "button": "Compare",
+    "heading": "Shared roles",
+    "inCommon": {
+      "founders": {
+        "one": "founder in common",
+        "other": "founders in common"
+      },
+      "mods": {
+        "one": "mod in common",
+        "other": "mods in common"
+      },
+      "vips": {
+        "one": "VIP in common",
+        "other": "VIPs in common"
+      }
+    },
+    "missing": "One of these channels is not in the moddex index, or has opted out of being listed.",
+    "none": {
+      "founders": "Nobody is a founder in both channels.",
+      "mods": "Nobody moderates both channels.",
+      "vips": "Nobody is a VIP in both channels."
+    },
+    "only": "only {login}",
+    "pick": "Compare {login} with…",
+    "roles": {
+      "founders": "Founders",
+      "mods": "Mods",
+      "vips": "VIPs"
+    },
+    "same": "That is the same channel twice. Pick a different one to compare with.",
+    "title": "{channel} and {other}"
   },
   "controls": {
     "botModes": {
@@ -186,8 +248,8 @@
       "owner": "owner",
       "protected": "protected",
       "showAll": "Show all {count}",
-      "signedIn": "signed in",
       "signInFlag": "<name>{name}</name> is set the first time an account's owner signs in here: <name>{count}</name> accounts. Nobody can hand it out here, because signing in is the whole claim it makes.",
+      "signedIn": "signed in",
       "twitchOwned": "<name>{name}</name> comes from twitch and is written by the sweep, so it is a count rather than a roster: <name>{count}</name> accounts. Nobody can hand it out here, and listing a million of them would answer nothing.",
       "unknownCount": "an unknown number of"
     },
@@ -230,6 +292,29 @@
     "job": "Job",
     "jobHealthUnreadable": "Could not read job health.",
     "jobs": "Jobs",
+    "keys": {
+      "blurb": "A key raises a bot out of the shared per-address rate limit and lets it ask for a channel to be re-indexed. It buys throughput and that one request, never trust: a keyed bot still sees exactly what the public sees.",
+      "copy": "Copy the key",
+      "create": "Create key",
+      "createFailed": "The key could not be created.",
+      "heading": "Bot keys",
+      "hide": "Done",
+      "label": "Key name",
+      "lastUsed": "last used {when}",
+      "neverUsed": "never used",
+      "none": "No keys yet.",
+      "revoke": "Revoke",
+      "revokeBody": "{label} stops working at once. Only the hash is stored, so the key can be neither read back nor restored.",
+      "revokeFailed": "The key could not be revoked.",
+      "revokeTitle": "Revoke this key?",
+      "rotate": "Rotate",
+      "rotateBody": "{label} gets a new secret and the old one stops working at once. Any client still sending the old key is refused until you enter the new one.",
+      "rotateFailed": "The key could not be rotated.",
+      "rotateTitle": "Rotate this key?",
+      "shownOnce": "Copy this now. It is shown once and cannot be read back.",
+      "tab": "Keys",
+      "unreadable": "The keys could not be read."
+    },
     "last": "Last",
     "lastBackup": "Last backup",
     "lastDays": {
@@ -301,30 +386,7 @@
     "trendsTitle": "How the nightly work is trending",
     "twitchLogin": "Twitch login",
     "when": "When",
-    "yield": "Yield",
-    "keys": {
-      "tab": "Keys",
-      "heading": "Bot keys",
-      "blurb": "A key raises a bot out of the shared per-address rate limit and lets it ask for a channel to be re-indexed. It buys throughput and that one request, never trust: a keyed bot still sees exactly what the public sees.",
-      "label": "Key name",
-      "create": "Create key",
-      "createFailed": "The key could not be created.",
-      "revoke": "Revoke",
-      "revokeFailed": "The key could not be revoked.",
-      "revokeTitle": "Revoke this key?",
-      "revokeBody": "{label} stops working at once. Only the hash is stored, so the key can be neither read back nor restored.",
-      "rotate": "Rotate",
-      "rotateFailed": "The key could not be rotated.",
-      "rotateTitle": "Rotate this key?",
-      "rotateBody": "{label} gets a new secret and the old one stops working at once. Any client still sending the old key is refused until you enter the new one.",
-      "shownOnce": "Copy this now. It is shown once and cannot be read back.",
-      "hide": "Done",
-      "none": "No keys yet.",
-      "lastUsed": "last used {when}",
-      "neverUsed": "never used",
-      "unreadable": "The keys could not be read.",
-      "copy": "Copy the key"
-    }
+    "yield": "Yield"
   },
   "dashboard": {
     "signInBlurb": "It's team only, so moddex has to know which Twitch account is yours before it can check.",

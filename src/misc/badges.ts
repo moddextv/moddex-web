@@ -16,7 +16,6 @@ export interface BadgesProps {
   badges?: Badge[];
   size?: number;
   className?: string;
-  explain?: (slug: string) => string | undefined;
 }
 
 /**
@@ -36,6 +35,7 @@ export interface BadgeCatalogueEntry {
   wearable: boolean;
   variantOf: string | null;
   unlockCents: number | null;
+  holders: number | null;
   images: {
     icon: { svg: string; png: string };
     chat: ChatUrls;

@@ -1,7 +1,7 @@
 import { Locale, localePath } from '@/i18n/locales';
 import { Translator } from '@/i18n/translate';
 import { getTranslator } from '@/i18n/dictionary';
-import { Badges, explainBadge } from '@/components/User/Badges';
+import { Badges } from '@/components/User/Badges';
 import { Avatar } from '@/components/UI/Avatar';
 import { BrowseEntry } from '@/misc/browse';
 import Link from 'next/link';
@@ -64,7 +64,7 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[]; locale: Lo
                 <span className="row-name text-base font-bold truncate">
                   {entry.name || entry.login}
                 </span>
-                <Badges badges={entry.badges} size={18} explain={explainBadge(t)} />
+                <Badges badges={entry.badges} size={18} />
               </span>
               <span className="block text-micro text-primary-400">
                 {t.number(entry.followers || 0)}{' '}

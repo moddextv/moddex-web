@@ -1,13 +1,14 @@
 'use client';
 
 import { useI18n } from '@/i18n/context';
-import { Badges, explainBadge } from '@/components/User/Badges';
+import { Badges } from '@/components/User/Badges';
 import { User } from '@/misc/account';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
 import { FC, useEffect } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { CopyButton } from '@/components/UI/CopyButton';
+import { CompareButton } from '@/components/Compare/CompareButton';
 import { UserProfileLoading } from '@/components/User/UserProfileLoading';
 import { useUserProfileData } from '@/hooks/useUserProfileData';
 import { useRouter } from 'next/navigation';
@@ -99,7 +100,7 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
             <h1 className="text-h1 min-w-0 truncate" title={name}>
               {name}
             </h1>
-            <Badges badges={currentUser?.badges || []} explain={explainBadge(t)} />
+            <Badges badges={currentUser?.badges || []} />
           </div>
           <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">
             <span className="text-base font-mono text-primary-300 min-w-0 break-all">@{login}</span>
@@ -159,6 +160,8 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
         </div>
 
         <div className="profile-actions flex items-center gap-2 flex-wrap">
+          {!isUser && <CompareButton login={login} />}
+
           <a
             href={`https://twitch.tv/${login}`}
             target="_blank"

@@ -27,9 +27,12 @@
     "alt": "{name} 徽章",
     "donator": "贊助者",
     "donatorBody": "在 moddex 顯示你名字的每個地方，都會出現在名字旁邊。累計贊助 5 美元以上即可，永久有效。",
+    "holders": {
+      "one": "{n} 人持有",
+      "other": "{n} 人持有"
+    },
     "topDonator": "頂級贊助者",
-    "topDonatorBody": "同一時間只有一個帳號持有：贊助最多的那一位。有人超過你時就會轉移。",
-    "verifiedTooltip": "已驗證：曾在 moddex 登入"
+    "topDonatorBody": "同一時間只有一個帳號持有：贊助最多的那一位。有人超過你時就會轉移。"
   },
   "browse": {
     "accounts": {
@@ -66,6 +69,30 @@
       "roles": "身分最多"
     }
   },
+  "career": {
+    "became": {
+      "founders": "成為創始人",
+      "mods": "成為版主",
+      "vips": "成為 VIP"
+    },
+    "capped": "這裡從每種角色最早的 100 個開始；上方的列表包含全部。",
+    "count": {
+      "founders": {
+        "one": "{n} 創始人",
+        "other": "{n} 創始人"
+      },
+      "mods": {
+        "one": "{n} 版主",
+        "other": "{n} 版主"
+      },
+      "vips": {
+        "one": "{n} VIP",
+        "other": "{n} VIP"
+      }
+    },
+    "since": "第一個角色於 {date}",
+    "title": "經歷"
+  },
   "chatBadge": {
     "noBadge": "不用徽章",
     "sampleMessage": "forsen 有 24 個版主，哇",
@@ -100,6 +127,41 @@
     "removing": "移除中…",
     "search": "搜尋",
     "tryAgain": "再試一次"
+  },
+  "compare": {
+    "back": "回到 {login}",
+    "both": "兩者",
+    "button": "比較",
+    "heading": "共同角色",
+    "inCommon": {
+      "founders": {
+        "one": "位共同創始人",
+        "other": "位共同創始人"
+      },
+      "mods": {
+        "one": "位共同版主",
+        "other": "位共同版主"
+      },
+      "vips": {
+        "one": "位共同 VIP",
+        "other": "位共同 VIP"
+      }
+    },
+    "missing": "其中一個頻道不在 moddex 索引中，或已選擇不被列出。",
+    "none": {
+      "founders": "沒有人同時是這兩個頻道的創始人。",
+      "mods": "沒有人同時管理這兩個頻道。",
+      "vips": "沒有人同時是這兩個頻道的 VIP。"
+    },
+    "only": "僅 {login}",
+    "pick": "將 {login} 與…比較",
+    "roles": {
+      "founders": "創始人",
+      "mods": "版主",
+      "vips": "VIP"
+    },
+    "same": "這是同一個頻道兩次。請選另一個頻道來比較。",
+    "title": "{channel} 與 {other}"
   },
   "controls": {
     "botModes": {
@@ -186,8 +248,8 @@
       "owner": "擁有者",
       "protected": "受保護",
       "showAll": "顯示全部 {count} 個",
-      "signedIn": "已登入",
       "signInFlag": "<name>{name}</name> 會在帳號的持有者首次在這裡登入時設定：<name>{count}</name> 個帳號。這裡無法發放它，因為登入就是它所表達的全部。",
+      "signedIn": "已登入",
       "twitchOwned": "<name>{name}</name> 來自 Twitch，由掃描寫入，所以它是一個數字而不是名單：<name>{count}</name> 個帳號。沒有人能在這裡授予它，列出上百萬個也回答不了任何問題。",
       "unknownCount": "數量不明的"
     },
@@ -230,6 +292,29 @@
     "job": "工作",
     "jobHealthUnreadable": "無法讀取工作狀態。",
     "jobs": "工作",
+    "keys": {
+      "blurb": "金鑰讓機器人脫離共用的每位址速率限制，並可以要求重新索引一個頻道。它買到的是流量和那一個請求，從來不是信任：有金鑰的機器人看到的和公眾完全一樣。",
+      "copy": "複製金鑰",
+      "create": "建立金鑰",
+      "createFailed": "無法建立金鑰。",
+      "heading": "機器人金鑰",
+      "hide": "完成",
+      "label": "金鑰名稱",
+      "lastUsed": "上次使用 {when}",
+      "neverUsed": "從未使用",
+      "none": "還沒有金鑰。",
+      "revoke": "撤銷",
+      "revokeBody": "{label} 會立即失效。只保存雜湊，所以金鑰既無法讀回也無法復原。",
+      "revokeFailed": "無法撤銷金鑰。",
+      "revokeTitle": "撤銷這把金鑰？",
+      "rotate": "輪替",
+      "rotateBody": "{label} 會得到新的密鑰，舊的立即失效。仍在送出舊金鑰的客戶端會被拒絕，直到你填入新的為止。",
+      "rotateFailed": "無法輪替金鑰。",
+      "rotateTitle": "輪替這把金鑰？",
+      "shownOnce": "現在就複製。它只顯示一次，無法讀回。",
+      "tab": "金鑰",
+      "unreadable": "無法讀取金鑰。"
+    },
     "last": "上次",
     "lastBackup": "上次備份",
     "lastDays": {
@@ -301,30 +386,7 @@
     "trendsTitle": "每晚工作的趨勢",
     "twitchLogin": "Twitch 登入名稱",
     "when": "時間",
-    "yield": "讓路",
-    "keys": {
-      "tab": "金鑰",
-      "heading": "機器人金鑰",
-      "blurb": "金鑰讓機器人脫離共用的每位址速率限制，並可以要求重新索引一個頻道。它買到的是流量和那一個請求，從來不是信任：有金鑰的機器人看到的和公眾完全一樣。",
-      "label": "金鑰名稱",
-      "create": "建立金鑰",
-      "createFailed": "無法建立金鑰。",
-      "revoke": "撤銷",
-      "revokeFailed": "無法撤銷金鑰。",
-      "revokeTitle": "撤銷這把金鑰？",
-      "revokeBody": "{label} 會立即失效。只保存雜湊，所以金鑰既無法讀回也無法復原。",
-      "rotate": "輪替",
-      "rotateFailed": "無法輪替金鑰。",
-      "rotateTitle": "輪替這把金鑰？",
-      "rotateBody": "{label} 會得到新的密鑰，舊的立即失效。仍在送出舊金鑰的客戶端會被拒絕，直到你填入新的為止。",
-      "shownOnce": "現在就複製。它只顯示一次，無法讀回。",
-      "hide": "完成",
-      "none": "還沒有金鑰。",
-      "lastUsed": "上次使用 {when}",
-      "neverUsed": "從未使用",
-      "unreadable": "無法讀取金鑰。",
-      "copy": "複製金鑰"
-    }
+    "yield": "讓路"
   },
   "dashboard": {
     "signInBlurb": "這裡只限團隊，所以 moddex 必須先知道哪個 Twitch 帳號是你的才能確認。",

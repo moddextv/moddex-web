@@ -7,6 +7,8 @@ import { OptedOut } from '@/components/Notices';
 import { UserList } from '@/components/User/UserList';
 import { UserProfile } from '@/components/User/UserProfile';
 import { ClaimPanel } from '@/components/User/ClaimPanel';
+import { CareerTimeline, careerFrom } from '@/components/User/CareerTimeline';
+import { Role, getRolePage } from '@/utils/api/moddex/public';
 import { getUser } from '@/utils/user';
 import { isUsername } from '@/utils/username';
 import { roleTabIndex } from '@/misc/roles';
@@ -18,6 +20,9 @@ import { RoleTabs } from '@/components/User/RoleTabs';
 import { isEmpty, roleTabs, seedRoleLists } from '@/utils/roleSeed';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
+
+// a career is read from its start, and the start of a chat bot is a hundred rows in
+const CAREER_LIMIT = 100;
 
 const ROLES = ['modding', 'viping', 'founding'] as const;
 
@@ -99,7 +104,25 @@ export default async function UserUsernamePage({ params }: PageProps) {
     return redirect(localePath(locale, `/user/${user.login}${segment}`));
   }
 
-  const seeded = await seedRoleLists(user.id, 'user', ROLES);
+  const earliest = (role: Role) =>
+    getRolePage(
+      { user_id: user.id, role, sort: 'granted', dir: 'asc', limit: CAREER_LIMIT },
+      { enqueue: false }
+    ).catch(() => null);
+
+  const [seeded, mods, vips, founders] = await Promise.all([
+    seedRoleLists(user.id, 'user', ROLES),
+    earliest('mods'),
+    earliest('vips'),
+    earliest('founders')
+  ]);
+
+  const career = careerFrom({
+    mods: mods?.items ?? [],
+    vips: vips?.items ?? [],
+    founders: founders?.items ?? []
+  });
+  const capped = [mods, vips, founders].some((page) => page?.hasMore);
   const path = localePath(locale, `/user/${user.login}`);
 
   return (
@@ -121,6 +144,8 @@ export default async function UserUsernamePage({ params }: PageProps) {
             <UserList type="user" role="viping" user={user} initial={seeded.viping} tabbed />
             <UserList type="user" role="founding" user={user} initial={seeded.founding} tabbed />
           </RoleTabs>
+
+          <CareerTimeline steps={career} capped={capped} locale={locale} />
 
           <div className="panel mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
             <p className="text-read text-primary-300 max-w-[46ch]">{t('profile.missingChannel')}</p>
