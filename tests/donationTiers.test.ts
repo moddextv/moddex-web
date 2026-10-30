@@ -55,6 +55,12 @@ describe('the tiers are read off the catalogue, not written down twice', () => {
     expect(tiersFrom(CATALOGUE, 500, 800).at(-1)!.cents).toBe(2600);
   });
 
+  it('adds a dollar, then rounds up to a whole one', () => {
+    expect(tiersFrom(CATALOGUE, 500, 2550).at(-1)!.cents).toBe(2700);
+    expect(tiersFrom(CATALOGUE, 500, 15_099).at(-1)!.cents).toBe(15_200);
+    expect(tiersFrom(CATALOGUE, 500, 15_100).at(-1)!.cents).toBe(15_200);
+  });
+
   it('puts the crown first in the top pack, and nothing unrelated in any of them', () => {
     const top = tiersFrom(CATALOGUE, 500, null)
       .at(-1)!

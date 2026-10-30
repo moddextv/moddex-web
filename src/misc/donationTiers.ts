@@ -51,7 +51,8 @@ export const tiersFrom = (
 
   tiers.push({
     key: 'top',
-    cents: Math.max(topCents ?? 0, last) + 100,
+    // a dollar over the top total, rounded up to a whole one: $25.50 asks $27, $150.99 asks $152
+    cents: Math.ceil((Math.max(topCents ?? 0, last) + 100) / 100) * 100,
     badges: [...crown, ...donator].map(face)
   });
 
