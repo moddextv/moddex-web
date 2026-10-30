@@ -9,7 +9,6 @@ import React from 'react';
 import { Providers } from './providers';
 import { Metadata } from 'next';
 import { Insights } from '@/components/Insights';
-import { MorphArming } from '@/components/UI/Morph';
 import { config } from '@/config';
 import { jetbrains, manrope } from '@/fonts';
 import { UnknownPage } from '@/components/Errors';
@@ -90,7 +89,6 @@ export default async function RootLayout({ children, params }: LayoutProps) {
         >
           <Providers>
             <Insights />
-            <MorphArming />
             <Header locale={locale} />
             {known ? children : <UnknownPage />}
             <Footer locale={locale} />

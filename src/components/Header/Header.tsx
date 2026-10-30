@@ -20,7 +20,7 @@ export const Header = async ({ locale }: { locale: Locale }) => {
         {t('nav.skipToContent')}
       </a>
 
-      <header className="nav" style={{ viewTransitionName: 'site-header' }}>
+      <header className="nav">
         <Container className="nav-inner">
           <Link
             href={localePath(locale, '/')}

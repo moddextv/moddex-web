@@ -3,7 +3,6 @@ import { Translator } from '@/i18n/translate';
 import { getTranslator } from '@/i18n/dictionary';
 import { Badges, explainBadge } from '@/components/User/Badges';
 import { Avatar } from '@/components/UI/Avatar';
-import { Morph } from '@/components/UI/Morph';
 import { BrowseEntry } from '@/misc/browse';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -52,24 +51,19 @@ export const BrowseRows: FC<{ kind: BrowseKind; items: BrowseEntry[]; locale: Lo
           key={entry.id}
           href={localePath(locale, `/${kind === 'channel' ? 'channel' : 'user'}/${entry.login}`)}
           className={`row ${cols}`}
-          data-morph={entry.id}
         >
           <span className="flex items-center gap-3.5 min-w-0">
-            <Morph id={entry.id} part="avatar">
-              <Avatar
-                src={entry.avatar}
-                name={entry.name || entry.login}
-                size={36}
-                className="w-9 h-9"
-              />
-            </Morph>
+            <Avatar
+              src={entry.avatar}
+              name={entry.name || entry.login}
+              size={36}
+              className="w-9 h-9"
+            />
             <span className="min-w-0">
               <span className="flex items-center gap-2 min-w-0">
-                <Morph id={entry.id} part="name">
-                  <span className="row-name text-base font-bold truncate">
-                    {entry.name || entry.login}
-                  </span>
-                </Morph>
+                <span className="row-name text-base font-bold truncate">
+                  {entry.name || entry.login}
+                </span>
                 <Badges badges={entry.badges} size={18} explain={explainBadge(t)} />
               </span>
               <span className="block text-micro text-primary-400">

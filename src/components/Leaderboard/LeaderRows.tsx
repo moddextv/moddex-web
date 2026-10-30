@@ -1,7 +1,6 @@
 import { Locale, localePath } from '@/i18n/locales';
 import { getTranslator } from '@/i18n/dictionary';
 import { Avatar } from '@/components/UI/Avatar';
-import { Morph } from '@/components/UI/Morph';
 import { Badges, explainBadge } from '@/components/User/Badges';
 import { ChevronDownIcon, ChevronUpIcon } from '@/components/Icons';
 import { LeaderRow } from '@/utils/api/moddex/public';
@@ -62,20 +61,13 @@ export const LeaderRows: FC<{
           key={row.id}
           href={localePath(locale, `/user/${row.login}`)}
           className="row cols-leaders"
-          data-morph={row.id}
         >
           <span className="text-ui tabular text-primary-400">{row.place}</span>
 
           <span className="flex items-center gap-3.5 min-w-0">
-            <Morph id={row.id} part="avatar">
-              <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />
-            </Morph>
+            <Avatar src={row.avatar} name={row.name || row.login} size={36} className="w-9 h-9" />
             <span className="flex items-center gap-2 min-w-0">
-              <Morph id={row.id} part="name">
-                <span className="row-name text-base font-bold truncate">
-                  {row.name || row.login}
-                </span>
-              </Morph>
+              <span className="row-name text-base font-bold truncate">{row.name || row.login}</span>
               <Badges
                 badges={row.badges}
                 size={18}

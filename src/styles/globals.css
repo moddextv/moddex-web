@@ -1443,53 +1443,7 @@
 	outline: none;
 }
 
-/* navigation: an account moves from its row into its profile, the rest crossfades */
-::view-transition {
-	pointer-events: none;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-	animation-duration: 200ms;
-}
-
-::view-transition-group(.morph) {
-	animation-duration: 420ms;
-	animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-::view-transition-image-pair(.morph) {
-	animation-name: morph-blur;
-}
-
-@keyframes morph-blur {
-	35% {
-		filter: blur(2px);
-	}
-}
-
-::view-transition-group(site-header) {
-	animation: none;
-	z-index: 100;
-}
-
-::view-transition-old(site-header) {
-	display: none;
-}
-
-::view-transition-new(site-header) {
-	animation: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
-	::view-transition-old(*),
-	::view-transition-new(*),
-	::view-transition-group(*),
-	::view-transition-image-pair(*) {
-		animation-duration: 0s !important;
-		animation-delay: 0s !important;
-	}
-
 	html {
 		scroll-behavior: auto;
 	}
