@@ -21,12 +21,16 @@ export const badgesShape = arrayOf(
     chatName: nullable(str),
     order: nullable(num),
     wearable: bool,
+    variantOf: nullable(str),
+    unlockCents: nullable(num),
     images: object({
       icon: object({ svg: str, png: str }),
       chat: object({ 1: str, 2: str, 4: str })
     })
   })
 );
+
+export const topDonationShape = object({ totalCents: nullable(num) });
 
 export const statsShape = object({
   channels: num,

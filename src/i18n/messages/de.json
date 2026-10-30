@@ -26,7 +26,7 @@
   "badges": {
     "alt": "Das Badge {name}",
     "donator": "Donator",
-    "donatorBody": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spende, dauerhaft.",
+    "donatorBody": "Steht überall neben deinem Namen, wo moddex ihn zeigt. Ab 5 $ Spenden insgesamt, dauerhaft.",
     "topDonator": "Top-Donator",
     "topDonatorBody": "Trägt immer nur ein Account: wer am meisten gegeben hat. Es wandert weiter, sobald dich jemand überholt.",
     "verifiedTooltip": "verifiziert: auf moddex angemeldet"
@@ -331,7 +331,16 @@
     "signInHeading": "Das Dashboard braucht eine Twitch-Anmeldung"
   },
   "donate": {
+    "addsUp": "Spenden zählen zusammen, zwei kleinere schalten also frei, was eine höhere würde.",
+    "chatOnly": "Die Farben stehen schon jetzt neben deinem Namen auf moddex, und im Twitch-Chat, sobald das FrankerFaceZ-Add-on erscheint. Wähl deine jetzt in den Einstellungen, dann ist sie schon gesetzt.",
+    "chooseAmount": "Betrag wählen",
     "continue": "Weiter zu Stripe",
+    "custom": "Eigener",
+    "customLabel": "Betrag in USD",
+    "cycle": {
+      "one": "{count} Badge enthalten.",
+      "other": "{count} Badges enthalten, klicken für die Vorschau."
+    },
     "heading": "{brandName} läuft auf einem Server und ohne Werbung",
     "holds": {
       "accounts": "Accounts",
@@ -341,20 +350,31 @@
       "roleRecords": "Rolleneinträge",
       "title": "Was das Geld trägt"
     },
+    "howItWorks": "So funktionieren die Badges",
     "lead": "Keine Bezahlstufe, nichts hinter einem Login, und die API ist offen. Spenden sind das Einzige, was das so hält.",
     "metaDescription": "{brandName} läuft auf einem Server und ohne Werbung. Keine Bezahlstufe, nichts hinter einem Login, und die API ist offen.",
+    "nextBadge": "Nächstes Badge zeigen",
     "oneTime": "einmalig, USD",
     "opening": "Stripe wird geöffnet",
+    "previewName": "DeinName",
+    "signedIn": "Angemeldet als {login}, die Badges landen also automatisch auf diesem Konto.",
     "signedOut": "Melde dich zuerst mit Twitch an, dann landet das Badge automatisch auf deinem Profil. Abgemeldet spenden geht auch, braucht danach aber eine Nachricht im Discord.",
+    "startsAt": "Das Badge gibt es ab {amount}. Alles darunter hilft trotzdem.",
     "straight": {
       "one": "Ein Beitrag an die Betriebskosten, kein Kauf.",
       "three": "Grundsätzlich nicht erstattbar. Wenn etwas schiefging, schreib uns und wir klären das.",
       "title": "Klartext",
       "two": "Die Badges sind reine Zierde. Sie schalten nichts frei und haben keinen Geldwert."
     },
-    "stripeNote": "{brandName} speichert die Zahlungsreferenz und den Betrag, sonst nichts. Stripe wickelt die Kartendaten vollständig ab.",
     "stripeUnreachable": "Stripe war nicht erreichbar, es wurde nichts abgebucht. Bitte gleich noch einmal versuchen.",
-    "whatYouGet": "Was du bekommst"
+    "tooSmall": "Gib mindestens {amount} ein.",
+    "top": "Top",
+    "topIncluded": {
+      "one": "Holt die Top-Donator-Krone.",
+      "other": "Holt die Top-Donator-Krone. {count} Badges enthalten, klicken für die Vorschau."
+    },
+    "whatYouGet": "Was du bekommst",
+    "yours": "Deins ab einer Spende von {amount}."
   },
   "errors": {
     "banned": {
@@ -805,8 +825,7 @@
   "success": {
     "amount": "Betrag",
     "assignedTo": "Zugewiesen an",
-    "badgeGranted": "Badge vergeben",
-    "body": "Spenden sind das Einzige, was {brandName} frei lesbar hält, und es steht auch keine Bezahlstufe in den Startlöchern. Das Donator-Badge liegt bereits auf <login>{login}</login> und erscheint überall neben deinem Namen, wo {brandName} ihn anzeigt.",
+    "body": "Spenden sind das Einzige, was {brandName} frei lesbar hält, und es steht auch keine Bezahlstufe in den Startlöchern. Was dein Gesamtbetrag freigeschaltet hat, liegt bereits auf <login>{login}</login>, neben deinem Namen und in den Einstellungen zum Tragen im Chat.",
     "emailed": "Stripe schickt ihn per E-Mail",
     "heading": "Danke, wirklich",
     "metaTitle": "Danke",
@@ -817,10 +836,14 @@
       "notReturned": "von Stripe nicht zurückgegeben",
       "reference": "Zahlungsreferenz"
     },
-    "pickBadge": "Ein Chat-Badge wählen",
     "receipt": "Beleg",
     "reference": "Referenz",
     "seeProfile": "Auf deinem Profil ansehen",
-    "settled": "Zahlung abgeschlossen"
+    "settled": "Zahlung abgeschlossen",
+    "unlocked": {
+      "one": "Mit dieser Spende freigeschaltet.",
+      "other": "Mit dieser Spende freigeschaltet. Klick dich durch."
+    },
+    "wearOne": "Eins zum Tragen wählen"
   }
 }

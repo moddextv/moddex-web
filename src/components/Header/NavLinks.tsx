@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
-// the corners are the two axes, not decoration — a leaderboard is neither
+// the corners are the two axes, not decoration — donate is neither
 const LINKS = [
   { href: '/channel', key: 'pages.channels', corner: 'corner-tl', tone: 'text-mod', wide: false },
   { href: '/user', key: 'pages.accounts', corner: 'corner-br', tone: 'text-vip', wide: false },
-  { href: '/leaderboard', key: 'pages.leaderboard', corner: null, tone: null, wide: true }
+  { href: '/donate', key: 'pages.donate', corner: null, tone: null, wide: true }
 ] as const;
 
 export const NavLinks: FC = () => {

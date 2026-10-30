@@ -26,7 +26,7 @@
   "badges": {
     "alt": "Le badge {name}",
     "donator": "donateur",
-    "donatorBody": "Apparaît à côté de ton nom partout où moddex l'affiche. À partir de 5 $ de don, définitivement.",
+    "donatorBody": "Apparaît à côté de ton nom partout où moddex l'affiche. À partir de 5 $ de dons au total, définitivement.",
     "topDonator": "top donateur",
     "topDonatorBody": "Porté par un seul compte à la fois, celui qui a le plus donné. Il change de main dès que quelqu'un te dépasse.",
     "verifiedTooltip": "vérifié : connecté sur moddex"
@@ -331,7 +331,16 @@
     "signInHeading": "Le tableau de bord demande une connexion Twitch"
   },
   "donate": {
+    "addsUp": "Les dons s'additionnent, deux petits débloquent donc ce qu'un plus gros débloquerait.",
+    "chatOnly": "Les couleurs apparaissent déjà à côté de ton nom sur moddex, et dans le chat Twitch dès que l'add-on FrankerFaceZ sortira. Choisis la tienne dans tes paramètres et elle sera déjà en place.",
+    "chooseAmount": "Choisis un montant",
     "continue": "Continuer vers Stripe",
+    "custom": "Libre",
+    "customLabel": "Montant en USD",
+    "cycle": {
+      "one": "{count} badge inclus.",
+      "other": "{count} badges inclus, clique pour voir."
+    },
     "heading": "{brandName} tourne sur un seul serveur et sans publicité",
     "holds": {
       "accounts": "comptes",
@@ -341,20 +350,31 @@
       "roleRecords": "enregistrements de rôles",
       "title": "Ce que l'argent fait tenir"
     },
+    "howItWorks": "Comment marchent les badges",
     "lead": "Pas d'offre payante, rien derrière une connexion, et l'api est ouverte. Les dons sont la seule chose qui maintient cela.",
     "metaDescription": "{brandName} tourne sur un seul serveur et sans publicité. Pas d'offre payante, rien derrière une connexion, et l'api est ouverte.",
+    "nextBadge": "Voir le badge suivant",
     "oneTime": "une fois, USD",
     "opening": "Ouverture de Stripe",
+    "previewName": "TonPseudo",
+    "signedIn": "Connecté en tant que {login}, les badges arrivent donc automatiquement sur ce compte.",
     "signedOut": "Connecte-toi d'abord avec Twitch et le badge arrive automatiquement sur ton profil. Donner sans être connecté fonctionne aussi, il faut juste un message sur le Discord ensuite.",
+    "startsAt": "Le badge commence à {amount}. En dessous, ça aide quand même.",
     "straight": {
       "one": "Une contribution aux frais de fonctionnement, pas un achat.",
       "three": "En général non remboursable. Si quelque chose s'est mal passé, écris-nous et on arrangera ça.",
       "title": "Pour être clair",
       "two": "Les badges sont décoratifs. Ils ne débloquent rien et n'ont aucune valeur monétaire."
     },
-    "stripeNote": "{brandName} conserve la référence de paiement et le montant, rien d'autre. Stripe gère les données de carte de bout en bout.",
     "stripeUnreachable": "Nous n'avons pas pu joindre Stripe, donc rien n'a été débité. Réessaie dans un instant.",
-    "whatYouGet": "Ce que tu reçois"
+    "tooSmall": "Entre au moins {amount}.",
+    "top": "Top",
+    "topIncluded": {
+      "one": "Prend la couronne de top donateur.",
+      "other": "Prend la couronne de top donateur. {count} badges inclus, clique pour voir."
+    },
+    "whatYouGet": "Ce que tu reçois",
+    "yours": "À toi avec un don de {amount} ou plus."
   },
   "errors": {
     "banned": {
@@ -805,8 +825,7 @@
   "success": {
     "amount": "Montant",
     "assignedTo": "Attribué à",
-    "badgeGranted": "Badge attribué",
-    "body": "Les dons sont la seule chose qui garde {brandName} librement consultable, et aucune offre payante n'attend en coulisses. Le badge de donateur est déjà sur <login>{login}</login>, et il apparaîtra à côté de ton nom partout où {brandName} l'affiche.",
+    "body": "Les dons sont la seule chose qui garde {brandName} librement consultable, et aucune offre payante n'attend en coulisses. Tout ce que ton total a débloqué est déjà sur <login>{login}</login>, à côté de ton nom et dans tes paramètres pour le porter dans le chat.",
     "emailed": "Envoyé par e-mail par Stripe",
     "heading": "Merci, sincèrement",
     "metaTitle": "Merci",
@@ -817,10 +836,14 @@
       "notReturned": "non renvoyé par Stripe",
       "reference": "Référence de paiement"
     },
-    "pickBadge": "Choisir un badge de chat",
     "receipt": "Reçu",
     "reference": "Référence",
     "seeProfile": "Le voir sur ton profil",
-    "settled": "Paiement réglé"
+    "settled": "Paiement réglé",
+    "unlocked": {
+      "one": "Débloqué avec ce don.",
+      "other": "Débloqués avec ce don. Clique pour les parcourir."
+    },
+    "wearOne": "En choisir un à porter"
   }
 }

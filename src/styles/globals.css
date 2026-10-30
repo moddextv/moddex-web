@@ -65,6 +65,7 @@
 	--radius-full: 9999px;
 
 	--ease: cubic-bezier(0.2, 0, 0, 1);
+	--ease-deck: cubic-bezier(0.22, 1, 0.36, 1);
 	--duration: 150ms;
 
 	--z-nav: 40;
@@ -384,6 +385,107 @@
 
 	.search input::placeholder {
 		color: var(--text-dim);
+	}
+
+	.search.is-compact {
+		height: 48px;
+		padding: 0 14px;
+	}
+
+	.tip-deck {
+		--spread: 1;
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 320px;
+		height: 180px;
+	}
+
+	.tip-deck > * {
+		grid-area: 1 / 1;
+	}
+
+	.tip-deck:not(.is-locked):hover {
+		--spread: 1.14;
+	}
+
+	.tip-glow {
+		width: 150px;
+		height: 150px;
+		filter: blur(44px) saturate(1.6);
+		opacity: 0.42;
+		transform: translateX(calc(var(--mid) * var(--step) * -1));
+		animation: tip-fade 700ms var(--ease-deck) both;
+	}
+
+	.tip-card {
+		border-radius: var(--radius-lg);
+		transform: translateX(calc((var(--p) - var(--mid)) * var(--step) * var(--spread)))
+			translateY(calc(var(--p) * -3px)) scale(calc(1 - var(--p) * 0.05));
+		opacity: max(0.6, calc(1 - var(--p) * 0.06));
+		filter: drop-shadow(0 16px 24px rgb(0 0 0 / 0.45)) brightness(calc(1 - var(--p) * 0.08));
+		transition:
+			transform 620ms var(--ease-deck),
+			translate 220ms var(--ease-deck),
+			scale 160ms var(--ease-deck),
+			opacity 420ms var(--ease-deck),
+			filter 420ms var(--ease-deck);
+		animation: tip-deal 560ms var(--ease-deck) backwards;
+		animation-delay: calc(var(--p) * 40ms);
+	}
+
+	.tip-card:not(:disabled) {
+		cursor: pointer;
+	}
+
+	.tip-card:not(:disabled):hover {
+		translate: 0 -6px;
+	}
+
+	.tip-card:not(:disabled):active {
+		scale: 0.97;
+	}
+
+	.tip-deck.is-locked .tip-card,
+	.tip-deck.is-locked .tip-glow {
+		filter: grayscale(1);
+		opacity: 0.35;
+	}
+
+	.tip-pulse {
+		animation: tip-pulse 800ms var(--ease-deck);
+	}
+
+	.tip-swap,
+	.tip-amount {
+		animation: tip-rise 360ms var(--ease-deck) both;
+	}
+
+	@keyframes tip-deal {
+		from {
+			opacity: 0;
+			transform: translateX(calc((var(--p) - var(--mid)) * var(--step) + 48px))
+				translateY(calc(var(--p) * -3px)) scale(0.86);
+		}
+	}
+
+	@keyframes tip-fade {
+		from {
+			opacity: 0;
+		}
+	}
+
+	@keyframes tip-pulse {
+		25% {
+			color: var(--text);
+		}
+	}
+
+	@keyframes tip-rise {
+		from {
+			opacity: 0;
+			transform: translateY(5px);
+		}
 	}
 
 	@media (max-width: 640px) {
@@ -1285,6 +1387,15 @@
 
 	.skeleton::after {
 		animation: none;
+	}
+
+	.tip-glow,
+	.tip-card,
+	.tip-pulse,
+	.tip-swap,
+	.tip-amount {
+		animation: none !important;
+		transition: none;
 	}
 
 	.btn:active {

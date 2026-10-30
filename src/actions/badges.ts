@@ -10,6 +10,7 @@ import {
   type BadgeHolder
 } from '@/utils/api/moddex/admin';
 import type { BadgeCatalogueEntry } from '@/misc/badges';
+import { grantable } from '@/components/Dashboard/badgeRouting';
 import { requirePermission } from '@/utils/authz';
 import { attempt } from '@/actions/attempt';
 import type { ActionResult } from '@/actions/result';
@@ -47,7 +48,7 @@ export async function listBadgeCatalogue(): Promise<ActionResult<BadgeCatalogueE
   return attempt('listBadgeCatalogue', async () => {
     await admin();
 
-    return getBadges();
+    return grantable(await getBadges());
   });
 }
 

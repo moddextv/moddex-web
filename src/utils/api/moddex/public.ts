@@ -14,6 +14,7 @@ import {
   rolePageShape,
   statsShape,
   suggestShape,
+  topDonationShape,
   userShape
 } from '@/utils/api/moddex/shapes';
 
@@ -200,3 +201,9 @@ export const getEventsubHealth = () =>
   call<EventsubHealth>('/v1/eventsub/health', { revalidate: 30 });
 
 export const getBadges = () => call<BadgeCatalogueEntry[]>('/v1/badges', { expect: badgesShape });
+
+export const getTopDonation = () =>
+  call<{ totalCents: number | null }>('/v1/donations/top', {
+    expect: topDonationShape,
+    revalidate: 300
+  });

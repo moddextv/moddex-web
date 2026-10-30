@@ -109,7 +109,13 @@ const BADGES = [
   'bot',
   'booster',
   'translator',
-  'verified'
+  'verified',
+  'donator-sky',
+  'donator-violet',
+  'donator-rose',
+  'donator-ember',
+  'top-donator-onyx',
+  'top-donator-platinum'
 ];
 
 export default async function DesignPage({ params }: MetaProps) {

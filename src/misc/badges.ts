@@ -34,6 +34,8 @@ export interface BadgeCatalogueEntry {
   chatName: string | null;
   order: number | null;
   wearable: boolean;
+  variantOf: string | null;
+  unlockCents: number | null;
   images: {
     icon: { svg: string; png: string };
     chat: ChatUrls;

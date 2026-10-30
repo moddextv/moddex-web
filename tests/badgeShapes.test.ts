@@ -25,6 +25,8 @@ const CATALOGUE = {
   chatName: 'moddex top donator',
   order: 30,
   wearable: true,
+  variantOf: null,
+  unlockCents: null,
   images: {
     icon: {
       svg: 'https://moddex.tv/badges/top-donator/icon.svg',

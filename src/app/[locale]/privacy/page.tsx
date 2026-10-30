@@ -112,6 +112,11 @@ export default async function PrivacyPage({ params }: PageProps) {
           store is the payment reference, the amount, and the name and email address Stripe hands
           back.
         </Para>
+        <Para>
+          The donate page shows the highest donation total any one account has reached, as an amount
+          and never with a name, because that is what the top donator badge costs to take. Whoever
+          holds that badge wears it publicly, so the two together say what they gave.
+        </Para>
       </Clause>
 
       <Clause id="not-collected" title="6. What is never collected">

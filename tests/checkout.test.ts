@@ -1,15 +1,24 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // vi.mock is hoisted above every const, so the spy has to be hoisted with it
-const { create } = vi.hoisted(() => ({
-  create: vi.fn(async (_params: { success_url: string; cancel_url: string }) => ({
-    id: 'cs_test_1'
-  }))
+const { create, retrieve } = vi.hoisted(() => ({
+  create: vi.fn(
+    async (_params: {
+      success_url: string;
+      cancel_url: string;
+      line_items: { price_data: { unit_amount: number; currency: string; product: string } }[];
+    }) => ({
+      id: 'cs_test_1',
+      url: 'https://checkout.stripe.com/c/pay/cs_test_1'
+    })
+  ),
+  retrieve: vi.fn(async () => ({ product: 'prod_donation' }))
 }));
 
 vi.mock('stripe', () => ({
   default: class {
     checkout = { sessions: { create } };
+    prices = { retrieve };
   }
 }));
 
@@ -25,7 +34,7 @@ vi.mock('@/serverConfig', () => ({
 import { startCheckout } from '@/actions/checkout';
 
 const urls = async (locale?: string) => {
-  await startCheckout(locale);
+  await startCheckout(locale, 500);
 
   return create.mock.calls.at(-1)![0];
 };
@@ -82,4 +91,32 @@ describe('the donation sends the donor back where they came from', () => {
       expect(built.cancel_url.startsWith('https://moddex.tv/')).toBe(true);
     }
   });
+});
+
+describe('the donor picks the amount, inside bounds the server sets', () => {
+  beforeEach(() => create.mockClear());
+
+  it('charges what was picked, against the one donation product', async () => {
+    const result = await startCheckout('en', 2600);
+
+    expect(result).toMatchObject({
+      ok: true,
+      data: { url: 'https://checkout.stripe.com/c/pay/cs_test_1' }
+    });
+    expect(create.mock.calls.at(-1)![0].line_items[0]!.price_data).toEqual({
+      currency: 'usd',
+      unit_amount: 2600,
+      product: 'prod_donation'
+    });
+  });
+
+  it.each([0, 99, 1_000_001, 12.5, Number.NaN, -500])(
+    'refuses %s cents before stripe hears of it',
+    async (cents) => {
+      const result = await startCheckout('en', cents);
+
+      expect(result.ok).toBe(false);
+      expect(create).not.toHaveBeenCalled();
+    }
+  );
 });

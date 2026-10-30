@@ -27,8 +27,6 @@ export const config = {
   } as const,
 
   stripe: {
-    publishableSecretKey: process.env.NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY as string,
-
     donation: {
       default: 5
     }

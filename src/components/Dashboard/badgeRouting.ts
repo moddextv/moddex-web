@@ -20,6 +20,10 @@ const KINDS: Record<string, Kind> = {
 
 export const kindOf = (badge: string): Kind => KINDS[badge] ?? 'badge';
 
+// a color variant is unlocked by a donation total, so nobody holds or grants one here
+export const grantable = <T extends { variantOf: string | null }>(catalogue: T[]): T[] =>
+  catalogue.filter((badge) => !badge.variantOf);
+
 // a flag few enough to list, read-only, through its own index
 export const listsHolders = (badge: string): boolean => badge === 'verified';
 

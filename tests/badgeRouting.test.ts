@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { SOURCES, flagCopyFor, kindOf, wears } from '@/components/Dashboard/badgeRouting';
+import {
+  SOURCES,
+  flagCopyFor,
+  grantable,
+  kindOf,
+  wears
+} from '@/components/Dashboard/badgeRouting';
 import en from '@/i18n/messages/en.json';
 
 const src = (...parts: string[]) => readFileSync(join(__dirname, '..', 'src', ...parts), 'utf8');
@@ -24,6 +30,16 @@ describe('the badge doors', () => {
     expect(kindOf('bot')).toBe('bots');
     expect(kindOf('donator')).toBe('badge');
     expect(kindOf('translator')).toBe('badge');
+  });
+
+  it('leaves the color variants out, which a donation total unlocks and nobody grants', () => {
+    const catalogue = [
+      { slug: 'donator', variantOf: null },
+      { slug: 'donator-rose', variantOf: 'donator' },
+      { slug: 'top-donator-onyx', variantOf: 'top-donator' }
+    ];
+
+    expect(grantable(catalogue).map((badge) => badge.slug)).toEqual(['donator']);
   });
 
   // verified is not twitch's, so the sentence naming twitch is the wrong one

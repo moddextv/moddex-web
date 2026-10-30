@@ -26,7 +26,7 @@
   "badges": {
     "alt": "{name} 徽章",
     "donator": "贊助者",
-    "donatorBody": "在 moddex 顯示你名字的每個地方，都會出現在名字旁邊。贊助 5 美元以上即可，永久有效。",
+    "donatorBody": "在 moddex 顯示你名字的每個地方，都會出現在名字旁邊。累計贊助 5 美元以上即可，永久有效。",
     "topDonator": "頂級贊助者",
     "topDonatorBody": "同一時間只有一個帳號持有：贊助最多的那一位。有人超過你時就會轉移。",
     "verifiedTooltip": "已驗證：曾在 moddex 登入"
@@ -331,7 +331,16 @@
     "signInHeading": "儀表板需要 Twitch 登入"
   },
   "donate": {
+    "addsUp": "贊助會累計，所以兩筆小額可以解鎖一筆大額會解鎖的內容。",
+    "chatOnly": "這些顏色現在就會顯示在 moddex 上你的名字旁邊，等 FrankerFaceZ 外掛上線後也會出現在 Twitch 聊天裡。現在就到設定裡選好，到時就已經設定完成。",
+    "chooseAmount": "選擇金額",
     "continue": "前往 Stripe",
+    "custom": "自訂",
+    "customLabel": "金額（美元）",
+    "cycle": {
+      "one": "包含 {count} 個徽章。",
+      "other": "包含 {count} 個徽章，點一下預覽。"
+    },
     "heading": "{brandName} 靠一台伺服器運作，沒有廣告",
     "holds": {
       "accounts": "個帳號",
@@ -341,20 +350,31 @@
       "roleRecords": "筆身分紀錄",
       "title": "這些錢撐起什麼"
     },
+    "howItWorks": "徽章怎麼運作",
     "lead": "沒有付費方案，沒有東西鎖在登入後面，API 是開放的。贊助是唯一讓它維持這樣的東西。",
     "metaDescription": "{brandName} 靠一台伺服器運作，沒有廣告。沒有付費方案，沒有東西鎖在登入後面，API 是開放的。",
+    "nextBadge": "顯示下一個徽章",
     "oneTime": "一次性，美元",
     "opening": "正在開啟 Stripe",
+    "previewName": "你的名字",
+    "signedIn": "已用 {login} 登入，徽章會自動放到這個帳號上。",
     "signedOut": "先用 Twitch 登入，徽章就會自動放到你的個人頁上。未登入贊助也可以，只是之後要在 Discord 留個訊息。",
+    "startsAt": "徽章從 {amount} 開始。低於這個金額一樣有幫助。",
     "straight": {
       "one": "這是對營運成本的貢獻，不是購買。",
       "three": "原則上不退款。如果出了問題，寫信給我們，我們會處理。",
       "title": "把話說清楚",
       "two": "徽章是裝飾。它們不會解鎖任何東西，也沒有金錢價值。"
     },
-    "stripeNote": "{brandName} 只保存付款參考編號和金額，其他都不存。卡片資料全程由 Stripe 處理。",
     "stripeUnreachable": "我們連不上 Stripe，所以沒有扣款。請稍後再試。",
-    "whatYouGet": "你會得到什麼"
+    "tooSmall": "請輸入至少 {amount}。",
+    "top": "榜首",
+    "topIncluded": {
+      "one": "拿下頂級贊助者皇冠。",
+      "other": "拿下頂級贊助者皇冠。包含 {count} 個徽章，點一下預覽。"
+    },
+    "whatYouGet": "你會得到什麼",
+    "yours": "贊助 {amount} 以上即可擁有。"
   },
   "errors": {
     "banned": {
@@ -805,8 +825,7 @@
   "success": {
     "amount": "金額",
     "assignedTo": "指派給",
-    "badgeGranted": "徽章已授予",
-    "body": "贊助是唯一讓 {brandName} 免費閱讀的東西，也沒有付費方案在等著上線。贊助者徽章已經在 <login>{login}</login> 上，{brandName} 顯示你名字的每個地方都會出現。",
+    "body": "贊助是唯一讓 {brandName} 免費閱讀的東西，也沒有付費方案在等著上線。你的累計贊助解鎖的一切已經在 <login>{login}</login> 上，在你名字旁邊，也可以在設定裡選來在聊天中佩戴。",
     "emailed": "由 Stripe 寄送",
     "heading": "真心感謝你",
     "metaTitle": "謝謝你",
@@ -817,10 +836,14 @@
       "notReturned": "Stripe 沒有回傳",
       "reference": "付款參考編號"
     },
-    "pickBadge": "選一個聊天徽章",
     "receipt": "收據",
     "reference": "參考編號",
     "seeProfile": "在你的個人頁上查看",
-    "settled": "付款完成"
+    "settled": "付款完成",
+    "unlocked": {
+      "one": "這筆贊助解鎖了它。",
+      "other": "這筆贊助解鎖了這些。點一下逐一查看。"
+    },
+    "wearOne": "選一個來佩戴"
   }
 }

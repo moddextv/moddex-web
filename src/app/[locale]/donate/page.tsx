@@ -4,7 +4,11 @@ import { pageMetadata } from '@/misc/metadata';
 import { Container } from '@/components/UI/Container';
 import { Image } from '@/components/UI/Image';
 import { DonateForm } from '@/components/DonateForm';
+import { auth } from '@/auth';
 import { config } from '@/config';
+import { tiersFrom } from '@/misc/donationTiers';
+import { logger } from '@/misc/Logger';
+import { getBadges, getTopDonation } from '@/utils/api/moddex/public';
 import { getIndexStats } from '@/utils/stats';
 import { Metadata } from 'next';
 import { CSSProperties, FC } from 'react';
@@ -58,37 +62,43 @@ const Held: FC<{ value: string; label: string }> = ({ value, label }) => (
 export default async function DonatePage({ params }: MetaProps) {
   const locale = asLocale((await params).locale);
   const t = getTranslator(locale);
-  const stats = await getIndexStats();
+  const [stats, catalogue, top, session] = await Promise.all([
+    getIndexStats(),
+    getBadges().catch((error) => {
+      logger.warn('donate: badge catalogue unreadable, offering amounts without badges', error);
+      return [];
+    }),
+    getTopDonation().catch((error) => {
+      logger.warn('donate: top donation unreadable', error);
+      return { totalCents: null };
+    }),
+    auth()
+  ]);
   const roleRecords = stats.mods + stats.vips;
+  const tiers = tiersFrom(catalogue, config.stripe.donation.default * 100, top.totalCents);
 
   return (
     <main id="main" className="flex-grow">
       <Container>
-        <header className="enter pt-12 pb-8">
-          <h1 className="text-h1 mb-3 max-w-[24ch]">
+        <header className="enter pt-12 pb-10 text-center">
+          <h1 className="text-h1 mb-3 max-w-[24ch] mx-auto">
             {t('donate.heading', { brandName: config.brand.name })}
           </h1>
-          <p className="text-lead text-primary-300 max-w-prose">{t('donate.lead')}</p>
+          <p className="text-lead text-primary-300 max-w-prose mx-auto">{t('donate.lead')}</p>
         </header>
+
+        <section className="enter pb-16" style={{ '--i': 1 } as CSSProperties}>
+          <DonateForm tiers={tiers} login={session?.user?.login ?? null} />
+        </section>
 
         <section
           className="enter grid items-start gap-6 lg:grid-cols-3 pb-6"
-          style={{ '--i': 1 } as CSSProperties}
+          style={{ '--i': 2 } as CSSProperties}
         >
           <div className="panel">
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-[2.25rem] font-extrabold leading-none tabular">
-                ${config.stripe.donation.default.toFixed(2)}
-              </span>
-              <span className="text-ui text-primary-400">{t('donate.oneTime')}</span>
-            </div>
-            <p className="text-read text-primary-300 mb-6">
-              {t('donate.stripeNote', { brandName: config.brand.name })}
-            </p>
-
-            <DonateForm />
-
-            <p className="text-ui text-primary-400 mt-4">{t('donate.signedOut')}</p>
+            <h2 className="text-h2 mb-5">{t('donate.howItWorks')}</h2>
+            <p className="text-read text-primary-300 mb-4">{t('donate.chatOnly')}</p>
+            <p className="text-read text-primary-300">{t('donate.addsUp')}</p>
           </div>
 
           <div className="panel">
@@ -121,7 +131,7 @@ export default async function DonatePage({ params }: MetaProps) {
           </div>
         </section>
 
-        <section className="enter pb-4" style={{ '--i': 2 } as CSSProperties}>
+        <section className="enter pb-4" style={{ '--i': 3 } as CSSProperties}>
           <div className="panel">
             <p className="text-meta text-primary-400 mb-4">{t('donate.holds.title')}</p>
             <div className="flex flex-wrap gap-x-14 gap-y-6">

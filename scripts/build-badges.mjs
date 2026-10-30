@@ -84,7 +84,15 @@ const BADGES = [
   { slug: 'bot', fill: '#008585', ink: PAPER, glyph: 'robot' },
   { slug: 'booster', fill: '#FF73FA', ink: INK, glyph: 'boost' },
   { slug: 'translator', fill: '#2563EB', ink: PAPER, glyph: 'globe' },
-  { slug: 'verified', fill: '#0EA5E9', ink: INK, glyph: 'fingerprint' }
+  { slug: 'verified', fill: '#0EA5E9', ink: INK, glyph: 'fingerprint' },
+
+  // color variants are worn in chat only, so no discord emoji is ever uploaded for one
+  { slug: 'donator-sky', fill: '#0369A1', ink: PAPER, glyph: 'heart', variant: true },
+  { slug: 'donator-violet', fill: '#6D28D9', ink: PAPER, glyph: 'heart', variant: true },
+  { slug: 'donator-rose', fill: '#BE123C', ink: PAPER, glyph: 'heart', variant: true },
+  { slug: 'donator-ember', fill: '#C2410C', ink: PAPER, glyph: 'heart', variant: true },
+  { slug: 'top-donator-onyx', fill: '#18181B', ink: '#FACC15', glyph: 'crown', variant: true },
+  { slug: 'top-donator-platinum', fill: '#E4E4E7', ink: INK, glyph: 'crown', variant: true }
 ];
 
 const srgb = (v) => {
@@ -174,7 +182,7 @@ for (const badge of BADGES) {
     const drawn = existsSync(icon.svg) && readFileSync(icon.svg, 'utf8') === glyph;
     const wrong = drawn ? [] : ['icon.svg DRIFT'];
 
-    if (!existsSync(icon.png)) wrong.push('icon.png missing');
+    if (!badge.variant && !existsSync(icon.png)) wrong.push('icon.png missing');
 
     // presence alone would pass three copies of one file, which is exactly the
     // mistake three densities exist to avoid
@@ -194,23 +202,28 @@ for (const badge of BADGES) {
     drift += wrong.length;
 
     report.push(
-      `  ${badge.slug.padEnd(12)} ${badge.fill}  glyph ${ink}  ${ratio.toFixed(2)}:1  ` +
+      `  ${badge.slug.padEnd(20)} ${badge.fill}  glyph ${ink}  ${ratio.toFixed(2)}:1  ` +
         `${ratio >= 3 ? 'ok ' : 'LOW'}  ${wrong.length ? `${wrong.length} PROBLEM` : 'files ok'}` +
         (wrong.length ? `\n               ${wrong.join('\n               ')}` : '')
     );
 
     expected.push(
-      ...['icon.svg', 'icon.png', ...marks.map((one) => basename(one.path))].map(
-        (file) => `${badge.slug}/${file}`
-      )
+      ...[
+        'icon.svg',
+        ...(badge.variant ? [] : ['icon.png']),
+        ...marks.map((one) => basename(one.path))
+      ].map((file) => `${badge.slug}/${file}`)
     );
   } else {
     mkdirSync(dirFor(badge.slug), { recursive: true });
 
     writeFileSync(icon.svg, glyph);
-    await sharp(Buffer.from(svgAt(glyph, ICON_PNG_SIZE)))
-      .png({ compressionLevel: 9 })
-      .toFile(icon.png);
+
+    if (!badge.variant) {
+      await sharp(Buffer.from(svgAt(glyph, ICON_PNG_SIZE)))
+        .png({ compressionLevel: 9 })
+        .toFile(icon.png);
+    }
 
     for (const { path, size } of marks) {
       await sharp(Buffer.from(svgAt(mark, size)))
@@ -239,5 +252,5 @@ if (check) {
   console.log(drift ? `\n${drift} file(s) differ. Run: npm run badges` : '\nall ok');
   process.exit(drift ? 1 : 0);
 } else {
-  console.log(`wrote ${BADGES.length} badge directories, 5 files each, to public/badges`);
+  console.log(`wrote ${BADGES.length} badge directories to public/badges`);
 }

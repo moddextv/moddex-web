@@ -26,7 +26,7 @@
   "badges": {
     "alt": "The {name} badge",
     "donator": "donator",
-    "donatorBody": "Sits beside your name everywhere moddex shows it. Any donation of $5 or more, permanently.",
+    "donatorBody": "Sits beside your name everywhere moddex shows it. A donation total of $5 or more, permanently.",
     "topDonator": "top donator",
     "topDonatorBody": "Held by exactly one account at a time, whoever has given the most. It moves when somebody passes you.",
     "verifiedTooltip": "verified: signed in on moddex"
@@ -331,7 +331,16 @@
     "signInHeading": "The dashboard needs a Twitch sign-in"
   },
   "donate": {
+    "addsUp": "Donations add up, so two smaller ones unlock what one larger one would.",
+    "chatOnly": "The colors show beside your name on moddex now, and in Twitch chat once the FrankerFaceZ add-on ships. Pick yours in your settings and it is already set when it does.",
+    "chooseAmount": "Choose an amount",
     "continue": "Continue to Stripe",
+    "custom": "Custom",
+    "customLabel": "Amount in USD",
+    "cycle": {
+      "one": "{count} badge included.",
+      "other": "{count} badges included, click to preview."
+    },
     "heading": "{brandName} runs on one server and no advertising",
     "holds": {
       "accounts": "accounts",
@@ -341,20 +350,31 @@
       "roleRecords": "role records",
       "title": "What the money holds up"
     },
+    "howItWorks": "How the badges work",
     "lead": "No paid tier, nothing behind a login, and the api is open. Donations are the only thing keeping it that way.",
     "metaDescription": "{brandName} runs on one server and no advertising. No paid tier, nothing behind a login, and the api is open.",
+    "nextBadge": "Show the next badge",
     "oneTime": "one time, USD",
     "opening": "Opening Stripe",
+    "previewName": "YourNameHere",
+    "signedIn": "Signed in as {login}, so the badges land on that account automatically.",
     "signedOut": "Sign in with Twitch first and the badge lands on your profile automatically. Donating signed out works too, it just needs a message in the Discord afterward.",
+    "startsAt": "The badge starts at {amount}. Anything below still helps.",
     "straight": {
       "one": "A contribution to running costs, not a purchase.",
       "three": "Generally non-refundable. If something went wrong, write and we'll sort it out.",
       "title": "Being straight about it",
       "two": "The badges are cosmetic. They don't unlock anything and carry no monetary value."
     },
-    "stripeNote": "{brandName} stores the payment reference and the amount, nothing else. Stripe handles the card details end to end.",
     "stripeUnreachable": "We couldn't reach Stripe, so nothing was charged. Try again in a moment.",
-    "whatYouGet": "What you get"
+    "tooSmall": "Enter at least {amount}.",
+    "top": "Top",
+    "topIncluded": {
+      "one": "Takes the top donator crown.",
+      "other": "Takes the top donator crown. {count} badges included, click to preview."
+    },
+    "whatYouGet": "What you get",
+    "yours": "Yours with a donation of {amount} or more."
   },
   "errors": {
     "banned": {
@@ -805,8 +825,7 @@
   "success": {
     "amount": "Amount",
     "assignedTo": "Assigned to",
-    "badgeGranted": "Badge granted",
-    "body": "Donations are the only thing keeping {brandName} free to read, and there's no paid tier waiting in the wings. The donator badge is on <login>{login}</login> already, and it'll show up next to your name everywhere {brandName} prints it.",
+    "body": "Donations are the only thing keeping {brandName} free to read, and there's no paid tier waiting in the wings. Whatever your total has earned is on <login>{login}</login> already, beside your name and in your settings to wear in chat.",
     "emailed": "Emailed by Stripe",
     "heading": "Thank you, genuinely",
     "metaTitle": "Thank you",
@@ -817,10 +836,14 @@
       "notReturned": "not returned by Stripe",
       "reference": "Payment reference"
     },
-    "pickBadge": "Pick a chat badge",
     "receipt": "Receipt",
     "reference": "Reference",
     "seeProfile": "See it on your profile",
-    "settled": "Payment settled"
+    "settled": "Payment settled",
+    "unlocked": {
+      "one": "Unlocked with this donation.",
+      "other": "Unlocked with this donation. Click through them."
+    },
+    "wearOne": "Pick one to wear"
   }
 }

@@ -88,8 +88,6 @@ jobs:
           outputs: type=image,name=${{ env.IMAGE }},push-by-digest=true,name-canonical=true,push=true
           cache-from: type=gha,scope=${{ matrix.platform }}
           cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
-          build-args: |
-            NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY=${{ secrets.NEXT_PUBLIC_PUBLISHABLE_SECRET_KEY }}
 
       - name: Export the digest
         run: |
