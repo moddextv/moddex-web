@@ -5,6 +5,9 @@ import { LocaleLink } from '@/components/UI/LocaleLink';
 import { FilterChoice } from '@/components/UI/FilterMenu';
 import { Container } from '@/components/UI/Container';
 import { LeaderRows } from '@/components/Leaderboard/LeaderRows';
+import { YourPlace } from '@/components/Leaderboard/YourPlace';
+import { auth } from '@/auth';
+import { getUser } from '@/utils/user';
 import { LeaderScale, getLeaderboard } from '@/utils/api/moddex/public';
 import { Metadata } from 'next';
 import { config } from '@/config';
@@ -55,7 +58,11 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
   const bots = params.bots === 'include' ? 'include' : 'exclude';
   const activeLabel = t(`leaderboard.scales.${scale}.label`);
 
-  const board = await getLeaderboard(scale, { limit: 50, bots });
+  const [board, session] = await Promise.all([getLeaderboard(scale, { limit: 50, bots }), auth()]);
+  const login = session?.user?.login;
+  const you = login ? ((await getUser(login).catch(() => null))?.user ?? null) : null;
+  const yours = you?.roles?.[scale === 'roles' ? 'total' : scale] ?? null;
+  const tone = SCALES.find((entry) => entry.key === scale)?.tone || 'text-primary-100';
   const href = (next: Partial<{ scale: string; bots: string }>) => {
     const query = new URLSearchParams({ scale, ...(bots === 'include' ? { bots } : {}), ...next });
 
@@ -122,8 +129,18 @@ export default async function LeaderboardPage({ params: routeParams, searchParam
               </span>
             </div>
 
+            {you && yours && yours.count > 0 && (
+              <YourPlace you={you} scale={yours} tone={tone} locale={locale} />
+            )}
+
             {board.items.length ? (
-              <LeaderRows scale={scale} label={activeLabel} items={board.items} locale={locale} />
+              <LeaderRows
+                scale={scale}
+                label={activeLabel}
+                items={board.items}
+                locale={locale}
+                youId={you?.id}
+              />
             ) : (
               <p className="px-4 pb-6 text-ui text-primary-400">{t('leaderboard.empty')}</p>
             )}

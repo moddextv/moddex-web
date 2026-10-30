@@ -517,6 +517,7 @@
     "metaDescription": "Twitch 上誰擁有最多版主、VIP 和創始人身分，由 {brandName} 計算。",
     "movedHead": "7 天",
     "movedNote": "最後一欄標記過去一週名次有變動的帳號，上升或下降。空白表示名次沒變。",
+    "notRanked": "持有兩個以上角色才會排名",
     "ranked": "已排名",
     "scales": {
       "founder": {
@@ -536,7 +537,9 @@
         "tab": "VIP"
       }
     },
-    "tabsLabel": "要排名哪些身分"
+    "tabsLabel": "要排名哪些身分",
+    "you": "你",
+    "yourRank": "排名第 {rank}，共 {of}（含機器人）"
   },
   "legal": {
     "englishOnly": {

@@ -517,6 +517,7 @@
     "metaDescription": "Wer auf Twitch die meisten Mod-, VIP- und Founder-Rollen hält, gezählt von {brandName}.",
     "movedHead": "7 Tage",
     "movedNote": "Die letzte Spalte markiert die Konten, deren Platz sich in der vergangenen Woche verändert hat, nach oben oder unten. Leer heisst: Platz gehalten.",
+    "notRanked": "Ränge gibt es ab zwei Rollen",
     "ranked": "gewertet",
     "scales": {
       "founder": {
@@ -536,7 +537,9 @@
         "tab": "VIPs"
       }
     },
-    "tabsLabel": "Welche Rollen gewertet werden"
+    "tabsLabel": "Welche Rollen gewertet werden",
+    "you": "Du",
+    "yourRank": "Rang {rank} von {of}, Bots mitgezählt"
   },
   "legal": {
     "englishOnly": {

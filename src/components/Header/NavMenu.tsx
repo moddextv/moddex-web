@@ -2,7 +2,7 @@
 
 import { localeFlag, localeName, LOCALES, swapLocale } from '@/i18n/locales';
 import { useI18n } from '@/i18n/context';
-import { FC, useRef, useState } from 'react';
+import { FC, MouseEvent, useRef, useState } from 'react';
 import {
   Dropdown,
   DropdownItem,
@@ -29,6 +29,11 @@ import { Image } from '@/components/UI/Image';
 import { config } from '@/config';
 import { permissions } from '@/utils/permissions';
 
+// the dom typings this compiler ships predate view transitions
+type TransitionDocument = Document & {
+  startViewTransition?: (update: () => void) => { ready: Promise<void> };
+};
+
 const external = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
 interface NavMenuProps {
@@ -44,6 +49,40 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
   // heroui caches the menu, so a handler must read the theme through a ref
   const isDark = useRef(false);
   isDark.current = resolvedTheme === 'dark';
+
+  // the new theme spreads from the button; next-themes applies its class in an effect, too late
+  const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
+    const next = isDark.current ? 'light' : 'dark';
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const doc = document as TransitionDocument;
+
+    if (still || !doc.startViewTransition) return setTheme(next);
+
+    const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const reach = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const root = document.documentElement;
+
+    const swap = doc.startViewTransition(() => {
+      root.classList.remove('light', 'dark');
+      root.classList.add(next);
+      root.style.colorScheme = next;
+      setTheme(next);
+    });
+
+    void swap.ready.then(() =>
+      root.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${reach}px at ${x}px ${y}px)`] },
+        {
+          duration: 560,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          pseudoElement: '::view-transition-new(root)'
+        }
+      )
+    );
+  };
 
   const user = session?.user;
   const login = user?.login ?? 'account';
@@ -291,7 +330,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
                         type="button"
                         className="theme-toggle"
                         aria-label={t('nav.themeToggle')}
-                        onClick={() => setTheme(isDark.current ? 'light' : 'dark')}
+                        onClick={toggleTheme}
                       >
                         <span className="theme-to-light">
                           <SunIcon size={17} />

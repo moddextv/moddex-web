@@ -689,6 +689,18 @@
 		background: var(--hover);
 	}
 
+	/* the reader's own row: a quiet tint, so it is found rather than shouted */
+	.row.your-place,
+	.row.is-you {
+		background: rgb(var(--mod-rgb) / 0.07);
+		box-shadow: inset 2px 0 0 rgb(var(--mod-rgb) / 0.7);
+	}
+
+	.row.your-place:hover,
+	.row.is-you:hover {
+		background: rgb(var(--mod-rgb) / 0.12);
+	}
+
 	.row:hover .row-name {
 		text-decoration: underline;
 		text-underline-offset: 3px;
@@ -1085,6 +1097,34 @@
 		grid-area: avatar;
 	}
 
+	.profile-head .profile-avatar {
+		animation: profile-pop 560ms var(--ease-deck) both;
+	}
+
+	.profile-head .profile-identity {
+		animation: profile-rise 520ms var(--ease-deck) 90ms both;
+	}
+
+	@keyframes profile-pop {
+		from {
+			opacity: 0;
+			transform: scale(0.82);
+			filter: blur(4px);
+		}
+		60% {
+			opacity: 1;
+			transform: scale(1.04);
+			filter: none;
+		}
+	}
+
+	@keyframes profile-rise {
+		from {
+			opacity: 0;
+			transform: translateX(-10px);
+		}
+	}
+
 	.profile-identity {
 		grid-area: identity;
 	}
@@ -1443,6 +1483,17 @@
 	outline: none;
 }
 
+/* the theme toggle is the only view transition: its circle is drawn by script */
+::view-transition {
+	pointer-events: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
@@ -1464,6 +1515,8 @@
 	.tip-amount,
 	.rank-move,
 	.rank-move svg,
+	.profile-head .profile-avatar,
+	.profile-head .profile-identity,
 	.dialog.quick-search[open],
 	.dialog.quick-search[open]::backdrop {
 		animation: none !important;

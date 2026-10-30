@@ -517,6 +517,7 @@
     "metaDescription": "Who holds the most mod, vip and founder roles on Twitch, counted by {brandName}.",
     "movedHead": "7 days",
     "movedNote": "The last column marks the accounts whose place changed in the past week, up or down. Blank means the place held.",
+    "notRanked": "Ranks start at two roles",
     "ranked": "ranked",
     "scales": {
       "founder": {
@@ -536,7 +537,9 @@
         "tab": "VIPs"
       }
     },
-    "tabsLabel": "Which roles to rank"
+    "tabsLabel": "Which roles to rank",
+    "you": "You",
+    "yourRank": "Rank {rank} of {of}, bots included"
   },
   "legal": {
     "englishOnly": {

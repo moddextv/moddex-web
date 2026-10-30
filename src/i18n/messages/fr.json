@@ -517,6 +517,7 @@
     "metaDescription": "Qui détient le plus de rôles mod, vip et fondateur sur Twitch, compté par {brandName}.",
     "movedHead": "7 jours",
     "movedNote": "La dernière colonne signale les comptes dont la place a changé au cours de la semaine écoulée, vers le haut ou vers le bas. Vide : la place a tenu.",
+    "notRanked": "Le classement commence à deux rôles",
     "ranked": "classés",
     "scales": {
       "founder": {
@@ -536,7 +537,9 @@
         "tab": "VIP"
       }
     },
-    "tabsLabel": "Quels rôles classer"
+    "tabsLabel": "Quels rôles classer",
+    "you": "Toi",
+    "yourRank": "Rang {rank} sur {of}, bots compris"
   },
   "legal": {
     "englishOnly": {

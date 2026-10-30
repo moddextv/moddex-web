@@ -44,7 +44,8 @@ export const LeaderRows: FC<{
   label: string;
   items: LeaderRow[];
   locale: Locale;
-}> = ({ scale, label, items, locale }) => {
+  youId?: string;
+}> = ({ scale, label, items, locale, youId }) => {
   const t = getTranslator(locale);
 
   return (
@@ -60,7 +61,7 @@ export const LeaderRows: FC<{
         <Link
           key={row.id}
           href={localePath(locale, `/user/${row.login}`)}
-          className="row cols-leaders"
+          className={clsx('row cols-leaders', row.id === youId && 'is-you')}
         >
           <span className="text-ui tabular text-primary-400">{row.place}</span>
 
