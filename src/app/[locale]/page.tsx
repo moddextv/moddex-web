@@ -258,11 +258,15 @@ export default async function Home({ params }: MetaProps) {
               {rich(
                 'home.stats.across',
                 {
-                  channels: (chunk) => (
-                    <span className="text-primary-100 font-bold tabular">{chunk}</span>
+                  channels: () => (
+                    <span className="text-primary-100 font-bold tabular">
+                      <CountUp value={stats.channels} />
+                    </span>
                   ),
-                  accounts: (chunk) => (
-                    <span className="text-primary-100 font-bold tabular">{chunk}</span>
+                  accounts: () => (
+                    <span className="text-primary-100 font-bold tabular">
+                      <CountUp value={stats.users} />
+                    </span>
                   )
                 },
                 {

@@ -226,6 +226,20 @@
 			background-color var(--duration) var(--ease);
 	}
 
+	/* a phone holds the mark, two words, a heart and the avatar, and nothing to spare */
+	@media (max-width: 400px) {
+		.nav-link {
+			gap: 7px;
+			padding: 0 8px;
+		}
+	}
+
+	@media (max-width: 380px) {
+		.nav-link .corner {
+			display: none;
+		}
+	}
+
 	.nav-link:hover {
 		color: var(--text);
 		background: var(--raised);
@@ -459,6 +473,37 @@
 	.tip-swap,
 	.tip-amount {
 		animation: tip-rise 360ms var(--ease-deck) both;
+	}
+
+	.rank-move {
+		animation: rank-in 560ms var(--ease-deck) both;
+		animation-delay: min(calc(200ms + var(--i, 0) * 28ms), 800ms);
+	}
+
+	.rank-move.is-up {
+		--from: 7px;
+	}
+
+	.rank-move.is-down {
+		--from: -7px;
+	}
+
+	.rank-move svg {
+		animation: rank-nudge 900ms var(--ease-deck) both;
+		animation-delay: min(calc(320ms + var(--i, 0) * 28ms), 920ms);
+	}
+
+	@keyframes rank-in {
+		from {
+			opacity: 0;
+			transform: translateY(var(--from));
+		}
+	}
+
+	@keyframes rank-nudge {
+		40% {
+			transform: translateY(calc(var(--from) * -0.45));
+		}
 	}
 
 	@keyframes tip-deal {
@@ -932,6 +977,29 @@
 		background: var(--scrim);
 	}
 
+	/* suggestions hang below the field, so the dialog may not clip them */
+	.dialog.quick-search {
+		max-width: min(36rem, calc(100vw - 32px));
+		width: 100%;
+		margin-top: 14vh;
+		overflow: visible;
+	}
+
+	.dialog.quick-search[open] {
+		animation: quick-search-in 260ms var(--ease-deck) both;
+	}
+
+	.dialog.quick-search[open]::backdrop {
+		animation: tip-fade 260ms var(--ease-deck) both;
+	}
+
+	@keyframes quick-search-in {
+		from {
+			opacity: 0;
+			transform: translateY(-8px) scale(0.98);
+		}
+	}
+
 	.panel-flush {
 		background: var(--raised);
 		border-radius: var(--radius-lg);
@@ -1375,7 +1443,53 @@
 	outline: none;
 }
 
+/* navigation: an account moves from its row into its profile, the rest crossfades */
+::view-transition {
+	pointer-events: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 200ms;
+}
+
+::view-transition-group(.morph) {
+	animation-duration: 420ms;
+	animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-image-pair(.morph) {
+	animation-name: morph-blur;
+}
+
+@keyframes morph-blur {
+	35% {
+		filter: blur(2px);
+	}
+}
+
+::view-transition-group(site-header) {
+	animation: none;
+	z-index: 100;
+}
+
+::view-transition-old(site-header) {
+	display: none;
+}
+
+::view-transition-new(site-header) {
+	animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
+	::view-transition-old(*),
+	::view-transition-new(*),
+	::view-transition-group(*),
+	::view-transition-image-pair(*) {
+		animation-duration: 0s !important;
+		animation-delay: 0s !important;
+	}
+
 	html {
 		scroll-behavior: auto;
 	}
@@ -1393,7 +1507,11 @@
 	.tip-card,
 	.tip-pulse,
 	.tip-swap,
-	.tip-amount {
+	.tip-amount,
+	.rank-move,
+	.rank-move svg,
+	.dialog.quick-search[open],
+	.dialog.quick-search[open]::backdrop {
 		animation: none !important;
 		transition: none;
 	}

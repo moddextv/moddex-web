@@ -4,6 +4,7 @@ import { Badges, explainBadge } from '@/components/User/Badges';
 import { RoleUser } from '@/misc/account';
 import { UserType } from '@/misc/roles';
 import { Avatar } from '@/components/UI/Avatar';
+import { Morph } from '@/components/UI/Morph';
 import { LocaleLink } from '@/components/UI/LocaleLink';
 import { EyeOffIcon } from '@/components/Icons';
 import clsx from 'clsx';
@@ -25,10 +26,21 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
         className={clsx('row cols-people h-full', onHide && 'pr-14')}
       >
         <span className="flex items-center gap-3.5 min-w-0">
-          <Avatar src={user.avatar} name={user.name || user.login} size={36} className="w-9 h-9" />
+          <Morph id={user.id} part="avatar">
+            <Avatar
+              src={user.avatar}
+              name={user.name || user.login}
+              size={36}
+              className="w-9 h-9"
+            />
+          </Morph>
 
           <span className="flex items-center gap-2 min-w-0">
-            <span className="row-name text-base font-bold truncate">{user.name || user.login}</span>
+            <Morph id={user.id} part="name">
+              <span className="row-name text-base font-bold truncate">
+                {user.name || user.login}
+              </span>
+            </Morph>
             <Badges
               badges={user.badges}
               size={18}

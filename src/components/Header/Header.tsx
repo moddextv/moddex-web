@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import { NavLinks } from '@/components/Header/NavLinks';
 import { NavMenu } from '@/components/Header/NavMenu';
 import { SignInButton } from '@/components/Header/SignInButton';
+import { QuickSearch } from '@/components/Search/QuickSearch';
 import { Container } from '@/components/UI/Container';
 import { Mark } from '@/components/UI/Mark';
 import { config } from '@/config';
@@ -19,7 +20,7 @@ export const Header = async ({ locale }: { locale: Locale }) => {
         {t('nav.skipToContent')}
       </a>
 
-      <header className="nav">
+      <header className="nav" style={{ viewTransitionName: 'site-header' }}>
         <Container className="nav-inner">
           <Link
             href={localePath(locale, '/')}
@@ -33,6 +34,7 @@ export const Header = async ({ locale }: { locale: Locale }) => {
           <NavLinks />
 
           <div className="ml-auto flex items-center gap-2 shrink-0">
+            <QuickSearch />
             {!session?.user && <SignInButton />}
             <NavMenu session={session} />
           </div>

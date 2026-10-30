@@ -11,7 +11,8 @@ import { logger } from '@/misc/Logger';
 import { getBadges, getTopDonation } from '@/utils/api/moddex/public';
 import { getIndexStats } from '@/utils/stats';
 import { Metadata } from 'next';
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
+import { CountUp } from '@/components/UI/CountUp';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,7 +53,7 @@ const Term: FC<{ children: string }> = ({ children }) => (
   </li>
 );
 
-const Held: FC<{ value: string; label: string }> = ({ value, label }) => (
+const Held: FC<{ value: ReactNode; label: string }> = ({ value, label }) => (
   <div>
     <p className="text-h1 font-extrabold leading-none tabular mb-1.5">{value}</p>
     <p className="text-ui text-primary-400">{label}</p>
@@ -135,9 +136,9 @@ export default async function DonatePage({ params }: MetaProps) {
           <div className="panel">
             <p className="text-meta text-primary-400 mb-4">{t('donate.holds.title')}</p>
             <div className="flex flex-wrap gap-x-14 gap-y-6">
-              <Held value={t.number(roleRecords)} label={t('donate.holds.roleRecords')} />
-              <Held value={t.number(stats.users)} label={t('donate.holds.accounts')} />
-              <Held value={t.number(stats.channels)} label={t('donate.holds.channels')} />
+              <Held value={<CountUp value={roleRecords} />} label={t('donate.holds.roleRecords')} />
+              <Held value={<CountUp value={stats.users} />} label={t('donate.holds.accounts')} />
+              <Held value={<CountUp value={stats.channels} />} label={t('donate.holds.channels')} />
               <Held value={t('donate.holds.backupsValue')} label={t('donate.holds.backups')} />
             </div>
           </div>

@@ -161,6 +161,24 @@ export const MenuIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   </svg>
 );
 
+export const HeartIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={color}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    strokeWidth="1.5"
+    strokeLinejoin="round"
+  >
+    <path
+      stroke="currentColor"
+      d="M12 20s-7.5-4.4-7.5-10A4.5 4.5 0 0 1 12 7.3 4.5 4.5 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10Z"
+    />
+  </svg>
+);
+
 export const SearchIcon: FC<SvgIconProps> = ({ size = 32, color = '' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

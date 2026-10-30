@@ -5,6 +5,7 @@ import { Badges, explainBadge } from '@/components/User/Badges';
 import { User } from '@/misc/account';
 import { displayBio } from '@/utils/text';
 import { Avatar } from '@/components/UI/Avatar';
+import { Morph } from '@/components/UI/Morph';
 import { FC, useEffect } from 'react';
 import { DiscordIcon, ReloadIcon, TwitchIcon } from '@/components/Icons';
 import { CopyButton } from '@/components/UI/CopyButton';
@@ -87,18 +88,22 @@ export const UserProfile: FC<{ user: User; isUser?: boolean }> = ({ user, isUser
   return (
     <section className="enter pt-10">
       <div className={clsx('profile-head', bio && 'has-bio')}>
-        <Avatar
-          src={currentUser?.avatar}
-          name={currentUser?.name || currentUser?.login || ''}
-          size={88}
-          className="profile-avatar w-16 h-16 sm:w-[88px] sm:h-[88px]"
-        />
+        <Morph id={String(id)} part="avatar">
+          <Avatar
+            src={currentUser?.avatar}
+            name={currentUser?.name || currentUser?.login || ''}
+            size={88}
+            className="profile-avatar w-16 h-16 sm:w-[88px] sm:h-[88px]"
+          />
+        </Morph>
 
         <div className="profile-identity min-w-0">
           <div className="flex items-center gap-3 flex-wrap min-w-0">
-            <h1 className="text-h1 min-w-0 truncate" title={name}>
-              {name}
-            </h1>
+            <Morph id={String(id)} part="name">
+              <h1 className="text-h1 min-w-0 truncate" title={name}>
+                {name}
+              </h1>
+            </Morph>
             <Badges badges={currentUser?.badges || []} explain={explainBadge(t)} />
           </div>
           <p className="mt-0.5 flex items-baseline gap-2 flex-wrap min-w-0">
