@@ -35,8 +35,9 @@ export const seedRoleLists = cache(
   }
 );
 
+// a list that failed to load is unknown, not empty, so it never earns noindex
 export const isEmpty = (seed: Seed): boolean =>
-  Object.values(seed).every((page) => (page?.items.length ?? 0) === 0);
+  Object.values(seed).every((page) => page !== undefined && page.items.length === 0);
 
 // a seeded page carries `total` only when the api paginated it, so a short list
 // counts its own rows and a long one reports what the api said
