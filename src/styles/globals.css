@@ -203,6 +203,29 @@
 		height: 100%;
 	}
 
+	.locale-hint {
+		background: var(--raised);
+		border-bottom: 1px solid var(--line-soft);
+	}
+
+	.locale-hint-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 6px 14px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+
+	.locale-hint-dismiss {
+		margin-left: auto;
+		color: var(--text-alt);
+	}
+
+	.locale-hint-dismiss:hover {
+		color: var(--text);
+	}
+
 	/* .enter animates opacity, so every section is its own stacking context and a
 	   later one paints over the suggestion list whatever z-index it carries */
 	.search-host {

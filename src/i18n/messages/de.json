@@ -672,6 +672,11 @@
     "showEverything": "Alles anzeigen",
     "whichRoles": "Welche Rollen gezeigt werden"
   },
+  "localeHint": {
+    "text": "Diese Seite gibt es auch auf Deutsch.",
+    "switch": "Auf Deutsch wechseln",
+    "dismiss": "Nein danke"
+  },
   "nav": {
     "backToMenu": "Zurück",
     "language": "Sprache",

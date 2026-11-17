@@ -22,6 +22,7 @@ export const config = {
       en: { name: 'English', tag: 'en-US', flag: 'gb' },
       de: { name: 'Deutsch', tag: 'de-DE', flag: 'de' },
       fr: { name: 'Français', tag: 'fr-FR', flag: 'fr' },
+      es: { name: 'Español', tag: 'es-ES', flag: 'es' },
       zh: { name: '繁體中文', tag: 'zh-TW', flag: 'tw' }
     }
   } as const,

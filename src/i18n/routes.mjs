@@ -46,12 +46,12 @@ export const LOCALIZED_SEGMENTS = [
  * deeper segments are paging and usernames, which nobody types.
  */
 export const ROUTE_SLUGS = {
-  about: { de: 'ueber-moddex', fr: 'a-propos' },
-  channel: { de: 'kanal', fr: 'chaine' },
-  compare: { de: 'vergleich', fr: 'comparer' },
-  donate: { de: 'spenden', fr: 'don' },
-  leaderboard: { de: 'rangliste', fr: 'classement' },
-  user: { de: 'account', fr: 'compte' }
+  about: { de: 'ueber-moddex', fr: 'a-propos', es: 'acerca-de' },
+  channel: { de: 'kanal', fr: 'chaine', es: 'canal' },
+  compare: { de: 'vergleich', fr: 'comparer', es: 'comparar' },
+  donate: { de: 'spenden', fr: 'don', es: 'donar' },
+  leaderboard: { de: 'rangliste', fr: 'classement', es: 'clasificacion' },
+  user: { de: 'account', fr: 'compte', es: 'cuenta' }
 };
 
 export const slugFor = (locale, segment) => ROUTE_SLUGS[segment]?.[locale] ?? segment;

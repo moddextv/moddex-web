@@ -672,6 +672,11 @@
     "showEverything": "Show everything",
     "whichRoles": "Which roles to show"
   },
+  "localeHint": {
+    "text": "This site is also available in English.",
+    "switch": "Switch to English",
+    "dismiss": "No thanks"
+  },
   "nav": {
     "backToMenu": "Back",
     "language": "Language",

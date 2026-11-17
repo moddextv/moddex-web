@@ -22,6 +22,11 @@ const flags = {
     `<rect width="${n(W / 3)}" height="${H}" fill="#002395"/>` +
     `<rect x="${n((W / 3) * 2)}" width="${n(W / 3)}" height="${H}" fill="#ED2939"/>`,
 
+  // the civil flag: the arms are illegible at 20px
+  es: () =>
+    `<rect width="${W}" height="${H}" fill="#AA151B"/>` +
+    `<rect y="${n(H / 4)}" width="${W}" height="${n(H / 2)}" fill="#F1BF00"/>`,
+
   // the sun's twelve rays, one path; the canton is the upper hoist quarter
   tw: () => {
     const cx = n(W / 4);

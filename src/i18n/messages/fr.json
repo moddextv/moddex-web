@@ -672,6 +672,11 @@
     "showEverything": "Tout afficher",
     "whichRoles": "Quels rôles afficher"
   },
+  "localeHint": {
+    "text": "Ce site existe aussi en français.",
+    "switch": "Passer au français",
+    "dismiss": "Non merci"
+  },
   "nav": {
     "backToMenu": "Retour",
     "language": "Langue",

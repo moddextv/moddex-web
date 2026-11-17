@@ -1,4 +1,12 @@
-import { asLocale, DEFAULT_LOCALE, isLocale, LOCALES, localeTag, ogLocale } from '@/i18n/locales';
+import {
+  asLocale,
+  DEFAULT_LOCALE,
+  isLocale,
+  Locale,
+  LOCALES,
+  localeTag,
+  ogLocale
+} from '@/i18n/locales';
 import { dictionaryOf, getTranslator } from '@/i18n/dictionary';
 import { I18nProvider } from '@/i18n/context';
 import '@/styles/globals.css';
@@ -13,6 +21,24 @@ import { Konami } from '@/components/Konami';
 import { config } from '@/config';
 import { jetbrains, manrope } from '@/fonts';
 import { UnknownPage } from '@/components/Errors';
+import { LocaleHint, LocaleHintCopy } from '@/components/LocaleHint';
+
+// each offer is written in the language it offers, so every locale's copy ships
+const localeHints = () =>
+  Object.fromEntries(
+    LOCALES.map((entry) => {
+      const t = getTranslator(entry);
+
+      return [
+        entry,
+        {
+          text: t('localeHint.text'),
+          switch: t('localeHint.switch'),
+          dismiss: t('localeHint.dismiss')
+        }
+      ];
+    })
+  ) as Record<Locale, LocaleHintCopy>;
 
 /**
  * A layout may not export a static `metadata` here: the title, the description
@@ -92,6 +118,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
             <Insights />
             <Konami />
             <Header locale={locale} />
+            <LocaleHint hints={localeHints()} />
             {known ? children : <UnknownPage />}
             <Footer locale={locale} />
           </Providers>

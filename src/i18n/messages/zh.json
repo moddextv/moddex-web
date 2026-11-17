@@ -672,6 +672,11 @@
     "showEverything": "顯示全部",
     "whichRoles": "要顯示哪些身分"
   },
+  "localeHint": {
+    "text": "本網站也提供繁體中文版本。",
+    "switch": "切換為繁體中文",
+    "dismiss": "不用了"
+  },
   "nav": {
     "backToMenu": "返回",
     "language": "語言",

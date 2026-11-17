@@ -2,6 +2,7 @@
 
 import { localeFlag, localeName, LOCALES, swapLocale } from '@/i18n/locales';
 import { useI18n } from '@/i18n/context';
+import { rememberLocale } from '@/i18n/preferred';
 import { FC, MouseEvent, useRef, useState } from 'react';
 import {
   Dropdown,
@@ -200,6 +201,7 @@ export const NavMenu: FC<NavMenuProps> = ({ session }) => {
                   <DropdownItem
                     key={`locale-${entry}`}
                     href={swapLocale(pathname, entry)}
+                    onPress={() => rememberLocale(entry)}
                     hrefLang={entry}
                     lang={entry}
                     textValue={localeName(entry)}
