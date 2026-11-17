@@ -746,6 +746,14 @@
     "status": "Status",
     "terms": "Terms"
   },
+  "past": {
+    "toggle": "Earlier",
+    "collapse": "Hide earlier",
+    "note": "Roles that have since ended. moddex notices an end the next time it reads the channel, so a role had ended by the month shown, sometimes sooner.",
+    "ended": "Ended",
+    "endedHead": "The month moddex noticed the role was gone",
+    "endedTitle": "Noticed on {date}. The role may have ended sooner."
+  },
   "profile": {
     "connected": "connected",
     "copyShortUrl": "Copy short url",

@@ -5,6 +5,7 @@ import { FC, ReactNode } from 'react';
 import { SearchIcon } from '@/components/Icons';
 import { ColumnKey, Direction } from '@/components/User/columns';
 import { ListFilters } from '@/components/User/ListFilters';
+import { PastRoles } from '@/components/User/PastRoles';
 import { showListTotal } from '@/components/User/listCount';
 import { UserListItem } from '@/components/User/UserListItem';
 import { UserListLoading } from '@/components/User/UserListLoading';
@@ -182,6 +183,8 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
         ) : (
           <p className="text-read text-primary-300 max-w-prose">{t('misc.noneRead')}</p>
         )}
+
+        <PastRoles user={user} type={type} role={role} canHide={owner} className="-mx-4 -mb-4" />
       </div>
     );
   }
@@ -351,6 +354,8 @@ export const UserList: FC<UserListProps> = ({ type, role, user, initial, tabbed 
           </button>
         </p>
       )}
+
+      <PastRoles user={user} type={type} role={role} canHide={owner} />
     </div>
   );
 };

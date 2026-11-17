@@ -3,7 +3,7 @@
 import { RoleType, UserType } from '@/misc/roles';
 import type { ListDirection, ListSort } from '@/hooks/pageQuery';
 import { ModdexApiError } from '@/utils/api/moddex/client';
-import { getRolePage, type RolePage } from '@/utils/api/moddex/public';
+import { getPastRolePage, getRolePage, type RolePage } from '@/utils/api/moddex/public';
 
 const notFound = (error: unknown) => error instanceof ModdexApiError && error.status === 404;
 
@@ -11,6 +11,8 @@ const ROLE_FOR: Record<UserType, Record<string, 'mods' | 'vips' | 'founders'>> =
   channel: { mods: 'mods', vips: 'vips', founders: 'founders' },
   user: { modding: 'mods', viping: 'vips', founding: 'founders' }
 };
+
+const PAST_PAGE_SIZE = 25;
 
 const EMPTY_PAGE: RolePage = { items: [], hasMore: false, cursor: null, total: null };
 
@@ -71,5 +73,32 @@ export async function signalDemand(channelId: string): Promise<void> {
     await getRolePage({ role: 'mods', channel_id: channelId, limit: 1 });
   } catch {
     // a lost signal costs one queued scrape, never the page
+  }
+}
+
+export async function fetchPastRolePage(
+  userId: string,
+  type: UserType,
+  role: RoleType,
+  cursor?: string | null
+): Promise<RolePage> {
+  const endpoint = ROLE_FOR[type]?.[role];
+  if (!endpoint || !/^[0-9]{1,20}$/.test(userId)) return EMPTY_PAGE;
+
+  const axis = type === 'channel' ? { channel_id: userId } : { user_id: userId };
+
+  try {
+    const page = await getPastRolePage({ role: endpoint, ...axis, limit: PAST_PAGE_SIZE, cursor });
+
+    return {
+      items: page.items,
+      hasMore: page.hasMore,
+      cursor: page.hasMore ? page.cursor : null,
+      total: page.total ?? null
+    };
+  } catch (error) {
+    if (notFound(error)) return EMPTY_PAGE;
+
+    throw error;
   }
 }

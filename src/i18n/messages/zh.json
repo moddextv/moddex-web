@@ -746,6 +746,14 @@
     "status": "狀態",
     "terms": "條款"
   },
+  "past": {
+    "toggle": "過去",
+    "collapse": "隱藏過去的身分",
+    "note": "已經結束的身分。moddex 在下次讀取該頻道時才會發現結束，所以該身分最晚在所示月份已結束，有時更早。",
+    "ended": "結束",
+    "endedHead": "moddex 發現該身分已不存在的月份",
+    "endedTitle": "於 {date} 發現。該身分可能更早就已結束。"
+  },
   "profile": {
     "connected": "已連結",
     "copyShortUrl": "複製短網址",

@@ -12,9 +12,10 @@ interface UserListItemProps {
   user: RoleUser;
   type: UserType;
   onHide?: (id: string) => void;
+  past?: boolean;
 }
 
-export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
+export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide, past }) => {
   const t = useT();
   const granted = t.date(user.grantedAt);
 
@@ -22,7 +23,7 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
     <span className="relative block h-full">
       <LocaleLink
         href={`/${type === 'channel' ? 'user' : 'channel'}/${user.login}`}
-        className={clsx('row cols-people h-full', onHide && 'pr-14')}
+        className={clsx('row cols-people h-full', onHide && 'pr-14', past && 'is-past')}
       >
         <span className="flex items-center gap-3.5 min-w-0">
           <Avatar src={user.avatar} name={user.name || user.login} size={36} className="w-9 h-9" />
@@ -51,9 +52,18 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
           </span>
         )}
 
-        <span className="text-ui text-primary-400 tabular text-right">
-          {t.number(user.followers || 0)}
-        </span>
+        {past ? (
+          <span
+            className="text-ui text-primary-300 tabular text-right whitespace-nowrap"
+            title={t('past.endedTitle', { date: t.date(user.endedAt) })}
+          >
+            {t.monthShort(user.endedAt)}
+          </span>
+        ) : (
+          <span className="text-ui text-primary-400 tabular text-right">
+            {t.number(user.followers || 0)}
+          </span>
+        )}
       </LocaleLink>
 
       {/* centred by the wrapper, never by a transform: .btn:active sets its own */}

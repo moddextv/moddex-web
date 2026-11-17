@@ -81,14 +81,15 @@ const Sidebar: FC<{ sections: readonly Section[] }> = ({ sections }) => (
 export const LegalPage: FC<{
   title: string;
   sections: readonly Section[];
+  updated?: string;
   children: ReactNode;
-}> = ({ title, sections, children }) => (
+}> = ({ title, sections, updated = 'August 2026', children }) => (
   <main id="main" className="flex-grow">
     <Container>
       <header className="enter pt-12 pb-8">
         <h1 className="text-h1 mb-3">{title}</h1>
         <p className="text-ui text-primary-400">
-          Last updated August 2026. {config.brand.name} is not affiliated with, endorsed by, or
+          Last updated {updated}. {config.brand.name} is not affiliated with, endorsed by, or
           sponsored by Twitch Interactive, Inc.
         </p>
       </header>

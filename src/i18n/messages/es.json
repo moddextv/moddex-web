@@ -746,6 +746,14 @@
     "status": "Estado",
     "terms": "Términos"
   },
+  "past": {
+    "toggle": "Anteriores",
+    "collapse": "Ocultar anteriores",
+    "note": "Roles que ya terminaron. moddex detecta el final la siguiente vez que lee el canal, así que el rol había terminado como muy tarde en el mes indicado, a veces antes.",
+    "ended": "Terminó",
+    "endedHead": "El mes en que moddex detectó que el rol ya no estaba",
+    "endedTitle": "Detectado el {date}. El rol pudo terminar antes."
+  },
   "profile": {
     "connected": "conectado",
     "copyShortUrl": "Copiar url corta",

@@ -37,7 +37,7 @@ export default async function PrivacyPage({ params }: PageProps) {
   const { name, domain, email } = config.brand;
 
   return (
-    <LegalPage title="Privacy" sections={SECTIONS}>
+    <LegalPage title="Privacy" sections={SECTIONS} updated="November 2026">
       <LegalLanguageNotice locale={locale} />
       <Clause id="summary" title="1. The short version">
         <Para>
@@ -70,6 +70,11 @@ export default async function PrivacyPage({ params }: PageProps) {
           record and mark it as ended. Knowing that somebody held a role, and between which dates,
           is the whole point of the site. We&apos;re spelling this out because most people would
           assume the data disappears when the role does.
+        </Para>
+        <Para>
+          A profile shows ended roles as earlier ones, with the month we noticed the end. We notice
+          it the next time we read the channel, so the role may have ended sooner. Opting out and
+          hiding a channel cover earlier roles exactly as they cover current ones.
         </Para>
       </Clause>
 

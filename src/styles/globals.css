@@ -1003,6 +1003,44 @@
 		grid-template-columns: minmax(0, 1fr) 130px 100px;
 	}
 
+	/* earlier roles: one quiet line under a list, opened on demand */
+	.past {
+		margin-top: 8px;
+		border-top: 1px solid var(--line-soft);
+	}
+
+	.past-toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin: 4px 0;
+		padding: 12px 16px;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--text-alt);
+	}
+
+	.past-toggle:hover {
+		color: var(--text);
+	}
+
+	.past-chevron {
+		display: inline-flex;
+		transition: transform 0.15s ease;
+	}
+
+	.past-chevron.is-open {
+		transform: rotate(180deg);
+	}
+
+	.row.is-past .row-name {
+		color: var(--text-alt);
+	}
+
+	.row.is-past img {
+		opacity: 0.7;
+	}
+
 	.cols-holders {
 		grid-template-columns: minmax(0, 1fr) 100px 100px 100px;
 	}

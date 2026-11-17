@@ -25,6 +25,7 @@ export interface Account {
 
 export interface RoleUser extends Account {
   grantedAt: string | null;
+  endedAt?: string | null;
   banned?: Banned | null;
 }
 

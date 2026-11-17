@@ -746,6 +746,14 @@
     "status": "Statut",
     "terms": "Conditions"
   },
+  "past": {
+    "toggle": "Auparavant",
+    "collapse": "Masquer les anciens",
+    "note": "Rôles qui ont pris fin depuis. moddex remarque une fin à la lecture suivante de la chaîne : le rôle avait donc pris fin au plus tard le mois indiqué, parfois plus tôt.",
+    "ended": "Fin",
+    "endedHead": "Le mois où moddex a remarqué la fin du rôle",
+    "endedTitle": "Remarqué le {date}. Le rôle a pu prendre fin plus tôt."
+  },
   "profile": {
     "connected": "connectée",
     "copyShortUrl": "Copier l'url courte",

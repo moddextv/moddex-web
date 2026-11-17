@@ -24,6 +24,7 @@ export interface Formatters {
   dateLong(value?: string | null): string;
   dateTime(value?: string | null): string;
   monthYear(value?: string | null): string;
+  monthShort(value?: string | null): string;
   time(value?: string | null): string;
   dayTime(value?: string | null): string;
   since(value?: string | null): string;
@@ -76,6 +77,8 @@ export const formatters = (tag: string): Formatters => ({
   }),
 
   monthYear: dateIn(tag, { month: 'long', year: 'numeric' }),
+
+  monthShort: dateIn(tag, { month: 'short', year: 'numeric' }),
 
   // the jobs are scheduled in UTC, so these two name the zone rather than hide it
   time: dateIn(tag, { hour: '2-digit', minute: '2-digit', hour12: false, timeZoneName: 'short' }),

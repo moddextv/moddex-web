@@ -746,6 +746,14 @@
     "status": "Status",
     "terms": "Nutzungsbedingungen"
   },
+  "past": {
+    "toggle": "Früher",
+    "collapse": "Früher ausblenden",
+    "note": "Rollen, die inzwischen beendet sind. moddex bemerkt ein Ende beim nächsten Lesen des Kanals, die Rolle war also spätestens im genannten Monat vorbei, manchmal schon früher.",
+    "ended": "Beendet",
+    "endedHead": "Der Monat, in dem moddex das Ende bemerkt hat",
+    "endedTitle": "Bemerkt am {date}. Die Rolle kann früher geendet haben."
+  },
   "profile": {
     "connected": "verbunden",
     "copyShortUrl": "Kurz-URL kopieren",

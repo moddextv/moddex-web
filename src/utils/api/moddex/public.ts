@@ -85,6 +85,17 @@ export const getRolePage = async (
     headers: enqueue ? await crawlerHeaders() : { 'x-moddex-refresh': 'skip' }
   });
 
+export const getPastRolePage = (
+  params: RoleAxis & { role: Role; limit: number; cursor?: string | null }
+): Promise<RolePage> =>
+  call(
+    `${subjectPath(params)}/${params.role}/past${query({
+      limit: String(params.limit),
+      cursor: params.cursor ?? undefined
+    })}`,
+    { expect: rolePageShape }
+  );
+
 export const getUserProfile = (params: UserQuery, actor?: string): Promise<User> =>
   call(
     'login' in params
