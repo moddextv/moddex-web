@@ -42,7 +42,9 @@ export const UserListItem: FC<UserListItemProps> = ({ user, type, onHide }) => {
         </span>
 
         {granted ? (
-          <span className="text-ui text-primary-300 tabular text-right whitespace-nowrap">{granted}</span>
+          <span className="text-ui text-primary-300 tabular text-right whitespace-nowrap">
+            {granted}
+          </span>
         ) : (
           <span className="text-ui text-primary-400 text-right" title={t('profile.noGrantDate')}>
             {t('roleCheck.noDate')}
