@@ -977,7 +977,7 @@
 	}
 
 	.cols-people {
-		grid-template-columns: minmax(0, 1fr) 100px 100px;
+		grid-template-columns: minmax(0, 1fr) 130px 100px;
 	}
 
 	.cols-holders {
